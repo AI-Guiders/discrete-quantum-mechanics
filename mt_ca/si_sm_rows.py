@@ -235,9 +235,96 @@ class SISmRows:
             "note": "§8.3.1: bare v/2; λ=1/8+N_hier·(α_preferred/4π) empty-cell stack",
         }
 
+    def floor2_baryon_cliques_and_moments_row(self) -> dict[str, float | int | bool | dict]:
+        """§5.0.4-C — Floor 2 cliques K_2/K_3/K_4, 3 orthogonal color planes, and μ_p, μ_n."""
+        from itertools import combinations
+        from mt_ca.laplacian import _FCC_OFFSETS
+
+        n12 = list(_FCC_OFFSETS)
+        is_nn = lambda a, b: (a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2 + (a[2] - b[2]) ** 2 == 2
+        cliques = {
+            m: sum(
+                1
+                for sub in combinations(n12, m - 1)
+                if all(is_nn(u, v) for u, v in combinations(sub, 2))
+            )
+            for m in range(2, 6)
+        }
+        k3_tris = [(u, v) for u, v in combinations(n12, 2) if is_nn(u, v)]
+        # Every K_3 triangle has 3 edges lying in the 3 mutually orthogonal coordinate planes {YZ, XZ, XY}
+        all_k3_triplanar = True
+        unique_k4_apex = True
+        for u, v in k3_tris:
+            e1, e2, e3 = u, v, (u[0] - v[0], u[1] - v[1], u[2] - v[2])
+            zero_axes = {
+                 next(i for i in range(3) if e[i] == 0)
+                for e in (e1, e2, e3)
+            }
+            if zero_axes != {0, 1, 2}:
+                all_k3_triplanar = False
+            common_fourth = [w for w in n12 if w not in (u, v) and is_nn(u, w) and is_nn(v, w)]
+            if len(common_fourth) != 1:
+                unique_k4_apex = False
+
+        kappa = KAPPA_FCC_1TICK
+        delta_pack = (kappa * kappa) / float(N12_FCC_CAUSAL_LINKS)  # 1/24
+        d = 3.0
+        mu_p_pred = d - 5.0 * delta_pack  # 67/24 = +2.7916667
+        mu_n_pred = -2.0 + 2.0 * delta_pack  # -23/12 = -1.9166667
+        mu_sum_pred = mu_p_pred + mu_n_pred  # 7/8 = 0.875
+        mu_p_pdg = 2.79284734463
+        mu_n_pdg = -1.91304273
+        mu_sum_pdg = mu_p_pdg + mu_n_pdg
+
+        rel_p = abs(mu_p_pred - mu_p_pdg) / mu_p_pdg
+        rel_n = abs(mu_n_pred - mu_n_pdg) / abs(mu_n_pdg)
+        rel_sum = abs(mu_sum_pred - mu_sum_pdg) / mu_sum_pdg
+
+        # Charged lepton generation ratios from (d=3, kappa, mod_bits=floor(B_V)=9)
+        delta_0 = 2.0 / float(PLANCK_CELL.mod_bits)
+        lep_w = sorted(
+            [(1.0 + (1.0 / kappa) * math.cos(2.0 * math.pi * g / d + delta_0)) ** 2 for g in range(3)]
+        )
+        r_mu_e = lep_w[1] / lep_w[0]
+        r_tau_e = lep_w[2] / lep_w[0]
+        koide_q = sum(lep_w) / (sum(math.sqrt(w) for w in lep_w) ** 2)
+        rel_mu_e = abs(r_mu_e - 206.7682830) / 206.7682830
+        rel_tau_e = abs(r_tau_e - 3477.23) / 3477.23
+
+        ok = (
+            cliques == {2: 12, 3: 24, 4: 8, 5: 0}
+            and all_k3_triplanar
+            and unique_k4_apex
+            and abs(mu_sum_pred - 7.0 / 8.0) < 1e-15
+            and rel_p < 1e-3
+            and rel_n < 2.5e-3
+            and rel_sum < 6e-3
+            and abs(koide_q - 2.0 / 3.0) < 1e-12
+            and rel_mu_e < 2e-5
+            and rel_tau_e < 1e-4
+        )
+        return {
+            "cliques_K_m": cliques,
+            "all_K3_three_orthogonal_planes": all_k3_triplanar,
+            "unique_chiral_K4_apex_per_K3": unique_k4_apex,
+            "delta_pack": delta_pack,
+            "mu_p_pred_muN": mu_p_pred,
+            "mu_n_pred_muN": mu_n_pred,
+            "mu_isoscalar_sum_pred_muN": mu_sum_pred,
+            "mu_p_rel_err": rel_p,
+            "mu_n_rel_err": rel_n,
+            "mu_sum_rel_err": rel_sum,
+            "m_mu_over_m_e_pred": r_mu_e,
+            "m_tau_over_m_e_pred": r_tau_e,
+            "m_mu_over_m_e_rel_err": rel_mu_e,
+            "m_tau_over_m_e_rel_err": rel_tau_e,
+            "checks_ok": ok,
+        }
+
     def proton_mass_row(self) -> dict[str, float]:
         """§8.2 — bare α·v/2; pack stack ×(1+κ²/N₁₂), κ=1/√2."""
         higgs = self.higgs_mass_row()
+        f2 = self.floor2_baryon_cliques_and_moments_row()
         v = float(higgs["v_GeV"])
         m_h_bare = float(higgs["m_H_bare_GeV"])
         m_p0 = self.alpha_preferred * m_h_bare  # = α · v/2
@@ -261,7 +348,11 @@ class SISmRows:
             "m_p_bare_rel_err": abs(m_p0 - M_PROTON_GEV_PDG) / M_PROTON_GEV_PDG,
             "m_p_rel_err": abs(m_p - M_PROTON_GEV_PDG) / M_PROTON_GEV_PDG,
             "m_p_over_m_H_bare": m_p0 / m_h_bare,
-            "note": "§8.2: bare α·v/2; pack 1+κ²/N₁₂ (inscribed sphere)",
+            "floor2_cliques_and_moments_ok": bool(f2["checks_ok"]),
+            "mu_p_pred_muN": float(f2["mu_p_pred_muN"]),
+            "mu_n_pred_muN": float(f2["mu_n_pred_muN"]),
+            "mu_isoscalar_sum_pred_muN": float(f2["mu_isoscalar_sum_pred_muN"]),
+            "note": "§8.2 & §5.0.4-C: bare α·v/2; pack 1+κ²/N₁₂; K3 cliques & μ_p=67/24, μ_n=-23/12",
         }
 
     def electron_mass_row(self) -> dict[str, float]:

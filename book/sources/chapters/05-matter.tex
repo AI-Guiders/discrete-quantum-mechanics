@@ -28,6 +28,69 @@ $K_P=u_P$ --- планковское давление жидкости;
 избыток энергии уходит волной ($n=0$) или вихрем.
 Уравнения Эйлера и Навье--Стокса на~$T$ --- макроосреднение.
 
+\section{Истинный переносчик массы: квант \texorpdfstring{$\mathrm{Arg}$}{Arg}-натяжения и зигзаг (не поле Хиггса)}
+\label{sec:true-mass-carrier}
+
+В континуальной Стандартной модели массу частиц приписывают отдельному скалярному полю Хиггса:
+предполагается, что исходно безмассовые поля «вязнут'' в непрерывном конденсате~$v$,
+получая массу покоя через подгоняемые константы Юкавы.
+На дискретном носителе~$\Mlayer$ эта картина перевёрнута с ног на голову:
+\begin{enumerate}[leftmargin=*]
+\item \textbf{На~$\Mlayer$ нет отдельного поля Хиггса и нет непрерывной «вязкости''.}
+  Плотность материи в ячейке квантована жёстко: $\rho_{\mathrm{matter}}\in\{0,\rho_P\}$ ($b\in\{0,1\}$).
+  Любой перенос по каузальным связям~$N_{12}$ всегда идёт с одной и той же тактовой скоростью
+  $\caSignalSpeed=\caStepSpace/\htick=\sqrt{2}\,c$.
+\item \textbf{Механизм инерции и массы покоя --- внутренний зигзаг в упругой ячейке~$K_P$.}
+  Когда топологический дефект ($b=1$, вихрь) заперт в ячейке~$\hv$, каузальный перенос со скоростью~$\caSignalSpeed$
+  натыкается на модуль упругости среды~$K_P$ и насыщающую фазу~$\Phi$.
+  Фазовый поток
+  \[
+    \Delta\varphi_N = \mathrm{Arg}\!\left(\frac{\langle z\rangle_N}{z}\right)\in(-\pi,\pi]
+  \]
+  испытывает многократные внутренние отражения (зигзаг) в $\varepsilon$-окрестности узла~$\hv$,
+  запирая энергию на месте. Макроскопический прибор на~$\Tlayer$, осредняя этот зигзаг,
+  считывает его как эффективное замедление и массу покоя~$m_{\mathrm{rest}}$.
+\item \textbf{Истинный первичный квант действия, энергии и массы на ячейке.}
+  Из гейзенберговского пола фазы $\Delta\phi_{\min}=\tfrac12$ рад за один такт~$\htick=t_P/\sqrt{2}$
+  следуют фундаментальные кванты одного $\mathrm{Arg}$-события:
+  \begin{align}
+    \ladderAction &= \planckHbar\,\Delta\phi_{\min} = \frac{\planckHbar}{2} \approx 5{,}273\times 10^{-35}\ \mathrm{Дж\cdot с},\\
+    \ladderEnergy &= \frac{\ladderAction}{\htick} = \frac{E_P}{\sqrt{2}} \approx 1{,}383\times 10^{9}\ \mathrm{Дж} \approx 8{,}63\times 10^{27}\ \mathrm{эВ},\\
+    m_{\arg} &= \frac{\ladderEnergy}{c^2} = \frac{m_P}{\sqrt{2}} \approx 1{,}539\times 10^{-8}\ \mathrm{кг}.
+  \end{align}
+  Деление $m_{\arg}$ на объём ячейки Вороного $\mathrm{d}V=\ell_P^3/\sqrt{2}$ немедленно замыкает
+  планковскую плотность ячейки без подгоночных коэффициентов:
+  \[
+    \rho_{\mathrm{cell}} = \frac{m_{\arg}}{\mathrm{d}V} = \frac{m_P/\sqrt{2}}{\ell_P^3/\sqrt{2}} = \frac{m_P}{\ell_P^3} = \mu_P.
+  \]
+\item \textbf{Что такое бозон Хиггса на~$\Tlayer$.}
+  Резонанс $m_H\approx 125{,}31\ \mathrm{ГэВ}$ ($\sim 1{,}25\times 10^{11}\ \mathrm{эВ}$), наблюдаемый на коллайдере, ---
+  не первопричина массы, а \emph{вторичная макроскопическая пена} на $\mathrm{Arg}$-океане после прохождения
+  через все $N_{\mathrm{hier}}=\lfloor B_{\hv}\rfloor-1=8$ битов иерархии ослабления $\alpha_{\mathrm{fs}}^8$
+  ($v=\alpha_{\mathrm{fs}}^8 E_P\sqrt{2\pi}$, $m_H^{(\mathrm{bare})}=v/2$, гл.~\ref{ch:si-sm}).
+  Один первичный квант $\ladderEnergy$ на~$\Mlayer$ мощнее массы бозона Хиггса в
+  \[
+    \frac{\ladderEnergy}{m_H c^2} \approx 6{,}89\times 10^{16}\ \text{раз}.
+  \]
+\end{enumerate}
+
+\begin{table}[htbp]
+  \centering
+  \caption{Истинный переносчик инерции на~$\Mlayer$ против макро-резонанса Хиггса на~$\Tlayer$.}
+  \label{tab:arg-vs-higgs}
+  \begin{tabular}{@{}llll@{}}
+    \toprule
+    величина & формула & значение (СИ / эВ) & физический статус \\
+    \midrule
+    квант действия $\ladderAction$ & $\planckHbar/2$ & $5{,}27\times 10^{-35}\ \mathrm{Дж\cdot с}$ & 1 такт $\Delta\phi_{\min}=1/2$ на $\hv$ \\
+    квант энергии $\ladderEnergy$ & $\ladderAction/\htick = E_P/\sqrt{2}$ & $1{,}38\times 10^{9}\ \mathrm{Дж}\ (\sim 8{,}6\times 10^{27}\ \mathrm{эВ})$ & первичный шаг энергии на $\Mlayer$ \\
+    квант массы $m_{\arg}$ & $\ladderEnergy/c^2 = m_P/\sqrt{2}$ & $1{,}54\times 10^{-8}\ \mathrm{кг}$ & инерционный эквивалент $\mathrm{Arg}$-тика \\
+    скорость переноса $\caSignalSpeed$ & $\caStepSpace/\htick = \sqrt{2}\,c$ & $4{,}24\times 10^{8}\ \mathrm{м/с}$ & каузальный шаг по связям $N_{12}$ \\
+    бозон Хиггса $m_H$ ($\Tlayer$) & $\sqrt{2\lambda}\,v \sim \alpha_{\mathrm{fs}}^8 E_P$ & $125{,}31\ \mathrm{ГэВ}\ (\sim 1{,}25\times 10^{11}\ \mathrm{эВ})$ & вторичная пена ($\sim 10^{16}\times$ слабее $\ladderEnergy$) \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
 \section{Теорема о механической лестнице}
 \label{sec:theorem-51}
 

@@ -82,6 +82,247 @@ def shell_neighbor_stats(max_k: int = 3) -> dict[int, dict[str, int | float]]:
     return stats
 
 
+def cuboctahedral_shell_channel_census(max_k: int = 4) -> dict[str, Any]:
+    """Exact decomposition of every FCC coordination sphere k=1..max_k into the 4 cuboctahedral channels.
+
+    Every site on shell k >= 1 has (d_in, d_same, d_out) summing to 12 and belongs to one of:
+      - V = (1, 4, 7): 12 vertices of the cuboctahedron (rays)
+      - E = (2, 5, 5): 24(k - 1) edge interior sites
+      - S = (4, 4, 4): 6(k - 1)^2 square-face interior sites
+      - T = (3, 6, 3): 4(k - 1)(k - 2) triangle-face interior sites
+    """
+    dist = fcc_graph_distance(max_k=max_k + 1)
+    per_shell: dict[int, dict[str, int]] = {}
+    formula_matches = True
+    no_fifth_channel = True
+    causal_step_le_one = True
+
+    channel_map = {
+        (1, 4, 7): "V_vertex_1_4_7",
+        (2, 5, 5): "E_edge_2_5_5",
+        (4, 4, 4): "S_square_4_4_4",
+        (3, 6, 3): "T_triangle_3_6_3",
+    }
+
+    for k in range(1, max_k + 1):
+        sites = sites_on_shell(k, ball_max_k=max_k + 1)
+        counts = {
+            "V_vertex_1_4_7": 0,
+            "E_edge_2_5_5": 0,
+            "S_square_4_4_4": 0,
+            "T_triangle_3_6_3": 0,
+        }
+        for x, y, z in sites:
+            d_in = 0
+            d_same = 0
+            d_out = 0
+            for dx, dy, dz in _FCC_OFFSETS:
+                dk = dist.get((x + dx, y + dy, z + dz), k) - k
+                if abs(dk) > 1:
+                    causal_step_le_one = False
+                if dk == -1:
+                    d_in += 1
+                elif dk == 0:
+                    d_same += 1
+                elif dk == 1:
+                    d_out += 1
+            sig = (d_in, d_same, d_out)
+            if sig not in channel_map:
+                no_fifth_channel = False
+            else:
+                counts[channel_map[sig]] += 1
+
+        exp_v = 12
+        exp_e = 24 * (k - 1)
+        exp_s = 6 * (k - 1) ** 2
+        exp_t = 4 * (k - 1) * (k - 2)
+        if (
+            counts["V_vertex_1_4_7"] != exp_v
+            or counts["E_edge_2_5_5"] != exp_e
+            or counts["S_square_4_4_4"] != exp_s
+            or counts["T_triangle_3_6_3"] != exp_t
+            or sum(counts.values()) != 10 * k * k + 2
+        ):
+            formula_matches = False
+        per_shell[k] = counts
+
+    # Verify outward 1-tick branching rules per channel from k=3 -> k=4 (where all 4 channels are populated)
+    s3 = sites_on_shell(3, ball_max_k=max_k + 1)
+    s4_set = set(sites_on_shell(4, ball_max_k=max_k + 1))
+
+    def _site_cls(pt: tuple[int, int, int], k_level: int) -> str:
+        px, py, pz = pt
+        din = sum(1 for dx, dy, dz in _FCC_OFFSETS if dist.get((px + dx, py + dy, pz + dz)) == k_level - 1)
+        return {1: "V", 2: "E", 3: "T", 4: "S"}[din]
+
+    branching_per_site: dict[str, dict[str, int]] = {}
+    for pt in s3:
+        c_from = _site_cls(pt, 3)
+        if c_from in branching_per_site:
+            continue
+        out_hist = {"V": 0, "E": 0, "S": 0, "T": 0}
+        px, py, pz = pt
+        for dx, dy, dz in _FCC_OFFSETS:
+            nb = (px + dx, py + dy, pz + dz)
+            if nb in s4_set:
+                out_hist[_site_cls(nb, 4)] += 1
+        branching_per_site[c_from] = out_hist
+
+    expected_branching = {
+        "V": {"V": 1, "E": 4, "S": 2, "T": 0},
+        "E": {"V": 0, "E": 2, "S": 2, "T": 1},
+        "S": {"V": 0, "E": 0, "S": 4, "T": 0},
+        "T": {"V": 0, "E": 0, "S": 0, "T": 3},
+    }
+    branching_ok = branching_per_site == expected_branching
+
+    return {
+        "max_k": max_k,
+        "per_shell": per_shell,
+        "outward_branching_per_site": branching_per_site,
+        "expected_branching": expected_branching,
+        "formula_matches": formula_matches,
+        "no_fifth_channel": no_fifth_channel,
+        "causal_step_le_one": causal_step_le_one,
+        "vertex_to_triangle_forbidden_1tick": branching_per_site.get("V", {}).get("T", -1) == 0,
+        "upper_triangular_cascade_ok": branching_ok,
+        "checks_ok": (
+            formula_matches
+            and no_fifth_channel
+            and causal_step_le_one
+            and branching_ok
+        ),
+    }
+
+
+def _exact_rational_rank(rows: list[list[int]]) -> int:
+    """Exact rank over Q via Fraction Gaussian elimination (zero floating point)."""
+    from fractions import Fraction
+
+    if not rows or not rows[0]:
+        return 0
+    mat = [[Fraction(v) for v in r] for r in rows]
+    n_rows = len(mat)
+    n_cols = len(mat[0])
+    rank = 0
+    for col in range(n_cols):
+        pivot = None
+        for r in range(rank, n_rows):
+            if mat[r][col] != 0:
+                pivot = r
+                break
+        if pivot is None:
+            continue
+        mat[rank], mat[pivot] = mat[pivot], mat[rank]
+        pv = mat[rank][col]
+        mat[rank] = [val / pv for val in mat[rank]]
+        for r in range(n_rows):
+            if r != rank and mat[r][col] != 0:
+                factor = mat[r][col]
+                mat[r] = [mat[r][c] - factor * mat[rank][c] for c in range(n_cols)]
+        rank += 1
+        if rank == n_rows:
+            break
+    return rank
+
+
+def cuboctahedral_spdf_harmonic_ranks() -> dict[str, Any]:
+    """Exact rational ranks of l=0(s), l=1(p), l=2(d), l=3(f) harmonics on the 4 cuboctahedral channel supports."""
+    sq6 = [(2, 0, 0), (-2, 0, 0), (0, 2, 0), (0, -2, 0), (0, 0, 2), (0, 0, -2)]
+    v12 = sites_on_shell(1, ball_max_k=1)
+    tri8 = [(sx, sy, sz) for sx in (-2, 2) for sy in (-2, 2) for sz in (-2, 2)]
+    e24 = [
+        pt
+        for pt in sites_on_shell(2, ball_max_k=2)
+        if pt not in sq6 and sorted((abs(pt[0]), abs(pt[1]), abs(pt[2]))) == [1, 1, 2]
+    ]
+
+    # Exact basis matrices:
+    # 1) 6 square centers: 1s (1) + 3p (3) + 2d_eg (2) -> 6x6 rank 6
+    m_sq6_basis = [[1, x, y, z, x * x - y * y, 2 * z * z - x * x - y * y] for x, y, z in sq6]
+    rank_sq6 = _exact_rational_rank(m_sq6_basis)
+    rank_d_on_sq6 = _exact_rational_rank(
+        [[x * y, y * z, x * z, x * x - y * y, 2 * z * z - x * x - y * y] for x, y, z in sq6]
+    )
+
+    # 2) 8 triangle centers: 1s (1) + 3p (3) + 3d_t2g (3) + 1f_xyz (1) -> 8x8 rank 8
+    m_tri8_basis = [[1, x, y, z, x * y, y * z, x * z, x * y * z] for x, y, z in tri8]
+    rank_tri8 = _exact_rational_rank(m_tri8_basis)
+
+    # 3) 12 vertices V: 1s (1) + 3p (3) + 5d (5) + 3f_T2u (3) -> 12x12 rank 12
+    m_v12_basis = [
+        [
+            1,
+            x,
+            y,
+            z,
+            x * y,
+            y * z,
+            x * z,
+            x * x - y * y,
+            2 * z * z - x * x - y * y,
+            x * (y * y - z * z),
+            y * (z * z - x * x),
+            z * (x * x - y * y),
+        ]
+        for x, y, z in v12
+    ]
+    rank_v12 = _exact_rational_rank(m_v12_basis)
+    rank_d_on_v12 = _exact_rational_rank(
+        [[x * y, y * z, x * z, x * x - y * y, 2 * z * z - x * x - y * y] for x, y, z in v12]
+    )
+    rank_f_on_v12 = _exact_rational_rank(
+        [
+            [
+                x * y * z,
+                x * (5 * x * x - 3 * (x * x + y * y + z * z)),
+                y * (5 * y * y - 3 * (x * x + y * y + z * z)),
+                z * (5 * z * z - 3 * (x * x + y * y + z * z)),
+                x * (y * y - z * z),
+                y * (z * z - x * x),
+                z * (x * x - y * y),
+            ]
+            for x, y, z in v12
+        ]
+    )
+
+    # 4) 24 edge sites E: full 7/7 f-harmonics and all 1+3+5+7=16 modes
+    rank_f_on_e24 = _exact_rational_rank(
+        [
+            [
+                x * y * z,
+                x * (5 * x * x - 3 * (x * x + y * y + z * z)),
+                y * (5 * y * y - 3 * (x * x + y * y + z * z)),
+                z * (5 * z * z - 3 * (x * x + y * y + z * z)),
+                x * (y * y - z * z),
+                y * (z * z - x * x),
+                z * (x * x - y * y),
+            ]
+            for x, y, z in e24
+        ]
+    )
+
+    checks_ok = (
+        rank_sq6 == 6
+        and rank_d_on_sq6 == 2
+        and rank_tri8 == 8
+        and rank_v12 == 12
+        and rank_d_on_v12 == 5
+        and rank_f_on_v12 == 6
+        and rank_f_on_e24 == 7
+    )
+    return {
+        "rank_sq6_1s_3p_2deg": rank_sq6,
+        "rank_d_on_sq6_eg_only": rank_d_on_sq6,
+        "rank_tri8_1s_3p_3dt2g_1fxyz": rank_tri8,
+        "rank_v12_1s_3p_5d_3f": rank_v12,
+        "rank_d_on_v12_full": rank_d_on_v12,
+        "rank_f_on_v12_missing_fxyz": rank_f_on_v12,
+        "rank_f_on_e24_full": rank_f_on_e24,
+        "checks_ok": checks_ok,
+    }
+
+
 def build_rho_theta_shell_catalog(*, max_k: int = 3) -> dict[str, Any]:
     """Finite catalog tiers for ρ_Θ modes on coordination spheres (not 2^N enumeration)."""
     sizes = coordination_shell_sizes(max_k=max_k)
@@ -92,6 +333,8 @@ def build_rho_theta_shell_catalog(*, max_k: int = 3) -> dict[str, Any]:
     elementary_excitations = n2 + n3  # one-site bumps on shells 2–3 with full ε-star
 
     neighbor_stats = shell_neighbor_stats(max_k=max_k)
+    channel_census = cuboctahedral_shell_channel_census(max_k=max(max_k, 4))
+    spdf_ranks = cuboctahedral_spdf_harmonic_ranks()
     shell2_reachable_one_tick = (
         neighbor_stats.get(2, {}).get("min_inner_neighbors", 0) >= 1
     )
@@ -116,19 +359,31 @@ def build_rho_theta_shell_catalog(*, max_k: int = 3) -> dict[str, Any]:
             "id": "shell2_sphere",
             "status": "closed",
             "count": n2,
-            "note": "2nd coordination sphere; excitation locus (C3)",
+            "note": "2nd coordination sphere; excitation locus (C3): 12 V + 24 E + 6 S",
         },
         {
             "id": "shell3_sphere",
             "status": "closed",
             "count": n3,
-            "note": "3rd coordination sphere; higher C3 locus",
+            "note": "3rd coordination sphere; higher C3 locus: 12 V + 48 E + 24 S + 8 T",
         },
         {
             "id": "elementary_single_site_modes",
             "status": "closed_algebra",
             "count": elementary_excitations,
             "note": "one ρ_Θ bump on shell 2 or 3 with full shell-1 halo",
+        },
+        {
+            "id": "cubocta_four_channels_and_cascade",
+            "status": "closed_algebra",
+            "count": 4,
+            "note": "V=(1,4,7), E=(2,5,5), S=(4,4,4), T=(3,6,3); F1-S1..S4 cascade closed",
+        },
+        {
+            "id": "cubocta_spdf_harmonic_correspondence",
+            "status": "closed_algebra",
+            "count": 16,
+            "note": "□6->1s+3p+2d_eg (6/6); V12->1s+3p+5d+3f (12/12); △8->1s+3p+3d_t2g+1f_xyz (8/8); E24->7/7 f",
         },
         {
             "id": "full_binary_patterns",
@@ -140,7 +395,7 @@ def build_rho_theta_shell_catalog(*, max_k: int = 3) -> dict[str, Any]:
             "id": "inter_shell_g_paths",
             "status": "soft_open",
             "count": 0,
-            "note": "full allowed transitions under g between shell occupancies",
+            "note": "composite 2^N n_ticks distribution in A5 bath soft-open; 4-channel 1-tick selection closed",
         },
     ]
 
@@ -151,6 +406,8 @@ def build_rho_theta_shell_catalog(*, max_k: int = 3) -> dict[str, Any]:
         and elementary_excitations == 134
         and shell2_reachable_one_tick
         and shell3_reachable_two_ticks
+        and bool(channel_census["checks_ok"])
+        and bool(spdf_ranks["checks_ok"])
     )
 
     return {
@@ -159,6 +416,10 @@ def build_rho_theta_shell_catalog(*, max_k: int = 3) -> dict[str, Any]:
         "cumulative_sites": cumulative,
         "elementary_excitations_shell23": elementary_excitations,
         "neighbor_stats": neighbor_stats,
+        "channel_census": channel_census,
+        "spdf_ranks": spdf_ranks,
+        "four_channel_selection_closed": bool(channel_census["checks_ok"]),
+        "spdf_correspondence_closed": bool(spdf_ranks["checks_ok"]),
         "shell2_one_tick_from_star": shell2_reachable_one_tick,
         "shell3_two_tick_bridge": shell3_reachable_two_ticks,
         "tiers": tiers,

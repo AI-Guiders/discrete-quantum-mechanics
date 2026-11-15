@@ -60,6 +60,7 @@ MODEL = физика `g` **сейчас**, не дневник разработ�
 | [`model/05-matter.md`](model/05-matter.md) | §5 dV, заполнение, гидродинамика |
 | [`model/05-floor0-spectrum.md`](model/05-floor0-spectrum.md) | §5.0.4-A спектр планкона (этаж 0) |
 | [`model/05-floor1-shells.md`](model/05-floor1-shells.md) | §5.0.4-B моды $\rho_\Theta$ на сферах 2–3 (этаж 1) |
+| [`model/05-floor2-cliques.md`](model/05-floor2-cliques.md) | §5.0.4-C клики $K_2/K_3/K_4$, 3 плоскости цвета и $\mu_p,\mu_n$ (этаж 2) |
 | [`model/06-si-sm.md`](model/06-si-sm.md) | оглавление §6–§8 |
 | [`model/06-ladder.md`](model/06-ladder.md) | §6 иерархия M→SM · §6.0 лестница до T |
 | [`model/07-si-bridge.md`](model/07-si-bridge.md) | §7 SI-мост |

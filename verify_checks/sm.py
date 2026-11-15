@@ -114,6 +114,7 @@ def check_proton_mass(device: str = "cpu") -> dict:
         and abs(row["m_p_GeV"] - row["m_p_bare_GeV"] * row["pack_stack_factor"]) < 1e-12
         and row["m_p_bare_rel_err"] < 0.05
         and row["m_p_rel_err"] < 0.005
+        and bool(row.get("floor2_cliques_and_moments_ok", False))
     )
     return {
         "id": "Proton_mass",
@@ -122,6 +123,9 @@ def check_proton_mass(device: str = "cpu") -> dict:
         "m_H_bare_GeV": row["m_H_bare_GeV"],
         "v_GeV": row["v_GeV"],
         "delta_pack": row["delta_pack"],
+        "mu_p_pred_muN": row["mu_p_pred_muN"],
+        "mu_n_pred_muN": row["mu_n_pred_muN"],
+        "mu_isoscalar_sum_pred_muN": row["mu_isoscalar_sum_pred_muN"],
         "m_p_bare_rel_err": row["m_p_bare_rel_err"],
         "m_p_rel_err": row["m_p_rel_err"],
         "ok": ok,

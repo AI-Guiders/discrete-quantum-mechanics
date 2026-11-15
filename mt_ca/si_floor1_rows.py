@@ -884,13 +884,18 @@ class SIFloor1Rows:
                 "status": "closed_algebra",
             },
             {
+                "id": "closed_cubocta_four_channels_cascade",
+                "maps_to": "V=(1,4,7), E=(2,5,5), S=(4,4,4), T=(3,6,3) & F1-S1..S4 cascade",
+                "status": "closed_algebra",
+            },
+            {
                 "id": "reject_full_2powN_table",
                 "maps_to": "2^42 composite shell-2 patterns — not SSOT enumeration",
                 "status": "rejected_as_goal",
             },
             {
                 "id": "soft_open_inter_shell_selection_g",
-                "maps_to": "full allowed transitions under g between shell occupancies",
+                "maps_to": "composite 2^N n_ticks distribution in A5 bath",
                 "status": "soft_open",
             },
         ]
@@ -903,6 +908,7 @@ class SIFloor1Rows:
         ]
         ok = (
             bool(cat["checks_ok"])
+            and bool(cat["four_channel_selection_closed"])
             and n12 == 12
             and n2 == 42
             and n3 == 92
@@ -910,17 +916,20 @@ class SIFloor1Rows:
             and "closed_shell_counts" in closed_ids
             and "closed_ground_depth_one" in closed_ids
             and "closed_shell23_C3_class" in closed_ids
+            and "closed_cubocta_four_channels_cascade" in closed_ids
             and "soft_open_inter_shell_selection_g" in soft_open_ids
         )
 
         return {
-            "theorem": "§5.0.4-B — outer-shell ρ_Θ catalog (shells 2–3)",
+            "theorem": "§5.0.4-B — outer-shell ρ_Θ catalog & 4-channel selection (shells 2–3)",
             "N12": n12,
             "shell2_sites": n2,
             "shell3_sites": n3,
             "cumulative_ball_k3": int(cat["cumulative_sites"]),
             "elementary_excitations_shell23": int(cat["elementary_excitations_shell23"]),
             "catalog_algebra_closed": bool(cat["catalog_algebra_closed"]),
+            "four_channel_selection_closed": bool(cat["four_channel_selection_closed"]),
+            "channel_census": cat["channel_census"],
             "full_selection_closed": False,
             "derivation_closed": ok,
             "tiers": cat["tiers"],
@@ -931,8 +940,9 @@ class SIFloor1Rows:
             "checks_ok": ok,
             "note": (
                 "§5.0.4-B: geometry 12/42/92 closed; ground=C2 on shell 1; "
-                "shell≥2 modes are C3; 134 elementary single-site bumps; "
-                "full g-selection between shells soft-open."
+                "shell≥2 modes are C3; 134 elementary single-site bumps in 4 cuboctahedral "
+                "channels (V,E,S,T) with upper-triangular 1-tick cascade F1-S1..S4; "
+                "composite 2^N bath n_ticks soft-open."
             ),
         }
 
