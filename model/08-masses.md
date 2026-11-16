@@ -246,7 +246,7 @@ $$
 | собственное состояние | формула | число | эксперимент |
 |-----------------------|---------|-------|-------------|
 | $m_3 \equiv m_\nu^{(\mathrm{atm})}$ | $\alpha_{\mathrm{fs}}^{3}\,m_e / (N_{\mathrm{hier}}/2) = \alpha_{\mathrm{fs}}^{5}\,2m_H/(N_{\mathrm{hier}}N_\varphi)$ | ≈ **0.04986 eV** | $\sqrt{|\Delta m_{31}^2|} \approx 0.0500\text{ eV}$ ($0.21\%$) |
-| $m_2 \equiv m_\nu^{(\mathrm{sol})}$ | $\alpha_{\mathrm{fs}}^{3}\,m_e / (N_\varphi\sqrt{\pi})$ | ≈ **0.00866 eV** | $\sqrt{\Delta m_{21}^2} \approx 0.00865\text{ eV}$ ($0.12\%$) |
+| $m_2 \equiv m_\nu^{(\mathrm{sol})}$ | $\alpha_{\mathrm{fs}}^{3}\,m_e / (|E_{\mathrm{cuboct}}|-1) = \alpha_{\mathrm{fs}}^{3}\,m_e / (N_{\mathrm{shell}}(3)/d_{\mathrm{in}}(\square)) = \alpha_{\mathrm{fs}}^{3}\,m_e / 23$ | ≈ **0.00867 eV** | $\sqrt{\Delta m_{21}^2} \approx 0.00865\text{ eV}$ ($0.26\%$; континуальная тень $N_\varphi\sqrt{\pi}\approx 23{,}04$) |
 | $m_1$ (нижний этаж) | $\alpha_{\mathrm{fs}}^{4}\,m_e / N_\varphi$ | ≈ **1.12×10⁻⁴ eV** | $\sum m_\nu \approx 0.0586\text{ eV} < 0.12\text{ eV}$ |
 **Ломает:** отказ от `m_e`/`m_H`/`N_hier`/`N_φ`; soft-wall; fitted степень α.
 **Углы смешивания PMNS:** $\sin^2\theta_{12}=4/13$, $\sin^2\theta_{23}=7/13$, $\sin^2\theta_{13}=1/46$ — выведены в §8.4.4-E (`model/05-floor2-cliques.md`).
