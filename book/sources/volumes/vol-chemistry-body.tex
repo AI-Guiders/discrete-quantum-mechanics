@@ -481,20 +481,19 @@ $Z$ & Элемент & Канал & $Z_{\mathrm{eff}}^{\mathrm{pred}}$ & $IE_1^{
 \label{cor:chem-biosignatures-seti}
 Из \cref{cor:chem-diophantine-backbones-planets,thm:chem-three-thermal-windows} следуют три наблюдательных критерия для спектроскопии экзопланет и программ поиска внеземных сигналов (SETI):
 \begin{enumerate}[leftmargin=*,noitemsep]
-\item \textbf{Инфракрасные реперы трёх ступеней $E_{\mathrm{soft}}^{(m)}$ из фазового вычета носителя $r = (4\pi)^{-1}$:}
-  поскольку на решётке~\latGCKshort\ энергия Ридберга равна $BE_H = \frac{\alpha_{\mathrm{fs}}}{2}\frac{\hbar c}{a_0}$, лаймановская длина волны выражается через боровский радиус~$a_0 = N_{a0}\,dh$ и фазовый вычет ячейки $r = \Delta\varphi_{\min}/(2\pi) = (4\pi)^{-1}$ без внешних констант:
+\item \textbf{Решёточные шаги фотонов $\bar\lambda^{(m)}$ без~$\pi$ на $\Mlayer$-слое и ИК-реперы в $\Tlayer$-проекции:}
+  поскольку на решётке~\latGCKshort\ энергия Ридберга равна $BE_H = \frac{\alpha_{\mathrm{fs}}}{d-1}\frac{s_0 c}{a_0}$, приведённый (радиальный) шаг фотона Ридберга $\bar\lambda_{\mathrm{Ly}} := s_0 c/BE_H$ и трёх фотонов мягких замков $\bar\lambda^{(m)} := s_0 c/E_{\mathrm{soft}}^{(m)}$ выражается через боровский радиус~$a_0 = N_{a0}\,dh$ и чисто алгебраическую постоянную~$\alpha_{\mathrm{fs}}$ \emph{вообще без участия~$\pi$}:
   \[
-    \frac{\lambda_{\mathrm{Ly}}}{a_0}
-    = \frac{4\pi}{\alpha_{\mathrm{fs}}}
-    = \frac{1}{r\,\alpha_{\mathrm{fs}}}
-    \approx 1722{,}045
-    \qquad\left(N_{\mathrm{Ly}} := \frac{\lambda_{\mathrm{Ly}}}{dh} = \frac{N_{a0}}{r\,\alpha_{\mathrm{fs}}} = \frac{N_c}{r\,\alpha_{\mathrm{fs}}^2},\quad \lambda_{\mathrm{Ly}}\approx 91{,}127\ \mathrm{нм}\right).
+    \frac{\bar\lambda_{\mathrm{Ly}}}{a_0} = \frac{d-1}{\alpha_{\mathrm{fs}}} = \frac{2}{\alpha_{\mathrm{fs}}},\qquad
+    \frac{\bar\lambda^{(+1,\,0,\,-1)}}{a_0}
+    = \bigl\{N_{\mathrm{HB}},\ (d-1)N_{\mathrm{HB}},\ d_{\mathrm{soft}}N_{\mathrm{HB}}\bigr\}\,\alpha_{\mathrm{fs}}^{-1}
+    = \bigl\{63,\ 126,\ 441\bigr\}\,\alpha_{\mathrm{fs}}^{-1}.
   \]
-  Отсюда три кванта мягкого замка~\eqref{eq:chem-three-soft-quanta-ladder} задают в единицах~$a_0$ (и в среднем ИК-диапазоне космических обсерваторий JWST / LIFE) реперные длины волн:
+  Континуальный множитель~$2\pi$ возникает исключительно в лабораторном $\Tlayer$-проекторе при переходе от радиального шага~$\bar\lambda$ к длине окружности цикла $\lambda = 2\pi\bar\lambda$ для дифракционного спектрографа ($\lambda_{\mathrm{Ly}} = 2\pi\bar\lambda_{\mathrm{Ly}} \approx 91{,}127\ \mathrm{нм}$), давая в среднем ИК-диапазоне космических обсерваторий (JWST / LIFE) три реперные длины волн:
   \[
-    \lambda^{(+1)} = \frac{N_{\mathrm{HB}}\,a_0}{2\,r\,\alpha_{\mathrm{fs}}} \approx 2{,}87\ \text{мкм},\quad
-    \lambda^{(0)} = \frac{N_{\mathrm{HB}}\,a_0}{r\,\alpha_{\mathrm{fs}}} \approx 5{,}74\ \text{мкм},\quad
-    \lambda^{(-1)} = \frac{d_{\mathrm{soft}}N_{\mathrm{HB}}\,a_0}{2\,r\,\alpha_{\mathrm{fs}}} \approx 20{,}1\ \text{мкм},
+    \lambda^{(+1)} = 2\pi\bar\lambda^{(+1)} \approx 2{,}87\ \text{мкм},\quad
+    \lambda^{(0)} = 2\pi\bar\lambda^{(0)} \approx 5{,}74\ \text{мкм},\quad
+    \lambda^{(-1)} = 2\pi\bar\lambda^{(-1)} \approx 20{,}1\ \text{мкм},
   \]
   причём в окне $m=+1$ ($557\text{--}743\ \mathrm{К}$) биосигнатурой служат безводные ИК-полосы $\pi$-сопряжённых колец боразина/бороксола ($\text{B=N}$, $\text{B--O}$), а в окне $m=-1$ ($80\text{--}106\ \mathrm{К}$) --- неравновесные нитрилы ($\text{HCN}$, $\text{C}_2\text{H}_3\text{CN}$) при истощении ацетилена и $\text{H}_2$.
 \item \textbf{Декаметровые и метровые радиореперы обратной стороны Луны:}
