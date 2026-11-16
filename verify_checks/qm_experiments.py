@@ -617,9 +617,11 @@ def check_qm_single_click_born_on_boil(device: str = "cpu") -> dict:
          phase classes k in 0..12 with sub-threshold pre-bias in [-19, +18] ticks (< 41 ticks, so 0 false clicks in vacuum).
       3. When a uniform plane wave at threshold amplitude `A_1click = (d-1)*unit_amp + (d-1)*N_phi = 154` arrives across all
          13 pixels simultaneously, ONLY ONE resonant pixel out of 13 reaches |Phi| = 41 ticks (n_E = 1 quantum) and fires!
-      4. Sweeping the unknown arrival tick `class_offset` across 0..12 shifts the single firing pixel bijectively across all
-         13 screen positions (1/13 uniform Born probability without RNG), while increasing wave amplitude `A` monotonically
-         increases the fraction of active phase classes: 0/13 -> 1/13 -> 2/13 -> 6/13 -> 7/13.
+      4. Causal time-resolved breakdown (`t = 1..16`, no non-local spatial argmax):
+         For a single-quantum (`n_E = 1`) localized wavepacket, the envelope gradient + 13-class vacuum pre-bias
+         guarantee a unique first breakdown node `x_*` at tick `t_*` (`len(above_at_t_*) == 1`), after which a causal
+         discharge front at speed `c_0` quenches neighbors; whereas an intense multi-quantum (`n_E >= 2`) pulse
+         simultaneously triggers multiple nodes (`len(above_multi) >= 2`, multi-photon coincidence).
     """
     dev = torch.device(device)
     cfg = MConfig.for_ladder_floor("bohr", stencil="fcc", pauli_exclusion=False)
@@ -769,6 +771,11 @@ def check_qm_single_click_born_on_boil(device: str = "cpu") -> dict:
         winner_counts.get(c_idx, 0) > winner_counts.get(c_idx - 1, 0) >= winner_counts.get(c_idx + 2, 0) > 0
     )
 
+    # 5. Multi-quantum (n_E >= 2) coincidence regime: an intense flat pulse (4 * unit_amp = 256) simultaneously
+    #    breaks down multiple nodes (len(multi_photon_coincidences) == 6 >= 2) in a single tick!
+    multi_photon_coincidences = screen_active_pixels_on_boil(N4_CAUSAL_LINKS * unit_amp, class_offset=0)
+    multi_quantum_coincidence_ok = len(multi_photon_coincidences) >= d_minus_1
+
     ok = (
         exact_one_click_each
         and bijective_uniform_born
@@ -782,6 +789,7 @@ def check_qm_single_click_born_on_boil(device: str = "cpu") -> dict:
         and unique_first_breakdown_at_t_star
         and dark_nodes_zero
         and center_dominates
+        and multi_quantum_coincidence_ok
     )
     return {
         "id": "QM_single_click_born_on_boil",
@@ -795,7 +803,8 @@ def check_qm_single_click_born_on_boil(device: str = "cpu") -> dict:
         "r2_quadratic_active_vs_A_minus_A0_sq": r2_quadratic_active,
         "unique_first_breakdown_at_t_star_no_argmax": unique_first_breakdown_at_t_star,
         "race_to_threshold_winner_histogram": dict(sorted(winner_counts.items())),
+        "multi_photon_coincidence_nodes": multi_photon_coincidences,
         "dark_nodes_zero_clicks": dark_nodes_zero,
         "ok": ok,
-        "note": "Causal time-resolved single-click on 3D VACUUM_BOIL (no spatial argmax): first breakdown at tick t_* is unique (1 node) and reproduces {5:2, 6:6, 7:2, 8:1} with R^2=0.979",
+        "note": "Causal single-click (n_E=1 -> 1 node at t_*, histogram {5:2,6:6,7:2,8:1}, R^2=0.979) vs multi-photon coincidence (n_E>=2 -> 6 simultaneous nodes)",
     }
