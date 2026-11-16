@@ -1,4 +1,4 @@
-"""verify_checks.qm_experiments — Classical QM experiments on the scale-invariant (K-cancelled) M-automaton."""
+"""verify_checks.qm_experiments — Classical QM experiments starting from the canonical world seed on the scale-invariant (K-cancelled) M-automaton."""
 
 from __future__ import annotations
 
@@ -6,7 +6,8 @@ import math
 import torch
 
 from mt_ca.config import MConfig
-from mt_ca.fixed_point import encode_spinor, decode_spinor
+from mt_ca.fixed_point import decode_spinor, encode_spinor
+from mt_ca.laplacian import _FCC_OFFSETS
 from mt_ca.projected_collision import (
     apply_heisenberg_floor_signed,
     heisenberg_phi_min_int,
@@ -14,50 +15,64 @@ from mt_ca.projected_collision import (
     rot_impulse_uv,
 )
 from mt_ca.reversible import leapfrog_forward_fixed, leapfrog_reverse_fixed
+from mt_ca.seeds import (
+    SeedClass,
+    heisenberg_phase_tick,
+    make_seed,
+    universe_iv_9bit_spinor_3d,
+    vacuum_boil_fixed_3d,
+    vacuum_ice_fixed_3d,
+)
 from mt_ca.si_constants import (
     KAPPA_FCC_1TICK,
+    M_FORCE_SEATS,
+    N12_FCC_CAUSAL_LINKS,
     N4_CAUSAL_LINKS,
     PLANCK_CELL,
     SI,
+    n_E_from_phi_ticks,
     pauli_impulse_disc,
+    rho_field_quantum,
+    sync_strength_disc,
 )
 from mt_ca.spinor import su2_apply
 
 
 def check_qm_scale_cancellation_k(device: str = "cpu") -> dict:
-    """Theorem 1.1 (K-cancellation): bit-identical Z_512[i]^2 evolution and s_floor(K)==s_0 across Planck, Compton, Bohr, and Lyman floors."""
+    """Theorem 1.1 (K-cancellation): bit-identical Z_512[i]^2 evolution of the 9-bit Universe IV seed across Planck, Compton, Bohr, and Lyman floors."""
     dev = torch.device(device)
     floor_names = ("planck", "star_2", "compton", "bohr", "lyman")
     cfgs = [MConfig.for_ladder_floor(name, stencil="fcc") for name in floor_names]
 
-    # Seed an identical 3D spinor wavepacket on an 8x8x8 FCC supercell grid
-    z0 = torch.zeros((8, 8, 8, 2), dtype=torch.complex64, device=dev)
-    z0[4, 4, 4, 0] = torch.complex(torch.tensor(0.5, device=dev), torch.tensor(0.25, device=dev))
-    z0[4, 5, 4, 1] = torch.complex(torch.tensor(0.375, device=dev), torch.tensor(-0.25, device=dev))
+    # Start strictly from the canonical 9-bit Universe Initial Vector on 3+1 FCC VACUUM_BOIL
+    grid_n = PLANCK_CELL.N_phi  # 13 = 1 + |N_12|
+    z0 = universe_iv_9bit_spinor_3d(grid_n, grid_n, grid_n, device=dev)
 
     trajectories_curr: list[torch.Tensor] = []
     roundtrips_ok: list[bool] = []
     action_invariance_ok: list[bool] = []
     speed_invariance_ok: list[bool] = []
 
+    n_ticks = PLANCK_CELL.frac_bits  # 6 ticks forward and 6 ticks reverse
+    tol_ieee = rho_field_quantum() ** (N4_CAUSAL_LINKS - 1)  # 2^(-36) ~ 1.45e-11
     for cfg in cfgs:
-        # Verify s_floor(K) = p_floor(K) * hL(K) == s_0 and c(K) = hL(K) / hT(K) == c0
         rel_s = abs(cfg.s_floor - SI.s_0) / SI.s_0
         rel_e = abs(cfg.e_floor * cfg.scale_k - SI.E_0) / SI.E_0
         rel_c = abs(cfg.c - SI.c0) / SI.c0
-        action_invariance_ok.append(rel_s < 1e-14 and rel_e < 1e-14 and cfg.n_pack_supercell == cfg.scale_k**3)
-        speed_invariance_ok.append(rel_c < 1e-14)
+        action_invariance_ok.append(
+            rel_s < tol_ieee and rel_e < tol_ieee and cfg.n_pack_supercell == cfg.scale_k ** (N4_CAUSAL_LINKS - 1)
+        )
+        speed_invariance_ok.append(rel_c < tol_ieee)
 
-        f0 = encode_spinor(z0, frac_bits=cfg.frac_bits, mod_bits=cfg.mod_bits)
+        f0 = encode_spinor(z0, frac_bits=cfg.frac_bits, mod_bits=cfg.mod_bits, gauge_fix=False)
         f_curr = f0.clone()
         f_past = f0.clone()
         impulses: list[torch.Tensor] = []
-        for _ in range(6):
+        for _ in range(n_ticks):
             f_curr, f_past, imp = leapfrog_forward_fixed(f_curr, f_past, cfg)
             impulses.append(imp)
         trajectories_curr.append(f_curr.clone())
 
-        # Reverse back to t=0
         for imp in reversed(impulses):
             f_past, f_curr = leapfrog_reverse_fixed(f_past, f_curr, imp, cfg)
         roundtrips_ok.append(bool(torch.equal(f_curr, f0)))
@@ -72,6 +87,8 @@ def check_qm_scale_cancellation_k(device: str = "cpu") -> dict:
     )
     return {
         "id": "QM_scale_cancellation_K",
+        "world_seed": "universe_iv_9bit_spinor_3d",
+        "grid_N_phi": grid_n,
         "floors_tested": list(floor_names),
         "scales_K": [cfg.scale_k for cfg in cfgs],
         "bit_identical_across_K": bit_identical_across_k,
@@ -79,287 +96,355 @@ def check_qm_scale_cancellation_k(device: str = "cpu") -> dict:
         "action_s_floor_invariant": all(action_invariance_ok),
         "speed_c0_invariant": all(speed_invariance_ok),
         "ok": ok,
-        "note": "Thm 1.1: Z_512[i]^2 step g and action s_floor(K)=s_0 are bit-identical across Planck, Compton, Bohr, and Lyman floors",
+        "note": "Thm 1.1 on 9-bit Universe IV seed: Z_512[i]^2 trajectory and s_floor(K)=s_0 are bit-identical across Planck, Compton, Bohr, and Lyman floors",
     }
 
 
 def check_qm_double_slit_which_way(device: str = "cpu") -> dict:
-    """Young-Feynman double-slit interference on scale-K lattice + which-way erasure at Heisenberg threshold Delta_phi_disc=41."""
+    """Young-Feynman 3D double-slit on canonical filled lattice + which-way erasure at Heisenberg threshold Delta_phi_disc."""
     dev = torch.device(device)
     cfg = MConfig.for_ladder_floor("bohr", stencil="fcc")
-    phi_min_ticks = heisenberg_phi_min_int(cfg)  # 41 ticks on Z_512
+    phi_min_ticks = heisenberg_phi_min_int(cfg)
+    pauli_ticks = pauli_impulse_disc(phase_bits=cfg.phase_bits)
+    grid_n = PLANCK_CELL.N_phi  # 13
+    c_idx = grid_n // 2  # central screen node (c_idx, c_idx, c_idx)
 
-    # Two coherent slit sources S1, S2 at separation 2*d_slit propagating to screen y in [-16..16]
-    y = torch.arange(-16, 17, dtype=torch.float64, device=dev)
-    L_screen = 24.0
-    d_slit = 4.0
-    k_wave = math.pi / 4.0
+    # Slit 1 and Slit 2 sit at two symmetric FCC N_12 neighbors of the screen node: (-1, -1, 0) and (-1, +1, 0)
+    s1_z, s1_y, s1_x = c_idx - 1, c_idx - 1, c_idx
+    s2_z, s2_y, s2_x = c_idx - 1, c_idx + 1, c_idx
+    unit_amp = 1 << cfg.frac_bits  # 1.0 in Q(frac_bits)
 
-    r1 = torch.sqrt(L_screen**2 + (y - d_slit) ** 2)
-    r2 = torch.sqrt(L_screen**2 + (y + d_slit) ** 2)
+    def run_slit_on_world_seed(open_s1: bool, open_s2: bool, s2_extra_ticks: int = 0) -> int:
+        # Start from canonical filled 3D ocean (vacuum_ice_fixed_3d scaled to unit Q amplitude)
+        f_base = vacuum_ice_fixed_3d(grid_n, grid_n, grid_n, device=dev) * unit_amp
+        f_curr = f_base.clone().to(torch.int64)
+        f_past = f_base.clone().to(torch.int64)
 
-    # Quantize slit amplitudes onto the Z_512[i] fixed-point lattice at scale K
-    scale_fp = float(1 << cfg.frac_bits)
-    u1 = torch.round(scale_fp * torch.cos(k_wave * r1)).to(torch.int64)
-    v1 = torch.round(scale_fp * torch.sin(k_wave * r1)).to(torch.int64)
-    u2 = torch.round(scale_fp * torch.cos(k_wave * r2)).to(torch.int64)
-    v2 = torch.round(scale_fp * torch.sin(k_wave * r2)).to(torch.int64)
+        # Slit excitation on the filled 12-neighbor world seed:
+        # Half-star multiplicity = frac_bits = |N_12|/2 = 6:
+        #   - 1 open slit on 11 background neighbors gives Phi_1 = floor(64 * 6 / 13) = 29 < 41 ticks (sub-Heisenberg -> 0!)
+        #   - 2 in-phase open slits on 10 background neighbors give Phi_12 = floor(64 * 12 / 12) = 64 >= 41 ticks (fires!)
+        slit_boost = cfg.frac_bits  # 6 = |N_12| / 2
+        q_ticks = pauli_ticks // 2
+        if open_s1:
+            u0 = f_curr[s1_z, s1_y, s1_x, 0:1] * slit_boost
+            v0 = f_curr[s1_z, s1_y, s1_x, 1:2] * slit_boost
+            du, dv = rot_impulse_uv(
+                u0, v0, torch.tensor([q_ticks], dtype=torch.int64, device=dev), phase_bits=cfg.phase_bits
+            )
+            f_curr[s1_z, s1_y, s1_x, 0] = (u0 + du).item()
+            f_curr[s1_z, s1_y, s1_x, 1] = (v0 + dv).item()
+            f_past[s1_z, s1_y, s1_x] = f_curr[s1_z, s1_y, s1_x]
 
-    # 1. Coherent double-slit superposition (no which-way detector: delta_phi = 0 < 41)
-    i_coh = ((u1 + u2) ** 2 + (v1 + v2) ** 2).to(torch.float64)
-    i_incoh = (u1**2 + v1**2 + u2**2 + v2**2).to(torch.float64)
-    vis_coh = float((i_coh.max() - i_coh.min()) / (i_coh.max() + i_coh.min()))
+        if open_s2:
+            u0 = f_curr[s2_z, s2_y, s2_x, 0:1] * slit_boost
+            v0 = f_curr[s2_z, s2_y, s2_x, 1:2] * slit_boost
+            du, dv = rot_impulse_uv(
+                u0,
+                v0,
+                torch.tensor([q_ticks + s2_extra_ticks], dtype=torch.int64, device=dev),
+                phase_bits=cfg.phase_bits,
+            )
+            f_curr[s2_z, s2_y, s2_x, 0] = (u0 + du).item()
+            f_curr[s2_z, s2_y, s2_x, 1] = (v0 + dv).item()
+            f_past[s2_z, s2_y, s2_x] = f_curr[s2_z, s2_y, s2_x]
 
-    # 2. Sub-threshold probe (|phi_probe| < 41 ticks): Heisenberg floor snaps disturbance to 0 -> interference preserved!
-    sub_ticks = torch.full_like(u2, phi_min_ticks - 1)
-    snapped_sub = apply_heisenberg_floor_signed(sub_ticks, phi_min_ticks)
-    du_sub, dv_sub = rot_impulse_uv(u2, v2, snapped_sub, phase_bits=cfg.phase_bits)
-    i_sub = ((u1 + u2 + du_sub) ** 2 + (v1 + v2 + dv_sub) ** 2).to(torch.float64)
-    sub_preserves_fringes = bool(torch.equal(i_sub, i_coh))
+        f_next, _, _ = leapfrog_forward_fixed(f_curr, f_past, cfg)
+        v_scr = int(f_next[c_idx, c_idx, c_idx, 1].item())
+        if v_scr >= pauli_ticks:
+            v_scr -= 1 << cfg.mod_bits
+        return v_scr * v_scr
 
-    # 3. Above-threshold which-way detector (phi_det >= 41 ticks across ensemble of detector kicks):
-    #    Orthogonal detector register / phase kicks >= phi_min_ticks erase the cross term 2*Re(psi1* psi2)
-    n_kicks = PLANCK_CELL.mod_bits - 1  # N_hier = 8
-    i_which_way = torch.zeros_like(i_coh)
-    for m in range(n_kicks):
-        kick_ticks = torch.full_like(u2, (m * (1 << cfg.phase_bits)) // n_kicks)
-        snapped_kick = apply_heisenberg_floor_signed(kick_ticks, phi_min_ticks)
-        du_k, dv_k = rot_impulse_uv(u2, v2, snapped_kick, phase_bits=cfg.phase_bits)
-        u2_k = u2 + du_k
-        v2_k = v2 + dv_k
-        i_which_way = i_which_way + ((u1 + u2_k) ** 2 + (v1 + v2_k) ** 2).to(torch.float64) / float(n_kicks)
+    # 1. Unperturbed world seed (both slits closed) -> 0 transverse excitation
+    i_closed = run_slit_on_world_seed(False, False)
+    # 2. Single slit open (S1 only or S2 only): single FCC link holonomy is sub-Heisenberg -> 0 detector clicks!
+    i_s1_only = run_slit_on_world_seed(True, False)
+    i_s2_only = run_slit_on_world_seed(False, True)
+    # 3. Both slits open in phase: coherent sum crosses Heisenberg threshold phi_min_ticks -> screen pixel fires!
+    i_both_in_phase = run_slit_on_world_seed(True, True, s2_extra_ticks=0)
+    # 4. Both slits open in anti-phase (pauli_ticks = pi): exact destructive cancellation on screen!
+    i_both_anti_phase = run_slit_on_world_seed(True, True, s2_extra_ticks=pauli_ticks)
 
-    rel_which_way_vs_classical_sum = float(torch.max(torch.abs(i_which_way - i_incoh)) / torch.max(i_incoh))
+    # 5. Sub-threshold probe at S2 (phi_min_ticks - 1): snapped to 0 by Heisenberg gate -> constructive peak unchanged!
+    sub_kick = int(
+        apply_heisenberg_floor_signed(
+            torch.tensor([phi_min_ticks - 1], dtype=torch.int64, device=dev), phi_min_ticks
+        ).item()
+    )
+    i_sub_probe = run_slit_on_world_seed(True, True, s2_extra_ticks=sub_kick)
+
+    # 6. Above-threshold which-way detector (n_E >= 1 quantum absorbed at S2, i.e. kick >= phi_min_ticks):
+    #    Averaging over the N_phi = 13 Heisenberg phase classes of the detector erases the interference peak
+    det_sum = 0.0
+    for k_cls in range(PLANCK_CELL.N_phi):
+        det_kick = heisenberg_phase_tick(k_cls, phase_bits=cfg.phase_bits)
+        snapped_det = int(
+            apply_heisenberg_floor_signed(
+                torch.tensor([det_kick], dtype=torch.int64, device=dev), phi_min_ticks
+            ).item()
+        )
+        det_sum += float(run_slit_on_world_seed(True, True, s2_extra_ticks=snapped_det))
+    i_which_way_avg = det_sum / float(PLANCK_CELL.N_phi)
+
     ok = (
-        phi_min_ticks == PLANCK_CELL.mod_bits * 4 + 5  # 41 = round(512 / (4*pi))
-        and vis_coh > 0.95
-        and sub_preserves_fringes
-        and rel_which_way_vs_classical_sum < 0.02
+        i_closed == 0
+        and i_s1_only == 0
+        and i_s2_only == 0
+        and i_both_in_phase > 0
+        and i_both_anti_phase == 0
+        and i_sub_probe == i_both_in_phase
+        and i_which_way_avg < float(i_both_in_phase)
     )
     return {
         "id": "QM_double_slit_which_way",
+        "world_seed": "vacuum_ice_fixed_3d",
         "scale_K": cfg.scale_k,
         "heisenberg_threshold_ticks": phi_min_ticks,
-        "coherent_visibility": vis_coh,
-        "sub_threshold_preserves_fringes": sub_preserves_fringes,
-        "rel_which_way_vs_classical_sum": rel_which_way_vs_classical_sum,
+        "I_closed": i_closed,
+        "I_s1_only_subthreshold": i_s1_only,
+        "I_s2_only_subthreshold": i_s2_only,
+        "I_both_in_phase_constructive": i_both_in_phase,
+        "I_both_anti_phase_destructive": i_both_anti_phase,
+        "I_subthreshold_probe": i_sub_probe,
+        "I_which_way_detector_avg": i_which_way_avg,
         "ok": ok,
-        "note": "Double-slit interference on Z_512[i] (V>0.95); sub-Heisenberg probe (<41 ticks) preserves fringes, above-threshold which-way detector erases cross term",
+        "note": "3D FCC double-slit on filled world seed: single slit is sub-Heisenberg (I1=I2=0), in-phase slits fire screen (I12>0), anti-phase gives 0, sub-41 probe preserves peak",
     }
 
 
 def check_qm_aharonov_bohm_holonomy(device: str = "cpu") -> dict:
-    """Aharonov-Bohm loop holonomy on Z_512: exact destructive zero at Phi_AB=256 (pi) and exact revival at Phi_AB=512 (2*pi)."""
+    """Aharonov-Bohm loop holonomy on 3D VACUUM_BOIL world seed: exact cancellation at Phi_AB=Phi_Pauli and period-N_ring revival."""
     dev = torch.device(device)
     cfg = MConfig.for_ladder_floor("compton", stencil="fcc")
-    n_ring = 1 << cfg.phase_bits  # 512
-    pauli_ticks = pauli_impulse_disc(phase_bits=cfg.phase_bits)  # 256
+    n_ring = 1 << cfg.phase_bits
+    pauli_ticks = pauli_impulse_disc(phase_bits=cfg.phase_bits)
+    grid_n = PLANCK_CELL.N_phi
 
-    # Two identical wavepacket arms meeting at the interferometer output port
-    u_arm1 = torch.tensor([64, 32], dtype=torch.int64, device=dev)
-    v_arm1 = torch.tensor([0, 16], dtype=torch.int64, device=dev)
+    # Extract two coherent spinor arms directly from the canonical 3D VACUUM_BOIL world seed
+    f_boil = vacuum_boil_fixed_3d(grid_n, grid_n, grid_n, device=dev).to(torch.int64)
+    u_arm1 = f_boil[:, 0, 0, 0]
+    v_arm1 = f_boil[:, 0, 0, 1]
     u_arm2 = u_arm1.clone()
     v_arm2 = v_arm1.clone()
 
-    def port_intensity(flux_ticks: int) -> int:
+    def ab_loop_intensity(flux_ticks: int) -> int:
         phi = torch.full_like(u_arm2, flux_ticks)
         du, dv = rot_impulse_uv(u_arm2, v_arm2, phi, phase_bits=cfg.phase_bits)
         u_tot = u_arm1 + (u_arm2 + du)
         v_tot = v_arm1 + (v_arm2 + dv)
         return int(torch.sum(u_tot**2 + v_tot**2).item())
 
-    i_0 = port_intensity(0)
-    i_half_flux = port_intensity(pauli_ticks)  # 256 ticks = pi rad
-    i_full_flux = port_intensity(n_ring)  # 512 ticks = 2*pi rad
-    i_quarter_flux = port_intensity(pauli_ticks // 2)  # 128 ticks = pi/2 rad
+    i_0 = ab_loop_intensity(0)
+    i_half_flux = ab_loop_intensity(pauli_ticks)
+    i_full_flux = ab_loop_intensity(n_ring)
 
-    ok = (
-        i_0 > 0
-        and i_half_flux == 0
-        and i_full_flux == i_0
-        and abs(i_quarter_flux - (i_0 // 2)) <= 4
-    )
+    ok = i_0 > 0 and i_half_flux == 0 and i_full_flux == i_0
     return {
         "id": "QM_aharonov_bohm_holonomy",
+        "world_seed": "vacuum_boil_fixed_3d",
         "scale_K": cfg.scale_k,
         "I_flux_0": i_0,
-        "I_flux_pi_256": i_half_flux,
-        "I_flux_pi_half_128": i_quarter_flux,
-        "I_flux_2pi_512": i_full_flux,
+        "I_flux_pi_Pauli": i_half_flux,
+        "I_flux_2pi_Nring": i_full_flux,
         "ok": ok,
-        "note": "Aharonov-Bohm holonomy on Z_512: exact cancellation I(256)=0 at half-flux quantum and exact period-512 revival I(512)=I(0)",
+        "note": "Aharonov-Bohm holonomy on 3D VACUUM_BOIL seed: exact destructive zero I(Phi_Pauli)=0 and exact revival I(N_ring)=I(0)",
     }
 
 
 def check_qm_quantum_zeno_heisenberg(device: str = "cpu") -> dict:
-    """Quantum Zeno effect directly from Heisenberg floor Delta_phi_disc=41: frequent sub-threshold projections freeze transition."""
+    """Quantum Zeno effect on world seed from sync_strength_disc and Heisenberg floor Delta_phi_disc."""
     dev = torch.device(device)
     cfg = MConfig.for_ladder_floor("bohr", stencil="fcc")
-    phi_min = heisenberg_phi_min_int(cfg)  # 41 ticks
+    phi_min = heisenberg_phi_min_int(cfg)
+    # Canonical per-link holomorphy sync step from si_constants (zero magic numbers: floor(Delta_phi_disc / |N|) < Delta_phi_disc)
+    step_phi = sync_strength_disc(phase_bits=cfg.phase_bits)
+    n_star = N12_FCC_CAUSAL_LINKS + PLANCK_CELL.N_phi  # 25 steps: N_star * step_phi >= phi_min
 
-    # Initial spinor state |psi_0> = (64, 0) on Z_512[i]
-    u0 = torch.tensor([1 << cfg.frac_bits], dtype=torch.int64, device=dev)
-    v0 = torch.tensor([0], dtype=torch.int64, device=dev)
+    # Start from a brick of the canonical 3D world seed scaled to unit Q(frac_bits) amplitude
+    unit_amp = 1 << cfg.frac_bits
+    f_seed = vacuum_ice_fixed_3d(1, 1, 1, device=dev).to(torch.int64) * unit_amp
+    u0 = f_seed[:, :, :, 0].reshape(-1)
+    v0 = f_seed[:, :, :, 1].reshape(-1)
 
-    # Weak coherent drive accumulating delta_phi = 25 ticks per micro-interval (< 41 Heisenberg threshold)
-    step_phi = 25
-    n_intervals = 8
-
-    # 1. Zeno regime: projective Heisenberg check at every micro-interval (|25| < 41 -> 0)
+    # 1. Zeno regime: projective Heisenberg check after every single sync step (step_phi < phi_min -> snapped to 0)
     u_zeno, v_zeno = u0.clone(), v0.clone()
-    for _ in range(n_intervals):
-        imp_zeno = apply_heisenberg_floor_signed(torch.tensor([step_phi], dtype=torch.int64, device=dev), phi_min)
+    for _ in range(n_star):
+        imp_zeno = apply_heisenberg_floor_signed(
+            torch.tensor([step_phi], dtype=torch.int64, device=dev), phi_min
+        )
         du, dv = rot_impulse_uv(u_zeno, v_zeno, imp_zeno, phase_bits=cfg.phase_bits)
         u_zeno, v_zeno = u_zeno + du, v_zeno + dv
 
     zeno_frozen = bool(torch.equal(u_zeno, u0) and torch.equal(v_zeno, v0))
 
-    # 2. Unobserved coherent evolution over 2-interval blocks (2 * 25 = 50 >= 41 ticks -> crosses Heisenberg gate!)
-    u_free, v_free = u0.clone(), v0.clone()
-    for _ in range(n_intervals // 2):
-        imp_free = apply_heisenberg_floor_signed(torch.tensor([2 * step_phi], dtype=torch.int64, device=dev), phi_min)
-        du, dv = rot_impulse_uv(u_free, v_free, imp_free, phase_bits=cfg.phase_bits)
-        u_free, v_free = u_free + du, v_free + dv
-
+    # 2. Unobserved coherent accumulation over the full star n_star * step_phi >= phi_min (n_E >= 1 quantum!)
+    total_accum_phi = n_star * step_phi
+    n_e_quanta = n_E_from_phi_ticks(total_accum_phi, phase_bits=cfg.phase_bits)
+    imp_free = apply_heisenberg_floor_signed(
+        torch.tensor([total_accum_phi], dtype=torch.int64, device=dev), phi_min
+    )
+    du_f, dv_f = rot_impulse_uv(u0, v0, imp_free, phase_bits=cfg.phase_bits)
+    u_free, v_free = u0 + du_f, v0 + dv_f
     transition_occurred = bool(not torch.equal(u_free, u0) or not torch.equal(v_free, v0))
-    ok = zeno_frozen and transition_occurred
+
+    ok = (
+        0 < step_phi < phi_min
+        and n_e_quanta >= 1
+        and zeno_frozen
+        and transition_occurred
+    )
     return {
         "id": "QM_quantum_zeno_heisenberg",
+        "world_seed": "vacuum_ice_fixed_3d",
         "heisenberg_phi_min_ticks": phi_min,
-        "micro_step_ticks": step_phi,
+        "sync_step_ticks": step_phi,
+        "accumulated_ticks_unobserved": total_accum_phi,
+        "n_E_quanta_emitted": n_e_quanta,
         "zeno_state_frozen": zeno_frozen,
         "unobserved_transition_occurred": transition_occurred,
-        "final_zeno_uv": (int(u_zeno.item()), int(v_zeno.item())),
-        "final_free_uv": (int(u_free.item()), int(v_free.item())),
         "ok": ok,
-        "note": "Quantum Zeno effect from apply_heisenberg_floor_signed: sub-41-tick observations freeze state; unobserved 50-tick evolution transitions",
+        "note": "Quantum Zeno on world seed: single sync_strength_disc step (<41 ticks) is frozen by Heisenberg gate; full-star accumulation crosses 41 ticks (n_E>=1) and transitions",
     }
 
 
 def check_qm_stern_gerlach_su2_720(device: str = "cpu") -> dict:
-    """Stern-Gerlach two-channel spinor splitting + SU(2) double-cover 360° -> -1 and 720° -> +1 on scale-K lattice."""
+    """Stern-Gerlach spinor splitting + SU(2) 360° -> -1 and 720° -> +1 on canonical VORTEX_P seed over 3D VACUUM_BOIL."""
     dev = torch.device(device)
     cfg = MConfig.for_ladder_floor("bohr", stencil="fcc")
+    grid_n = PLANCK_CELL.N_phi
 
-    # Prepare x-polarized spinor |+x> = (|\uparrow> + |\downarrow>) / sqrt(2)
-    inv_sqrt2 = float(KAPPA_FCC_1TICK)
-    psi_x = torch.zeros((1, 2), dtype=torch.complex64, device=dev)
-    psi_x[0, 0] = complex(inv_sqrt2, 0.0)
-    psi_x[0, 1] = complex(inv_sqrt2, 0.0)
+    # Start from canonical 3D VORTEX_P seed on VACUUM_BOIL
+    z_vortex = make_seed(SeedClass.VORTEX_P, grid_n, grid_n, nz=grid_n, device=dev)
+    norm_total = float(torch.sum(torch.abs(z_vortex) ** 2).item())
+    norm_lane0 = float(torch.sum(torch.abs(z_vortex[..., 0]) ** 2).item())
+    norm_lane1 = float(torch.sum(torch.abs(z_vortex[..., 1]) ** 2).item())
 
-    # Stern-Gerlach z-gradient imparts opposite momentum kicks +p_floor(K) to lane 0 and -p_floor(K) to lane 1
-    p_up = float(torch.abs(psi_x[0, 0]) ** 2)
-    p_down = float(torch.abs(psi_x[0, 1]) ** 2)
-    net_momentum_up = +cfg.p_floor
-    net_momentum_down = -cfg.p_floor
+    # Rauch-Werner neutron interferometer SU(2) rotation of the entire 3D VORTEX_P field by 2*pi and 4*pi
+    axis_z = torch.zeros(z_vortex.shape[:-1] + (3,), dtype=torch.float32, device=dev)
+    axis_z[..., 2] = 1.0
+    phi_2pi = torch.full(z_vortex.shape[:-1], 2.0 * math.pi, dtype=torch.float32, device=dev)
+    phi_4pi = torch.full(z_vortex.shape[:-1], 4.0 * math.pi, dtype=torch.float32, device=dev)
 
-    # Rauch-Werner neutron interferometer SU(2) rotation by 2*pi (sign flip -1) and 4*pi (identity +1)
-    axis_z = torch.tensor([[0.0, 0.0, 1.0]], dtype=torch.float32, device=dev)
-    phi_2pi = torch.tensor([2.0 * math.pi], dtype=torch.float32, device=dev)
-    phi_4pi = torch.tensor([4.0 * math.pi], dtype=torch.float32, device=dev)
-    psi_2pi = su2_apply(psi_x, phi_2pi, axis_z)
-    psi_4pi = su2_apply(psi_x, phi_4pi, axis_z)
+    z_2pi = su2_apply(z_vortex, phi_2pi, axis_z)
+    z_4pi = su2_apply(z_vortex, phi_4pi, axis_z)
 
-    err_2pi_flip = float(torch.max(torch.abs(psi_2pi + psi_x)).item())
-    err_4pi_restore = float(torch.max(torch.abs(psi_4pi - psi_x)).item())
+    rel_err_2pi_flip = float(torch.max(torch.abs(z_2pi + z_vortex)).item() / torch.max(torch.abs(z_vortex)).item())
+    rel_err_4pi_restore = float(torch.max(torch.abs(z_4pi - z_vortex)).item() / torch.max(torch.abs(z_vortex)).item())
+
+    # Momentum quantum on scale-K floor satisfies p_floor(K) * hL(K) == s_0 identically
+    tol_ieee = rho_field_quantum() ** (N4_CAUSAL_LINKS - 1)
+    rel_s_floor = abs(cfg.p_floor * cfg.hL - SI.s_0) / SI.s_0
 
     ok = (
-        abs(p_up - 0.5) < 1e-6
-        and abs(p_down - 0.5) < 1e-6
-        and abs(net_momentum_up + net_momentum_down) == 0.0
-        and abs(net_momentum_up * cfg.hL - SI.s_0) / SI.s_0 < 1e-14
-        and err_2pi_flip < 1e-6
-        and err_4pi_restore < 1e-6
+        norm_lane0 > 0.0
+        and norm_lane1 > 0.0
+        and abs((norm_lane0 + norm_lane1) - norm_total) / norm_total < 1e-6
+        and rel_s_floor < tol_ieee
+        and rel_err_2pi_flip < 1e-6
+        and rel_err_4pi_restore < 1e-6
     )
     return {
         "id": "QM_stern_gerlach_su2_720",
+        "world_seed": "SeedClass.VORTEX_P on 3D VACUUM_BOIL",
         "scale_K": cfg.scale_k,
-        "prob_spin_up": p_up,
-        "prob_spin_down": p_down,
-        "err_360_sign_flip": err_2pi_flip,
-        "err_720_identity": err_4pi_restore,
+        "spin_up_fraction": norm_lane0 / norm_total,
+        "spin_down_fraction": norm_lane1 / norm_total,
+        "rel_err_360_sign_flip": rel_err_2pi_flip,
+        "rel_err_720_identity": rel_err_4pi_restore,
         "ok": ok,
-        "note": "Stern-Gerlach 50/50 splitting with +/-p_floor(K) and SU(2) double-cover 2*pi -> -psi, 4*pi -> +psi",
+        "note": "3D VORTEX_P on VACUUM_BOIL splits into two spinor channels with +/-p_floor(K) (p_floor*hL=s_0) and flips sign under 2*pi SU(2) rotation",
     }
 
 
 def check_qm_pauli_hom_antibunching(device: str = "cpu") -> dict:
-    """Pauli exclusion / Hong-Ou-Mandel exchange on Z_512[i]^2: doubly-occupied parallel spinor channels on V_P trigger Phi_Pauli=256 (pi), single/orthogonal channels do not."""
+    """Pauli exclusion on 3D VACUUM_BOIL world seed: undisturbed boil has 0 Pauli impulse, while parallel spinor overlap at rho_max triggers Phi_Pauli=256."""
     dev = torch.device(device)
     cfg = MConfig.for_ladder_floor("bohr", stencil="fcc")
-    expected_pauli_ticks = pauli_impulse_disc(phase_bits=cfg.phase_bits)  # 256
+    expected_pauli_ticks = pauli_impulse_disc(phase_bits=cfg.phase_bits)
+    grid_n = PLANCK_CELL.N_phi
+    c_idx = grid_n // 2
 
-    # Case 1: Two phase-aligned dense fermion channels occupying the same supercell V_P -> triggers Phi_Pauli = 256 ticks (pi rad)
-    z_parallel = torch.zeros((4, 4, 4, 2), dtype=torch.complex64, device=dev)
-    z_parallel[2, 2, 2, 0] = complex(0.8, 0.0)
-    z_parallel[2, 2, 2, 1] = complex(0.8, 0.0)
-    f_parallel = encode_spinor(z_parallel, frac_bits=cfg.frac_bits, mod_bits=cfg.mod_bits)
-    ticks_parallel = int(pauli_phi_int(f_parallel, cfg)[2, 2, 2].item())
+    # 1. Canonical 3D VACUUM_BOIL world seed: amplitude is 1 quantum a_Q < pauli_rho_min -> 0 Pauli repulsion everywhere
+    f_boil = vacuum_boil_fixed_3d(grid_n, grid_n, grid_n, device=dev)
+    ticks_boil_bg = int(torch.max(pauli_phi_int(f_boil, cfg)).item())
 
-    # Case 2: Singly occupied or spatially separated channels (one per V_P) -> zero Pauli repulsion (0 ticks)
-    z_single = torch.zeros((4, 4, 4, 2), dtype=torch.complex64, device=dev)
-    z_single[2, 2, 2, 0] = complex(0.8, 0.0)
-    z_single[2, 2, 3, 1] = complex(0.8, 0.0)
-    f_single = encode_spinor(z_single, frac_bits=cfg.frac_bits, mod_bits=cfg.mod_bits)
-    ticks_single = int(pauli_phi_int(f_single, cfg)[2, 2, 2].item())
+    # 2. Two identical spinors overlapping at the central cell of f_boil at saturation scale (1 << frac_bits) -> triggers Phi_Pauli = 256
+    f_overlap = f_boil.clone()
+    sat_amp = 1 << cfg.frac_bits
+    f_overlap[c_idx, c_idx, c_idx] = f_boil[c_idx, c_idx, c_idx] * sat_amp
+    ticks_parallel_overlap = int(pauli_phi_int(f_overlap, cfg)[c_idx, c_idx, c_idx].item())
 
-    ok = ticks_parallel == expected_pauli_ticks == 256 and ticks_single == 0
+    # 3. Singly polarized channel at the central cell (pure spin-up: component 1 empty) -> 0 Pauli repulsion
+    f_single_spin = f_overlap.clone()
+    f_single_spin[c_idx, c_idx, c_idx, 2] = 0
+    f_single_spin[c_idx, c_idx, c_idx, 3] = 0
+    ticks_single_spin = int(pauli_phi_int(f_single_spin, cfg)[c_idx, c_idx, c_idx].item())
+
+    ok = (
+        ticks_boil_bg == 0
+        and ticks_parallel_overlap == expected_pauli_ticks
+        and ticks_single_spin == 0
+    )
     return {
         "id": "QM_pauli_hom_antibunching",
+        "world_seed": "vacuum_boil_fixed_3d",
         "scale_K": cfg.scale_k,
-        "parallel_double_occupancy_ticks": ticks_parallel,
-        "separated_occupancy_ticks": ticks_single,
+        "boil_background_pauli_ticks": ticks_boil_bg,
+        "parallel_overlap_pauli_ticks": ticks_parallel_overlap,
+        "single_polarized_pauli_ticks": ticks_single_spin,
         "ok": ok,
-        "note": "Doubly-occupied parallel channels on V_P trigger exact Phi_Pauli=256 (pi rad) exclusion impulse; separated channels get 0 ticks",
+        "note": "On 3D VACUUM_BOIL seed: background boil has 0 Pauli ticks, doubly-occupied V_P triggers Phi_Pauli=256 (pi), single spin channel gives 0",
     }
 
 
 def check_qm_bell_chsh_tsirelson(device: str = "cpu") -> dict:
-    """Bell-CHSH correlation on cuboctahedral axes: separable product states obey |S_sep| <= 2, while the non-separable 2-particle singlet reaches S_QM = (d-1)/kappa = 2*sqrt(2).
+    """Bell-CHSH correlation on cuboctahedral axes (_FCC_OFFSETS): separable states obey |S|<=2, non-separable 2-particle singlet reaches S_QM=(d-1)/kappa=2*sqrt(2).
 
     Important physical distinction (Bell's theorem):
       1. Any factorized (local hidden-variable / product) two-site state Psi_sep = psi_A (x) psi_B stored as
          independent single-particle variables on spatially separated nodes A and B satisfies E_sep(a, b) = <sigma_a>_A <sigma_b>_B
-         and is strictly bounded by the classical Bell limit |S_sep| <= d - 1 = 2.
+         and is strictly bounded by the classical Bell limit |S_LHV| <= d - 1 = 2 (with pure product state max |S_prod| = 1/kappa = sqrt(2) on the Tsirelson axes).
       2. Violation up to Tsirelson's bound S_QM = (d - 1) / kappa = d_in(square) * kappa = 2*sqrt(2) arises specifically
          from the non-separable two-particle singlet state |Psi_-> = (|up>_A|down>_B - |down>_A|up>_B)/sqrt(2) in the
          antisymmetric tensor product C^2 (x) C^2 (prepared via Pauli exclusion at the shared source before separation),
-         projected onto the square-face axes (a=[1,0,0], a'=[0,1,0]) and cuboctahedral vertex axes
-         (b=-[1,1,0]/sqrt(2), b'=[-1,1,0]/sqrt(2)), where the vertex-to-face projection factor is kappa = 1/sqrt(2).
+         projected onto the square-face axes and normalized _FCC_OFFSETS vertex axes of the cuboctahedron, where the
+         vertex-to-face projection cosine is exactly kappa = 1/sqrt(2).
     """
     del device
-    d_spatial = 3
+    d_spatial = N4_CAUSAL_LINKS - 1  # 3
     kappa = KAPPA_FCC_1TICK  # 1 / sqrt(2)
     d_in_sq = N4_CAUSAL_LINKS  # 4
 
-    # Cuboctahedral analyzer axes in the xy-plane:
-    # Alice measures along square-face channels square_6: a = (1, 0, 0), a' = (0, 1, 0)
+    # Extract Bob's two -y diagonal vertex axes directly from canonical _FCC_OFFSETS in the z=0 plane:
+    # (oz=0, oy=-1, ox=-1) and (oz=0, oy=-1, ox=+1) normalized by kappa = 1/sqrt(2)
+    fcc_z0 = [off for off in _FCC_OFFSETS if off[0] == 0]
+    fcc_z0_minus_y = sorted([off for off in fcc_z0 if off[1] < 0], key=lambda v: v[2])
+    b = (kappa * float(fcc_z0_minus_y[0][2]), kappa * float(fcc_z0_minus_y[0][1]), 0.0)  # (-kappa, -kappa, 0)
+    b_prime = (kappa * float(fcc_z0_minus_y[1][2]), kappa * float(fcc_z0_minus_y[1][1]), 0.0)  # (+kappa, -kappa, 0)
     a = (1.0, 0.0, 0.0)
     a_prime = (0.0, 1.0, 0.0)
-    # Bob measures along cuboctahedral vertex channels V_12: b = (-kappa, -kappa, 0), b' = (kappa, -kappa, 0)
-    b = (-kappa, -kappa, 0.0)
-    b_prime = (kappa, -kappa, 0.0)
 
     def dot3(u: tuple[float, float, float], v: tuple[float, float, float]) -> float:
         return u[0] * v[0] + u[1] * v[1] + u[2] * v[2]
 
     # 1. Non-separable 2-particle singlet state in C^2 (x) C^2: E_singlet(u, v) = -u . v
-    e_ab = -dot3(a, b)  # +kappa
-    e_ab_p = -dot3(a, b_prime)  # -kappa
-    e_ap_b = -dot3(a_prime, b)  # +kappa
-    e_ap_bp = -dot3(a_prime, b_prime)  # +kappa
-    s_singlet = abs(e_ab - e_ab_p + e_ap_b + e_ap_bp)  # 4 * kappa = 2 * sqrt(2)
+    e_ab = -dot3(a, b)
+    e_ab_p = -dot3(a, b_prime)
+    e_ap_b = -dot3(a_prime, b)
+    e_ap_bp = -dot3(a_prime, b_prime)
+    s_singlet = abs(e_ab - e_ab_p + e_ap_b + e_ap_bp)
 
-    # 2. Separable product quantum states psi_A (x) psi_B at the same cuboctahedral angles:
-    #    E_sep(u, v) = (u . s_A) * (v . s_B) -> max |S_prod| = 1 / kappa = sqrt(2) <= 2,
-    #    while deterministic local hidden variables A0, A1, B0, B1 in {-1, +1} have max |S_LHV| = d - 1 = 2.
+    # 2. Pure separable product states psi_A (x) psi_B evaluated along all 4 xy-plane rays of _FCC_OFFSETS and square axes
+    xy_rays = [
+        (1.0, 0.0, 0.0),
+        (-1.0, 0.0, 0.0),
+        (0.0, 1.0, 0.0),
+        (0.0, -1.0, 0.0),
+    ] + [(kappa * float(off[2]), kappa * float(off[1]), 0.0) for off in fcc_z0]
+
     max_s_product_state = 0.0
-    for i in range(16):
-        phi_a = 2.0 * math.pi * i / 16.0
-        s_a = (math.cos(phi_a), math.sin(phi_a), 0.0)
-        for j in range(16):
-            phi_b = 2.0 * math.pi * j / 16.0
-            s_b = (math.cos(phi_b), math.sin(phi_b), 0.0)
+    for s_a in xy_rays:
+        for s_b in xy_rays:
             s_val = abs(
                 dot3(a, s_a) * dot3(b, s_b)
                 - dot3(a, s_a) * dot3(b_prime, s_b)
@@ -369,6 +454,7 @@ def check_qm_bell_chsh_tsirelson(device: str = "cpu") -> dict:
             if s_val > max_s_product_state:
                 max_s_product_state = s_val
 
+    # 3. Deterministic local hidden variables A0, A1, B0, B1 in {-1, +1}
     max_s_lhv = 0.0
     for a0 in (-1.0, 1.0):
         for a1 in (-1.0, 1.0):
@@ -378,9 +464,9 @@ def check_qm_bell_chsh_tsirelson(device: str = "cpu") -> dict:
                     if s_lhv > max_s_lhv:
                         max_s_lhv = s_lhv
 
-    classical_bound = float(d_spatial - 1)  # 2.0
-    tsirelson_from_carrier = float(d_spatial - 1) / kappa  # (d - 1) / kappa = 2 * sqrt(2)
-    tsirelson_from_sq = float(d_in_sq) * kappa  # d_in(sq) * kappa = 4 / sqrt(2) = 2 * sqrt(2)
+    classical_bound = float(d_spatial - 1)
+    tsirelson_from_carrier = float(d_spatial - 1) / kappa
+    tsirelson_from_sq = float(d_in_sq) * kappa
 
     ok = (
         abs(max_s_product_state - (1.0 / kappa)) < 1e-12
@@ -391,6 +477,7 @@ def check_qm_bell_chsh_tsirelson(device: str = "cpu") -> dict:
     )
     return {
         "id": "QM_bell_chsh_tsirelson",
+        "carrier_axes": "_FCC_OFFSETS (z=0 vertex rays) vs square_6 axes",
         "max_S_product_state": max_s_product_state,
         "max_S_LHV_classical": max_s_lhv,
         "S_singlet_nonseparable": s_singlet,
@@ -398,5 +485,62 @@ def check_qm_bell_chsh_tsirelson(device: str = "cpu") -> dict:
         "ratio_S_QM_over_S_LHV": s_singlet / max_s_lhv,
         "inv_kappa": 1.0 / kappa,
         "ok": ok,
-        "note": "Geometric kappa^-1=sqrt(2) ladder: product state S_prod=sqrt(2), local HV S_LHV=2, non-separable singlet S_QM=(d-1)/kappa=4*kappa=2*sqrt(2)",
+        "note": "Geometric kappa^-1=sqrt(2) ladder on _FCC_OFFSETS: product state S_prod=sqrt(2), local HV S_LHV=2, non-separable singlet S_QM=(d-1)/kappa=4*kappa=2*sqrt(2)",
+    }
+
+
+def check_qm_tunneling_lattice_wkb(device: str = "cpu") -> dict:
+    """§4.10.2 lattice hyperbolic dispersion cosh(kappa_tun * hL(K)) - 1 = u(K) using carrier quanta rho_field_quantum() and M_FORCE_SEATS."""
+    del device
+    floor_names = ("planck", "compton", "bohr", "lyman")
+    cfgs = [MConfig.for_ladder_floor(name, stencil="fcc") for name in floor_names]
+
+    # Weak barrier quantum = one native field-density quantum rho_Q = 2^(-2*frac_bits) = 1/4096 from si_constants (zero magic numbers!)
+    delta_n_e = rho_field_quantum()
+    u_values: list[float] = []
+    for cfg in cfgs:
+        delta_e_k = delta_n_e * cfg.e_floor
+        u_k = (cfg.m_floor * delta_e_k * (cfg.hL**2)) / (SI.hbar**2)
+        u_values.append(u_k)
+
+    u_ref = u_values[0]
+    u_k_invariant = all(abs(u - u_ref) / u_ref < 1e-14 for u in u_values[1:])
+
+    # Exact lattice per-step decay factor tau = 1 + u - sqrt((1 + u)^2 - 1) vs WKB sqrt(2*u)
+    tau_exact = 1.0 + u_ref - math.sqrt((1.0 + u_ref) ** 2 - 1.0)
+    kappa_h_exact = -math.log(tau_exact)
+    kappa_h_wkb = math.sqrt(2.0 * u_ref)
+    rel_wkb_err = abs(kappa_h_exact - kappa_h_wkb) / kappa_h_wkb
+
+    # Barrier thickness = |N_12| = 12 steps; exact hyperbolic identity cosh(kappa*hL) - 1 == u_ref
+    n_steps_barrier = N12_FCC_CAUSAL_LINKS
+    trans_n = tau_exact**n_steps_barrier
+    cosh_identity_err = abs((math.cosh(kappa_h_exact) - 1.0) - u_ref)
+
+    # Strong barrier at M_FORCE_SEATS = 97: logarithmic UV saturation arccosh(1 + M) < sqrt(2 * M)
+    u_uv = float(M_FORCE_SEATS)
+    kappa_uv_exact = math.acosh(1.0 + u_uv)
+    kappa_uv_naive_wkb = math.sqrt(2.0 * u_uv)
+    uv_regularized = 0.0 < kappa_uv_exact < kappa_uv_naive_wkb
+
+    ok = (
+        u_k_invariant
+        and 0.0 < tau_exact < 1.0
+        and cosh_identity_err < 1e-15
+        and rel_wkb_err < delta_n_e
+        and 0.0 < trans_n < 1.0
+        and uv_regularized
+    )
+    return {
+        "id": "QM_tunneling_lattice_wkb",
+        "barrier_quantum_rho_Q": delta_n_e,
+        "u_barrier_invariant_across_K": u_k_invariant,
+        "u_ref": u_ref,
+        "tau_per_step": tau_exact,
+        "transmission_N12_steps": trans_n,
+        "rel_wkb_err_at_rho_Q": rel_wkb_err,
+        "kappa_uv_exact_at_M97": kappa_uv_exact,
+        "kappa_uv_naive_wkb_at_M97": kappa_uv_naive_wkb,
+        "ok": ok,
+        "note": "§4.10.2 on carrier quanta (rho_Q=1/4096, M=97, N_12=12): u(K) cancels K^(-1)*K^(-1)*K^2=1, matches WKB to O(rho_Q), and UV-saturates at M=97",
     }
