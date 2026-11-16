@@ -1,23 +1,26 @@
-\section{Связь $(3{+}1)$ и $(2{+}1)$}
+\section{Геометрическая связь объёмного носителя $(3{+}1)$ и плоского среза $(2{+}1)$}
 \label{sec:31-21-slice}
 
-Гексагональный слой $(2{+}1)$ --- срез пространства Минковского $(3{+}1)$ с \latGCKshort\
-(слой и носитель разведены в \cref{sec:minkowski-layer});
-(\cref{fig:carrier-slice-hex-layer,fig:carrier-slice-fcc-layer}).
-Мост $\speedC=\caKappaGeom \caSignalSpeed$ с $\caKappaGeom=1/\sqrt{2}$ якорится на полном трёхмерном носителе;
-чистый $(2{+}1)$ без объёма несёт $\caKappaGeom=\sqrt{3}/2$.
+Гранецентрированная кубическая решётка в трёхмерном пространстве $(3{+}1)$ образуется плотнейшей упаковкой плоских треугольных слоёв чередования $ABCABC\ldots$ вдоль пространственных диагоналей куба $[111]$ (\cref{sec:hex-slice,sec:fcc-choice}).
+Сечение решётки~\latGCKshort\ любой из четырёх октаэдрических плоскостей семейства $\{111\}$ представляет собой правильную двумерную треугольную сетку центров с шестиугольными ячейками Вороного и координационным числом $|N_6| = 6$ (\cref{fig:carrier-slice-hex-layer,fig:carrier-slice-fcc-layer}).
+
+Сопоставление однотактового многоугольника в срезе $(2{+}1)$ и однотактового многогранника в объёме $(3{+}1)$ выявляет точное различие их геометрических проекций (\cref{sec:two-c}):
+\begin{itemize}[noitemsep]
+\item в плоском гексагональном срезе $\{111\}$ ($|N_6| = 6$) каузальная оболочка одного такта есть правильный шестиугольник с отношением радиусов вписанной и описанной окружностей $\caKappaGeom_{\mathrm{hex}} = \sqrt{3}/2 \approx 0{,}8660$ и весом связи $\kappa_{\mathrm{link}}^{(2\mathrm{D})} = 1/|N_6| = 1/6$;
+\item в полном трёхмерном объёме~\latGCKshort\ ($|\geomNeighborTwelve| = 12$) каузальная оболочка одного такта есть кубооктаэдр с отношением радиусов вписанной и описанной сфер $\caKappaGeom = \caKappaGeom_{\mathrm{FCC}} = 1/\sqrt{2} \approx 0{,}7071$ и весом связи $\kappa_{\mathrm{link}} = 1/\geomNeighborTwelve = 1/12$.
+\end{itemize}
+Фундаментальное соотношение скоростей $c = \caKappaGeom\,\caSignalSpeed$ определяется полным трёхмерным кубооктаэдром, тогда как коэффициент плоского среза $\caKappaGeom_{\mathrm{hex}} = \sqrt{3}/2$ управляет сжатием радиусов при переходе от трёхмерных тетраэдрических связей ($sp^3$) к плоским гексагональным связям ($sp^2$) в срезе $\{111\}$.
 
 \begin{figure}[htbp]
   \centering
   \input{figures/tikz/carrier-slice-hex-layer.tex}
-  \caption{Гексагональный срез $(2{+}1)$: $\caKappaGeom_{\mathrm{hex}}=\sqrt{3}/2$, $|N|=6$.}
+  \caption{Гексагональный срез $(2{+}1)$ плоскости $\{111\}$: правильный шестиугольник с $\caKappaGeom_{\mathrm{hex}}=\sqrt{3}/2$ и $|N_6|=6$.}
   \label{fig:carrier-slice-hex-layer}
 \end{figure}
 
 \begin{figure}[htbp]
   \centering
   \input{figures/tikz/carrier-slice-fcc-layer.tex}
-  \caption{Носитель $(3{+}1)$ \latGCKshort\ и срез $\{111\}$: $\caKappaGeom=1/\sqrt{2}$, $|N|=12$.}
+  \caption{Трёхмерный носитель $(3{+}1)$ \latGCKshort\ и положение среза $\{111\}$ внутри кубооктаэдра: $\caKappaGeom=1/\sqrt{2}$, $|\geomNeighborTwelve|=12$.}
   \label{fig:carrier-slice-fcc-layer}
 \end{figure}
-
