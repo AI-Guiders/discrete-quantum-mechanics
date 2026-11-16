@@ -1,0 +1,47 @@
+\label{exp:cem05}
+
+\subsubsection*{Постановка}
+\textbf{Физический вопрос.}
+Позволяет ли единый побитово-обратимый оператор шага~$g$ на кольце $\mathbb{Z}_{512}[i]^2$ и решётке~\latGCKshort\ при переносе на произвольный масштабный этаж $h_L(K)=K\ell_P$ ($s_{\mathrm{floor}}(K)=p_{\mathrm{floor}}(K)h_L(K)\equiv\ladderAction$) воспроизвести классические эксперименты квантовой механики и статистику одиночных отсчётов детектора с канонического сида мира \texttt{VACUUM\_BOIL} без генератора случайных чисел?
+
+\textbf{Что проверяем.}
+\begin{enumerate}[label=\textbf{(\alph*)},leftmargin=*,itemsep=0.25em]
+\item Побитовую инвариантность траектории $\mathbb{Z}_{512}[i]^2$ и кванта действия $s_{\mathrm{floor}}(K)=\ladderAction$ на этажах \texttt{planck}, \texttt{star\_2}, \texttt{compton}, \texttt{bohr}, \texttt{lyman} (\texttt{QM\_scale\_cancellation\_K}).
+\item Двухщелевую интерференцию в пороговом ($I_1=0$, $I_{12}=2116$) и надпороговом дифракционном ($I_1=1849$, $I_{12}^{(0)}=4096$, $I_{12}^{(\pi)}=0$) режимах, сохранность полос при подпороговом пробнике ($<41$ тик) и гашение пика детектором пути (\texttt{QM\_double\_slit\_which\_way}).
+\item Голономию Ааронова--Бома для заряда~$1e$ (нуль на полупериоде $256$ тиков, возврат на $512$ тиках) и куперовской пары~$2e$ (возврат на $256$ тиках, \texttt{QM\_aharonov\_bohm\_holonomy}).
+\item Квантовый эффект Зенона при одиночном шаге синхронизации $10 < 41$ тик и переход при накоплении $250 \ge 41$ тик (\texttt{QM\_quantum\_zeno\_heisenberg}).
+\item Двухканальное расщепление Штерна--Герлаха $\pm p_{\mathrm{floor}}(K)$ и спинорное двойное накрытие $SU(2)$ ($2\pi\to -1$, $4\pi\to +1$, \texttt{QM\_stern\_gerlach\_su2\_720}).
+\item Импульс запрета Паули $\Phi_{\mathrm{Pauli}}=256$ тиков при двойном заселении суперъячейки~$V_P$ на фоне нулевого отталкивания невозмущённого \texttt{VACUUM\_BOIL} (\texttt{QM\_pauli\_hom\_antibunching}).
+\item Геометрическую лестницу корреляций Белла--Цирельсона со знаменателем $\caKappaGeom^{-1}=\sqrt{2}$ на осях граней~$\square_6$ и вершин~$V_{12}$: $S_{\mathrm{prod}}=\sqrt{2}$, $S_{\mathrm{LHV}}=2$, $S_{\mathrm{QM}}=(d-1)/\caKappaGeom=2\sqrt{2}$ (\texttt{QM\_bell\_chsh\_tsirelson}).
+\item Масштабную инвариантность параметра барьера $u(K)$, согласие с ВКБ при $u=\rho_Q=1/4096$ и логарифмическую регулярность шага $\operatorname{arccosh}(1+\hat M)\approx 5{,}28$ при подавлении прохождения $\tau^{24}\approx 9{,}69\times 10^{-56}$ (\texttt{QM\_tunneling\_lattice\_wkb}).
+\item Локальный по времени первый пробой~$t_*$ одного узла из~$13$ на сиде \texttt{VACUUM\_BOIL}, биективный обход экрана $0\ldots 12$ при сдвиге фазы вакуума и квадратичный отклик $(A-A_0)^2$ с $R^2=0{,}979$ (\texttt{QM\_single\_click\_born\_on\_boil}).
+\end{enumerate}
+
+\subsubsection*{Ход эксперимента и сводка результатов}
+Воспроизведение: \texttt{python verify\_principles.py --suite qm}.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Верификация классических экспериментов КМ на масштабно-инвариантном автомате (CE-M-05)}
+\label{tab:exp-ce-m-05}
+\begin{tabular}{@{}lll@{}}
+\toprule
+Проверка (\texttt{--suite qm}) & Ключевая наблюдаемая на сиде мира & Статус \\
+\midrule
+\texttt{QM\_scale\_cancellation\_K} & Побитовое совпадение $K\in[1,\,8{,}97\times 10^{26}]$, $s_{\mathrm{floor}}(K)=\ladderAction$ & PASS \\
+\texttt{QM\_double\_slit\_which\_way} & $I_{1,2}^{\mathrm{th}}=0,\ I_{12}^{\mathrm{th}}=2116$;\quad $I_1^{\mathrm{diff}}=1849,\ I_{12}^{(0)}=4096,\ I_{12}^{(\pi)}=0$ & PASS \\
+\texttt{QM\_aharonov\_bohm\_holonomy} & $1e$: $I(0)=I(512)=52,\ I(256)=0$;\quad $2e$: $I(128)=0,\ I(256)=52$ & PASS \\
+\texttt{QM\_quantum\_zeno\_heisenberg} & Шаг $10<41$ тик заморожен; $250$ тиков $\to n_E=6$ квантов & PASS \\
+\texttt{QM\_stern\_gerlach\_su2\_720} & $p_{\mathrm{floor}}(K)h_L(K)=\ladderAction$, $|\psi(2\pi)+\psi|<10^{-7}$, $|\psi(4\pi)-\psi|<2\cdot 10^{-7}$ & PASS \\
+\texttt{QM\_pauli\_hom\_antibunching} & Фон \texttt{VACUUM\_BOIL}: $0$ тиков; двойное заселение $V_P$: $256$ тиков ($\pi$) & PASS \\
+\texttt{QM\_bell\_chsh\_tsirelson} & $S_{\mathrm{prod}}=\sqrt{2}\ \to\ S_{\mathrm{LHV}}=2\ \to\ S_{\mathrm{QM}}=4\caKappaGeom=2\sqrt{2}$ & PASS \\
+\texttt{QM\_tunneling\_lattice\_wkb} & $u(K)=\mathrm{inv}$, откл.\ ВКБ $10^{-5}$, $\tau(\hat M)^{24}=9{,}69\times 10^{-56}$ & PASS \\
+\texttt{QM\_single\_click\_born\_on\_boil} & $1/13$ клик в $t_*$, обход $[0..12]$, гистограмма $\{5{:}2,6{:}6,7{:}2,8{:}1\}$, $R^2=0{,}979$ & PASS \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection*{Вывод}
+Все девять проверок сьюта \texttt{qm} выполняются на едином операторе шага~$g$ со стартом из канонического $3\mathrm{D}$-сида мира \texttt{VACUUM\_BOIL} без генератора случайных чисел и без свободных параметров.
+\textbf{Статус записи:} опыт закрыт (\cref{sec:macro-qm-mechanics-vs-interpretations}).
