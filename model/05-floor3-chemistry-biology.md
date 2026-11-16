@@ -133,3 +133,7 @@
    $$
    \Delta_{\mathrm{Cys}}(\text{CAM\_KEY}) + \Delta_{\mathrm{Cys}}(\text{CAM\_LOCK}) = 2\,N_{\mathrm{shell}}(2).
    $$
+   При антипараллельной сшивке $\beta$-граней Ключа и Замка в срезе $\{111\}$ специфичность пар ($\Delta G_{\mathrm{bind}} = -\Delta n_{\mathrm{HB}}\,E_{\mathrm{HB}}$) полностью задаётся комплементарностью вилок водородных связей ($[+]\leftrightarrow [-]$) и стерических пазов на фиксированных смещениях кубооктаэдра от консервативного штифта $\text{Trp}$ ($\text{W}$) и конца петли $\text{Cys}_F$:
+   $$
+   \bigl\{\text{W}+d,\ \ \text{W}+d_{\mathrm{in}}(\square),\ \ \text{W}+|\square|,\ \ \text{W}+|N_{12}|,\ \ \text{W}+N_\varphi,\ \ \text{Cys}_F-|N_{12}|,\ \ \text{Cys}_F-d_{\mathrm{out}}(E)\bigr\}.
+   $$
