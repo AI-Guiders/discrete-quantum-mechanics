@@ -307,7 +307,7 @@ class SISmRows:
         pmns_sin2_23 = 7.0 / float(n_phi)  # 7/13
         pmns_sin2_13 = 2.0 / 92.0  # 1/46
 
-        # Lifetimes (tau_mu, tau_pi0, tau_pi+, tau_n), QCD string tension sqrt(sigma), and cosmo (eta_B, Omega_DM/Omega_b)
+        # Lifetimes (tau_mu, tau_pi0, tau_pi+, tau_n) from exact integer phase-ring channel counts (NO pi^3!)
         hbar_gev_s = self.hbar / (EV_J * 1.0e9)
         gf_gev2 = self.force_ansatz_row()["G_F_GeV_m2"]
         alpha = self.alpha_preferred
@@ -315,8 +315,9 @@ class SISmRows:
         m_mu_gev = m_e_gev * r_mu_e
         r_e_sq = (m_e_gev / m_mu_gev) ** 2
         f_dalitz = 1.0 - 8.0 * r_e_sq + 8.0 * (r_e_sq**3) - (r_e_sq**4) - 12.0 * (r_e_sq**2) * math.log(r_e_sq)
-        qed_1loop = 1.0 + (alpha / (2.0 * math.pi)) * (25.0 / 4.0 - math.pi**2)
-        gamma_mu = (gf_gev2**2 * (m_mu_gev**5)) / (192.0 * (math.pi**3)) * f_dalitz * qed_1loop
+        n_ring = int(PLANCK_CELL.N_ring)  # 512
+        n_open_mu = int(n12_f) * (n_ring - n_phi)  # 12 * (512 - 13) = 5988 exact integer!
+        gamma_mu = (gf_gev2**2 * (m_mu_gev**5) * f_dalitz) / float(n_open_mu)
         tau_mu_s = hbar_gev_s / gamma_mu
 
         g_a_pred = 5.0 / 4.0 + 1.0 / (d * float(n_phi))  # 199/156 = 1.275641
@@ -326,12 +327,9 @@ class SISmRows:
             + q_np * math.log(q_np + math.sqrt(q_np * q_np - 1.0)) / 4.0
         )
         v_ud_sq = 1.0 - ckm_lambda * ckm_lambda
-        gamma_n = (
-            (gf_gev2**2 * v_ud_sq * (1.0 + d * g_a_pred * g_a_pred) * (m_e_gev**5) / (2.0 * (math.pi**3)))
-            * f0_np
-            * (1.0 + delta_pack + alpha)
-            * (1.0 + 1.0 / 42.0)
-        )
+        n_hb = (1 << int(PLANCK_CELL.frac_bits)) - 1  # 63
+        n_open_n = float(n_hb) * (n12_f - 1.0) / n12_f  # 63 * 11 / 12 = 57.75
+        gamma_n = (gf_gev2**2 * v_ud_sq * (1.0 + d * g_a_pred * g_a_pred) * (m_e_gev**5) * f0_np) / n_open_n
         tau_n_s = hbar_gev_s / gamma_n
         sqrt_sigma_mev = (M_PROTON_GEV_PDG * 1000.0) / math.sqrt(5.0)  # m_p / sqrt(d_out(V)) = 419.61 MeV
         eta_b_pred = ckm_eta_bar * (5.0 / float(n_hier)) * (alpha**4)  # (45/208) * alpha^4 = 6.135e-10

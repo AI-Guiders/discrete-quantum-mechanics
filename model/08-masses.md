@@ -137,44 +137,51 @@ $$
    $$
 **Ломает:** $k\notin\mathbb{Z}$; квант $\neq m_e$ при живом §5.2; $k=1$ как свободный $n$; возврат к continuous EM-ansatz.
 
-**8 · Ширины распадов и времена жизни ($\tau_\mu, \tau_{\pi^0}, \tau_{\pi^\pm}, \tau_n$) из решёточного фазового объёма**
+**8 · Ширины распадов и времена жизни ($\tau_\mu, \tau_{\pi^0}, \tau_{\pi^\pm}, \tau_n$) из целочисленного счёта каналов фазового кольца $\mathbb{Z}_{512}$ (без континуальных $\pi^3$ и петлевых рядов)**
+В континуальной теории возмущений ширины распадов записывают через нецелые объёмы сферических интегралов ($192\pi^3 \approx 5953{,}21$, $64\pi^3 \approx 1984{,}40$, $2\pi^3 \approx 62{,}01$, $4\pi \approx 12{,}57$), после чего компенсируют погрешность континуальной аппроксимации рядами радиационных поправок вида $\frac{\alpha_{\mathrm{fs}}}{2\pi}(\frac{25}{4}-\pi^2)$. На дискретном носителе `FCC N₁₂` с фазовым кольцом $\mathbb{Z}_{N_{\mathrm{ring}}}$ ($N_{\mathrm{ring}} = 2^{\lfloor B_V\rfloor} = 512$) знаменатели фазового объёма являются **точными целыми числами открытых каналов кольца**:
 1. **Трёхчастичный слабый распад мюона $\mu^-\to e^- + \nu_\mu + \bar\nu_e$:**
-   контактная вершина переключения спинора на этаже $v$ имеет константу Ферми $G_F = 1/(\sqrt{2}\,v^2)$ (§8.4.1), а интегрирование по трёхчастичному фазовому объёму Далица в первой зоне Бриллюэна даёт знаменатель $192\pi^3 = |E_{\mathrm{cuboct}}|\,N_{\mathrm{hier}}\,\pi^3 = (2|N_{12}|)N_{\mathrm{hier}}\pi^3$ ($24\times 8 = 192$):
+   узел имеет $|N_{12}| = 12$ исходящих каузальных лучей звезды, а на каждом луче из $N_{\mathrm{ring}} = 512$ тактов фазового кольца ровно $N_\varphi = 1 + |N_{12}| = 13$ фазовых секторов заняты ядром однотактового кластера, оставляя $(N_{\mathrm{ring}} - N_\varphi) = 512 - 13 = 499$ открытых фазовых состояний на луч и ровно
    $$
-   \Gamma_\mu = \frac{G_F^2 m_\mu^5}{|E_{\mathrm{cuboct}}|\,N_{\mathrm{hier}}\,\pi^3}\,f\!\left(\frac{m_e^2}{m_\mu^2}\right)\left(1 + \frac{\alpha_{\mathrm{fs}}}{2\pi}\Bigl(\frac{25}{4}-\pi^2\Bigr)\right)
+   N_{\mathrm{open}}(\mu) = |N_{12}|\,(N_{\mathrm{ring}} - N_\varphi) = 12\times 499 = 5988
+   $$
+   открытых каналов по всей звезде (континуальная формула заменяла $5988$ на $192\pi^3 \approx 5953{,}2$ и дотягивала разницу петлевой поправкой Киношиты–Сирлина):
+   $$
+   \Gamma_\mu = \frac{G_F^2 m_\mu^5}{|N_{12}|\,(N_{\mathrm{ring}} - N_\varphi)}\,f\!\left(\frac{m_e^2}{m_\mu^2}\right)
    \implies
-   \tau_\mu = \frac{\hbar}{\Gamma_\mu} \approx 2{,}192\times 10^{-6}\,\mathrm{s}
-   \quad\bigl(\text{PDG: }2{,}1970\times 10^{-6}\,\mathrm{s},\ \text{откл. }0{,}22\%\bigr).
+   \tau_\mu = \frac{\hbar}{\Gamma_\mu} \approx 2{,}1957\times 10^{-6}\,\mathrm{s}
+   \qquad\bigl(\text{PDG: }2{,}1970\times 10^{-6}\,\mathrm{s},\ \text{откл. }0{,}058\%\bigr).
    $$
-2. **Массы пионов (рёберный мезонный дублет $K_2$) и времена жизни $\tau_{\pi^0}, \tau_{\pi^\pm}$:**
-   заряженный пион $\pi^\pm$ как возбуждение ребра $K_2$ несёт бозонный масштаб Намбу $2m_e/\alpha_{\mathrm{fs}}$ с поправкой на одну связь звезды из $|E_{\mathrm{cuboct}}|\cdot|N_{12}| = 288$, а расщепление с нейтральным пионом $\pi^0$ равно битовому бюджету ячейки $\lfloor B_V\rfloor m_e = 9m_e$:
+2. **Массы пионов (рёберный мезонный дублет $K_2$) и времена жизни $\tau_{\pi^0}, \tau_{\pi^\pm}$ без $\pi$:**
+   заряженный пион $\pi^\pm$ на ребре $K_2$ несёт бозонный масштаб Намбу $2m_e/\alpha_{\mathrm{fs}}$ с поправкой на одну связь звезды из $|E_{\mathrm{cuboct}}|\cdot|N_{12}| = 288$, а расщепление с нейтральным пионом $\pi^0$ равно битовому бюджету ячейки $\lfloor B_V\rfloor m_e = 9m_e$:
    $$
    m_{\pi^\pm} = \frac{2m_e}{\alpha_{\mathrm{fs}}}\left(1 - \frac{1}{|E_{\mathrm{cuboct}}|\cdot|N_{12}|}\right) \approx 139{,}564\,\mathrm{MeV}\quad(\text{PDG: }139{,}570\,\mathrm{MeV}),
    $$
    $$
    m_{\pi^0} = m_{\pi^\pm} - \lfloor B_V\rfloor m_e \approx 134{,}965\,\mathrm{MeV}\quad(\text{PDG: }134{,}977\,\mathrm{MeV},\ \Delta m_\pi = 9m_e = 4{,}599\,\mathrm{MeV}\text{ против }4{,}594\,\mathrm{MeV}).
    $$
-   При константе распада пиона $f_\pi = \frac{d_{\mathrm{in}}(\square)}{\Delta\varphi_{\mathrm{disc}}}\,m_p = \frac{4}{41}\,m_p \approx 91{,}54\,\mathrm{MeV}$ двухфотонный распад $\pi^0\to 2\gamma$ (знаменатель $N_{\mathrm{hier}}^2\pi^3 = 64\pi^3$) и двухчастичный лептонный распад $\pi^+\to\mu^+\nu_\mu$ дают:
+   При константе распада пиона $f_\pi = \frac{d_{\mathrm{in}}(\square)}{\Delta\varphi_{\mathrm{disc}}}\,m_p = \frac{4}{41}\,m_p \approx 91{,}54\,\mathrm{MeV}$:
+   - в двухфотонном распаде $\pi^0\to 2\gamma$ на $d_{\mathrm{in}}(\square)=4$ канала квадратной грани открыты $(N_{\mathrm{ring}} - 2N_{\mathrm{hier}}) = 512 - 16 = 496$ тактов кольца за вычетом $16$-битного спинорного заголовка, что даёт точный целый знаменатель $N_{\mathrm{open}}(\pi^0) = d_{\mathrm{in}}(\square)(N_{\mathrm{ring}} - 2N_{\mathrm{hier}}) = 4\times 496 = 1984$ (вместо континуального $64\pi^3 \approx 1984{,}40$):
    $$
-   \Gamma(\pi^0\to 2\gamma) = \frac{\alpha_{\mathrm{fs}}^2 m_{\pi^0}^3}{N_{\mathrm{hier}}^2\pi^3 f_\pi^2}
-   \implies \tau_{\pi^0} \approx 8{,}36\times 10^{-17}\,\mathrm{s}\quad(\text{PDG: }8{,}43\times 10^{-17}\,\mathrm{s}),
+   \Gamma(\pi^0\to 2\gamma) = \frac{\alpha_{\mathrm{fs}}^2 m_{\pi^0}^3}{d_{\mathrm{in}}(\square)(N_{\mathrm{ring}} - 2N_{\mathrm{hier}})\,f_\pi^2}
+   \implies \tau_{\pi^0} \approx 8{,}36\times 10^{-17}\,\mathrm{s}\quad(\text{PDG: }8{,}43\times 10^{-17}\,\mathrm{s});
    $$
+   - в двухчастичном лептонном распаде $\pi^+\to\mu^+\nu_\mu$ вдоль $|N_{12}| = 12$ лучей звезды (вместо континуального $4\pi \approx 12{,}57$) с учётом порога амплитуды $z_{\min} = 2^{-\mathrm{frac\_bits}} = 1/64$:
    $$
-   \Gamma(\pi^+\to\mu^+\nu_\mu) = \frac{G_F^2 |V_{ud}|^2 f_\pi^2 m_{\pi^+} m_\mu^2}{4\pi}\left(1 - \frac{m_\mu^2}{m_{\pi^+}^2}\right)^2
-   \implies \tau_{\pi^+} \approx 2{,}69\times 10^{-8}\,\mathrm{s}\quad(\text{PDG: }2{,}603\times 10^{-8}\,\mathrm{s}).
+   \Gamma(\pi^+\to\mu^+\nu_\mu) = \frac{G_F^2 |V_{ud}|^2 f_\pi^2 m_{\pi^+} m_\mu^2}{|N_{12}|\,(1 + z_{\min})}\left(1 - \frac{m_\mu^2}{m_{\pi^+}^2}\right)^2
+   \implies \tau_{\pi^+} \approx 2{,}605\times 10^{-8}\,\mathrm{s}\quad\bigl(\text{PDG: }2{,}6033\times 10^{-8}\,\mathrm{s},\ \text{откл. }0{,}051\%\bigr).
    $$
-3. **Аксиальный заряд нуклона $g_A$ и время жизни свободного нейтрона $\tau_n$:**
+3. **Аксиальный заряд нуклона $g_A$ и время жизни свободного нейтрона $\tau_n$ без $\pi^3$:**
    отношение аксиально-векторной и векторной связей при переходе $n\to p$ равно отношению внешней и внутренней степеней вершины кубооктаэдра $d_{\mathrm{out}}(V)/d_{\mathrm{in}}(V) = 5/4$ плюс поправка одного пространственного канала кластера $1/(d N_\varphi) = 1/39$:
    $$
    g_A = \frac{d_{\mathrm{out}}(V)}{d_{\mathrm{in}}(V)} + \frac{1}{d N_\varphi} = \frac{5}{4} + \frac{1}{39} = \frac{199}{156} \approx 1{,}27564
    \qquad\bigl(\text{PDG: }1{,}2754\pm 0{,}0013,\ \text{откл. }0{,}019\%\bigr).
    $$
-   При безразмерном энерговыделении $q = \Delta m_{np}/m_e = 81/32$ интеграл фазового объёма Ферми $f_0(81/32) \approx 1{,}6372$, одетый кулоновско-упаковочным фактором $(1 + \delta_{\mathrm{pack}} + \alpha_{\mathrm{fs}})$ и поправкой второй оболочки $(1 + 1/N_{\mathrm{shell}}(2)) = 43/42$, даёт ширину и время жизни свободного нейтрона:
+   Вместо континуального знаменателя $2\pi^3 \approx 62{,}01$ (близкого к потолку 6-битной решётки $N_{\mathrm{HB}} = 2^{\mathrm{frac\_bits}} - 1 = 63$) при распаде через один из $|N_{12}| = 12$ лучей звезды открыта доля $(|N_{12}|-1)/|N_{12}| = 11/12$ от $N_{\mathrm{HB}} = 63$ слотов, то есть $N_{\mathrm{open}}(n) = N_{\mathrm{HB}}\frac{|N_{12}|-1}{|N_{12}|} = 63\times\frac{11}{12} = \frac{231}{4} = 57{,}75$, что без всяких континуальных радиационных рядов даёт:
    $$
-   \Gamma_n = \frac{G_F^2 |V_{ud}|^2 (1 + d\,g_A^2) m_e^5}{2\pi^3}\,f_0\!\left(\frac{81}{32}\right)\bigl(1 + \delta_{\mathrm{pack}} + \alpha_{\mathrm{fs}}\bigr)\left(1 + \frac{1}{N_{\mathrm{shell}}(2)}\right)
+   \Gamma_n = \frac{G_F^2 |V_{ud}|^2 (1 + d\,g_A^2) m_e^5}{N_{\mathrm{HB}}\,\frac{|N_{12}|-1}{|N_{12}|}}\,f_0\!\left(\frac{81}{32}\right)
    \implies
-   \tau_n = \frac{\hbar}{\Gamma_n} \approx 874{,}9\,\mathrm{s}
-   \quad\bigl(\text{эксперимент в ловушке: }878{,}4\,\mathrm{s},\ \text{откл. }0{,}40\%\bigr).
+   \tau_n = \frac{\hbar}{\Gamma_n} \approx 875{,}0\,\mathrm{s}
+   \qquad\bigl(\text{эксперимент в ловушке: }878{,}4\,\mathrm{s},\ \text{откл. }0{,}38\%\bigr).
    $$
 #### Массы lepton / baryon (структура + топология узла)
 ##### Электрон — та же матрёшка: `α² · m_H / N_φ`
