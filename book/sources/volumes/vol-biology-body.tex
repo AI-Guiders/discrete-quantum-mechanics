@@ -18,15 +18,25 @@
   \[
     IE_1(\text{O}) = \left(\frac{2}{2}\right)^{\!2} BE_H = BE_H = IE_1(\text{H}) \approx 13{,}61\ \mathrm{эВ}.
   \]
-\item \textbf{Квант водородной связи $E_{\mathrm{HB}}$:}
-  на одну спиновую пару Паули второй координационной сферы ($N_{\mathrm{shell}}(2)/2 = 42/2 = 21$ пара)
-  от ковалентной энергии $D_0(\text{H}_2)=BE_H/d$ приходится дискретный квант водородного замка:
+\item \textbf{Квант водородной связи $E_{\mathrm{HB}}$ и четырёхстороннее тождество водородного делителя:}
+  на одну спиновую пару Паули второй координационной сферы ($\caKappaGeom^2 N_{\mathrm{shell}}(2)$ пар при $N_{\mathrm{shell}}(2)=(\geomNeighborTwelve-2)\cdot 2^2+2$)
+  от ковалентной энергии $D_0(\text{H}_2)=BE_H/d$ приходится дискретный квант водородного замка, делитель которого удовлетворяет тождеству констант носителя:
+  \[
+    N_{\mathrm{HB}}
+    := d\,\caKappaGeom^2 N_{\mathrm{shell}}(2)
+    = \frac{1-\caKappaGeom^6}{\caKappaGeom^6}\,\lfloor\caBitBudget\rfloor
+    = \vevHierarchySteps^2 - 1
+    = 2^{\mathrm{frac\_bits}} - 1
+    = z_{\min}^{-1} - 1,
+  \]
+  откуда без единого голого числа:
   \begin{equation}
   \label{eq:bio-hbond-quantum}
     E_{\mathrm{HB}}
-    = \frac{2}{N_{\mathrm{shell}}(2)}\,D_0(\text{H}_2)
-    = \frac{BE_H}{d\cdot \tfrac{1}{2}N_{\mathrm{shell}}(2)}
-    = \frac{BE_H}{63}
+    = \frac{D_0(\text{H}_2)}{\caKappaGeom^2 N_{\mathrm{shell}}(2)}
+    = \frac{BE_H}{d\,\caKappaGeom^2 N_{\mathrm{shell}}(2)}
+    = \frac{\caKappaGeom^6}{(1-\caKappaGeom^6)\,\lfloor\caBitBudget\rfloor}\,BE_H
+    = \frac{BE_H}{2^{\mathrm{frac\_bits}}-1}
     \approx 0{,}2160\ \mathrm{эВ}
     \approx 20{,}84\ \mathrm{кДж/моль}
   \end{equation}
@@ -75,8 +85,8 @@
 \[
   \Delta G_{\mathrm{ATP}}
   = (d-1)\,E_{\mathrm{HB}}
-  = 2\,E_{\mathrm{HB}}
-  = \frac{2}{63}\,BE_H
+  = \frac{d-1}{d\,\caKappaGeom^2 N_{\mathrm{shell}}(2)}\,BE_H
+  = \frac{d-1}{2^{\mathrm{frac\_bits}}-1}\,BE_H
   \approx 0{,}432\ \mathrm{эВ}
   \approx 41{,}7\ \mathrm{кДж/моль}
   \qquad\bigl(\text{физиологический диапазон в клетке: }42\text{--}50\ \mathrm{кДж/моль}\bigr).
@@ -230,9 +240,28 @@ II (ядро $1$) & \texttt{Stop} & \texttt{UAA,UAG,UGA} (3) & --- & освоб�
   \item паз~$\gamma/\text{turn}$ (разворот петли, принудительно выбираемый пролином $\text{Pro}$ с замкнутым циклом или глицином $\text{Gly}$).
   \end{itemize}
 \item \textbf{Локальный выбор за $O(1)$ на выходе из рибосомного туннеля:}
-  по мере синтеза цепи каждый новый остаток~$i$ взаимодействует только со своей локальной окрестностью кубооктаэдра ($|N_{12}|=12$ направлений) и выбирает тот из $d=3$ пазов, который даёт максимальное число замкнутых квантов $E_{\mathrm{HB}}=BE_H/63$ и вытесняет гидрофобные радикалы внутрь ядра от сетки воды.
-  Число проверок на один остаток ограничено константой $O(1)$ ($d\cdot\geomNeighborTwelve=36$ элементарных операций), а полная укладка белка длины~$L$ выполняется за $O(L)$ тактов в реальном времени без глобального перебора.
+  по мере синтеза цепи каждый новый остаток~$i$ взаимодействует только со своей локальной окрестностью кубооктаэдра ($\geomNeighborTwelve$ направлений) и выбирает тот из $d=3$ пазов, который даёт максимальное число замкнутых квантов $E_{\mathrm{HB}}=BE_H/(d\,\caKappaGeom^2 N_{\mathrm{shell}}(2))$ и вытесняет гидрофобные радикалы внутрь ядра от сетки воды.
+  Число проверок на один остаток ограничено константой $O(1)$ ($d\cdot\geomNeighborTwelve$ элементарных операций), а полная укладка белка длины~$L$ выполняется за $O(L)$ тактов в реальном времени без глобального перебора.
 \end{enumerate}
+
+\section{Синаптический иммуноглобулиновый замок (\texorpdfstring{$\text{CAM\_KEY}\leftrightarrow\text{CAM\_LOCK}$}{CAM\_KEY <-> CAM\_LOCK})}
+\label{sec:bio-ig-synaptic-lock}
+
+В рецепторах клеточной адгезии, формирующих синаптическую специфичность нейронов (\texttt{Dpr} $\leftrightarrow$ \texttt{DIP}), длина замкнутой дисульфидной петли первого иммуноглобулинового домена $[\text{Cys}_B\ldots\text{Cys}_F]$ у белков-ключей (\texttt{CAM\_KEY}) равна водородному делителю кубооктаэдра:
+\[
+  L_{\mathrm{loop}}(\text{CAM\_KEY})
+  = d\,\caKappaGeom^2 N_{\mathrm{shell}}(2)
+  = \frac{1-\caKappaGeom^6}{\caKappaGeom^6}\,\lfloor\caBitBudget\rfloor
+  = 2^{\mathrm{frac\_bits}} - 1,
+\]
+а междоменный шаг от $\text{Cys}_F$ первой петли до цистеина второго домена у Ключа (выступ с донорным гребнем $\text{Trp--x--Arg}$, вилка $[+,+]$) и у Замка (впадина с акцепторной канавкой $\text{Trp--x--x--x--[Asp/Glu]}$, вилка $[-,-]$) отклоняется от числа узлов второй координационной сферы $N_{\mathrm{shell}}(2)$ ровно на~$\pm 1$:
+\[
+  \Delta_{\mathrm{Cys}}(\text{CAM\_KEY}) = N_{\mathrm{shell}}(2) - 1 = \Delta\varphi_{\mathrm{disc}},\qquad
+  \Delta_{\mathrm{Cys}}(\text{CAM\_LOCK}) = N_{\mathrm{shell}}(2) + 1,
+\]
+\[
+  \Delta_{\mathrm{Cys}}(\text{CAM\_KEY}) + \Delta_{\mathrm{Cys}}(\text{CAM\_LOCK}) = 2\,N_{\mathrm{shell}}(2).
+\]
 
 \chapter{От молекулярных замков к клеточному автомату и 3D-онтогенезу}
 \label{ch:bio-ontogeny-ca}
@@ -240,7 +269,7 @@ II (ядро $1$) & \texttt{Stop} & \texttt{UAA,UAG,UGA} (3) & --- & освоб�
 \section{Пошаговый цикл клетки без захардкоженных тегов}
 \label{sec:bio-cell-cycle-o1}
 
-Построенная лестница ($\text{этажи }0\text{--}2 \to \text{химия }Z=1\ldots 10 \to E_{\mathrm{HB}}=BE_H/63 \to \text{штрихкод большой бороздки} \to O(1)\text{-фолдинг}$) задаёт прямую архитектуру клеточного автомата морфогенеза (\texttt{genome-printer} / \texttt{CASA}) на макро-решётке кубооктаэдра~$N_{12}$:
+Построенная лестница ($\text{этажи }0\text{--}2 \to \text{химия }Z=1\ldots 16 \to E_{\mathrm{HB}}=BE_H/(d\,\caKappaGeom^2 N_{\mathrm{shell}}(2)) \to \text{штрихкод большой бороздки} \to O(1)\text{-фолдинг}$) задаёт прямую архитектуру клеточного автомата морфогенеза (\texttt{genome-printer} / \texttt{CASA}) на макро-решётке кубооктаэдра~$N_{12}$:
 \begin{enumerate}[leftmargin=*]
 \item \textbf{Трансляция и $O(1)$-укладка:}
   кодирующая последовательность гена переводится по таблице~\eqref{eq:bio-rumer-identity} ($64\to 20+1$) в полипептидную цепь, которая ко-трансляционно за $O(L)$ шагов укладывается на решётке кубооктаэдра, формируя на поверхности глобулы распознающую вилку доноров и акцепторов~$E_{\mathrm{HB}}$.

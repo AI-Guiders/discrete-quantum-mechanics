@@ -271,18 +271,28 @@ $Z$ & Элемент & Канал & $Z_{\mathrm{eff}}^{\mathrm{pred}}$ & $IE_1^{
   R(\text{O}\cdots\text{O}) = (1 + 2)\,R(\text{O--H}) = d\cdot R(\text{O--H}) \approx 2{,}88\ \mathrm{\AA}
   \qquad\bigl(\text{в димере воды и ДНК: }2{,}80\text{--}2{,}90\ \mathrm{\AA}\bigr).
 \]
-Энергия одной водородной связи равна доле одной спиновой пары Паули ($2$ состояния) на второй координационной сфере из $N_{\mathrm{shell}}(2)=42$ узлов ($21$ пара Паули) от ковалентного кванта $D_0(\text{H}_2)=BE_H/d$:
+Энергия одной водородной связи равна доле одной спиновой пары Паули ($\caKappaGeom^2 N_{\mathrm{shell}}(2)$ пар на второй координационной сфере $N_{\mathrm{shell}}(2)=(\geomNeighborTwelve-2)\cdot 2^2+2$) от ковалентного кванта $D_0(\text{H}_2)=BE_H/d$, причём водородный делитель удовлетворяет четырёхстороннему тождеству констант носителя:
+\[
+  N_{\mathrm{HB}}
+  := d\,\caKappaGeom^2 N_{\mathrm{shell}}(2)
+  = \frac{1-\caKappaGeom^6}{\caKappaGeom^6}\,\lfloor\caBitBudget\rfloor
+  = \vevHierarchySteps^2 - 1
+  = 2^{\mathrm{frac\_bits}} - 1
+  = z_{\min}^{-1} - 1,
+\]
+откуда без единого голого числа:
 \begin{equation}
 \label{eq:chem-hbond-quantum}
   E_{\mathrm{HB}}
-  = \frac{2}{N_{\mathrm{shell}}(2)}\,D_0(\text{H}_2)
-  = \frac{BE_H}{d\cdot \tfrac{1}{2}N_{\mathrm{shell}}(2)}
-  = \frac{BE_H}{63}
+  = \frac{D_0(\text{H}_2)}{\caKappaGeom^2 N_{\mathrm{shell}}(2)}
+  = \frac{BE_H}{d\,\caKappaGeom^2 N_{\mathrm{shell}}(2)}
+  = \frac{\caKappaGeom^6}{(1-\caKappaGeom^6)\,\lfloor\caBitBudget\rfloor}\,BE_H
+  = \frac{BE_H}{2^{\mathrm{frac\_bits}}-1}
   \approx 0{,}2160\ \mathrm{эВ}
   \approx 20{,}84\ \mathrm{кДж/моль}
   \approx 4{,}98\ \mathrm{ккал/моль}
 \end{equation}
-(что с точностью до $1/63\leftrightarrow 1/64$ совпадает с минимальным амплитудным шагом ячейки $z_{\min}=2^{-\mathrm{frac\_bits}}=1/64$: $z_{\min}BE_H=BE_H/64\approx 0{,}2126\ \mathrm{эВ}=20{,}51\ \mathrm{кДж/моль}$, эксперимент для жидкой воды и дуплекса ДНК: $20{,}5\text{--}21{,}0\ \mathrm{кДж/моль}$).
+(что отличается от минимального амплитудного шага ячейки $z_{\min}BE_H = 2^{-\mathrm{frac\_bits}}BE_H \approx 0{,}2126\ \mathrm{эВ} = 20{,}51\ \mathrm{кДж/моль}$ ровно на $1$ квант из $2^{\mathrm{frac\_bits}}$, при эксперименте для жидкой воды и дуплекса ДНК $20{,}5\text{--}21{,}0\ \mathrm{кДж/моль}$).
 В силу того, что $E_{\mathrm{HB}}\approx 8\,k_B T_{300\mathrm{K}}$ ($k_B T_{300\mathrm{K}}\approx 0{,}02585\ \mathrm{эВ}$), одиночная водородная связь устойчива против теплового дрожания при~$300\ \mathrm{K}$, но обратимо переключается ферментом без разрушения ковалентного остова ($D_0\sim 3\text{--}5\ \mathrm{эВ}$).
 
 \section{Цифровой замок Уотсона--Крика (\texorpdfstring{$\text{A--T}$}{A-T} и \texorpdfstring{$\text{G--C}$}{G-C}) и штрихкод большой бороздки ДНК}

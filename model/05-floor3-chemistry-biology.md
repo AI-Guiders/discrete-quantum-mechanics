@@ -6,37 +6,38 @@
 
 ## 1. Поузловое экранирование на кубооктаэдре для первого и второго периодов ($Z = 1 \ldots 10$)
 
-1. **Первая сфера ($k=1$, $|N_{12}|=12$ вершин канала $V$ внутри кластера $N_\varphi=13$):**
-   В атоме гелия ($Z=2$, $1s^2$, $\uparrow\downarrow$) второй электрон на $12$-узловой сфере перекрывает долю $1/|N_{12}|$ потока звезды и долю $1/(|N_{12}|N_\varphi)$ кластерного шва, оставляя открытой долю
+1. **Первая сфера ($k=1$, $|N_{12}|$ вершин канала $V$ внутри кластера $N_\varphi = 1 + |N_{12}|$):**
+   В атоме гелия ($Z=d-1$, $1s^2$, $\uparrow\downarrow$) второй электрон на сфере из $|N_{12}|$ узлов перекрывает долю $1/|N_{12}|$ потока звезды и долю $1/(|N_{12}|N_\varphi)$ кластерного шва, оставляя открытой долю
    $$
-   f_{\mathrm{open}}(\text{He}) = 1 - \frac{1}{|N_{12}|} - \frac{1}{|N_{12}|N_\varphi} = 1 - \frac{1}{12} - \frac{1}{156} = \frac{71}{78},
+   f_{\mathrm{open}}(\text{He}) = 1 - \frac{1}{|N_{12}|} - \frac{1}{|N_{12}|\,N_\varphi},
    $$
    откуда первый потенциал ионизации гелия равен:
    $$
-   IE_1(\text{He}) = 2\,f_{\mathrm{open}}(\text{He})\,BE_H = \frac{71}{39}\,BE_H \approx 24.769\text{ эВ}\qquad(\text{NIST: }24.587\text{ эВ},\ \text{откл. }+0.74\%).
+   IE_1(\text{He}) = (d-1)\left(1 - \frac{1}{|N_{12}|} - \frac{1}{|N_{12}|\,N_\varphi}\right)BE_H \approx 24.769\text{ эВ}\qquad(\text{NIST: }24.587\text{ эВ},\ \text{откл. }+0.74\%).
    $$
 
-2. **Вторая сфера ($k=2$, $N_{\mathrm{shell}}(2)=42$ узла, боровский масштаб $IE_1(Z)=(Z_{\mathrm{eff}}(Z)/2)^2 BE_H$):**
-   - **Канал вершин $V=(1,4,7)$ ($2s$: $\text{Li}, Z=3$ и $\text{Be}, Z=4$):**
-     каждый из двух внутренних $1s$-электронов экранирует для второй сферы долю $1-1/N_{\mathrm{hier}}=7/8$ заряда ядра; второй $2s$-электрон в канале $V=(1,4,7)$ перекрывает $d_{\mathrm{out}}(V)/|N_{12}|=7/12$ потока, прибавляя к $Z_{\mathrm{eff}}$ открытую долю $1-7/12=5/12$:
+2. **Вторая сфера ($k=2$, $N_{\mathrm{shell}}(2)=(|N_{12}|-2)\cdot 2^2+2$ узла, боровский масштаб $IE_1(Z)=(Z_{\mathrm{eff}}(Z)/n)^2 BE_H$ при $n=d-1$):**
+   - **Канал вершин $V=(1,4,7)$ ($2s$: $\text{Li}$ и $\text{Be}$):**
+     каждый из внутренних $1s$-электронов экранирует для второй сферы долю $1-1/N_{\mathrm{hier}}$ заряда ядра; второй $2s$-электрон в канале $V$ перекрывает долю $d_{\mathrm{out}}(V)/|N_{12}|$ потока, прибавляя к $Z_{\mathrm{eff}}$ открытую долю $1-d_{\mathrm{out}}(V)/|N_{12}|$:
      $$
-     Z_{\mathrm{eff}}(\text{Li}) = 3 - 2\left(1 - \frac{1}{N_{\mathrm{hier}}}\right) + \frac{1}{|N_{12}|N_\varphi} = \frac{5}{4} + \frac{1}{156},
+     Z_{\mathrm{eff}}(\text{Li}) = d - (d-1)\left(1 - \frac{1}{N_{\mathrm{hier}}}\right) + \frac{1}{|N_{12}|\,N_\varphi} = 1 + \frac{1}{d_{\mathrm{in}}(\square)} + \frac{1}{|N_{12}|\,N_\varphi},
+     $$
+     $$
+     Z_{\mathrm{eff}}(\text{Be}) = 1 + \frac{1}{d_{\mathrm{in}}(\square)} + \left(1 - \frac{d_{\mathrm{out}}(V)}{|N_{12}|}\right) - \frac{1}{|N_{12}|\,N_\varphi}.
+     $$
+   - **Канал квадратных граней $\square=(4,4,4)$ ($2p^{1\ldots 3}$: $\text{B}, \text{C}, \text{N}$ — одиночное заселение $d$ перпендикулярных осей $X,Y,Z$):**
+     при выходе пятого электрона на квадратную грань $\square$ с внутренним ветвлением $d_{\mathrm{in}}(\square)$ базовый эффективный заряд равен квадрату литиевого порога $Z_{\mathrm{eff}}(\text{B}) = \bigl(1 + 1/d_{\mathrm{in}}(\square)\bigr)^2$, а каждый следующий электрон на свободной ортогональной оси прибавляет шаг квадратной грани:
+     $$
+     \Delta Z_\square = \frac{1}{d_{\mathrm{in}}(\square)} + \frac{1}{|N_{12}|\,N_\varphi},
      \qquad
-     Z_{\mathrm{eff}}(\text{Be}) = \frac{5}{4} + \left(1 - \frac{d_{\mathrm{out}}(V)}{|N_{12}|}\right) - \frac{1}{|N_{12}|N_\varphi} = \frac{5}{3} - \frac{1}{156}.
+     Z_{\mathrm{eff}}(Z) = \left(1 + \frac{1}{d_{\mathrm{in}}(\square)}\right)^2 + m\,\Delta Z_\square\quad (m = Z - 5 \in \{0,1,2\}).
      $$
-   - **Канал квадратных граней $\square=(4,4,4)$ ($2p^{1\ldots 3}$: $\text{B}, \text{C}, \text{N}$ — одиночное заселение $d=3$ перпендикулярных осей $X,Y,Z$):**
-     при выходе пятого электрона на квадратную грань $\square$ ($d_{\mathrm{in}}(\square)=4$) базовый заряд равен $Z_{\mathrm{eff}}(\text{B})=(5/4)^2=25/16=1.5625$, а каждый следующий электрон на ортогональной оси прибавляет шаг квадратной грани:
+   - **Спаривание Паули на квадратных гранях $\square$ ($2p^{4\ldots 6}$: $\text{O}, \text{F}, \text{Ne}$):**
+     в атоме кислорода ($Z = N_{\mathrm{hier}}$, $2p^4$) четвёртый $2p$-электрон садится вторым спином на уже занятую ось канала $\square$, и внутренние/ортогональные электроны экранируют ровно число квадратных граней кубооктаэдра $\sigma(\text{O}) = |\square| = 2d$:
      $$
-     \Delta Z_\square = \frac{1}{d_{\mathrm{in}}(\square)} + \frac{1}{|N_{12}|N_\varphi} = \frac{1}{4} + \frac{1}{156} = \frac{10}{39} \approx 0.25641,
+     Z_{\mathrm{eff}}(\text{O}) = N_{\mathrm{hier}} - |\square| = n \implies IE_1(\text{O}) = \left(\frac{Z_{\mathrm{eff}}(\text{O})}{n}\right)^2 BE_H = BE_H,
      \qquad
-     Z_{\mathrm{eff}}(Z) = \frac{25}{16} + (Z-5)\,\Delta Z_\square\quad (Z\in\{5,6,7\}).
-     $$
-   - **Спаривание Паули на квадратных гранях $\square_6$ ($2p^{4\ldots 6}$: $\text{O}, \text{F}, \text{Ne}$):**
-     в атоме кислорода ($Z=8$, $2p^4$) четвёртый $2p$-электрон садится вторым спином на уже занятую ось канала $\square_6$, и шесть внутренних/ортогональных электронов экранируют ровно $\sigma(\text{O})=|\square|=6$ единиц заряда:
-     $$
-     Z_{\mathrm{eff}}(\text{O}) = 8 - |\square| = 2 \implies IE_1(\text{O}) = \left(\frac{2}{2}\right)^2 BE_H = BE_H,
-     \qquad
-     Z_{\mathrm{eff}}(Z) = 2 + (Z-8)\,\Delta Z_\square\quad (Z\in\{8,9,10\}).
+     Z_{\mathrm{eff}}(Z) = (N_{\mathrm{hier}} - |\square|) + (Z - N_{\mathrm{hier}})\,\Delta Z_\square.
      $$
 
 | $Z$ | элемент | канал | $Z_{\mathrm{eff}}^{\mathrm{pred}}$ | $IE_1^{\mathrm{pred}}$, эВ | $IE_1^{\mathrm{NIST}}$, эВ | откл. |
@@ -56,61 +57,79 @@
 
 ## 2. Валентные углы ($\text{CH}_4 \to \text{NH}_3 \to \text{H}_2\text{O}$) и закон ковалентных радиусов второго и третьего периодов
 
-1. **Сжатие тетраэдрического угла неподелёнными парами на шаг $\delta_{\mathrm{pack}} = 1/24$:**
+1. **Сжатие тетраэдрического угла неподелёнными парами на шаг $\delta_{\mathrm{pack}} = \kappa^2/|N_{12}|$:**
    Четыре несмежные треугольные грани кубооктаэдра $\vec v_1=(+1,+1,+1)$, $\vec v_2=(+1,-1,-1)$, $\vec v_3=(-1,+1,-1)$, $\vec v_4=(-1,-1,+1)$ образуют правильный тетраэдр $K_4$ со скалярным произведением:
    $$
-   \cos\theta_0 = \frac{\vec v_1\cdot\vec v_2}{\|\vec v_1\|\,\|\vec v_2\|} = \frac{1 - 1 - 1}{3} = -\frac{1}{d} = -\frac{1}{3} = -\frac{8}{24} \implies \theta_0 = 109.4712^\circ.
+   \cos\theta_0 = \frac{\vec v_1\cdot\vec v_2}{\|\vec v_1\|\,\|\vec v_2\|} = -\frac{1}{d} = -N_{\mathrm{hier}}\,\delta_{\mathrm{pack}} \implies \theta_0 = 109.4712^\circ.
    $$
-   Каждая неподелённая электронная пара ($m_{\mathrm{LP}}\in\{0,1,2\}$) на вершине тетраэдра $K_4$ сдвигает $\cos\theta$ ровно на один квант упаковки кубооктаэдра $\delta_{\mathrm{pack}}=\kappa^2/|N_{12}|=1/24$:
+   Каждая неподелённая электронная пара ($m_{\mathrm{LP}}\in\{0,1,2\}$) на вершине тетраэдра $K_4$ сдвигает $\cos\theta$ ровно на один квант упаковки кубооктаэдра $\delta_{\mathrm{pack}}=\kappa^2/|N_{12}|$:
    $$
-   \cos\theta(m_{\mathrm{LP}}) = -\frac{1}{d} + m_{\mathrm{LP}}\,\delta_{\mathrm{pack}} = -\frac{8 - m_{\mathrm{LP}}}{24}.
+   \cos\theta(m_{\mathrm{LP}}) = -\frac{1}{d} + m_{\mathrm{LP}}\,\delta_{\mathrm{pack}} = -\bigl(N_{\mathrm{hier}} - m_{\mathrm{LP}}\bigr)\,\delta_{\mathrm{pack}}.
    $$
-   - $\text{CH}_4\ (m_{\mathrm{LP}}=0)$: $\cos\theta = -8/24 = -1/3 \implies \theta = 109.47^\circ$ (NIST: $109.47^\circ$);
-   - $\text{NH}_3\ (m_{\mathrm{LP}}=1)$: $\cos\theta = -7/24 \implies \theta = 106.96^\circ$ (NIST: $107.28^\circ$, откл. $-0.32^\circ$);
-   - $\text{H}_2\text{O}\ (m_{\mathrm{LP}}=2)$: $\cos\theta = -6/24 = -1/4 = -1/d_{\mathrm{in}}(\square) \implies \theta = \arccos(-1/4) = 104.48^\circ$ (NIST: $104.45^\circ$, откл. $+0.03^\circ$).
+   - $\text{CH}_4\ (m_{\mathrm{LP}}=0)$: $\cos\theta = -1/d \implies \theta = 109.47^\circ$ (NIST: $109.47^\circ$);
+   - $\text{NH}_3\ (m_{\mathrm{LP}}=1)$: $\cos\theta = -(N_{\mathrm{hier}}-1)\,\delta_{\mathrm{pack}} \implies \theta = 106.96^\circ$ (NIST: $107.28^\circ$, откл. $-0.32^\circ$);
+   - $\text{H}_2\text{O}\ (m_{\mathrm{LP}}=2)$: $\cos\theta = -(N_{\mathrm{hier}}-2)\,\delta_{\mathrm{pack}} = -1/d_{\mathrm{in}}(\square) \implies \theta = \arccos(-1/d_{\mathrm{in}}(\square)) = 104.48^\circ$ (NIST: $104.45^\circ$, откл. $+0.03^\circ$).
 
 2. **Линейный закон ковалентных радиусов второго периода ($Z=4\ldots 9$) и соизмеримость связи $\text{C–N}$:**
-   При ковалентном радиусе водорода $r_{\mathrm{cov}}(\text{H})=\frac{1}{2}R_e(\text{H}_2)=\kappa a_0\approx 0.3742\text{ \AA}$ каждый протон ядра на второй оболочке ($n=2$) стягивает спиновую пару по $N_\varphi=13$ узлам кластера на $2/N_\varphi=2/13$ от $d\cdot r_{\mathrm{cov}}(\text{H})$:
+   При ковалентном радиусе водорода $r_{\mathrm{cov}}(\text{H})=\kappa R_e(\text{H}_2)/(\sqrt{2}\kappa)=\kappa a_0\approx 0.3742\text{ \AA}$ каждый протон ядра на второй оболочке ($n=d-1$) стягивает спиновую пару по $N_\varphi$ узлам кластера на долю $(d-1)/N_\varphi$ от $d\cdot r_{\mathrm{cov}}(\text{H})$:
    $$
-   r_{\mathrm{cov}}^{(n=2)}(Z) = \left(d - \frac{2Z}{N_\varphi}\right)\kappa\,a_0 = \frac{39 - 2Z}{13}\,\kappa\,a_0,\qquad Z\in\{4,5,6,7,8,9\}
+   r_{\mathrm{cov}}^{(n=2)}(Z) = \left(d - \frac{(d-1)Z}{N_\varphi}\right)\kappa\,a_0 = \frac{d\,N_\varphi - (d-1)Z}{N_\varphi}\,\kappa\,a_0,\qquad Z\in\{4,5,6,7,8,9\}
    $$
    ($\text{Be}: 0.892\text{ \AA}$, $\text{B}: 0.835\text{ \AA}$, $\text{C}: 0.777\text{ \AA}$, $\text{N}: 0.720\text{ \AA}$, $\text{O}: 0.662\text{ \AA}$, $\text{F}: 0.604\text{ \AA}$ — все внутри $1\%$ от справочных значений).
-   Сумма радиусов углерода ($Z=6$) и азота ($Z=7$) делится на $N_\varphi=13$ нацело:
+   Сумма радиусов углерода ($Z=2d$) и азота ($Z=2d+1$) делится на $N_\varphi$ нацело, так как $2d N_\varphi - (d-1)(4d+1) = d_{\mathrm{in}}(\square)\,N_\varphi$:
    $$
-   R(\text{C–N}) = r_{\mathrm{cov}}(6) + r_{\mathrm{cov}}(7) = \frac{27 + 25}{13}\,\kappa\,a_0 = \frac{52}{13}\,\kappa\,a_0 = 4\kappa\,a_0 = 2 R_e(\text{H}_2) \approx 1.497\text{ \AA}.
+   R(\text{C–N}) = r_{\mathrm{cov}}(2d) + r_{\mathrm{cov}}(2d+1) = d_{\mathrm{in}}(\square)\,\kappa\,a_0 \approx 1.497\text{ \AA}.
    $$
 
-3. **Переход к третьему периоду ($\text{Si}, \text{P}, \text{S}$ при $Z_3 = Z_2 + N_{\mathrm{hier}} \in \{14,15,16\}$):**
-   Добавление полной оболочки из $|N_{12}|=12$ узлов внутри кластера $N_\varphi=13$ увеличивает ковалентный радиус на $\Delta r_{2\to 3} = \frac{|N_{12}|}{N_\varphi}\kappa a_0 = \frac{12}{13}\kappa a_0$:
+3. **Переход к третьему периоду ($\text{Si}, \text{P}, \text{S}$ при $Z_3 = Z_2 + N_{\mathrm{hier}}$):**
+   Добавление полной оболочки из $|N_{12}|$ узлов внутри кластера $N_\varphi$ увеличивает ковалентный радиус на $\Delta r_{2\to 3} = \frac{|N_{12}|}{N_\varphi}\kappa a_0$:
    $$
-   r_{\mathrm{cov}}^{(n=3)}(\text{Si}, 14) = 3\kappa\,a_0 \approx 1.123\text{ \AA},\qquad
-   r_{\mathrm{cov}}^{(n=3)}(\text{P}, 15) = \frac{37}{13}\kappa\,a_0 \approx 1.065\text{ \AA},\qquad
-   r_{\mathrm{cov}}^{(n=3)}(\text{S}, 16) = \frac{35}{13}\kappa\,a_0 \approx 1.007\text{ \AA}.
+   r_{\mathrm{cov}}^{(n=3)}(Z_3) = r_{\mathrm{cov}}^{(n=2)}(Z_3 - N_{\mathrm{hier}}) + \frac{|N_{12}|}{N_\varphi}\,\kappa\,a_0
    $$
+   ($\text{Si}: d\,\kappa a_0 \approx 1.123\text{ \AA}$, $\text{P}: 1.065\text{ \AA}$, $\text{S}: 1.007\text{ \AA}$).
 
 ---
 
-## 3. Квант водородной связи $E_{\mathrm{HB}}$, геометрия B-ДНК и тождество Румера $8 + (12 + 1) = 21$
+## 3. Квант водородной связи $E_{\mathrm{HB}}$, геометрия B-ДНК, тождество Румера и синаптический замок
 
-1. **Квант водородной связи и гидролиз АТФ:**
-   Изоэнергетический резонанс $IE_1(\text{O})=IE_1(\text{H})=BE_H$ создаёт протонную перемычку между первой ($k=1$, $R(\text{O–H})\approx 0.96\text{ \AA}$) и второй ($k=2$, $R(\text{H}\cdots\text{O})=2R(\text{O–H})\approx 1.92\text{ \AA}$) сферами длины $R(\text{O}\cdots\text{O})=d\cdot R(\text{O–H})\approx 2.88\text{ \AA}$.
-   На одну спиновую пару Паули второй сферы ($N_{\mathrm{shell}}(2)/2 = 42/2 = 21$ пара) от ковалентной энергии $D_0(\text{H}_2)=BE_H/d$ приходится квант водородной связи:
+1. **Четырёхстороннее тождество водородного делителя и квант водородной связи:**
+   На второй координационной сфере кубооктаэдра $N_{\mathrm{shell}}(2) = (|N_{12}|-2)\cdot 2^2 + 2$ число спиновых пар Паули равно $N_{\mathrm{pairs}}(2) = \kappa^2 N_{\mathrm{shell}}(2)$.
+   Произведение числа пространственных измерений $d$ на $N_{\mathrm{pairs}}(2)$ удовлетворяет тождеству констант носителя:
    $$
-   E_{\mathrm{HB}} = \frac{2}{N_{\mathrm{shell}}(2)}\,D_0(\text{H}_2) = \frac{BE_H}{63} \approx 0.2160\text{ эВ} \approx 20.84\text{ кДж/моль},
-   \qquad
-   \Delta G_{\mathrm{ATP}} = (d-1)\,E_{\mathrm{HB}} = 2\,E_{\mathrm{HB}} \approx 0.432\text{ эВ} \approx 41.7\text{ кДж/моль}.
+   N_{\mathrm{HB}} := d\,\kappa^2 N_{\mathrm{shell}}(2) = \frac{1-\kappa^6}{\kappa^6}\,\lfloor B_V\rfloor = N_{\mathrm{hier}}^2 - 1 = 2^{\mathrm{frac\_bits}} - 1 = z_{\min}^{-1} - 1.
+   $$
+   Отсюда квант энергии одной водородной связи и свободная энергия гидролиза АТФ равны без единого голого числа:
+   $$
+   E_{\mathrm{HB}} = \frac{D_0(\text{H}_2)}{\kappa^2 N_{\mathrm{shell}}(2)} = \frac{BE_H}{d\,\kappa^2 N_{\mathrm{shell}}(2)} = \frac{\kappa^6}{(1-\kappa^6)\,\lfloor B_V\rfloor}\,BE_H = \frac{BE_H}{2^{\mathrm{frac\_bits}}-1} \approx 0.2160\text{ эВ} \approx 20.84\text{ кДж/моль},
+   $$
+   $$
+   \Delta G_{\mathrm{ATP}} = (d-1)\,E_{\mathrm{HB}} \approx 0.432\text{ эВ} \approx 41.7\text{ кДж/моль}.
    $$
 
 2. **Геометрия двойной спирали B-ДНК и штрихкод большой бороздки:**
-   - Вертикальный шаг стопки оснований: $h_{\mathrm{stack}} = \lfloor B_V\rfloor\,\kappa\,a_0 = 9\kappa\,a_0 \approx 3.368\text{ \AA}$ (рентген B-ДНК: $3.38\text{--}3.40\text{ \AA}$), число пар на виток: $n_{\mathrm{turn}} = |N_{12}|-2 = 10$ (шаг витка $33.7\text{ \AA}$, угол $36^\circ$).
-   - Фронтальный замок Уотсона–Крика в срезе $\{111\}$ ($sp^2$, $120^\circ$): $\text{G–C}$ замыкает $d=3$ дорожки ($[-,+,+]\leftrightarrow [+,-,-]$, $3E_{\mathrm{HB}}$), $\text{A–T}$ замыкает $d-1=2$ дорожки ($[+,-,0]\leftrightarrow [-,+,-]$, $2E_{\mathrm{HB}}$).
-   - Тыльный край каждой пары в большой бороздке несёт уникальный 4-слотовый штрихкод для чтения без расплетания спирали:
+   - Вертикальный шаг стопки оснований: $h_{\mathrm{stack}} = \lfloor B_V\rfloor\,\kappa\,a_0 \approx 3.368\text{ \AA}$ (рентген B-ДНК: $3.38\text{--}3.40\text{ \AA}$), число пар на виток: $n_{\mathrm{turn}} = |N_{12}|-2$ (шаг витка $33.7\text{ \AA}$, угол $2\pi/(|N_{12}|-2) = 36^\circ$).
+   - Фронтальный замок Уотсона–Крика в срезе $\{111\}$ ($sp^2$, $120^\circ$): $\text{G–C}$ замыкает $d$ дорожек ($[-,+,+]\leftrightarrow [+,-,-]$, $d\,E_{\mathrm{HB}}$), $\text{A–T}$ замыкает $d-1$ дорожку ($[+,-,0]\leftrightarrow [-,+,-]$, $(d-1)\,E_{\mathrm{HB}}$).
+   - Тыльный край каждой пары в большой бороздке несёт уникальный $|K_4|$-слотовый штрихкод для чтения без расплетания спирали:
      $$
      \text{A–T}\to [-,+,-,M],\qquad \text{T–A}\to [M,-,+,-],\qquad \text{G–C}\to [-,-,+,0],\qquad \text{C–G}\to [0,+,-,-].
      $$
 
-3. **Геометрический вывод генетического кода ($64 \to 20 + 1 = 21$) и симметрия Румера:**
-   Алфавит из $4=|K_4|$ оснований при длине слова $d=3$ даёт $4^d = 64 = 2^{\mathrm{frac\_bits}} = 1/z_{\min}$ триплетов и $4^2 = 16 = 2N_{\mathrm{hier}}$ дублетных боксов, которые делятся пополам на $N_{\mathrm{hier}}=8$ нерасщеплённых семейных боксов ($8$ аминокислот остова) и $N_{\mathrm{hier}}=8$ расщеплённых боксов ($|N_{12}|=12$ специализированных аминокислот $+ 1\text{ Stop} = 13 = N_\varphi$), замыкая ёмкость второй сферы кубооктаэдра:
+3. **Геометрический вывод генетического кода и симметрия Румера:**
+   Алфавит из $|K_4|$ оснований при длине слова $d$ даёт $|K_4|^d = 2^{\mathrm{frac\_bits}} = z_{\min}^{-1}$ триплетов и $|K_4|^{d-1} = 2N_{\mathrm{hier}}$ дублетных боксов, которые делятся пополам на $N_{\mathrm{hier}}$ нерасщеплённых семейных боксов ($N_{\mathrm{hier}}$ аминокислот остова) и $N_{\mathrm{hier}}$ расщеплённых боксов ($|N_{12}|$ специализированных аминокислот $+ 1\text{ Stop} = N_\varphi$), замыкая число спиновых пар второй сферы кубооктаэдра:
    $$
-   N_{\mathrm{hier}} + (|N_{12}| + 1) = N_{\mathrm{hier}} + N_\varphi = 8 + (12 + 1) = 20 + 1 = 21 = \frac{N_{\mathrm{shell}}(2)}{2}.
+   N_{\mathrm{hier}} + (|N_{12}| + 1) = N_{\mathrm{hier}} + N_\varphi = \kappa^2 N_{\mathrm{shell}}(2).
+   $$
+
+4. **Синаптический иммуноглобулиновый замок ($\text{CAM\_KEY} \leftrightarrow \text{CAM\_LOCK}$):**
+   В рецепторах клеточной адгезии длина замкнутой дисульфидной петли первого иммуноглобулинового домена $[\text{Cys}_B\ldots\text{Cys}_F]$ у белков-ключей равна водородному делителю кубооктаэдра:
+   $$
+   L_{\mathrm{loop}}(\text{CAM\_KEY}) = d\,\kappa^2 N_{\mathrm{shell}}(2) = 2^{\mathrm{frac\_bits}} - 1,
+   $$
+   а междоменный шаг от $\text{Cys}_F$ до цистеина следующего домена у Ключа (выступ, донорный гребень $\text{Trp–x–Arg}$) и у Замка (впадина, акцепторная канавка $\text{Trp–x–x–x–[Asp/Glu]}$) отклоняется от второй сферы $N_{\mathrm{shell}}(2)$ ровно на $\pm 1$:
+   $$
+   \Delta_{\mathrm{Cys}}(\text{CAM\_KEY}) = N_{\mathrm{shell}}(2) - 1 = \Delta\varphi_{\mathrm{disc}},\qquad
+   \Delta_{\mathrm{Cys}}(\text{CAM\_LOCK}) = N_{\mathrm{shell}}(2) + 1,
+   $$
+   $$
+   \Delta_{\mathrm{Cys}}(\text{CAM\_KEY}) + \Delta_{\mathrm{Cys}}(\text{CAM\_LOCK}) = 2\,N_{\mathrm{shell}}(2).
    $$
