@@ -73,6 +73,7 @@ class MConfig:
     frac_bits: int = PLANCK_CELL.frac_bits
     use_projected_collision: bool = True
     phase_bits: int = PLANCK_CELL.phase_bits
+    scale_k: int = 1
 
     @property
     def is_leapfrog(self) -> bool:
@@ -83,6 +84,31 @@ class MConfig:
         return self.hL / self.hT
 
     @property
+    def e_floor(self) -> float:
+        """Floor energy quantum at supercell scale K: E_floor(K) = E_0 / K [J in SI]."""
+        return SI.E_0 / float(self.scale_k)
+
+    @property
+    def p_floor(self) -> float:
+        """Floor momentum quantum at supercell scale K: p_floor(K) = p_0 / K [kg·m/s in SI]."""
+        return (SI.s_0 / SI.l_P) / float(self.scale_k)
+
+    @property
+    def m_floor(self) -> float:
+        """Floor inertia quantum at supercell scale K: m_floor(K) = m_arg / K [kg in SI]."""
+        return SI.m_arg / float(self.scale_k)
+
+    @property
+    def s_floor(self) -> float:
+        """Floor action quantum: s_floor(K) = p_floor(K) * hL(K) = E_floor(K) * hT(K) == s_0 (K-invariant)."""
+        return self.p_floor * self.hL
+
+    @property
+    def n_pack_supercell(self) -> int:
+        """Exact number of Planck Voronoi cells inside one scale-K supercell: K^3 in Z."""
+        return int(self.scale_k) ** 3
+
+    @property
     def omega(self) -> float:
         """One full vacuum phase cycle per tick: ω = 2π/hT [rad/s in SI]."""
         return SI.omega if self.hT == SI.hT else 2.0 * math.pi / self.hT
@@ -91,6 +117,40 @@ class MConfig:
     def phase_scale(self) -> float:
         """hT·ω = 2π — dimensionless tick phase (λ absorbed into hT)."""
         return self.hT * self.omega
+
+    @classmethod
+    def for_scale_k(cls, scale_k: int = 1, stencil: str = "fcc", **kw: object) -> "MConfig":
+        """Construct MConfig at coherent supercell scale K (hL = K*l_P, hT = K*hT; Z_512[i]^2 step g invariant)."""
+        k_int = max(1, int(scale_k))
+        return cls.for_stencil(
+            stencil,
+            scale_k=k_int,
+            hL=SI.l_P * float(k_int),
+            hT=SI.hT * float(k_int),
+            **kw,
+        )
+
+    @classmethod
+    def for_ladder_floor(cls, floor_name: str = "planck", stencil: str = "fcc", **kw: object) -> "MConfig":
+        """Construct MConfig for a named scale floor of §6.0 (`planck`, `compton`, `bohr`, `lyman`, `ir_hb`)."""
+        alpha = SI.alpha_preferred
+        n_c = int(round(SI.m_P / SI.m_e_CODATA))
+        n_a0 = int(round(n_c / alpha))
+        d_minus_1 = 2
+        n_hb = (1 << PLANCK_CELL.frac_bits) - 1  # 63
+        floors: dict[str, int] = {
+            "planck": 1,
+            "star_1": N12_FCC_CAUSAL_LINKS,
+            "star_2": N12_FCC_CAUSAL_LINKS**2,
+            "star_3": N12_FCC_CAUSAL_LINKS**3,
+            "compton": n_c,
+            "bohr": n_a0,
+            "lyman": int(round(d_minus_1 * n_a0 / alpha)),
+            "ir_hb": int(round(d_minus_1 * n_hb * n_a0 / alpha)),
+        }
+        if floor_name not in floors:
+            raise KeyError(f"Unknown ladder floor {floor_name!r}; expected one of {sorted(floors)}")
+        return cls.for_scale_k(floors[floor_name], stencil=stencil, **kw)
 
     @classmethod
     def for_neighbor_template(cls, neighbor_template: str = "fcc", **kw: object) -> "MConfig":

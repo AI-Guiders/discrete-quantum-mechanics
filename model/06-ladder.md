@@ -54,8 +54,8 @@ $$
 | **7** | $N_{-1}=\alpha N_c\sim 1.7\times 10^{20}$ | $20.2$ | $k{=}{-}1$ | $r_e$; hadron / packing | M·T | hop **закрыто** |
 | **8** | $N_0=N_c\sim 2.3\times 10^{22}$ | $22.4$ | $k{=}0$ | $\bar\lambda_C(e)$; $m_e=\alpha^2 m_H/N_\varphi$ | M→T | масса **закрыто** |
 | **9** | $N_1=N_c/\alpha\sim 3.2\times 10^{24}$ | $24.5$ | $k{=}1$ | Bohr $a_0$; теорема сокращения масштаба $K$, $Z=1\ldots 10$ ($<0.8\%$) | M hop·T | **закрыто** (`05-floor3-chemistry-biology.md`) |
-| **10** | $N_2\sim 4.4\times 10^{26}$ | $26.6$ | $k{=}2$ | Å-орбиталь, $N_{\mathrm{pack}}(K)=K^3\in\mathbb{Z}$, углы $\text{CH}_4/\text{NH}_3/\text{H}_2\text{O}$, $E_{\mathrm{HB}}=\mathrm{BE}_{\mathrm{H}}/63$ | T | **закрыто** (`05-floor3-chemistry-biology.md`) |
-| **11** | $N_3\sim 6\times 10^{28}$ | $28.8$ | $k{=}3$ | B-ДНК, нуклеосома $147\text{ п.н.}$, код Румера $8+(12+1)=21$, спираль $3.6_{13}$, замки $\text{C2H2/Ig}$ | T | **закрыто** (`05-floor3-chemistry-biology.md`) |
+| **10** | $N_2\sim 4.4\times 10^{26}$ | $26.6$ | $k{=}2$ | $\bar\lambda_{\mathrm{Ly}}=(d-1)N_2\ell_P=\frac{2}{\alpha}a_0$ (без $\pi$), $N_{\mathrm{pack}}(K)=K^3\in\mathbb{Z}$, углы $\text{CH}_4/\text{NH}_3/\text{H}_2\text{O}$, $E_{\mathrm{HB}}=\mathrm{BE}_{\mathrm{H}}/63$ | M·T | **закрыто** (`05-floor3-chemistry-biology.md`) |
+| **11** | $N_3\sim 6\times 10^{28}$ | $28.8$ | $k{=}3$ | ИК-шаги $\bar\lambda^{(+1,0,-1)}=\{63,126,441\}N_2\ell_P\sim N_3\ell_P$, B-ДНК, нуклеосома $147\text{ п.н.}$, код Румера $8+(12+1)=21$, замки $\text{C2H2/Ig}$ | M·T | **закрыто** (`05-floor3-chemistry-biology.md`) |
 | **12** | $N_4\sim 8\times 10^{30}$ | $31.0$ | $k{=}4$ | клеточный масштаб / онтогенез | T | **закрыто** (`vol-biology-body.tex`) |
 | **13** | $N_5\sim 10^{33}$ | $33.1$ | $k{=}5$ | мм–см, макроскопический узел наблюдателя $(M, R_{\mathrm{eff}})$ (§4.8) | T | **закрыто** (§4.8) |
 | **14** | $N_6\sim 10^{35}$ | $35.3$ | $k{=}6$ | **метр**, macro-газ Ван-дер-Ваальса / тело (§5.3) | T | **закрыто** (§5.3, NLSE/NS) |

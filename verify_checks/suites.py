@@ -15,6 +15,7 @@ from verify_checks.floor0 import *  # noqa: F403
 from verify_checks.floor1 import *  # noqa: F403
 from verify_checks.geometry import *  # noqa: F403
 from verify_checks.instruments import *  # noqa: F403
+from verify_checks.qm_experiments import *  # noqa: F403
 from verify_checks.sm import *  # noqa: F403
 from verify_checks.units import *  # noqa: F403
 
@@ -247,6 +248,20 @@ VERIFY_SUITES: dict[str, VerifySuiteSpec] = {
             check_instrument_panel_2p1,
             check_instrument_scales_ladder,
             check_instrument_scales_time_first,
+        ),
+        ship=True,
+    ),
+    "qm": VerifySuiteSpec(
+        id="qm",
+        description="Classical QM experiments on the scale-invariant (K-cancelled) M-automaton.",
+        check_names=_names(
+            check_qm_scale_cancellation_k,
+            check_qm_double_slit_which_way,
+            check_qm_aharonov_bohm_holonomy,
+            check_qm_quantum_zeno_heisenberg,
+            check_qm_stern_gerlach_su2_720,
+            check_qm_pauli_hom_antibunching,
+            check_qm_bell_chsh_tsirelson,
         ),
         ship=True,
     ),

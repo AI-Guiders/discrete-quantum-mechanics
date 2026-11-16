@@ -187,7 +187,12 @@ $$
 $$
 R_\infty = \frac{\alpha^{2} m_e c}{4\pi\hbar} = \alpha^{2}\,\frac{r}{\bar\lambda_C},\qquad r=\frac{\Delta\varphi_{\min}}{2\pi}=\frac{1}{4\pi}.
 $$
-Тот же фазовый остаток $r$, что у Швингера; мощность $\alpha^{2}$ уже на hop-лестнице ($\alpha^{2}=N_{re}/N_{a0}$).
+При этом на самом $\mathrm{M}$-слое (до умножения на окружность фазового цикла $2\pi$ в лабораторном $\mathrm{T}$-спектрографе) приведённый шаг фотона Ридберга $\bar\lambda_{\mathrm{Ly}}:=s_0 c/\mathrm{BE}_{\mathrm{H}}$ и три приведённых шага мягких замков жизни $\bar\lambda^{(+1,0,-1)}:=s_0 c/E_{\mathrm{soft}}^{(+1,0,-1)}$ выражаются через $a_0=N_{a0}\ell_P$ и чисто алгебраическую $\alpha_{\mathrm{fs}}$ **вообще без $\pi$**:
+$$
+\frac{\bar\lambda_{\mathrm{Ly}}}{a_0} = \frac{d-1}{\alpha_{\mathrm{fs}}} = \frac{2}{\alpha_{\mathrm{fs}}}\quad\bigl(\bar\lambda_{\mathrm{Ly}} = 2N_2\ell_P\bigr),\qquad
+\frac{\bar\lambda^{(+1,0,-1)}}{a_0} = \bigl\{N_{\mathrm{HB}},\ (d-1)N_{\mathrm{HB}},\ d_{\mathrm{soft}}N_{\mathrm{HB}}\bigr\}\alpha_{\mathrm{fs}}^{-1} = \bigl\{63,\ 126,\ 441\bigr\}\alpha_{\mathrm{fs}}^{-1}.
+$$
+Тот же фазовый остаток $r$, что у Швингера, появляется только при переходе к циклической длине волны $\lambda = 2\pi\bar\lambda = R_\infty^{-1}$; мощность $\alpha^{2}$ уже на hop-лестнице ($\alpha^{2}=N_{re}/N_{a0}$).
 Фактор $2$ в $\alpha=\mu_0 c/(2R_K)$ — SI-ЭМ, **не** $2r$.
 **Разбор:**
 1. Обе двери **читают** α с прибора / метрологии — не выводят сопряжение на M.

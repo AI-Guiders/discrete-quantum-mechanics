@@ -1161,6 +1161,17 @@ class SIAlphaProbeRows:
         alpha_from_hall_legacy = mu0_legacy * c / (2.0 * r_k)
         hop = self.alpha_hop_ladder_row()
         alpha2_hop = float(hop["alpha2_from_Nre_over_Na0"])
+        # π-free M-layer reduced Lyman step λ̄_Ly/a₀ = (d−1)/α_fs = 2/α_fs and 3 IR soft-lock steps {63, 126, 441}/α_fs
+        d_spatial = 3
+        d_soft = 7
+        n_hb = (1 << planck_cell_bit_budget().frac_bits) - 1  # 63
+        alpha_pref = self.alpha_preferred
+        lambar_ly_over_a0 = float(d_spatial - 1) / alpha_pref
+        lambar_ir_windows_over_a0 = (
+            float(n_hb) / alpha_pref,
+            float((d_spatial - 1) * n_hb) / alpha_pref,
+            float(d_soft * n_hb) / alpha_pref,
+        )
         inventory: list[dict[str, str | float | bool]] = [
             {
                 "id": "lab_door_rydberg",
@@ -1247,6 +1258,8 @@ class SIAlphaProbeRows:
             * 1e6,
             "alpha2_hop": alpha2_hop,
             "alpha2_codata": alpha_c * alpha_c,
+            "lambar_Ly_over_a0_pi_free": lambar_ly_over_a0,
+            "lambar_IR_windows_over_a0_pi_free": list(lambar_ir_windows_over_a0),
             "factorization_rydberg_closed": True,
             "hall_is_alpha_source_post2019": False,
             "derivation_closed": False,
@@ -1255,10 +1268,12 @@ class SIAlphaProbeRows:
             "checks_ok": abs(r_inf_from_phase_residue / r_inf_classic - 1.0) < 1e-15
             and abs((r_inf_from_phase_residue - r_inf_codata) / r_inf_codata) < 1e-8
             and abs((alpha_from_hall_legacy - alpha_c) / alpha_c) < 1e-8
-            and abs(alpha2_hop / (alpha_c * alpha_c) - 1.0) < 1e-12,
+            and abs(alpha2_hop / (alpha_c * alpha_c) - 1.0) < 1e-12
+            and abs(lambar_ly_over_a0 * alpha_pref - float(d_spatial - 1)) < 1e-15
+            and [int(round(x * alpha_pref)) for x in lambar_ir_windows_over_a0] == [63, 126, 441],
             "note": (
-                "Rydberg: R_∞=α²·r/λ̄_C (phase residue r). Hall: R_K exact SI-2019; "
-                "legacy α=μ₀c/(2R_K). Neither bypasses coupling OPEN."
+                "Rydberg: R_∞=α²·r/λ̄_C (T circle 2π via r); M-layer π-free λ̄_Ly/a₀=2/α, "
+                "IR windows λ̄^(+1,0,-1)/a₀={63,126,441}/α. Hall: R_K exact SI-2019."
             ),
         }
 
