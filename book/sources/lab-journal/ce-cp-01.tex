@@ -1,0 +1,69 @@
+\label{exp:cecp01}
+
+\subsubsection*{Постановка}
+\textbf{Физический вопрос.}
+Обеспечивает ли модулярная схема «лягушка» в целочисленном кольце $\mathbb{Z}_{512}^4$ (\cref{thm:compute-modular-leapfrog}) абсолютно точную побитовую обратимость ($g^{-1}\circ g = \mathrm{id}$ без дрейфа округления IEEE-754) и побитовый детерминизм между CPU и GPU на трёхмерном торе~\latGCKshort, при одновременной информационной необратимости макропроектора~$\mathcal{B}$ (\cref{thm:compute-p-np-separation})?
+
+\textbf{Что проверяем.}
+\begin{enumerate}[label=\textbf{(\alph*)},leftmargin=*,itemsep=0.25em]
+\item Побитовое совпадение начального состояния $\bigl(Z(0), Z(-\htick)\bigr)$ и восстановленного состояния после $N$ прямых шагов~$g$ и $N$ обратных шагов~$g^{-1}$ (`T\_Reversibility`).
+\item Сохранение ненулевого пола кипения $\min_x \|Z(x)\|_2^2 \ge 2 z_{\min}^2 > 0$ на всём протяжении эволюции (`A5\_PlanckVacuumFloor`).
+\item Тождественное совпадение выходных тензоров $\mathbb{Z}_{512}^4$ при исполнении на CPU и на CUDA GPU.
+\end{enumerate}
+
+\textbf{Рабочая гипотеза.}
+Максимальная побитовая ошибка обращения после $N$ шагов вперед и назад тождественно равна нулю ($\Delta_{\max} \equiv 0$), а расхождение между CPU и CUDA отсутствует ($\Delta_{\mathrm{CPU-GPU}} \equiv 0$).
+
+\textbf{Наблюдаемые.}
+Максимальная ошибка восстановления $\Delta_{\max} = \max_x \|Z_{\mathrm{rec}}(x) - Z_0(x)\|_\infty$, число пустых ячеек $N_{\mathrm{zero}}$, расхождение $\Delta_{\mathrm{CPU-GPU}}$ и мощность ядра вырождения проектора $|\mathcal{B}^{-1}(Y)|$ (табл.~\ref{tab:exp-ce-cp-01}).
+
+\textbf{Критерий согласия с теорией.}
+Строгие целочисленные равенства $\Delta_{\max} \equiv 0$, $N_{\mathrm{zero}} \equiv 0$, $\Delta_{\mathrm{CPU-GPU}} \equiv 0$ (тип~B, нулевой допуск).
+
+\subsubsection*{Теоретическая часть}
+По теореме~\ref{thm:compute-modular-leapfrog} прямое правило $Z(\tau+\htick) = \bigl(Z(\tau-\htick) + 2\lfloor\mathcal{N}(Z(\tau))\rfloor\bigr)\bmod 512$ обращается на кольце вычетов $\mathbb{Z}_{512}^4$ при любой целочисленной функции нелинейного поворота $\lfloor\mathcal{N}(Z)\rfloor$ за $O(1)$ операций на узел.
+Напротив, макропроектор~$\mathcal{B}$ обнуляет подпороговые импульсы $|\Phi_{\mathrm{raw}}| < \Delta\varphi_{\mathrm{disc}} = 41$ и усредняет фазы по окну~$R^3$, порождая вырождение $|\mathcal{B}^{-1}(Y)| \sim 512^{R^3}$ (\cref{thm:compute-p-np-separation}).
+
+\textbf{Проверка размерностей.}
+Все регистры состояния $Z \in \mathbb{Z}_{512}^4$, счётчики тактов $N = \tau/\htick$ и информационная ёмкость в битах безразмерны:
+\[
+  [Z(x)] = 1\quad(\mathbb{Z}_{512}^4),\qquad
+  [\Delta_{\max}] = 1,\qquad
+  \bigl[\log_2 |\mathcal{B}^{-1}(Y)|\bigr] = [\lfloor\caBitBudget\rfloor\,R^3] = 1\ (\mathrm{бит}),
+\]
+а физическая производительность ядра измеряется в $\mathrm{узлах\cdot с^{-1}} = \mathrm{T^{-1}}$.
+
+\subsubsection*{Ход эксперимента}
+Воспроизведение: \texttt{python verify\_principles.py --suite m\_axioms --suite m\_evolution\_open --device cuda}.
+
+\begin{enumerate}[label=\textbf{Шаг \arabic*:},leftmargin=*,itemsep=0.35em]
+\item Инициализировать 3D-тор~\latGCKshort\ в режиме `VACUUM\_BOIL` с посаженным вихрем.
+\item Выполнить $N$ шагов прямого оператора~$g$, переставить слои $(Z(\tau), Z(\tau-\htick))$ и выполнить $N$ шагов обратного оператора~$g^{-1}$.
+\item Сравнить восстановленный тензор с исходным побитово, а также сверить результаты прогона на CPU и CUDA.
+\end{enumerate}
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\caption{Аппаратно-программная верификация обратимого ядра $\mathbb{Z}_{512}[i]^2$ (CE-CP-01)}
+\label{tab:exp-ce-cp-01}
+\begin{tabular}{@{}llrrr@{}}
+\toprule
+Гейт / Наблюдаемое & Теоретическое условие & Результат прогона & Допуск & Статус \\
+\midrule
+Побитовая обратимость $\Delta_{\max}$ ($A_{13}$) & $\max_x \|Z_{\mathrm{rec}} - Z_0\|_\infty = 0$ & $0$ (бит в бит) & $0$ & PASS \\
+Пол кипения $N_{\mathrm{zero}}$ ($A_5$) & $\#\{x : Z(x) = 0\} = 0$ & $0$ пустых ячеек & $0$ & PASS \\
+Устойчивость 3D~\latGCKshort\ (`FCC\_N12`) & отсутствие саморазгона рампа & стационарное кипение & PASS & PASS \\
+Детерминизм $\Delta_{\mathrm{CPU-GPU}}$ & $\|Z_{\mathrm{CPU}} - Z_{\mathrm{CUDA}}\|_\infty = 0$ & $0$ (тождественно) & $0$ & PASS \\
+Сложность шага на узел & $O(1)$ целочисленных операций & $12$ соседей + LUT & $O(1)\in\mathrm{P}$ & PASS \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection*{Анализ, расчёт погрешности и выводы}
+В отличие от схем с плавающей запятой IEEE-754, где ошибка округления $\sim 10^{-16}$ экспоненциально нарастает при обращении хаотической динамики, модулярная схема в $\mathbb{Z}_{512}^4$ имеет нулевую численную погрешность ($\Delta_{\max} = 0$, тип~B).
+
+\textbf{Вывод.}
+Целочисленная архитектура $\mathbb{Z}_{512}[i]^2$ на звезде~\latGCKshort\ побитово обратима, детерминирована между CPU и GPU и реализует все замкнутые физические процессы за линейное время $O(N\cdot T)\in\mathrm{P}$.
+\textbf{Статус записи:} опыт закрыт по табл.~\ref{tab:exp-ce-cp-01}.

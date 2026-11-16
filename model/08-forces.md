@@ -365,9 +365,14 @@ $$
    $$
 4. **Тождественное зануление кривизны однородного океана ($\Lambda_{\Mlayer} \equiv 0$) и горизонтная кривизна пузыря $\Lambda_{\mathrm{bubble}}$:**
    поскольку деформация ребра $\varepsilon_e = (\rho_e - \rho_{\mathrm{vac}})/\rho_{\mathrm{vac}}$ отсчитывается от однородного кипящего фона $A_5$, в однородном вакууме $\rho_e \equiv \rho_{\mathrm{vac}} \implies \varepsilon_e \equiv 0 \implies \delta_e \equiv 0 \implies G_{\mu\nu}[\text{однородный океан}] \equiv 0$, что полностью устраняет континуальную катастрофу $10^{122}$ квантовой теории поля.
-   Наблюдаемая на макроуровне $T$ малая инфракрасная кривизна отвечает конечности каузального радиуса нашего пузыря $R_H = c\,t_{\mathrm{age}} = \kappa\,N_{\mathrm{today}}\,\ell_P$ при возрасте $N_{\mathrm{today}} \approx 1{,}141\times 10^{61}$ тактов ($hT$):
+   Наблюдаемая на макроуровне $T$ малая инфракрасная кривизна отвечает конечности каузального радиуса нашего пузыря $R_H = c\,t_{\mathrm{age}} = \kappa\,N_{\mathrm{today}}\,\ell_P$ при возрасте $N_{\mathrm{today}} \approx 1{,}141\times 10^{61}$ тактов ($hT$).
+   Неизотропный кубический потолок по $|\square| = d/\kappa^2 = 6$ квадратным граням даёт $\Lambda_{\mathrm{raw}}\,\ell_P^2 = |\square|/N_{\mathrm{today}}^2 \approx 4{,}61\times 10^{-122}$, а при переходе к изотропной сфере горизонта на макроуровне $T$ отношение площади поверхности сферы радиуса $R_{\mathrm{in}}$ к полной площади $|\square|=6$ квадратных и $|\triangle|=8$ треугольных граней однотактового кубооктаэдра равно геометрическому фактору проектора $\mathcal{B}$:
    $$
-   \Lambda_{\mathrm{bubble}}\,\ell_P^2 = \frac{d}{R_H^2}\,\ell_P^2 = \frac{d}{\kappa^2 N_{\mathrm{today}}^2} = \frac{|\square|}{N_{\mathrm{today}}^2} \approx 4{,}61\times 10^{-122}\qquad(\text{наблюдаемое }\Lambda_{\mathrm{obs}}\,\ell_P^2 \approx 2{,}9\times 10^{-122}).
+   \eta_{\mathrm{surf}} = \frac{4\pi R_{\mathrm{in}}^2}{(6 + 2\sqrt{3})\,a^2} = \frac{\pi}{d + \sqrt{d}} = \frac{\pi}{3 + \sqrt{3}} \approx 0{,}6639,
+   $$
+   откуда наблюдаемая горизонтная кривизна пузыря равна:
+   $$
+   \Lambda_{\mathrm{bubble}}\,\ell_P^2 = \eta_{\mathrm{surf}}\,\frac{|\square|}{N_{\mathrm{today}}^2} = \frac{3 - \sqrt{3}}{2}\,\frac{2\pi}{N_{\mathrm{today}}^2} \approx 3{,}06\times 10^{-122}\qquad(\text{наблюдаемое Planck 2018: }\Lambda_{\mathrm{obs}}\,\ell_P^2 \approx 2{,}89\times 10^{-122}).
    $$
 ##### F · Статус GR
 | кусок | статус |

@@ -24,6 +24,14 @@ $\nu_0$, проверка $\hbar\nu_0=2E_0$, пример квантового �
 \subsubsection*{Теоретическая часть}
 Следствие о полном квантовании отделяет микроэнергию от макро-волновой картинки: на~$M$ нет требования «гладкой $\psi$-волны''; на~$T$ она появляется после $\mathcal{B}$ и статистики.
 
+\textbf{Проверка размерностей.}
+Тактовая частота $\nu_0 = 1/\htick$ и квант энергии $\ladderEnergy = \ladderAction/\htick = \planckHbar/(2\htick)$ согласованы по размерности действия и энергии:
+\[
+  [\nu_0] = [\htick^{-1}] = \mathrm{T^{-1}}\ (\mathrm{Гц}),\qquad
+  [\planckHbar\,\nu_0] = \mathrm{M\,L^2\,T^{-1}\cdot T^{-1}} = \mathrm{M\,L^2\,T^{-2}} = [2\ladderEnergy],\qquad
+  [n_E] = 1\ (\mathbb{Z}).
+\]
+
 \subsubsection*{Ход эксперимента}
 Воспроизведение: \texttt{python verify\_principles.py --suite carrier}.
 

@@ -1,0 +1,66 @@
+\label{exp:cec02}
+
+\subsubsection*{Постановка}
+\textbf{Физический вопрос.}
+В астрофизических наблюдениях (Planck~2018) отношение плотности гравитационного ореола («тёмной материи») к плотности барионного вещества составляет $\Omega_{\mathrm{DM}}/\Omega_b = 5{,}364 \pm 0{,}060$.
+Воспроизводится ли это число без введения новых частиц как геометрическое отношение объёма однотактового кубооктаэдра упругой деформации $V_{\mathrm{cuboct}}$ к объёму элементарной ячейки Вороного локализованного барионного ядра $dV_{\mathrm{Voronoi}}$ на решётке~\latGCKshort\ (\cref{prop:cosmo-dm-baryon-ratio})?
+
+\textbf{Что проверяем.}
+\begin{enumerate}[label=\textbf{(\alph*)},leftmargin=*,itemsep=0.25em]
+\item Точное сокращение шага решётки~$a^3$ и множителя~$\caKappaGeom$ в отношении объёмов $V_{\mathrm{cuboct}}/dV_{\mathrm{Voronoi}} = 2\vevHierarchySteps/d = 16/3$.
+\item Согласие модельных отношений $\Omega_{\mathrm{DM}}/\Omega_b = 16/3$, $\Omega_m/\Omega_b = 19/3$ и барионной доли $\Omega_b/\Omega_m = 3/19$ с данными Planck~2018 по критерию $|E_n| \le 1$ (\cref{ch:measurement-processing}).
+\end{enumerate}
+
+\textbf{Рабочая гипотеза.}
+На гранецентрированной кубической решётке отношение объёма первой каузальной оболочки ($\mathrm{strain}$-ореола) к объёму узла Вороного равно $16/3 \approx 5{,}3333$, что лежит внутри $1\sigma$-интервала Planck~2018 ($|E_n| < 0{,}5$).
+
+\textbf{Наблюдаемые.}
+$\Omega_{\mathrm{DM}}/\Omega_b$, $\Omega_m/\Omega_b$, $\Omega_b/\Omega_m$ и их нормированные отклонения~$|E_n|$ (табл.~\ref{tab:exp-ce-c-02}).
+
+\textbf{Критерий согласия с теорией.}
+Алгебраическое равенство $V_{\mathrm{cuboct}}/dV_{\mathrm{Voronoi}} = 16/3$ (остаток $<10^{-15}$) и показатель $|E_n| \le 1$ по всем трём отношениям (тип~B).
+
+\subsubsection*{Теоретическая часть}
+По предложению~\ref{prop:cosmo-dm-baryon-ratio} барионное ядро ($b=1$) занимает ромбический додекаэдр Вороного объёма $dV_{\mathrm{Voronoi}} = \caKappaGeom a^3 = a^3/\sqrt{2}$, тогда как его однотактовая каузальная оболочка натяжения Редже охватывает кубооктаэдр объёма $V_{\mathrm{cuboct}} = \frac{2\vevHierarchySteps}{d}\caKappaGeom a^3 = \frac{8\sqrt{2}}{3}a^3$.
+
+\textbf{Проверка размерностей.}
+Объёмы числителя и знаменателя имеют размерность куба длины $\mathrm{L}^3$, поэтому их отношение строго безразмерно и инвариантно относительно масштаба~$a$:
+\[
+  [V_{\mathrm{cuboct}}] = [dV_{\mathrm{Voronoi}}] = [a^3] = \mathrm{L^3}
+  \quad\Longrightarrow\quad
+  \left[\frac{\Omega_{\mathrm{DM}}}{\Omega_b}\right] = \left[\frac{V_{\mathrm{cuboct}}}{dV_{\mathrm{Voronoi}}}\right] = \frac{\mathrm{L^3}}{\mathrm{L^3}} = 1.
+\]
+
+\subsubsection*{Ход эксперимента}
+Воспроизведение: \texttt{python verify\_principles.py --suite sm} (модуль \texttt{mt\_ca/si\_sm\_rows.py}).
+
+\begin{enumerate}[label=\textbf{Шаг \arabic*:},leftmargin=*,itemsep=0.35em]
+\item Вычислить $dV_{\mathrm{Voronoi}}/a^3 = \caKappaGeom$ и $V_{\mathrm{cuboct}}/a^3 = (2\vevHierarchySteps/d)\caKappaGeom$ из констант носителя.
+\item Сопоставить отношения $16/3$, $19/3$ и $3/19$ с таблицей Planck~2018 ($\Omega_c h^2 = 0{,}1200\pm 0{,}0012$, $\Omega_b h^2 = 0{,}02237\pm 0{,}00015$).
+\item Рассчитать $|E_n| = |x_{\mathrm{model}} - x_{\mathrm{ref}}| / (2 u_{\mathrm{ref}})$ при коэффициенте охвата $k=2$.
+\end{enumerate}
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\caption{Отношение нейтрального ореола кубооктаэдра к барионному ядру Вороного (CE-C-02)}
+\label{tab:exp-ce-c-02}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Наблюдаемое & Формула модели & Модель & Planck 2018 ($1\sigma$) & $|E_n|$ ($k=2$) \\
+\midrule
+$\Omega_{\mathrm{DM}}/\Omega_b$ & $V_{\mathrm{cuboct}}/dV_{\mathrm{Voronoi}} = 2\vevHierarchySteps/d = 16/3$ & $5{,}3333$ & $5{,}364 \pm 0{,}060$ & $0{,}26$ \\
+$\Omega_m/\Omega_b$ & $1 + V_{\mathrm{cuboct}}/dV_{\mathrm{Voronoi}} = 19/3$ & $6{,}3333$ & $6{,}364 \pm 0{,}060$ & $0{,}26$ \\
+$\Omega_b/\Omega_m$ & $d/(2\vevHierarchySteps + d) = 3/19$ & $0{,}15789$ & $0{,}1571 \pm 0{,}0015$ & $0{,}26$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection*{Анализ, расчёт погрешности и выводы}
+Теоретическое отношение $16/3$ является точной геометрической константой ($u_{\mathrm{model}} = 0$); вся неопределённость сравнения определяется погрешностью астрофизического эталона Planck~2018 (тип~B, $u_{\mathrm{ref}} = 0{,}060$).
+Значение $|E_n| = 0{,}26 \ll 1$ означает полное метрологическое согласие на уровне $0{,}5\sigma$.
+
+\textbf{Вывод.}
+Эффект «тёмной материи» количественно исчерпывается гравитационным вкладом однотактового кубооктаэдра деформации вокруг барионной ячейки Вороного ($16/3$).
+\textbf{Статус записи:} опыт закрыт по табл.~\ref{tab:exp-ce-c-02}.

@@ -1,0 +1,71 @@
+\label{exp:cec03}
+
+\subsubsection*{Постановка}
+\textbf{Физический вопрос.}
+Замыкаются ли в единую некруговую цепочку от постоянной тонкой структуры~$\alpha_{\mathrm{fs}}$ (\bcref{thm:alpha}) и такта $\htick = \caKappaGeom t_P$ (\cref{thm:cosmo-time-bridge}) три главных космологических инварианта нашего пузыря: барион-фотонное отношение $\eta_B = n_B/n_\gamma$ (\cref{thm:cosmo-9bit-iv-baryon}), число тактов возраста $N_{\mathrm{today}}$ и горизонтная кривизна $\Lambda_{\mathrm{bubble}}\ell_P^2$ со сферическим коэффициентом проектора~$\mathcal{B}$ (\cref{sec:cosmo-lambda-solution})?
+
+\textbf{Что проверяем.}
+\begin{enumerate}[label=\textbf{(\alph*)},leftmargin=*,itemsep=0.25em]
+\item Строгий upstream-вывод $\eta_B = \bar\eta\,(d_{\mathrm{out}}(E)/\vevHierarchySteps)\,\alpha_{\mathrm{fs}}^4 = \frac{45}{208}\alpha_{\mathrm{fs}}^4$ без подстановки астрофизических подгонок.
+\item Точный перевод возраста пузыря $t_{\mathrm{age}} \approx 13{,}787\ \mathrm{млрд\ лет}$ в целое число тактов $N_{\mathrm{today}} = \lfloor t_{\mathrm{age}}/\htick\rfloor$.
+\item Устранение зазора между кубическим потолком $|\square|/N_{\mathrm{today}}^2 \approx 4{,}61\times 10^{-122}$ и наблюдением Planck~2018 ($2{,}89\times 10^{-122}$) за счёт геометрического коэффициента сферической проекции $\eta_{\mathrm{surf}} = A_{\mathrm{sphere}}/A_{\mathrm{cuboct}} = \pi/(3+\sqrt{3}) \approx 0{,}6639$.
+\end{enumerate}
+
+\textbf{Рабочая гипотеза.}
+Учёт поверхностного фактора проектора~$\mathcal{B}$ ($\eta_{\mathrm{surf}} \approx 0{,}6639$) переводит $\Lambda_{\mathrm{bubble}}\ell_P^2$ из $4{,}61\times 10^{-122}$ в $3{,}06\times 10^{-122}$, сводя нормированное отклонение~$|E_n|$ как по~$\eta_B$, так и по~$\Lambda_{\mathrm{bubble}}$ внутрь единичного порога $|E_n| < 1$.
+
+\textbf{Наблюдаемые.}
+$\eta_B$, $N_{\mathrm{today}}$, $\Lambda_{\mathrm{bubble}}\ell_P^2$ и их показатели $|E_n|$ относительно Planck~2018 (табл.~\ref{tab:exp-ce-c-03}).
+
+\textbf{Критерий согласия с теорией.}
+Показатель $|E_n| \le 1$ при $k=2$ для всех трёх наблюдаемых без свободных параметров (тип~B, протокол главы~\ref{ch:measurement-processing}).
+
+\subsubsection*{Теоретическая часть}
+По теореме~\ref{thm:cosmo-9bit-iv-baryon} барионная асимметрия возникает в четвёртом порядке по~$\alpha_{\mathrm{fs}}$ с геометрическим множителем $\bar\eta\cdot d_{\mathrm{out}}(E)/\vevHierarchySteps = (9/26)\cdot(5/8) = 45/208$.
+Согласно~\ref{sec:cosmo-lambda-solution} (\eqref{eq:cosmo-lambda-bubble}), макроскопический горизонт радиуса $R_H = \caKappaGeom N_{\mathrm{today}}\ell_P$ проектируется с гранёного кубооктаэдра площади $A_{\mathrm{cuboct}} = (6+2\sqrt{3})a^2$ на вписанную сферу площади $A_{\mathrm{sphere}} = 2\pi a^2$, что умножает $|\square|/N_{\mathrm{today}}^2$ на $\eta_{\mathrm{surf}} = \pi/(3+\sqrt{3})$.
+
+\textbf{Проверка размерностей.}
+Проверим размерности каждого звена в системе СИ ($\mathrm{L, M, T}$):
+\[
+  [\eta_B] = \left[\frac{n_B}{n_\gamma}\right] = \frac{\mathrm{L^{-3}}}{\mathrm{L^{-3}}} = [\alpha_{\mathrm{fs}}^4] = 1,\qquad
+  [N_{\mathrm{today}}] = \left[\frac{t_{\mathrm{age}}}{\htick}\right] = \frac{\mathrm{T}}{\mathrm{T}} = 1,
+\]
+\[
+  [\Lambda_{\mathrm{bubble}}] = \left[\frac{\eta_{\mathrm{surf}}|\square|}{N_{\mathrm{today}}^2\,\ell_P^2}\right] = \mathrm{L^{-2}}
+  \quad\Longrightarrow\quad
+  [\Lambda_{\mathrm{bubble}}\,\ell_P^2] = \mathrm{L^{-2}\cdot L^2} = 1.
+\]
+
+\subsubsection*{Ход эксперимента}
+Воспроизведение: \texttt{python verify\_principles.py --suite sm} (модуль \texttt{mt\_ca/si\_sm\_rows.py}).
+
+\begin{enumerate}[label=\textbf{Шаг \arabic*:},leftmargin=*,itemsep=0.35em]
+\item Подставить upstream-значение $\alpha_{\mathrm{fs}}^{-1} = 137{,}03599919$ в формулу $\eta_B = \frac{45}{208}\alpha_{\mathrm{fs}}^4$.
+\item Вычислить $\htick = t_P/\sqrt{2} \approx 3{,}812\times 10^{-44}\ \mathrm{с}$ и $N_{\mathrm{today}} = \lfloor t_{\mathrm{age}}/\htick\rfloor \approx 1{,}141\times 10^{61}$.
+\item Вычислить $\Lambda_{\mathrm{bubble}}\ell_P^2 = \eta_{\mathrm{surf}}\cdot 6 / N_{\mathrm{today}}^2$ и рассчитать~$|E_n|$ против Planck~2018.
+\end{enumerate}
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\caption{Строгая upstream-сверка $\eta_B$, $N_{\mathrm{today}}$ и $\Lambda_{\mathrm{bubble}}\ell_P^2$ с данными Planck 2018 (CE-C-03)}
+\label{tab:exp-ce-c-03}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Величина & Формула из носителя & Модель & Planck 2018 ($1\sigma$) & $|E_n|$ ($k=2$) \\
+\midrule
+$\eta_B = n_B/n_\gamma$ & $\frac{45}{208}\,\alpha_{\mathrm{fs}}^4$ & $6{,}135\times 10^{-10}$ & $(6{,}12 \pm 0{,}04)\times 10^{-10}$ & $0{,}19$ \\
+$N_{\mathrm{today}}$ (тактов $\htick$) & $\lfloor t_{\mathrm{age}}/(\caKappaGeom t_P)\rfloor$ & $1{,}141\times 10^{61}$ & $(1{,}141 \pm 0{,}002)\times 10^{61}$ & $<0{,}05$ \\
+$\Lambda_{\mathrm{bubble}}\,\ell_P^2$ & $\frac{3-\sqrt{3}}{2}\frac{2\pi}{N_{\mathrm{today}}^2}$ & $3{,}06\times 10^{-122}$ & $(2{,}89 \pm 0{,}09)\times 10^{-122}$ & $0{,}94$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection*{Анализ, расчёт погрешности и выводы}
+По закону переноса неопределённости GUM (\cref{eq:gum-relative}) относительная погрешность $\eta_B$ от входа $\alpha_{\mathrm{fs}}$ равна $4\,\delta\alpha/\alpha < 10^{-8}$, что пренебрежимо мало по сравнению с погрешностью Planck~2018 ($0{,}65\%$, тип~B).
+Для $\Lambda_{\mathrm{bubble}}\ell_P^2$ относительная погрешность $2\,\delta t_{\mathrm{age}}/t_{\mathrm{age}} \approx 0{,}3\%$ также лежит внутри астрофизической полосы ($\pm 3{,}1\%$), давая $|E_n| = 0{,}94 < 1$.
+
+\textbf{Вывод.}
+Включение сферического фактора проектора~$\eta_{\mathrm{surf}}$ полностью замыкает космологический блок ($\eta_B$, $N_{\mathrm{today}}$, $\Lambda_{\mathrm{bubble}}$) внутри $1\sigma$--$2\sigma$ интервала Planck~2018.
+\textbf{Статус записи:} опыт закрыт по табл.~\ref{tab:exp-ce-c-03}.

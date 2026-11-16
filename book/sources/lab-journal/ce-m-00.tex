@@ -29,6 +29,15 @@ SI-мост \emph{определяет} $\htick=\caKappaGeom t_P$ и $\speedC=\c
 
 Опыт чисто алгебраический: поле $z$ на решётке не эволюционирует; проверяется согласованность определений перед любыми гидро- и SM-сверками.
 
+\textbf{Проверка размерностей.}
+В базовых размерностях системы СИ ($\mathrm{L, M, T}$):
+\[
+  [\caKappaGeom] = \left[\frac{R_{\mathrm{in}}}{R_{\mathrm{out}}}\right] = \frac{\mathrm{L}}{\mathrm{L}} = 1,\qquad
+  \left[\frac{\htick}{t_P}\right] = \frac{\mathrm{T}}{\mathrm{T}} = 1,\qquad
+  \left[\frac{\caSignalSpeed}{\speedC}\right] = \frac{\mathrm{L\,T^{-1}}}{\mathrm{L\,T^{-1}}} = 1,\qquad
+  \left[\frac{\ladderEnergy}{E_P}\right] = \frac{\mathrm{M\,L^2\,T^{-2}}}{\mathrm{M\,L^2\,T^{-2}}} = 1.
+\]
+
 \subsubsection*{Ход эксперимента}
 Модуль констант \texttt{mt\_ca.si\_constants.SI}; воспроизведение:
 \texttt{python verify\_principles.py --suite carrier}.

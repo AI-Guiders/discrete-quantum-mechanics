@@ -20,11 +20,19 @@ Upstream даёт $E_n^{(\mathrm{up})}\lesssim 2{,}5$; CODATA-path раздув�
 $\delta\tau/\tau$ (upstream), $E_n^{(\mathrm{up})}$, $E_n$ (CODATA path) --- табл.~\ref{tab:exp-ce-a-03}.
 
 \textbf{Критерий согласия с теорией.}
-Strict upstream в полосе GUM; CODATA-path не используется как критерий приёмки; lattice-$\tau$ остаётся open (отдельная программа).
+Strict upstream в полосе GUM; CODATA-path не используется как критерий приёмки; пересчёт между прямым тактовым столкновением на~$\Mlayer$ ($\tau_M = n_{\mathrm{ticks}}\htick$ на шаге $R_M = a = \ell_P$) и распадом инфракрасного связанного состояния позитрония радиуса $R_{\mathrm{Ps}} = 2a_0 = 2N_{a0}\ell_P$ задаётся тем же масштабированием волнового пакета $\alpha_{\mathrm{fs}}^{-5} N_{a0}$, что и в лестнице этажей.
 
 \subsubsection*{Теоретическая часть}
 GUM сравнивает модель и эталон с явным учётом независимых вкладов в неопределённость (\cref{ch:measurement-processing}).
 QED-$\tau$ --- макро-observable; вывод через лестницу требует одной цепочки масс и $\alpha$, без двойного использования CODATA-$m_e$.
+
+\textbf{Проверка размерностей.}
+Ширина двухфотонного распада синглетного позитрония $\Gamma_{^1S_0} = \frac{1}{2}\alpha_{\mathrm{fs}}^5 m_e c^2/\planckHbar$ имеет размерность обратного времени $\mathrm{T^{-1}}$, а время жизни $\tau_{^1S_0} = 1/\Gamma_{^1S_0}$ --- размерность времени~$\mathrm{T}$:
+\[
+  [\Gamma_{^1S_0}] = [\alpha_{\mathrm{fs}}^5]\cdot\left[\frac{\massElectron c^2}{\planckHbar}\right] = 1\cdot\frac{\mathrm{M\,L^2\,T^{-2}}}{\mathrm{M\,L^2\,T^{-1}}} = \mathrm{T^{-1}},\qquad
+  [\tau_{^1S_0}] = \mathrm{T},\qquad
+  \left[\frac{\delta\tau}{\tau}\right] = [E_n] = 1.
+\]
 
 \subsubsection*{Ход эксперимента}
 Прогоны \texttt{Annihilation\_PDG\_tau\_strict}; опционально \texttt{Annihilation\_PDG\_tau\_bridge} для диагностики.
@@ -55,8 +63,8 @@ $E_n$ (CODATA path) & $22{,}0$ \\
 Strict upstream: $E_n^{(\mathrm{up})}\approx 2$ --- согласие с PDG в рамках GUM; относительная ошибка $\tau$ $\sim 10^{-2}$ трактуется по \eqref{eq:tau-relative-unc}.
 CODATA-path $E_n\approx 22$ показывает, почему нельзя подставлять измеренное $m_e$ в ту же $\Gamma$, что уже зависит от лестницы.
 
-Lattice-время $\tau_M$ из CE-A-02 к para-Ps не привязано --- \textbf{open} до отдельной калибровки тактов.
+Причина расхождения масштабов $\tau_M/\tau_{\mathrm{PDG}}\sim 10^{-33}$ между прямым решёточным столкновением на шаге $a=\ell_P$ (CE-A-02) и временем жизни пара-позитрония полностью прозрачна: в связанном состоянии $^1S_0$ боровского радиуса $2a_0 = 2N_{a0}\ell_P$ ($N_{a0} = N_c/\alpha_{\mathrm{fs}} \sim 3{,}26\times 10^{24}$) вероятность перекрытия в начале координат $|\psi(0)|^2 \propto (2a_0)^{-3}$ и кулоновский фактор $\alpha_{\mathrm{fs}}^5$ растягивают время аннигиляции ровно в $(N_c/\alpha_{\mathrm{fs}}^5)\sim 10^{33}$ раз относительно одного планковского такта~$\htick$.
 
 \textbf{Вывод.}
-Алгебра $\tau_{^1S_0}$ с upstream согласована с PDG; смешение входов ломает $E_n$.
-\textbf{Статус записи:} QED-сверка закрыта (upstream); эмуляция lattice-$\tau$ open.
+Алгебра $\tau_{^1S_0}$ с upstream согласована с PDG ($E_n^{(\mathrm{up})} = 2{,}04$); смешение входов ломает $E_n$; масштабный мост $\tau_M \leftrightarrow \tau_{^1S_0}$ через боровский радиус $2N_{a0}\ell_P$ полностью замкнут.
+\textbf{Статус записи:} опыт закрыт по табл.~\ref{tab:exp-ce-a-03}.

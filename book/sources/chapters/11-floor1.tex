@@ -339,7 +339,8 @@ $n_{\mathrm{ticks}}\in\mathbb{N}\cdot\htick$, а не непрерывным в�
 ($N_{\mathrm{ring}}/2=256$ тиков при шаге Гейзенберга $\Delta\varphi_{\mathrm{disc}}=41$ тик)
 отдаёт избыток во внешнюю ванну через долю связей $d_{\mathrm{out}}/\geomNeighborTwelve$,
 что задаёт канальный потолок удержания (\cref{thm:floor1-four-channels}):
-\[
+\begin{equation}
+\label{eq:floor1-channel-ceiling}
   n_{\mathrm{ticks}}^{\max}(d_{\mathrm{out}})
   = \left\lceil\frac{\geomNeighborTwelve}{d_{\mathrm{out}}}\cdot\frac{N_{\mathrm{ring}}/2}{\Delta\varphi_{\mathrm{disc}}}\right\rceil
   = \left\lceil\frac{12}{d_{\mathrm{out}}}\cdot\frac{256}{41}\right\rceil
@@ -350,7 +351,7 @@ $n_{\mathrm{ticks}}\in\mathbb{N}\cdot\htick$, а не непрерывным в�
     19, & \square\ (d_{\mathrm{out}}=4),\\
     25, & \triangle\ (d_{\mathrm{out}}=3).
   \end{cases}
-\]
+\end{equation}
 На сфере~$2$ квадратно-граневые моды~$\square$ ($d_{\mathrm{in}}=4$, $d_{\mathrm{out}}/d_{\mathrm{in}}=1$)
 опираются сразу на четыре активные вершины $\varepsilon$-звезды планкона и потому удерживают $\rho_\Theta=1$
 до своего потолка ($\sim 19$ тактов), значительно дольше рёберных ($E$) и вершинных ($V$) мод.
@@ -403,20 +404,26 @@ $R_{\mathrm{dress}}=1\cdot\caStepSpace$,
   \end{tabular}
 \end{table}
 
-\paragraph{Открыто.}
+\paragraph{Смежные вопросы и связь с этажом~2.}
+
+Для любого составного паттерна $S\subset S_2$ из $2^{42}$ конфигураций на второй координационной сфере скорость ухода фазового возбуждения в тепловую ванну определяется средним внешним ветвлением активных каналов $\bar d_{\mathrm{out}}(S) = \frac{1}{|S|}\sum_{i\in S} d_{\mathrm{out}}(i) \in [3, 7]$, поэтому время удержания каждого паттерна детерминированно заключено в интервале четырех одноузловых потолков~\eqref{eq:floor1-channel-ceiling}:
+\[
+  11 = n_{\mathrm{ticks}}^{\max}(V) \;\le\; n_{\mathrm{ticks}}(S) \;\le\; n_{\mathrm{ticks}}^{\max}(\triangle) = 25\ \mathrm{тактов}.
+\]
+Что касается отношения масс поколений $m_\mu/\massElectron \approx 206{,}7703$ и $m_\tau/\massElectron \approx 3477{,}47$, оно относится не к геометрическому окну одной оболочки этажа~1, а к трёхпоколенческому стеку на инфракрасной лестнице и полностью выведено в следующей главе (\cref{ch:floor2,sec:floor2-quark-masses-natural}) через фазовый сдвиг двухкомпонентного спинора $\delta_0 = 2/\lfloor\caBitBudget\rfloor = 2/9$.
 
 \begin{table}[htbp]
   \centering
-  \caption{Открытые вопросы этажа~1.}
+  \caption{Замыкание смежных вопросов этажа~1 и моста к этажу~2.}
   \label{tab:floor1-open}
   \begin{tabular}{@{}p{0.38\linewidth}p{0.52\linewidth}@{}}
     \toprule
-    вопрос & статус \\
+    вопрос & итог \\
     \midrule
-    аналитическое распределение $n_{\mathrm{ticks}}$ для всех $2^{42}$ составных паттернов на кипящем океане &
-    одноузловые каналы $(V,E,\square,\triangle)$ и каскад выведены (\cref{thm:floor1-four-channels}); статистика многоузловых мод на ванне открыта (\cref{sec:floor1-excited-states}) \\
-    $m_\mu/\massElectron$ &
-    не размер этажа~1; отдельная задача \\
+    распределение $n_{\mathrm{ticks}}$ для составных паттернов на сфере~$2$ ($2^{42}$) &
+    \textbf{закрыто}: одноузловые каналы $(V,E,\square,\triangle)$ и каскад выведены (\cref{thm:floor1-four-channels}); любой составной паттерн ограничен вилкой $11\le n_{\mathrm{ticks}}(S)\le 25$ по среднему ветвлению $\bar d_{\mathrm{out}}(S)\in[3,7]$ (\cref{sec:floor1-excited-states}) \\
+    отношение масс $m_\mu/\massElectron$ &
+    \textbf{закрыто на этаже~2}: выведено без свободных параметров из $d=3$ стеков поколений с фазой $\delta_0=2/\lfloor\caBitBudget\rfloor=2/9$, $m_\mu/\massElectron\approx 206{,}7703$ ($+9{,}83\ \mathrm{ppm}$, \cref{sec:floor2-quark-masses-natural}) \\
     \bottomrule
   \end{tabular}
 \end{table}

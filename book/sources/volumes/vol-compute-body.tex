@@ -226,6 +226,15 @@ $Z(x,\tau)$ & $(U_1, V_1, U_2, V_2) \in \mathbb{Z}_{512}^4$ & $4\times 9 = 36\ \
 \chapter{Критические тесты и верификация вычислительной архитектуры}
 \label{ch:compute-critical-experiments}
 
+\begin{labseries}{Серия CE-CP: побитовая обратимость в $\mathbb{Z}_{512}^4$ и детерминизм CPU/CUDA}{sec:lab-series-ce-cp}
+\begin{labrecord}{CE-CP-01 · Модулярный шаг «лягушка», сохранение пола $A_5$ и разделение $\mathrm{P}$/$\mathcal{B}$}{lab:ce-cp-01}
+\input{lab-journal/ce-cp-01.tex}
+\end{labrecord}
+\end{labseries}
+
+\section{Сводка аппаратно-программных гейтов}
+\label{sec:compute-gates-summary}
+
 Вычислительная реализация ядра~\latGCKshort\ считается корректной тогда и только тогда, когда она проходит четыре автоматических аппаратно-программных гейта (`verify\_principles.py`):
 \begin{enumerate}[leftmargin=*]
 \item \textbf{Гейт побитовой обратимости (`T\_Reversibility` / $A_{13}$):}

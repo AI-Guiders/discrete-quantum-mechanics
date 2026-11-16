@@ -41,6 +41,15 @@ Madelung rel на длинных волнах стабилизируется н�
 Опыт не ставит под сомнение сам закон~$g$ на~$M$: он проверяет \emph{цепочку readout} $z\mapsto\Phi=\mathcal{B}z$ и последующий анализ на~$T$
 на синтетических гладких конфигурациях, где аналитические оценки T-CR/T-CL применимы напрямую.
 
+\textbf{Проверка размерностей.}
+Число проходов фильтра~$R$, относительное уклонение профиля и отношение шага сетки к длине волны безразмерны:
+\[
+  [R] = 1,\qquad
+  \left[\frac{\sigma_R\,\ell_P}{\lambda}\right] = \frac{\mathrm{L}}{\mathrm{L}} = 1,\qquad
+  \left[\chi = \left(\frac{\ell_P}{\lambda}\right)^2\right] = 1,\qquad
+  [\omega_{\mathrm{tick}}] = [\omega\,\htick] = \mathrm{T^{-1}\cdot T} = 1.
+\]
+
 \subsubsection*{Ход эксперимента}
 Численная реализация цепочки readout и гидропредела в репозитории; воспроизведение:
 \texttt{python verify\_principles.py --suite t\_macro --device cpu}.

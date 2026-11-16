@@ -25,6 +25,14 @@ $|\delta m/m|$ в полосе, зафиксированной для upstream-�
 Глава~\cref{ch:alpha} связывает $\alpha_{\mathrm{pref}}$ с фазой насыщения и дискретным счётом степеней свободы; глава~\cref{ch:si-sm} задаёт массы через лестницу и $v$.
 Массы на~$T$ --- \emph{косвенные}: они зависят от выбранных upstairs-якорей (\cref{sec:multiple-observables}); сравнение с PDG всегда сопровождается явным перечнем зависимостей.
 
+\textbf{Проверка размерностей.}
+Константа тонкой структуры и относительные невязки масс безразмерны, а вакуумное среднее~$v$ имеет размерность энергии:
+\[
+  [\alpha_{\mathrm{pref}}^{-1}] = \left[\frac{\hat M}{\caKappaGeom}\right] = 1,\qquad
+  [v] = [\alpha_{\mathrm{fs}}^{\vevHierarchySteps}\ladderEnergy] = \mathrm{M\,L^2\,T^{-2}}\ (\mathrm{ГэВ}),\qquad
+  \left[\frac{\delta m}{m}\right] = \frac{\mathrm{M}}{\mathrm{M}} = 1.
+\]
+
 \subsubsection*{Ход эксперимента}
 Воспроизведение: \texttt{python verify\_principles.py --suite alpha --device cpu}.
 

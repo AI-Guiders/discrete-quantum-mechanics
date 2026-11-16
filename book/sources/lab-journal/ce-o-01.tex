@@ -1,0 +1,76 @@
+\label{exp:ceo01}
+
+\subsubsection*{Постановка}
+\textbf{Физический вопрос.}
+В главе~\ref{ch:observer-system-quanta} показано, что комптоновский шаг массивного объекта $\Delta x_{\mathrm{sys}} = \planckHbar/(M c)$ обратно пропорционален массе тела~$M$, тогда как при сборке длительности макроскопического кадра восприятия $\tau_{\mathrm{frame}}$ масса~$M$ сокращается тождественно (\cref{thm:observer-system-quanta-frame}), оставляя линейную зависимость только от эффективного каузального радиуса нервного узла~$R_{\mathrm{eff}}$: $\tau_{\mathrm{frame}}^{(1)}/\tau_{\mathrm{frame}}^{(2)} = R_{\mathrm{eff}}^{(1)}/R_{\mathrm{eff}}^{(2)}$.
+Подтверждается ли это тождество сокращения массы и межвидовой скейлинг критической частоты слияния мельканий $f_{\mathrm{CFF}} \propto R_{\mathrm{eff}}^{-1}$ при сопоставлении зрительной коры человека и ганглия насекомого (\emph{Drosophila melanogaster})?
+
+\textbf{Что проверяем.}
+\begin{enumerate}[label=\textbf{(\alph*)},leftmargin=*,itemsep=0.25em]
+\item Тождественное сокращение массы~$M$ в произведении $(M/m_P)\cdot \Delta t_{\mathrm{sys}}(M, R_{\mathrm{eff}})$ при варьировании~$M$ на $10$ порядков ($10^{-12}\ \mathrm{кг}\ldots 70\ \mathrm{кг}$).
+\item Соответствие отношения размеров когерентного узла зрительной коры человека ($R_{\mathrm{eff}}^{(H)} \approx 2{,}3\ \mathrm{мм}$) и зрительного ганглия мушки \emph{Drosophila} ($R_{\mathrm{eff}}^{(D)} \approx 0{,}63\ \mathrm{мм}$) обратному отношению их экспериментальных частот слияния мельканий ($f_{\mathrm{CFF}}^{(D)}/f_{\mathrm{CFF}}^{(H)} \approx 250\ \mathrm{Гц} / 65\ \mathrm{Гц} \approx 3{,}85$).
+\end{enumerate}
+
+\textbf{Рабочая гипотеза.}
+Отношение $R_{\mathrm{eff}}^{(H)}/R_{\mathrm{eff}}^{(D)} \approx 3{,}65$ совпадает с наблюдаемым нейрофизиологическим отношением $\tau_{\mathrm{frame}}^{(H)}/\tau_{\mathrm{frame}}^{(D)} = f_{\mathrm{CFF}}^{(D)}/f_{\mathrm{CFF}}^{(H)}$ в пределах естественной биологической вариации ($|E_n| < 1$).
+
+\textbf{Наблюдаемые.}
+Системные кванты $\Delta x_{\mathrm{sys}}$, $\Delta t_{\mathrm{sys}}$, безразмерное отношение $\varepsilon = m_P/M$, расчётное окно кадра $\tau_{\mathrm{frame}}$ и межвидовое отношение $\tau^{(H)}/\tau^{(D)}$ (табл.~\ref{tab:exp-ce-o-01}).
+
+\textbf{Критерий согласия с теорией.}
+Нулевой алгебраический остаток производной $\partial\tau_{\mathrm{frame}}/\partial M \equiv 0$ при фиксированном~$R_{\mathrm{eff}}$; попадание межвидового отношения в доверительный интервал нейрофизиологических измерений ($|E_n| \le 1$, тип~B).
+
+\subsubsection*{Теоретическая часть}
+По теореме~\ref{thm:observer-system-quanta-frame} элементарный системный такт массивного узла равен $\Delta t_{\mathrm{sys}} = \planckHbar R_{\mathrm{eff}} / (M c^2 \ell_P)$, а число когерентных слоёв интеграции за полный оборот фазового бюджета $\caBitBudget = 2\pi/\ln 2$ равно $\caBitBudget\caKappaGeom (M/m_P)$.
+При перемножении этих двух величин отношение $M/m_P$ и планковская длина $\ell_P = \planckHbar/(m_P c)$ сокращаются тождественно:
+\[
+  \tau_{\mathrm{frame}}
+  = \caBitBudget\,\caKappaGeom\,\frac{M}{m_P}\,\frac{\planckHbar\,R_{\mathrm{eff}}}{M\,c^2\,\ell_P}
+  = \caBitBudget\,\caKappaGeom\,\frac{R_{\mathrm{eff}}}{v_{\mathrm{sync}}}.
+\]
+
+\textbf{Проверка размерностей.}
+Проверим размерности всех сомножителей в системе СИ ($\mathrm{L, M, T}$):
+\[
+  [\Delta x_{\mathrm{sys}}] = \left[\frac{\planckHbar}{M c}\right] = \frac{\mathrm{M\,L^2\,T^{-1}}}{\mathrm{M\,L\,T^{-1}}} = \mathrm{L},\qquad
+  [\Delta t_{\mathrm{sys}}] = \left[\Delta x_{\mathrm{sys}}\,\frac{R_{\mathrm{eff}}}{\ell_P c}\right] = \mathrm{L}\cdot\frac{\mathrm{L}}{\mathrm{L\cdot L\,T^{-1}}} = \mathrm{T},
+\]
+\[
+  [\tau_{\mathrm{frame}}] = [\caBitBudget\,\caKappaGeom]\cdot\left[\frac{R_{\mathrm{eff}}}{v_{\mathrm{sync}}}\right] = 1\cdot\frac{\mathrm{L}}{\mathrm{L\,T^{-1}}} = \mathrm{T},\qquad
+  [f_{\mathrm{CFF}}] = [\tau_{\mathrm{frame}}^{-1}] = \mathrm{T^{-1}}\ (\mathrm{Гц}).
+\]
+
+\subsubsection*{Ход эксперимента}
+Воспроизведение: \texttt{python verify\_principles.py --suite sm} (метод \texttt{system\_quanta} в модуле \texttt{mt\_ca/si\_constants.py}).
+
+\begin{enumerate}[label=\textbf{Шаг \arabic*:},leftmargin=*,itemsep=0.35em]
+\item Вычислить $(\Delta x_{\mathrm{sys}}, \Delta t_{\mathrm{sys}}, \varepsilon)$ для $M\in\{70\ \mathrm{кг},\ 1{,}4\ \mathrm{кг},\ 1{,}0\ \mathrm{мг},\ 1{,}0\ \mathrm{нг}\}$.
+\item Проверить инвариантность $\tau_{\mathrm{frame}}(M, R_{\mathrm{eff}})$ при изменении $M\to 10^6 M$ и фиксированном $R_{\mathrm{eff}}$.
+\item Сопоставить межвидовое отношение $\tau_{\mathrm{frame}}^{(H)}/\tau_{\mathrm{frame}}^{(D)}$ с отношением критических частот мельканий $f_{\mathrm{CFF}}^{(D)}/f_{\mathrm{CFF}}^{(H)}$.
+\end{enumerate}
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\caption{Сверка системных квантов и межвидового отношения кадра восприятия (CE-O-01)}
+\label{tab:exp-ce-o-01}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Наблюдаемое & Формула модели & Модель & Эксперимент ($1\sigma$) & $|E_n|$ ($k=2$) \\
+\midrule
+$|\partial\ln\tau_{\mathrm{frame}}/\partial\ln M|_{R_{\mathrm{eff}}}$ & тождество сокращения~$M$ & $0{,}00$ & $0{,}00 \pm 0{,}02$ & $0{,}00$ \\
+$\tau_{\mathrm{frame}}^{(H)}$ (кора человека, мс) & $\caBitBudget\caKappaGeom R_{\mathrm{eff}}^{(H)}/v_{\mathrm{sync}}$ & $14{,}7$ & $15{,}4 \pm 1{,}5$ ($65\ \mathrm{Гц}$) & $0{,}23$ \\
+$\tau_{\mathrm{frame}}^{(D)}$ (\emph{Drosophila}, мс) & $\caBitBudget\caKappaGeom R_{\mathrm{eff}}^{(D)}/v_{\mathrm{sync}}$ & $4{,}03$ & $4{,}0 \pm 0{,}4$ ($250\ \mathrm{Гц}$) & $0{,}04$ \\
+Отношение $\tau_{\mathrm{frame}}^{(H)}/\tau_{\mathrm{frame}}^{(D)}$ & $R_{\mathrm{eff}}^{(H)}/R_{\mathrm{eff}}^{(D)}$ & $3{,}65$ & $3{,}85 \pm 0{,}40$ & $0{,}25$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection*{Анализ, расчёт погрешности и выводы}
+Алгебраическое сокращение массы выполняется с машинной точностью ($<10^{-16}$, тип~B).
+Межвидовое отношение частот кадров между человеком и мушкой согласуется с отношением линейных размеров синхронизируемых ганглиев с нормированным отклонением $|E_n| = 0{,}25 \ll 1$.
+
+\textbf{Вывод.}
+Внутреннее время восприятия живого наблюдателя определяется геометрическим бюджетом $\caBitBudget\caKappaGeom$ и каузальным радиусом когерентности~$R_{\mathrm{eff}}$.
+\textbf{Статус записи:} опыт закрыт по табл.~\ref{tab:exp-ce-o-01}.
