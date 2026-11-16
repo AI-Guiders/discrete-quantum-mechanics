@@ -477,6 +477,30 @@ $Z$ & Элемент & Канал & $Z_{\mathrm{eff}}^{\mathrm{pred}}$ & $IE_1^{
 \end{enumerate}
 \end{theorem}
 
+\begin{corollary}[Астрофизические биосигнатуры трёх окон и реперные частоты SETI]
+\label{cor:chem-biosignatures-seti}
+Из \cref{cor:chem-diophantine-backbones-planets,thm:chem-three-thermal-windows} следуют три наблюдательных критерия для спектроскопии экзопланет и программ поиска внеземных сигналов (SETI):
+\begin{enumerate}[leftmargin=*,noitemsep]
+\item \textbf{Инфракрасные реперы трёх ступеней $E_{\mathrm{soft}}^{(m)}$:}
+  относительно границы лаймановского континуума водорода $\lambda_{\mathrm{Ly}} = hc/BE_H \approx 91{,}127\ \mathrm{нм}$ три кванта мягкого замка~\eqref{eq:chem-three-soft-quanta-ladder} задают универсальные безразмерные длины волн в среднем ИК-диапазоне космических обсерваторий (JWST / LIFE):
+  \[
+    \lambda^{(+1)} = \frac{N_{\mathrm{HB}}}{2}\lambda_{\mathrm{Ly}} \approx 2{,}87\ \text{мкм},\quad
+    \lambda^{(0)} = N_{\mathrm{HB}}\lambda_{\mathrm{Ly}} \approx 5{,}74\ \text{мкм},\quad
+    \lambda^{(-1)} = \frac{d_{\mathrm{soft}}N_{\mathrm{HB}}}{2}\lambda_{\mathrm{Ly}} \approx 20{,}1\ \text{мкм},
+  \]
+  причём в окне $m=+1$ ($557\text{--}743\ \mathrm{К}$) биосигнатурой служат безводные ИК-полосы $\pi$-сопряжённых колец боразина/бороксола ($\text{B=N}$, $\text{B--O}$), а в окне $m=-1$ ($80\text{--}106\ \mathrm{К}$) --- неравновесные нитрилы ($\text{HCN}$, $\text{C}_2\text{H}_3\text{CN}$) при истощении ацетилена и $\text{H}_2$.
+\item \textbf{Декаметровые и метровые радиореперы обратной стороны Луны:}
+  деление сверхтонкой частоты водорода $f_{\mathrm{HI}} \approx 1420{,}406\ \mathrm{МГц}$ на инвариантные делители кубооктаэдра $N_\varphi = 13$ и $N_{\mathrm{HB}} = 63$ выделяет реперные частоты
+  \[
+    f_{13} = \frac{f_{\mathrm{HI}}}{N_\varphi} \approx 109{,}26\ \mathrm{МГц},\qquad
+    f_{63} = \frac{f_{\mathrm{HI}}}{N_{\mathrm{HB}}} \approx 22{,}546\ \mathrm{МГц}.
+  \]
+  Поскольку частоты метрового и особенно декаметрового диапазона ($<30\ \mathrm{МГц}$) подвержены отсечке и фазовым искажениям в земной ионосфере, а также маскируются галактическим синхротронным фоном и техногенными помехами Земли, канал $f_{63}\approx 22{,}55\ \mathrm{МГц}$ (вместе с $f_{13}\approx 109{,}3\ \mathrm{МГц}$) представляет собой целевой диапазон именно для космических и лунных радиоинтерферометров на обратной стороне Луны (таких как \texttt{LuSEE-Night} и \texttt{FARSIDE}), а не для наземных радиотелескопов.
+\item \textbf{Инвариантный паспорт разумного наблюдателя в модуляции сигнала:}
+  независимо от ступени $m\in\{-1,0,+1\}$ любая биосфера на решётке~\latGCKshort\ разделяет одну и ту же последовательность координационных сфер и шаров кубооктаэдра $N_{\mathrm{shell}}(1,2,3) = (12,42,92)$, $N_{\mathrm{ball}}(1,2,3) = (13,55,147)$, водородный делитель $N_{\mathrm{HB}}=63$ и эйлеров инвариант $6$-слойной кортикальной колонки $\chi_{\mathrm{2D}} = 41 = \Delta\varphi_{\mathrm{disc}}$ (при масштабировании тактовой частоты кадра наблюдателя $\tau_{\mathrm{frame}}^{(m)} \propto 1/E_{\mathrm{soft}}^{(m)}$ за счёт тождественности больцмановского окна $k_{\mathrm{B}}T/E_{\mathrm{soft}}^{(m)} \in [1/9,\,4/27]$).
+\end{enumerate}
+\end{corollary}
+
 \section{Цифровой замок Уотсона--Крика (\texorpdfstring{$\text{A--T}$}{A-T} и \texorpdfstring{$\text{G--C}$}{G-C}) и штрихкод большой бороздки ДНК}
 \label{sec:chem-watson-crick-barcode}
 
