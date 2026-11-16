@@ -19,6 +19,7 @@ from mt_ca.projected_collision import (
     saturating_phi_impulse,
 )
 from mt_ca.reversible import leapfrog_forward_fixed, leapfrog_reverse_fixed
+from mt_ca.simulator import LatticeFluidSimulator
 from mt_ca.seeds import (
     SeedClass,
     heisenberg_phase_tick,
@@ -84,11 +85,28 @@ def check_qm_scale_cancellation_k(device: str = "cpu") -> dict:
 
     ref_traj = trajectories_curr[0]
     bit_identical_across_k = all(bool(torch.equal(t, ref_traj)) for t in trajectories_curr[1:])
+
+    # Verify bit-exact simulator checkpoint serialization & resume from mid-trajectory
+    sim_full = LatticeFluidSimulator(grid_n, grid_n, cfgs[0], nz=grid_n, device=dev)
+    sim_full.set_field(z0)
+    sim_full.step(n_ticks // 2, record_impulses=False)
+    ckpt = sim_full.checkpoint_dict()
+    sim_full.step(n_ticks - (n_ticks // 2), record_impulses=False)
+
+    sim_resumed = LatticeFluidSimulator.from_checkpoint(ckpt, device=dev)
+    sim_resumed.step(n_ticks - (n_ticks // 2), record_impulses=False)
+    checkpoint_resume_bit_exact = bool(
+        sim_resumed.tick == sim_full.tick == n_ticks
+        and torch.equal(sim_resumed._f_curr, sim_full._f_curr)
+        and torch.equal(sim_resumed._f_past, sim_full._f_past)
+    )
+
     ok = (
         bit_identical_across_k
         and all(roundtrips_ok)
         and all(action_invariance_ok)
         and all(speed_invariance_ok)
+        and checkpoint_resume_bit_exact
     )
     return {
         "id": "QM_scale_cancellation_K",
@@ -98,10 +116,11 @@ def check_qm_scale_cancellation_k(device: str = "cpu") -> dict:
         "scales_K": [cfg.scale_k for cfg in cfgs],
         "bit_identical_across_K": bit_identical_across_k,
         "roundtrips_bit_exact": all(roundtrips_ok),
+        "checkpoint_resume_bit_exact": checkpoint_resume_bit_exact,
         "action_s_floor_invariant": all(action_invariance_ok),
         "speed_c0_invariant": all(speed_invariance_ok),
         "ok": ok,
-        "note": "Thm 1.1 on 9-bit Universe IV seed: Z_512[i]^2 trajectory and s_floor(K)=s_0 are bit-identical across Planck, Compton, Bohr, and Lyman floors",
+        "note": "Thm 1.1 on 9-bit Universe IV seed: Z_512[i]^2 trajectory, checkpoint resume, and s_floor(K)=s_0 are bit-exact across floors",
     }
 
 

@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+from dataclasses import asdict
+from pathlib import Path
+from typing import Any
+
 import torch
 
 from mt_ca.config import MConfig
@@ -38,6 +42,7 @@ class LatticeFluidSimulator:
         self._f_past: torch.Tensor | None = None
         self._impulse_stack: list[torch.Tensor] = []
         self._norm0: float | None = None
+        self.tick: int = 0
 
     @property
     def spatial_shape(self) -> tuple[int, ...]:
@@ -58,6 +63,7 @@ class LatticeFluidSimulator:
         self._f_curr = f0.clone()
         self._f_past = f0.clone()
         self._impulse_stack = []
+        self.tick = 0
         self._sync_z_from_fixed()
         self.z_past = self.z.clone()
 
@@ -112,25 +118,32 @@ class LatticeFluidSimulator:
         self._f_curr = canonical_fixed(self.z, self.cfg)
         self._f_past = canonical_fixed(self.z_past, self.cfg)
         self._impulse_stack = []
+        self.tick = 0
         self._sync_z_from_fixed()
         self._norm0 = total_norm_squared(self.z)
 
-    def step(self, steps: int = 1) -> torch.Tensor:
+    def step(self, steps: int = 1, *, record_impulses: bool = True) -> torch.Tensor:
         assert self._f_curr is not None and self._f_past is not None
+        if steps <= 0:
+            return self.z
         for _ in range(steps):
             f_next, f_prev, f_impulse = leapfrog_forward_fixed(self._f_curr, self._f_past, self.cfg)
-            self._impulse_stack.append(f_impulse)
+            if record_impulses:
+                self._impulse_stack.append(f_impulse)
             self._f_curr = f_next
             self._f_past = f_prev
-            self._sync_z_from_fixed()
-            self.z_past = decode_spinor(self._f_past, frac_bits=self.cfg.frac_bits).to(
-                device=self.device, dtype=self.dtype
-            )
+        self.tick += int(steps)
+        self._sync_z_from_fixed()
+        self.z_past = decode_spinor(self._f_past, frac_bits=self.cfg.frac_bits).to(
+            device=self.device, dtype=self.dtype
+        )
         return self.z
 
     def step_reverse(self, steps: int = 1) -> torch.Tensor:
         """T-reverse via leapfrog impulse stack (§3.12)."""
         assert self._f_curr is not None and self._f_past is not None
+        if steps <= 0:
+            return self.z
         for _ in range(steps):
             if not self._impulse_stack:
                 raise ValueError("impulse stack empty — nothing to reverse")
@@ -138,11 +151,85 @@ class LatticeFluidSimulator:
             f_past, f_curr = leapfrog_reverse_fixed(self._f_past, self._f_curr, f_impulse, self.cfg)
             self._f_past = f_past
             self._f_curr = f_curr
-            self._sync_z_from_fixed()
-            self.z_past = decode_spinor(self._f_past, frac_bits=self.cfg.frac_bits).to(
-                device=self.device, dtype=self.dtype
-            )
+        self.tick -= int(steps)
+        self._sync_z_from_fixed()
+        self.z_past = decode_spinor(self._f_past, frac_bits=self.cfg.frac_bits).to(
+            device=self.device, dtype=self.dtype
+        )
         return self.z
+
+    def checkpoint_dict(self, *, include_impulses: bool = False) -> dict[str, Any]:
+        """Serialize exact integer Markov pair (f_curr, f_past), tick, and MConfig for bit-exact resume."""
+        if self._f_curr is None or self._f_past is None:
+            raise ValueError("Simulator state is uninitialized; call reset() or set_field() first")
+        data: dict[str, Any] = {
+            "tick": int(self.tick),
+            "ny": int(self.ny),
+            "nx": int(self.nx),
+            "nz": None if self.nz is None else int(self.nz),
+            "cfg": asdict(self.cfg),
+            "norm0": self._norm0,
+            "f_curr": self._f_curr.detach().cpu(),
+            "f_past": self._f_past.detach().cpu(),
+        }
+        if include_impulses:
+            data["impulse_stack"] = [imp.detach().cpu() for imp in self._impulse_stack]
+        return data
+
+    def save_checkpoint(self, path: str | Path, *, include_impulses: bool = False) -> Path:
+        """Save bit-exact integer state (f_curr, f_past) to disk so simulation can resume from `tick`."""
+        p = Path(path)
+        p.parent.mkdir(parents=True, exist_ok=True)
+        torch.save(self.checkpoint_dict(include_impulses=include_impulses), p)
+        return p
+
+    def load_checkpoint(self, path_or_dict: str | Path | dict[str, Any]) -> None:
+        """Load bit-exact integer state (f_curr, f_past) into this simulator instance."""
+        ckpt = (
+            path_or_dict
+            if isinstance(path_or_dict, dict)
+            else torch.load(Path(path_or_dict), map_location="cpu", weights_only=False)
+        )
+        self.cfg = MConfig(**ckpt["cfg"])
+        self.ny = int(ckpt["ny"])
+        self.nx = int(ckpt["nx"])
+        self.nz = None if ckpt["nz"] is None else int(ckpt["nz"])
+        self.tick = int(ckpt["tick"])
+        self._norm0 = ckpt.get("norm0")
+        self._f_curr = ckpt["f_curr"].to(device=self.device)
+        self._f_past = ckpt["f_past"].to(device=self.device)
+        raw_stack = ckpt.get("impulse_stack", [])
+        self._impulse_stack = [imp.to(device=self.device) for imp in raw_stack]
+        self._sync_z_from_fixed()
+        self.z_past = decode_spinor(self._f_past, frac_bits=self.cfg.frac_bits).to(
+            device=self.device, dtype=self.dtype
+        )
+
+    @classmethod
+    def from_checkpoint(
+        cls,
+        path_or_dict: str | Path | dict[str, Any],
+        *,
+        device: str | torch.device | None = None,
+        dtype: torch.dtype = torch.complex64,
+    ) -> "LatticeFluidSimulator":
+        """Instantiate a LatticeFluidSimulator directly from a saved checkpoint file or dict."""
+        ckpt = (
+            path_or_dict
+            if isinstance(path_or_dict, dict)
+            else torch.load(Path(path_or_dict), map_location="cpu", weights_only=False)
+        )
+        cfg = MConfig(**ckpt["cfg"])
+        sim = cls(
+            int(ckpt["ny"]),
+            int(ckpt["nx"]),
+            cfg,
+            nz=ckpt["nz"],
+            device=device,
+            dtype=dtype,
+        )
+        sim.load_checkpoint(ckpt)
+        return sim
 
     @property
     def norm0(self) -> float:
