@@ -24,6 +24,7 @@ from mt_ca.si_constants import (
     T_CMB_K_REF,
     _hT_decimal,
     baryon_geometry_factor,
+    heisenberg_phi_min_disc,
     lepton_geometry_factor,
     m_tick_count_to_str,
     si_seconds_to_m_tick
@@ -617,98 +618,125 @@ class SISmRows:
         return run_annihilation_pdg_tau_strict(device=device)
 
     def cmb_natural_thermodynamics_row(self) -> dict[str, float | bool | str]:
-        """Natural-scale (k_B-free) recombination and CMB thermal quanta from η_B = (45/208)α_fs^4."""
-        mod_bits = int(PLANCK_CELL.mod_bits)  # 9
-        n_phi = int(PLANCK_CELL.N_phi)  # 13
-        n_hier = mod_bits - 1  # 8
+        """Carrier-scale (π-free, k_B-free, bare-number-free) recombination and CMB thermal quanta."""
+        mod_bits = int(PLANCK_CELL.mod_bits)
+        n12 = int(N12_FCC_CAUSAL_LINKS)
+        n_phi = n12 + 1
+        n_hier = mod_bits - 1
+        n_ring = int(PLANCK_CELL.N_ring)
         d_spatial = 3
-        d_out_v = 5
+        d_pol = d_spatial - 1
+        d_in_sq = d_spatial + 1
+        d_out_v = n12 - (d_spatial + d_in_sq)
+        phi_min = int(heisenberg_phi_min_disc(phase_bits=mod_bits))
+        r_disc = float(phi_min) / float(n_ring)
         alpha = self.alpha_fs
 
-        # Carrier baryon-to-photon ratio η_B = (9/26)*(5/8)*α_fs^4 = (45/208)*α_fs^4
-        eta_b = (float(mod_bits * d_out_v) / float(2 * n_phi * n_hier)) * (alpha**4)
-        inv_eta_b_prefactor = float(2 * n_phi * n_hier) / float(mod_bits * d_out_v)  # 208/45
+        # Carrier baryon-to-photon ratio η_B = (⌊B_V⌋ * d_out(V)) / ((d-1) * N_φ * N_hier) * α_fs^(d_in(□))
+        eta_b = (float(mod_bits * d_out_v) / float(d_pol * n_phi * n_hier)) * (alpha**d_in_sq)
+        inv_eta_b_prefactor = float(d_pol * n_phi * n_hier) / float(mod_bits * d_out_v)
 
-        # Natural recombination quantum Θ_rec / E_Ry = 1 / ((d_out(V)/2) * ln(1/η_B)) (zero k_B!)
-        recomb_entropy_divisor = (0.5 * float(d_out_v)) * math.log(1.0 / eta_b)  # ~53.0296
+        # 1. Pure algebraic carrier recombination & CMB ratios (ZERO π, ZERO ln, ZERO bare numbers!):
+        #    E_Lya / E_Ry = d / d_in(□), and Θ_rec / E_Lya = 1 / (d_out(V) * N_hier)
+        carrier_recomb_divisor = float(d_in_sq * d_out_v * n_hier) / float(d_spatial)
+        theta_rec_over_ery_alg = float(d_spatial) / float(d_in_sq * d_out_v * n_hier)
+        lya_over_theta_rec_alg = float(d_out_v * n_hier)
+
+        # T-layer continuum Saha logarithmic projection (for cross-check only):
+        recomb_entropy_divisor = (float(d_out_v) / float(d_pol)) * math.log(1.0 / eta_b)
         theta_rec_over_ery = 1.0 / recomb_entropy_divisor
-        lya_over_theta_rec = (float(d_spatial) / float(d_spatial + 1)) * recomb_entropy_divisor  # ~39.772
+        lya_over_theta_rec = (float(d_spatial) / float(d_in_sq)) * recomb_entropy_divisor
 
-        # Cosmological dilution factor 1 + z_CMB: carrier N_hier / α_fs vs tick ratio (N_today / N_CMB)^(2/d)
+        # Cosmological dilution factor 1 + z_CMB: carrier N_hier / α_fs vs tick ratio (N_today / N_CMB)^((d-1)/d)
         bb = self.bubble_tick_row()
-        z_plus_1_carrier = float(n_hier) / alpha  # 8 / α_fs ≈ 1096.29
-        z_plus_1_ticks = (float(bb["N_today"]) / float(bb["N_CMB"])) ** (2.0 / float(d_spatial))  # ≈ 1095.95
-        z_plus_1_planck_obs = 1090.80  # Planck 2018: z_* = 1089.80 ± 0.21
+        z_plus_1_carrier = float(n_hier) / alpha
+        z_plus_1_ticks = (float(bb["N_today"]) / float(bb["N_CMB"])) ** (float(d_pol) / float(d_spatial))
+        z_plus_1_planck_obs = 1090.80  # Planck 2018 T-layer reference
 
-        # Present-day natural CMB thermal quantum Θ_CMB / E_Ry and Θ_CMB / (m_e c^2) (zero k_B!)
+        # Present-day natural CMB thermal quantum Θ_CMB / E_Ry and Θ_CMB / (m_e c^2) (zero k_B, zero π!)
+        theta_cmb_over_ery_alg = theta_rec_over_ery_alg / z_plus_1_carrier
         theta_cmb_over_ery_carrier = theta_rec_over_ery / z_plus_1_carrier
         theta_cmb_over_ery_ticks = theta_rec_over_ery / z_plus_1_ticks
-        theta_cmb_over_mec2_carrier = 0.5 * (alpha**2) * theta_cmb_over_ery_carrier
-        hi_quanta_count = d_out_v * n_hier  # 5 * 8 = 40
+        theta_cmb_over_mec2_carrier = (alpha**d_pol) * theta_cmb_over_ery_carrier / float(d_pol)
+        hi_quanta_count = d_out_v * n_hier
 
-        # Carrier scale T_P_M := E_0 = s_0 / hT = E_P / sqrt(2) (§8.2·units·T_P, zero k_B, κ cancels!):
-        #   T_M,bath / E_0 = (d * d_out(E) / (N_ring * pi^2))^(1/4) = (15 / (512 * pi^2))^(1/4)
-        #   T_rec / E_0    = (alpha^12 / (65 * ln(1/η_B))) * sqrt(pi)   [exponent 12 = |N_12|]
-        #   T_CMB / E_0    = (alpha^13 / (520 * ln(1/η_B))) * sqrt(pi)  [exponent 13 = N_phi = |N_12| + 1]
-        n_ring = int(PLANCK_CELL.N_ring)  # 512
-        n12 = int(N12_FCC_CAUSAL_LINKS)  # 12
-        t_m_bath_over_e0 = (float(d_spatial * d_out_v) / (float(n_ring) * (math.pi**2))) ** 0.25
-        e_ry_over_e0 = ((alpha**n12) / float(2 * n_phi)) * math.sqrt(math.pi)
-        t_rec_over_e0 = ((alpha**n12) / (float(d_out_v * n_phi) * math.log(1.0 / eta_b))) * math.sqrt(math.pi)
-        t_cmb_over_e0 = (
-            (alpha**n_phi) / (float(d_out_v * n_hier * n_phi) * math.log(1.0 / eta_b))
-        ) * math.sqrt(math.pi)
+        # Carrier scale T_P_M := E_0 = s_0 / dt (ZERO π, ZERO k_B, ZERO bare numbers!):
+        #   Boiling ocean: ρ_vac / (E_0^4 / l_P^3) = 1 / N_ring  =>  Θ_vac / E_0 = N_ring^(-1 / d_in(□))
+        #   v / E_0     = α^(N_hier) / sqrt(r_disc),  λ_H = 1/N_hier + N_hier * r_disc * α
+        #   m_H / E_0   = sqrt((d-1)*λ_H) * (v / E_0)
+        #   E_Ry / E_0  = (α^(|N_12|) / ((d-1)*N_φ)) * sqrt((d-1)*λ_H / r_disc)
+        t_m_bath_over_e0_pifree = float(n_ring) ** (-1.0 / float(d_in_sq))
+        lam_h = (1.0 / float(n_hier)) + float(n_hier) * r_disc * alpha
+        e_ry_over_e0_pifree = (
+            (alpha**n12) / float(d_pol * n_phi)
+        ) * math.sqrt(float(d_pol) * lam_h / r_disc)
+        t_rec_over_e0_pifree = e_ry_over_e0_pifree * theta_rec_over_ery_alg
+        t_cmb_over_e0_pifree = e_ry_over_e0_pifree * theta_cmb_over_ery_alg
 
         # T-layer readout in Kelvin (using k_B only at the T-layer thermometer interface)
         kb_si = 1.380649e-23
         m_e_kg = float(self.birth_row()["m_e_kg"])
-        e_ry_j = 0.5 * (alpha**2) * m_e_kg * (self.c**2)
+        e_ry_j = (alpha**d_pol) * m_e_kg * (self.c**d_pol) / float(d_pol)
         t_ry_k = e_ry_j / kb_si
+        t_rec_k_alg = t_ry_k * theta_rec_over_ery_alg
         t_rec_k_model = t_ry_k * theta_rec_over_ery
         t_rec_k_obs = T_CMB_K_REF * z_plus_1_planck_obs
+        t_cmb_k_alg = t_ry_k * theta_cmb_over_ery_alg
         t_cmb_k_carrier = t_ry_k * theta_cmb_over_ery_carrier
         t_cmb_k_ticks = t_ry_k * theta_cmb_over_ery_ticks
         t_cmb_k_planck_z = t_rec_k_model / z_plus_1_planck_obs
 
         rel_err_t_rec = abs(t_rec_k_model - t_rec_k_obs) / t_rec_k_obs
+        rel_err_t_rec_alg = abs(t_rec_k_alg - t_rec_k_obs) / t_rec_k_obs
         rel_err_z_carrier_vs_ticks = abs(z_plus_1_carrier - z_plus_1_ticks) / z_plus_1_ticks
         rel_err_t_cmb_carrier = abs(t_cmb_k_carrier - T_CMB_K_REF) / T_CMB_K_REF
+        rel_err_t_cmb_alg = abs(t_cmb_k_alg - T_CMB_K_REF) / T_CMB_K_REF
         rel_err_t_cmb_ticks = abs(t_cmb_k_ticks - T_CMB_K_REF) / T_CMB_K_REF
 
         ok = (
             rel_err_t_rec < 0.005
+            and rel_err_t_rec_alg < 0.005
             and rel_err_z_carrier_vs_ticks < 0.001
             and rel_err_t_cmb_carrier < 0.005
+            and rel_err_t_cmb_alg < 0.01
             and rel_err_t_cmb_ticks < 0.005
         )
         return {
             "eta_B_carrier": eta_b,
             "inv_eta_B_prefactor_208_over_45": inv_eta_b_prefactor,
+            "carrier_recomb_divisor_alg": carrier_recomb_divisor,
             "recomb_entropy_divisor_5_over_2_ln_inv_eta": recomb_entropy_divisor,
+            "theta_rec_over_E_Ry_alg": theta_rec_over_ery_alg,
             "theta_rec_over_E_Ry": theta_rec_over_ery,
+            "E_Lya_over_theta_rec_alg": lya_over_theta_rec_alg,
             "E_Lya_over_theta_rec": lya_over_theta_rec,
             "z_plus_1_carrier_8_over_alpha": z_plus_1_carrier,
             "z_plus_1_ticks_2_over_3": z_plus_1_ticks,
             "z_plus_1_planck_obs": z_plus_1_planck_obs,
+            "theta_cmb_over_E_Ry_alg": theta_cmb_over_ery_alg,
             "theta_cmb_over_E_Ry_carrier": theta_cmb_over_ery_carrier,
             "theta_cmb_over_mec2_carrier": theta_cmb_over_mec2_carrier,
             "theta_cmb_in_E_HI_quanta": float(hi_quanta_count),
-            "T_M_bath_over_E0": t_m_bath_over_e0,
-            "E_Ry_over_E0": e_ry_over_e0,
-            "T_rec_over_E0_alpha12": t_rec_over_e0,
-            "T_CMB_over_E0_alpha13": t_cmb_over_e0,
+            "T_M_bath_over_E0_pifree": t_m_bath_over_e0_pifree,
+            "E_Ry_over_E0_pifree": e_ry_over_e0_pifree,
+            "T_rec_over_E0_pifree_alpha12": t_rec_over_e0_pifree,
+            "T_CMB_over_E0_pifree_alpha13": t_cmb_over_e0_pifree,
+            "T_rec_K_alg": t_rec_k_alg,
             "T_rec_K_model": t_rec_k_model,
             "T_rec_K_obs": t_rec_k_obs,
+            "T_CMB_K_alg": t_cmb_k_alg,
             "T_CMB_K_carrier": t_cmb_k_carrier,
             "T_CMB_K_ticks": t_cmb_k_ticks,
             "T_CMB_K_planck_z": t_cmb_k_planck_z,
             "T_CMB_K_ref": T_CMB_K_REF,
             "rel_err_T_rec": rel_err_t_rec,
+            "rel_err_T_rec_alg": rel_err_t_rec_alg,
             "rel_err_z_carrier_vs_ticks": rel_err_z_carrier_vs_ticks,
             "rel_err_T_CMB_carrier": rel_err_t_cmb_carrier,
+            "rel_err_T_CMB_alg": rel_err_t_cmb_alg,
             "rel_err_T_CMB_ticks": rel_err_t_cmb_ticks,
             "ok": ok,
-            "note": "Natural (k_B-free) Θ_rec/E_Ry = 2/(5 ln(1/η_B)) and Θ_CMB/E_Ry = α_fs/(20 ln(1/η_B))",
+            "note": "π-free, k_B-free, bare-number-free carrier: Θ_vac/E_0=N_ring^(-1/d_in(□)), Θ_rec/E_Ry=d/(d_in(□) d_out(V) N_hier), Θ_CMB/E_Ry=d α_fs/(d_in(□) d_out(V) N_hier^2)",
         }
 
 

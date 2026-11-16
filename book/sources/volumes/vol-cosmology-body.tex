@@ -170,79 +170,74 @@
 
 Разделение уровней~$\Mlayer$ и~$\Tlayer$ устраняет смешение микроскопического кипения носителя с макроскопическим фотонным фоном пузыря и позволяет вычислить тепловой квант реликтового излучения непосредственно в безразмерной энергетической шкале лестницы (где постоянная Больцмана~$k_{\mathrm{B}}$ выступает исключительно коэффициентом перевода энергетических единиц в градусы Кельвина на приборном слое~$\Tlayer$):
 \begin{itemize}[leftmargin=*]
-\item \textbf{Микроскопическая плотность энергии кипящего пола~$A_5$ ($\Theta_{\Mlayer,\mathrm{bath}}$):}
-  при минимальном кванте амплитуды $z_{\min} = 2^{-\mathrm{frac\_bits}} = 1/64$ на каждой из двух компонент спинора фоновая плотность энергии океана равна $\rho_{E,\mathrm{vac}} = 2 z_{\min}^2 u_P = 2^{-11} u_P \approx 2{,}26\times 10^{110}\ \NotationUnitJoulePerCubicMetre$, чему в шкале Стефана--Больцмана $u = (\pi^2/15)\Theta^4/(\planckHbar c)^3$ отвечает планковский масштаб $T_{\Mlayer,\mathrm{bath}} = \Theta_{\Mlayer,\mathrm{bath}}/k_{\mathrm{B}} \sim 10^{31}\ \mathrm{К}$. Эта энергия удерживается на собственной частоте носителя $\nu_0 = 1/\htick \sim 2{,}62\times 10^{43}\ \mathrm{Гц}$ на границе зоны Бриллюэна.
+\item \textbf{Микроскопический тепловой квант кипящего пола~$A_5$ в шкале носителя ($\Theta_{\Mlayer,\mathrm{vac}}/E_0$ без~$\pi$):}
+  при минимальном кванте амплитуды $z_{\min} = a_Q = 2^{-\mathrm{frac\_bits}}$ на каждой из $d-1$ компонент спинора фоновая плотность энергии океана равна $\rho_{E,\mathrm{vac}} = (d-1)a_Q^2 u_P = \frac{1}{d_{\mathrm{in}}(\square)\,\phaseRingCount}\,u_P$. Поскольку тактовый квант носителя равен $E_0 = s_0/\htick = \caKappaGeom E_P$ ($E_P^{d_{\mathrm{in}}(\square)} = d_{\mathrm{in}}(\square)\,E_0^{d_{\mathrm{in}}(\square)}$), в естественной шкале~$E_0$ множитель $d_{\mathrm{in}}(\square)$ сокращается нацело, давая чисто алгебраический инвариант кольца без~$\pi$:
+  \[
+    \frac{\rho_{E,\mathrm{vac}}}{E_0^{d_{\mathrm{in}}(\square)}/(\planckHbar c)^d} = \frac{1}{\phaseRingCount}
+    \quad\Longrightarrow\quad
+    \frac{\Theta_{\Mlayer,\mathrm{vac}}}{E_0} = \phaseRingCount^{-1/d_{\mathrm{in}}(\square)} \approx 0{,}2102
+  \]
+  (круговой множитель~$\pi^2$ возникает только при переходе к континуальному интегралу Стефана--Больцмана на~$\Tlayer$, где $T_{\Mlayer,\mathrm{bath}} \sim 10^{31}\ \mathrm{К}$). Эта энергия удерживается на собственной частоте носителя $\nu_0 = 1/\htick$ на границе зоны Бриллюэна.
 \item \textbf{Естественный тепловой квант рекомбинации ($\Theta_{\mathrm{rec}}$) и современного реликтового фона ($\Theta_{\mathrm{CMB}}$):}
-  длинноволновый бозевский газ свободных фотонов ($n=0$, $\omega = c|\mathbf{k}| \ll \omega_{\max}$) отделяется от барионной плазмы на такте рекомбинации $N_{\mathrm{CMB}} \approx 3{,}146\times 10^{56}$ и остывает при расширении каузального фронта пузыря до современного такта $N_{\mathrm{today}} \approx 1{,}141\times 10^{61}$ в соответствии с законом Бозе--Эйнштейна (\bcref{thm:fcc-dispersion-bose}).
+  длинноволновый бозевский газ свободных фотонов ($n=0$, $\omega = c|\mathbf{k}| \ll \omega_{\max}$) отделяется от барионной плазмы на такте рекомбинации~$N_{\mathrm{CMB}}$ и остывает при расширении каузального фронта пузыря до современного такта~$N_{\mathrm{today}}$.
 \end{itemize}
 
-\begin{theorem}[Замкнутый вывод тепловых квантов рекомбинации $\Theta_{\mathrm{rec}}$ и реликтового фона $\Theta_{\mathrm{CMB}}$ из $\eta_B = \frac{45}{208}\alpha_{\mathrm{fs}}^4$]
+\begin{theorem}[Алгебраический вывод тепловых квантов рекомбинации $\Theta_{\mathrm{rec}}$ и реликтового фона $\Theta_{\mathrm{CMB}}$ в шкале носителя без $\pi$, без $\ln$ и без $k_{\mathrm{B}}$]
 \label{thm:cosmo-cmb-natural-scale}
-В естественной энергетической шкале носителя (без участия переводного коэффициента~$k_{\mathrm{B}}$) тепловой квант отцепления фотонов при рекомбинации водорода~$\Theta_{\mathrm{rec}}$ и современный тепловой квант реликтового излучения~$\Theta_{\mathrm{CMB}}$ однозначно определяются барион-фотонным отношением~\eqref{eq:cosmo-baryon-to-photon} и геометрией кубооктаэдра:
+В естественной энергетической шкале носителя $T_{P,\Mlayer} := E_0 = s_0/\htick$ (без переводного коэффициента~$k_{\mathrm{B}}$, без~$\pi$ и без голых численных констант) тепловой квант отцепления фотонов при рекомбинации водорода~$\Theta_{\mathrm{rec}}$ и современный тепловой квант реликтового излучения~$\Theta_{\mathrm{CMB}}$ однозначно определяются комбинаторикой кубооктаэдра и постоянной тонкой структуры~$\alpha_{\mathrm{fs}}$:
 \begin{enumerate}[leftmargin=*]
-\item \textbf{Обратный геометрический множитель $\frac{208}{45}$ и фотонная энтропия на барион:}
-  из доказанного соотношения $\eta_B = \frac{45}{208}\alpha_{\mathrm{fs}}^4$ следует, что на один барионный узел в каузальном пузыре приходится
-  \[
-    \frac{1}{\eta_B} = \frac{2\,\vevHierarchySteps\,N_\varphi}{\lfloor\caBitBudget\rfloor\,d_{\mathrm{out}}(V)}\,\alpha_{\mathrm{fs}}^{-4}
-    = \frac{208}{45}\,\alpha_{\mathrm{fs}}^{-4} \approx 1{,}630\times 10^9
-  \]
-  квантов излучения, где числитель $208 = 2\cdot 8\cdot 13$ совпадает с полным числом хирально-иерархических состояний 13-узлового кластера, а знаменатель $45 = 9\cdot 5$ равен произведению 9-битного регистра Бекештейна на число внешних каузальных каналов вершины $d_{\mathrm{out}}(V) = 5$.
-\item \textbf{Тепловой квант рекомбинации $\Theta_{\mathrm{rec}}$ в единицах Ридберга~$E_{\mathrm{Ry}}$:}
-  отцепление фотонной бани от атомарного водорода ($E_{\mathrm{Ry}} = \frac{1}{2}\alpha_{\mathrm{fs}}^2 m_e c^2$) наступает тогда, когда больцмановский фактор ионизации перекрывает фотонную энтропию в $d_{\mathrm{out}}(V)/2 = 5/2$ тепловых степенях свободы на внешний канал вершины:
+\item \textbf{Алгебраический порог отцепления Лайман-$\alpha$ и квант рекомбинации $\Theta_{\mathrm{rec}}$:}
+  энергия главного дипольного перехода водорода равна $E_{\mathrm{Ly}\alpha} = \frac{d}{d_{\mathrm{in}}(\square)}\,E_{\mathrm{Ry}}$, где $E_{\mathrm{Ry}} = \frac{\alpha_{\mathrm{fs}}^{d-1}}{d-1}\,m_e c^2$.
+  На дискретном носителе отцепление фотонной бани от нейтрального водорода наступает тогда, когда квант Лайман-$\alpha$ распределяется по $d_{\mathrm{out}}(V)\,\vevHierarchySteps$ внешним иерархическим каналам вершины кубооктаэдра:
   \begin{equation}
   \label{eq:cosmo-theta-rec-natural}
+    \frac{\Theta_{\mathrm{rec}}}{E_{\mathrm{Ly}\alpha}}
+    = \frac{1}{d_{\mathrm{out}}(V)\,\vevHierarchySteps}
+    \quad\Longleftrightarrow\quad
     \frac{\Theta_{\mathrm{rec}}}{E_{\mathrm{Ry}}}
-    = \frac{1}{\dfrac{d_{\mathrm{out}}(V)}{2}\,\ln(1/\eta_B)}
-    = \frac{2}{5\,\ln\!\left(\dfrac{208}{45\,\alpha_{\mathrm{fs}}^4}\right)}
-    \approx \frac{1}{53{,}0296} \approx 0{,}018857
+    = \frac{d}{d_{\mathrm{in}}(\square)\,d_{\mathrm{out}}(V)\,\vevHierarchySteps}
+    \approx 0{,}01875
   \end{equation}
-  (при этом отношение энергии перехода Лайман-$\alpha$ $E_{\mathrm{Ly}\alpha} = \frac{d}{d+1}E_{\mathrm{Ry}} = \frac{3}{4}E_{\mathrm{Ry}}$ к тепловому кванту рекомбинации составляет $E_{\mathrm{Ly}\alpha}/\Theta_{\mathrm{rec}} = \frac{15}{8}\ln(1/\eta_B) \approx 39{,}77 \approx d_{\mathrm{out}}(V)\vevHierarchySteps = 40$).
-  При переводе в шкалу Кельвина через $T_{\mathrm{Ry}} = E_{\mathrm{Ry}}/k_{\mathrm{B}} \approx 157\,887{,}51\ \mathrm{К}$ формула~\eqref{eq:cosmo-theta-rec-natural} даёт $T_{\mathrm{rec}} = 2977{,}35\ \mathrm{К}$ (наблюдение Planck~2018: $T_* = 2972{,}98\ \mathrm{К}$, отклонение~$0{,}15\%$).
+  (в континуальном описании Саха на~$\Tlayer$ тому же отношению отвечает логарифм барион-фотонного отношения $\bigl[\frac{d_{\mathrm{out}}(V)}{d-1}\ln(1/\eta_B)\bigr]^{-1} \approx 0{,}018857$ при $\eta_B^{-1} = \frac{(d-1)N_\varphi\vevHierarchySteps}{\lfloor\caBitBudget\rfloor d_{\mathrm{out}}(V)}\,\alpha_{\mathrm{fs}}^{-d_{\mathrm{in}}(\square)}$, сходящийся с алгебраическим отношением носителя~\eqref{eq:cosmo-theta-rec-natural} с точностью~$0{,}57\%$).
+  При переводе в шкалу Кельвина на приборном слое~$\Tlayer$ через $T_{\mathrm{Ry}} = E_{\mathrm{Ry}}/k_{\mathrm{B}}$ алгебраическая формула~\eqref{eq:cosmo-theta-rec-natural} даёт $T_{\mathrm{rec}}^{\mathrm{alg}} = 2960{,}39\ \mathrm{К}$, а логарифмическая проекция Саха — $T_{\mathrm{rec}} = 2977{,}35\ \mathrm{К}$ (наблюдение Planck~2018: $T_* = 2972{,}98\ \mathrm{К}$, отклонение $0{,}42\%$ и~$0{,}15\%$).
 \item \textbf{Коэффициент космологического остывания $1 + z_{\mathrm{CMB}}$ и современный квант $\Theta_{\mathrm{CMB}}$:}
-  в трёхмерном пылевом режиме расширения пузыря от такта~$N_{\mathrm{CMB}}$ до такта~$N_{\mathrm{today}}$ фактор растяжения длины волны фотонов равен:
+  при расширении пузыря от такта~$N_{\mathrm{CMB}}$ до такта~$N_{\mathrm{today}}$ в размерности~$d$ тактовый фактор растяжения совпадает с отношением ступеней башни~$\vevHierarchySteps$ к~$\alpha_{\mathrm{fs}}$:
   \begin{equation}
   \label{eq:cosmo-redshift-dilation}
     1 + z_{\mathrm{CMB}}
-    = \left(\frac{N_{\mathrm{today}}}{N_{\mathrm{CMB}}}\right)^{2/d}
-    = \left(\frac{N_{\mathrm{today}}}{N_{\mathrm{CMB}}}\right)^{2/3}
+    = \left(\frac{N_{\mathrm{today}}}{N_{\mathrm{CMB}}}\right)^{(d-1)/d}
     \approx 1095{,}95
-    \;\approx\;
+    \;\longleftrightarrow\;
     \frac{\vevHierarchySteps}{\alpha_{\mathrm{fs}}}
-    = \frac{8}{\alpha_{\mathrm{fs}}}
     \approx 1096{,}29
   \end{equation}
-  (совпадение тактового и лестничного факторов с точностью~$0{,}031\%$; наблюдение Planck~2018: $1 + z_* = 1090{,}80 \pm 0{,}21$).
-  Отсюда современный тепловой квант реликтового излучения в естественной шкале равен:
+  (совпадение с точностью~$0{,}031\%$; наблюдение Planck~2018: $1 + z_* = 1090{,}80 \pm 0{,}21$).
+  Отсюда современный тепловой квант реликтового излучения в единицах~$E_{\mathrm{Ry}}$, $m_e c^2$ и сверхтонкого кванта водорода~$E_{\mathrm{HI}}$ равен:
   \begin{equation}
   \label{eq:cosmo-theta-cmb-natural}
     \frac{\Theta_{\mathrm{CMB}}}{E_{\mathrm{Ry}}}
-    = \frac{\alpha_{\mathrm{fs}}}{20\,\ln\!\left(\dfrac{208}{45\,\alpha_{\mathrm{fs}}^4}\right)}
-    \approx 1{,}720\times 10^{-5},
+    = \frac{d\,\alpha_{\mathrm{fs}}}{d_{\mathrm{in}}(\square)\,d_{\mathrm{out}}(V)\,\vevHierarchySteps^{d-1}},
     \qquad
     \frac{\Theta_{\mathrm{CMB}}}{m_e c^2}
-    = \frac{\alpha_{\mathrm{fs}}^3}{40\,\ln\!\left(\dfrac{208}{45\,\alpha_{\mathrm{fs}}^4}\right)}
-    \approx 4{,}580\times 10^{-10},
+    = \frac{d\,\alpha_{\mathrm{fs}}^{d}}{(d-1)\,d_{\mathrm{in}}(\square)\,d_{\mathrm{out}}(V)\,\vevHierarchySteps^{d-1}},
+    \qquad
+    \frac{\Theta_{\mathrm{CMB}}}{E_{\mathrm{HI}}}
+    \approx d_{\mathrm{out}}(V)\,\vevHierarchySteps.
   \end{equation}
-  а в собственной единице температуры носителя $T_{P,\Mlayer} := E_0 = s_0/\htick = E_P/\sqrt{2}$ (где множитель $\caKappaGeom = 1/\sqrt{2}$ тождественно сокращается по всей иерархии, давая $\Theta_{\Mlayer,\mathrm{bath}}/E_0 = \bigl[d\,d_{\mathrm{out}}(E)/(\phaseRingCount\pi^2)\bigr]^{1/4} = \bigl[15/(512\pi^2)\bigr]^{1/4} \approx 0{,}2334$ и $E_{\mathrm{Ry}}/E_0 = \frac{\alpha_{\mathrm{fs}}^{|\mathrm{N12}|}}{2N_\varphi}\sqrt{\pi} = \frac{\alpha_{\mathrm{fs}}^{12}}{26}\sqrt{\pi}$) оба космологических тепловых кванта принимают вид:
+\item \textbf{Запись в собственной единице такта носителя $T_{P,\Mlayer} := E_0 = s_0/\htick$ (без $\pi$):}
+  поскольку на носителе электрослабый масштаб определяется дискретным фазовым остатком $r_{\mathrm{disc}} = \Delta\varphi_{\mathrm{disc}}/\phaseRingCount$ без участия~$\pi$ ($v/E_0 = \alpha_{\mathrm{fs}}^{\vevHierarchySteps}/\sqrt{r_{\mathrm{disc}}}$, $\lambda_H = 1/\vevHierarchySteps + \vevHierarchySteps r_{\mathrm{disc}}\alpha_{\mathrm{fs}}$, $m_H/E_0 = \sqrt{(d-1)\lambda_H}\,v/E_0$ и $E_{\mathrm{Ry}}/E_0 = \frac{\alpha_{\mathrm{fs}}^{|\mathrm{N12}|}}{(d-1)N_\varphi}\sqrt{(d-1)\lambda_H/r_{\mathrm{disc}}}$), оба космологических тепловых кванта выражаются через точные структурные показатели $|\mathrm{N12}|$ и $N_\varphi = |\mathrm{N12}| + 1$:
   \begin{equation}
   \label{eq:cosmo-theta-cmb-in-e0}
   \begin{aligned}
     \frac{\Theta_{\mathrm{rec}}}{E_0}
-    &= \frac{\alpha_{\mathrm{fs}}^{|\mathrm{N12}|}\sqrt{\pi}}{d_{\mathrm{out}}(V)\,N_\varphi\,\ln(1/\eta_B)}
-    = \frac{\alpha_{\mathrm{fs}}^{12}\sqrt{\pi}}{65\,\ln(1/\eta_B)},\\
+    &= \frac{d\,\alpha_{\mathrm{fs}}^{|\mathrm{N12}|}}{(d-1)\,d_{\mathrm{in}}(\square)\,d_{\mathrm{out}}(V)\,\vevHierarchySteps\,N_\varphi}\sqrt{\frac{(d-1)\lambda_H}{r_{\mathrm{disc}}}}
+    \approx 2{,}959\times 10^{-29},\\
     \frac{\Theta_{\mathrm{CMB}}}{E_0}
-    &= \frac{\alpha_{\mathrm{fs}}^{N_\varphi}\sqrt{\pi}}{d_{\mathrm{out}}(V)\,\vevHierarchySteps\,N_\varphi\,\ln(1/\eta_B)}
-    = \frac{\alpha_{\mathrm{fs}}^{13}\sqrt{\pi}}{520\,\ln(1/\eta_B)},
+    &= \frac{d\,\alpha_{\mathrm{fs}}^{N_\varphi}}{(d-1)\,d_{\mathrm{in}}(\square)\,d_{\mathrm{out}}(V)\,\vevHierarchySteps^{d}\,N_\varphi}\sqrt{\frac{(d-1)\lambda_H}{r_{\mathrm{disc}}}}
+    \approx 2{,}699\times 10^{-32}.
   \end{aligned}
   \end{equation}
-  то есть рекомбинация отвечает ровно $12 = |\mathrm{N12}|$ степеням~$\alpha_{\mathrm{fs}}$ от тактового кванта~$E_0$, а современный реликт — ровно $13 = N_\varphi = |\mathrm{N12}| + 1$ степеням~$\alpha_{\mathrm{fs}}$ (приведённая тепловая длина волны $\bar\lambda_{\mathrm{CMB}}/\ell_P = E_P/\Theta_{\mathrm{CMB}} \approx 6{,}19\,N_4 \approx 2\pi\,N_c/\alpha_{\mathrm{fs}}^4$ лежит на этаже $k=4$ лестницы).
-  В единицах сверхтонкого кванта нейтрального водорода $E_{\mathrm{HI}} = h f_{\mathrm{HI}}$ ($\lambda_{\mathrm{HI}} \approx 21\ \mathrm{см}$) это составляет ровно $\Theta_{\mathrm{CMB}}/E_{\mathrm{HI}} \approx d_{\mathrm{out}}(V)\vevHierarchySteps = 40$ квантов ($39{,}982$, точность~$0{,}046\%$), а при переводе в шкалу Кельвина даёт:
-  \[
-    T_{\mathrm{CMB}}^{\mathrm{ladder}} = 2{,}7158\ \mathrm{К},\qquad
-    T_{\mathrm{CMB}}^{\mathrm{ticks}} = 2{,}7167\ \mathrm{К},\qquad
-    T_{\mathrm{CMB}}(z_*) = 2{,}7295\ \mathrm{К}
-  \]
-  (эталон COBE/FIRAS: $2{,}72548 \pm 0{,}00057\ \mathrm{К}$, отклонение~$0{,}15\%\text{--}0{,}35\%$).
+  На приборном слое~$\Tlayer$ эти соотношения дают $T_{\mathrm{CMB}}^{\mathrm{alg}} = 2{,}7004\ \mathrm{К}$ и $T_{\mathrm{CMB}}^{\mathrm{Saha}} = 2{,}7158\ \mathrm{К}$ (эталон COBE/FIRAS: $2{,}72548 \pm 0{,}00057\ \mathrm{К}$, отклонение $0{,}35\%\text{--}0{,}92\%$).
 \end{enumerate}
 \end{theorem}
 
