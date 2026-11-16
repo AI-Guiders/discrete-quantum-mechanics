@@ -549,6 +549,28 @@ II (ядро $1$) & \texttt{Stop} & \texttt{UAA,UAG,UGA} (3) & --- & освоб�
 Наконец, при сохранении центрального узла в каждом из $L$ гексагональных колёс каждый слой содержит $6$ внутренних треугольников, а каждый межслойный переход добавляет $22$ треугольника и $6 = |\square|$ тетраэдров~$K_4$, откуда $F_\triangle(L) = 6L + 22(L-1) = 28L - 22$ и $\chi_{\mathrm{2D}}(\mathrm{Col}_L) = 7L - (27L - 15) + (28L - 22) = 8L - 7$, что при $L = |\square| = 6$ даёт $8\times 6 - 7 = 41 = \Delta\varphi_{\mathrm{disc}}$.
 \end{proof}
 
+\begin{corollary}[Замкнутый de novo синтез хромосомы по целевой 3D-морфологии и мост к частоте кадра наблюдателя $f_{\mathrm{CFF}}$]
+\label{cor:bio-chromosome-to-organ-and-observer}
+Конкатенация синтезированных по \cref{thm:bio-constructive-inverse-folding} локусов с $3$-связевыми межгенными изоляторами длины $2\geomNeighborTwelve = 24\ \mathrm{bp}$ ($b = 1$) порождает минимальную самодостаточную хромосому на~$\mathbb{Z}_4$, которая при слепом сканировании без внешней разметки и автономном росте по \cref{thm:bio-euler-betti-self-classification} детерминированно воспроизводит все три 3D-морфологии:
+\begin{enumerate}[leftmargin=*,noitemsep]
+\item \textbf{Стадия $2$ (полый пузырёк $S_1$, $\chi_{\mathrm{2D}}=2$):} $1$ изотропный метаболический локус длины $283\ \mathrm{bp}$ (\texttt{CatalyticTriad} $+$ \texttt{WalkerATP}) $\longrightarrow V=12,\ E=24,\ \beta=(1,0,1)$;
+\item \textbf{Стадия $3$ (полая гексагональная трубка $\mathrm{Tube}_4$, $\chi_{\mathrm{2D}}=0$):} $1$ осевой локус длины $269\ \mathrm{bp}$ (\texttt{C2H2} $+$ \texttt{Trp-pin} $+$ \texttt{TM18}) $\longrightarrow V=24,\ E=54,\ \beta=(1,1,0)$;
+\item \textbf{Стадия $4$ (шестислойная кортикальная колонка $\mathrm{Col}_6$, $\chi_{\mathrm{2D}}=41$):} минимальная двухлокусная хромосома длины $855\ \mathrm{bp}$ с комплементарной парой синаптических замков $\text{Ig}_{\mathrm{donor}}(+1)\leftrightarrow\text{Ig}_{\mathrm{acceptor}}(-1)$ ($N_{\mathrm{HB}}=63$) $\longrightarrow V=42=N_{\mathrm{shell}}(2),\ E=147=N_{\mathrm{ball}}(3),\ \chi_{\mathrm{2D}}=41=\Delta\varphi_{\mathrm{disc}}$.
+\end{enumerate}
+При передаче фазовой волны по $N_{\mathrm{ball}}(d) = 147$ контактам этой $|\square|=6$-слойной колонки отношение скорости когерентной синхронизации коры $v_{\mathrm{sync}}$ к скорости света~$c$ определяется двумя электромагнитными вершинами переключения водородного замка ($\alpha_{\mathrm{fs}}^4$) и числом контактов на один слой, делённым на $N_\varphi^2 = 169$:
+\begin{equation}
+\label{eq:bio-cortical-sync-speed}
+  \eta_{\mathrm{bio}}
+  := \frac{v_{\mathrm{sync}}}{c}
+  = \frac{N_{\mathrm{ball}}(d)}{|\square|\,N_\varphi^2}\,\alpha_{\mathrm{fs}}^4
+  = \frac{49}{338}\,\alpha_{\mathrm{fs}}^4
+  \approx 4{,}115\times 10^{-10}
+  \quad\Longrightarrow\quad
+  v_{\mathrm{sync}} \approx 0{,}1234\ \SiFrac{м}{с},
+\end{equation}
+что при подстановке в формулу кадра восприятия $\tau_{\mathrm{frame}} = \caBitBudget\caKappaGeom R_{\mathrm{eff}}/v_{\mathrm{sync}}$ даёт без подгоночных параметров $\tau_{\mathrm{frame}}^{(H)} \approx 14{,}7\ \mathrm{мс}$ ($f_{\mathrm{CFF}} \approx 68\ \mathrm{Гц}$) для зрительной коры человека ($R_{\mathrm{eff}}^{(H)}\approx 2{,}3\ \mathrm{мм}$) и $\tau_{\mathrm{frame}}^{(D)} \approx 4{,}03\ \mathrm{мс}$ ($f_{\mathrm{CFF}} \approx 248\ \mathrm{Гц}$) для ганглия \emph{Drosophila} ($R_{\mathrm{eff}}^{(D)}\approx 0{,}63\ \mathrm{мм}$).
+\end{corollary}
+
 \input{volumes/include-computational-laboratory.tex}
 
 \input{volumes/include-measurement-processing.tex}
