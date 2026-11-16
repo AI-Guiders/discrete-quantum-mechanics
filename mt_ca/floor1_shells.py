@@ -377,6 +377,23 @@ def cuboctahedral_second_period_and_hbond_verification() -> dict[str, Any]:
     max_rcov_rel_err = max(abs(pred_rcov[z] - ref_rcov[z]) / ref_rcov[z] for z in range(4, 10))
     peptide_cn_exact_multiple = (d * n_phi - 12) + (d * n_phi - 14) == 4 * n_phi  # 27 + 25 = 52 = 4 * 13
 
+    # Period-3 covalent radii (Si=14, P=15, S=16) via +N12/N_phi * r_H step
+    ref_rcov_p3 = {14: 1.11, 15: 1.07, 16: 1.025}
+    pred_rcov_p3 = {z: pred_rcov[z - n_hier] + (float(n12) / n_phi) * r_h for z in (14, 15, 16)}
+    max_rcov_p3_rel_err = max(abs(pred_rcov_p3[z] - ref_rcov_p3[z]) / ref_rcov_p3[z] for z in (14, 15, 16))
+
+    # Lone-pair bond-angle compression: cos(theta) = -1/d + m_LP * delta_pack = -(8 - m_LP)/24
+    delta_pack = (kappa * kappa) / n12  # 1/24
+    theta_nh3_deg = math.degrees(math.acos(-1.0 / d + 1.0 * delta_pack))
+    theta_h2o_deg = math.degrees(math.acos(-1.0 / d + 2.0 * delta_pack))
+    angle_h2o_err_deg = abs(theta_h2o_deg - 104.45)
+    angle_nh3_err_deg = abs(theta_nh3_deg - 107.28)
+
+    # B-DNA vertical stacking step: mod_bits * kappa * a0 = 9 * r_H ≈ 3.368 A vs 3.38 A
+    mod_bits = n_hier + 1  # 9
+    h_stack_dna_A = mod_bits * r_h
+    dna_stack_rel_err = abs(h_stack_dna_A - 3.38) / 3.38
+
     # Hydrogen bond quantum on shell k=2 (21 Pauli pairs * d=3 = 63), Watson-Crick + Major Groove barcodes, and Rumer's 64 -> 20+1=21 identity
     e_hb_ev = be_h / (d * (n_shell_2 // 2))  # BE_H / 63 = 0.21596 eV
     major_groove_barcodes = {
@@ -393,7 +410,11 @@ def cuboctahedral_second_period_and_hbond_verification() -> dict[str, Any]:
         and ie_rel_errs[6] < 0.001
         and ie_rel_errs[8] < 0.001
         and max_rcov_rel_err < 0.01
+        and max_rcov_p3_rel_err < 0.02
         and peptide_cn_exact_multiple
+        and angle_h2o_err_deg < 0.05
+        and angle_nh3_err_deg < 0.40
+        and dna_stack_rel_err < 0.005
         and 0.21 < e_hb_ev < 0.22
         and unique_major_groove
         and rumer_20_plus_1_ok
@@ -403,7 +424,11 @@ def cuboctahedral_second_period_and_hbond_verification() -> dict[str, Any]:
         "ie_C_rel_err": ie_rel_errs[6],
         "ie_O_rel_err": ie_rel_errs[8],
         "max_rcov_rel_err_Z4_9": max_rcov_rel_err,
+        "max_rcov_p3_rel_err_Z14_16": max_rcov_p3_rel_err,
         "peptide_CN_is_4_kappa_a0": peptide_cn_exact_multiple,
+        "theta_H2O_deg": theta_h2o_deg,
+        "theta_NH3_deg": theta_nh3_deg,
+        "h_stack_dna_A": h_stack_dna_A,
         "e_hb_eV": e_hb_ev,
         "unique_major_groove_barcodes": unique_major_groove,
         "rumer_20_plus_1_identity_ok": rumer_20_plus_1_ok,

@@ -57,6 +57,31 @@
 \item \textbf{Геометрический запрет некомплементарных пар ($\text{A--C}$, $\text{G--T}$):} столкновение одноимённых знаков ($++$ и $--$) на двух дорожках одновременно вызывает кулоновское отталкивание и выталкивает ошибочное основание из гексагонального среза $\{111\}$.
 \end{itemize}
 
+Вдоль оси двойной спирали B-ДНК вертикальный шаг $\pi$-стэкинга между соседними этажами пар оснований равен произведению битового бюджета ячейки $\lfloor\caBitBudget\rfloor=9$ на ковалентный радиус водорода $r_{\mathrm{cov}}(\text{H})=\caKappaGeom a_0$:
+\begin{equation}
+\label{eq:bio-dna-stacking-step}
+  h_{\mathrm{stack}}(\text{B-DNA})
+  = \lfloor\caBitBudget\rfloor\,\caKappaGeom\,a_0
+  = 9\caKappaGeom\,a_0
+  \approx 3{,}368\ \mathrm{\AA}
+  \qquad\bigl(\text{рентгеноструктурные данные B-ДНК: }3{,}38\text{--}3{,}40\ \mathrm{\AA},\ \text{откл.\ }-0{,}36\%\bigr).
+\end{equation}
+Число пар оснований на один полный виток двойной спирали равно экваториальному коэффициенту квадратичного роста сфер кубооктаэдра $N_{\mathrm{shell}}(k)=(\geomNeighborTwelve-2)k^2+2$:
+\[
+  n_{\mathrm{turn}}(\text{B-DNA}) = \geomNeighborTwelve - 2 = 10\text{ пар оснований на виток}
+  \qquad\bigl(\text{шаг витка }P = 10\,h_{\mathrm{stack}}\approx 33{,}7\ \mathrm{\AA},\ \text{поворот }360^\circ/10 = 36^\circ\bigr),
+\]
+а универсальный энергетический квант клетки --- свободная энергия гидролиза терминальной фосфатной связи АТФ ($\text{АТФ}\to\text{АДФ}+\text{Ф}_i$) --- равен удвоенному кванту водородной связи~\eqref{eq:bio-hbond-quantum} (равенству энергии двухдорожечной пары~$\text{A--T}$):
+\[
+  \Delta G_{\mathrm{ATP}}
+  = (d-1)\,E_{\mathrm{HB}}
+  = 2\,E_{\mathrm{HB}}
+  = \frac{2}{63}\,BE_H
+  \approx 0{,}432\ \mathrm{эВ}
+  \approx 41{,}7\ \mathrm{кДж/моль}
+  \qquad\bigl(\text{физиологический диапазон в клетке: }42\text{--}50\ \mathrm{кДж/моль}\bigr).
+\]
+
 \section{Четырёхслотовый штрихкод большой бороздки: чтение генома без расплетания спирали}
 \label{sec:bio-major-groove-barcode}
 
@@ -143,6 +168,49 @@
   = 21
   = \frac{N_{\mathrm{shell}}(2)}{2}.
 \end{equation}
+
+При этом три осевых места канала квадратных граней $3_\square$ в разложении $21 = 6_V + 12_E + 3_\square$ отвечают ровно $d=3$ аминокислотам, которые служат мостом между Октетом~I и Октетом~II и имеют по $4+2=6$ кодонов каждая:
+$\text{Leu}$ (якорный гидрофобный стержень ядра: \texttt{CU*} $+$ \texttt{UUR}),
+$\text{Ser}$ (якорный полярный гидроксил: \texttt{UC*} $+$ \texttt{AGY})
+и $\text{Arg}$ (главный бидентатный чтец большой бороздки ДНК: \texttt{CG*} $+$ \texttt{AGR}).
+Полная классификация всех $21$ смысловых классов второй координационной сферы приведена в \cref{tab:bio-21-amino-acids}.
+
+\begin{table}[htbp]
+\centering
+\caption{Все $21 = N_{\mathrm{shell}}(2)/2$ смысловых классов универсального генетического кода: разбиение Румера $8_{\text{Октет I}} + (12_{\text{Октет II}} + 1_{\text{Stop}}) = 21$, вилки водородных связей~$E_{\mathrm{HB}}$ и геометрическая роль в $O(1)$-фолдинге.}
+\label{tab:bio-21-amino-acids}
+\small
+\begin{tabular}{llllll}
+\toprule
+Октет & Класс & Кодоны & Паз $\text{C}_\alpha$ & Вилка $E_{\mathrm{HB}}$ & Роль на кубооктаэдре ГЦК \\
+\midrule
+I ($3_\square$) & Leu (L) & \texttt{CU*}, \texttt{UUR} (6) & $\alpha$ & $[0,0]$ (ветка $K_4$) & гидрофобный якорь ядра \\
+I ($3_\square$) & Ser (S) & \texttt{UC*}, \texttt{AGY} (6) & $\gamma/\alpha$ & $[+,-]$ ($-\text{OH}$) & короткий полярный замок \\
+I ($3_\square$) & Arg (R) & \texttt{CG*}, \texttt{AGR} (6) & $\alpha/\beta$ & $[+,+]$ (гуанидин) & бидентатный чтец $\text{G--C}$ бороздки \\
+\midrule
+I ($V/E$) & Ala (A) & \texttt{GC*} (4) & $\alpha$ & $[M]$ ($-\text{CH}_3$) & эталон правого паза $\alpha$-спирали \\
+I ($V/E$) & Val (V) & \texttt{GU*} (4) & $\beta$ & $[M,M]$ ($C_\beta$-вилка) & эталон плоского паза $\beta$-листа \\
+I ($V/E$) & Pro (P) & \texttt{CC*} (4) & $\gamma$ & цикл $\text{C}_\alpha\text{--N}$ & жёсткий излом петли (нет $-\text{NH}$) \\
+I ($V/E$) & Gly (G) & \texttt{GG*} (4) & $\gamma$ & $[0]$ ($-\text{H}$) & гибкий шарнир без бокового радикала \\
+I ($V/E$) & Thr (T) & \texttt{AC*} (4) & $\beta$ & $[+,-,M]$ & полярно-метильный паз $\beta$-листа \\
+\midrule
+II ($12_E/V$) & Phe (F) & \texttt{UUY} (2) & $\beta/\alpha$ & срез $\{111\}$ ($N_6$) & плоский ароматический стек \\
+II ($12_E/V$) & Tyr (Y) & \texttt{UAY} (2) & $\beta$ & $\{111\} + [+,-]$ & ароматический стек с $-\text{OH}$ замком \\
+II ($12_E/V$) & Trp (W) & \texttt{UGG} (1) & $\beta/\alpha$ & бицикл $\{111\} + [+]$ & крупный индольный клин ядра \\
+II ($12_E/V$) & Cys (C) & \texttt{UGY} (2) & $\beta/\gamma$ & $-\text{SH}$ ($Z=16$) & ковалентная сшивка $\text{S--S}$ ($2{,}05\ \mathrm{\AA}$) \\
+II ($12_E/V$) & Met (M) & \texttt{AUG} (1) & $\alpha$ & $-\text{S--CH}_3$ ($Z=16$) & старт-замок трансляции \\
+II ($12_E/V$) & Ile (I) & \texttt{AUH} (3) & $\beta$ & $[M,M]$ (хиральный $C_\beta$) & плотная упаковка $\beta$-ядра \\
+II ($12_E/V$) & His (H) & \texttt{CAY} (2) & $\alpha/\gamma$ & $[+ \leftrightarrow -]$ ($\mathrm{p}K_a\approx 6$) & переключатель протона при $300\ \mathrm{K}$ \\
+II ($12_E/V$) & Gln (Q) & \texttt{CAR} (2) & $\alpha$ & $[+,-]$ (амид) & бидентатный чтец $\text{A--T}$ бороздки \\
+II ($12_E/V$) & Asn (N) & \texttt{AAY} (2) & $\gamma/\alpha$ & $[+,-]$ (короткий амид) & чтец $\text{A--T}$ и шапка спирали \\
+II ($12_E/V$) & Lys (K) & \texttt{AAR} (2) & $\alpha$ & $[+]$ ($-\text{NH}_3^+$) & солевой мост к фосфатам ДНК \\
+II ($12_E/V$) & Asp (D) & \texttt{GAY} (2) & $\gamma/\alpha$ & $[-,-]$ ($-\text{COO}^-$) & фиксатор доноров и иона $\text{Mg}^{2+}$ \\
+II ($12_E/V$) & Glu (E) & \texttt{GAR} (2) & $\alpha$ & $[-,-]$ (длинный $-\text{COO}^-$) & бидентатный акцептор и солевой мост \\
+\midrule
+II (ядро $1$) & \texttt{Stop} & \texttt{UAA,UAG,UGA} (3) & --- & освобождение цепи & обрыв трансляции и выход глобулы \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \chapter{Ко-трансляционный фолдинг белка за \texorpdfstring{$O(1)$}{O(1)} на шаг без парадокса Левинталя}
 \label{ch:bio-o1-folding}

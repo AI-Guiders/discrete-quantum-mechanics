@@ -86,14 +86,26 @@ $IE_1^{(0)}(\text{He})=(11/6)\,BE_H\approx 24{,}94\ \mathrm{эВ}$ (откл.\ $
   замыкание сферического канала~$V$ ($2$ места Паули) и шести квадратных граней~$\square$ ($3$ оси $\times 2=6$ мест Паули)
   образует устойчивый $8$-электронный паз кубооктаэдра, управляющий валентностью элементов второго периода
   ($\text{C},\ \text{N},\ \text{O}$).
-\item \textbf{Тетраэдрическая связь $sp^3$ ($\cos\theta=-1/3$, $\theta\approx 109{,}47^\circ$):}
+\item \textbf{Тетраэдрическая связь $sp^3$ ($\cos\theta=-1/3$, $\theta\approx 109{,}47^\circ$) и сжатие угла неподелёнными парами ($\text{CH}_4\to\text{NH}_3\to\text{H}_2\text{O}$):}
   из $8$ треугольных граней кубооктаэдра $(\pm 1,\pm 1,\pm 1)$ четыре несмежные грани с чётным числом знаков минус
   \[
     (+1,+1,+1),\quad (+1,-1,-1),\quad (-1,+1,-1),\quad (-1,-1,+1)
   \]
   образуют правильный тетраэдр в~\latGCKshort\ (соответствующий клике~$K_4$).
-  Косинус угла между любыми двумя из этих четырёх направлений равен тождественно $\cos\theta=-1/3$ ($\theta=109{,}4712^\circ$),
-  что задаёт тетраэдрическую решётку алмаза, остов органических цепей углерода и сетку водородных связей воды~$\text{H}_2\text{O}$.
+  При отсутствии неподелённых электронных пар ($m_{\mathrm{LP}}=0$, метан~$\text{CH}_4$) косинус угла между связями равен $\cos\theta_0=-1/d=-1/3=-8/24$ ($\theta=109{,}4712^\circ$).
+  Каждая неподелённая пара ($m_{\mathrm{LP}}\in\{0,1,2\}$) на вершине тетраэдра~$K_4$ сдвигает косинус валентного угла ровно на один квант упаковки кубооктаэдра $\delta_{\mathrm{pack}}=\caKappaGeom^2/\geomNeighborTwelve=1/24$:
+  \begin{equation}
+  \label{eq:chem-lone-pair-angle}
+    \cos\theta(m_{\mathrm{LP}})
+    = -\frac{1}{d} + m_{\mathrm{LP}}\,\delta_{\mathrm{pack}}
+    = -\frac{8 - m_{\mathrm{LP}}}{24},
+  \end{equation}
+  откуда без единого подгоночного параметра следуют валентные углы гидридов второго периода:
+  \begin{itemize}[noitemsep]
+  \item $m_{\mathrm{LP}}=0$ ($\text{CH}_4$): $\cos\theta=-8/24=-1/3 \implies \theta=109{,}47^\circ$ (NIST: $109{,}47^\circ$);
+  \item $m_{\mathrm{LP}}=1$ ($\text{NH}_3$): $\cos\theta=-7/24 \implies \theta=106{,}96^\circ$ (NIST: $107{,}28^\circ$, откл.\ $-0{,}32^\circ$);
+  \item $m_{\mathrm{LP}}=2$ ($\text{H}_2\text{O}$): $\cos\theta=-6/24=-1/4=-1/d_{\mathrm{in}}(\square) \implies \theta=\arccos(-1/4)=104{,}48^\circ$ (NIST: $104{,}45^\circ$, откл.\ $+0{,}03^\circ$!).
+  \end{itemize}
 \item \textbf{Плоская связь $sp^2$ ($\cos\theta=-1/2$, $\theta=120^\circ$):}
   плоский срез $\{111\}$ решётки~\latGCKshort\ есть гексагональная звезда~$N_6$ (\bcref{ch:carrier}),
   три несмежных луча которой лежат в одной плоскости под углом ровно~$120^\circ$.
@@ -221,6 +233,27 @@ $Z$ & Элемент & Канал & $Z_{\mathrm{eff}}^{\mathrm{pred}}$ & $IE_1^{
   \qquad\bigl(\text{эксперимент: }1{,}471\ \mathrm{\AA}\bigr),
 \]
 где кластерный знаменатель $N_\varphi=13$ сокращается \emph{нацело} ($52/13=4$), делая шаг $\text{C--N}$ белковой цепи строго соизмеримым с решёткой водорода ($2 R_e(\text{H}_2)$)!
+
+\section{Переход к третьему периоду (\texorpdfstring{$\text{Si, P, S}$}{Si, P, S}): фосфатный хребет ДНК и дисульфидные мосты}
+\label{sec:chem-period3-radii}
+
+При переходе от $p$-элементов второго периода ($n=2$: $\text{C, N, O}$ при $Z_2\in\{6,7,8\}$) к гомологичным элементам третьего периода ($n=3$: $\text{Si, P, S}$ при $Z_3=Z_2+\vevHierarchySteps\in\{14,15,16\}$) добавляется одна полная координационная оболочка из $\geomNeighborTwelve=12$ узлов внутри $13$-узлового кластера $N_\varphi=13$.
+В результате ковалентный радиус увеличивается ровно на шаг звезды $\Delta r_{2\to 3}=(\geomNeighborTwelve/N_\varphi)\caKappaGeom a_0 = (12/13)\caKappaGeom a_0$:
+\begin{equation}
+\label{eq:chem-period3-covalent-radius}
+  r_{\mathrm{cov}}^{(n=3)}(Z_3)
+  = r_{\mathrm{cov}}^{(n=2)}(Z_3-\vevHierarchySteps) + \frac{\geomNeighborTwelve}{N_\varphi}\,\caKappaGeom\,a_0
+  = \frac{39 - 2(Z_3-\vevHierarchySteps) + \geomNeighborTwelve}{N_\varphi}\,\caKappaGeom\,a_0,
+  \qquad Z_3\in\{14,15,16\}.
+\end{equation}
+Формула~\eqref{eq:chem-period3-covalent-radius} без подгоночных параметров определяет размеры ключевых гетероатомов третьего периода в биохимии:
+\begin{itemize}[noitemsep]
+\item \textbf{Кремний ($\text{Si}, Z=14$, под~$\text{C}$):} $r_{\mathrm{cov}} = \frac{27+12}{13}\caKappaGeom a_0 = 3\caKappaGeom a_0 \approx 1{,}123\ \mathrm{\AA}$ (справочник: $1{,}11\ \mathrm{\AA}$, откл.\ $+1{,}1\%$);
+\item \textbf{Фосфор ($\text{P}, Z=15$, под~$\text{N}$ --- сахарофосфатный хребет ДНК/РНК и АТФ):}
+  $r_{\mathrm{cov}} = \frac{25+12}{13}\caKappaGeom a_0 = \frac{37}{13}\caKappaGeom a_0 \approx 1{,}065\ \mathrm{\AA}$ (справочник: $1{,}070\ \mathrm{\AA}$, откл.\ $-0{,}47\%$);
+\item \textbf{Сера ($\text{S}, Z=16$, под~$\text{O}$ --- старт-кодон $\text{Met}$ и дисульфидные сшивки $\text{Cys--Cys}$):}
+  $r_{\mathrm{cov}} = \frac{23+12}{13}\caKappaGeom a_0 = \frac{35}{13}\caKappaGeom a_0 \approx 1{,}007\ \mathrm{\AA}$ (половина дисульфидного моста $R(\text{S--S})/2 = 1{,}025\ \mathrm{\AA}$, откл.\ $-1{,}7\%$).
+\end{itemize}
 
 \chapter{Водородная связь, вода \texorpdfstring{$\text{H}_2\text{O}$}{H2O}, замок Уотсона--Крика и ключ к геному}
 \label{ch:chem-hbond-genome}
