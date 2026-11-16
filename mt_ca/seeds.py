@@ -315,6 +315,66 @@ def vacuum_ice_phase_shift_fixed_3d(
     )
 
 
+def universe_iv_9bit_spinor_3d(
+    nz: int,
+    ny: int,
+    nx: int,
+    *,
+    iv_9bit: int = 0b1_00000111,
+    radius: int = 6,
+    device: torch.device,
+    dtype: torch.dtype = torch.complex64,
+    mod_bits: int = PLANCK_CELL.mod_bits,
+    frac_bits: int = PLANCK_CELL.frac_bits,
+    phase_bits: int = PLANCK_CELL.phase_bits,
+) -> torch.Tensor:
+    """META §3.2 IV→I: 9-bit Universe Initial Vector (IV ∈ ℤ_512) on 3+1 FCC boil.
+
+    Bit budget:
+      - Bit 8 (MSB, 1 bit): chirality bit b_chir ∈ {0, 1} (selects n=+1 vs n=−1 dominance).
+      - Bits 0..7 (8 = N_hier = 2^d bits): binary phase shift mask across the 2^3 = 8
+        spatial octants (z>=cz, y>=cy, x>=cx) around the causal nucleation core.
+    Where 3 octants meet with non-trivial mask (e.g. K_3 trihedral mask 0b00000111 = 7),
+    Kibble-Zurek phase holonomy deterministically nucleates b=1 matter vortices from b=0.
+    """
+    if not 0 <= int(iv_9bit) < (1 << mod_bits):
+        raise ValueError(f"iv_9bit must be in 0..{(1 << mod_bits) - 1}, got {iv_9bit}")
+    z_boil = boil_ocean_spinor_3d(
+        nz,
+        ny,
+        nx,
+        device=device,
+        dtype=dtype,
+        mod_bits=mod_bits,
+        frac_bits=frac_bits,
+        phase_bits=phase_bits,
+    )
+    zz, yy, xx = torch.meshgrid(
+        torch.arange(nz, device=device, dtype=torch.int64),
+        torch.arange(ny, device=device, dtype=torch.int64),
+        torch.arange(nx, device=device, dtype=torch.int64),
+        indexing="ij",
+    )
+    cz, cy, cx = nz // 2, ny // 2, nx // 2
+    octant_idx = ((zz >= cz).long() << 2) | ((yy >= cy).long() << 1) | (xx >= cx).long()
+    b_chir = (int(iv_9bit) >> 8) & 1
+    mask8 = int(iv_9bit) & 0xFF
+    sign = 1.0 if b_chir == 1 else -1.0
+    r2 = (zz - cz) ** 2 + (yy - cy) ** 2 + (xx - cx) ** 2
+    ball_mask = (r2 <= int(radius) ** 2).to(torch.float32)
+    step_rad = 2.0 * math.pi * (float(heisenberg_phi_min_disc(phase_bits=phase_bits)) / float(1 << phase_bits))
+    bit_m = ((mask8 >> octant_idx) & 1).to(torch.float32)
+    bit_m2 = ((mask8 >> (octant_idx ^ 0b011)) & 1).to(torch.float32)
+    phi1 = sign * bit_m * (3.0 * step_rad) * ball_mask
+    phi2 = sign * bit_m2 * (3.0 * step_rad) * ball_mask
+    boost = 1.0 + 10.0 * ball_mask
+    z = z_boil.clone()
+    z[..., 0] = z[..., 0] * boost * torch.exp(1j * phi1).to(dtype)
+    z[..., 1] = z[..., 1] * boost * torch.exp(1j * phi2).to(dtype)
+    f = encode_spinor(z, frac_bits=frac_bits, mod_bits=mod_bits, gauge_fix=False)
+    return decode_spinor(f, frac_bits=frac_bits, mod_bits=mod_bits).to(dtype)
+
+
 def ice_ocean_spinor_3d(
     nz: int,
     ny: int,

@@ -334,11 +334,35 @@ $Z$ & Элемент & Канал & $Z_{\mathrm{eff}}^{\mathrm{pred}}$ & $IE_1^{
   = \frac{\caKappaGeom^6}{(1-\caKappaGeom^6)\,\lfloor\caBitBudget\rfloor}\,BE_H
   = \frac{BE_H}{2^{\mathrm{frac\_bits}}-1}
   \approx 0{,}2160\ \mathrm{эВ}
-  \approx 20{,}84\ \mathrm{кДж/моль}
-  \approx 4{,}98\ \mathrm{ккал/моль}
+  \approx 20{,}84\ \SiFrac{кДж}{моль}
+  \approx 4{,}98\ \SiFrac{ккал}{моль}
 \end{equation}
-(что отличается от минимального амплитудного шага ячейки $z_{\min}BE_H = 2^{-\mathrm{frac\_bits}}BE_H \approx 0{,}2126\ \mathrm{эВ} = 20{,}51\ \mathrm{кДж/моль}$ ровно на $1$ квант из $2^{\mathrm{frac\_bits}}$, при эксперименте для жидкой воды и дуплекса ДНК $20{,}5\text{--}21{,}0\ \mathrm{кДж/моль}$).
+(что отличается от минимального амплитудного шага ячейки $z_{\min}BE_H = 2^{-\mathrm{frac\_bits}}BE_H \approx 0{,}2126\ \mathrm{эВ} = 20{,}51\ \SiFrac{кДж}{моль}$ ровно на $1$ квант из $2^{\mathrm{frac\_bits}}$, при эксперименте для жидкой воды и дуплекса ДНК $20{,}5\text{--}21{,}0\ \SiFrac{кДж}{моль}$).
 В силу того, что $E_{\mathrm{HB}}\approx 8\,k_B T_{300\mathrm{K}}$ ($k_B T_{300\mathrm{K}}\approx 0{,}02585\ \mathrm{эВ}$), одиночная водородная связь устойчива против теплового дрожания при~$300\ \mathrm{K}$, но обратимо переключается ферментом без разрушения ковалентного остова ($D_0\sim 3\text{--}5\ \mathrm{эВ}$).
+
+\subsection{Фазовые переходы воды ($\text{H}_2\text{O}$) и сверхпроводящая щель из $E_{\mathrm{HB}}$ и мягкой грани $d_{\mathrm{soft}}=7$}
+\label{subsec:chem-water-phases-bcs}
+
+В жидкой воде и кристаллическом льду~$\text{I}_h$ каждая молекула~$\text{H}_2\text{O}$ образует $4$ тетраэдрических водородных связи (по $d-1=2$ связи в расчёте на одну молекулу).
+Отсюда без подгоночных коэффициентов следуют все термодинамические точки фазовых переходов воды и универсальное отношение сверхпроводящей щели:
+\begin{enumerate}[noitemsep]
+\item \textbf{Теплота парообразования и плавления воды:}
+  полный разрыв обеих связей на молекулу при испарении даёт $\Delta H_{\mathrm{vap}}(\text{H}_2\text{O}) = (d-1)N_A E_{\mathrm{HB}} \approx 41{,}67\ \SiFrac{кДж}{моль}$ (эксперимент: $40{,}66\ \SiFrac{кДж}{моль}$ при~$373\ \mathrm{К}$ и $43{,}99\ \SiFrac{кДж}{моль}$ при~$298\ \mathrm{К}$), а при плавлении льда~$\text{I}_h$ разрывается ровно доля $1/d_{\mathrm{soft}} = 1/7$ связей мягкой грани кубооктаэдра:
+  \[
+    \Delta H_{\mathrm{fus}}(\text{H}_2\text{O}) = \frac{d-1}{d_{\mathrm{soft}}}\,N_A E_{\mathrm{HB}} = \frac{2}{7}\,N_A E_{\mathrm{HB}} \approx 5{,}954\ \SiFrac{кДж}{моль}\qquad\bigl(\text{эксперимент: }6{,}009\ \SiFrac{кДж}{моль},\ \text{откл. }-0{,}92\%\bigr).
+  \]
+\item \textbf{Точки плавления, кипения и критическая точка воды ($T_{\mathrm{HB}} := E_{\mathrm{HB}}/k_{\mathrm{B}} \approx 2506{,}15\ \mathrm{К}$):}
+  \[
+    T_{\mathrm{melt}} = \frac{T_{\mathrm{HB}}}{\lfloor\caBitBudget\rfloor} = \frac{T_{\mathrm{HB}}}{9} \approx 278{,}5\ \mathrm{К}\ (273{,}15\ \mathrm{К}),\quad
+    T_{\mathrm{boil}} = \frac{d_{\mathrm{in}}(\square)}{d^3}\,T_{\mathrm{HB}} = \frac{4}{27}\,T_{\mathrm{HB}} \approx 371{,}3\ \mathrm{К}\ (373{,}15\ \mathrm{К}),\quad
+    T_{\mathrm{crit}} = \frac{\vevHierarchySteps}{d_{\mathrm{in}}(\square)\vevHierarchySteps-1}\,T_{\mathrm{HB}} = \frac{8}{31}\,T_{\mathrm{HB}} \approx 646{,}7\ \mathrm{К}\ (647{,}1\ \mathrm{К}).
+  \]
+\item \textbf{Универсальное отношение сверхпроводящей щели Купера--БКШ на мягкой грани $d_{\mathrm{soft}}=7$:}
+  при фононном спаривании электронов со спиновым вырождением~$2$ на мягкой грани кубооктаэдра $d_{\mathrm{soft}}=7$ отношение удвоенной щели к критической температуре равно
+  \[
+    \frac{2\Delta_0}{k_{\mathrm{B}}T_c} = \frac{d_{\mathrm{soft}}}{2}\frac{\hat M}{\hat M - 1} = \frac{7}{2}\cdot\frac{97}{96} \approx 3{,}536\qquad\bigl(\text{предел БКШ: }3{,}528,\ \text{откл. }+0{,}24\%\bigr).
+  \]
+\end{enumerate}
 
 \section{Цифровой замок Уотсона--Крика (\texorpdfstring{$\text{A--T}$}{A-T} и \texorpdfstring{$\text{G--C}$}{G-C}) и штрихкод большой бороздки ДНК}
 \label{sec:chem-watson-crick-barcode}
@@ -346,8 +370,8 @@ $Z$ & Элемент & Канал & $Z_{\mathrm{eff}}^{\mathrm{pred}}$ & $IE_1^{
 В плоскости гексагонального среза $\{111\}$ ($sp^2$, угол $120^\circ$) каждое азотистое основание ДНК представляет собой жёсткую плоскую решётку (пурин $\text{A, G}$: сшивка $6$- и $5$-членного циклов; пиримидин $\text{C, T}$: $6$-членный цикл).
 Постоянная ширина двойной спирали фиксирована суммой пурина и пиримидина, а вдоль фронтального стыка идут ровно $d=3$ параллельные дорожки водородных связей со знаками полярности ($+$ для донора $-\text{NH}$, $-$ для акцептора $=\text{O}$ или $=\text{N}-$, $0$ для неполярного $-\text{CH}$):
 \begin{itemize}[noitemsep]
-\item \textbf{Пара $\text{G--C}$:} $\text{G}=[-,\ +,\ +]$ $\longleftrightarrow$ $\text{C}=[+,\ -,\ -]$ --- замыкаются все $d=3$ дорожки с энергией $E(\text{G--C})=3\,E_{\mathrm{HB}}\approx 0{,}648\ \mathrm{эВ}$ ($14{,}94\ \mathrm{ккал/моль}$);
-\item \textbf{Пара $\text{A--T}$:} $\text{A}=[+,\ -,\ 0]$ $\longleftrightarrow$ $\text{T}=[-,\ +,\ -]$ --- замыкаются $d-1=2$ дорожки с энергией $E(\text{A--T})=2\,E_{\mathrm{HB}}\approx 0{,}432\ \mathrm{эВ}$ ($9{,}96\ \mathrm{ккал/моль}$), отношение $E(\text{G--C})/E(\text{A--T})=d/(d-1)=3/2$;
+\item \textbf{Пара $\text{G--C}$:} $\text{G}=[-,\ +,\ +]$ $\longleftrightarrow$ $\text{C}=[+,\ -,\ -]$ --- замыкаются все $d=3$ дорожки с энергией $E(\text{G--C})=3\,E_{\mathrm{HB}}\approx 0{,}648\ \mathrm{эВ}$ ($14{,}94\ \SiFrac{ккал}{моль}$);
+\item \textbf{Пара $\text{A--T}$:} $\text{A}=[+,\ -,\ 0]$ $\longleftrightarrow$ $\text{T}=[-,\ +,\ -]$ --- замыкаются $d-1=2$ дорожки с энергией $E(\text{A--T})=2\,E_{\mathrm{HB}}\approx 0{,}432\ \mathrm{эВ}$ ($9{,}96\ \SiFrac{ккал}{моль}$), отношение $E(\text{G--C})/E(\text{A--T})=d/(d-1)=3/2$;
 \item \textbf{Запрет ошибок ($\text{A--C}$, $\text{G--T}$):} наложение одноимённых знаков ($++$ и $--$) на двух дорожках даёт кулоновское отталкивание и геометрический перекос в срезе $\{111\}$.
 \end{itemize}
 

@@ -1,18 +1,207 @@
-% compute (stub)
-\part{Информатика и вычислительная архитектура}
+% compute — полный том «Информатика и вычислительная архитектура» (book/SERIES.md)
+\part{Вычислительная архитектура целочисленного решёточного автомата \texorpdfstring{$\mathbb{Z}_{512}[i]^2$}{Z\_512[i]\^2}}
 
-\chapter{Назначение тома}
-Какой \emph{носитель вычисления} следует из дискретного $g$
-($B_{hV}$, CA, локальные уравнения баланса / законы сохранения, фазовые кольца) --- отдельная исследовательская программа.
-Связь с \texttt{mt\_ca/} и GPU DoD --- в \texttt{DEVLOG.md}.
+\chapter{От физического закона \texorpdfstring{$g$}{g} к архитектуре вычислителя: почему числа с плавающей запятой нарушают физику}
+\label{ch:compute-why-not-float}
 
-\chapter{План глав (черновик)}
-\begin{itemize}
-  \item От MODEL к машине: что нельзя смягчать (A3, локальность, бит-бюджет).
-  \item Архитектурные следствия vs классический фон Нейман.
-  \item Критерии верификации архитектуры (не смешивать с verify физики).
+В традиционной вычислительной физике принято считать, что природа описывается дифференциальными уравнениями в континууме~$\mathbb{R}^4$, а компьютер с арифметикой плавающей запятой (IEEE-754 \texttt{float32} / \texttt{float64}) лишь приближённо аппроксимирует эти уравнения на конечной сетке.
+Как показано в томе «Построение» (\bcref{sec:app-universality}), в действительности причинно-следственная зависимость обратна:
+первичным физическим носителем мироздания является трёхмерный целочисленный обратимый клеточный автомат на гранецентрированной кубической решётке~\latGCK\ со спинорным состоянием $Z(x,\tau) \in \mathbb{Z}_{\phaseRingCount}[i]^2$ ($\phaseRingCount = 2^{\lfloor\caBitBudget\rfloor} = 512$), тогда как дифференциальные и интегральные уравнения в частных производных возникают лишь как длинноволновые тени ($|\mathbf{k}|\ell_P \ll 1$) после биномиального усреднения~$\mathcal{B}$.
+
+Из этого переворота онтологии вытекает фундаментальное требование к вычислительной архитектуре, предназначенной для точного моделирования материи, химии и биологии:
+\emph{аппаратный и программный носитель вычисления обязан точно воспроизводить целочисленную алгебру кольца $\mathbb{Z}_{512}[i]^2$ и обратимость шага~$g$, не допуская ни одного необратимого округления с плавающей запятой в ядре эволюции}.
+
+\begin{theorem}[Несовместимость арифметики IEEE-754 с унитарностью~$A_3$ и обратимостью~$A_{13}$]
+\label{thm:compute-float-violation}
+Любая реализация шага эволюции~$g$ в арифметике с плавающей запятой (\texttt{float32}/\texttt{float64}) со схемой первого порядка (Эйлера) или с неконтролируемым усечением мантиссы нарушает фундаментальные аксиомы носителя:
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Дрейф полной нормы и нарушение~$A_3$:}
+  в схеме первого порядка $z(\tau+\htick) = z(\tau) + i\,\delta\varphi\,z(\tau)$ квадрат модуля умножается на $(1 + |\delta\varphi|^2) > 1$ на каждом такте, что приводит к экспоненциальному взрыву нормы, а при перенормировке делением на $|z|$ с плавающей запятой младшие биты мантиссы безвозвратно теряются.
+\item \textbf{Потеря точной обратимости во времени ($A_{13}$):}
+  поскольку сложение с плавающей запятой неассоциативно и сопровождается сдвигом порядков, равенство $g^{-1}(g(Z)) \equiv Z$ нарушается уже на первом такте ($\Delta Z \sim 2^{-24}$ для \texttt{float32}), разрушая замкнутые фазовые орбиты и топологические инварианты за конечное число шагов.
+\item \textbf{Уничтожение голономии поклеточной калибровкой (`per-cell gauge\_fix`):}
+  попытка принудительно обнулить фазу первой компоненты спинора $\arg z_1(x) \mapsto 0$ в каждой ячейке перед записью в регистр уничтожает пространственную разность фаз между соседями ($\zeta_{\mathrm{imag}} \equiv 0$), превращая кипящий океан~$A_5$ в мёртвую замороженную решётку.
+\end{enumerate}
+\end{theorem}
+
+\chapter{Побитовый паспорт элементарной ячейки \texorpdfstring{$V_P$}{V\_P} и целочисленное кольцо \texorpdfstring{$\mathbb{Z}_{512}[i]^2$}{Z\_512[i]\^2}}
+\label{ch:compute-cell-bit-budget}
+
+Информационная ёмкость одной планковской ячейки не выбирается программистом произвольно, а однозначно продиктована голографическим пределом Бекештейна на один такт вращения фазы $2\pi$:
+\begin{equation}
+\label{eq:compute-bv-budget}
+  \caBitBudget = \frac{2\pi}{\ln 2} \approx 9{,}06472\ \mathrm{бит}
+  \quad\Longrightarrow\quad
+  \mathrm{mod\_bits} = \mathrm{phase\_bits} = \lfloor\caBitBudget\rfloor = 9\ \mathrm{бит},
+  \qquad
+  \phaseRingCount = 2^{\mathrm{mod\_bits}} = 512.
+\end{equation}
+
+\section{Разбиение $9$-битного регистра и $16$-битное слово полуспинора}
+\label{sec:compute-register-layout}
+
+Все структурные числа вычислительного ядра выводятся из пары $(\lfloor\caBitBudget\rfloor = 9,\ d = 3)$ без свободных констант (`mt\_ca.si\_constants.PLANCK\_CELL`):
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Биты дробной части амплитуды ($\mathrm{frac\_bits} = 6$) и квант пола $z_{\min} = 1/64$:}
+  вычитание числа пространственных измерений $d = 3$ из полного битового бюджета ячейки $\lfloor\caBitBudget\rfloor = 9$ фиксирует число бит амплитудной сетки:
+  \[
+    \mathrm{frac\_bits} = \lfloor\caBitBudget\rfloor - d = 9 - 3 = 6\ \mathrm{бит},
+    \qquad
+    z_{\min} = 2^{-\mathrm{frac\_bits}} = \frac{1}{64},
+    \qquad
+    N_{\mathrm{HB}} = 2^{\mathrm{frac\_bits}} - 1 = 63.
+  \]
+\item \textbf{Иерархический бюджет башни ($\vevHierarchySteps = 8$) и бит занятости $b(x) \in \{0,1\}$:}
+  резервирование одного бита под булеву занятость ячейки веществом ($b = 1$ для ядра планкона, $b = 0$ для кипящего вакуума) оставляет ровно
+  \[
+    \vevHierarchySteps = \lfloor\caBitBudget\rfloor - 1_{\mathrm{occupancy}} = 9 - 1 = 8\ \mathrm{бит},
+  \]
+  причём сумма $9$ бит фазового кольца, $6$ бит амплитудной сетки и $1$ бита занятости составляет ровно одно $16$-битное машинное полуслово на каждую компоненту спинора:
+  \begin{equation}
+  \label{eq:compute-16bit-word}
+    \mathrm{mod\_bits} + \mathrm{frac\_bits} + 1_{\mathrm{occupancy}} = 9 + 6 + 1 = 16\ \mathrm{бит} = 2\,\vevHierarchySteps.
+  \end{equation}
+\item \textbf{Дискретный порог Гейзенберга ($\Delta\varphi_{\mathrm{disc}} = 41$ такт) и импульс Паули ($256$ тактов):}
+  минимальный фазовый шаг $\Delta\varphi_{\min} = s_0/\planckHbar = 1/2\ \mathrm{рад}$ и фермионный обменный сдвиг $\pi\ \mathrm{рад}$ представлены на кольце $\mathbb{Z}_{512}$ точными целыми числами тактов:
+  \[
+    \Delta\varphi_{\mathrm{disc}} = \mathrm{round}\!\left(\phaseRingCount\,\frac{\Delta\varphi_{\min}}{2\pi}\right) = 41\ \mathrm{такт},
+    \qquad
+    \Phi_{\mathrm{Pauli}} = \frac{\phaseRingCount}{2} = 256\ \mathrm{тактов},
+    \qquad
+    N_\varphi = \left\lceil\frac{\phaseRingCount}{\Delta\varphi_{\mathrm{disc}}}\right\rceil = 13 = 1 + \geomNeighborTwelve.
+  \]
+\end{enumerate}
+
+\begin{table}[htbp]
+\centering
+\caption{Аппаратный паспорт ячейки $V_P$ в кольце $\mathbb{Z}_{512}[i]^2$ (`PLANCK\_CELL`).}
+\label{tab:compute-cell-passport}
+\footnotesize
+\begin{tabular}{@{}llll@{}}
+\toprule
+Параметр регистра & Формула из носителя & Значение & Физическая и алгоритмическая роль \\
+\midrule
+$\mathrm{mod\_bits}$ & $\lfloor\caBitBudget\rfloor = \lfloor 2\pi/\ln 2\rfloor$ & $9\ \mathrm{бит}$ & разрядность каждой дорожки $\mathrm{Re} z_a, \mathrm{Im} z_a \pmod{512}$ \\
+$\phaseRingCount$ & $2^{\mathrm{mod\_bits}}$ & $512$ & порядок фазового кольца $\mathbb{Z}_{512}$ ($2\pi_{\mathrm{disc}} = 512$) \\
+$\mathrm{frac\_bits}$ & $\lfloor\caBitBudget\rfloor - d$ & $6\ \mathrm{бит}$ & сдвиг фиксированной точки $s = 2^6 = 64$ ($z_{\min} = 1/64$) \\
+$\vevHierarchySteps$ & $\lfloor\caBitBudget\rfloor - 1_{\mathrm{occupancy}}$ & $8\ \mathrm{бит}$ & число ступеней иерархии ослабления $\alpha_{\mathrm{fs}}^8$ \\
+$\Delta\varphi_{\mathrm{disc}}$ & $\mathrm{round}(512 / (4\pi))$ & $41\ \mathrm{такт}$ & целочисленный порог Гейзенберга ($|\Phi| < 41 \mapsto 0$) \\
+$\Phi_{\mathrm{Pauli}}$ & $\phaseRingCount / 2$ & $256\ \mathrm{тактов}$ & антисимметричный разворот фазы Паули ($\pi\ \mathrm{рад}$) \\
+$Z(x,\tau)$ & $(U_1, V_1, U_2, V_2) \in \mathbb{Z}_{512}^4$ & $4\times 9 = 36\ \mathrm{бит}$ & полное состояние двухкомпонентного спинора в ячейке \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\chapter{Обратимая схема второго порядка («лягушка») в модулярной арифметике \texorpdfstring{$\mathbb{Z}_{512}[i]^2$}{Z\_512[i]\^2}}
+\label{ch:compute-reversible-leapfrog}
+
+Чтобы обеспечить строгую побитовую обратимость эволюции ($A_{13}$) без потери младших разрядов при нелинейном взаимодействии, динамическое ядро автомата (`mt\_ca/z\_ring.py`, `mt\_ca/projected\_collision.py`) построено как симметричная модулярная схема второго порядка по времени («лягушка» / \emph{leapfrog}):
+
+\begin{theorem}[Точная побитовая обратимость модулярного шага «лягушка» на $\mathbb{Z}_{512}^4$]
+\label{thm:compute-modular-leapfrog}
+Пусть $Z(\tau), Z(\tau-\htick) \in \mathbb{Z}_{\phaseRingCount}^4$ --- четырёхдорожечные целочисленные состояния спинора на текущем и предыдущем тактах, а $\lfloor\mathcal{N}(Z(\tau))\rfloor \in \mathbb{Z}_{\phaseRingCount}^4$ --- целочисленный импульс столкновения, зависящий \emph{только} от текущего среза $Z(\tau)$ на звезде кубооктаэдра~$\geomNeighborTwelve$.
+Тогда прямое правило обновления
+\begin{equation}
+\label{eq:compute-leapfrog-forward}
+  Z(\tau + \htick) \;\equiv\; \bigl(2\,Z(\tau) + \lfloor\mathcal{N}(Z(\tau))\rfloor - Z(\tau - \htick)\bigr) \pmod{\phaseRingCount}
+\end{equation}
+обладает точным побитовым обратным оператором $g^{-1}$, восстанавливающим прошлое состояние $Z(\tau - \htick)$ по паре $(Z(\tau), Z(\tau + \htick))$ без какой-либо потери информации:
+\begin{equation}
+\label{eq:compute-leapfrog-inverse}
+  Z(\tau - \htick) \;\equiv\; \bigl(2\,Z(\tau) + \lfloor\mathcal{N}(Z(\tau))\rfloor - Z(\tau + \htick)\bigr) \pmod{\phaseRingCount}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Складывая сравнения~\eqref{eq:compute-leapfrog-forward} и~\eqref{eq:compute-leapfrog-inverse} в кольце вычетов $\mathbb{Z}_{\phaseRingCount}^4$, получаем тождество
+\[
+  Z(\tau + \htick) + Z(\tau - \htick) \;\equiv\; 2\,Z(\tau) + \lfloor\mathcal{N}(Z(\tau))\rfloor \pmod{\phaseRingCount}.
+\]
+Поскольку нелинейный импульс столкновения $\lfloor\mathcal{N}(Z(\tau))\rfloor$ вычисляется детерминированно по центральному срезу $Z(\tau)$, который одинаково известен и при шаге вперёд $(Z(\tau-\htick), Z(\tau))\mapsto Z(\tau+\htick)$, и при шаге назад $(Z(\tau+\htick), Z(\tau))\mapsto Z(\tau-\htick)$, любое округление внутри~$\lfloor\mathcal{N}(Z(\tau))\rfloor$ вычитается при обратном ходе бит в бит.
+\end{proof}
+
+\section{Целочисленный конвейер одного такта на звезде кубооктаэдра \texorpdfstring{$\geomNeighborTwelve$}{N12}}
+\label{sec:compute-pipeline-tick}
+
+Один полный такт автомата на узле $x\in\carrierLattice$ выполняется за пять элементарных целочисленных операций без единого обращения к числам с плавающей запятой (`projected\_step\_fixed`):
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Сумма по $12$ соседям кубооктаэдра ($\Sigma_{\geomNeighborTwelve}$):}
+  для каждой из четырёх дорожек $(U_0, V_0, U_1, V_1)$ суммируются знаковые значения по $12$ смещениям $(\pm 1, \pm 1, 0)$, $(\pm 1, 0, \pm 1)$, $(0, \pm 1, \pm 1)$:
+  \[
+    S_U(x) = \sum_{\mathbf{e}\in\geomNeighborTwelve} U(x + \mathbf{e}),
+    \qquad
+    S_V(x) = \sum_{\mathbf{e}\in\geomNeighborTwelve} V(x + \mathbf{e}).
+  \]
+\item \textbf{Целочисленная голономия~$\zeta$ со сдвигом на $\mathrm{frac\_bits} = 6$:}
+  вычисляются продольная и поперечная компоненты взаимной корреляции узла со звездой:
+  \[
+    \zeta_r = (S_U U + S_V V) \gg 6,
+    \qquad
+    \zeta_i = (S_V U - S_U V) \gg 6,
+    \qquad
+    \rho_2 = (U^2 + V^2) \gg 6.
+  \]
+\item \textbf{Насыщающий фазовый импульс~$\Phi$ и порог Гейзенберга ($\Delta\varphi_{\mathrm{disc}} = 41$):}
+  целочисленное деление с планковским потолком жёсткости $K_P$ и обнулением подпорогового шума:
+  \[
+    \Phi_{\mathrm{raw}} = \left\lfloor\frac{K_P\,\zeta_i}{\zeta_r + \rho_2 + K_P}\right\rfloor,
+    \qquad
+    \Phi = \begin{cases}
+      0, & \text{если } |\Phi_{\mathrm{raw}}| < \Delta\varphi_{\mathrm{disc}} = 41,\\
+      \Phi_{\mathrm{raw}} \pmod{512}, & \text{иначе,}
+    \end{cases}
+  \]
+  плюс добавка импульса Паули $\Phi_{\mathrm{Pauli}} = 256$ при перекрытии двух параллельных фермионных спиноров в одной ячейке ($A_{16}$).
+\item \textbf{Табличный поворот спинора (`Rot\_LUT`):}
+  по индексу фазы~$\Phi$ из фиксированной целочисленной таблицы синусов и косинусов (сдвиг $2^{30}$) вычисляется приращение $\lfloor\mathcal{N}(Z)\rfloor = (\delta U_0, \delta V_0, \delta U_1, \delta V_1) \pmod{512}$.
+\item \textbf{Модулярный шаг «лягушка» и контроль потолка Бекештейна--Планковской плотности ($A_7$) и пола ($A_5$):}
+  применяется формула~\eqref{eq:compute-leapfrog-forward}, после чего проверяется условие отсутствия пустых ячеек ($|Z|_1 \ge 1$) и потолок плотности $\rho_2 \le \rho_{\max}$.
+\end{enumerate}
+
+\chapter{Аппаратная реализация: отличие от архитектуры фон Неймана и отображение на GPU/FPGA/ASIC}
+\label{ch:compute-hardware-von-neumann}
+
+Классическая архитектура фон Неймана разделяет пассивную память (RAM) и центральный арифметический процессор (CPU), соединённые узкой шиной данных (\emph{узкое горлышко фон Неймана}).
+В решёточном автомате~\latGCK\ физическая память и закон вычисления слиты воедино в каждой ячейке~$V_P$:
+\begin{table}[htbp]
+\centering
+\caption{Сравнение классической архитектуры фон Неймана и нативного носителя решёточного автомата~\latGCKshort.}
+\label{tab:compute-von-neumann-vs-ca}
+\footnotesize
+\begin{tabular}{@{}lll@{}}
+\toprule
+Характеристика & Архитектура фон Неймана (CPU + Float) & Нативный КА-носитель $\mathbb{Z}_{512}[i]^2$ на \latGCKshort \\
+\midrule
+Хранение и обработка & Разделены (память $\leftrightarrow$ шина $\leftrightarrow$ АЛУ) & Совмещены в каждом узле~$V_P$ (in-memory computing) \\
+Формат данных & Неассоциативный IEEE-754 \texttt{float32}/\texttt{float64} & Точное кольцо вычетов $\mathbb{Z}_{512}^4$ ($4\times 9\ \mathrm{бит}$) \\
+Связность на такт & Произвольная адресация RAM ($O(1)$ с кэш-промахами) & Строго $12$ фиксированных линий кубооктаэдра~$\geomNeighborTwelve$ \\
+Обратимость такта & Необратима (стирание регистров, тепло Ландауэра) & Побитово обратима ($g^{-1}$ по теореме~\ref{thm:compute-modular-leapfrog}) \\
+Сложность $N$ тел / фолдинга & $O(N^2\ldots N^3)$ матриц / экспоненциальный перебор & $O(1)$ локальных операций на узел за один такт~$\htick$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+При отображении на современные графические ускорители (CUDA GPU) и программируемые матрицы (FPGA/ASIC):
+\begin{itemize}[leftmargin=*]
+\item Трёхмерный тор $\carrierLattice = \mathbb{Z}_{L_z}\times\mathbb{Z}_{L_y}\times\mathbb{Z}_{L_x}$ разбивается на трёхмерные тайлы в разделяемой памяти (\texttt{shared memory}) с ореолом (halo) ширины $1$ шаг вдоль $12$ гранецентрированных диагоналей~$\geomNeighborTwelve$.
+\item Поскольку таблица поворотов `Rot\_LUT` и все сдвиги $\gg 6$, $\pmod{512}$ являются чисто целочисленными побитовыми операциями, один такт на FPGA/ASIC реализуется одной комбинаторной ступенью сумматоров и сдвигателей без блоков плавающей запятой (FPU), что открывает путь к созданию специализированных обратимых физико-химических и биологических процессоров.
 \end{itemize}
 
 \input{volumes/include-computational-laboratory.tex}
 
 \input{volumes/include-measurement-processing.tex}
+
+\chapter{Критические тесты и верификация вычислительной архитектуры}
+\label{ch:compute-critical-experiments}
+
+Вычислительная реализация ядра~\latGCKshort\ считается корректной тогда и только тогда, когда она проходит четыре автоматических аппаратно-программных гейта (`verify\_principles.py`):
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Гейт побитовой обратимости (`T\_Reversibility` / $A_{13}$):}
+  после $N$ прямых шагов~\eqref{eq:compute-leapfrog-forward} и $N$ обратных шагов~\eqref{eq:compute-leapfrog-inverse} на трёхмерном торе~\latGCKshort\ целочисленный тензор состояния обязан совпасть с начальным бит в бит ($\max_x |Z_{\mathrm{recovered}}(x) - Z_0(x)| \equiv 0$).
+\item \textbf{Гейт сохранения нормы и отсутствия пустых ячеек (`A3\_Unitarity`, `A5\_PlanckVacuumFloor`):}
+  ни одна ячейка тора не может перейти в нулевое состояние $Z = (0,0,0,0)$ ни на одном такте эволюции.
+\item \textbf{Гейт устойчивости трёхмерного кипящего океана (`FCC\_N12` / `FCC\_boil\_ramp`):}
+  одноосный пандус классов Гейзенберга на трёхмерной звезде~$\geomNeighborTwelve$ должен сохранять стабильное кипение без численного саморазгона.
+\item \textbf{Гейт детерминизма между устройствами (`CPU` $\leftrightarrow$ `CUDA`):}
+  целочисленный шаг в кольце $\mathbb{Z}_{512}^4$ обязан давать побитово тождественный результат на центральном процессоре и на графическом ускорителе независимо от порядка планирования потоков.
+\end{enumerate}

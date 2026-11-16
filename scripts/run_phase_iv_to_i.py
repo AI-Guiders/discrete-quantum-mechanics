@@ -27,6 +27,7 @@ from mt_ca.seeds import (
     ice_ocean_spinor_3d,
     make_seed,
     SeedClass,
+    universe_iv_9bit_spinor_3d,
 )
 from mt_ca.simulator import LatticeFluidSimulator
 
@@ -181,6 +182,18 @@ def main() -> int:
         ),
         ("boil_control", "live VACUUM_BOIL", set_boil),
     ]
+    if nz is not None:
+        arms_spec.append(
+            (
+                "iv_9bit_263",
+                "9-bit IV=0b1_00000111 (b_chir=1, K_3 trihedral octant mask=7)",
+                lambda: sim.set_field(
+                    universe_iv_9bit_spinor_3d(
+                        nz, ny, nx, iv_9bit=0b1_00000111, radius=max(4, args.size // 4), **kw
+                    )
+                ),
+            )
+        )
 
     results: list[dict[str, Any]] = []
     t0 = time.perf_counter()
