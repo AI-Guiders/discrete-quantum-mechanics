@@ -12,30 +12,30 @@ Planck-строки — размерный факт. Элементар = оди
 #### SM → Planck
 $$
 \begin{aligned}
-E_0 &= E_P/\sqrt{2}, &
- m_{\mathrm{arg}} &= m_P/\sqrt{2}, &
- \kappa &= 1/\sqrt{2}, \\
+E_0 &= \frac{s_0}{dt} = \kappa\,E_P, &
+ m_{\mathrm{arg}} &= \frac{2s_0\,dt}{dh^2} = \kappa\,m_P, &
+ \kappa &= \frac{R_{\mathrm{in}}}{R_{\mathrm{out}}}, \\
 \alpha_{\mathrm{fs}}
  &= \texttt{alpha\_from\_fundamentals()} \;(\hat M{=}97,\ \S8.2\cdot\mathrm{U0}), &
- N_\varphi &= \lceil 4\pi\rceil = 13, &
- N_{\mathrm{hier}} &= 8, \\
+ N_\varphi &= 1 + |N_{12}| = 13, &
+ N_{\mathrm{hier}} &= \lfloor B_V\rfloor - 1 = 8, \\
 a_Q &= 2^{-F}, &
  \rho_Q &= a_Q^{2}, &
- N_{12} &= 12, \\
-v &= \alpha_{\mathrm{fs}}^{8}\,E_P\,\sqrt{2\pi}, &
- m_H^{(\mathrm{bare})} &= v/2, \\
-\delta\lambda &= \alpha_{\mathrm{fs}}/(4\pi), &
- \lambda &= \tfrac18 + N_{\mathrm{hier}}\,\delta\lambda, &
+ |N_{12}| &= 12, \\
+v &= \alpha_{\mathrm{fs}}^{N_{\mathrm{hier}}}\,\frac{E_0}{\sqrt{r}}, &
+ m_H^{(\mathrm{bare})} &= \kappa^2\,v = \frac{v}{2}, \\
+\delta\lambda &= r\,\alpha_{\mathrm{fs}}, &
+ \lambda &= \frac{1}{N_{\mathrm{hier}}} + N_{\mathrm{hier}}\,\delta\lambda, &
  m_H &= \sqrt{2\lambda}\,v, \\
-m_p &= \alpha_{\mathrm{fs}}\cdot\frac{v}{2}\cdot\Bigl(1+\frac{\kappa^{2}}{N_{12}}\Bigr), \\
-m_e &= \alpha_{\mathrm{fs}}^{2}\cdot\frac{m_H}{N_\varphi}, \\
+m_p &= \alpha_{\mathrm{fs}}\,m_H^{(\mathrm{bare})}\Bigl(1+\frac{\kappa^{2}}{|N_{12}|}\Bigr), \\
+m_e &= \alpha_{\mathrm{fs}}^{2}\,\frac{m_H}{N_\varphi}, \\
 m_\nu^{(\mathrm{atm})}
- &= \alpha_{\mathrm{fs}}^{5}\cdot\frac{2m_H}{N_{\mathrm{hier}} N_\varphi}
- = \alpha_{\mathrm{fs}}^{3}\cdot\frac{m_e}{N_{\mathrm{hier}}/2}, \\
-m_n &= m_p + 2 m_e, \\
-\alpha_s(v) &= \frac{3}{8\pi}, &
+ &= \alpha_{\mathrm{fs}}^{5}\,\frac{2m_H}{N_{\mathrm{hier}} N_\varphi}
+ = \alpha_{\mathrm{fs}}^{3}\,\frac{m_e}{N_{\mathrm{hier}}/2}, \\
+m_n &= m_p + 2\left(\frac{\lfloor B_V\rfloor}{N_{\mathrm{hier}}}\right)^2 m_e, \\
+\alpha_s(v) &= \frac{d\,d_{\mathrm{in}}(\square)}{N_{\mathrm{hier}}}\,r = \frac{3}{2}\,r, &
  \frac{1}{\alpha(M_Z)}
- &= \alpha_{\mathrm{fs}}^{-1}-\frac{2\pi}{\ln 2}, \\
+ &= \alpha_{\mathrm{fs}}^{-1} - \left(\lfloor B_V\rfloor + \frac{1}{|N_{12}|}\right), \\
 m_W &= \frac{e(M_Z)\,v}{2\sin\theta_W}, &
  m_Z &= \frac{m_W}{\cos\theta_W}.
 \end{aligned}
@@ -707,11 +707,11 @@ $$
 #### §8.2·α·upstairs · закрыто cascade on preferred α
 Структурная α закрыта (мягкая грань). **Вверх — закон каскада (exact):**
 ```
-v   = α^N_hier · E_P · √(2π)
-m_H = √(2λ)·v ,  λ = 1/8 + N_hier·(α/(4π))
+v   = α^N_hier · E_0 / √r
+m_H = √(2λ)·v ,  λ = 1/N_hier + N_hier·(r·α)
 m_p = α · (v/2) · (1 + κ²/N12)
 m_e = α² · m_H / N_φ
-m_n = m_p + 2·m_e
+m_n = m_p + 2·(⌊B_V⌋/N_hier)²·m_e
 ```
 Вход: `alpha_preferred`. Contrasts к PDG — **T-дверь**, не u(m).
 Мягкие полы ~10⁻³ (packing / планковская дырка) — высшая структура, не пробел в α.
