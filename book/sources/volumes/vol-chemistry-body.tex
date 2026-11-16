@@ -349,6 +349,8 @@ $Z$ & Элемент & Канал & $Z_{\mathrm{eff}}^{\mathrm{pred}}$ & $IE_1^{
   в жидкой воде~$\text{H}_2\text{O}$ (существующей благодаря резонансу $IE_1(\text{O}) = IE_1(\text{H}) = BE_H$) связь $\text{C--N}$ кинетически устойчива против спонтанного гидролиза и образует пептидный и нуклеиновый остов \texttt{CHNOPS}-жизни, тогда как второе решение $(5, 8) = (\text{B--O})$ в избытке воды обратимо гидролизуется до борат-иона, выполняющего пребиотическую роль селективного геометрического шаблона, стабилизирующего фуранозное кольцо рибозы РНК за счёт точного совпадения шага $R(\text{B--O}) = R(\text{C--N}) = 4\caKappaGeom a_0$.
 \item \textbf{Безводные высокотемпературные и апротонные миры ($T > T_{\mathrm{boil}}(\text{H}_2\text{O})$, решение $(Z_1, Z_2) = (5, 8) = (\text{B, O})$ в паре с $(5, 7) = (\text{B, N})$):}
   в отсутствие свободной воды, разрушающей эфиры бора, пара $(5, 8)$ ($\text{B--O}$, $5+8=13$) совместно с изоэлектронным аналогом углерода $(5, 7)$ ($\text{B--N}$, $5+7=12=2\times 6$, гексагональные кольца боразина и $h\text{-BN}$ в срезе $\{111\}$ с шагом $R(\text{B--N}) = R(\text{C--C}) = \frac{27}{13}\caKappaGeom a_0$) образует единственный геометрически соизмеримый полимерный двойник углеродно-азотной органики.
+\item \textbf{Криогенные миры ($T < T_{\mathrm{melt}}(\text{H}_2\text{O}) \approx 278\ \mathrm{К}$, ступень мягкой грани $E_{\mathrm{soft}}^{(-1)} = \frac{2}{7}E_{\mathrm{HB}}$):}
+  ниже точки замерзания воды основной водородный квант $E_{\mathrm{HB}} = BE_H/63 \approx 0{,}216\ \mathrm{эВ}$ ($E_{\mathrm{HB}} \approx 27\,k_{\mathrm{B}}T$ при $94\ \mathrm{К}$) переходит из режима мягкого переключателя в режим жёсткого каркаса памяти ($E_{\mathrm{hard}}$), тогда как роль обратимого мягкого замка переходит к кванту плавления мягкой грани кубооктаэдра $E_{\mathrm{soft}}^{(-1)} = \frac{d-1}{d_{\mathrm{soft}}}E_{\mathrm{HB}} = \frac{2}{7}E_{\mathrm{HB}} \approx 0{,}0617\ \mathrm{эВ}$ (см.\ \cref{thm:chem-three-thermal-windows}).
 \end{enumerate}
 \end{corollary}
 
@@ -414,6 +416,66 @@ $Z$ & Элемент & Канал & $Z_{\mathrm{eff}}^{\mathrm{pred}}$ & $IE_1^{
     \frac{2\Delta_0}{k_{\mathrm{B}}T_c} = \frac{d_{\mathrm{soft}}}{2}\frac{\hat M}{\hat M - 1} = \frac{7}{2}\cdot\frac{97}{96} \approx 3{,}536\qquad\bigl(\text{предел БКШ: }3{,}528,\ \text{откл. }+0{,}24\%\bigr).
   \]
 \end{enumerate}
+
+\begin{theorem}[Необходимые и достаточные условия самовоспроизводящегося автомата на носителе и три температурных окна планетарных биосфер]
+\label{thm:chem-three-thermal-windows}
+На решётке~\latGCKshort\ локализованный самовоспроизводящийся автомат с линейной памятью и $O(1)$-укладкой на шаг существует в среде с температурой~$T$ тогда и только тогда, когда в этой среде реализована пара энергетических шкал $(E_{\mathrm{hard}},\,E_{\mathrm{soft}})$, удовлетворяющая трём инвариантным условиям кубооктаэдра:
+\begin{enumerate}[leftmargin=*,noitemsep]
+\item \textbf{Двухуровневая иерархия по координационному числу кубооктаэдра:}
+  отношение энергии связи жёсткого информационного хребта~$E_{\mathrm{hard}}$ (сохраняющего линейную последовательность символов против теплового разрыва) к энергии обратимого мягкого замка $3\mathrm{D}$-укладки~$E_{\mathrm{soft}}$ не меньше полного координационного числа первой сферы кубооктаэдра:
+  \begin{equation}
+  \label{eq:chem-hard-soft-hierarchy-12}
+    \frac{E_{\mathrm{hard}}}{E_{\mathrm{soft}}} \;\ge\; \geomNeighborTwelve = 12.
+  \end{equation}
+\item \textbf{Универсальное фазовое окно подвижности мягких замков:}
+  безразмерное отношение тепловой энергии среды $k_{\mathrm{B}}T$ к кванту мягкого замка~$E_{\mathrm{soft}}$ лежит между порогом вымерзания в неподвижный кристалл $1/\lfloor\caBitBudget\rfloor = 1/9$ и порогом теплового срыва в неупорядоченный газ $d_{\mathrm{in}}(\square)/d^3 = 4/27$:
+  \begin{equation}
+  \label{eq:chem-universal-mobility-window}
+    \frac{1}{\lfloor\caBitBudget\rfloor} = \frac{1}{9}
+    \;\le\; \frac{k_{\mathrm{B}}T}{E_{\mathrm{soft}}}
+    \;\le\; \frac{d_{\mathrm{in}}(\square)}{d^3} = \frac{4}{27}.
+  \end{equation}
+\item \textbf{Наследование трёх квантов $E_{\mathrm{soft}}^{(m)}$ из фазовых переходов кубооктаэдра:}
+  на молекулярном этаже ($k=10\ldots 11$) допустимые кванты мягкого замка $E_{\mathrm{soft}}^{(m)}$ ($m\in\{-1,0,+1\}$) не вводятся как внешние параметры, а совпадают с тремя уже выведенными в п.~1 константами фазовых переходов тетраэдрической сетки (\texttt{fus\_in\_ehb\_quanta}${}=2/7$, одиночным квантом $1\,E_{\mathrm{HB}}$ и \texttt{vap\_in\_ehb\_quanta}${}=2$ в модуле \texttt{m\_chemistry.py}):
+  \begin{equation}
+  \label{eq:chem-three-soft-quanta-ladder}
+    E_{\mathrm{soft}}^{(m)} \in \left\{
+      \frac{d-1}{d_{\mathrm{soft}}}\,E_{\mathrm{HB}},\quad
+      1\cdot E_{\mathrm{HB}},\quad
+      (d-1)\,E_{\mathrm{HB}}
+    \right\}
+    = \left\{\frac{2}{7},\ 1,\ 2\right\}E_{\mathrm{HB}}.
+  \end{equation}
+\end{enumerate}
+Подстановка лестницы~\eqref{eq:chem-three-soft-quanta-ladder} в универсальное окно~\eqref{eq:chem-universal-mobility-window} при $T_{\mathrm{HB}} = E_{\mathrm{HB}}/k_{\mathrm{B}} \approx 2506{,}15\ \mathrm{К}$ и проверка барьера~\eqref{eq:chem-hard-soft-hierarchy-12} однозначно определяют три дискретных температурных окна планетарных биосфер:
+\begin{enumerate}[leftmargin=*,noitemsep]
+\item \textbf{Ступень $m = -1$ (криогенное окно мягкой грани, $E_{\mathrm{soft}}^{(-1)} = \frac{2}{7}E_{\mathrm{HB}} \approx 0{,}0617\ \mathrm{эВ} \approx 5{,}95\ \SiFrac{кДж}{моль}$):}
+  \[
+    T^{(-1)} \in \left[\frac{2}{63},\,\frac{8}{189}\right]T_{\mathrm{HB}}
+    = \mathbf{[79{,}6\ \mathrm{К},\ 106{,}1\ \mathrm{К}]}
+    \qquad\bigl(\text{углеводородные моря Титана: }90\text{--}94\ \mathrm{К}\bigr).
+  \]
+  Порог жёсткого хребта~\eqref{eq:chem-hard-soft-hierarchy-12} здесь равен $E_{\mathrm{hard}} \ge 12\,E_{\mathrm{soft}}^{(-1)} = \frac{24}{7}E_{\mathrm{HB}} \approx 0{,}74\ \mathrm{эВ}$ ($71{,}4\ \SiFrac{кДж}{моль}$), благодаря чему вымерзшие водородные мосты и ковалентные азот-углеродные цепи (азотосомы/полиазины) работают как неразрушимый жёсткий скелет памяти, а конформационно-дипольное переключение идёт на кванте мягкой грани $\frac{2}{7}E_{\mathrm{HB}}$ (при этом полярный аммиачный режим при $195\ldots 240\ \mathrm{К}$ с $IE_1(\text{N})=14{,}53\ \mathrm{эВ}\ne BE_H$ остаётся промежуточной внерезонансной зоной).
+\item \textbf{Ступень $m = 0$ (водное окно основного резонанса, $E_{\mathrm{soft}}^{(0)} = E_{\mathrm{HB}} \approx 0{,}2160\ \mathrm{эВ} \approx 20{,}84\ \SiFrac{кДж}{моль}$):}
+  \[
+    T^{(0)} \in \left[\frac{1}{9},\,\frac{4}{27}\right]T_{\mathrm{HB}}
+    = \mathbf{[278{,}5\ \mathrm{К},\ 371{,}3\ \mathrm{К}]}
+    \qquad\bigl(\text{Земля и водные экзопланеты: }273\text{--}373\ \mathrm{К}\bigr).
+  \]
+  Барьер иерархии $E_{\mathrm{hard}} \ge 12\,E_{\mathrm{HB}} \approx 2{,}59\ \mathrm{эВ}$ ($250\ \SiFrac{кДж}{моль}$) с запасом выполняется для ковалентного пептидно-нуклеинового хребта $\text{C--N}$ ($Z_1+Z_2=6+7=13$, $E(\text{C--N})\approx 3{,}16\ \mathrm{эВ} = 305\ \SiFrac{кДж}{моль}$, в амидном резонансе до $3{,}8\ \mathrm{эВ}$).
+\item \textbf{Ступень $m = +1$ (высокотемпературное безводное окно, $E_{\mathrm{soft}}^{(+1)} = 2\,E_{\mathrm{HB}} \approx 0{,}4319\ \mathrm{эВ} \approx 41{,}67\ \SiFrac{кДж}{моль}$):}
+  \[
+    T^{(+1)} \in \left[\frac{2}{9},\,\frac{8}{27}\right]T_{\mathrm{HB}}
+    = \mathbf{[556{,}9\ \mathrm{К},\ 742{,}6\ \mathrm{К}]}
+    \quad\bigl(\text{Венера, }737\ \mathrm{К}\text{; супервенеры}\bigr).
+  \]
+  На верхней ступени условие иерархии~\eqref{eq:chem-hard-soft-hierarchy-12} требует для жёсткого информационного хребта энергии связи
+  \[
+    E_{\mathrm{hard}} \;\ge\; 12\,E_{\mathrm{soft}}^{(+1)} = 24\,E_{\mathrm{HB}} \approx 5{,}18\ \mathrm{эВ} \approx 500{,}1\ \SiFrac{кДж}{моль},
+  \]
+  чтобы исключить тепловой разрыв памяти при $\sim 700\ \mathrm{К}$. Одинарные $\sigma$-связи $\text{B--N}$ ($389\ \SiFrac{кДж}{моль} \approx 4{,}03\ \mathrm{эВ}$) лежат ниже этого порога, тогда как $\pi$-сопряжённые ароматические цепи и кольца $\text{B=N}$ (боразин / $h\text{-BN}$) и бороксольные полимеры $\text{B--O}$ ($Z_1+Z_2=5+8=13$, энергия связи $520\text{--}800\ \SiFrac{кДж}{моль} \approx 5{,}4\text{--}8{,}3\ \mathrm{эВ}$) проходят барьер $24\,E_{\mathrm{HB}}$ с запасом, делая $\pi$-сопряжённый боро-кислородно-азотный каркас необходимым и единственным геометрически соизмеримым носителем высокотемпературной жизни.
+\end{enumerate}
+\end{theorem}
 
 \section{Цифровой замок Уотсона--Крика (\texorpdfstring{$\text{A--T}$}{A-T} и \texorpdfstring{$\text{G--C}$}{G-C}) и штрихкод большой бороздки ДНК}
 \label{sec:chem-watson-crick-barcode}
