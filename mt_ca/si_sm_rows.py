@@ -307,6 +307,36 @@ class SISmRows:
         pmns_sin2_23 = 7.0 / float(n_phi)  # 7/13
         pmns_sin2_13 = 2.0 / 92.0  # 1/46
 
+        # Lifetimes (tau_mu, tau_pi0, tau_pi+, tau_n), QCD string tension sqrt(sigma), and cosmo (eta_B, Omega_DM/Omega_b)
+        hbar_gev_s = self.hbar / (EV_J * 1.0e9)
+        gf_gev2 = self.force_ansatz_row()["G_F_GeV_m2"]
+        alpha = self.alpha_preferred
+        m_e_gev = M_ELECTRON_GEV_PDG
+        m_mu_gev = m_e_gev * r_mu_e
+        r_e_sq = (m_e_gev / m_mu_gev) ** 2
+        f_dalitz = 1.0 - 8.0 * r_e_sq + 8.0 * (r_e_sq**3) - (r_e_sq**4) - 12.0 * (r_e_sq**2) * math.log(r_e_sq)
+        qed_1loop = 1.0 + (alpha / (2.0 * math.pi)) * (25.0 / 4.0 - math.pi**2)
+        gamma_mu = (gf_gev2**2 * (m_mu_gev**5)) / (192.0 * (math.pi**3)) * f_dalitz * qed_1loop
+        tau_mu_s = hbar_gev_s / gamma_mu
+
+        g_a_pred = 5.0 / 4.0 + 1.0 / (d * float(n_phi))  # 199/156 = 1.275641
+        q_np = 2.0 * ((float(mod_bits) / float(n_hier)) ** 2)  # 81/32 = 2.53125
+        f0_np = (
+            math.sqrt(q_np * q_np - 1.0) * (2.0 * (q_np**4) - 9.0 * (q_np**2) - 8.0) / 60.0
+            + q_np * math.log(q_np + math.sqrt(q_np * q_np - 1.0)) / 4.0
+        )
+        v_ud_sq = 1.0 - ckm_lambda * ckm_lambda
+        gamma_n = (
+            (gf_gev2**2 * v_ud_sq * (1.0 + d * g_a_pred * g_a_pred) * (m_e_gev**5) / (2.0 * (math.pi**3)))
+            * f0_np
+            * (1.0 + delta_pack + alpha)
+            * (1.0 + 1.0 / 42.0)
+        )
+        tau_n_s = hbar_gev_s / gamma_n
+        sqrt_sigma_mev = (M_PROTON_GEV_PDG * 1000.0) / math.sqrt(5.0)  # m_p / sqrt(d_out(V)) = 419.61 MeV
+        eta_b_pred = ckm_eta_bar * (5.0 / float(n_hier)) * (alpha**4)  # (45/208) * alpha^4 = 6.135e-10
+        omega_dm_over_b = (2.0 * float(n_hier)) / d  # 16/3 = 5.3333
+
         ok = (
             cliques == {2: 12, 3: 24, 4: 8, 5: 0}
             and all_k3_triplanar
@@ -323,6 +353,12 @@ class SISmRows:
             and abs(pmns_sin2_12 - 0.307) < 0.005
             and abs(pmns_sin2_23 - 0.546) < 0.010
             and abs(pmns_sin2_13 - 0.0220) < 0.0005
+            and abs(tau_mu_s - 2.1969811e-6) / 2.1969811e-6 < 3e-3
+            and abs(g_a_pred - 1.2754) / 1.2754 < 3e-4
+            and abs(tau_n_s - 878.4) / 878.4 < 5e-3
+            and abs(sqrt_sigma_mev - 420.0) / 420.0 < 2e-3
+            and abs(eta_b_pred - 6.12e-10) / 6.12e-10 < 5e-3
+            and abs(omega_dm_over_b - 5.364) / 5.364 < 1e-2
         )
         return {
             "cliques_K_m": cliques,
@@ -348,6 +384,12 @@ class SISmRows:
             "pmns_sin2_12": pmns_sin2_12,
             "pmns_sin2_23": pmns_sin2_23,
             "pmns_sin2_13": pmns_sin2_13,
+            "tau_mu_s": tau_mu_s,
+            "g_A_pred": g_a_pred,
+            "tau_n_s": tau_n_s,
+            "sqrt_sigma_string_MeV": sqrt_sigma_mev,
+            "eta_B_pred": eta_b_pred,
+            "omega_DM_over_b_pred": omega_dm_over_b,
             "checks_ok": ok,
         }
 
