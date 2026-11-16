@@ -30,6 +30,29 @@ $\caKappaGeom=R_{\mathrm{in}}/R_{\mathrm{out}}$, $N_\varphi=1+\geomNeighborTwelv
   $N_{\mathrm{pack}}(K)=V_{\mathrm{WS}}(K\cdot dh)/\mathrm{d}V = K^3\in\mathbb{Z}$.
 \end{enumerate}
 
+\begin{theorem}[Перенос матрицы кубооктаэдра и фазового кольца на макроэтажи при сокращении масштаба~$K$]
+\label{thm:chem-scale-cancellation}
+При переходе от планковской ячейки ($dh=\ell_P$, $p_0=\ladderAction/dh$) к любому когерентному этажу вложенного кристалла
+с целочисленным шагом ребра $A = K\cdot dh$ ($K\in\mathbb{N}$, в частности $K = N_{a0}$ на атомном этаже $k=9$ и $K\sim\caKappaGeom N_{a0}$ на ковалентном этаже $k=10\ldots 11$) масштабный множитель~$K$ \emph{тождественно сокращается} сразу в трёх инвариантах:
+\begin{enumerate}[noitemsep]
+\item \textbf{Инвариантность каналов и проекций кубооктаэдра:}
+  выпуклая оболочка каузального шара радиуса~$K$ на~\latGCKshort\ есть кубооктаэдр с ребром $A=K\cdot dh$, сохраняющий те же четыре канала $(V,E,\square,\triangle)$, те же клики $(K_2,K_3,K_4)$ и те же безразмерные отношения
+  \[
+    \caKappaGeom(K) = \frac{R_{\mathrm{in}}(K)}{R_{\mathrm{out}}(K)} = \frac{\caKappaGeom\,K\,dh}{K\,dh} = \caKappaGeom,\qquad
+    \caKappaGeom_{\mathrm{hex}}(K) = \caKappaGeom_{\mathrm{hex}},\qquad
+    \delta_{\mathrm{pack}}(K) = \frac{\caKappaGeom(K)^2}{\geomNeighborTwelve} = \delta_{\mathrm{pack}}.
+  \]
+\item \textbf{Целочисленная самоподобность ромбических додекаэдров Вороного:}
+  отношение объёма макро-ячейки Вигнера--Зейтца с ребром $A=K\cdot dh$ к объёму планковской ячейки $\mathrm{d}V=\caKappaGeom\,dh^3$ равно точному кубу целого числа $N_{\mathrm{pack}}(K)=K^3\in\mathbb{Z}$, поэтому узлы верхнего кристалла упаковываются по тем же координационным сферам $N_{\mathrm{shell}}(m)=(\geomNeighborTwelve-2)m^2+2$ ($1,12,42,92 \implies N_{\mathrm{ball}}(d)=147$).
+\item \textbf{Инвариантность кванта действия и битового бюджета фазового кольца:}
+  при растяжении шага длины $\Delta x = K\cdot dh$ сопряжённый шаг импульса сжимается в~$K$ раз ($\Delta p = p_0/K$), так что квант действия одного шага на этаже~$K$ не зависит от~$K$:
+  \[
+    s_{\mathrm{floor}}(K) = \Delta p \cdot \Delta x = \left(\frac{p_0}{K}\right)\cdot\bigl(K\cdot dh\bigr) = p_0\cdot dh = \ladderAction = \frac{\hbar}{2}.
+  \]
+  Следовательно, любой когерентный квантовый узел на этаже~$K$ (электронная оболочка атома, ковалентный или водородный замок, кодонный триплет) живёт в том же фазовом кольце $\mathbb{Z}_{N_{\mathrm{ring}}}$ с тем же бюджетом Бекенштейна $\caBitBudget=2\pi/\ln 2$ ($\lfloor\caBitBudget\rfloor=9$, $\vevHierarchySteps=8$, $\mathrm{frac\_bits}=6$, $\Delta\varphi_{\mathrm{disc}}=41$), что и одна планковская ячейка.
+\end{enumerate}
+\end{theorem}
+
 \section{Поузловое экранирование на кубооктаэдре: атом Гелия (\texorpdfstring{$Z=2$}{Z=2})}
 \label{sec:chem-helium-screening}
 
