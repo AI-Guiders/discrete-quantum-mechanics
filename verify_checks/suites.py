@@ -263,6 +263,7 @@ VERIFY_SUITES: dict[str, VerifySuiteSpec] = {
             check_qm_pauli_hom_antibunching,
             check_qm_bell_chsh_tsirelson,
             check_qm_tunneling_lattice_wkb,
+            check_qm_single_click_born_on_boil,
         ),
         ship=True,
     ),
