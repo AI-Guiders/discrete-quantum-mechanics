@@ -1,43 +1,47 @@
-\section{Обобщённые координаты}
+\section{Обобщённые координаты ячейки и механическая лестница от одной ступени действия}
 \label{sec:coords-dh-dt}
 \label{ch:native-coords}
 
-\begin{definition}[Внешние координаты \texorpdfstring{$\caCoordsDhDt$}{dh,dt}]
+Вернёмся к вопросу, оставленному открытым при обсуждении макроскопических уравнений (§\ref{sec:macro-known}):
+почему в механике все наблюдаемые величины раскладываются по трём базовым размерностям --- длины, времени и массы --- и откуда берутся первичные единицы импульса, энергии и силы?
+На дискретной решётке ответ становится прозрачным: как только зафиксированы элементарный шаг пространства~$\caStepSpace$, такт времени~$\htick$ и единственный квант фазового действия на ячейку $\ladderAction = \planckHbar/2$, все остальные механические кванты получаются из~$\ladderAction$ делением на~$\caStepSpace$ и~$\htick$ без введения новых сущностей.
+
+\begin{definition}[Внешние обобщённые координаты \texorpdfstring{$\caCoordsDhDt$}{dh,dt} и лестница квантов]
 \label{def:dh-dt}
-Пусть $\caStepSpace$ --- шаг решётки, $\htick$ --- длительность такта.
-\textbf{Внешние координаты} $\caCoordsDhDt$ на~$\layerMicro$ --- это пара
+Пусть $\caStepSpace$ --- шаг решётки, а $\htick$ --- длительность одного такта.
+\textbf{Внешними координатами} на микроуровне~$\layerMicro$ называется пара элементарных приращений
 \[
-  dh:=\caStepSpace,\qquad dt:=\htick,
+  dh := \caStepSpace,\qquad dt := \htick,
 \]
-при $\caSignalSpeed=\caStepSpace/\htick$.
-В натуральных единицах симуляции полагают $dh=dt=1$.
-Под \textbf{ступенью действия} $\ladderAction$ на $(\hv,1\,\htick)$ понимают квант, из которого
-одной подстановкой следуют $\ladderMomentum=\ladderAction/\caStepSpace$,
-$\ladderEnergy=\ladderAction/\htick$ и $\ladderForce=\ladderAction/(\caStepSpace\cdot\htick)$,
-без трёх независимых подгонок.
+отношение которых задаёт тактовую скорость переноса по связи $\caSignalSpeed = dh/dt = \caStepSpace/\htick$ (в безразмерном счёте автомата полагают $dh = dt = 1$).
+Из одной \textbf{ступени действия} $\ladderAction$ на ячейке~$(\hv, 1\,\htick)$ непосредственно определяются первичные кванты импульса, энергии, силы и инерции:
+\[
+  \ladderMomentum = \frac{\ladderAction}{dh},\qquad
+  \ladderEnergy = \frac{\ladderAction}{dt},\qquad
+  \ladderForce = \frac{\ladderAction}{dh\cdot dt},\qquad
+  m_{\arg} = \frac{2\ladderAction\,dt}{dh^2}.
+\]
 \end{definition}
 
-\begin{definition}[Внутренние координаты]
+\begin{definition}[Внутренние координаты регистра ячейки]
 \label{def:internal-coords}
-Пусть регистр элементарной ячейки задаётся $(\symMu,k_{\symPhi},\phaseVarphi_{\mathrm{f}})$
-или, эквивалентно, $(\symMu,\phaseVarphi_{\mathrm{disc}})$.
-Эту запись и называют \textbf{внутренними координатами}; спинор~$\spaceC^2$ хранит две копии регистра.
-\textbf{Вакуум} в этой записи --- $\phaseVarphi_{\mathrm{f}}=0$, $\phaseVarphi_{\mathrm{disc}}=k_{\symPhi}\cdot 41$.
+Состояние внутри самой ячейки~$\hv$ полностью задаётся тройкой целых чисел $(\symMu, k_{\symPhi}, \phaseVarphi_{\mathrm{f}})$ --- или, что равносильно, парой $(\symMu, \phaseVarphi_{\mathrm{disc}})\in\spaceZ_{64}\times\spaceZ_{\phaseRingCount}$ --- для каждой из двух спинорных компонент (\cref{sec:descent-phase-disc}).
+Невозбуждённому фону кипящего вакуума в этих координатах отвечает нулевой подпороговый остаток $\phaseVarphi_{\mathrm{f}} = 0$, то есть целочисленная сетка секторов $\phaseVarphi_{\mathrm{disc}} = k_{\symPhi}\cdot\symCapitalDelta\symPhi_{\mathrm{disc}} = 41\,k_{\symPhi}$.
 \end{definition}
 
 \begin{table}[ht]
 \centering
-\caption{Лестница $\ladderAction$ и мост $\layerMicro\to\layerMacro$.}
+\caption{Механическая лестница квантов от одной ступени действия $\ladderAction$ в координатах $\caCoordsDhDt$.}
 \label{tab:dh-dt-bridge}
 \begin{tabular}{@{}lll@{}}
 \toprule
-На $\layerMicro$ & $\caCoordsDhDt$ & Мост $\layerMacro$ \\
+Величина на $\layerMicro$ & Запись через $\caCoordsDhDt$ & Выражение через $\planckHbar$ на $\layerMacro$ \\
 \midrule
-$\ladderAction$ & на $(\hv,1\,\htick)$ & $\planckHbar/2$ \\
-$\ladderMomentum$ & $\ladderAction/\caStepSpace$ & $\planckHbar/(2\caStepSpace)$ \\
-$\ladderEnergy$ & $\ladderAction/\htick$ & $\planckHbar/(2\htick)$ \\
-$\caSignalSpeed$ & $\caStepSpace/\htick$ & $\caStepSpace/\htick$ \\
+квант действия $\ladderAction$ & на $(\hv,1\,\htick)$ & $\planckHbar/2$ \\
+квант импульса $\ladderMomentum$ & $\ladderAction/dh$ & $\planckHbar/(2\caStepSpace)$ \\
+квант энергии $\ladderEnergy$ & $\ladderAction/dt$ & $\planckHbar/(2\htick)$ \\
+квант силы $\ladderForce$ & $\ladderAction/(dh\cdot dt)$ & $\planckHbar/(2\caStepSpace\,\htick)$ \\
+тактовая скорость $\caSignalSpeed$ & $dh/dt$ & $\caStepSpace/\htick$ \\
 \bottomrule
 \end{tabular}
 \end{table}
-

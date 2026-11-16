@@ -1,21 +1,25 @@
-\section{Сводка моста}
+\section{Итог спуска: разделение целых чисел ядра и непрерывного языка макромира}
 \label{sec:coords-bridge}
+
+Подведём итог пройденного пути.
+Спускаясь от макроскопических законов сохранения и светового конуса через квантовую механику и предел Бекенштейна, мы обнаружили, что на самом нижнем этаже исчезают не физические законы, а лишь непрерывные вещественные числа, которыми их записывали на больших масштабах.
+В ядре микроуровня~$\layerMicro$ работают только конечные целочисленные регистры $(\symMu, \phaseVarphi_{\mathrm{disc}})$ и шаги $(dh, dt)$, тогда как трансцендентные константы $\symPi$ и $\ln 2$ вместе с размерными эталонами СИ возникают лишь при переводе этого счёта на язык макроскопического прибора~$\layerMacro$ (\cref{tab:m-t-bridge}).
 
 \begin{table}[ht]
 \centering
-\caption{Где живут $\symPi$, $\ln 2$ и CODATA.}
+\caption{Соответствие между целочисленными инвариантами ядра~$\layerMicro$ и их записью на макроуровне~$\layerMacro$.}
 \label{tab:m-t-bridge}
-\begin{tabular}{@{}p{0.42\linewidth}p{0.48\linewidth}@{}}
+\begin{tabular}{@{}p{0.44\linewidth}p{0.46\linewidth}@{}}
 \toprule
-Ядро $\layerMicro$ & Только мост $\layerMacro$ \\
+Целочисленное ядро $\layerMicro$ & Макроскопическая запись на $\layerMacro$ \\
 \midrule
-$\phaseVarphi_{\mathrm{disc}}$, $k_{\symPhi}$, $\symMu$; $dh$, $dt$ & $\planckHbar$, $\timePlanck$, $\lengthPlanck$, $\speedC$ \\
-$\symCapitalDelta\symPhi_{\mathrm{disc}}/\phaseRingCount$ & $\symAlpha_*-1=1/(4\symPi)$ \\
-$\log_2 \phaseRingCount+\varepsilon_B$ & $B_{\hv}=2\symPi/\ln 2$ \\
-$\phaseSectorCount=13$ & $\lceil 4\symPi\rceil$ \\
+регистр $(\symMu,\phaseVarphi_{\mathrm{disc}},k_{\symPhi})$; шаги $dh, dt$ & размерные эталоны $\planckHbar$, $\timePlanck$, $\lengthPlanck$, $\speedC$ \\
+разрядность кольца $\log_2\phaseRingCount = 9$ ($\phaseRingCount = 512$) & битовый бюджет Бекенштейна $B_{\hv} = 2\symPi/\ln 2 \approx 9{,}065$ \\
+шаг Гейзенберга $\symCapitalDelta\symPhi_{\mathrm{disc}}/\phaseRingCount = 41/512$ & фазовый вычет одного такта $\symAlpha_* - 1 = 1/(4\symPi)$ \\
+число секторов кластера $\phaseSectorCount = 13$ & полное покрытие сферы $\lceil 4\symPi\rceil = 13$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Спуск с макроскопической физики на~$\layerMacro$ к обратимому автомату на~$\layerMicro$ завершён.
-Далее: выбор \latGCK\ $\carrierLattice$, теорема дискретности и явный закон~$g$.
+На этом спуск от приборной физики к дискретному носителю завершён.
+В следующих главах мы начнём обратный подъём: выберем единственную трёхмерную решётку~$\carrierLattice$, удовлетворяющую требованиям изотропии и плотнейшей упаковки (\latGCKshort), сформулируем абсолютные условия~$A_1$--$A_{16}$ и запишем явный обратимый закон эволюции~$g$.
