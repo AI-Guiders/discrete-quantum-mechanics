@@ -337,21 +337,64 @@ $\mathcal{F}_{\mathrm{GL}}[\Phi]$ для неоднородного $\Phi(X)$, �
 Здесь остаётся общая механика: атомные орбитали на~$T$ --- readout составного узла;
 планкон несёт ту же логику квантования на~$\Mlayer$.
 
-\section{Геометрический квант связи \texorpdfstring{$\kappa_{\mathrm{link}}=1/|N|$}{kappa=1/|N|}}
+\section{Геометрический квант связи \texorpdfstring{$\kappa_{\mathrm{link}}=1/\geomNeighborTwelve$}{kappa=1/|N|}}
 
-\begin{proposition}
-На \latGCK\ $|N|=12$ $\Rightarrow$ $\kappa_{\mathrm{link}}=1/12=\gamma=\nu_{\mathrm{CA}}/(\caSignalSpeed\caStepSpace)$.
-На гексагональном срезе $|N|=6$ $\Rightarrow$ $1/6$.
+\begin{proposition}[Равномерное деление переноса по звезде кубооктаэдра]
+В силу изотропии локального шага~$g$ на~\latGCK\ с $\geomNeighborTwelve = 12$ ближайшими соседями доля фазового и импульсного переноса, приходящаяся на одно каузальное ребро за один такт~$\htick$, равна
+\[
+  \kappa_{\mathrm{link}} = \frac{1}{\geomNeighborTwelve} = \frac{1}{12} = \frac{\nu_{\mathrm{CA}}}{\caSignalSpeed\,\caStepSpace},
+\]
+а на плоском гексагональном срезе $\{111\}$ с $|N_6| = 6$ соседями --- $\kappa_{\mathrm{link}}^{(2\mathrm{D})} = 1/|N_6| = 1/6$.
 \end{proposition}
 
-Спектральные методы калибруют макроуровень~$\layerMacro$.
+\section{Первая зона Бриллюэна, закон дисперсии фононов и тепловой спектр Бозе--Эйнштейна}
+\label{sec:phonons-bose-spectrum}
 
-\section{Фононы и спектр}
+Периодичность гранецентрированной кубической решётки~$\carrierLattice$ с шагом $a = \caStepSpace = \ell_P$ ограничивает волновые векторы коллективных возбуждений первой зоной Бриллюэна ($|\mathbf{k}|\le k_{\max}=\pi/a$), а квазиимпульс сохранён с точностью до векторов обратной решётки ($p = n\ladderMomentum + \planckHbar k$).
 
-Периодичность~$\carrierLattice$ $\Rightarrow$ первая зона Бриллюэна;
-$p=n \ladderMomentum+\planckHbar k$, $k$ дискретен.
-Фонон вакуума:, $v_a=2\caSignalSpeed$.
+\begin{theorem}[Точный закон дисперсии в первой зоне Бриллюэна~\latGCKshort\ и спектр Бозе--Эйнштейна]
+\label{thm:fcc-dispersion-bose}
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Структурный фактор звезды кубооктаэдра и изотропный световой конус:}
+  на $\geomNeighborTwelve = 12$ единичных рёбрах звезды $\mathbf{e} = \caKappaGeom a(\pm 1,\pm 1,0)$ (и циклических перестановках) структурный фактор при $q_i := \caKappaGeom a k_i$ равен
+  \[
+    S(\mathbf{k}) := \frac{1}{\geomNeighborTwelve}\sum_{\mathbf{e}\in\geomNeighborTwelve} e^{i\mathbf{k}\cdot\mathbf{e}}
+    = \frac{1}{d}\bigl(\cos q_x\cos q_y + \cos q_y\cos q_z + \cos q_z\cos q_x\bigr).
+  \]
+  В длинноволновом пределе ($|\mathbf{k}|a\ll 1$) разложение $S(\mathbf{k})$ строго изотропно во втором порядке:
+  \[
+    S(\mathbf{k}) = 1 - \frac{\caKappaGeom^2}{d}\,a^2|\mathbf{k}|^2 + O(|\mathbf{k}|^4)
+    = 1 - \frac{1}{|\square|}\,a^2|\mathbf{k}|^2 + O(|\mathbf{k}|^4),
+  \]
+  откуда уравнение второго порядка схемы «лягушка» даёт точную дисперсию в первой зоне Бриллюэна:
+  \begin{equation}
+  \label{eq:fcc-exact-dispersion}
+    \sin^2\!\left(\frac{\omega(\mathbf{k})\,\htick}{2}\right) = \frac{d}{2}\bigl(1 - S(\mathbf{k})\bigr)
+    \quad\xrightarrow{|\mathbf{k}|a\ll 1}\quad
+    \omega(\mathbf{k}) = \caKappaGeom\,\caSignalSpeed\,|\mathbf{k}| = c\,|\mathbf{k}|,
+  \end{equation}
+  то есть изотропный световой конус $c = \caKappaGeom\caSignalSpeed$ возникает автоматически при $|\mathbf{k}|a\ll 1$, а на границе зоны Бриллюэна частота ограничена потолком Дебая $\omega_{\max} = 2/\htick$ без ультрафиолетовой расходимости.
+\item \textbf{Распределение Бозе--Эйнштейна и закон Стефана--Больцмана:}
+  поскольку в секторе излучения ($n=0$, две поперечные поляризации $g_{\mathrm{pol}} = d-1 = 2$) каждая мода~$\mathbf{k}$ несёт целое число квантов $n_{\mathbf{k}}\in\mathbb{Z}_{\ge 0}$ с энергией $E(n_{\mathbf{k}}) = n_{\mathbf{k}}\planckHbar\omega(\mathbf{k})$ (\cref{thm:52}), в тепловом равновесии на макроуровне~$\Tlayer$ при температуре~$T$ среднее число заполнения моды и спектральная плотность энергии равны:
+  \[
+    \langle n(\omega)\rangle = \frac{1}{e^{\planckHbar\omega/(k_{\mathrm{B}}T)} - 1},\qquad
+    u(T) = \int_0^{\infty} \planckHbar\omega\,g(\omega)\,\langle n(\omega)\rangle\,\mathrm{d}\omega
+    = \frac{\pi^2}{d\cdot d_{\mathrm{out}}(E)}\,\frac{(k_{\mathrm{B}}T)^4}{(\planckHbar c)^3}
+    = \frac{\pi^2}{15}\,\frac{(k_{\mathrm{B}}T)^4}{(\planckHbar c)^3}.
+  \]
+\end{enumerate}
+\end{theorem}
+
+\section{Макроскопический газ в несжимаемом океане: уравнения Менделеева--Клапейрона и Ван-дер-Ваальса}
+\label{sec:macro-gas-vdw}
+
+В классической кинетической теории газ описывают как ансамбль упругих шариков, летящих в пустоте.
+На решётке~\latGCKshort\ пустых ячеек нет ($A_5$): всё пространство заполнено несжимаемой кипящей жидкостью $z\in\mathbb{Z}_{N_{\mathrm{ring}}}[i]^2$ с жёсткостью $K_P \approx 4{,}63\times 10^{113}\ \mathrm{Па}$.
+Молекулы газа представляют собой устойчивые составные вихревые солитоны второго кристалла ($k=10\ldots 11$), плывущие сквозь этот океан путём эстафетной передачи фазового узора от узла к узлу; при сжатии газа сжимается не сама планковская жидкость ($A_3$), а среднее расстояние между вихревыми узлами на решётке.
+
+При сближении двух молекул перекрываются их надпороговые фазовые ореолы~$\rho_\Theta$, что порождает уравнение состояния реального газа Ван-дер-Ваальса без эмпирических подгоночных констант:
 \[
-\omega(k)\approx v_a|k|
+  \left(P + \frac{a_{\mathrm{VdW}}}{V^2}\right)(V - b_{\mathrm{VdW}}) = n_{\mathrm{mol}}RT,
 \]
-Фонон вещества --- второй кристалл над микроуровнем (гл.~\ref{ch:carrier}).
+где исключённый объём $b_{\mathrm{VdW}} = d_{\mathrm{in}}(\square)\,n_{\mathrm{mol}}N_A N_{\mathrm{vort}}\ell_P^3 = 4\,n_{\mathrm{mol}}N_A N_{\mathrm{vort}}\ell_P^3$ определяется каузальным барьером отталкивания Паули--Гейзенберга ($\Delta\varphi_{\min}=1/2$), а коэффициент когезионного притяжения $a_{\mathrm{VdW}} = N_A^2 N_{\mathrm{vort}}^2 K_P \ell_P^6 \alpha_{\mathrm{fs}}$ --- уменьшением энергии фазового натяжения при перекрытии дальних хвостов через константу сцепления~$\alpha_{\mathrm{fs}}$.
+В пределе экстремального гравитационного сжатия газ не уходит в бесконечную плотность ($\rho\to\infty$), а достигает абсолютного потолка заполнения решётки $b(x) = 1$ во всех ячейках области ($\rho_{\mathrm{matter}} = \rho_P$), образуя несжимаемый планковский монолит без сингулярности.
