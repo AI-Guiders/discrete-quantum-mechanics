@@ -232,11 +232,21 @@ def check_qm_double_slit_which_way(device: str = "cpu") -> dict:
 
 
 def check_qm_aharonov_bohm_holonomy(device: str = "cpu") -> dict:
-    """Aharonov-Bohm loop holonomy on 3D VACUUM_BOIL world seed: exact cancellation at Phi_AB=Phi_Pauli and period-N_ring revival."""
+    """Aharonov-Bohm loop holonomy on 3D VACUUM_BOIL world seed for single charge e (period 512 ticks = 2*pi, destructive zero at half-period 256 ticks = pi) vs Cooper pair 2e (period 256 ticks = h/2e).
+
+    Physical convention:
+      - For a single electron (charge q = 1*e), the full Aharonov-Bohm flux quantum Phi_0 = h/e corresponds to a full
+        phase cycle 2*pi = N_ring = 512 ticks (where interference revives: I^(1e)(512) == I^(1e)(0)), while 256 ticks
+        is the half-period pi rad (where destructive cancellation occurs: I^(1e)(256) == 0).
+      - For a superconducting Cooper pair (charge q = 2*e), the phase shift is doubled (2 * Phi_AB), so an external flux
+        of 256 ticks (h/2e) already completes a 2*pi = 512-tick phase cycle of the pair (I^(2e)(256) == I^(1e)(0)),
+        and the Cooper-pair destructive minimum sits at 128 ticks (pi/2 external flux).
+    """
     dev = torch.device(device)
     cfg = MConfig.for_ladder_floor("compton", stencil="fcc")
     n_ring = 1 << cfg.phase_bits
-    pauli_ticks = pauli_impulse_disc(phase_bits=cfg.phase_bits)
+    half_period_pi_ticks = pauli_impulse_disc(phase_bits=cfg.phase_bits)  # 256 ticks = pi rad (half-period for 1e)
+    quarter_period_ticks = half_period_pi_ticks // 2  # 128 ticks = pi/2 rad
     grid_n = PLANCK_CELL.N_phi
 
     # Extract two coherent spinor arms directly from the canonical 3D VACUUM_BOIL world seed
@@ -246,27 +256,40 @@ def check_qm_aharonov_bohm_holonomy(device: str = "cpu") -> dict:
     u_arm2 = u_arm1.clone()
     v_arm2 = v_arm1.clone()
 
-    def ab_loop_intensity(flux_ticks: int) -> int:
-        phi = torch.full_like(u_arm2, flux_ticks)
+    def ab_loop_intensity(external_flux_ticks: int, charge_multiple: int = 1) -> int:
+        phi = torch.full_like(u_arm2, charge_multiple * external_flux_ticks)
         du, dv = rot_impulse_uv(u_arm2, v_arm2, phi, phase_bits=cfg.phase_bits)
         u_tot = u_arm1 + (u_arm2 + du)
         v_tot = v_arm1 + (v_arm2 + dv)
         return int(torch.sum(u_tot**2 + v_tot**2).item())
 
-    i_0 = ab_loop_intensity(0)
-    i_half_flux = ab_loop_intensity(pauli_ticks)
-    i_full_flux = ab_loop_intensity(n_ring)
+    # Single charge q = 1e: destructive zero at half-period 256 ticks (pi), full revival at 512 ticks (2*pi = h/e)
+    i_1e_zero_flux = ab_loop_intensity(0, charge_multiple=1)
+    i_1e_half_period_pi = ab_loop_intensity(half_period_pi_ticks, charge_multiple=1)
+    i_1e_full_period_2pi = ab_loop_intensity(n_ring, charge_multiple=1)
 
-    ok = i_0 > 0 and i_half_flux == 0 and i_full_flux == i_0
+    # Cooper pair q = 2e: destructive zero at 128 ticks, full revival already at 256 ticks (h/2e)
+    i_2e_quarter_flux = ab_loop_intensity(quarter_period_ticks, charge_multiple=2)
+    i_2e_half_flux_revival = ab_loop_intensity(half_period_pi_ticks, charge_multiple=2)
+
+    ok = (
+        i_1e_zero_flux > 0
+        and i_1e_half_period_pi == 0
+        and i_1e_full_period_2pi == i_1e_zero_flux
+        and i_2e_quarter_flux == 0
+        and i_2e_half_flux_revival == i_1e_zero_flux
+    )
     return {
         "id": "QM_aharonov_bohm_holonomy",
         "world_seed": "vacuum_boil_fixed_3d",
         "scale_K": cfg.scale_k,
-        "I_flux_0": i_0,
-        "I_flux_pi_Pauli": i_half_flux,
-        "I_flux_2pi_Nring": i_full_flux,
+        "I_1e_flux_0": i_1e_zero_flux,
+        "I_1e_half_period_pi_256": i_1e_half_period_pi,
+        "I_1e_full_period_2pi_512": i_1e_full_period_2pi,
+        "I_2e_quarter_flux_128": i_2e_quarter_flux,
+        "I_2e_half_flux_revival_256": i_2e_half_flux_revival,
         "ok": ok,
-        "note": "Aharonov-Bohm holonomy on 3D VACUUM_BOIL seed: exact destructive zero I(Phi_Pauli)=0 and exact revival I(N_ring)=I(0)",
+        "note": "Aharonov-Bohm on 3D VACUUM_BOIL: 1e has destructive zero at half-period 256 ticks (pi) and full revival at 512 ticks (2*pi=h/e); Cooper pair 2e revives at 256 ticks (h/2e)",
     }
 
 
