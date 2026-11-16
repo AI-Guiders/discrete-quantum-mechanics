@@ -389,10 +389,19 @@ def cuboctahedral_second_period_and_hbond_verification() -> dict[str, Any]:
     angle_h2o_err_deg = abs(theta_h2o_deg - 104.45)
     angle_nh3_err_deg = abs(theta_nh3_deg - 107.28)
 
-    # B-DNA vertical stacking step: mod_bits * kappa * a0 = 9 * r_H ≈ 3.368 A vs 3.38 A
+    # B-DNA vertical stacking step, C1'-C1' span, outer diameter, and nucleosome 3-shell ball N_ball(3) = 147 bp
     mod_bits = n_hier + 1  # 9
     h_stack_dna_A = mod_bits * r_h
     dna_stack_rel_err = abs(h_stack_dna_A - 3.38) / 3.38
+    c1_c1_dna_A = float(1 + d_in_sq * d_out_v) * r_h  # 29 * r_H = 10.8514 A vs 10.85 A
+    diam_dna_A = float(n_shell_2 + n12) * r_h  # 54 * r_H = 20.206 A vs 20.0 A
+    n_shell_3 = (n12 - 2) * (d * d) + 2  # 92
+    n_ball_3 = 1 + n12 + n_shell_2 + n_shell_3  # 147 bp per nucleosome octamer (N_hier = 8 histones)
+    nucleosome_dna_ok = (
+        abs(c1_c1_dna_A - 10.85) / 10.85 < 0.001
+        and abs(diam_dna_A - 20.0) / 20.0 < 0.015
+        and n_ball_3 == 147
+    )
 
     # {111} hex-slice sp2 contraction (kappa_hex = sqrt(3)/2) and Pauling-Corey alpha-helix / beta-sheet geometry
     kappa_hex = math.sqrt(3.0) / 2.0
@@ -434,6 +443,7 @@ def cuboctahedral_second_period_and_hbond_verification() -> dict[str, Any]:
         and angle_h2o_err_deg < 0.05
         and angle_nh3_err_deg < 0.40
         and dna_stack_rel_err < 0.005
+        and nucleosome_dna_ok
         and pauling_corey_ok
         and 0.21 < e_hb_ev < 0.22
         and unique_major_groove
@@ -449,6 +459,9 @@ def cuboctahedral_second_period_and_hbond_verification() -> dict[str, Any]:
         "theta_H2O_deg": theta_h2o_deg,
         "theta_NH3_deg": theta_nh3_deg,
         "h_stack_dna_A": h_stack_dna_A,
+        "c1_c1_dna_A": c1_c1_dna_A,
+        "diam_dna_A": diam_dna_A,
+        "n_nucleosome_bp": n_ball_3,
         "h_alpha_A": h_alpha_A,
         "p_alpha_A": p_alpha_A,
         "h_beta_A": h_beta_A,
