@@ -6,8 +6,8 @@
 
 \textbf{Что проверяем.}
 \begin{enumerate}[label=\textbf{(\alph*)},leftmargin=*,itemsep=0.25em]
-\item Точность воспроизведения $IE_1(Z)$ для всех $10$ элементов первых двух периодов относительно справочника NIST.
-\item Точную соизмеримость длины пептидной связи $R(\text{C--N}) = r_{\mathrm{cov}}(6)+r_{\mathrm{cov}}(7) = (52/13)\caKappaGeom a_0 = 4\caKappaGeom a_0 = 2R_e(\text{H}_2)$ и сдвиг косинуса тетраэдрического угла $\cos\theta(m_{\mathrm{LP}}) = -(8-m_{\mathrm{LP}})/24$.
+\item Точность воспроизведения $IE_1(Z)$ для всех $10$ элементов первых двух периодов относительно справочника NIST, включая изоэнергетический резонанс $IE_1(\text{O})/IE_1(\text{H}) = 1$ при $\sigma(\text{O}) = |\square| = 6$.
+\item Точную соизмеримость длины пептидной связи $R(\text{C--N}) = r_{\mathrm{cov}}(6)+r_{\mathrm{cov}}(7) = (52/13)\caKappaGeom a_0 = 4\caKappaGeom a_0 = 2R_e(\text{H}_2)$, дискретный сдвиг косинуса тетраэдрического угла $\cos\theta(m_{\mathrm{LP}}) = -(8-m_{\mathrm{LP}})/24$ ($\cos\theta(\text{H}_2\text{O}) = -1/4$) и совпадение кумулятивных объёмов шаров кубооктаэдра $N_{\mathrm{ball}}(1,2,3) = 13,\ 55,\ 147$ с магическими числами свободных кластеров $\text{Xe}_N$ и $\text{Au}_N$ в вакууме (\cref{cor:chem-so3-vs-oh-bound}).
 \item Согласие теплоты плавления льда $\Delta H_{\mathrm{fus}} = \frac{2}{7}N_A E_{\mathrm{HB}}$, температур $T_{\mathrm{melt}} = T_{\mathrm{HB}}/9$, $T_{\mathrm{boil}} = \frac{4}{27}T_{\mathrm{HB}}$, $T_{\mathrm{crit}} = \frac{8}{31}T_{\mathrm{HB}}$ и отношения БКШ $\frac{7}{2}\frac{97}{96}$ со справочными данными.
 \end{enumerate}
 
@@ -46,17 +46,19 @@ $IE_1(\text{C})$, $IE_1(\text{O})$, $R(\text{C--N})$, $\theta(\text{H}_2\text{O}
 \begin{table}[htbp]
 \centering
 \footnotesize
-\setlength{\tabcolsep}{3.5pt}
-\caption{Сверка атомно-молекулярных инвариантов и фазовых переходов воды с данными NIST (CE-CH-01)}
+\setlength{\tabcolsep}{3pt}
+\caption{Сверка атомно-молекулярных инвариантов, кластеров и фазовых переходов воды с данными NIST (CE-CH-01)}
 \label{tab:exp-ce-ch-01}
 \begin{tabular}{@{}llrrr@{}}
 \toprule
-Величина & Формула из носителя & Модель & Справочник NIST & Откл. \\
+Величина & Формула из носителя & Модель & Справочник / опыт & Откл. \\
 \midrule
 $IE_1(\text{C})$, эВ ($Z=6$) & $\frac{1}{4}(25/16 + 10/39)^2 BE_H$ & $11{,}253$ & $11{,}260$ & $-0{,}06\%$ \\
 $IE_1(\text{O})$, эВ ($Z=8$) & $\frac{1}{4}(8 - |\square|)^2 BE_H = BE_H$ & $13{,}606$ & $13{,}618$ & $-0{,}09\%$ \\
 $R(\text{C--N})$, \text{\normalfont\AA} & $r_{\mathrm{cov}}(6)+r_{\mathrm{cov}}(7) = 4\caKappaGeom a_0$ & $1{,}497$ & $1{,}471 \pm 0{,}015$ & $+1{,}7\%$ \\
-$\theta(\text{H}_2\text{O})$, град & $\arccos(-1/d_{\mathrm{in}}(\square)) = \arccos(-1/4)$ & $104{,}48^\circ$ & $104{,}45^\circ \pm 0{,}05^\circ$ & $+0{,}03^\circ$ \\
+$\theta(\text{H}_2\text{O})$, град ($\cos\theta$) & $\arccos(-1/d_{\mathrm{in}}(\square)) = \arccos(-1/4)$ & $104{,}48^\circ$ & $104{,}45^\circ \pm 0{,}05^\circ$ & $+0{,}03^\circ$ \\
+Пики кластеров $\text{Xe}_N, \text{Au}_N$ & $N_{\mathrm{ball}}(1,2,3) = \sum_{m=0}^k(10m^2+2)$ & $13,\ 55,\ 147$ & $13,\ 55,\ 147$ (масс-спектр) & $0$ \\
+Правило $18e$ комплексов $3d$ & $\geomNeighborTwelve + |\square| = 12 + 6$ & $18$ & $18$ (\texttt{Cr(CO)6, Fe(CO)5}) & $0$ \\
 $E_{\mathrm{HB}}$, $\SiFrac{кДж}{моль}$ & $N_A BE_H / (2^{\mathrm{frac\_bits}}-1) = N_A BE_H/63$ & $20{,}84$ & $20{,}7 \pm 0{,}3$ & $+0{,}68\%$ \\
 $\Delta H_{\mathrm{fus}}(\text{H}_2\text{O})$, $\SiFrac{кДж}{моль}$ & $\frac{d-1}{d_{\mathrm{soft}}}N_A E_{\mathrm{HB}} = \frac{2}{7}N_A E_{\mathrm{HB}}$ & $5{,}954$ & $6{,}009$ & $-0{,}92\%$ \\
 $T_{\mathrm{boil}}(\text{H}_2\text{O})$, К & $\frac{d_{\mathrm{in}}(\square)}{d^3}T_{\mathrm{HB}} = \frac{4}{27}T_{\mathrm{HB}}$ & $371{,}3$ & $373{,}15$ & $-0{,}50\%$ \\
