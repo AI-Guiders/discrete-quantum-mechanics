@@ -6,7 +6,7 @@ from enum import Enum
 import torch
 
 from mt_ca.fixed_point import decode_spinor, encode_spinor
-from mt_ca.si_constants import PLANCK_CELL, heisenberg_phi_min_disc
+from mt_ca.si_constants import N12_FCC_CAUSAL_LINKS, PLANCK_CELL, heisenberg_phi_min_disc
 from mt_ca.z_ring import mod_lane
 
 
@@ -320,8 +320,8 @@ def universe_iv_9bit_spinor_3d(
     ny: int,
     nx: int,
     *,
-    iv_9bit: int = 0b1_00000111,
-    radius: int = 6,
+    iv_9bit: int = (1 << (PLANCK_CELL.mod_bits - 1)) | ((1 << 3) - 1),
+    radius: int = PLANCK_CELL.frac_bits,
     device: torch.device,
     dtype: torch.dtype = torch.complex64,
     mod_bits: int = PLANCK_CELL.mod_bits,
@@ -330,15 +330,17 @@ def universe_iv_9bit_spinor_3d(
 ) -> torch.Tensor:
     """META §3.2 IV→I: 9-bit Universe Initial Vector (IV ∈ ℤ_512) on 3+1 FCC boil.
 
-    Bit budget:
+    Bit budget (zero fitted parameters):
       - Bit 8 (MSB, 1 bit): chirality bit b_chir ∈ {0, 1} (selects n=+1 vs n=−1 dominance).
       - Bits 0..7 (8 = N_hier = 2^d bits): binary phase shift mask across the 2^3 = 8
         spatial octants (z>=cz, y>=cy, x>=cx) around the causal nucleation core.
-    Where 3 octants meet with non-trivial mask (e.g. K_3 trihedral mask 0b00000111 = 7),
-    Kibble-Zurek phase holonomy deterministically nucleates b=1 matter vortices from b=0.
+      - Default iv_9bit = 2^N_hier + (2^d - 1) = 256 + 7 = 263 = 0b1_00000111 (K_3 trihedral mask).
+      - Core radius = frac_bits = 6; phase step = d * Δφ_min; core amplitude = 1 + |N_12| = N_φ = 13.
     """
     if not 0 <= int(iv_9bit) < (1 << mod_bits):
         raise ValueError(f"iv_9bit must be in 0..{(1 << mod_bits) - 1}, got {iv_9bit}")
+    d_spatial = 3
+    n12 = int(N12_FCC_CAUSAL_LINKS)
     z_boil = boil_ocean_spinor_3d(
         nz,
         ny,
@@ -357,17 +359,17 @@ def universe_iv_9bit_spinor_3d(
     )
     cz, cy, cx = nz // 2, ny // 2, nx // 2
     octant_idx = ((zz >= cz).long() << 2) | ((yy >= cy).long() << 1) | (xx >= cx).long()
-    b_chir = (int(iv_9bit) >> 8) & 1
-    mask8 = int(iv_9bit) & 0xFF
+    b_chir = (int(iv_9bit) >> (mod_bits - 1)) & 1
+    mask8 = int(iv_9bit) & ((1 << (mod_bits - 1)) - 1)
     sign = 1.0 if b_chir == 1 else -1.0
     r2 = (zz - cz) ** 2 + (yy - cy) ** 2 + (xx - cx) ** 2
     ball_mask = (r2 <= int(radius) ** 2).to(torch.float32)
     step_rad = 2.0 * math.pi * (float(heisenberg_phi_min_disc(phase_bits=phase_bits)) / float(1 << phase_bits))
     bit_m = ((mask8 >> octant_idx) & 1).to(torch.float32)
-    bit_m2 = ((mask8 >> (octant_idx ^ 0b011)) & 1).to(torch.float32)
-    phi1 = sign * bit_m * (3.0 * step_rad) * ball_mask
-    phi2 = sign * bit_m2 * (3.0 * step_rad) * ball_mask
-    boost = 1.0 + 10.0 * ball_mask
+    bit_m2 = ((mask8 >> (octant_idx ^ d_spatial)) & 1).to(torch.float32)
+    phi1 = sign * bit_m * (float(d_spatial) * step_rad) * ball_mask
+    phi2 = sign * bit_m2 * (float(d_spatial) * step_rad) * ball_mask
+    boost = 1.0 + float(n12) * ball_mask
     z = z_boil.clone()
     z[..., 0] = z[..., 0] * boost * torch.exp(1j * phi1).to(dtype)
     z[..., 1] = z[..., 1] * boost * torch.exp(1j * phi2).to(dtype)
