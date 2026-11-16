@@ -101,7 +101,22 @@ def check_qm_scale_cancellation_k(device: str = "cpu") -> dict:
 
 
 def check_qm_double_slit_which_way(device: str = "cpu") -> dict:
-    """Young-Feynman 3D double-slit on canonical filled lattice + which-way erasure at Heisenberg threshold Delta_phi_disc."""
+    """Young-Feynman 3D double-slit on canonical filled lattice in both single-quantum threshold and above-threshold regimes.
+
+    Physical regimes verified on the 3D world seed (`vacuum_ice_fixed_3d`):
+      1. Single-quantum threshold detection regime (`slit_boost = frac_bits = |N_12|/2 = 6`):
+         At a threshold detector pixel where a single open slit delivers a sub-Heisenberg impulse
+         Phi_1 = floor(64 * 6 / 13) = 29 < 41 ticks (below the n_E = 1 detector firing threshold, I_1 = I_2 = 0),
+         coherent constructive superposition of both slits reaches Phi_12 = 64 * (12 / 12) = 64 >= 41 ticks and fires the pixel (I_12 = 2116 > 0).
+      2. Above-threshold diffraction envelope regime (`slit_boost = |N_12| = 12`):
+         When a single open slit already exceeds the detector threshold (Phi_1 = floor(64 * 12 / 13) = 59 >= 41 ticks,
+         so the screen is illuminated by one slit alone: I_1 = I_2 = 3481 > 0), opening the second slit in-phase
+         amplifies the bright fringe (I_12(0) = 4096 > I_1), whereas opening the second slit in anti-phase (256 ticks = pi)
+         extinguishes the illuminated pixel to exact zero in the dark fringe (I_12(pi) = 0 < I_1).
+      3. Which-way detector threshold:
+         A sub-Heisenberg phase probe (< 41 ticks) is snapped to 0 and preserves interference, while an above-threshold
+         which-way detector (>= 41 ticks, n_E >= 1) erases the interference peak.
+    """
     dev = torch.device(device)
     cfg = MConfig.for_ladder_floor("bohr", stencil="fcc")
     phi_min_ticks = heisenberg_phi_min_int(cfg)
@@ -114,17 +129,14 @@ def check_qm_double_slit_which_way(device: str = "cpu") -> dict:
     s2_z, s2_y, s2_x = c_idx - 1, c_idx + 1, c_idx
     unit_amp = 1 << cfg.frac_bits  # 1.0 in Q(frac_bits)
 
-    def run_slit_on_world_seed(open_s1: bool, open_s2: bool, s2_extra_ticks: int = 0) -> int:
+    def run_slit_on_world_seed(
+        open_s1: bool, open_s2: bool, s2_extra_ticks: int = 0, slit_boost: int = cfg.frac_bits
+    ) -> int:
         # Start from canonical filled 3D ocean (vacuum_ice_fixed_3d scaled to unit Q amplitude)
         f_base = vacuum_ice_fixed_3d(grid_n, grid_n, grid_n, device=dev) * unit_amp
         f_curr = f_base.clone().to(torch.int64)
         f_past = f_base.clone().to(torch.int64)
 
-        # Slit excitation on the filled 12-neighbor world seed:
-        # Half-star multiplicity = frac_bits = |N_12|/2 = 6:
-        #   - 1 open slit on 11 background neighbors gives Phi_1 = floor(64 * 6 / 13) = 29 < 41 ticks (sub-Heisenberg -> 0!)
-        #   - 2 in-phase open slits on 10 background neighbors give Phi_12 = floor(64 * 12 / 12) = 64 >= 41 ticks (fires!)
-        slit_boost = cfg.frac_bits  # 6 = |N_12| / 2
         q_ticks = pauli_ticks // 2
         if open_s1:
             u0 = f_curr[s1_z, s1_y, s1_x, 0:1] * slit_boost
@@ -155,26 +167,28 @@ def check_qm_double_slit_which_way(device: str = "cpu") -> dict:
             v_scr -= 1 << cfg.mod_bits
         return v_scr * v_scr
 
-    # 1. Unperturbed world seed (both slits closed) -> 0 transverse excitation
-    i_closed = run_slit_on_world_seed(False, False)
-    # 2. Single slit open (S1 only or S2 only): single FCC link holonomy is sub-Heisenberg -> 0 detector clicks!
-    i_s1_only = run_slit_on_world_seed(True, False)
-    i_s2_only = run_slit_on_world_seed(False, True)
-    # 3. Both slits open in phase: coherent sum crosses Heisenberg threshold phi_min_ticks -> screen pixel fires!
-    i_both_in_phase = run_slit_on_world_seed(True, True, s2_extra_ticks=0)
-    # 4. Both slits open in anti-phase (pauli_ticks = pi): exact destructive cancellation on screen!
-    i_both_anti_phase = run_slit_on_world_seed(True, True, s2_extra_ticks=pauli_ticks)
+    # Regime A: Single-quantum threshold detection (slit_boost = frac_bits = |N_12|/2 = 6)
+    i_closed = run_slit_on_world_seed(False, False, slit_boost=cfg.frac_bits)
+    i_s1_only = run_slit_on_world_seed(True, False, slit_boost=cfg.frac_bits)
+    i_s2_only = run_slit_on_world_seed(False, True, slit_boost=cfg.frac_bits)
+    i_both_in_phase = run_slit_on_world_seed(True, True, s2_extra_ticks=0, slit_boost=cfg.frac_bits)
+    i_both_anti_phase = run_slit_on_world_seed(True, True, s2_extra_ticks=pauli_ticks, slit_boost=cfg.frac_bits)
 
-    # 5. Sub-threshold probe at S2 (phi_min_ticks - 1): snapped to 0 by Heisenberg gate -> constructive peak unchanged!
+    # Regime B: Above-threshold diffraction envelope (slit_boost = |N_12| = 12 -> Phi_1 = 59 >= 41 ticks)
+    i_s1_above = run_slit_on_world_seed(True, False, slit_boost=N12_FCC_CAUSAL_LINKS)
+    i_both_bright_above = run_slit_on_world_seed(True, True, s2_extra_ticks=0, slit_boost=N12_FCC_CAUSAL_LINKS)
+    i_both_dark_above = run_slit_on_world_seed(
+        True, True, s2_extra_ticks=pauli_ticks, slit_boost=N12_FCC_CAUSAL_LINKS
+    )
+
+    # Which-way detector test: sub-threshold probe (< 41 ticks) vs above-threshold detector (>= 41 ticks)
     sub_kick = int(
         apply_heisenberg_floor_signed(
             torch.tensor([phi_min_ticks - 1], dtype=torch.int64, device=dev), phi_min_ticks
         ).item()
     )
-    i_sub_probe = run_slit_on_world_seed(True, True, s2_extra_ticks=sub_kick)
+    i_sub_probe = run_slit_on_world_seed(True, True, s2_extra_ticks=sub_kick, slit_boost=cfg.frac_bits)
 
-    # 6. Above-threshold which-way detector (n_E >= 1 quantum absorbed at S2, i.e. kick >= phi_min_ticks):
-    #    Averaging over the N_phi = 13 Heisenberg phase classes of the detector erases the interference peak
     det_sum = 0.0
     for k_cls in range(PLANCK_CELL.N_phi):
         det_kick = heisenberg_phase_tick(k_cls, phase_bits=cfg.phase_bits)
@@ -183,7 +197,9 @@ def check_qm_double_slit_which_way(device: str = "cpu") -> dict:
                 torch.tensor([det_kick], dtype=torch.int64, device=dev), phi_min_ticks
             ).item()
         )
-        det_sum += float(run_slit_on_world_seed(True, True, s2_extra_ticks=snapped_det))
+        det_sum += float(
+            run_slit_on_world_seed(True, True, s2_extra_ticks=snapped_det, slit_boost=cfg.frac_bits)
+        )
     i_which_way_avg = det_sum / float(PLANCK_CELL.N_phi)
 
     ok = (
@@ -192,6 +208,9 @@ def check_qm_double_slit_which_way(device: str = "cpu") -> dict:
         and i_s2_only == 0
         and i_both_in_phase > 0
         and i_both_anti_phase == 0
+        and i_s1_above > 0
+        and i_both_bright_above > i_s1_above
+        and i_both_dark_above == 0
         and i_sub_probe == i_both_in_phase
         and i_which_way_avg < float(i_both_in_phase)
     )
@@ -200,15 +219,15 @@ def check_qm_double_slit_which_way(device: str = "cpu") -> dict:
         "world_seed": "vacuum_ice_fixed_3d",
         "scale_K": cfg.scale_k,
         "heisenberg_threshold_ticks": phi_min_ticks,
-        "I_closed": i_closed,
-        "I_s1_only_subthreshold": i_s1_only,
-        "I_s2_only_subthreshold": i_s2_only,
-        "I_both_in_phase_constructive": i_both_in_phase,
-        "I_both_anti_phase_destructive": i_both_anti_phase,
+        "I_threshold_s1_only": i_s1_only,
+        "I_threshold_both_constructive": i_both_in_phase,
+        "I_above_threshold_s1_only": i_s1_above,
+        "I_above_threshold_both_bright": i_both_bright_above,
+        "I_above_threshold_both_dark_pi": i_both_dark_above,
         "I_subthreshold_probe": i_sub_probe,
         "I_which_way_detector_avg": i_which_way_avg,
         "ok": ok,
-        "note": "3D FCC double-slit on filled world seed: single slit is sub-Heisenberg (I1=I2=0), in-phase slits fire screen (I12>0), anti-phase gives 0, sub-41 probe preserves peak",
+        "note": "3D double-slit on world seed: verifies both threshold regime (I1=0, I12=2116) and above-threshold diffraction regime (I1=3481>0, bright I12=4096>I1, dark I12(pi)=0)",
     }
 
 
