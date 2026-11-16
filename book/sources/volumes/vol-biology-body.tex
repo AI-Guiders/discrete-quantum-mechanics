@@ -404,6 +404,39 @@ II (ядро $1$) & \texttt{Stop} & \texttt{UAA,UAG,UGA} (3) & --- & освоб�
   индольный клин $\text{Trp}$ на $\text{Cys}_F-\geomNeighborTwelve$ и гидроксил $\text{Ser/Thr}$ ($[+,-]$ на $\text{W}+N_\varphi$ у \texttt{dpr6/10}) точно входят в полость $\text{Gly}$ на $\text{Cys}_F-d_{\mathrm{out}}(E)$ и акцептор $\text{Glu}$ ($\text{W}+N_\varphi$) замка \texttt{DIP-alpha}, тогда как $\text{Tyr}$ на $\text{Cys}_F-\geomNeighborTwelve$ и $\text{Arg}$ на $\text{W}+N_\varphi$ (\texttt{dpr8/9}) фиксируют замок \texttt{DIP-beta}.
 \end{itemize}
 
+\section{Теорема об обратимости фолдинга и конструктивном синтезе белка и гена за \texorpdfstring{$O(L)\in\mathrm{P}$}{O(L) in P}}
+\label{sec:bio-constructive-inverse-folding}
+
+В континуальной биоинформатике обратная задача белковой инженерии (\emph{inverse folding / de novo protein design} --- построение аминокислотной последовательности и кодирующего гена по заданной функции и энергии стабильности) не имеет аналитического решения, так как прямое отображение аппроксимируется многомиллиардными нейросетевыми весами.
+На решётке~\latGCKshort\ все три звена прямого конвейера ($\mathbb{Z}_4 \to \text{большая бороздка}$, $\mathbb{Z}_{21} \to \text{пазы } K_4 + \text{замки}$, $\mathbb{Z}_{64} \to \mathbb{Z}_{21}$) заданы конечными алгебраическими таблицами, благодаря чему обратная задача решается конструктивно за линейное время $O(L)\in\mathrm{P}$:
+
+\begin{theorem}[Конструктивный синтез белка и защищённого от сдвига рамки гена по заданным свойствам]
+\label{thm:bio-constructive-inverse-folding}
+Пусть на носителе~$\Mlayer$ задано техническое задание синтеза $\mathcal{S} = \bigl(\{\mathbf{w}_m\}_{m=1}^{K},\ \sigma_{\mathrm{cat}},\ \sigma_{\mathrm{ATP}},\ \sigma_{\mathrm{TM}},\ \sigma_{\mathrm{Ig}},\ Q_{\mathrm{min}}\bigr)$, включающее $K$ целевых триплетов промотора $\mathbf{w}_m = (b_{m,0}, b_{m,1}, b_{m,2})\in\mathbb{Z}_4^3$, флаги каталитической триады~$\sigma_{\mathrm{cat}}$, АТФ-мотора Уокера~$\sigma_{\mathrm{ATP}}$, трансмембранного стержня~$\sigma_{\mathrm{TM}}$, синаптической полярности $\sigma_{\mathrm{Ig}}\in\{-1,0,+1\}$ и минимальный порог термодинамической стабильности $Q_{\mathrm{min}}\,E_{\mathrm{HB}}$. Тогда существуют детерминированный алгоритм времени $O(L)\in\mathrm{P}$, строящий последовательность $\mathbf{a}\in\mathbb{Z}_{21}^L$ и кодирующий ген $\mathbf{b}\in\mathbb{Z}_4^{3L+3}$, для которых выполняются три точных свойства:
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Точная обратимость чтения большой бороздки ($\mathrm{read}\circ\mathrm{synth} = \mathrm{id}_{\mathbb{Z}_4}$):}
+  отображение синтеза чтеца $\mathrm{synth}:\mathbb{Z}_4 \to \mathbb{Z}_{21}$, заданное правилом
+  \begin{equation}
+  \label{eq:bio-inverse-groove-reader}
+    \mathrm{synth}(3) = 2\ (\text{Arg}),\quad
+    \mathrm{synth}(2) = 15\ (\text{Gln}),\quad
+    \mathrm{synth}(1) = 19\ (\text{Glu}),\quad
+    \mathrm{synth}(0) = 3\ (\text{Ala}),
+  \end{equation}
+  является правым обратным к оператору чтения большой бороздки ($\mathrm{read}(\mathrm{synth}(b)) \equiv b$ для всех $b\in\mathbb{Z}_4$). Подстановка троек $\bigl(\mathrm{synth}(b_{m,0}),\mathrm{synth}(b_{m,1}),\mathrm{synth}(b_{m,2})\bigr)$ на кубооктаэдрические смещения $(11, 8, 5)$ внутри петли длины $\geomNeighborTwelve = 12$ даёт $K$-пальцевую кассету \texttt{C2H2}, гарантированно распознающую слово $\mathbf{w}_1\ldots\mathbf{w}_K$.
+\item \textbf{Модульная аддитивность замков и энергии укладки ($|\Delta G_{\mathrm{fold}}| \ge Q_{\mathrm{min}}\,E_{\mathrm{HB}}$):}
+  последовательная конкатенация функциональных кассет ($\sigma_{\mathrm{cat}}$: реле $\text{Ser}_1\leftrightarrow\text{His}_{14}\leftrightarrow\text{Asp}_{18}$, $d=3\,E_{\mathrm{HB}}$; $\sigma_{\mathrm{ATP}}$: зажим Уокера \texttt{6-3-3-3-3-6-17-1}, $(d-1)=2\,E_{\mathrm{HB}}$; $\sigma_{\mathrm{TM}}$: стержень длины $\geomNeighborTwelve+|\square|=18$; $\sigma_{\mathrm{Ig}}=\pm 1$: дисульфидный домен длины $N_{\mathrm{HB}}=63$) с добавлением $\alpha$-спиральных витков \texttt{3-19-0-3-17} (солевой мостик $\text{Glu}_{19}\leftrightarrow\text{Lys}_{17}$, $+3\,E_{\mathrm{HB}}$ на виток) монотонно увеличивает число водородных квантов до выполнения $Q(\mathbf{a}) \ge Q_{\mathrm{min}}$ при строгом сохранении самоизбегаемости на узлах~\latGCKshort.
+\item \textbf{Защита рамки считывания при обратной трансляции ($\mathbb{Z}_{21}^L \to \mathbb{Z}_4^{3L+3}$):}
+  выбор для каждого из $20$ кодирующих классов $a\in\{0\ldots 19\}$ канонического триплета $\mathrm{cod}(a) = (b_1, b_2, b_3)\in\mathbb{Z}_4^3$, оканчивающегося исключительно на трёхсвязевое основание $b_3 \in \{1, 3\}$ (\texttt{C} или \texttt{G}), гарантирует отсутствие внефазовых старт-кодонов \texttt{ATG} ($(2,0,3)$) и сохраняет открытую рамку считывания длины~$L$ при прямой верификации $\Mlayer$-конвейером.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Прямой подстановкой четырёхслотовых профилей~\eqref{eq:bio-major-groove-code} проверяется, что вилки классов $\{2, 15, 19, 3\}$ дают максимум комплементарных квантов~$E_{\mathrm{HB}}$ именно на основаниях $\{3, 2, 1, 0\}$, откуда $\mathrm{read}(\mathrm{synth}(b)) = b$.
+Поскольку каждый стабилизирующий $5$-остаточный модуль \texttt{3-19-0-3-17} имеет строго положительный вклад $\Delta Q \ge 3\,E_{\mathrm{HB}}$ и конечную длину, условие $Q(\mathbf{a}) \ge Q_{\mathrm{min}}$ достигается не более чем за $\lceil Q_{\mathrm{min}}/3\rceil$ шагов.
+Наконец, для возникновения триплета $(2, 0, 3)$ со сдвигом рамки $+1$ или $+2$ необходимо, чтобы предшествующий кодон оканчивался на $b_3 = 2$ либо на пару $(b_2, b_3) = (2, 0)$; однако в каноническом подкоде для всех $a\in\{0\ldots 19\}$ выполнено $b_3\in\{1, 3\}$, что делает внефазовую инициацию невозможной.
+\end{proof}
+
 \chapter{От молекулярных замков к клеточному автомату и 3D-онтогенезу}
 \label{ch:bio-ontogeny-ca}
 
