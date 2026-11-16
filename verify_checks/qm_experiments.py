@@ -617,7 +617,7 @@ def check_qm_single_click_born_on_boil(device: str = "cpu") -> dict:
          phase classes k in 0..12 with sub-threshold pre-bias in [-19, +18] ticks (< 41 ticks, so 0 false clicks in vacuum).
       3. When a uniform plane wave at threshold amplitude `A_1click = (d-1)*unit_amp + (d-1)*N_phi = 154` arrives across all
          13 pixels simultaneously, ONLY ONE resonant pixel out of 13 reaches |Phi| = 41 ticks (n_E = 1 quantum) and fires!
-      4. Causal time-resolved breakdown (`t = 1..16`, no non-local spatial argmax):
+      4. Causal time-resolved breakdown (`t = 1..16`):
          For a single-quantum (`n_E = 1`) localized wavepacket, the envelope gradient + 13-class vacuum pre-bias
          guarantee a unique first breakdown node `x_*` at tick `t_*` (`len(above_at_t_*) == 1`), after which a causal
          discharge front at speed `c_0` quenches neighbors; whereas an intense multi-quantum (`n_E >= 2`) pulse
@@ -722,10 +722,10 @@ def check_qm_single_click_born_on_boil(device: str = "cpu") -> dict:
     r2_quadratic_excess = _r2_score(excess_sums, quad_working)
     r2_quadratic_active = _r2_score(active_working, quad_working)
 
-    # 4. Causal time-resolved race-to-threshold (NO global spatial argmax!) on a non-uniform wavepacket A(x, t):
+    # 4. Causal time-resolved breakdown on a non-uniform wavepacket A(x, t):
     #    As the wavepacket ramps up over ticks t = 1..n_ramp (n_ramp = 2^d_in(sq) = 16), the pixel whose vacuum
-    #    phase pre-bias + wave amplitude first crosses |Phi(x, t_*)| >= 41 at tick t_* fires ALONE (len(above_at_t_*) == 1
-    #    without any non-local spatial argmax!), and triggers a causal lateral discharge expanding at speed c_0.
+    #    phase pre-bias + wave amplitude first crosses |Phi(x, t_*)| >= 41 at tick t_* fires first (len(above_at_t_*) == 1)
+    #    and triggers a causal lateral discharge expanding at speed c_0.
     bell_profile = torch.zeros(n_phi, dtype=torch.int64, device=dev)
     bell_profile[c_idx] = N4_CAUSAL_LINKS * unit_amp
     bell_profile[c_idx - 1] = (N4_CAUSAL_LINKS - 1) * unit_amp
@@ -801,7 +801,7 @@ def check_qm_single_click_born_on_boil(device: str = "cpu") -> dict:
         "boil_active_counts_ladder": counts_ladder,
         "r2_quadratic_excess_vs_A_minus_A0_sq": r2_quadratic_excess,
         "r2_quadratic_active_vs_A_minus_A0_sq": r2_quadratic_active,
-        "unique_first_breakdown_at_t_star_no_argmax": unique_first_breakdown_at_t_star,
+        "unique_first_breakdown_at_t_star": unique_first_breakdown_at_t_star,
         "race_to_threshold_winner_histogram": dict(sorted(winner_counts.items())),
         "multi_photon_coincidence_nodes": multi_photon_coincidences,
         "dark_nodes_zero_clicks": dark_nodes_zero,
