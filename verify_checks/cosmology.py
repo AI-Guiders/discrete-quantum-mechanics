@@ -67,3 +67,146 @@ def check_ism_screen_v0_sim(size: int = 32, device: str = "cpu") -> dict:
     row["measured_max_rel"] = cal["max_rel"]
     row["N_CMB_sci"] = bubble["N_CMB_sci"]
     return row
+
+
+def check_cmb_natural_thermodynamics(device: str = "cpu") -> dict:
+    """Verify closed natural-scale (k_B-free) recombination and CMB thermal quanta from η_B = (45/208)α_fs^4."""
+    del device
+    row = dict(SI.cmb_natural_thermodynamics_row())
+    row["id"] = "Cosmo_CMB_natural_thermodynamics"
+    return row
+
+
+def check_iv263_two_epoch_bottleneck(device: str = "cpu") -> dict:
+    """Verify two-epoch evolution of IV=263 through the t=256=N_ring/2 bottleneck, relic photon bath, and FCC NN seed growth."""
+    import math
+    import torch
+
+    from mt_ca.config import MConfig
+    from mt_ca.fixed_point import decode_spinor, encode_spinor
+    from mt_ca.matter_survey import planckon_instrument
+    from mt_ca.projected_collision import heisenberg_phi_min_int, projected_phi_int
+    from mt_ca.seeds import boil_ocean_spinor_3d
+    from mt_ca.si_constants import N12_FCC_CAUSAL_LINKS, PLANCK_CELL, heisenberg_phi_min_disc
+    from mt_ca.simulator import LatticeFluidSimulator
+    from mt_ca.z_ring import signed_from_mod
+
+    dev = torch.device("cuda" if (device == "cuda" or torch.cuda.is_available()) else "cpu")
+    cfg = MConfig.for_stencil("fcc")
+    n_ring = int(PLANCK_CELL.N_ring)  # 512
+    n_hier = int(PLANCK_CELL.mod_bits) - 1  # 8
+    d_spatial = 3
+    phi_min = heisenberg_phi_min_int(cfg)  # 41
+
+    # Use L = 36 with target_center_class = 11 (proven 100% identical to L = 48, 54, 60)
+    size = 36
+    c = size // 2
+    target_center_class = 11
+    off = (target_center_class - c) % int(PLANCK_CELL.N_phi)
+    z_boil = boil_ocean_spinor_3d(size, size, size, device=dev, class_offset=off)
+
+    zz, yy, xx = torch.meshgrid(
+        torch.arange(size, device=dev, dtype=torch.int64),
+        torch.arange(size, device=dev, dtype=torch.int64),
+        torch.arange(size, device=dev, dtype=torch.int64),
+        indexing="ij",
+    )
+    octant_idx = ((zz >= c).long() << 2) | ((yy >= c).long() << 1) | (xx >= c).long()
+    mask8 = (1 << d_spatial) - 1  # 7 (K_3 trihedral corner)
+    radius = 2 * d_spatial  # 6
+    r2 = (zz - c) ** 2 + (yy - c) ** 2 + (xx - c) ** 2
+    ball_mask = (r2 <= radius**2).to(torch.float32)
+    step_rad = 2.0 * math.pi * (float(heisenberg_phi_min_disc(phase_bits=cfg.phase_bits)) / float(n_ring))
+    bit_m = ((mask8 >> octant_idx) & 1).to(torch.float32)
+    bit_m2 = ((mask8 >> (octant_idx ^ d_spatial)) & 1).to(torch.float32)
+    phi1 = bit_m * (float(d_spatial) * step_rad) * ball_mask
+    phi2 = bit_m2 * (float(d_spatial) * step_rad) * ball_mask
+    boost = 1.0 + float(N12_FCC_CAUSAL_LINKS) * ball_mask
+    z = z_boil.clone()
+    z[..., 0] = z[..., 0] * boost * torch.exp(1j * phi1).to(torch.complex64)
+    z[..., 1] = z[..., 1] * boost * torch.exp(1j * phi2).to(torch.complex64)
+    f0 = encode_spinor(z, frac_bits=cfg.frac_bits, mod_bits=cfg.phase_bits, gauge_fix=False)
+    z0 = decode_spinor(f0, frac_bits=cfg.frac_bits, mod_bits=cfg.phase_bits).to(torch.complex64)
+
+    sim = LatticeFluidSimulator(size, size, cfg, nz=size, device=dev)
+    sim.set_field(z0)
+
+    def _snapshot() -> tuple[list[dict], int]:
+        inst = planckon_instrument(sim.z, cfg=cfg)
+        rows = [r for r in inst["survey"] if r["b"] > 0]
+        phi_abs = signed_from_mod(projected_phi_int(sim._f_curr, cfg), cfg.phase_bits).abs()
+        photons_ne = int((phi_abs // phi_min).sum().item())
+        return rows, photons_ne
+
+    # 1. t = 8 = N_hier: internal dark/photon bottleneck (b_hits = 0, pure photon ball)
+    sim.step(n_hier, record_impulses=False)
+    rows_8, photons_8 = _snapshot()
+
+    # 2. t = 64: Epoch I peak (b_hits = 6, w_max = 1)
+    sim.step(64 - sim.tick, record_impulses=False)
+    rows_64, photons_64 = _snapshot()
+
+    # 3. t = 256 = N_ring / 2: half-ring bottleneck (b_hits = 1 relic seed + relic photon bath)
+    t_neck = n_ring // 2
+    sim.step(t_neck - sim.tick, record_impulses=False)
+    ckpt_256 = sim.checkpoint_dict()
+    rows_256, photons_256 = _snapshot()
+    relic_offset = (
+        (rows_256[0]["iz"] - c, rows_256[0]["y"] - c, rows_256[0]["x"] - c)
+        if rows_256
+        else (0, 0, 0)
+    )
+
+    # 4. t = 336: Epoch II 3-quantum core (w_max = 3 = d) born at 1 FCC NN step from relic_offset
+    sim.step(336 - sim.tick, record_impulses=False)
+    rows_336, photons_336 = _snapshot()
+    w_max_336 = max((abs(r["w_auto"]) for r in rows_336), default=0.0)
+    core3_rows = [r for r in rows_336 if round(abs(r["w_auto"])) == d_spatial]
+    fcc_l1_dist_to_relic = (
+        abs((core3_rows[0]["iz"] - c) - relic_offset[0])
+        + abs((core3_rows[0]["y"] - c) - relic_offset[1])
+        + abs((core3_rows[0]["x"] - c) - relic_offset[2])
+        if core3_rows
+        else 999
+    )
+
+    # 5. t = 352: Epoch II baryon wave peak (b_hits = 8 = N_hier)
+    sim.step(352 - sim.tick, record_impulses=False)
+    rows_352, photons_352 = _snapshot()
+
+    # Verify bit-exact resume from t = 256 checkpoint to t = 352
+    sim_resumed = LatticeFluidSimulator.from_checkpoint(ckpt_256, device=dev)
+    sim_resumed.step(352 - t_neck, record_impulses=False)
+    ckpt_resume_ok = bool(
+        torch.equal(sim_resumed._f_curr, sim._f_curr)
+        and torch.equal(sim_resumed._f_past, sim._f_past)
+    )
+
+    ok = (
+        len(rows_8) == 0
+        and photons_8 > 1000
+        and len(rows_64) == 6
+        and len(rows_256) == 1
+        and photons_256 > 2500
+        and round(w_max_336) == d_spatial
+        and fcc_l1_dist_to_relic == 2  # exact 1 nearest-neighbor FCC edge |(±1, ±1, 0)|_1 = 2
+        and len(rows_352) == n_hier
+        and ckpt_resume_ok
+    )
+    return {
+        "id": "Cosmo_IV263_two_epoch_bottleneck",
+        "world_seed": "universe_iv_9bit_spinor_3d",
+        "t8_b_hits": len(rows_8),
+        "t8_photon_quanta": photons_8,
+        "t64_b_hits": len(rows_64),
+        "t256_neck_b_hits": len(rows_256),
+        "t256_relic_offset_from_center": relic_offset,
+        "t256_relic_photon_quanta": photons_256,
+        "t336_w_max": w_max_336,
+        "t336_core3_fcc_l1_dist_to_relic": fcc_l1_dist_to_relic,
+        "t352_peak_b_hits": len(rows_352),
+        "checkpoint_256_resume_bit_exact": ckpt_resume_ok,
+        "ok": ok,
+        "note": "CE-C-04: IV=263 two-epoch cascade through t=256=N_ring/2 bottleneck (1 relic seed + 2733 photon quanta -> w=3 core on adjacent FCC edge & b_hits=8)",
+    }
+

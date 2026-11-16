@@ -269,8 +269,12 @@ VERIFY_SUITES: dict[str, VerifySuiteSpec] = {
     ),
     "cosmology": VerifySuiteSpec(
         id="cosmology",
-        description="ISM screen v0 (blanket T-layer).",
-        check_names=_names(check_ism_screen_v0),
+        description="Cosmology: natural CMB thermodynamics, IV=263 two-epoch bottleneck, ISM screen.",
+        check_names=_names(
+            check_cmb_natural_thermodynamics,
+            check_iv263_two_epoch_bottleneck,
+            check_ism_screen_v0,
+        ),
         ship=False,
     ),
 }

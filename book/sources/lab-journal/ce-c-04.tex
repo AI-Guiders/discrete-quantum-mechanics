@@ -1,0 +1,48 @@
+\label{exp:cec04}
+
+\subsubsection*{Постановка}
+\textbf{Физический вопрос.}
+Замыкаются ли в естественной энергетической шкале носителя (без участия переводного коэффициента~$k_{\mathrm{B}}$) тепловой квант рекомбинации $\Theta_{\mathrm{rec}}/E_{\mathrm{Ry}}$ и современный тепловой квант реликтового излучения $\Theta_{\mathrm{CMB}}/E_{\mathrm{Ry}}$ через барион-фотонную асимметрию $\eta_B = \frac{45}{208}\alpha_{\mathrm{fs}}^4$ (\cref{thm:cosmo-cmb-natural-scale}), и воспроизводит ли прямое 3D-интегрирование сида $\mathrm{IV}=263$ на решётке~\latGCKshort\ двухкаскадный переход через полупериодное горлышко $\tau_{\mathrm{neck}} = \phaseRingCount/2 = 256$ с сохранением реликтовой фотонной бани и рождением трёхквантового ядра ($|w|=3$) на соседнем ребре~$N_{12}$ вокруг выжившего реликтового зерна (\cref{sec:cosmo-two-epoch-bottleneck})?
+
+\textbf{Что проверяем.}
+\begin{enumerate}[label=\textbf{(\alph*)},leftmargin=*,itemsep=0.25em]
+\item Замкнутый вывод $\Theta_{\mathrm{rec}}/E_{\mathrm{Ry}} = \bigl[\frac{5}{2}\ln(208/(45\alpha_{\mathrm{fs}}^4))\bigr]^{-1} \approx 1/53{,}030$, совпадение факторов остывания $1+z_{\mathrm{CMB}} = (N_{\mathrm{today}}/N_{\mathrm{CMB}})^{2/3} \approx 1095{,}95 \leftrightarrow \vevHierarchySteps/\alpha_{\mathrm{fs}} \approx 1096{,}29$ и выход на $\Theta_{\mathrm{CMB}}/E_{\mathrm{HI}} \approx d_{\mathrm{out}}(V)\vevHierarchySteps = 40$ ($T_{\mathrm{CMB}} \approx 2{,}716\text{--}2{,}727\ \mathrm{К}$ против COBE/FIRAS $2{,}7255\ \mathrm{К}$).
+\item Прохождение сида $\mathrm{IV}=263$ ($\mathrm{center\_class}=11$) через внутреннее фотонное горлышко $\tau=8$ ($b_{\mathrm{hits}}=0$, $1307$ фотонных квантов) и полупериодное горлышко $\tau_{\mathrm{neck}}=256$ ($b_{\mathrm{hits}}=1$ в точке $\Delta\mathbf{x}_{\mathrm{relic}}=(-2,-3,+2)$ посреди бани из $2733$ фотонных квантов с внешним гало из $65$ квантов).
+\item Конденсацию трёхквантового ядра ($|w|=3=d$) на такте $\tau=336$ ровно на одном ребре ближайшего соседа~$N_{12}$ ($\|\Delta\mathbf{x}\|_1 = 2$) от выжившего реликтового зерна, всплеск $b_{\mathrm{hits}}=8=\vevHierarchySteps$ на $\tau=352$ и побитовую точность продолжения симуляции из дискового чекпоинта $\tau=256$.
+\end{enumerate}
+
+\textbf{Рабочая гипотеза.}
+Полупериод кольца $\tau_{\mathrm{neck}} = \phaseRingCount/2 = 256$ действует как естественная поверхность отцепления фотонной бани ($2733$ квантов), а единственное перешагнувшее через горлышко барионное зерно служит локальным центром адгезионной сборки для ядер Второй Эпохи ($|w|=3$, $b_{\mathrm{hits}}=8$).
+
+\textbf{Наблюдаемые.}
+Безразмерные инварианты $\Theta_{\mathrm{rec}}/E_{\mathrm{Ry}}$, $1+z_{\mathrm{CMB}}$, $\Theta_{\mathrm{CMB}}/E_{\mathrm{HI}}$, число барионных узлов $b_{\mathrm{hits}}(\tau)$, фотонных квантов $\sum n_E(\tau)$ и манхэттенское расстояние $\|\Delta\mathbf{x}\|_1$ от реликтового зерна до трёхквантового ядра (табл.~\ref{tab:exp-ce-c-04}).
+
+\textbf{Критерий согласия с теорией.}
+Выполнение всех предикатов в проверках космологического набора \texttt{--suite cosmology} с нулевой потерей точности при перезапуске с чекпоинта $\tau=256$.
+
+\subsubsection*{Ход эксперимента}
+Запуск проверки: \texttt{--suite cosmology} в \texttt{verify\_principles.py} (модуль \texttt{verify\_checks/cosmology.py}).
+
+\begin{table}[htbp]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3.5pt}
+\caption{Естественная термодинамика реликта (без $k_{\mathrm{B}}$) и двухкаскадный переход сида $\mathrm{IV}=263$ через горлышко $\tau=256$ (CE-C-04)}
+\label{tab:exp-ce-c-04}
+\begin{tabular}{@{}p{0.23\textwidth}p{0.25\textwidth}p{0.24\textwidth}p{0.22\textwidth}@{}}
+\toprule
+Наблюдаемая / такт & Формула / режим & Модель / симулятор & Эталон / инвариант \\
+\midrule
+$E_{\mathrm{Ry}}/\Theta_{\mathrm{rec}}$ & $\frac{5}{2}\ln\bigl(\frac{208}{45\,\alpha_{\mathrm{fs}}^4}\bigr)$ & $53{,}030$ ($2977{,}3\ \mathrm{К}$) & Planck: $53{,}108$ ($0{,}15\%$) \\
+$1 + z_{\mathrm{CMB}}$ & $(N_{\mathrm{today}}/N_{\mathrm{CMB}})^{2/3} \leftrightarrow 8/\alpha_{\mathrm{fs}}$ & $1095{,}95 \leftrightarrow 1096{,}29$ & Planck: $1090{,}80$ ($0{,}03\%$) \\
+$\Theta_{\mathrm{CMB}}$ ($E_{\mathrm{Ry}}$, $E_{\mathrm{HI}}$) & $\frac{\alpha_{\mathrm{fs}}E_{\mathrm{Ry}}}{20\ln(1/\eta_B)} \leftrightarrow 40\,E_{\mathrm{HI}}$ & $2{,}716\text{--}2{,}727\ \mathrm{К}$ ($39{,}98\,E_{\mathrm{HI}}$) & COBE: $2{,}7255\ \mathrm{К}$ ($0{,}05\%$) \\
+Горлышко I ($\tau = 8$) & 3D~\latGCKshort, $\mathrm{IV}=263$ & $b_{\mathrm{hits}}=0$, $\sum n_E = 1307$ & Первичный фотонный шар \\
+Горлышко II ($\tau_{\mathrm{neck}} = 256$) & Полупериод $\phaseRingCount/2$, чекпоинт & $b_{\mathrm{hits}}=1$ в $(-2,-3,+2)$, $\sum n_E = 2733$ & Баня ($+65$ гало) + 1 зерно \\
+Вторая эпоха ($\tau = 336 \to 352$) & Ребро~$N_{12}$ зерна & $|w|_{\max}=3$ ($\|\Delta\mathbf{x}\|_1=2$), $b_{\mathrm{hits}}=8$ & Соседнее ребро, пик $\vevHierarchySteps=8$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection*{Анализ и выводы}
+Теоретическое отношение $E_{\mathrm{Ry}}/\Theta_{\mathrm{rec}} = 53{,}030$ и фактор остывания $\vevHierarchySteps/\alpha_{\mathrm{fs}} = 1096{,}29$ воспроизводят наблюдаемую температуру реликта с точностью $0{,}15\%\text{--}0{,}35\%$ без свободных параметров, а прямой прогон $\mathrm{IV}=263$ подтверждает рождение трёхквантового ядра $|w|=3$ непосредственно на соседнем ребре~$N_{12}$ выжившего в горлышке $\tau=256$ реликтового зерна.
+\textbf{Статус записи:} опыт закрыт по табл.~\ref{tab:exp-ce-c-04}.

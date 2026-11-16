@@ -21,6 +21,7 @@ from mt_ca.si_constants import (
     N12_FCC_CAUSAL_LINKS,
     SECOND_PER_GYR,
     SECOND_PER_KYR,
+    T_CMB_K_REF,
     _hT_decimal,
     baryon_geometry_factor,
     lepton_geometry_factor,
@@ -614,4 +615,83 @@ class SISmRows:
         from mt_ca.annihilation_pdg_tau import run_annihilation_pdg_tau_strict
 
         return run_annihilation_pdg_tau_strict(device=device)
+
+    def cmb_natural_thermodynamics_row(self) -> dict[str, float | bool | str]:
+        """Natural-scale (k_B-free) recombination and CMB thermal quanta from η_B = (45/208)α_fs^4."""
+        mod_bits = int(PLANCK_CELL.mod_bits)  # 9
+        n_phi = int(PLANCK_CELL.N_phi)  # 13
+        n_hier = mod_bits - 1  # 8
+        d_spatial = 3
+        d_out_v = 5
+        alpha = self.alpha_fs
+
+        # Carrier baryon-to-photon ratio η_B = (9/26)*(5/8)*α_fs^4 = (45/208)*α_fs^4
+        eta_b = (float(mod_bits * d_out_v) / float(2 * n_phi * n_hier)) * (alpha**4)
+        inv_eta_b_prefactor = float(2 * n_phi * n_hier) / float(mod_bits * d_out_v)  # 208/45
+
+        # Natural recombination quantum Θ_rec / E_Ry = 1 / ((d_out(V)/2) * ln(1/η_B)) (zero k_B!)
+        recomb_entropy_divisor = (0.5 * float(d_out_v)) * math.log(1.0 / eta_b)  # ~53.0296
+        theta_rec_over_ery = 1.0 / recomb_entropy_divisor
+        lya_over_theta_rec = (float(d_spatial) / float(d_spatial + 1)) * recomb_entropy_divisor  # ~39.772
+
+        # Cosmological dilution factor 1 + z_CMB: carrier N_hier / α_fs vs tick ratio (N_today / N_CMB)^(2/d)
+        bb = self.bubble_tick_row()
+        z_plus_1_carrier = float(n_hier) / alpha  # 8 / α_fs ≈ 1096.29
+        z_plus_1_ticks = (float(bb["N_today"]) / float(bb["N_CMB"])) ** (2.0 / float(d_spatial))  # ≈ 1095.95
+        z_plus_1_planck_obs = 1090.80  # Planck 2018: z_* = 1089.80 ± 0.21
+
+        # Present-day natural CMB thermal quantum Θ_CMB / E_Ry and Θ_CMB / (m_e c^2) (zero k_B!)
+        theta_cmb_over_ery_carrier = theta_rec_over_ery / z_plus_1_carrier
+        theta_cmb_over_ery_ticks = theta_rec_over_ery / z_plus_1_ticks
+        theta_cmb_over_mec2_carrier = 0.5 * (alpha**2) * theta_cmb_over_ery_carrier
+        hi_quanta_count = d_out_v * n_hier  # 5 * 8 = 40
+
+        # T-layer readout in Kelvin (using k_B only at the T-layer thermometer interface)
+        kb_si = 1.380649e-23
+        m_e_kg = float(self.birth_row()["m_e_kg"])
+        e_ry_j = 0.5 * (alpha**2) * m_e_kg * (self.c**2)
+        t_ry_k = e_ry_j / kb_si
+        t_rec_k_model = t_ry_k * theta_rec_over_ery
+        t_rec_k_obs = T_CMB_K_REF * z_plus_1_planck_obs
+        t_cmb_k_carrier = t_ry_k * theta_cmb_over_ery_carrier
+        t_cmb_k_ticks = t_ry_k * theta_cmb_over_ery_ticks
+        t_cmb_k_planck_z = t_rec_k_model / z_plus_1_planck_obs
+
+        rel_err_t_rec = abs(t_rec_k_model - t_rec_k_obs) / t_rec_k_obs
+        rel_err_z_carrier_vs_ticks = abs(z_plus_1_carrier - z_plus_1_ticks) / z_plus_1_ticks
+        rel_err_t_cmb_carrier = abs(t_cmb_k_carrier - T_CMB_K_REF) / T_CMB_K_REF
+        rel_err_t_cmb_ticks = abs(t_cmb_k_ticks - T_CMB_K_REF) / T_CMB_K_REF
+
+        ok = (
+            rel_err_t_rec < 0.005
+            and rel_err_z_carrier_vs_ticks < 0.001
+            and rel_err_t_cmb_carrier < 0.005
+            and rel_err_t_cmb_ticks < 0.005
+        )
+        return {
+            "eta_B_carrier": eta_b,
+            "inv_eta_B_prefactor_208_over_45": inv_eta_b_prefactor,
+            "recomb_entropy_divisor_5_over_2_ln_inv_eta": recomb_entropy_divisor,
+            "theta_rec_over_E_Ry": theta_rec_over_ery,
+            "E_Lya_over_theta_rec": lya_over_theta_rec,
+            "z_plus_1_carrier_8_over_alpha": z_plus_1_carrier,
+            "z_plus_1_ticks_2_over_3": z_plus_1_ticks,
+            "z_plus_1_planck_obs": z_plus_1_planck_obs,
+            "theta_cmb_over_E_Ry_carrier": theta_cmb_over_ery_carrier,
+            "theta_cmb_over_mec2_carrier": theta_cmb_over_mec2_carrier,
+            "theta_cmb_in_E_HI_quanta": float(hi_quanta_count),
+            "T_rec_K_model": t_rec_k_model,
+            "T_rec_K_obs": t_rec_k_obs,
+            "T_CMB_K_carrier": t_cmb_k_carrier,
+            "T_CMB_K_ticks": t_cmb_k_ticks,
+            "T_CMB_K_planck_z": t_cmb_k_planck_z,
+            "T_CMB_K_ref": T_CMB_K_REF,
+            "rel_err_T_rec": rel_err_t_rec,
+            "rel_err_z_carrier_vs_ticks": rel_err_z_carrier_vs_ticks,
+            "rel_err_T_CMB_carrier": rel_err_t_cmb_carrier,
+            "rel_err_T_CMB_ticks": rel_err_t_cmb_ticks,
+            "ok": ok,
+            "note": "Natural (k_B-free) Θ_rec/E_Ry = 2/(5 ln(1/η_B)) and Θ_CMB/E_Ry = α_fs/(20 ln(1/η_B))",
+        }
+
 
