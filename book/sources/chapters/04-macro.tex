@@ -386,7 +386,18 @@ $\mathcal{F}_{\mathrm{GL}}$ задаёт \emph{обратимую} часть; $
 \]
 новый оператор на~$M$ при этом не вводится.
 
-\section{Туннелирование и правило Бorn}
+\section{Туннелирование на решётке и правило Борна}
+\label{sec:macro-tunneling-born}
 
-Туннелирование на~$T$ --- макроскопическое осреднение утечки через барьер.
-Правило Бorn $|\Psi|^2$ --- статистика макрофильтра (\cref{prop:determinism}).
+Туннелирование на~$\Tlayer$ есть макроскопическое описание детерминированного затухания эванесцентной моды внутри классически запрещённой области $B\subset\Lambda$ ($V > E$), а правило Борна $|\Psi|^2$ --- статистика биномиального макрофильтра (\cref{prop:determinism}).
+Внутри барьера решёточное соотношение дисперсии первой зоны Бриллюэна переходит с вещественного волнового числа на мнимое $k = i\kappa_{\mathrm{tun}}$ ($\cos(i\kappa_{\mathrm{tun}}h_L) = \cosh(\kappa_{\mathrm{tun}}h_L)$):
+\begin{gather}
+\label{eq:macro-lattice-tunneling-cosh}
+  \cosh\bigl(\kappa_{\mathrm{tun}}h_L(K)\bigr) - 1
+  = u(K)
+  := \frac{m_{\mathrm{floor}}(K)\,\bigl(V(K)-E(K)\bigr)\,h_L(K)^2}{\hbar^2},\\
+  \tau = \mathrm{e}^{-\kappa_{\mathrm{tun}}h_L(K)} = 1 + u - \sqrt{(1+u)^2 - 1} \in (0,1),\nonumber
+\end{gather}
+причём при переходе на любой когерентный этаж $h_L(K) = K\ell_P$ ($m_{\mathrm{floor}}(K)=m_{\mathrm{arg}}/K$, $V(K)-E(K)\propto E_0/K$) масштабный множитель $K^{-1}\cdot K^{-1}\cdot K^2 = 1$ в~$u(K)$ тождественно сокращается.
+При $u \ll 1$ ($\kappa_{\mathrm{tun}}h_L \simeq \sqrt{2u}$) на цепочке из $N$ рёбер толщины $L = Nh_L(K)$ формула~\eqref{eq:macro-lattice-tunneling-cosh} воспроизводит квазиклассический интеграл ВКБ $\mathcal{A}_{\mathrm{out}}/\mathcal{A}_{\mathrm{in}} = \tau^N \simeq \exp\!\bigl(-\frac{1}{\hbar}\int_B\sqrt{2m(V-E)}\,\mathrm{d}x\bigr)$.
+При высоких барьерах $u \gg 1$ декремент затухания \emph{на один элементарный шаг сетки} равен $\kappa_{\mathrm{tun}}h_L = \operatorname{arccosh}(1+u) \simeq \ln(2u)$ (устраняя градиентную сингулярность $\sqrt{2u}$ на масштабе одного ребра), тогда как \emph{на всей толщине макроскопического барьера} $L = Nh_L$ полная вероятность прохождения жёстко подавляется по степенному закону $|\mathcal{A}_{\mathrm{out}}/\mathcal{A}_{\mathrm{in}}|^2 = \tau^{2N} = \mathrm{e}^{-2N\operatorname{arccosh}(1+u)} \simeq (2u)^{-2N} \to 0$.

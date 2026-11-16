@@ -532,7 +532,14 @@ def check_qm_bell_chsh_tsirelson(device: str = "cpu") -> dict:
 
 
 def check_qm_tunneling_lattice_wkb(device: str = "cpu") -> dict:
-    """§4.10.2 lattice hyperbolic dispersion cosh(kappa_tun * hL(K)) - 1 = u(K) using carrier quanta rho_field_quantum() and M_FORCE_SEATS."""
+    """§4.10.2 lattice hyperbolic dispersion cosh(kappa_tun * hL(K)) - 1 = u(K) using carrier quanta rho_field_quantum() and M_FORCE_SEATS.
+
+    Distinguishes:
+      1. Single-step lattice attenuation kappa_tun * hL = arccosh(1 + u), which matches WKB sqrt(2*u) for u << 1
+         and grows logarithmically as ln(2*u) (rather than diverging as sqrt(2*u)) at single-link scale u >> 1;
+      2. Full macroscopic barrier transmission probability |A_out / A_in|^2 = tau^(2*N) = exp(-2*N*arccosh(1 + u)) ~ (2*u)^(-2*N),
+         which remains strongly suppressed across N = |N_12| = 12 barrier steps (no macroscopic barrier transparency).
+    """
     del device
     floor_names = ("planck", "compton", "bohr", "lyman")
     cfgs = [MConfig.for_ladder_floor(name, stencil="fcc") for name in floor_names]
@@ -559,11 +566,16 @@ def check_qm_tunneling_lattice_wkb(device: str = "cpu") -> dict:
     trans_n = tau_exact**n_steps_barrier
     cosh_identity_err = abs((math.cosh(kappa_h_exact) - 1.0) - u_ref)
 
-    # Strong barrier at M_FORCE_SEATS = 97: logarithmic UV saturation arccosh(1 + M) < sqrt(2 * M)
+    # Strong barrier at M_FORCE_SEATS = 97:
+    # - single-step attenuation saturates logarithmically: arccosh(1 + M) ~ ln(2*M) < sqrt(2*M)
+    # - full N_12-step barrier transmission probability tau_uv^(2*N_12) ~ (2*M)^(-2*N_12) is strongly suppressed!
     u_uv = float(M_FORCE_SEATS)
     kappa_uv_exact = math.acosh(1.0 + u_uv)
     kappa_uv_naive_wkb = math.sqrt(2.0 * u_uv)
-    uv_regularized = 0.0 < kappa_uv_exact < kappa_uv_naive_wkb
+    tau_uv = math.exp(-kappa_uv_exact)
+    prob_trans_uv_n12 = tau_uv ** (2 * n_steps_barrier)
+    uv_step_regularized = 0.0 < kappa_uv_exact < kappa_uv_naive_wkb
+    macro_barrier_suppressed = 0.0 < prob_trans_uv_n12 < (delta_n_e**n_steps_barrier)
 
     ok = (
         u_k_invariant
@@ -571,7 +583,8 @@ def check_qm_tunneling_lattice_wkb(device: str = "cpu") -> dict:
         and cosh_identity_err < 1e-15
         and rel_wkb_err < delta_n_e
         and 0.0 < trans_n < 1.0
-        and uv_regularized
+        and uv_step_regularized
+        and macro_barrier_suppressed
     )
     return {
         "id": "QM_tunneling_lattice_wkb",
@@ -581,8 +594,9 @@ def check_qm_tunneling_lattice_wkb(device: str = "cpu") -> dict:
         "tau_per_step": tau_exact,
         "transmission_N12_steps": trans_n,
         "rel_wkb_err_at_rho_Q": rel_wkb_err,
-        "kappa_uv_exact_at_M97": kappa_uv_exact,
-        "kappa_uv_naive_wkb_at_M97": kappa_uv_naive_wkb,
+        "kappa_uv_single_step_arccosh": kappa_uv_exact,
+        "kappa_uv_single_step_naive_wkb": kappa_uv_naive_wkb,
+        "prob_trans_uv_N12_steps": prob_trans_uv_n12,
         "ok": ok,
-        "note": "§4.10.2 on carrier quanta (rho_Q=1/4096, M=97, N_12=12): u(K) cancels K^(-1)*K^(-1)*K^2=1, matches WKB to O(rho_Q), and UV-saturates at M=97",
+        "note": "§4.10.2: u(K) is K-invariant; single-step kappa*hL=arccosh(1+u)~ln(2u) is UV-regular, while N12-step barrier probability tau^(2N)~(2u)^(-2N) is strongly suppressed",
     }
