@@ -317,11 +317,34 @@ $k$ & $\lambda/\ell_P$ & $\log_{10}(\lambda/\ell_P)$ & степень $\alpha_{\
 \end{enumerate}
 \end{theorem}
 
-\begin{remark}[Гравитационный канал как макроскопическая упругость океана]
+\begin{proposition}[Гравитационный канал: деформация Редже, отклонение света $\theta_{\mathrm{def}}=4GM/(c^2 b)$, две поляризации и масштаб $\Lambda$]
 \label{rem:channel-gr-open-in-book}
-Гравитация не является отдельным квантовым полем на~$\Mlayer$: присутствие массивных вихревых узлов (запирающих фазовое натяжение~$\mathrm{Arg}$ в ячейках с жёсткостью $K_P \approx 4{,}63\times 10^{113}\ \mathrm{Па}$) создаёт дальнодействующую деформацию плотности фазовых шагов окружающего океана,
-которая после усреднения~$\mathcal{B}$ описывается эффективной метрикой ОТО с гравитационной постоянной $G = \ell_P c^2 / m_P = \caKappaGeom\,dh\,c^2 / m_{\arg}$.
-\end{remark}
+Гравитация не является пятым квантовым полем на~$\Mlayer$, а представляет собой макроскопическую упругую деформацию $\varepsilon_e = (\rho_e - \rho_{\mathrm{vac}})/\rho_{\mathrm{vac}}$ плотности кипящего океана вокруг массивных узлов ($G = \ell_P c^2/m_P = \caKappaGeom\,dh\,c^2/m_{\arg}$):
+\begin{enumerate}[noitemsep]
+\item \textbf{Угловой шаблон Редже на треугольных гранях~$K_3$:}
+  при малых деформациях рёбер $\ell_a = \ell_P(1+\varepsilon_a)$ угол треугольной плакетки напротив ребра~$c$ равен
+  \[
+    \theta_f^{(c)} = \frac{\pi}{d} + \frac{\caKappaGeom^2}{\caKappaGeom_{\mathrm{hex}}}\bigl(2\varepsilon_c - \varepsilon_a - \varepsilon_b\bigr) + O(\varepsilon^2),
+  \]
+  а дефицит угла $\delta_c = 2\pi - \sum_{f\ni c}\theta_f^{(c)}$ порождает дискретный тензор Эйнштейна $G_{\mu\nu} = 8\pi\ell_P^2 T_{\mu\nu}$.
+\item \textbf{Равенство $\gamma_{\mathrm{PPN}} = 1$ и отклонение луча света:}
+  в силу тензорного тождества кубооктаэдра $\sum_{e\in\geomNeighborTwelve}(\hat e)_i(\hat e)_j = (\geomNeighborTwelve/d)\delta_{ij} = d_{\mathrm{in}}(\square)\delta_{ij} = 4\delta_{ij}$ статическая пространственная деформация $h_{ij}^{(\mathrm{static})}(R) = (2d/\geomNeighborTwelve)\sum_e\varepsilon_e\hat e_i\hat e_j = +2\varepsilon(R)\delta_{ij}$ в точности равна по модулю временно́й задержке такта $h_{00}(R) = -2\varepsilon(R)$, откуда $\gamma_{\mathrm{PPN}} = h_{rr}/|h_{00}| = 1$ и полный угол отклонения света в поле тяготения равен
+  \[
+    \theta_{\mathrm{def}} = (1 + \gamma_{\mathrm{PPN}})\,\frac{2GM}{c^2 b} = \frac{d_{\mathrm{in}}(\square)\,GM}{c^2 b} = \frac{4GM}{c^2 b}.
+  \]
+\item \textbf{Две поперечные поляризации гравитационных волн ($+,\times$):}
+  из $|\square| = d(d+1)/2 = 6$ компонент симметричного тензора~$h_{ij}$ закон сохранения импульса ($\mathrm{div}\,\boldsymbol{\pi}=0$) исключает $d=3$ продольные моды, а несжимаемость океана~$A_3$ и планковская жёсткость~$K_P$ ($A_7$) исключают скалярный след $\mathrm{Tr}(h^{\mathrm{wave}})=0$, оставляя ровно
+  \[
+    N_{\mathrm{GW}} = |\square| - d - 1 = 6 - 3 - 1 = 2\text{ поперечные бесследовые поляризации }(+,\times).
+  \]
+\item \textbf{Отсутствие вакуумной катастрофы ($\Lambda_{\Mlayer}\equiv 0$) и горизонтная кривизна пузыря:}
+  в однородном кипящем океане $\rho_e\equiv\rho_{\mathrm{vac}} \implies \varepsilon_e\equiv 0 \implies \delta_e\equiv 0$, поэтому фоновая плотность~$A_5$ не создаёт кривизны ($\Lambda_{\Mlayer}\equiv 0$); наблюдаемая малая инфракрасная кривизна определяется конечным радиусом нашего каузального пузыря $R_H = \caKappaGeom N_{\mathrm{today}}\ell_P$ при возрасте $N_{\mathrm{today}}\approx 1{,}141\times 10^{61}$ тактов:
+  \[
+    \Lambda_{\mathrm{bubble}}\,\ell_P^2 = \frac{d}{\caKappaGeom^2 N_{\mathrm{today}}^2} = \frac{|\square|}{N_{\mathrm{today}}^2} \approx 4{,}61\times 10^{-122}
+    \qquad\bigl(\text{наблюдаемое }\Lambda_{\mathrm{obs}}\,\ell_P^2 \approx 2{,}9\times 10^{-122}\bigr).
+  \]
+\end{enumerate}
+\end{proposition}
 
 \begin{proposition}[Полные матрицы смешивания кварков (CKM) и нейтрино (PMNS) из $N_\varphi=13$ секторов и гауссовой факторизации $\hat M=97$]
 \label{prop:ckm-pmns-sectors}
