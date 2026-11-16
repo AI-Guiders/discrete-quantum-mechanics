@@ -8,7 +8,7 @@
 \begin{enumerate}[label=\textbf{(\alph*)},leftmargin=*,itemsep=0.25em]
 \item Точное совпадение числа пар оснований нуклеосомного кора с кумулятивным шаром кубооктаэдра $N_{\mathrm{ball}}(3) = 1+12+42+92 = 147\ \mathrm{bp}$ и числа смысловых классов кода с полусферой $N_{\mathrm{shell}}(2)/2 = 21$.
 \item Геометрию правой $\alpha$-спирали $3{,}6_{13}$ ($n_\alpha = 18/5 = 3{,}6$, $h_\alpha = 4\caKappaGeom a_0 \approx 1{,}497\ \text{\normalfont\AA}$, трансмембранный стержень $L_{\mathrm{TM}} = 18 h_\alpha \approx 26{,}94\ \text{\normalfont\AA}$) и складчатого $\beta$-листа ($h_\beta = \frac{28}{3}\caKappaGeom a_0 \approx 3{,}492\ \text{\normalfont\AA}$).
-\item Строгую верхнюю границу числа элементарных операций ко-трансляционного фолдера $N_{\mathrm{ops}}(L) \le d\cdot\geomNeighborTwelve\cdot L = 36\,L \in \mathrm{P}$ и распознавание замков \texttt{C2H2} (петля $\geomNeighborTwelve=12$) и \texttt{Ig} (петля $N_{\mathrm{HB}}=63$).
+\item Линейную сложность $O(L) \le 36 L \in \mathrm{P}$ прямого ко-трансляционного фолдинга и конструктивного обратного синтеза гена и белка по заданной спецификации замков (\cref{thm:bio-constructive-inverse-folding}), а также топологическую самоклассификацию растущих 3D-тканей ($\chi_{\mathrm{2D}} \in \{2, 0, 41\}$, \cref{thm:bio-euler-betti-self-classification}).
 \end{enumerate}
 
 \textbf{Рабочая гипотеза.}
@@ -37,9 +37,9 @@ $h_{\mathrm{stack}}(\text{B-DNA})$, $N_{\mathrm{nuc}}$, $N_{\mathrm{classes}}$, 
 Воспроизведение: \texttt{python verify\_genome\_printer.py} (пакет \texttt{genome\_printer}: модули \texttt{m\_carrier}, \texttt{m\_chemistry}, \texttt{m\_nucleic}, \texttt{m\_polypeptide}, \texttt{m\_tissue}, \texttt{t\_readout}).
 
 \begin{enumerate}[label=\textbf{Шаг \arabic*:},leftmargin=*,itemsep=0.35em]
-\item Построить 3D-дуплекс B-ДНК длины $147\ \mathrm{bp}$ и проверить штрихкод большой бороздки.
-\item Проверить биективность инволюции Румера $\text{U}\leftrightarrow\text{G}, \text{A}\leftrightarrow\text{C}$ между Октетом~I ($8$) и Октетом~II ($8$).
-\item Выполнить ко-трансляционную укладку тестовых полипептидов и измерить $N_{\mathrm{ops}}/L$ и $\Delta G_{\mathrm{bind}}$.
+\item Построить 3D-дуплекс B-ДНК длины $147\ \mathrm{bp}$, проверить штрихкод большой бороздки и побитовую инволюцию Румера $s\oplus\texttt{0xF}$ между Октетом~I ($8$) и Октетом~II ($8$).
+\item Выполнить ко-трансляционную укладку и обратный $O(L)$-синтез гена и белка по заданной спецификации замков (\texttt{C2H2}, \texttt{Trp-pin}, \texttt{CatalyticTriad}, \texttt{WalkerATP}, \texttt{TM18}, \texttt{Ig}) с прямой самопроверкой на~$\Mlayer$.
+\item Вырастить 3D-ткани ($S_1$, $\mathrm{Tube}_4$, $\mathrm{Col}_6$) единым локальным полем на решётке~\latGCKshort\ и сверить инварианты $(V, E, \chi_{\mathrm{2D}}) \in \{(12,24,2),\ (24,54,0),\ (42,147,41)\}$.
 \end{enumerate}
 
 \begin{table}[htbp]
