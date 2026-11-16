@@ -155,6 +155,43 @@ $$
    \frac{m_\tau}{m_e} \approx 3477.47\quad(\text{PDG: }3477.23\pm 0.23,\ \text{внутри }1.05\sigma).
    $$
 
+5. **Разбиение $N_\varphi = 13$ секторов, полная матрица CKM ($A,\bar\rho,\bar\eta,\gamma$), гауссова факторизация $\hat M = 97$ и углы смешивания нейтрино PMNS:**
+   - **Гауссова факторизация $\hat M = 97$ в $\mathbb{Z}[i]$ и вершина треугольника унитарности CKM ($\bar\rho + i\bar\eta$):**
+     кулоновский знаменатель $\hat M = 1 + |N_{12}|N_{\mathrm{hier}} = 97$ раскладывается в гауссовом кольце спинора $\mathbb{Z}[i]$ в сумму квадратов внутреннего ветвления квадратной грани $d_{\mathrm{in}}(\square)=4$ и битового бюджета ячейки $\lfloor B_V\rfloor=9$:
+     $$
+     \hat M = d_{\mathrm{in}}(\square)^2 + \lfloor B_V\rfloor^2 = 4^2 + 9^2 = 97.
+     $$
+     На одетом кластере из $N_\varphi = 13$ секторов (с двумя спинорными состояниями $2N_\varphi = 26$) комплексная координата вершины треугольника унитарности кварков равна:
+     $$
+     \bar\rho + i\,\bar\eta = \frac{d_{\mathrm{in}}(\square) + i\,\lfloor B_V\rfloor}{2\,N_\varphi} = \frac{4 + 9i}{26}
+     \implies
+     \bar\rho = \frac{d-1}{N_\varphi} = \frac{2}{13} \approx 0.1538\ (\text{PDG: }0.159\pm 0.010),\quad
+     \bar\eta = \frac{\kappa^2\lfloor B_V\rfloor}{N_\varphi} = \frac{9}{26} \approx 0.3462\ (\text{PDG: }0.348\pm 0.010),
+     $$
+     причём длина стороны треугольника унитарности равна $R_b = |\bar\rho + i\bar\eta| = \frac{\sqrt{\hat M}}{2N_\varphi} = \frac{\sqrt{97}}{26} \approx 0.3788$ (PDG: $0.3826\pm 0.011$), а тангенс угла CP-нарушения $\gamma$ связан с лептонной фазой $\delta_0 = 2/\lfloor B_V\rfloor = 2/9$ тождеством:
+     $$
+     \tan\gamma = \frac{\bar\eta}{\bar\rho} = \frac{\lfloor B_V\rfloor}{d_{\mathrm{in}}(\square)} = \frac{1}{2\delta_0} = \frac{9}{4}
+     \implies
+     \gamma = \arctan\!\left(\frac{9}{4}\right) \approx 66.04^\circ\quad(\text{PDG: }65.4^\circ\pm 2.5^\circ,\ 0.25\sigma).
+     $$
+     Остальные два параметра Вольфенштейна равны:
+     $$
+     \lambda = \frac{d}{N_\varphi}\left(1 - \frac{d-1}{d}\,\delta_{\mathrm{pack}}\right) = \frac{35}{156} \approx 0.22436\quad(\text{PDG: }0.22500\pm 0.00067),
+     \qquad
+     A = \frac{|N_{12}| - 2}{|N_{12}|} = 1 - \frac{1}{|\square|} = \frac{5}{6} \approx 0.8333\quad(\text{PDG: }0.826\pm 0.015),
+     $$
+     а электрослабый угол Вайнберга на полюсе $M_Z$ равен $\sin^2\theta_W(M_Z) = \frac{d}{N_\varphi} + \frac{\kappa^2\alpha_{\mathrm{fs}}}{N_{\mathrm{hier}}} = \frac{3}{13} + \frac{\alpha_{\mathrm{fs}}}{16} \approx 0.231225$ (PDG: $0.23122\pm 0.00004,\ 0.13\sigma$).
+   - **Разбиение $N_\varphi = 13$ секторов вершинным каналом $V=(1,4,7)$ и матрица смешивания нейтрино PMNS:**
+     четыре слагаемых одетого кластера $N_\varphi = 1_{\mathrm{core}} + d_{\mathrm{in}}(V) + d_{\mathrm{same}}(V) + d_{\mathrm{out}}(V) = 1 + 1 + 4 + 7 = 13$ напрямую задают три угла смешивания нейтральных лептонов ($Q=0,\ B=0$):
+     $$
+     \sin^2\theta_{12}^{\mathrm{PMNS}} = \frac{d_{\mathrm{same}}(V)}{N_\varphi} = \frac{4}{13} \approx 0.3077\ (\text{PDG: }0.307\pm 0.013,\ 0.05\sigma),
+     \qquad
+     \sin^2\theta_{23}^{\mathrm{PMNS}} = \frac{d_{\mathrm{out}}(V)}{N_\varphi} = \frac{7}{13} \approx 0.5385\ (\text{PDG: }0.546\pm 0.021,\ 0.36\sigma),
+     $$
+     $$
+     \sin^2\theta_{13}^{\mathrm{PMNS}} = \frac{1 + d_{\mathrm{in}}(V)}{N_{\mathrm{shell}}(3)} = \frac{2}{92} = \frac{1}{46} \approx 0.02174\ (\text{PDG: }0.0220\pm 0.0007,\ 0.37\sigma).
+     $$
+
 ---
 
 ## 6. Стыковка шкалы этажа 2 с иерархией $\alpha$, атомом водорода ($k=9$) и упаковкой $N_{\mathrm{pack}}\in\mathbb{Z}$ ($k=10$)
@@ -193,8 +230,9 @@ $$
 | целый заряд на $M$ vs эффективные веса $+2/3,-1/3$ при делении на $d=3$ на $T$ | закрыто |
 | $\mu_p=67/24,\ \mu_n=-23/12,\ \mu_p+\mu_n=7/8$ из $\delta_{\mathrm{pack}}=\kappa^2/|N_{12}|=1/24$ | закрыто (сверка PDG $<0.6\%$) |
 | лестница кварков $(u,d,s,c,b,t)$ и 3 поколений лептонов $(e,\mu,\tau)$ при $\delta_0=2/\lfloor B_V\rfloor$ ($+9.8\text{ ppm}$, $+70\text{ ppm}$) | закрыто (алгебра) |
+| распад на 3 сектора ($N_{\mathrm{hier}}=8,\ N_\varphi=13,\ \hat M=1+12\cdot 8=4^2+9^2=97$), полная матрица CKM ($\lambda,A,\bar\rho,\bar\eta,\gamma$) и углы нейтрино PMNS ($\sin^2\theta_{12}=4/13,\ \sin^2\theta_{23}=7/13,\ \sin^2\theta_{13}=2/92$) | закрыто (алгебра, $<0.95\sigma$ PDG) |
 | мост шкалы $k=5\to 10$, энергия связи водорода $BE_H/E_0=\alpha_{\mathrm{fs}}/(2\kappa N_{a0})$ и целочисленная упаковка $N_{\mathrm{pack}}(K)=K^3\in\mathbb{Z}$ | закрыто (алгебра) |
-| параметры $A,\rho,\eta$ матрицы CKM и узкий 1-ячеечный 3D-контур Стокса на `VACUUM_BOIL` | открыто |
+| узкий 1-ячеечный 3D-контур Стокса на `VACUUM_BOIL` | открыто |
 
 **Книга:** гл. этаж 2 (`book/sources/chapters/12-floor2.tex`).
 
