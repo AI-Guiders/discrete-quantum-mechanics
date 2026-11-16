@@ -133,6 +133,8 @@
 \begin{table}[ht]
 \centering
 \caption{Сравнение переписи мест силы $\hat M$ в сферическом приближении $\alpha_0=\caKappaGeom/\hat M$}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
 \begin{tabular}{@{}lrrl@{}}
 \toprule
 число каналов & геометрический состав & $\alpha_0^{-1}=\hat M/\caKappaGeom$ & статус \\
@@ -202,11 +204,11 @@ $\mathbf{97}=1+\geomNeighborTwelve\,\vevHierarchySteps$ & ядро $b=1$ $+$ $8$
 
 После того как безразмерная константа~$\alphaFs$ выведена из параметров носителя по теореме~\ref{thm:alpha},
 вся энергетическая и пространственная лестница Стандартной модели и атомной физики строится из единого корня $(dh, dt, \ladderAction)$ без свободных параметров (\cref{ch:si-sm}):
-\[
-  v = \frac{1}{\sqrt{r}}\,\alphaFs^{\vevHierarchySteps}\,\ladderEnergy,\qquad
+\begin{align*}
+  v &= \frac{1}{\sqrt{r}}\,\alphaFs^{\vevHierarchySteps}\,\ladderEnergy,\qquad
   m_H^{(\mathrm{bare})} = \caKappaGeom^2 v,\qquad
-  m_p = \alphaFs\,m_H^{(\mathrm{bare})}\bigl(1 + \delta_{\mathrm{pack}}\bigr),\qquad
-  \massElectron = \frac{\alphaFs^2\,m_H}{N_\varphi},\qquad
+  m_p = \alphaFs\,m_H^{(\mathrm{bare})}\bigl(1 + \delta_{\mathrm{pack}}\bigr),\\
+  \massElectron &= \frac{\alphaFs^2\,m_H}{N_\varphi},\qquad
   N_{a0} = \mathrm{round}\!\left(\frac{N_c}{\alphaFs}\right).
-\]
+\end{align*}
 Тем самым константа~$\alphaFs$ связывает воедино планковскую ячейку ($k=0$), электрослабый и барионный пороги ($k=6\ldots 7$), комптоновский радиус электрона ($k=8$) и боровский радиус атома водорода ($k=9$).

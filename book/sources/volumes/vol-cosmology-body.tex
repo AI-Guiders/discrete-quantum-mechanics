@@ -18,7 +18,7 @@
   Все наблюдаемые космологические явления --- расширение каузального горизонта $R_H(\tau) = c\,\tau\,\htick = \caKappaGeom\,\tau\,\ell_P$, нуклеосинтез, рекомбинация на такте $N_{\mathrm{CMB}} \approx 3{,}146\times 10^{56}$ ($t_{\mathrm{recomb}} \approx 380\ \mathrm{тыс.\ лет}$) и формирование крупномасштабной структуры --- представляют собой распространение и релаксацию волн и вихревых солитонов по неподвижной решётке~$\carrierLattice$.
 \end{enumerate}
 
-\begin{theorem}[Точный мост космологического времени $t_{\mathrm{SI}}(\tau) = \tau\,\htick$ и отсутствие сингулярности Большого взрыва]
+\begin{theorem}[Мост времени $t_{\mathrm{SI}}(\tau) = \tau\,\htick$ и отсутствие сингулярности]
 \label{thm:cosmo-time-bridge}
 \begin{enumerate}[leftmargin=*]
 \item \textbf{Счётчик тактов каузального пузыря:}
@@ -67,7 +67,7 @@
 
 Почему плоская доменная стенка или сферически-симметричный сдвиг общей фазы не рождают вещества ($b=0$), а наш каузальный пузырь заполнен барионной материей с преобладанием положительного топологического заряда ($n=+1$) и точным отношением числа барионов к числу фотонов $\eta_B = n_B/n_\gamma \approx 6{,}12\times 10^{-10}$?
 
-\begin{theorem}[Девятибитный начальный вектор Вселенной $\mathrm{IV}\in\mathbb{Z}_{512}$ и рождение барионной асимметрии]
+\begin{theorem}[Девятибитный сид Вселенной $\mathrm{IV}\in\mathbb{Z}_{512}$ и барионная асимметрия]
 \label{thm:cosmo-9bit-iv-baryon}
 \begin{enumerate}[leftmargin=*]
 \item \textbf{Точное совпадение размерности начального вектора с битовым бюджетом ячейки ($\dim_2(\mathrm{IV}) = \lfloor\caBitBudget\rfloor = 9\text{ бит}$):}
@@ -78,9 +78,10 @@
   Бинарная маска начального фазового сдвига Гейзенберга $\mathrm{mask}_8 \in \{0, 1, \ldots, 255\}$ на этих $\vevHierarchySteps = 8$ октантах в сочетании с одним старшим битом хиральности спинора $b_{\mathrm{chir}} \in \{0, 1\}$ (знак относительного фазового сдвига между компонентами $z_1$ и~$z_2$) образует \textbf{9-битный начальный вектор зародыша Вселенной}:
   \begin{equation}
   \label{eq:cosmo-9bit-iv-def}
-    \mathrm{IV} = (b_{\mathrm{chir}} \ll 8) \;\big|\; \mathrm{mask}_8 \;\in\; \bigl\{0, 1, \ldots, \phaseRingCount - 1\bigr\},
-    \qquad
-    1_{\mathrm{chir}} + 2^d_{\mathrm{octants}} = 1 + \vevHierarchySteps = \lfloor\caBitBudget\rfloor = 9\text{ бит}\quad(\phaseRingCount = 2^9 = 512).
+  \begin{aligned}
+    \mathrm{IV} &= (b_{\mathrm{chir}} \ll 8) \;\big|\; \mathrm{mask}_8 \;\in\; \bigl\{0, 1, \ldots, \phaseRingCount - 1\bigr\},\\
+    1_{\mathrm{chir}} + 2^d_{\mathrm{octants}} &= 1 + \vevHierarchySteps = \lfloor\caBitBudget\rfloor = 9\text{ бит}\quad(\phaseRingCount = 2^9 = 512).
+  \end{aligned}
   \end{equation}
 \item \textbf{Трёхгранный узел Киббла--Зурека и канонический сид нашего пузыря ($\mathrm{IV}_{\mathrm{bubble}} = 263 = \texttt{0b1\_00000111}$):}
   при однородной маске ($\mathrm{mask}_8 = 0$ или $255$) либо плоской одномерной стенке контурный интеграл фазы вокруг любой замкнутой петли равен нулю ($\oint\mathrm{d}\arg z = 0$), и вихри материи не рождаются ($b = 0$).
@@ -98,8 +99,8 @@
     = \bar\eta\,\frac{d_{\mathrm{out}}(V)}{\vevHierarchySteps}\,\alpha_{\mathrm{fs}}^4
     = \frac{45}{208}\,\alpha_{\mathrm{fs}}^4
     \approx 6{,}135\times 10^{-10}
-    \qquad\bigl(\text{наблюдение Planck 2018: }(6{,}12 \pm 0{,}04)\times 10^{-10},\ \text{откл. }0{,}24\%\bigr).
   \end{equation}
+  (наблюдение Planck~2018: $(6{,}12 \pm 0{,}04)\times 10^{-10}$, откл.~$0{,}24\%$).
 \end{enumerate}
 \end{theorem}
 
@@ -126,8 +127,8 @@
     = \frac{|\square|}{N_{\mathrm{today}}^2}
     = \frac{6}{N_{\mathrm{today}}^2}
     \approx 4{,}61\times 10^{-122}
-    \qquad\bigl(\text{наблюдаемое }\Lambda_{\mathrm{obs}}\,\ell_P^2 \approx 2{,}9\times 10^{-122}\bigr).
   \end{equation}
+  (наблюдаемое значение $\Lambda_{\mathrm{obs}}\,\ell_P^2 \approx 2{,}9\times 10^{-122}$).
 \end{enumerate}
 
 \section{Природа «тёмной материи»: отношение объёма кубооктаэдра деформации к барионному ядру Вороного \texorpdfstring{$V_{\mathrm{cuboct}}/dV = 16/3$}{16/3}}

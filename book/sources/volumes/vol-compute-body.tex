@@ -30,11 +30,12 @@
 Информационная ёмкость одной планковской ячейки не выбирается программистом произвольно, а однозначно продиктована голографическим пределом Бекештейна на один такт вращения фазы $2\pi$:
 \begin{equation}
 \label{eq:compute-bv-budget}
-  \caBitBudget = \frac{2\pi}{\ln 2} \approx 9{,}06472\ \mathrm{бит}
+\begin{aligned}
+  \caBitBudget &= \frac{2\pi}{\ln 2} \approx 9{,}06472\ \mathrm{бит}
   \quad\Longrightarrow\quad
-  \mathrm{mod\_bits} = \mathrm{phase\_bits} = \lfloor\caBitBudget\rfloor = 9\ \mathrm{бит},
-  \qquad
-  \phaseRingCount = 2^{\mathrm{mod\_bits}} = 512.
+  \mathrm{mod\_bits} = \lfloor\caBitBudget\rfloor = 9\ \mathrm{бит},\\
+  \phaseRingCount &= 2^{\mathrm{mod\_bits}} = 512.
+\end{aligned}
 \end{equation}
 
 \section{Разбиение $9$-битного регистра и $16$-битное слово полуспинора}
@@ -63,13 +64,11 @@
   \end{equation}
 \item \textbf{Дискретный порог Гейзенберга ($\Delta\varphi_{\mathrm{disc}} = 41$ такт) и импульс Паули ($256$ тактов):}
   минимальный фазовый шаг $\Delta\varphi_{\min} = s_0/\planckHbar = 1/2\ \mathrm{рад}$ и фермионный обменный сдвиг $\pi\ \mathrm{рад}$ представлены на кольце $\mathbb{Z}_{512}$ точными целыми числами тактов:
-  \[
-    \Delta\varphi_{\mathrm{disc}} = \mathrm{round}\!\left(\phaseRingCount\,\frac{\Delta\varphi_{\min}}{2\pi}\right) = 41\ \mathrm{такт},
-    \qquad
-    \Phi_{\mathrm{Pauli}} = \frac{\phaseRingCount}{2} = 256\ \mathrm{тактов},
-    \qquad
-    N_\varphi = \left\lceil\frac{\phaseRingCount}{\Delta\varphi_{\mathrm{disc}}}\right\rceil = 13 = 1 + \geomNeighborTwelve.
-  \]
+  \begin{align*}
+    \Delta\varphi_{\mathrm{disc}} &= \mathrm{round}\!\left(\phaseRingCount\,\frac{\Delta\varphi_{\min}}{2\pi}\right) = 41\ \mathrm{такт},\qquad
+    \Phi_{\mathrm{Pauli}} = \frac{\phaseRingCount}{2} = 256\ \mathrm{тактов},\\
+    N_\varphi &= \left\lceil\frac{\phaseRingCount}{\Delta\varphi_{\mathrm{disc}}}\right\rceil = 13 = 1 + \geomNeighborTwelve.
+  \end{align*}
 \end{enumerate}
 
 \begin{table}[htbp]
@@ -77,6 +76,7 @@
 \caption{Аппаратный паспорт ячейки $V_P$ в кольце $\mathbb{Z}_{512}[i]^2$ (`PLANCK\_CELL`).}
 \label{tab:compute-cell-passport}
 \footnotesize
+\setlength{\tabcolsep}{3.5pt}
 \begin{tabular}{@{}llll@{}}
 \toprule
 Параметр регистра & Формула из носителя & Значение & Физическая и алгоритмическая роль \\
@@ -168,7 +168,8 @@ $Z(x,\tau)$ & $(U_1, V_1, U_2, V_2) \in \mathbb{Z}_{512}^4$ & $4\times 9 = 36\ \
 \caption{Сравнение классической архитектуры фон Неймана и нативного носителя решёточного автомата~\latGCKshort.}
 \label{tab:compute-von-neumann-vs-ca}
 \footnotesize
-\begin{tabular}{@{}lll@{}}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lp{4.6cm}p{5.2cm}@{}}
 \toprule
 Характеристика & Архитектура фон Неймана (CPU + Float) & Нативный КА-носитель $\mathbb{Z}_{512}[i]^2$ на \latGCKshort \\
 \midrule
@@ -198,7 +199,7 @@ $Z(x,\tau)$ & $(U_1, V_1, U_2, V_2) \in \mathbb{Z}_{512}^4$ & $4\times 9 = 36\ \
 
 Архитектура двухуровневой модели $(\Mlayer, \Tlayer)$ даёт точное математическое разрешение обоих вопросов:
 
-\begin{theorem}[Тождественная принадлежность естественной динамики классу $\mathrm{P}$ и независимость информационной односторонности $\mathcal{B}$ от $\mathrm{P}\stackrel{?}{=}\mathrm{NP}$]
+\begin{theorem}[Естественная динамика в $\mathrm{P}$ и независимость односторонности $\mathcal{B}$ от $\mathrm{P}\stackrel{?}{=}\mathrm{NP}$]
 \label{thm:compute-p-np-separation}
 \begin{enumerate}[leftmargin=*]
 \item \textbf{Все замкнутые физические, химические и биологические процессы на~$\Mlayer$ лежат в классе $\mathrm{P}$ ($O(1)$ на узел за такт):}
@@ -229,7 +230,7 @@ $Z(x,\tau)$ & $(U_1, V_1, U_2, V_2) \in \mathbb{Z}_{512}^4$ & $4\times 9 = 36\ \
 \begin{enumerate}[leftmargin=*]
 \item \textbf{Гейт побитовой обратимости (`T\_Reversibility` / $A_{13}$):}
   после $N$ прямых шагов~\eqref{eq:compute-leapfrog-forward} и $N$ обратных шагов~\eqref{eq:compute-leapfrog-inverse} на трёхмерном торе~\latGCKshort\ целочисленный тензор состояния обязан совпасть с начальным бит в бит ($\max_x |Z_{\mathrm{recovered}}(x) - Z_0(x)| \equiv 0$).
-\item \textbf{Гейт сохранения нормы и отсутствия пустых ячеек (`A3\_Unitarity`, `A5\_PlanckVacuumFloor`):}
+\item \textbf{Гейт сохранения нормы и пола кипения (`A3\_Unitarity`, `A5\_PlanckVacuumFloor`):}
   ни одна ячейка тора не может перейти в нулевое состояние $Z = (0,0,0,0)$ ни на одном такте эволюции.
 \item \textbf{Гейт устойчивости трёхмерного кипящего океана (`FCC\_N12` / `FCC\_boil\_ramp`):}
   одноосный пандус классов Гейзенберга на трёхмерной звезде~$\geomNeighborTwelve$ должен сохранять стабильное кипение без численного саморазгона.

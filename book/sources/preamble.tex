@@ -40,6 +40,16 @@
 
 \usepackage{longtable}
 
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[RE]{\nouppercase{\footnotesize\itshape\leftmark}}
+\fancyhead[LO]{\nouppercase{\footnotesize\itshape\rightmark}}
+\renewcommand{\headrulewidth}{0.4pt}
+\setlength{\headheight}{14pt}
+\setlength{\emergencystretch}{2em}
+
 \usepackage{listings}
 
 \usepackage{xstring}

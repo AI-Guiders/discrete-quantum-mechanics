@@ -208,18 +208,18 @@ $k$ & $\lambda/\ell_P$ & $\log_{10}(\lambda/\ell_P)$ & степень $\alpha_{\
 \item \textbf{Бозон Хиггса и топ-кварк на полке~$v$ ($\alpha_{\mathrm{fs}}^{\vevHierarchySteps}$):}
   бозон Хиггса отвечает квадрату отношения сфер кубооктаэдра~$\caKappaGeom^2$, а верхний потолок одиночного фермионного фокуса (топ-кварк) --- первой степени~$\caKappaGeom$:
   \begin{align*}
-    m_H^{(\mathrm{bare})} &= \caKappaGeom^2 v = \frac{\caKappaGeom^2}{\sqrt{r}}\,\alpha_{\mathrm{fs}}^{\vevHierarchySteps}\,m_{\arg} \approx 123{,}04\ \mathrm{ГэВ},\qquad
-    m_H = m_H^{(\mathrm{bare})}\sqrt{1 + \vevHierarchySteps\frac{\alpha_{\mathrm{fs}}}{\pi\caKappaGeom^2}} \approx 125{,}31\ \mathrm{ГэВ},\\
-    m_t^{(\mathrm{bare})} &= \caKappaGeom\,v = \frac{m_H^{(\mathrm{bare})}}{\caKappaGeom} \approx 174{,}01\ \mathrm{ГэВ}.
+    m_H^{(\mathrm{bare})} &= \caKappaGeom^2 v = \frac{\caKappaGeom^2}{\sqrt{r}}\,\alpha_{\mathrm{fs}}^{\vevHierarchySteps}\,m_{\arg} \approx 123{,}04\ \mathrm{ГэВ},\\
+    m_H &= m_H^{(\mathrm{bare})}\sqrt{1 + \vevHierarchySteps\frac{\alpha_{\mathrm{fs}}}{\pi\caKappaGeom^2}} \approx 125{,}31\ \mathrm{ГэВ},\qquad
+    m_t^{(\mathrm{bare})} = \caKappaGeom\,v = \frac{m_H^{(\mathrm{bare})}}{\caKappaGeom} \approx 174{,}01\ \mathrm{ГэВ}.
   \end{align*}
 \item \textbf{Барионный треугольник~$K_3$: протон, нейтрон и их магнитные моменты ($\alpha_{\mathrm{fs}}^{\vevHierarchySteps+1}$):}
   с учётом кванта упаковки кубооктаэдра $\delta_{\mathrm{pack}} = \caKappaGeom^2/\geomNeighborTwelve = 1/24$:
   \begin{align*}
     m_p &= \alpha_{\mathrm{fs}}\,m_H^{(\mathrm{bare})}\bigl(1 + \delta_{\mathrm{pack}}\bigr) \approx 935{,}30\ \mathrm{МэВ},\qquad
     m_n = m_p + 2\massElectron \approx 936{,}33\ \mathrm{МэВ},\\
-    \mu_p &= \bigl(d - 5\delta_{\mathrm{pack}}\bigr)\mu_N = \frac{67}{24}\,\mu_N \approx +2{,}7917\,\mu_N,\qquad
-    \mu_n = \bigl(-2 + 2\delta_{\mathrm{pack}}\bigr)\mu_N = -\frac{23}{12}\,\mu_N \approx -1{,}9167\,\mu_N,\\
-    \mu_p + \mu_n &= \bigl(1 - d\,\delta_{\mathrm{pack}}\bigr)\mu_N = \frac{7}{8}\,\mu_N = 0{,}8750\,\mu_N.
+    \mu_p &= \bigl(d - 5\delta_{\mathrm{pack}}\bigr)\mu_N = \frac{67}{24}\,\mu_N \approx +2{,}7917\,\mu_N,\\
+    \mu_n &= \bigl(-2 + 2\delta_{\mathrm{pack}}\bigr)\mu_N = -\frac{23}{12}\,\mu_N \approx -1{,}9167\,\mu_N,\qquad
+    \mu_p + \mu_n = \frac{7}{8}\,\mu_N = 0{,}8750\,\mu_N.
   \end{align*}
 \item \textbf{Легчайший заряженный дефект (электрон, $\alpha_{\mathrm{fs}}^{\vevHierarchySteps+2}/N_\varphi$) и три поколения лептонов ($e,\mu,\tau$):}
   одетый кластер из $N_\varphi = 1 + \geomNeighborTwelve = 13$ ячеек определяет массу электрона
@@ -229,11 +229,11 @@ $k$ & $\lambda/\ell_P$ & $\log_{10}(\lambda/\ell_P)$ & степень $\alpha_{\
   а три пространственных стека поколений ($g\in\{0,1,2\}$, $N_{\mathrm{gen}}=d=3$) с амплитудой кубооктаэдра~$\caKappaGeom^{-1}$
   и начальным фазовым сдвигом двухкомпонентного спинора на битовом регистре ячейки $\delta_0 = 2/\lfloor\caBitBudget\rfloor = 2/9$
   дают формулу масс поколений:
-  \[
-    \sqrt{m_g} \propto 1 + \frac{1}{\caKappaGeom}\cos\!\left(\frac{2\pi g}{d} + \frac{2}{\lfloor\caBitBudget\rfloor}\right),\qquad
-    \frac{m_\mu}{\massElectron} \approx 206{,}7703\ \ (\text{PDG: }206{,}7683),\qquad
+  \begin{align*}
+    \sqrt{m_g} &\propto 1 + \frac{1}{\caKappaGeom}\cos\!\left(\frac{2\pi g}{d} + \frac{2}{\lfloor\caBitBudget\rfloor}\right),\\
+    \frac{m_\mu}{\massElectron} &\approx 206{,}7703\ \ (\text{PDG: }206{,}7683),\qquad
     \frac{m_\tau}{\massElectron} \approx 3477{,}47\ \ (\text{PDG: }3477{,}23\pm 0{,}23).
-  \]
+  \end{align*}
 \item \textbf{Кварковые ступени ($u,d,s,c,b$):}
   зарядовые шаги переключения вершин треугольника~$K_3$ равны $m_u = 2^2\massElectron = 4\massElectron$, $m_d = d^2\massElectron = 9\massElectron$ ($m_u/m_d = 4/9$),
   а старшие кварковые пороги равны $m_s = m_p/(\geomNeighborTwelve-2)$, $m_c = \frac{d+1}{d}m_p$ и $m_b = \frac{1-\caKappaGeom^6}{d\,\caKappaGeom^6}\alpha_{\mathrm{fs}}v$.
@@ -346,7 +346,7 @@ $k$ & $\lambda/\ell_P$ & $\log_{10}(\lambda/\ell_P)$ & степень $\alpha_{\
 \end{enumerate}
 \end{proposition}
 
-\begin{proposition}[Полные матрицы смешивания кварков (CKM) и нейтрино (PMNS) из $N_\varphi=13$ секторов и гауссовой факторизации $\hat M=97$]
+\begin{proposition}[Матрицы смешивания CKM и PMNS из $N_\varphi=13$ и $\hat M=97$]
 \label{prop:ckm-pmns-sectors}
 \begin{enumerate}[leftmargin=*]
 \item \textbf{Гауссова факторизация $\hat M = 97$ в $\mathbb{Z}[i]$ и матрица CKM ($\lambda,A,\bar\rho,\bar\eta,\gamma$):}
@@ -355,25 +355,23 @@ $k$ & $\lambda/\ell_P$ & $\log_{10}(\lambda/\ell_P)$ & степень $\alpha_{\
     \hat M = d_{\mathrm{in}}(\square)^2 + \lfloor\caBitBudget\rfloor^2 = 4^2 + 9^2 = 97.
   \]
   На удвоенном по спину кластере $2N_\varphi = 26$ комплексная координата вершины треугольника унитарности кварков равна
-  \[
-    \bar\rho + i\,\bar\eta = \frac{d_{\mathrm{in}}(\square) + i\,\lfloor\caBitBudget\rfloor}{2\,N_\varphi} = \frac{4 + 9i}{26}
-    \quad\Longrightarrow\quad
-    \bar\rho = \frac{2}{13}\approx 0{,}1538\ (\text{PDG: }0{,}159\pm 0{,}010),\quad
+  \begin{align*}
+    \bar\rho + i\,\bar\eta &= \frac{d_{\mathrm{in}}(\square) + i\,\lfloor\caBitBudget\rfloor}{2\,N_\varphi} = \frac{4 + 9i}{26},\\
+    \bar\rho &= \frac{2}{13}\approx 0{,}1538\ (\text{PDG: }0{,}159\pm 0{,}010),\qquad
     \bar\eta = \frac{9}{26}\approx 0{,}3462\ (\text{PDG: }0{,}348\pm 0{,}010),
-  \]
+  \end{align*}
   откуда длина стороны треугольника равна $R_b = |\bar\rho+i\bar\eta| = \sqrt{\hat M}/(2N_\varphi) = \sqrt{97}/26 \approx 0{,}3788$ (PDG: $0{,}3826\pm 0{,}011$),
   а угол CP-нарушения связан с лептонной фазой $\delta_0 = 2/\lfloor\caBitBudget\rfloor = 2/9$ тождеством
   \[
     \tan\gamma = \frac{\bar\eta}{\bar\rho} = \frac{\lfloor\caBitBudget\rfloor}{d_{\mathrm{in}}(\square)} = \frac{1}{2\delta_0} = \frac{9}{4}
     \quad\Longrightarrow\quad
-    \gamma = \arctan\!\left(\frac{9}{4}\right) \approx 66{,}04^\circ
-    \qquad\bigl(\text{PDG: }65{,}4^\circ\pm 2{,}5^\circ,\ 0{,}25\sigma\bigr).
+    \gamma = \arctan\!\left(\frac{9}{4}\right) \approx 66{,}04^\circ\ \ (\text{PDG: }65{,}4^\circ\pm 2{,}5^\circ).
   \]
   Параметры Вольфенштейна $\lambda$ и~$A$ равны
-  \[
-    \lambda = \frac{d}{N_\varphi}\left(1 - \frac{d-1}{d}\,\delta_{\mathrm{pack}}\right) = \frac{35}{156} \approx 0{,}22436\ (\text{PDG: }0{,}22500\pm 0{,}00067),\qquad
-    A = \frac{\geomNeighborTwelve - 2}{\geomNeighborTwelve} = \frac{5}{6} \approx 0{,}8333\ (\text{PDG: }0{,}826\pm 0{,}015).
-  \]
+  \begin{align*}
+    \lambda &= \frac{d}{N_\varphi}\left(1 - \frac{d-1}{d}\,\delta_{\mathrm{pack}}\right) = \frac{35}{156} \approx 0{,}22436\ (\text{PDG: }0{,}22500\pm 0{,}00067),\\
+    A &= \frac{\geomNeighborTwelve - 2}{\geomNeighborTwelve} = \frac{5}{6} \approx 0{,}8333\ (\text{PDG: }0{,}826\pm 0{,}015).
+  \end{align*}
 \item \textbf{Разбиение $N_\varphi = 13$ секторов вершинным каналом $V=(1,4,7)$ и углы смешивания нейтрино PMNS:}
   разложение $N_\varphi = 1_{\mathrm{core}} + d_{\mathrm{in}}(V) + d_{\mathrm{same}}(V) + d_{\mathrm{out}}(V) = 1 + 1 + 4 + 7 = 13$ однозначно фиксирует все три угла смешивания нейтральных лептонов:
   \[

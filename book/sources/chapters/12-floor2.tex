@@ -78,6 +78,8 @@
   \centering
   \caption{Откуда берутся квантовые числа составного узла на этаже~2.}
   \label{tab:floor2-qnumbers}
+  \footnotesize
+  \setlength{\tabcolsep}{4pt}
   \begin{tabular}{@{}lll@{}}
     \toprule
     число & этаж~0 (один $\hv$) & этаж~2 (клика $K_3$ / $K_2$ на \latGCKshort) \\
@@ -224,10 +226,10 @@ $\caSignalSpeed=dh/dt$, а вся механика порождается одн
     = \frac{1 + (2\caKappaGeom^2)^{-1}}{d} = \frac{d-1}{d} = \frac{2}{3},
   \]
   а отношения масс поколений без единого подгоняемого параметра равны
-  \[
-    \frac{m_\mu}{\massElectron} \approx 206{,}7703\quad(\text{PDG: }206{,}7683,\ \text{откл.\ }+9{,}83\ \mathrm{ppm}),\qquad
-    \frac{m_\tau}{\massElectron} \approx 3477{,}47\quad(\text{PDG: }3477{,}23\pm 0{,}23,\ \text{внутри }1{,}05\sigma).
-  \]
+  \begin{align*}
+    \frac{m_\mu}{\massElectron} &\approx 206{,}7703\quad(\text{PDG: }206{,}7683,\ \text{откл.\ }+9{,}83\ \mathrm{ppm}),\\
+    \frac{m_\tau}{\massElectron} &\approx 3477{,}47\quad(\text{PDG: }3477{,}23\pm 0{,}23,\ \text{внутри }1{,}05\sigma).
+  \end{align*}
 \end{enumerate}
 
 \section{Связь с сильным взаимодействием, атом водорода (\texorpdfstring{$k=9$}{k=9}) и упаковка \texorpdfstring{$N_{\mathrm{pack}}\in\mathbb{Z}$}{Npack in Z} (\texorpdfstring{$k=10$}{k=10})}
@@ -259,8 +261,8 @@ $\alpha_s(v)=d/(\vevHierarchySteps\pi)=3/(8\pi)$.
   а энергия связи (дефект массы $\Delta m_H$) по решёточному закону Кулона и теореме о вириале равна
   \[
     \frac{\Delta m_H}{m_{\arg}} = \frac{BE_H}{\ladderEnergy} = \frac{\alpha_{\mathrm{fs}}}{2\caKappaGeom\,N_{a0}} \approx \frac{1}{2\hat M\,N_{a0}}
-    \qquad\bigl(BE_H\approx 13{,}667\ \mathrm{эВ}\ \text{против }13{,}606\ \mathrm{эВ}\ \text{CODATA, откл.\ }0{,}45\%\bigr),
   \]
+  ($BE_H\approx 13{,}667\ \mathrm{эВ}$ против $13{,}606\ \mathrm{эВ}$ CODATA, откл.\ $0{,}45\%$),
   то есть связь протона и электрона в атоме водорода --- один фазовый квант $\ladderEnergy=\ladderAction/dt$,
   распределённый по $\hat M=97$ местам силы и $2N_{a0}$ шагам диаметра орбиты;
 \item \textbf{двенадцатая ступень ($k=10$) --- точная целочисленность упаковки этажей $N_{\mathrm{pack}}\in\mathbb{Z}$:}
