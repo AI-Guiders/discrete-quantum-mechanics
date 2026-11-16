@@ -1,7 +1,7 @@
 #!/usr/bin/env pwsh
 # Build book/out/pdf/<volume>.pdf (XeLaTeX + biber until refs/cites resolve). Aux → book/out/work/. Default: construction.
 param(
-    [ValidateSet('construction', 'floors', 'cosmology', 'observer', 'chemistry', 'compute')]
+    [ValidateSet('construction', 'floors', 'cosmology', 'observer', 'chemistry', 'biology', 'compute')]
     [string]$Volume = 'construction',
     [switch]$RenderFigures,
     [switch]$SkipFloorsPrebuild,
@@ -108,6 +108,7 @@ $VolumeMap = @{
     cosmology    = @{ Main = 'main-cosmology.tex'; Job = 'cosmology' }
     observer     = @{ Main = 'main-observer.tex'; Job = 'observer' }
     chemistry    = @{ Main = 'main-chemistry.tex'; Job = 'chemistry' }
+    biology      = @{ Main = 'main-biology.tex'; Job = 'biology' }
     compute      = @{ Main = 'main-compute.tex'; Job = 'compute' }
 }
 $MainTex = $VolumeMap[$Volume].Main

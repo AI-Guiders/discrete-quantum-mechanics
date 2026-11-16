@@ -19,6 +19,7 @@
 | **cosmology** | BB, CMB, `N_tick`, META §3 | `main-cosmology.tex` | `cosmology.pdf` |
 | **observer** | Узел (M, R_eff), ε, τ_frame | `main-observer.tex` | `observer.pdf` |
 | **chemistry** | Химия / физ. химия на T | `main-chemistry.tex` | `chemistry.pdf` |
+| **biology** | Биология, генетический код, фолдинг и онтогенез на решётке ГЦК | `main-biology.tex` | `biology.pdf` |
 | **compute** | Вычислительная архитектура под **g** | `main-compute.tex` | `compute.pdf` |
 
 ## Сборка
@@ -34,7 +35,7 @@ cd book
 
 Перед сборкой **construction**: `scripts/gen_lab_records_tex.py` → только `generated/lab-si-pdg-table.tex` (сводка модель/PDG). **Журнал CE** (постановка, ход, анализ, погрешность) --- `book/sources/lab-journal/*.tex`, правка вручную после прогона verify.
 
-`-Volume`: `construction` | `floors` | `cosmology` | `observer` | `chemistry` | `compute`
+`-Volume`: `construction` | `floors` | `cosmology` | `observer` | `chemistry` | `biology` | `compute`
 
 ## construction — главы
 

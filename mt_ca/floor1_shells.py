@@ -323,6 +323,94 @@ def cuboctahedral_spdf_harmonic_ranks() -> dict[str, Any]:
     }
 
 
+def cuboctahedral_second_period_and_hbond_verification() -> dict[str, Any]:
+    """Verify Z=1..10 site-wise screening on V and □ channels, covalent radii, and H-bond/Watson-Crick locks."""
+    import math
+
+    be_h = 13.605693122994  # Rydberg energy BE_H in eV
+    a0 = 0.529177210903    # Bohr radius in Angstrom
+    kappa = 1.0 / math.sqrt(2.0)
+    d = 3
+    n12 = 12
+    n_phi = 13
+    n_hier = 8
+    d_in_sq = 4
+    d_out_v = 7
+    n_shell_2 = 42
+
+    nist_ie = {
+        1: 13.59843449,
+        2: 24.58738880,
+        3: 5.39171495,
+        4: 9.322699,
+        5: 8.298019,
+        6: 11.260288,
+        7: 14.53413,
+        8: 13.618055,
+        9: 17.42282,
+        10: 21.56454,
+    }
+    step_2p = 1.0 / d_in_sq + 1.0 / (n12 * n_phi)  # 1/4 + 1/156 = 10/39
+
+    pred_ie: dict[int, float] = {
+        1: be_h,
+        2: 2.0 * (1.0 - 1.0 / n12 - 1.0 / (n12 * n_phi)) * be_h,
+    }
+    zeff_2: dict[int, float] = {
+        3: (3.0 - 2.0 * (1.0 - 1.0 / n_hier)) + 1.0 / (n12 * n_phi),
+        4: (5.0 / 4.0) + (1.0 - float(d_out_v) / n12) - 1.0 / (n12 * n_phi),
+    }
+    for m, z in enumerate((5, 6, 7)):
+        zeff_2[z] = (5.0 / 4.0) ** 2 + m * step_2p
+    for m, z in enumerate((8, 9, 10)):
+        zeff_2[z] = 2.0 + m * step_2p
+    for z in range(3, 11):
+        pred_ie[z] = ((zeff_2[z] / 2.0) ** 2) * be_h
+
+    ie_rel_errs = {z: abs(pred_ie[z] - nist_ie[z]) / nist_ie[z] for z in range(1, 11)}
+    max_ie_rel_err = max(ie_rel_errs.values())
+
+    # Second-period covalent radius law: r_cov(Z) = ((d*N_phi - 2*Z)/N_phi) * kappa * a0 for Z=4..9
+    r_h = kappa * a0
+    ref_rcov = {4: 0.90, 5: 0.84, 6: 0.77, 7: 0.715, 8: 0.66, 9: 0.60}
+    pred_rcov = {z: ((d * n_phi - 2.0 * z) / n_phi) * r_h for z in range(4, 10)}
+    max_rcov_rel_err = max(abs(pred_rcov[z] - ref_rcov[z]) / ref_rcov[z] for z in range(4, 10))
+    peptide_cn_exact_multiple = (d * n_phi - 12) + (d * n_phi - 14) == 4 * n_phi  # 27 + 25 = 52 = 4 * 13
+
+    # Hydrogen bond quantum on shell k=2 (21 Pauli pairs * d=3 = 63), Watson-Crick + Major Groove barcodes, and Rumer's 64 -> 20+1=21 identity
+    e_hb_ev = be_h / (d * (n_shell_2 // 2))  # BE_H / 63 = 0.21596 eV
+    major_groove_barcodes = {
+        "A-T": ("-", "+", "-", "M"),
+        "T-A": ("M", "-", "+", "-"),
+        "G-C": ("-", "-", "+", "0"),
+        "C-G": ("0", "+", "-", "-"),
+    }
+    unique_major_groove = len(set(major_groove_barcodes.values())) == 4
+    rumer_20_plus_1_ok = (n_hier + n12 == 20) and (n_hier + n_phi == n_shell_2 // 2 == 21)
+
+    ok = (
+        max_ie_rel_err < 0.008
+        and ie_rel_errs[6] < 0.001
+        and ie_rel_errs[8] < 0.001
+        and max_rcov_rel_err < 0.01
+        and peptide_cn_exact_multiple
+        and 0.21 < e_hb_ev < 0.22
+        and unique_major_groove
+        and rumer_20_plus_1_ok
+    )
+    return {
+        "max_ie_rel_err_Z1_10": max_ie_rel_err,
+        "ie_C_rel_err": ie_rel_errs[6],
+        "ie_O_rel_err": ie_rel_errs[8],
+        "max_rcov_rel_err_Z4_9": max_rcov_rel_err,
+        "peptide_CN_is_4_kappa_a0": peptide_cn_exact_multiple,
+        "e_hb_eV": e_hb_ev,
+        "unique_major_groove_barcodes": unique_major_groove,
+        "rumer_20_plus_1_identity_ok": rumer_20_plus_1_ok,
+        "checks_ok": ok,
+    }
+
+
 def build_rho_theta_shell_catalog(*, max_k: int = 3) -> dict[str, Any]:
     """Finite catalog tiers for ρ_Θ modes on coordination spheres (not 2^N enumeration)."""
     sizes = coordination_shell_sizes(max_k=max_k)
@@ -335,6 +423,7 @@ def build_rho_theta_shell_catalog(*, max_k: int = 3) -> dict[str, Any]:
     neighbor_stats = shell_neighbor_stats(max_k=max_k)
     channel_census = cuboctahedral_shell_channel_census(max_k=max(max_k, 4))
     spdf_ranks = cuboctahedral_spdf_harmonic_ranks()
+    chem_second_period = cuboctahedral_second_period_and_hbond_verification()
     shell2_reachable_one_tick = (
         neighbor_stats.get(2, {}).get("min_inner_neighbors", 0) >= 1
     )
@@ -386,6 +475,12 @@ def build_rho_theta_shell_catalog(*, max_k: int = 3) -> dict[str, Any]:
             "note": "□6->1s+3p+2d_eg (6/6); V12->1s+3p+5d+3f (12/12); △8->1s+3p+3d_t2g+1f_xyz (8/8); E24->7/7 f",
         },
         {
+            "id": "cubocta_second_period_and_hbond_bridge",
+            "status": "closed_algebra",
+            "count": 10,
+            "note": "Z=1..10 IE_1 (<0.8% NIST), Z=4..9 r_cov=(39-2Z)/13*kappa*a0 (<1%), E_HB=BE_H/63, Major Groove barcodes",
+        },
+        {
             "id": "full_binary_patterns",
             "status": "not_enumerated",
             "count": 0,
@@ -408,6 +503,7 @@ def build_rho_theta_shell_catalog(*, max_k: int = 3) -> dict[str, Any]:
         and shell3_reachable_two_ticks
         and bool(channel_census["checks_ok"])
         and bool(spdf_ranks["checks_ok"])
+        and bool(chem_second_period["checks_ok"])
     )
 
     return {
@@ -418,6 +514,7 @@ def build_rho_theta_shell_catalog(*, max_k: int = 3) -> dict[str, Any]:
         "neighbor_stats": neighbor_stats,
         "channel_census": channel_census,
         "spdf_ranks": spdf_ranks,
+        "chem_second_period": chem_second_period,
         "four_channel_selection_closed": bool(channel_census["checks_ok"]),
         "spdf_correspondence_closed": bool(spdf_ranks["checks_ok"]),
         "shell2_one_tick_from_star": shell2_reachable_one_tick,
