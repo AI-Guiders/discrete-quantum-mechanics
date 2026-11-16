@@ -646,6 +646,19 @@ class SISmRows:
         theta_cmb_over_mec2_carrier = 0.5 * (alpha**2) * theta_cmb_over_ery_carrier
         hi_quanta_count = d_out_v * n_hier  # 5 * 8 = 40
 
+        # Carrier scale T_P_M := E_0 = s_0 / hT = E_P / sqrt(2) (§8.2·units·T_P, zero k_B, κ cancels!):
+        #   T_M,bath / E_0 = (d * d_out(E) / (N_ring * pi^2))^(1/4) = (15 / (512 * pi^2))^(1/4)
+        #   T_rec / E_0    = (alpha^12 / (65 * ln(1/η_B))) * sqrt(pi)   [exponent 12 = |N_12|]
+        #   T_CMB / E_0    = (alpha^13 / (520 * ln(1/η_B))) * sqrt(pi)  [exponent 13 = N_phi = |N_12| + 1]
+        n_ring = int(PLANCK_CELL.N_ring)  # 512
+        n12 = int(N12_FCC_CAUSAL_LINKS)  # 12
+        t_m_bath_over_e0 = (float(d_spatial * d_out_v) / (float(n_ring) * (math.pi**2))) ** 0.25
+        e_ry_over_e0 = ((alpha**n12) / float(2 * n_phi)) * math.sqrt(math.pi)
+        t_rec_over_e0 = ((alpha**n12) / (float(d_out_v * n_phi) * math.log(1.0 / eta_b))) * math.sqrt(math.pi)
+        t_cmb_over_e0 = (
+            (alpha**n_phi) / (float(d_out_v * n_hier * n_phi) * math.log(1.0 / eta_b))
+        ) * math.sqrt(math.pi)
+
         # T-layer readout in Kelvin (using k_B only at the T-layer thermometer interface)
         kb_si = 1.380649e-23
         m_e_kg = float(self.birth_row()["m_e_kg"])
@@ -680,6 +693,10 @@ class SISmRows:
             "theta_cmb_over_E_Ry_carrier": theta_cmb_over_ery_carrier,
             "theta_cmb_over_mec2_carrier": theta_cmb_over_mec2_carrier,
             "theta_cmb_in_E_HI_quanta": float(hi_quanta_count),
+            "T_M_bath_over_E0": t_m_bath_over_e0,
+            "E_Ry_over_E0": e_ry_over_e0,
+            "T_rec_over_E0_alpha12": t_rec_over_e0,
+            "T_CMB_over_E0_alpha13": t_cmb_over_e0,
             "T_rec_K_model": t_rec_k_model,
             "T_rec_K_obs": t_rec_k_obs,
             "T_CMB_K_carrier": t_cmb_k_carrier,
