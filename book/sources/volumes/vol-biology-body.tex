@@ -116,6 +116,25 @@
 \end{itemize}
 Тем самым распознавание регуляторного участка ДНК белком сводится к локальной проверке комплементарности знаков в большой бороздке за $O(1)$ на шаг без глобального перебора.
 
+\section{Два универсальных ДНК-связывающих замка факторов транскрипции: петля \texorpdfstring{$\text{C2H2}$}{C2H2} и штифт \texorpdfstring{$\text{Trp}$}{Trp} гомеодомена}
+\label{sec:bio-tf-dbd-locks}
+
+Прямой анализ белковых последовательностей факторов транскрипции в референсных геномах \emph{Drosophila melanogaster}, \emph{Caenorhabditis elegans} и \emph{Homo sapiens} показывает, что распознающие домены укладываются в два канонических геометрических замка кубооктаэдра:
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Цинковый палец $\text{C2H2}$ ($\text{Cys}_1\text{--x}_{2\ldots 4}\text{--Cys}_2\text{--петля--His}_1\text{--x}_{3\ldots 5}\text{--His}_2$):}
+  расстояние по цепи от второго цистеина~$\text{Cys}_2$ до первого гистидина~$\text{His}_1$ равно размеру одетого кластера $N_\varphi = 1 + \geomNeighborTwelve$, так что длина внутренней распознающей петли равна ровно числу вершин первой сферы кубооктаэдра:
+  \[
+    \text{His}_1 - \text{Cys}_2 = N_\varphi \quad\Longrightarrow\quad L_{\mathrm{ZF}}(\text{Cys}_2\ldots\text{His}_1) = \geomNeighborTwelve.
+  \]
+  Внутри петли из $\geomNeighborTwelve$ остатков три соседние пары оснований кодонного триплета ДНК ($d$ пар в большой бороздке) считываются вилками водородных связей на трёх позициях с шагом~$d$:
+  \[
+    \bigl\{\,|\square|,\quad \lfloor\caBitBudget\rfloor,\quad \geomNeighborTwelve\,\bigr\}.
+  \]
+\item \textbf{Гомеодомен и спираль «спираль--поворот--спираль» со штифтом $\text{Trp}$ ($\text{W}$):}
+  распознающая $\alpha$-спираль, входящая в большую бороздку B-ДНК, центрирована на инвариантном штифте~$\text{Trp}$ ($\text{W}$), за которым стоят ароматический стабилизатор $\text{Phe/Tyr/Ile}$ ($\text{W}+1$), бидентатный замок $\text{Asn}$ ($[+,-]$ на смещении $\text{W}+d$, фиксирующий пару $\text{A--T}$ ядра промотора) и катионный замок $\text{Arg}$ ($[+,+]$ на смещении $\text{W}+d_{\mathrm{out}}(E)$).
+  Индивидуальная специфичность фактора транскрипции задаётся главным переключателем на смещении $\text{W}+(d-1)$ ($\text{Lys}$ у передних морфогенов \texttt{bcd, oc, OTX2, CRX}; $\text{Ser}$ у \texttt{ey, PAX6}; $\text{Gln}$ у сегментных \texttt{Hox}-генов \texttt{Dfd, Scr, Antp, Ubx, abd-A, Abd-B, lin-39, mab-5, HOXA5..HOXD10}; $\text{Cys}$ у \texttt{unc-86, POU3F1/2}; $\text{His}$ у \texttt{CUX1/2}) совместно с боковыми пазами $\text{W}-1,\ \text{W}-d_{\mathrm{in}}(\square),\ \text{W}-|\square|$.
+\end{enumerate}
+
 \chapter{Геометрический вывод генетического кода: почему \texorpdfstring{$64\to 20+1=21$}{64 -> 20+1=21}}
 \label{ch:bio-genetic-code}
 
