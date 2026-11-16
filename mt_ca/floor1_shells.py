@@ -394,6 +394,25 @@ def cuboctahedral_second_period_and_hbond_verification() -> dict[str, Any]:
     h_stack_dna_A = mod_bits * r_h
     dna_stack_rel_err = abs(h_stack_dna_A - 3.38) / 3.38
 
+    # {111} hex-slice sp2 contraction (kappa_hex = sqrt(3)/2) and Pauling-Corey alpha-helix / beta-sheet geometry
+    kappa_hex = math.sqrt(3.0) / 2.0
+    r_cc_double_A = 2.0 * kappa_hex * pred_rcov[6]
+    r_co_double_A = kappa_hex * (pred_rcov[6] + pred_rcov[8])
+    d_out_e = 5
+    n_sq_faces = 2 * d  # 6
+    n_alpha_res_per_turn = float(n12 + n_sq_faces) / float(d_out_e)  # 18 / 5 = 3.6
+    h_alpha_A = float(d_in_sq) * r_h  # 4 * r_H = 1.4967 A vs 1.50 A
+    p_alpha_A = n_alpha_res_per_turn * h_alpha_A  # 5.388 A vs 5.40 A
+    h_beta_A = (float(mod_bits) + 1.0 / float(d)) * r_h  # 3.492 A vs 3.48 A
+    pauling_corey_ok = (
+        abs(r_cc_double_A - 1.339) / 1.339 < 0.01
+        and abs(r_co_double_A - 1.235) / 1.235 < 0.01
+        and abs(n_alpha_res_per_turn - 3.6) < 1e-12
+        and abs(h_alpha_A - 1.50) / 1.50 < 0.005
+        and abs(p_alpha_A - 5.40) / 5.40 < 0.005
+        and abs(h_beta_A - 3.48) / 3.48 < 0.005
+    )
+
     # Hydrogen bond quantum on shell k=2 (21 Pauli pairs * d=3 = 63), Watson-Crick + Major Groove barcodes, and Rumer's 64 -> 20+1=21 identity
     e_hb_ev = be_h / (d * (n_shell_2 // 2))  # BE_H / 63 = 0.21596 eV
     major_groove_barcodes = {
@@ -415,6 +434,7 @@ def cuboctahedral_second_period_and_hbond_verification() -> dict[str, Any]:
         and angle_h2o_err_deg < 0.05
         and angle_nh3_err_deg < 0.40
         and dna_stack_rel_err < 0.005
+        and pauling_corey_ok
         and 0.21 < e_hb_ev < 0.22
         and unique_major_groove
         and rumer_20_plus_1_ok
@@ -429,6 +449,10 @@ def cuboctahedral_second_period_and_hbond_verification() -> dict[str, Any]:
         "theta_H2O_deg": theta_h2o_deg,
         "theta_NH3_deg": theta_nh3_deg,
         "h_stack_dna_A": h_stack_dna_A,
+        "h_alpha_A": h_alpha_A,
+        "p_alpha_A": p_alpha_A,
+        "h_beta_A": h_beta_A,
+        "pauling_corey_ok": pauling_corey_ok,
         "e_hb_eV": e_hb_ev,
         "unique_major_groove_barcodes": unique_major_groove,
         "rumer_20_plus_1_identity_ok": rumer_20_plus_1_ok,

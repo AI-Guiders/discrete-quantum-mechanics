@@ -263,23 +263,58 @@ II (ядро $1$) & \texttt{Stop} & \texttt{UAA,UAG,UGA} (3) & --- & освоб�
   Число проверок на один остаток ограничено константой $O(1)$ ($d\cdot\geomNeighborTwelve$ элементарных операций), а полная укладка белка длины~$L$ выполняется за $O(L)$ тактов в реальном времени без глобального перебора.
 \end{enumerate}
 
-\section{Синаптический иммуноглобулиновый замок (\texorpdfstring{$\text{CAM\_KEY}\leftrightarrow\text{CAM\_LOCK}$}{CAM\_KEY <-> CAM\_LOCK})}
+\section{Геометрия вторичных структур Полинга--Кори (\texorpdfstring{$\alpha$}{alpha}-спираль \texorpdfstring{$3{,}6_{13}$}{3.6\_13} и \texorpdfstring{$\beta$}{beta}-лист) из констант кубооктаэдра}
+\label{sec:bio-pauling-corey}
+
+Все геометрические параметры классических вторичных структур белка Полинга--Кори вытекают напрямую из параметров каналов кубооктаэдра~\latGCKshort\ без подгоночных коэффициентов:
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Правая $\alpha$-спираль ($3{,}6_{13}$-спираль):}
+  карбонильный кислород $\text{C}'_i=\text{O}_i$ остатка~$i$ замыкает водородный мост $R(\text{O}\cdots\text{N})=d\cdot R(\text{O--H})$ с амидным азотом $\text{N}_{i+d_{\mathrm{in}}(\square)}\text{--H}$ через шаг $d_{\mathrm{in}}(\square)=4$ остатка ($i\to i+4$), образуя замкнутое кольцо ровно из $N_\varphi = 1 + \geomNeighborTwelve = 13$ атомов.
+  Полный период из $d_{\mathrm{out}}(E)=5$ витков спирали содержит $\geomNeighborTwelve + |\square| = 12 + 6 = 18$ остатков, откуда число остатков на один виток равно
+  \[
+    n_\alpha = \frac{\geomNeighborTwelve + |\square|}{d_{\mathrm{out}}(E)} = \frac{18}{5} = 3{,}6\text{ остатка/виток}
+    \qquad\bigl(\text{угол поворота }2\pi/n_\alpha = 100^\circ\bigr).
+  \]
+  Осевой подъём на один остаток равен длине связи $R(\text{C--N}) = d_{\mathrm{in}}(\square)\,\caKappaGeom\,a_0$:
+  \[
+    h_\alpha = d_{\mathrm{in}}(\square)\,\caKappaGeom\,a_0 \approx 1{,}497\ \mathrm{\AA}
+    \qquad\bigl(\text{рентген Полинга--Кори: }1{,}500\ \mathrm{\AA},\ \text{откл.\ }-0{,}22\%\bigr),
+  \]
+  шаг одного витка равен
+  \[
+    P_\alpha = n_\alpha\,h_\alpha = \frac{d\,\delta_{\mathrm{pack}}^{-1}}{d_{\mathrm{out}}(E)}\,\caKappaGeom\,a_0 \approx 5{,}388\ \mathrm{\AA}
+    \qquad\bigl(\text{рентген: }5{,}400\ \mathrm{\AA},\ \text{откл.\ }-0{,}22\%\bigr),
+  \]
+  а длина полного $d_{\mathrm{out}}(E)$-виткового ($\geomNeighborTwelve+|\square|=18$ остатков) трансмембранного стержня совпадает с толщиной гидрофобного ядра липидного бислоя клеточной мембраны:
+  \[
+    L_{\mathrm{TM}} = \bigl(\geomNeighborTwelve + |\square|\bigr)\,h_\alpha = d\,\delta_{\mathrm{pack}}^{-1}\,\caKappaGeom\,a_0 \approx 26{,}94\ \mathrm{\AA}
+    \qquad\bigl(\text{гидрофобное ядро бислоя: }27{,}0\ \mathrm{\AA},\ \text{откл.\ }-0{,}22\%\bigr).
+  \]
+\item \textbf{Складчатый $\beta$-лист в срезе $\{111\}$:}
+  осевой шаг на один остаток вдоль антипараллельной $\beta$-нити равен
+  \[
+    h_\beta = \left(\lfloor\caBitBudget\rfloor + \frac{1}{d}\right)\caKappaGeom\,a_0 \approx 3{,}492\ \mathrm{\AA}
+    \qquad\bigl(\text{рентген Полинга--Кори: }3{,}48\ \mathrm{\AA},\ \text{откл.\ }+0{,}36\%\bigr).
+  \]
+\end{enumerate}
+
+\section{Синаптический иммуноглобулиновый замок (\texorpdfstring{$\text{Ig}_{\mathrm{donor}}\leftrightarrow\text{Ig}_{\mathrm{acceptor}}$}{Ig\_donor <-> Ig\_acceptor})}
 \label{sec:bio-ig-synaptic-lock}
 
-В рецепторах клеточной адгезии, формирующих синаптическую специфичность нейронов (\texttt{Dpr} $\leftrightarrow$ \texttt{DIP}), длина замкнутой дисульфидной петли первого иммуноглобулинового домена $[\text{Cys}_B\ldots\text{Cys}_F]$ у белков-ключей (\texttt{CAM\_KEY}) равна водородному делителю кубооктаэдра:
+В рецепторах клеточной адгезии, формирующих синаптическую специфичность нейронов (\texttt{Dpr} $\leftrightarrow$ \texttt{DIP}), длина замкнутой дисульфидной петли первого иммуноглобулинового домена $[\text{Cys}_B\ldots\text{Cys}_F]$ у донорных молекул ($\text{Ig}_{\mathrm{donor}}$) равна водородному делителю кубооктаэдра:
 \[
-  L_{\mathrm{loop}}(\text{CAM\_KEY})
+  L_{\mathrm{loop}}(\text{Ig}_{\mathrm{donor}})
   = d\,\caKappaGeom^2 N_{\mathrm{shell}}(2)
   = \frac{1-\caKappaGeom^6}{\caKappaGeom^6}\,\lfloor\caBitBudget\rfloor
   = 2^{\mathrm{frac\_bits}} - 1,
 \]
-а междоменный шаг от $\text{Cys}_F$ первой петли до цистеина второго домена у Ключа (выступ с донорным гребнем $\text{Trp--x--Arg}$, вилка $[+,+]$) и у Замка (впадина с акцепторной канавкой $\text{Trp--x--x--x--[Asp/Glu]}$, вилка $[-,-]$) отклоняется от числа узлов второй координационной сферы $N_{\mathrm{shell}}(2)$ ровно на~$\pm 1$:
+а междоменный шаг от $\text{Cys}_F$ первой петли до цистеина второго домена у донорного выступа (с гребнем $\text{Trp--x--Arg}$, вилка $[+,+]$) и у акцепторной впадины (с канавкой $\text{Trp--x--x--x--[Asp/Glu]}$, вилка $[-,-]$) отклоняется от числа узлов второй координационной сферы $N_{\mathrm{shell}}(2)$ ровно на~$\pm 1$:
 \[
-  \Delta_{\mathrm{Cys}}(\text{CAM\_KEY}) = N_{\mathrm{shell}}(2) - 1 = \Delta\varphi_{\mathrm{disc}},\qquad
-  \Delta_{\mathrm{Cys}}(\text{CAM\_LOCK}) = N_{\mathrm{shell}}(2) + 1,
+  \Delta_{\mathrm{Cys}}(\text{Ig}_{\mathrm{donor}}) = N_{\mathrm{shell}}(2) - 1 = \Delta\varphi_{\mathrm{disc}},\qquad
+  \Delta_{\mathrm{Cys}}(\text{Ig}_{\mathrm{acceptor}}) = N_{\mathrm{shell}}(2) + 1,
 \]
 \[
-  \Delta_{\mathrm{Cys}}(\text{CAM\_KEY}) + \Delta_{\mathrm{Cys}}(\text{CAM\_LOCK}) = 2\,N_{\mathrm{shell}}(2).
+  \Delta_{\mathrm{Cys}}(\text{Ig}_{\mathrm{donor}}) + \Delta_{\mathrm{Cys}}(\text{Ig}_{\mathrm{acceptor}}) = 2\,N_{\mathrm{shell}}(2).
 \]
 При антипараллельной стыковке $\beta$-граней Ключа и Замка в гексагональном срезе $\{111\}$ избирательность синаптических пар ($\Delta G_{\mathrm{bind}} = -\Delta n_{\mathrm{HB}}\,E_{\mathrm{HB}}$) определяется без внешних таблиц сродства комплементарностью вилок водородных связей ($[+]\leftrightarrow [-]$) и стерических карманов на семи структурных смещениях кубооктаэдра от консервативного штифта $\text{Trp}$ ($\text{W}$) и конца петли $\text{Cys}_F$:
 \[

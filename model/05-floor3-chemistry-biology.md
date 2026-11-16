@@ -81,7 +81,19 @@
    R(\text{C–N}) = r_{\mathrm{cov}}(2d) + r_{\mathrm{cov}}(2d+1) = d_{\mathrm{in}}(\square)\,\kappa\,a_0 \approx 1.497\text{ \AA}.
    $$
 
-3. **Переход к третьему периоду ($\text{Si}, \text{P}, \text{S}$ при $Z_3 = Z_2 + N_{\mathrm{hier}}$):**
+3. **Кратные связи ($sp^2, sp$) через проекцию гексагонального среза $\kappa_{\mathrm{hex}}$ (§1.4.2) и геометрия пептидного звена Полинга–Кори:**
+   При переходе атома второго периода из трёхмерного тетраэдрического канала $sp^3$ ($\kappa_{\mathrm{FCC}}=\kappa$) в плоский гексагональный срез $\{111\}$ ($sp^2$, порядок связи $b=2$) или вдоль одномерного ребра ($sp$, $b=3$) его ковалентный радиус сжимается множителем вписанной окружности гексагона $\kappa_{\mathrm{hex}}=\sqrt{3}/2$ (§1.4.2, причём $\kappa_{\mathrm{hex}}^2 = d/d_{\mathrm{in}}(\square) = 3/4$):
+   $$
+   r_{\mathrm{cov}}^{(b)}(Z) = \kappa_{\mathrm{hex}}^{b-1}\,r_{\mathrm{cov}}^{(1)}(Z),\qquad b\in\bigl\{1,\ \tfrac{3}{2},\ 2,\ 3\bigr\}.
+   $$
+   Отсюда без подгоночных параметров следуют длины двойных и тройных связей и всех трёх связей плоского *trans*-пептидного узла $\text{C}_{\alpha,i}\text{–C}'_i(=\text{O}_i)\text{–NH}_{i+1}\text{–C}_{\alpha,i+1}$ в срезе $\{111\}$ (при резонансном порядке $b=3/2$ на атоме азота):
+   - $R(\text{C=C}) = 2\,\kappa_{\mathrm{hex}}\,r_{\mathrm{cov}}^{(1)}(\text{C}) \approx 1.346\text{ \AA}$ (NIST: $1.339\text{ \AA}$, откл. $+0.53\%$);
+   - $R(\text{C=O}) = \kappa_{\mathrm{hex}}\bigl(r_{\mathrm{cov}}^{(1)}(\text{C}) + r_{\mathrm{cov}}^{(1)}(\text{O})\bigr) \approx 1.246\text{ \AA}$ (NIST: $1.235\text{ \AA}$, откл. $+0.92\%$);
+   - $R(\text{N}\equiv\text{N}) = 2\,\kappa_{\mathrm{hex}}^2\,r_{\mathrm{cov}}^{(1)}(\text{N}) = \frac{2d}{d_{\mathrm{in}}(\square)}\,r_{\mathrm{cov}}^{(1)}(\text{N}) \approx 1.079\text{ \AA}$ (NIST: $1.098\text{ \AA}$, откл. $-1.67\%$);
+   - пептидные связи Полинга–Кори: $R(\text{C}_\alpha\text{–C}') = (1+\kappa_{\mathrm{hex}})\,r_{\mathrm{cov}}^{(1)}(\text{C}) \approx 1.450\text{ \AA}$ (рентген: $1.45\text{--}1.51\text{ \AA}$), $R(\text{C}'\text{–N}) = \kappa_{\mathrm{hex}}\,r_{\mathrm{cov}}^{(1)}(\text{C}) + \frac{1+\kappa_{\mathrm{hex}}}{2}\,r_{\mathrm{cov}}^{(1)}(\text{N}) \approx 1.344\text{ \AA}$ (рентген: $1.330\text{ \AA}$, откл. $+1.08\%$), $R(\text{N–C}_\alpha) = r_{\mathrm{cov}}^{(1)}(\text{C}) + \frac{1+\kappa_{\mathrm{hex}}}{2}\,r_{\mathrm{cov}}^{(1)}(\text{N}) \approx 1.449\text{ \AA}$ (рентген: $1.455\text{ \AA}$, откл. $-0.44\%$);
+   - шаг между соседними узлами $d(\text{C}_{\alpha,i},\text{C}_{\alpha,i+1})$ в *trans*-пептидной плоскости $\{111\}$ под углом $120^\circ$: $3.756\text{ \AA} \approx (|N_{12}|-2)\,\kappa\,a_0 = 3.742\text{ \AA}$ (рентген: $3.800\text{ \AA}$, откл. $-1.16\%$).
+
+4. **Переход к третьему периоду ($\text{Si}, \text{P}, \text{S}$ при $Z_3 = Z_2 + N_{\mathrm{hier}}$):**
    Добавление полной оболочки из $|N_{12}|$ узлов внутри кластера $N_\varphi$ увеличивает ковалентный радиус на $\Delta r_{2\to 3} = \frac{|N_{12}|}{N_\varphi}\kappa a_0$:
    $$
    r_{\mathrm{cov}}^{(n=3)}(Z_3) = r_{\mathrm{cov}}^{(n=2)}(Z_3 - N_{\mathrm{hier}}) + \frac{|N_{12}|}{N_\varphi}\,\kappa\,a_0
@@ -120,25 +132,50 @@
    N_{\mathrm{hier}} + (|N_{12}| + 1) = N_{\mathrm{hier}} + N_\varphi = \kappa^2 N_{\mathrm{shell}}(2).
    $$
 
-4. **Синаптический иммуноглобулиновый замок ($\text{CAM\_KEY} \leftrightarrow \text{CAM\_LOCK}$):**
-   В рецепторах клеточной адгезии длина замкнутой дисульфидной петли первого иммуноглобулинового домена $[\text{Cys}_B\ldots\text{Cys}_F]$ у белков-ключей равна водородному делителю кубооктаэдра:
+4. **Геометрия вторичных структур Полинга–Кори ($\alpha$-спираль $3.6_{13}$ и $\beta$-лист) из кубооктаэдра ГЦК:**
+   - **Правая $\alpha$-спираль ($3.6_{13}$-спираль):**
+     карбонильный кислород $\text{C}'_i=\text{O}_i$ остатка $i$ замыкает водородный мост $R(\text{O}\cdots\text{N})=d\cdot R(\text{O–H})$ с амидным азотом $\text{N}_{i+d_{\mathrm{in}}(\square)}\text{–H}$ через шаг $d_{\mathrm{in}}(\square)=4$ остатка ($i\to i+4$), образуя замкнутое кольцо ровно из $N_\varphi = 1 + |N_{12}| = 13$ атомов.
+     Полный период из $d_{\mathrm{out}}(E)=5$ витков спирали содержит $|N_{12}| + |\square| = 12 + 6 = 18$ остатков, откуда число остатков на один виток равно:
+     $$
+     n_\alpha = \frac{|N_{12}| + |\square|}{d_{\mathrm{out}}(E)} = \frac{18}{5} = 3.6\text{ остатка/виток}\qquad(\text{угол поворота }2\pi/n_\alpha = 100^\circ).
+     $$
+     Осевой подъём на один остаток равен длине связи $R(\text{C–N}) = d_{\mathrm{in}}(\square)\,\kappa\,a_0$:
+     $$
+     h_\alpha = d_{\mathrm{in}}(\square)\,\kappa\,a_0 \approx 1.497\text{ \AA}\quad(\text{рентген Полинга–Кори: }1.500\text{ \AA},\ \text{откл. }-0.22\%),
+     $$
+     шаг одного витка равен:
+     $$
+     P_\alpha = n_\alpha\,h_\alpha = \frac{d\,\delta_{\mathrm{pack}}^{-1}}{d_{\mathrm{out}}(E)}\,\kappa\,a_0 \approx 5.388\text{ \AA}\quad(\text{рентген: }5.400\text{ \AA},\ \text{откл. }-0.22\%),
+     $$
+     а длина полного $d_{\mathrm{out}}(E)$-виткового ($|N_{12}|+|\square|=18$ остатков) трансмембранного стержня равна толщине гидрофобного ядра липидного бислоя мембраны:
+     $$
+     L_{\mathrm{TM}} = (|N_{12}| + |\square|)\,h_\alpha = d\,\delta_{\mathrm{pack}}^{-1}\,\kappa\,a_0 \approx 26.94\text{ \AA}\quad(\text{ядро бислоя: }27.0\text{ \AA}).
+     $$
+   - **Складчатый $\beta$-лист в срезе $\{111\}$:**
+     осевой шаг на один остаток вдоль антипараллельной $\beta$-нити равен:
+     $$
+     h_\beta = \left(\lfloor B_V\rfloor + \frac{1}{d}\right)\kappa\,a_0 \approx 3.492\text{ \AA}\quad(\text{рентген Полинга–Кори: }3.48\text{ \AA},\ \text{откл. }+0.36\%).
+     $$
+
+5. **Иммуноглобулиновый синаптический замок ($\text{Ig}_{\mathrm{donor}} \leftrightarrow \text{Ig}_{\mathrm{acceptor}}$):**
+   В рецепторах клеточной адгезии длина замкнутой дисульфидной петли первого иммуноглобулинового домена $[\text{Cys}_B\ldots\text{Cys}_F]$ у донорных молекул равна водородному делителю кубооктаэдра:
    $$
-   L_{\mathrm{loop}}(\text{CAM\_KEY}) = d\,\kappa^2 N_{\mathrm{shell}}(2) = 2^{\mathrm{frac\_bits}} - 1,
+   L_{\mathrm{loop}}(\text{Ig}_{\mathrm{donor}}) = d\,\kappa^2 N_{\mathrm{shell}}(2) = 2^{\mathrm{frac\_bits}} - 1,
    $$
-   а междоменный шаг от $\text{Cys}_F$ до цистеина следующего домена у Ключа (выступ, донорный гребень $\text{Trp–x–Arg}$) и у Замка (впадина, акцепторная канавка $\text{Trp–x–x–x–[Asp/Glu]}$) отклоняется от второй сферы $N_{\mathrm{shell}}(2)$ ровно на $\pm 1$:
+   а междоменный шаг от $\text{Cys}_F$ до цистеина следующего домена у донорного выступа ($\text{Trp–x–Arg}$) и у акцепторной впадины ($\text{Trp–x–x–x–[Asp/Glu]}$) отклоняется от второй сферы $N_{\mathrm{shell}}(2)$ ровно на $\pm 1$:
    $$
-   \Delta_{\mathrm{Cys}}(\text{CAM\_KEY}) = N_{\mathrm{shell}}(2) - 1 = \Delta\varphi_{\mathrm{disc}},\qquad
-   \Delta_{\mathrm{Cys}}(\text{CAM\_LOCK}) = N_{\mathrm{shell}}(2) + 1,
+   \Delta_{\mathrm{Cys}}(\text{Ig}_{\mathrm{donor}}) = N_{\mathrm{shell}}(2) - 1 = \Delta\varphi_{\mathrm{disc}},\qquad
+   \Delta_{\mathrm{Cys}}(\text{Ig}_{\mathrm{acceptor}}) = N_{\mathrm{shell}}(2) + 1,
    $$
    $$
-   \Delta_{\mathrm{Cys}}(\text{CAM\_KEY}) + \Delta_{\mathrm{Cys}}(\text{CAM\_LOCK}) = 2\,N_{\mathrm{shell}}(2).
+   \Delta_{\mathrm{Cys}}(\text{Ig}_{\mathrm{donor}}) + \Delta_{\mathrm{Cys}}(\text{Ig}_{\mathrm{acceptor}}) = 2\,N_{\mathrm{shell}}(2).
    $$
-   При антипараллельной сшивке $\beta$-граней Ключа и Замка в срезе $\{111\}$ специфичность пар ($\Delta G_{\mathrm{bind}} = -\Delta n_{\mathrm{HB}}\,E_{\mathrm{HB}}$) полностью задаётся комплементарностью вилок водородных связей ($[+]\leftrightarrow [-]$) и стерических пазов на фиксированных смещениях кубооктаэдра от консервативного штифта $\text{Trp}$ ($\text{W}$) и конца петли $\text{Cys}_F$:
+   При антипараллельной сшивке $\beta$-граней в срезе $\{111\}$ специфичность пар ($\Delta G_{\mathrm{bind}} = -\Delta n_{\mathrm{HB}}\,E_{\mathrm{HB}}$) задаётся комплементарностью вилок водородных связей ($[+]\leftrightarrow [-]$) и стерических пазов на фиксированных смещениях кубооктаэдра от консервативного штифта $\text{Trp}$ ($\text{W}$) и конца петли $\text{Cys}_F$:
    $$
    \bigl\{\text{W}+d,\ \ \text{W}+d_{\mathrm{in}}(\square),\ \ \text{W}+|\square|,\ \ \text{W}+|N_{12}|,\ \ \text{W}+N_\varphi,\ \ \text{Cys}_F-|N_{12}|,\ \ \text{Cys}_F-d_{\mathrm{out}}(E)\bigr\}.
    $$
 
-5. **Два универсальных ДНК-связывающих замка факторов транскрипции в большой бороздке:**
+6. **Два универсальных ДНК-связывающих замка факторов транскрипции в большой бороздке:**
    - **Цинковый палец $\text{C2H2}$ ($\text{Cys}_1\text{–x}_{2\ldots 4}\text{–Cys}_2\text{–петля–His}_1\text{–x}_{3\ldots 5}\text{–His}_2$):**
      расстояние по цепи от второго цистеина $\text{Cys}_2$ до первого гистидина $\text{His}_1$ равно полному кластеру $N_\varphi = 1 + |N_{12}|$, так что длина внутренней распознающей петли равна ровно числу вершин первой сферы кубооктаэдра:
      $$
