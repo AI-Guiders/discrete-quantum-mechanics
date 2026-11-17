@@ -634,115 +634,95 @@ II (ядро $1$) & \texttt{Stop} & \texttt{UAA,UAG,UGA} (3) & --- & освоб�
 \end{enumerate}
 \end{theorem}
 
-\section{Аллометрия Клейбера \texorpdfstring{$3/4$}{3/4}, биоэнергетика ротора \texorpdfstring{$\mathrm{F_0F_1}$}{F0F1}-АТФ-синтазы \texorpdfstring{$8/3$}{8/3} и протонная кинетика Гротгуса}
+\section{Универсальная аллометрия Клейбера \texorpdfstring{$3/4$}{3/4}, температурный гомеостаз и биоэнергетика трёх планетарных типов жизни (\texorpdfstring{$m\in\{-1,0,+1\}$}{m in {-1,0,+1}})}
 \label{sec:bio-allometry-atp-kinetics}
 
-\begin{theorem}[Аллометрические показатели $3/4$ и $\pm 1/4$, стехиометрия АТФ-синтазы $8/3$ и кванты протонной кинетики]
+Чтобы исключить антропоцентризм и подгонку под частные земные числа, все энергетические, температурные и кинетические соотношения живой клетки должны формулироваться как универсальные законы для всех трёх планетарных окон жизни $m\in\{-1,0,+1\}$ в единицах соответствующего мягкого кванта $E_{\mathrm{soft}}^{(m)} \in \bigl\{\frac{2}{7},\, 1,\, 2\bigr\}\,E_{\mathrm{HB}} \approx \{5{,}95,\ 20{,}84,\ 41{,}67\}\ \text{кДж}\cdot\text{моль}^{-1}$ (и проверяться на земной биосфере при $m=0$):
+
+\begin{theorem}[Универсальные показатели аллометрии $3/4$ и $\pm 1/4$, гомеостаз $\frac{10}{81}T_{\mathrm{soft}}^{(m)}$ и кванты биоэнергетики трёх миров $m\in\{-1,0,+1\}$]
 \label{thm:bio-allometry-atp-and-kinetics}
-На решётке~\latGCKshort\ ($d=3$, $d_{\mathrm{in}}(V,\square)=(1,4)$, $d_{\mathrm{out}}(V)=7$, $\vevHierarchySteps=8$, $\mathrm{mod\_bits}=9$, $\geomNeighborTwelve=12$, $N_{\mathrm{ring}}=512$, $s_0=1/2$, $E_{\mathrm{HB}} = \mathrm{Ry}/63 \approx 0{,}2160\ \text{эВ} \approx 20{,}84\ \text{кДж}\cdot\text{моль}^{-1}$) метаболический скейлинг многоклеточных организмов, биоэнергетика синтеза АТФ и кинетика протонного переноса в воде определяются без подгоночных параметров следующими соотношениями:
+На решётке~\latGCKshort\ ($d=3$, $d_{\mathrm{in}}(V,\square)=(1,4)$, $d_{\mathrm{out}}(V)=7$, $\vevHierarchySteps=8$, $\mathrm{mod\_bits}=9$, $\geomNeighborTwelve=12$, $s_0=1/2$, $E_{\mathrm{HB}} = \mathrm{Ry}/63 \approx 0{,}2160\ \text{эВ} \approx 20{,}84\ \text{кДж}\cdot\text{моль}^{-1}$) метаболический скейлинг, температурный гомеостаз и биоэнергетика всех трёх планетарных типов жизни $m\in\{-1,0,+1\}$ определяются без подгоночных параметров следующими соотношениями:
 \begin{enumerate}[leftmargin=*]
-\item \textbf{Закон метаболической аллометрии Клейбера $B \propto M^{3/4}$, инвариантное число ударов сердца $2^{30}$ и уставка гомойотермии $T_{\mathrm{body}} = \frac{10}{81}T_{\mathrm{HB}}$:}
-  питание 3D-объёма ткани ($V\propto M\propto L^d$) через иерархическое симплициальное ветвление сосудистых трубок (\texttt{Tube}$_4$ с входной ёмкостью квадратного канала $d_{\mathrm{in}}(\square) = d + 1 = 4$) задаёт показатели степени базового метаболизма $\alpha_{\mathrm{Kleiber}}$, физиологических частот $\beta_{\mathrm{freq}}$ (пульс, дыхание) и продолжительности жизни $\gamma_{\mathrm{life}}$:
+\item \textbf{Универсальный закон метаболической аллометрии Клейбера $B \propto M^{3/4}$ и уставка гомеостаза $T_{\mathrm{homeo}}^{(m)} = \frac{10}{81}T_{\mathrm{soft}}^{(m)}$ в трёх мирах:}
+  в любом трёхмерном мире ($V\propto M\propto L^d$) питание объёма ткани через иерархическое симплициальное ветвление сосудистых трубок (\texttt{Tube}$_4$ с входной ёмкостью квадратного канала $d_{\mathrm{in}}(\square) = d + 1 = 4$) задаёт показатели степени базового метаболизма $\alpha_{\mathrm{Kleiber}}$, физиологических частот $\beta_{\mathrm{freq}}$ и продолжительности жизни $\gamma_{\mathrm{life}}$:
   \begin{equation}
   \label{eq:bio-kleiber-allometry-exponents}
   \begin{aligned}
-    \alpha_{\mathrm{Kleiber}} &= \frac{d}{d_{\mathrm{in}}(\square)} = \frac{3}{4} = 0{,}75,\\
-    \beta_{\mathrm{freq}} &= -\frac{d_{\mathrm{in}}(V)}{d_{\mathrm{in}}(\square)} = -\frac{1}{4},\qquad
-    \gamma_{\mathrm{life}} = +\frac{d_{\mathrm{in}}(V)}{d_{\mathrm{in}}(\square)} = +\frac{1}{4}.
+    \alpha_{\mathrm{Kleiber}} &= \frac{d}{d_{\mathrm{in}}(\square)} = \frac{3}{4} = 0{,}75,\qquad
+    \beta_{\mathrm{freq}} = -\frac{d_{\mathrm{in}}(V)}{d_{\mathrm{in}}(\square)} = -\frac{1}{4},\\
+    \gamma_{\mathrm{life}} &= +\frac{d_{\mathrm{in}}(V)}{d_{\mathrm{in}}(\square)} = +\frac{1}{4},\qquad
+    \beta_{\mathrm{freq}} + \gamma_{\mathrm{life}} \equiv 0 \implies f\cdot \tau_{\mathrm{life}} \propto M^0 = \mathrm{const}.
   \end{aligned}
   \end{equation}
-  В силу $\beta_{\mathrm{freq}} + \gamma_{\mathrm{life}} \equiv 0$ базовое эволюционное число дыхательных циклов $N_{\mathrm{breaths}}$ и сердечных сокращений $N_{\mathrm{beats}}$ за жизнь инвариантно относительно массы тела у плацентарных млекопитающих (от землеройки до синего кита: $1{,}0\text{--}1{,}5\times 10^9$ ударов; современный человек за счёт неотении приматов, кортикальной регуляции Стадии~$4$ и медицины поднимается над этой базовой кривой в $2{,}5\text{--}3$ раза, до $2{,}5\text{--}3{,}0\times 10^9$ ударов за $70\text{--}80$ лет) и определяется 3D-объёмом фазового кольца $N_{\mathrm{ring}}^d = 512^3$:
-  \begin{equation}
-  \label{eq:bio-lifetime-breaths-heartbeats}
-  \begin{aligned}
-    N_{\mathrm{breaths}} &= N_{\mathrm{ring}}^d = 512^3 = 2^{27} \approx 1{,}342\times 10^8,\\
-    N_{\mathrm{beats}} &= \vevHierarchySteps\,N_{\mathrm{ring}}^d = 8\times 512^3 = 2^{30} \approx 1{,}074\times 10^9\ \bigl(1{,}0\text{--}1{,}5\times 10^9\bigr),
-  \end{aligned}
-  \end{equation}
-  а нижняя устойчивая уставка эндотермного гомеостаза плацентарных млекопитающих (эутериев: $36\text{--}38\,^\circ\text{C}$, норма человека $36{,}6\,^\circ\text{C}$; у однопроходных и сумчатых $31\text{--}35\,^\circ\text{C}$, у птиц вблизи верхнего порога денатурации $40\text{--}42\,^\circ\text{C}$) лежит ровно на одну треть ($1/d = 1/3$) выше точки плавления $T_{\mathrm{melt}} = \frac{9}{81}T_{\mathrm{HB}}$ на пути к точке кипения $T_{\mathrm{boil}} = \frac{12}{81}T_{\mathrm{HB}}$:
+  В каждом окне $m\in\{-1,0,+1\}$ жидкая фаза растворителя ограничена точкой плавления $T_{\mathrm{melt}}^{(m)} = \frac{9}{81}T_{\mathrm{soft}}^{(m)}$ и точкой кипения $T_{\mathrm{boil}}^{(m)} = \frac{12}{81}T_{\mathrm{soft}}^{(m)}$, а устойчивая рабочая точка клеточного гомеостаза лежит ровно на одну треть ($1/d = 1/3$) выше точки плавления:
   \begin{equation}
   \label{eq:bio-homeothermy-setpoint}
-    T_{\mathrm{body}} = T_{\mathrm{melt}} + \frac{T_{\mathrm{boil}} - T_{\mathrm{melt}}}{d}
-    = \frac{\geomNeighborTwelve - 2}{d^4}\,T_{\mathrm{HB}}
-    = \frac{10}{81}\,T_{\mathrm{HB}} \approx 309{,}40\ \text{К}\ (36{,}25\,^\circ\text{C}).
+    T_{\mathrm{homeo}}^{(m)} = T_{\mathrm{melt}}^{(m)} + \frac{T_{\mathrm{boil}}^{(m)} - T_{\mathrm{melt}}^{(m)}}{d}
+    = \frac{\geomNeighborTwelve - 2}{d^4}\,T_{\mathrm{soft}}^{(m)}
+    = \frac{10}{81}\,T_{\mathrm{soft}}^{(m)}
+    \approx \begin{cases}
+      88{,}40\ \text{К}\ (-184{,}8\,^\circ\text{C}), & m = -1\ (\text{Титан: моря } \mathrm{CH_4/C_2H_6},\ 90{,}6\text{--}93{,}7\ \text{К}),\\
+      309{,}40\ \text{К}\ (+36{,}25\,^\circ\text{C}), & m = 0\ (\text{Земля: гомойотермия } 36\text{--}38\,^\circ\text{C}),\\
+      618{,}81\ \text{К}\ (+345{,}7\,^\circ\text{C}), & m = +1\ (\text{Венера / конденсированные расплавы}).
+    \end{cases}
   \end{equation}
-\item \textbf{Роторная биоэнергетика $\mathrm{F_0F_1}$-АТФ-синтазы (стехиометрия $\vevHierarchySteps/d = 8/3$) и свободная энергия АТФ:}
-  мембранный ротор $\mathrm{F_0}$-АТФ-синтазы митохондрий млекопитающих содержит $c_{\vevHierarchySteps} = 8$ протонных субъединиц (полный оборот за $8$ перенесённых протонов при мембранном потенциале $1\,E_{\mathrm{HB}}/e \approx 216\ \text{мВ}$), а статорная головка $\mathrm{F_1}$ ($\alpha_3\beta_3$) содержит $d = 3$ каталитических узла с шагом $360^\circ/d = 120^\circ$, что задаёт точное стехиометрическое отношение числа протонов на одну синтезируемую молекулу АТФ (опыт: $8/3 \approx 2{,}67$), стандартную свободную энергию гидролиза $\Delta G_{\mathrm{ATP}}^{\circ\prime}$ (опыт: $30{,}5\text{--}31{,}4\ \text{кДж}\cdot\text{моль}^{-1}$) и физиологическую клеточную энергию $\Delta G_{\mathrm{ATP}}^{(\mathrm{vivo})}$ (опыт: $54\text{--}57\ \text{кДж}\cdot\text{моль}^{-1}$):
+\item \textbf{Универсальная биоэнергетическая валюта $|\Delta G_{\mathrm{vivo}}^{(m)}| = \frac{8}{3}E_{\mathrm{soft}}^{(m)}$ и инвариант глубины необратимости $\frac{108}{5} = 21{,}6$:}
+  соотношение восьмиступенчатого мембранного каскада ($\vevHierarchySteps = 8$) и трёхтактной каталитической головки ($d = 3$, шаг $360^\circ/d = 120^\circ$) задаёт в любом мире $m\in\{-1,0,+1\}$ стандартный квант энерговалюты $|\Delta G_{0}^{(m)}| = d\,s_0 E_{\mathrm{soft}}^{(m)} = \frac{3}{2}E_{\mathrm{soft}}^{(m)} \approx \{8{,}93,\ 31{,}26,\ 62{,}51\}\ \text{кДж}\cdot\text{моль}^{-1}$ (на Земле при $m=0$ опыт для АТФ: $30{,}5\text{--}31{,}4\ \text{кДж}\cdot\text{моль}^{-1}$), рабочий клеточный квант $|\Delta G_{\mathrm{vivo}}^{(m)}| = \frac{\vevHierarchySteps}{d}E_{\mathrm{soft}}^{(m)} = \frac{8}{3}E_{\mathrm{soft}}^{(m)} \approx \{15{,}88,\ 55{,}57,\ 111{,}13\}\ \text{кДж}\cdot\text{моль}^{-1}$ (на Земле при $m=0$ опыт для АТФ: $54\text{--}57\ \text{кДж}\cdot\text{моль}^{-1}$) и универсальное безразмерное отношение кванта макроэрга к тепловому кванту гомеостаза $\Theta_{\mathrm{homeo}}^{(m)} = \frac{10}{81}E_{\mathrm{soft}}^{(m)}$, одинаковое во всех трёх мирах:
   \begin{equation}
   \label{eq:bio-atp-synthase-stoichiometry-energy}
-  \begin{aligned}
-    \frac{n(\mathrm{H}^+)}{n(\mathrm{ATP})} &= \frac{\vevHierarchySteps}{d} = \frac{8}{3} \approx 2{,}667,\\
-    |\Delta G_{\mathrm{ATP}}^{\circ\prime}| &= d\,s_0\,E_{\mathrm{HB}} = \frac{3}{2}\,E_{\mathrm{HB}} \approx 0{,}324\ \text{эВ} \approx 31{,}26\ \text{кДж}\cdot\text{моль}^{-1},\\
-    \bigl|\Delta G_{\mathrm{ATP}}^{(\mathrm{vivo})}\bigr| &= \frac{\vevHierarchySteps}{d}\,E_{\mathrm{HB}} = \frac{8}{3}\,E_{\mathrm{HB}} \approx 0{,}576\ \text{эВ} \approx 55{,}57\ \text{кДж}\cdot\text{моль}^{-1}.
-  \end{aligned}
+    \frac{\bigl|\Delta G_{\mathrm{vivo}}^{(m)}\bigr|}{\Theta_{\mathrm{homeo}}^{(m)}}
+    = \frac{\vevHierarchySteps / d}{(\geomNeighborTwelve - 2)/d^4}
+    = \frac{8/3}{10/81}
+    \equiv \frac{108}{5} = 21{,}6.
   \end{equation}
-\item \textbf{Эстафетная протонная проводимость Гротгуса ($s_0 E_{\mathrm{HB}}$), автопротолиз воды и нейтральный $\mathrm{pH} = d_{\mathrm{out}}(V) = 7$:}
-  перескок протона по водородно-связанной цепи Гротгуса в жидкой воде требует переключения ровно половины водородного кванта $E_a(\text{Гротгус}) = s_0 E_{\mathrm{HB}} = \frac{1}{2}E_{\mathrm{HB}} \approx 0{,}1080\ \text{эВ} \approx 10{,}42\ \text{кДж}\cdot\text{моль}^{-1}$ (опыт Агмона: $10{,}0\text{--}10{,}5\ \text{кДж}\cdot\text{моль}^{-1}$), стандартная энтальпия автоионизации воды $2\,\text{H}_2\text{O} \rightleftharpoons \text{H}_3\text{O}^+ + \text{OH}^-$ равна $\Delta H_{\mathrm{auto}}^\circ = \frac{\vevHierarchySteps}{d}\,E_{\mathrm{HB}} = \frac{8}{3}\,E_{\mathrm{HB}} \approx 55{,}57\ \text{кДж}\cdot\text{моль}^{-1}$ (опыт при $298\ \text{К}$: $55{,}8\ \text{кДж}\cdot\text{моль}^{-1}$, совпадение $0{,}4\%$), свободная энергия перестройки тетраэдрической клетки равна $\Delta G_{\mathrm{auto}} = d_{\mathrm{in}}(\square)E_{\mathrm{HB}} = 4\,E_{\mathrm{HB}} \approx 83{,}35\ \text{кДж}\cdot\text{моль}^{-1}$, что задаёт нейтральную точку кислотно-основной шкалы $\mathrm{pH}_{\mathrm{neutral}} = d_{\mathrm{out}}(V) = 7$ и показатель ионного произведения воды $\mathrm{p}K_w = 2d_{\mathrm{out}}(V) = 14$.
+\item \textbf{Эстафетный барьер переноса заряда $s_0 E_{\mathrm{soft}}^{(m)}$ и ионное равновесие растворителя:}
+  эстафетный перескок протона или полярона по цепи мягких связей требует переключения ровно половины мягкого кванта $E_{\mathrm{hop}}^{(m)} = s_0 E_{\mathrm{soft}}^{(m)} = \frac{1}{2}E_{\mathrm{soft}}^{(m)} \approx \{2{,}98,\ 10{,}42,\ 20{,}84\}\ \text{кДж}\cdot\text{моль}^{-1}$ (на Земле при $m=0$ барьер Гротгуса в воде: $10{,}0\text{--}10{,}5\ \text{кДж}\cdot\text{моль}^{-1}$), а в протонном растворителе ($m=0$) энтальпия автоионизации равна $\Delta H_{\mathrm{auto}}^\circ = \frac{8}{3}E_{\mathrm{HB}} \approx 55{,}57\ \text{кДж}\cdot\text{моль}^{-1}$ (опыт: $55{,}8\ \text{кДж}\cdot\text{моль}^{-1}$) и свободная энергия перестройки тетраэдрического узла $\Delta G_{\mathrm{auto}} = d_{\mathrm{in}}(\square)E_{\mathrm{HB}} = 4E_{\mathrm{HB}} \approx 83{,}35\ \text{кДж}\cdot\text{моль}^{-1}$ фиксирует нейтральную точку $\mathrm{pH}_{\mathrm{neutral}} = d_{\mathrm{out}}(V) = 7$ и $\mathrm{p}K_w = 2d_{\mathrm{out}}(V) = 14$.
 \end{enumerate}
 \end{theorem}
 
-\section{Нейрофизиология потенциала действия Ходжкина--Хаксли, квантовая оптика фотосинтеза и акустическая гармония \texorpdfstring{$12 = 7 + 5$}{12 = 7 + 5}}
+\section{Электрофизиология мембран, фотосинтетические окна трёх миров (\texorpdfstring{$m\in\{-1,0,+1\}$}{m in {-1,0,+1}}) и самосборка капсидов Каспара--Клуга \texorpdfstring{$N_{\mathrm{shell}}(m) = 10m^2+2$}{N\_shell(m) = 10m\^2+2}}
 \label{sec:bio-neuro-photosynthesis-harmony}
 
-\begin{theorem}[Квантование потенциала действия нейрона в долях $E_{\mathrm{HB}}/e$, спектральная лестница хлорофилла и разбиение октавы $12 = 7 + 5$]
+\begin{theorem}[Мембранные потенциалы и окна фотосинтеза трёх миров $m\in\{-1,0,+1\}$, капсидные сферы $10T+2$ и цилиндр микротрубочки $N_\varphi = 13$]
 \label{thm:bio-neuro-photosynthesis-harmony}
-На решётке~\latGCKshort\ ($d=3$, $d_{\mathrm{in}}(\square)=4$, $d_{\mathrm{out}}(E)=5$, $|\square|=6$, $d_{\mathrm{out}}(V)=7$, $\vevHierarchySteps=8$, $\mathrm{mod\_bits}=9$, $\geomNeighborTwelve=12$, $N_\varphi=13$, $s_0=1/2$, $V_{\mathrm{HB}} := E_{\mathrm{HB}}/e \approx 215{,}96\ \text{мВ}$) электрофизиология мембранной возбудимости, спектральные пики фотосинтеза и зрения и гармонический строй октавы определяются без подгоночных параметров следующими соотношениями:
+На решётке~\latGCKshort\ ($d=3$, $d_{\mathrm{in}}(\square)=4$, $d_{\mathrm{out}}(E,V)=(5,7)$, $|\square|=6$, $\vevHierarchySteps=8$, $\geomNeighborTwelve=12$, $N_\varphi=13$, $s_0=1/2$, $V_{\mathrm{soft}}^{(m)} := E_{\mathrm{soft}}^{(m)}/e \approx \{61{,}70,\ 215{,}96,\ 431{,}93\}\ \text{мВ}$) выполняются три универсальных биофизических закона:
 \begin{enumerate}[leftmargin=*]
-\item \textbf{Стехиометрия натрий-калиевого насоса ($3:2$) и потенциалы Ходжкина--Хаксли ($-\frac{1}{3},\, -\frac{1}{4},\, +\frac{1}{6},\, \frac{1}{2}\,V_{\mathrm{HB}}$):}
-  за один цикл гидролиза АТФ натрий-калиевая АТФаза выводит из клетки $d = 3$ иона $\mathrm{Na}^+$ и вводит $d - 1 = 2$ иона $\mathrm{K}^+$, а потенциал покоя $V_{\mathrm{rest}}$, порог открытия тетрамерного $\mathrm{Na_V}$-канала $V_{\mathrm{thresh}}$ ($d_{\mathrm{in}}(\square)=4$ домена $S_4$), пик овершута $V_{\mathrm{peak}}$ и полная амплитуда спайка $\Delta V_{\mathrm{spike}} = V_{\mathrm{peak}} - V_{\mathrm{rest}}$ равны простым долям водородного потенциала $V_{\mathrm{HB}} \approx 215{,}96\ \text{мВ}$:
+\item \textbf{Порог пробоя мембраны $V_{\mathrm{soft}}^{(m)}$, потенциал покоя $V_{\mathrm{rest}}^{(m)} = -\frac{1}{d}V_{\mathrm{soft}}^{(m)}$ и амплитуда спайка $\Delta V_{\mathrm{spike}}^{(m)} = s_0 V_{\mathrm{soft}}^{(m)}$ в трёх мирах:}
+  при тепловом потенциале гомеостаза $V_T^{(m)} = \Theta_{\mathrm{homeo}}^{(m)}/e = \frac{10}{81}V_{\mathrm{soft}}^{(m)}$ активный антипорт $d : (d-1) = 3 : 2$ удерживает трансмембранный градиент глубины $\frac{d^3}{\geomNeighborTwelve - 2} = \frac{27}{10} = 2{,}7$ тепловых единиц Нернста, откуда во всех трёх мирах $m\in\{-1,0,+1\}$ отношение $10$ сокращается и потенциал покоя $V_{\mathrm{rest}}^{(m)}$, пик овершута $V_{\mathrm{peak}}^{(m)}$ и безопасная (вдвое ниже порога электропорации $V_{\mathrm{soft}}^{(m)}$) амплитуда сигнального импульса $\Delta V_{\mathrm{spike}}^{(m)}$ равны:
   \begin{equation}
   \label{eq:bio-hodgkin-huxley-potentials}
   \begin{aligned}
-    V_{\mathrm{rest}} &= -\frac{V_{\mathrm{HB}}}{d} \approx -71{,}99\ \text{мВ},\qquad
-    V_{\mathrm{thresh}} = -\frac{V_{\mathrm{HB}}}{d_{\mathrm{in}}(\square)} \approx -53{,}99\ \text{мВ},\\
-    V_{\mathrm{peak}} &= +\frac{V_{\mathrm{HB}}}{|\square|} \approx +35{,}99\ \text{мВ},\qquad
-    \Delta V_{\mathrm{spike}} = \left(\frac{1}{d} + \frac{1}{|\square|}\right)V_{\mathrm{HB}} = s_0 V_{\mathrm{HB}} \approx 107{,}98\ \text{мВ}.
+    V_{\mathrm{rest}}^{(m)} &= -\frac{d^3}{\geomNeighborTwelve - 2}\,V_T^{(m)}
+    = -\frac{27}{10}\cdot\frac{10}{81}\,V_{\mathrm{soft}}^{(m)}
+    \equiv -\frac{V_{\mathrm{soft}}^{(m)}}{d}
+    \approx \bigl\{-20{,}6,\ -72{,}0,\ -144{,}0\bigr\}\ \text{мВ},\\
+    V_{\mathrm{peak}}^{(m)} &= +\frac{V_{\mathrm{soft}}^{(m)}}{|\square|}
+    \approx \bigl\{+10{,}3,\ +36{,}0,\ +72{,}0\bigr\}\ \text{мВ},\quad
+    \Delta V_{\mathrm{spike}}^{(m)} = s_0 V_{\mathrm{soft}}^{(m)}
+    \approx \bigl\{30{,}9,\ 108{,}0,\ 216{,}0\bigr\}\ \text{мВ}
   \end{aligned}
   \end{equation}
-\item \textbf{Квантовая лестница фотосинтеза и зрения в единицах $E_{\mathrm{HB}}$ и цикл Кока ($\mathrm{Mn_4CaO_5}$):}
-  длины волн $\lambda(q) = \frac{2\pi\bar\lambda_{\mathrm{HB}}}{q} \approx \frac{5741{,}1\ \text{нм}}{q}$ при $q \in \{\vevHierarchySteps = 8,\ \vevHierarchySteps + s_0 = 8{,}5,\ \mathrm{mod\_bits} = 9,\ \geomNeighborTwelve - 2 = 10,\ N_\varphi = 13\}$ воспроизводят красную границу Фотосистемы~I $P_{700}$ ($\lambda(8) \approx 717{,}6\ \text{нм}$), пик реакционного центра Фотосистемы~II $P_{680}$ ($\lambda(8{,}5) \approx 675{,}4\ \text{нм}$, опыт: $675\text{--}680\ \text{нм}$), красный пик $Q_y$ хлорофилла~$b$ ($\lambda(9) \approx 637{,}9\ \text{нм}$, опыт: $640\ \text{нм}$), дневной пик колбочек сетчатки ($\lambda(10) \approx 574{,}1\ \text{нм}$; для родопсина палочек при $q=11{,}5$: $\lambda(11{,}5) \approx 499{,}2\ \text{нм}$, опыт: $498\text{--}500\ \text{нм}$) и синий пик Соре хлорофилла ($\lambda(13) \approx 441{,}6\ \text{нм}$, опыт: $435\text{--}445\ \text{нм}$), причём водоокисляющий кластер $\mathrm{Mn_4CaO_5}$ содержит $d_{\mathrm{in}}(\square) = 4$ иона марганца, проходит $d_{\mathrm{out}}(E) = 5$ состояний цикла Кока ($S_0\ldots S_4$) и требует в Z-схеме ровно $2\,d_{\mathrm{in}}(\square) = \vevHierarchySteps = 8$ фотонов на молекулу~$\mathrm{O}_2$.
-\item \textbf{Диофантово замыкание $\geomNeighborTwelve = 12$ квинт на $d_{\mathrm{out}}(V) = 7$ октав и разбиение $12 = 7 + 5$:}
-  чистая квинта $d/(d-1) = 3/2$ за $\geomNeighborTwelve = 12$ шагов замыкается на $d_{\mathrm{out}}(V) = 7$ октав с точностью до пифагоровой коммы $(3/2)^{12}/2^7 = 531\,441 / 524\,288 \approx 1{,}013643$ ($23{,}46$ цента), а $\geomNeighborTwelve = 12$ полутонов октавы распадаются на сумму внешних связностей вершинного и рёберного каналов $\geomNeighborTwelve = d_{\mathrm{out}}(V) + d_{\mathrm{out}}(E) = 7 + 5$ ($7$ диатонических и $5$ пентатонических ступеней).
-\end{enumerate}
-\end{theorem}
-
-\section{Дискретный каскад точности печати \texorpdfstring{$N_\varphi^{-2k} = 13^{-2k}$}{N\_phi\^-2k = 13\^-2k}, капсидные сферы Каспара--Клуга \texorpdfstring{$N_{\mathrm{shell}}(m) = 10m^2+2$}{N\_shell(m) = 10m\^2+2} и цилиндр микротрубочки \texorpdfstring{$N_\varphi = 13$}{N\_phi = 13}}
-\label{sec:bio-discrete-proofreading-capsids-microtubules}
-
-Наконец, прямо из дискретной комбинаторики 13-узлового ядра $\mathcal{C}_{13}$ ($N_\varphi = 1 + \geomNeighborTwelve = 13$), координационных сфер $S_m$ ($N_{\mathrm{shell}}(m) = (\geomNeighborTwelve - 2)m^2 + 2 = 10m^2 + 2$) и числа смысловых классов кода Румера $N_{\mathrm{classes}} = \vevHierarchySteps + N_\varphi = 21$ (без континуальных экспонент Больцмана и без $k_{\mathrm{B}}$) вытекают три структурных закона молекулярной самосборки и точности биопечати:
-
-\begin{theorem}[Каскад точности молекулярной печати $13^{-2k}$, потолки длины Эйгена, капсиды $10T+2$ и микротрубочка $N_\varphi = 13$]
-\label{thm:bio-discrete-proofreading-capsids-microtubules}
-На решётке~\latGCKshort\ ($d=3$, $d_{\mathrm{in}}(V,E,\square) = (1,2,4)$, $d_{\mathrm{out}}(E,V) = (5,7)$, $|\square|=6$, $\geomNeighborTwelve=12$, $N_\varphi=13$, $N_{\mathrm{classes}}=21$) выполняются три точных дискретных соотношения:
-\begin{enumerate}[leftmargin=*]
-\item \textbf{Четырёхступенчатый каскад точности печати $\varepsilon_k = N_\varphi^{-2k} = 13^{-2k}$ и пороги длины биополимеров и геномов $L_{\max}(k) = 13^{2k}$ ($k \in \{1,2,3,4\} = \{d_{\mathrm{in}}(V),\, d_{\mathrm{in}}(E),\, d,\, d_{\mathrm{in}}(\square)\}$):}
-  одиночный геометрический фильтр комплементарного спаривания двух полуспиноров в 13-узловой ячейке $\mathcal{C}_{13}$ пропускает некомплементарную фазу с дискретной долей $\varepsilon_1 = 1/N_\varphi^2 = 1/13^2 = 1/169 \approx 5{,}92\times 10^{-3}$.
-  Последовательное включение $k \in \{1,2,3,4\}$ каскадов проверки (пассивная гибридизация при $k=1$; двухступенчатый затвор рибосомы до и после гидролиза $\mathrm{EF\text{-}Tu\cdot GTP}$ при $k=2$; трёхступенчатый затвор репликативной ДНК-полимеразы с обратным шагом чехарды $g^{-1}$ в $3'\to 5'$ экзонуклеазе при $k=3$; четырёхступенчатый затвор эукариот с пострепликативным сканированием $\mathrm{MutS}\text{--}\mathrm{MutL}$ при $k=4$) даёт дискретную лестницу погрешностей $\varepsilon_k = N_\varphi^{-2k}$ и соответствующих верхних потолков безошибочной длины цепи $L_{\max}(k) = 1/\varepsilon_k = N_\varphi^{2k}$:
+  (при $m=0$ на Земле: $V_{\mathrm{rest}}^{(0)} \approx -72\ \text{мВ}$, $V_{\mathrm{peak}}^{(0)} \approx +36\ \text{мВ}$, $\Delta V_{\mathrm{spike}}^{(0)} \approx 108\ \text{мВ}$).
+\item \textbf{Универсальное спектральное окно фотосинтеза $\bigl[\lambda_{13}^{(m)},\, \lambda_8^{(m)}\bigr]$ в трёх планетарных мирах ($m\in\{-1,0,+1\}$):}
+  поскольку синтез $d=3$ молекул энерговалюты $\frac{8}{3}E_{\mathrm{soft}}^{(m)}$ требует минимального кванта возбуждения $\vevHierarchySteps E_{\mathrm{soft}}^{(m)} = 8\,E_{\mathrm{soft}}^{(m)}$ (красный край фотосинтеза), а полное когерентное возбуждение 13-узлового сопряжённого ядра хромофора отвечает кванту $N_\varphi E_{\mathrm{soft}}^{(m)} = 13\,E_{\mathrm{soft}}^{(m)}$ (коротковолновый пик Соре), рабочее спектральное окно фотосинтеза $\bigl[\lambda_{\mathrm{blue}}^{(m)},\, \lambda_{\mathrm{red}}^{(m)}\bigr] = \bigl[\frac{1}{13},\, \frac{1}{8}\bigr]\lambda_{\mathrm{soft}}^{(m)}$ в трёх мирах равно:
   \begin{equation}
-  \label{eq:bio-eigen-ceiling-ladder}
-  \begin{aligned}
-    L_{\max}(1) &= 13^2 = \mathbf{169}\quad (\varepsilon_1 \approx 5{,}92\times 10^{-3}\colon \text{РНК-олигомеры; хроматосома } 147+22\text{ п.о.}),\\
-    L_{\max}(2) &= 13^4 = \mathbf{28\,561}\quad (\varepsilon_2 \approx 3{,}50\times 10^{-5}\colon \text{титин } 26\,926\text{--}33\,423\text{ а.к.; РНК-вирусы } 29\,903\text{ нт}),\\
-    L_{\max}(3) &= 13^6 = \mathbf{4\,826\,809}\quad (\varepsilon_3 \approx 2{,}07\times 10^{-7}\colon \text{хромосома бактерий, \emph{E.~coli} } 4{,}64\times 10^6\text{ п.о.}),\\
-    L_{\max}(4) &= 13^8 = \mathbf{815\,730\,721} \implies d\,L_{\max}(4) \approx \mathbf{2{,}45\times 10^9}\text{ п.о.}\quad (\varepsilon_4 \approx 1{,}23\times 10^{-9}\colon \text{эукариоты}).
-  \end{aligned}
+  \label{eq:bio-three-worlds-photosynthesis-windows}
+    \bigl[\lambda_{13}^{(m)},\; \lambda_{8}^{(m)}\bigr] = \begin{cases}
+      \bigl[1545{,}7\ \text{нм},\; 2511{,}7\ \text{нм}\bigr] = \bigl[1{,}55,\; 2{,}51\bigr]\ \text{мкм}, & m = -1\ (\text{Титан: ИК-окна прозрачности смога } 1{,}5\text{ и } 2{,}0\text{--}2{,}5\ \text{мкм!}),\\
+      \bigl[441{,}6\ \text{нм},\; 717{,}6\ \text{нм}\bigr], & m = 0\ (\text{Земля: пик Соре } 440\ \text{нм и край } P_{700}\text{ хлорофилла!}),\\
+      \bigl[220{,}8\ \text{нм},\; 358{,}8\ \text{нм}\bigr], & m = +1\ (\text{Венера: полоса УФ-поглотителя облаков } 220\text{--}360\ \text{нм!}).
+    \end{cases}
   \end{equation}
-\item \textbf{Тождество координационных сфер кубооктаэдра $N_{\mathrm{shell}}(m) = 10m^2+2$ и икосаэдрических вирусных капсидов Каспара--Клуга:}
-  при сворачивании гексагонального белкового листа $\{111\}$ в замкнутую сферу теорема Эйлера и винтовое смыкание $6$ квадратных окон кубооктаэдра ($\square \to E$) фиксируют ровно $\geomNeighborTwelve = 12$ пятиугольных вершин-пентамеров ($12\times d_{\mathrm{out}}(E) = 60$ субъединиц при $T=1$), а норма вектора сдвига $(h,k)$ на решётке Эйзенштейна среза $\{111\}$ задаёт число триангуляции $T(h,k) = h^2 + hk + k^2$, полное число белковых субъединиц $N_{\mathrm{sub}}(T) = d_{\mathrm{out}}(E)\geomNeighborTwelve T = 60T$ и полное число морфологических капсомеров ($12$ пентамеров $+ 10(T-1)$ гексамеров):
+\item \textbf{Тождество координационных сфер кубооктаэдра $N_{\mathrm{shell}}(n) = 10n^2+2$ и икосаэдрических вирусных капсидов Каспара--Клуга, и цилиндр микротрубочки $N_\varphi = 13$:}
+  при сворачивании гексагонального белкового листа $\{111\}$ в замкнутую сферу теорема Эйлера и винтовое смыкание $6$ квадратных окон кубооктаэдра ($\square \to E$) фиксируют во всех трёх мирах ровно $\geomNeighborTwelve = 12$ пятиугольных вершин-пентамеров ($12\times d_{\mathrm{out}}(E) = 60$ субъединиц при $T=1$), а норма вектора $(h,k)$ на решётке Эйзенштейна среза $\{111\}$ задаёт число триангуляции $T(h,k) = h^2 + hk + k^2$, число субъединиц $60T$ и число морфологических капсомеров:
   \begin{equation}
   \label{eq:bio-caspar-klug-shells}
   \begin{aligned}
     N_{\mathrm{capsomers}}(T) &= (\geomNeighborTwelve - 2)T + 2 = 10T + 2,\\
-    N_{\mathrm{capsomers}}(m^2) &\equiv N_{\mathrm{shell}}(m) = 10m^2 + 2 \in \{12,\ 42,\ 92,\ 162,\ 252\}\quad (m=1\ldots 5),
+    N_{\mathrm{capsomers}}(n^2) &\equiv N_{\mathrm{shell}}(n) = 10n^2 + 2 \in \{12,\ 42,\ 92,\ 162,\ 252\}\quad (n=1\ldots 5)
   \end{aligned}
   \end{equation}
-  что без свободных параметров воспроизводит архитектуру парвовирусов ($m=1\colon T=1,\ 12$ капсомеров), вируса гепатита~B и альфавирусов ($m=2\colon T=4,\ N_{\mathrm{shell}}(2)=42$ капсомера, $240$ субъединиц), вируса герпеса HSV-1 ($m=4\colon T=16,\ N_{\mathrm{shell}}(4)=162$ капсомера, $960$ субъединиц), аденовируса ($m=5\colon T=25,\ N_{\mathrm{shell}}(5)=252$ капсомера, $1500$ субъединиц), а при косом векторе $(h,k)=(2,1)$ с $T = d_{\mathrm{out}}(V) = 7$ даёт $N_{\mathrm{capsomers}}(7) = 72 = |\square|\cdot\geomNeighborTwelve$ капсомера ($420$ субъединиц: бактериофаги $\lambda$, HK97, P22 и папилломавирус HPV).
-\item \textbf{Цилиндрическое замыкание микротрубочки из $N_\varphi = 13$ протофиламентов и шаг кинезина $210\,\caKappaGeom a_0 \approx 7{,}86\ \text{нм}$:}
-  сворачивание двумерного листа глобулярных субъединиц тубулина (длина мономера вдоль оси $d_{\mathrm{out}}(E)N_{\mathrm{classes}}\caKappaGeom a_0 = 105\,\caKappaGeom a_0 \approx 39{,}29\ \text{\normalfont\AA} = 3{,}929\ \text{нм}$, опыт: $4{,}0\ \text{нм}$) в цилиндрический рельс с нулевым азимутальным суперскручиванием протофиламентов замыкается ровно на $N_\varphi = 1 + \geomNeighborTwelve = \mathbf{13}$ параллельных протофиламентах со швом сдвига в $d = 3$ мономера ($B$-решётка), а одиночный шаг линейного моторного белка кинезина вдоль протофиламента равен длине одного $\alpha\beta$-димера тубулина (опыт Свободы--Блока: $8{,}0 \pm 0{,}2\ \text{нм}$ на один АТФ):
-  \begin{equation}
-  \label{eq:bio-microtubule-kinesin-step}
-    L_{\mathrm{kinesin}} = (\geomNeighborTwelve - 2)N_{\mathrm{classes}}\,\caKappaGeom a_0 = 210\,\caKappaGeom a_0 \approx 78{,}58\ \text{\normalfont\AA} = 7{,}858\ \text{нм}.
-  \end{equation}
+  (при $m=0$: парвовирусы $12$, вирус гепатита~B $42$, вирус герпеса HSV-1 $162$, аденовирус $252$; при $T = d_{\mathrm{out}}(V) = 7$: $N_{\mathrm{capsomers}}(7) = 72 = |\square|\cdot\geomNeighborTwelve$ капсомера фагов $\lambda$, HK97 и папилломавируса HPV), тогда как цилиндрическое сворачивание листа тубулина без азимутального суперскручивания замыкается ровно на $N_\varphi = 1 + \geomNeighborTwelve = \mathbf{13}$ параллельных протофиламентах со швом сдвига в $d = 3$ мономера.
 \end{enumerate}
 \end{theorem}
 

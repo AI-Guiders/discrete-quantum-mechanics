@@ -404,6 +404,8 @@ def check_bio_frustration_and_three_life_types(device: str = "cpu") -> dict:
         "scale_invariants_5_6_7": row["scale_invariants_5_6_7"],
         "backbone_bond_angstrom": row["backbone_bond_angstrom"],
         "membrane_tm18_angstrom": row["membrane_tm18_angstrom"],
+        "homeothermy_t_worlds_kelvin": row["homeothermy_t_worlds_kelvin"],
+        "photosynthesis_windows_worlds_nm": row["photosynthesis_windows_worlds_nm"],
         "ok": ok,
         "note": row["note"],
     }
@@ -505,8 +507,8 @@ def check_local_gates_solid_neuro_photo(device: str = "cpu") -> dict:
         "pauli_c13_t0_t1_t2": (pauli_c13_t0, pauli_c13_t1, pauli_c13_t2),
         "weyl_pq_commutator_max_err": weyl_comm_err,
         "info_equiv_macro_cell_bits": row["info_equiv_macro_cell_bits"],
-        "neuron_potentials_mv": row["neuron_potentials_mv"],
-        "photosynthesis_wavelengths_nm": row["photosynthesis_wavelengths_nm"],
+        "caspar_klug_principal_capsomers": row["caspar_klug_principal_capsomers"],
+        "microtubule_protofilaments": row["microtubule_protofilaments"],
         "ok": ok,
         "note": row["note"],
     }

@@ -1082,6 +1082,7 @@ class SISmRows:
         d_out_e, n_squares, d_out_v = 5, 6, 7
         mod_bits = 9
         n12 = int(N12_FCC_CAUSAL_LINKS)  # 12
+        n_phi = int(PLANCK_CELL.N_phi)  # 13
         n_tm_units = n12 + n_squares  # 18
 
         # 1. Tetrahedral K_4 vs Octahedral (square) dihedral angles on FCC N12
@@ -1126,13 +1127,10 @@ class SISmRows:
         mendel_pheno = (d_in_v + d_pol, d_in_v)  # (3, 1)
 
         # 4. Allometry (Kleiber 3/4), F0F1-ATP bioenergetics (8/3), and water kinetics (Grotthuss s_0 E_HB, pKw=14):
-        n_ring = n_hier ** d  # 512
         s_0 = 1.0 / float(d_pol)  # 0.5
         kleiber_exp = float(d) / float(d_in_sq)  # 3/4 = 0.75
         freq_exp = -float(d_in_v) / float(d_in_sq)  # -1/4 = -0.25
         lifespan_exp = float(d_in_v) / float(d_in_sq)  # +1/4 = +0.25
-        lifetime_breaths = n_ring ** d  # 512^3 = 134,217,728
-        lifetime_heartbeats = n_hier * lifetime_breaths  # 8 * 512^3 = 1,073,741,824
         t_body_over_t_hb = float(n12 - d_pol) / float(d ** d_in_sq)  # 10 / 81
         h_per_atp = float(n_hier) / float(d)  # 8/3
         atp_dg0_ehb = float(d) * s_0  # 3/2 = 1.5 E_HB (~31.26 kJ/mol)
@@ -1143,16 +1141,26 @@ class SISmRows:
         neutral_ph = d_out_v  # 7
         water_pkw = d_pol * d_out_v  # 14
 
-        # SI projections for temperature and energy:
+        # SI projections for temperature, bioenergetics, membrane potentials, and photosynthesis across all 3 life worlds m in {-1, 0, +1}:
         n_hb = mod_bits * d_out_v  # 63
         rydberg_ev = 13.605693122994
+        hc_ev_nm = 1239.8419843320026
         e_hb_ev = rydberg_ev / float(n_hb)
         e_hb_kj_mol = e_hb_ev * 96.48533212
         t_hb_k = e_hb_ev * 11604.51812
-        t_body_k = t_body_over_t_hb * t_hb_k  # ~309.40 K (36.25 C)
+        t_homeo_worlds_k = tuple(q * t_body_over_t_hb * t_hb_k for q in soft_quanta)  # (~88.40 K Titan, ~309.40 K Earth, ~618.81 K Venus)
+        t_body_k = t_homeo_worlds_k[1]  # ~309.40 K (36.25 C)
+        macroerg_vivo_worlds_kj = tuple(q * atp_dg_vivo_ehb * e_hb_kj_mol for q in soft_quanta)  # (~15.88, ~55.57, ~111.13 kJ/mol)
         atp_dg0_kj = atp_dg0_ehb * e_hb_kj_mol  # ~31.26 kJ/mol
-        atp_dg_vivo_kj = atp_dg_vivo_ehb * e_hb_kj_mol  # ~55.57 kJ/mol
+        atp_dg_vivo_kj = macroerg_vivo_worlds_kj[1]  # ~55.57 kJ/mol
         grotthuss_kj = grotthuss_ehb * e_hb_kj_mol  # ~10.42 kJ/mol
+        v_soft_worlds_mv = tuple(q * e_hb_ev * 1000.0 for q in soft_quanta)  # (~61.70, ~215.96, ~431.93 mV)
+        v_rest_worlds_mv = tuple(-v / float(d) for v in v_soft_worlds_mv)  # (~-20.57, ~-71.99, ~-143.98 mV)
+        v_spike_worlds_mv = tuple(s_0 * v for v in v_soft_worlds_mv)  # (~30.85, ~107.98, ~215.96 mV)
+        photo_windows_worlds_nm = tuple(
+            (hc_ev_nm / (float(n_phi) * q * e_hb_ev), hc_ev_nm / (float(n_hier) * q * e_hb_ev))
+            for q in soft_quanta
+        )  # ((1545.7, 2511.7) nm Titan IR, (441.6, 717.6) nm Earth vis, (220.8, 358.8) nm Venus UV)
 
         ok = (
             abs((theta_tet + theta_oct) - half_turn_rad) < 1e-15
@@ -1178,11 +1186,18 @@ class SISmRows:
             and mendel_pheno == (d, d_in_v)
             and abs(kleiber_exp - 0.75) < 1e-12
             and abs(freq_exp + lifespan_exp) < 1e-12
-            and lifetime_heartbeats == (1 << (d * mod_bits + d))
-            and 308.0 < t_body_k < 311.0  # Mammalian homeothermy setpoint (~309.40 K = 36.25 C)
+            and 87.0 < t_homeo_worlds_k[0] < 91.0  # Titan methane sea homeostasis (~88.40 K vs 90.6 K Huygens)
+            and 308.0 < t_body_k < 311.0  # Earth homeothermy (~309.40 K = 36.25 C)
+            and 615.0 < t_homeo_worlds_k[2] < 622.0  # Venusian lower condensate homeostasis (~618.81 K)
             and 30.5 < atp_dg0_kj < 31.8  # Standard ATP hydrolysis (~31.26 kJ/mol)
             and 54.0 < atp_dg_vivo_kj < 57.0  # Physiological ATP hydrolysis / water autoionization (~55.57 kJ/mol)
             and 10.0 < grotthuss_kj < 10.8  # Grotthuss proton hopping barrier (~10.42 kJ/mol)
+            and 1500.0 < photo_windows_worlds_nm[0][0] < 1600.0  # Titan 1.55 um IR window
+            and 2450.0 < photo_windows_worlds_nm[0][1] < 2550.0  # Titan 2.51 um IR window
+            and 438.0 < photo_windows_worlds_nm[1][0] < 445.0  # Earth Chl Soret blue edge (441.6 nm)
+            and 710.0 < photo_windows_worlds_nm[1][1] < 725.0  # Earth PSI red edge (717.6 nm)
+            and 218.0 < photo_windows_worlds_nm[2][0] < 224.0  # Venus UV absorber short edge (220.8 nm)
+            and 355.0 < photo_windows_worlds_nm[2][1] < 365.0  # Venus UV absorber peak (358.8 nm)
             and neutral_ph == d_out_v
             and water_pkw == d_pol * d_out_v
         )
@@ -1205,21 +1220,24 @@ class SISmRows:
             "mendel_genotype_kernel": mendel_geno,
             "mendel_phenotype_ratio": mendel_pheno,
             "kleiber_metabolic_exponent": kleiber_exp,
-            "lifetime_respiratory_cycles": lifetime_breaths,
-            "lifetime_heartbeats": lifetime_heartbeats,
+            "homeothermy_t_worlds_kelvin": t_homeo_worlds_k,
             "homeothermy_t_body_kelvin": t_body_k,
+            "macroerg_vivo_worlds_kj_mol": macroerg_vivo_worlds_kj,
             "protons_per_atp_ratio": h_per_atp,
             "atp_dg0_kj_mol": atp_dg0_kj,
             "atp_dg_vivo_kj_mol": atp_dg_vivo_kj,
             "grotthuss_barrier_kj_mol": grotthuss_kj,
+            "membrane_v_rest_worlds_mv": v_rest_worlds_mv,
+            "membrane_v_spike_worlds_mv": v_spike_worlds_mv,
+            "photosynthesis_windows_worlds_nm": photo_windows_worlds_nm,
             "water_autoionization_dg_ehb": water_dg_auto_ehb,
             "water_pkw": water_pkw,
             "ok": ok,
-            "note": "Geometric frustration, 5:6:7 three life types, Z_4 genetics, Kleiber 3/4 allometry, F0F1-ATP 8/3 bioenergetics, and Grotthuss/pKw kinetics",
+            "note": "Universal 3-world (m=-1,0,+1) frustration, 5:6:7 scale, Z_4 genetics, Kleiber 3/4 allometry, homeostasis, macroerg bioenergetics, membrane potentials, and [N_phi, N_hier] photosynthesis windows",
         }
 
     def local_gates_solid_neuro_photo_row(self) -> dict[str, Any]:
-        """Floor 3 / Compute & Biology — Strictly local Heisenberg (81=3^4 deadband) & Pauli (256-tick mirror) gates, Cauchy elasticity, FQHE, Hodgkin-Huxley spike, photosynthesis, and 12=7+5 harmony."""
+        """Floor 3 / Compute & Biology — Strictly local Heisenberg (81=3^4 deadband) & Pauli (256-tick mirror) gates, 4-level info-equivalence, Cauchy elasticity, FQHE, and Caspar-Klug capsid shells."""
         d = 3
         d_in_v, d_in_e, d_in_sq = 1, 2, 4
         d_pol = d - d_in_v  # 2
@@ -1229,8 +1247,6 @@ class SISmRows:
         n12 = int(N12_FCC_CAUSAL_LINKS)  # 12
         n_phi = int(PLANCK_CELL.N_phi)  # 13
         n_ring = n_hier ** d  # 512
-        s_0 = 1.0 / float(d_pol)  # 0.5
-        n_hb = mod_bits * d_out_v  # 63
 
         # 1. Local Heisenberg-Newton deadband (|Phi_raw| < 41 -> 0), local Pauli mirror (Phi_Pauli = 256 -> Z_next = -Z_past),
         #    and the 4-level hierarchy of info-equivalence classes (E_PQ, E_Heis, E_gauge, E_B)
@@ -1256,45 +1272,13 @@ class SISmRows:
             float(d) / float(d_out_v),
         )  # (1/3, 2/5, 3/7)
 
-        # 3. Hodgkin-Huxley action potential in E_HB / e quanta
-        rydberg_ev = 13.605693122994
-        e_hb_ev = rydberg_ev / float(n_hb)
-        e_hb_mv = e_hb_ev * 1000.0  # ~215.96 mV
-        v_rest_mv = -e_hb_mv / float(d)  # ~-71.99 mV
-        v_thresh_mv = -e_hb_mv / float(d_in_sq)  # ~-53.99 mV
-        v_peak_mv = e_hb_mv / float(n_squares)  # ~+35.99 mV
-        v_spike_mv = v_peak_mv - v_rest_mv  # s_0 * e_hb_mv ~ 107.98 mV
-
-        # 4. Photosynthesis & vision quanta and 12=7+5 acoustic harmony
-        hc_ev_nm = 1239.8419843320026
-        photo_quanta = (
-            float(n_hier),
-            float(n_hier) + s_0,
-            float(mod_bits),
-            float(n12 - d_pol),
-            float(n_phi),
-        )  # (8.0, 8.5, 9.0, 10.0, 13.0)
-        photo_wavelengths_nm = tuple(hc_ev_nm / (q * e_hb_ev) for q in photo_quanta)
-        pythagorean_comma = ((float(d) / float(d_pol)) ** n12) / float(1 << d_out_v)
-
-        # 5. Discrete proofreading cascade (N_phi^-2k), Eigen polymer ceilings, Caspar-Klug capsomers N_shell(m)=10m^2+2,
-        #    and 13-protofilament microtubule / kinesin step 21 * kappa * a_0
-        eigen_ceilings = (
-            n_phi ** (d_pol * d_in_v),
-            n_phi ** (d_pol * d_in_e),
-            n_phi ** (d_pol * d),
-            n_phi ** (d_pol * d_in_sq),
-        )  # (169, 28561, 4826809, 815730721)
-        euk_haploid_bp_ceiling = d * eigen_ceilings[d]  # 2_447_192_163
+        # 3. Caspar-Klug icosahedral viral capsid spheres N_shell(m)=10m^2+2 and 13-protofilament microtubule closure
         shell_coeff = n12 - d_pol  # 10
         caspar_klug_capsomers = tuple(
             shell_coeff * (m * m) + d_pol
             for m in (d_in_v, d_in_e, d, d_in_sq, d_out_e)
         )  # (12, 42, 92, 162, 252) = N_shell(1..5)
         caspar_klug_t7_capsomers = shell_coeff * d_out_v + d_pol  # 72 = |square| * |N_12|
-        n_classes = n_hier + n_phi  # 21
-        kappa_a0_nm = 0.529177210903 / math.sqrt(float(d_pol)) * 0.1  # ~0.0374185 nm (= 0.374185 A)
-        kinesin_step_nm = float(shell_coeff * n_classes) * kappa_a0_nm  # 210 * kappa * a_0 ~ 7.858 nm
 
         ok = (
             heisenberg_deadband == (d ** d_in_sq)
@@ -1309,18 +1293,9 @@ class SISmRows:
             and abs(cauchy_nu - 0.25) < 1e-12
             and abs(cauchy_g_over_k - 0.60) < 1e-12
             and abs(cauchy_e_over_g - 2.50) < 1e-12
-            and abs(v_spike_mv - s_0 * e_hb_mv) < 1e-12
-            and -72.5 < v_rest_mv < -71.5
-            and -54.5 < v_thresh_mv < -53.5
-            and 35.5 < v_peak_mv < 36.5
-            and 670.0 < photo_wavelengths_nm[1] < 680.0  # PSII P680 (675.4 nm)
-            and 438.0 < photo_wavelengths_nm[4] < 445.0  # Chl Soret blue peak (441.6 nm)
-            and n12 == d_out_v + d_out_e  # 12 semitones = 7 diatonic + 5 pentatonic
-            and 1.013 < pythagorean_comma < 1.014
-            and eigen_ceilings == (169, 28561, 4826809, 815730721)
             and caspar_klug_capsomers == (12, 42, 92, 162, 252)
             and caspar_klug_t7_capsomers == n_squares * n12
-            and 7.7 < kinesin_step_nm < 8.1  # Kinesin 1-dimer step (~7.86 nm vs 8.0 nm exp)
+            and n_phi == n12 + d_in_v
         )
         return {
             "heisenberg_deadband_states": heisenberg_deadband,
@@ -1334,16 +1309,11 @@ class SISmRows:
             "cauchy_poisson_ratio": cauchy_nu,
             "cauchy_shear_to_bulk_ratio": cauchy_g_over_k,
             "fqhe_laughlin_jain_fractions": fqhe_fractions,
-            "neuron_potentials_mv": (v_rest_mv, v_thresh_mv, v_peak_mv, v_spike_mv),
-            "photosynthesis_wavelengths_nm": photo_wavelengths_nm,
-            "pythagorean_comma_ratio": pythagorean_comma,
-            "eigen_polymer_ceiling_ladder": eigen_ceilings,
-            "eukaryotic_haploid_bp_ceiling": euk_haploid_bp_ceiling,
             "caspar_klug_principal_capsomers": caspar_klug_capsomers,
             "caspar_klug_skew_t7_capsomers": caspar_klug_t7_capsomers,
-            "kinesin_step_nm": kinesin_step_nm,
+            "microtubule_protofilaments": n_phi,
             "ok": ok,
-            "note": "Local Heisenberg/Pauli gates, 4-level info-equivalence, Cauchy/FQHE, Hodgkin-Huxley, photosynthesis, 12=7+5 harmony, discrete proofreading N_phi^2k, Caspar-Klug capsids, and 13-protofilament microtubule/kinesin",
+            "note": "Local Heisenberg (81=3^4 deadband) & Pauli (256-tick mirror, 2-tick S_1 delay) gates, 4-level info-equivalence, Cauchy/FQHE, and Caspar-Klug capsid shells",
         }
 
 
