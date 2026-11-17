@@ -1212,6 +1212,12 @@ class SISmRows:
             crit_gamma_3d,
             crit_delta_3d,
         )
+        n_heis_81 = d**d_in_sq  # 81
+        atm_slots_n2_o2_ar = (n_hb, d_pol * n_hier + 1, 1)  # (63, 17, 1) -> sum == 81
+        atm_fracs_n2_o2_ar = tuple(float(s) / float(n_heis_81) for s in atm_slots_n2_o2_ar)  # (77.78%, 20.99%, 1.23%)
+        pauli_heis_flux_ratio = float(n_ring // d_pol) / float(n_heis_81)  # 256 / 81 = (4/3)^4 ~ 3.1605
+        t_trop_worlds_k = tuple(q * (float(d_out_v) / float(n_heis_81)) * t_hb_k for q in soft_quanta)  # (~61.88 K Titan, ~216.58 K Earth vs 216.65 K ISA, ~433.16 K Venus)
+        t_surf_worlds_k = tuple((float(d_in_sq) / float(d)) * t_tr for t_tr in t_trop_worlds_k)  # (~82.51 K Titan, ~288.77 K Earth vs 288.15 K ISA, ~577.55 K Venus)
 
         ok = (
             abs((theta_tet + theta_oct) - half_turn_rad) < 1e-15
@@ -1262,6 +1268,9 @@ class SISmRows:
             and 0.326 < crit_beta_3d < 0.327  # beta = 323/990 ~ 0.32626 (3D bootstrap 0.32642)
             and 1.235 < crit_gamma_3d < 1.238  # gamma = 68/55 ~ 1.23636 (3D bootstrap 1.23708)
             and 4.788 < crit_delta_3d < 4.791  # delta = 91/19 ~ 4.78947 (3D bootstrap 4.78984)
+            and sum(atm_slots_n2_o2_ar) == n_heis_81  # 63 + 17 + 1 == 81
+            and 216.0 < t_trop_worlds_k[1] < 217.0  # Earth tropopause (~216.58 K vs 216.65 K ISA)
+            and 288.0 < t_surf_worlds_k[1] < 289.5  # Earth mean surface (~288.77 K vs 288.15 K ISA)
             and neutral_ph == d_out_v
             and water_pkw == d_pol * d_out_v
         )
@@ -1306,6 +1315,11 @@ class SISmRows:
             "water_zc_over_omega": water_zc_over_omega,
             "lee_kesler_slope": lee_kesler_slope,
             "critical_exponents_3d": critical_exponents_3d,
+            "atmospheric_blanket_slots_n2_o2_ar": atm_slots_n2_o2_ar,
+            "atmospheric_blanket_fractions_n2_o2_ar": atm_fracs_n2_o2_ar,
+            "pauli_heis_flux_ratio": pauli_heis_flux_ratio,
+            "tropopause_t_worlds_kelvin": t_trop_worlds_k,
+            "surface_blanket_t_worlds_kelvin": t_surf_worlds_k,
             "water_autoionization_dg_ehb": water_dg_auto_ehb,
             "water_pkw": water_pkw,
             "ok": ok,

@@ -834,6 +834,19 @@ II (ядро $1$) & \texttt{Stop} & \texttt{UAA,UAG,UGA} (3) & --- & освоб�
     -\Delta H_{\mathrm{rxn}}^{\circ}(\text{ж}) &= \left(d_{\mathrm{out}}(E) - s_0\right)E_{\mathrm{HB}} = \mathbf{\frac{9}{2}\,E_{\mathrm{HB}}} \approx 93{,}77\ \text{кДж}\cdot\text{моль}^{-1}\quad (\text{NIST: } 98{,}05).
   \end{aligned}
   \end{equation}
+\item \textbf{Планетарное атмосферное одеяло $(63 : 17 : 1)/81$ и радиационное тождество Паули--Гейзенберга $\frac{256}{81} = (4/3)^4$:}
+  при наложении газового одеяла поверх океана \texttt{VACUUM\_BOIL} (подобно покрову МЗВ) $81 = d^4$ фазовых слотов затвора Гейзенберга делят сухой воздух в окне $m=0$ на три канонические доли: синглетный диамагнитный азот $\mathrm{N_2}$ ($Z = d_{\mathrm{out}}(V) = 7$, $b=3$) занимает $N_{\mathrm{HB}} = 2^{\mathrm{frac\_bits}}-1 = 63$ слота ($\frac{63}{81} = \frac{7}{9} \approx 77{,}78\%$, опыт: $78{,}08\%$), триплетный парамагнитный кислород $\mathrm{O_2}$ ($Z = \vevHierarchySteps = 8$, $b=2$) занимает $2\vevHierarchySteps + 1 = 17$ слотов ($\frac{17}{81} \approx 20{,}99\%$, опыт: $20{,}95\%$), а сферически замкнутый аргон $\mathrm{Ar}$ ($Z = \geomNeighborTwelve + |\square| = 18$) и малые примеси занимают $d_{\mathrm{in}}(V) = 1$ слот ($\frac{1}{81} \approx 1{,}23\%$, опыт: $0{,}97\%$; сумма $63 + 17 + 1 \equiv 81$, средняя молярная масса $M_{\mathrm{air}} = 28{,}997\ \text{г}\cdot\text{моль}^{-1}$ против стандарта ISA $28{,}964\ \text{г}\cdot\text{моль}^{-1}$, откл.\ $0{,}11\%$).
+  На верхней кромке конвективного одеяла из $|\square| = 6$ слоёв (тропопаузе) открыты ровно $d_{\mathrm{out}}(V) = 7$ слотов вершинного канала из $81$, а отношение потока теплового излучения у поверхности планеты $F_{\mathrm{surf}} \propto T_{\mathrm{surf}}^4$ к потоку на тропопаузе $F_{\mathrm{trop}} \propto T_{\mathrm{trop}}^4$ равно отношению числа Паули $\Phi_{\mathrm{Pauli}} = 256 = 4^4$ к ёмкости мёртвой зоны Гейзенберга $|\mathcal{E}_{\mathrm{Heis}}| = 81 = 3^4$:
+  \begin{equation}
+  \label{eq:bio-planetary-blanket-pauli-heisenberg}
+  \begin{aligned}
+    \frac{F_{\mathrm{surf}}}{F_{\mathrm{trop}}} &= \frac{\Phi_{\mathrm{Pauli}}}{|\mathcal{E}_{\mathrm{Heis}}|} = \frac{256}{81} = \left(\frac{4}{3}\right)^{\!4}
+    \implies \frac{T_{\mathrm{surf}}^{(m)}}{T_{\mathrm{trop}}^{(m)}} = \frac{d_{\mathrm{in}}(\square)}{d} = \mathbf{\frac{4}{3}},\\
+    T_{\mathrm{trop}}^{(m)} &= \mathbf{\frac{7}{81}\,T_{\mathrm{soft}}^{(m)}} \approx \bigl\{61{,}9,\ \mathbf{216{,}58},\ 433{,}2\bigr\}\ \text{К},\\
+    T_{\mathrm{surf}}^{(m)} &= \mathbf{\frac{28}{243}\,T_{\mathrm{soft}}^{(m)}} \approx \bigl\{82{,}5,\ \mathbf{288{,}77},\ 577{,}5\bigr\}\ \text{К}
+  \end{aligned}
+  \end{equation}
+  (при $m=0$ на Земле в Международной стандартной атмосфере ISA: $T_{\mathrm{trop}}^{\mathrm{ISA}} = 216{,}65\ \text{К}$, откл.\ $-0{,}07\ \text{К}$ или $0{,}03\%$; средняя приземная температура $T_{\mathrm{surf}}^{\mathrm{ISA}} = 288{,}15\ \text{К} = +15{,}0\,^\circ\text{C}$, откл.\ $+0{,}62\ \text{К}$ или $0{,}21\%$; перепад по тропосфере $\Delta T_{\mathrm{trop}}^{(0)} = \frac{7}{243}T_{\mathrm{HB}} = 72{,}19\ \text{К}$ против $71{,}50\ \text{К}$ в ISA, а середина 6-слойного одеяла $k=3$ на $5{,}5\ \text{км}$ имеет температуру эффективного излучения в космос $T_3 = \sqrt{T_{\mathrm{surf}}T_{\mathrm{trop}}} = 250{,}09\ \text{К}$).
 \end{enumerate}
 \end{theorem}
 
