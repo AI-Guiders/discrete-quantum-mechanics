@@ -721,27 +721,27 @@ II (ядро $1$) & \texttt{Stop} & \texttt{UAA,UAG,UGA} (3) & --- & освоб�
   \begin{equation}
   \label{eq:bio-eigen-ceiling-ladder}
   \begin{aligned}
-    L_{\max}(1) &= 13^2 = \mathbf{169}\quad (\varepsilon_1 \approx 5{,}92\times 10^{-3}\colon \text{порог РНК-олигомеров и хроматосома } 147+22\text{ п.о.}),\\
-    L_{\max}(2) &= 13^4 = \mathbf{28\,561}\quad (\varepsilon_2 \approx 3{,}50\times 10^{-5}\colon \text{рибосома; потолок титина } 26\,926\text{--}33\,423\text{ а.к. и РНК-вирусов } 29\,903\text{ нт}),\\
-    L_{\max}(3) &= 13^6 = \mathbf{4\,826\,809}\quad (\varepsilon_3 \approx 2{,}07\times 10^{-7}\colon \text{кольцевая хромосома бактерий, \emph{E.~coli} } 4{,}64\times 10^6\text{ п.о.}),\\
-    L_{\max}(4) &= 13^8 = \mathbf{815\,730\,721}\text{ триплетов} \implies d\,L_{\max}(4) \approx \mathbf{2{,}45\times 10^9}\text{ п.о.}\quad (\varepsilon_4 \approx 1{,}23\times 10^{-9}\colon \text{гаплоидный геном млекопитающих } 2{,}5\text{--}3{,}0\times 10^9\text{ п.о.}).
+    L_{\max}(1) &= 13^2 = \mathbf{169}\quad (\varepsilon_1 \approx 5{,}92\times 10^{-3}\colon \text{РНК-олигомеры; хроматосома } 147+22\text{ п.о.}),\\
+    L_{\max}(2) &= 13^4 = \mathbf{28\,561}\quad (\varepsilon_2 \approx 3{,}50\times 10^{-5}\colon \text{титин } 26\,926\text{--}33\,423\text{ а.к.; РНК-вирусы } 29\,903\text{ нт}),\\
+    L_{\max}(3) &= 13^6 = \mathbf{4\,826\,809}\quad (\varepsilon_3 \approx 2{,}07\times 10^{-7}\colon \text{хромосома бактерий, \emph{E.~coli} } 4{,}64\times 10^6\text{ п.о.}),\\
+    L_{\max}(4) &= 13^8 = \mathbf{815\,730\,721} \implies d\,L_{\max}(4) \approx \mathbf{2{,}45\times 10^9}\text{ п.о.}\quad (\varepsilon_4 \approx 1{,}23\times 10^{-9}\colon \text{эукариоты}).
   \end{aligned}
   \end{equation}
 \item \textbf{Тождество координационных сфер кубооктаэдра $N_{\mathrm{shell}}(m) = 10m^2+2$ и икосаэдрических вирусных капсидов Каспара--Клуга:}
   при сворачивании гексагонального белкового листа $\{111\}$ в замкнутую сферу теорема Эйлера и винтовое смыкание $6$ квадратных окон кубооктаэдра ($\square \to E$) фиксируют ровно $\geomNeighborTwelve = 12$ пятиугольных вершин-пентамеров ($12\times d_{\mathrm{out}}(E) = 60$ субъединиц при $T=1$), а норма вектора сдвига $(h,k)$ на решётке Эйзенштейна среза $\{111\}$ задаёт число триангуляции $T(h,k) = h^2 + hk + k^2$, полное число белковых субъединиц $N_{\mathrm{sub}}(T) = d_{\mathrm{out}}(E)\geomNeighborTwelve T = 60T$ и полное число морфологических капсомеров ($12$ пентамеров $+ 10(T-1)$ гексамеров):
   \begin{equation}
   \label{eq:bio-caspar-klug-shells}
-    N_{\mathrm{capsomers}}(T) = (\geomNeighborTwelve - 2)T + 2 = 10T + 2,
-    \qquad
-    N_{\mathrm{capsomers}}(m^2) \equiv N_{\mathrm{shell}}(m) = 10m^2 + 2 \in \{12,\ 42,\ 92,\ 162,\ 252\}\quad (m=1\ldots 5),
+  \begin{aligned}
+    N_{\mathrm{capsomers}}(T) &= (\geomNeighborTwelve - 2)T + 2 = 10T + 2,\\
+    N_{\mathrm{capsomers}}(m^2) &\equiv N_{\mathrm{shell}}(m) = 10m^2 + 2 \in \{12,\ 42,\ 92,\ 162,\ 252\}\quad (m=1\ldots 5),
+  \end{aligned}
   \end{equation}
   что без свободных параметров воспроизводит архитектуру парвовирусов ($m=1\colon T=1,\ 12$ капсомеров), вируса гепатита~B и альфавирусов ($m=2\colon T=4,\ N_{\mathrm{shell}}(2)=42$ капсомера, $240$ субъединиц), вируса герпеса HSV-1 ($m=4\colon T=16,\ N_{\mathrm{shell}}(4)=162$ капсомера, $960$ субъединиц), аденовируса ($m=5\colon T=25,\ N_{\mathrm{shell}}(5)=252$ капсомера, $1500$ субъединиц), а при косом векторе $(h,k)=(2,1)$ с $T = d_{\mathrm{out}}(V) = 7$ даёт $N_{\mathrm{capsomers}}(7) = 72 = |\square|\cdot\geomNeighborTwelve$ капсомера ($420$ субъединиц: бактериофаги $\lambda$, HK97, P22 и папилломавирус HPV).
 \item \textbf{Цилиндрическое замыкание микротрубочки из $N_\varphi = 13$ протофиламентов и шаг кинезина $210\,\caKappaGeom a_0 \approx 7{,}86\ \text{нм}$:}
-  сворачивание двумерного листа глобулярных субъединиц тубулина (длина мономера вдоль оси $d_{\mathrm{out}}(E)N_{\mathrm{classes}}\caKappaGeom a_0 = 105\,\caKappaGeom a_0 \approx 39{,}29\ \text{\normalfont\AA} = 3{,}929\ \text{нм}$, опыт: $4{,}0\ \text{нм}$) в цилиндрический рельс с нулевым азимутальным суперскручиванием протофиламентов замыкается ровно на $N_\varphi = 1 + \geomNeighborTwelve = \mathbf{13}$ параллельных протофиламентах со швом сдвига в $d = 3$ мономера ($B$-решётка), а одиночный шаг линейного моторного белка кинезина вдоль протофиламента равен длине одного $\alpha\beta$-димера тубулина:
+  сворачивание двумерного листа глобулярных субъединиц тубулина (длина мономера вдоль оси $d_{\mathrm{out}}(E)N_{\mathrm{classes}}\caKappaGeom a_0 = 105\,\caKappaGeom a_0 \approx 39{,}29\ \text{\normalfont\AA} = 3{,}929\ \text{нм}$, опыт: $4{,}0\ \text{нм}$) в цилиндрический рельс с нулевым азимутальным суперскручиванием протофиламентов замыкается ровно на $N_\varphi = 1 + \geomNeighborTwelve = \mathbf{13}$ параллельных протофиламентах со швом сдвига в $d = 3$ мономера ($B$-решётка), а одиночный шаг линейного моторного белка кинезина вдоль протофиламента равен длине одного $\alpha\beta$-димера тубулина (опыт Свободы--Блока: $8{,}0 \pm 0{,}2\ \text{нм}$ на один АТФ):
   \begin{equation}
   \label{eq:bio-microtubule-kinesin-step}
-    L_{\mathrm{kinesin}} = (\geomNeighborTwelve - 2)N_{\mathrm{classes}}\,\caKappaGeom a_0 = 210\,\caKappaGeom a_0 \approx 78{,}58\ \text{\normalfont\AA} = 7{,}858\ \text{нм}
-    \quad (\text{опыт Свободы--Блока: } 8{,}0 \pm 0{,}2\ \text{нм на один АТФ}).
+    L_{\mathrm{kinesin}} = (\geomNeighborTwelve - 2)N_{\mathrm{classes}}\,\caKappaGeom a_0 = 210\,\caKappaGeom a_0 \approx 78{,}58\ \text{\normalfont\AA} = 7{,}858\ \text{нм}.
   \end{equation}
 \end{enumerate}
 \end{theorem}
