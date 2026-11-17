@@ -219,6 +219,102 @@ $Z(x,\tau)$ & $(U_1, V_1, U_2, V_2) \in \mathbb{Z}_{512}^4$ & $4\times 9 = 36\ \
 
 Следовательно, термодинамическая стрела времени и криптографическая необратимость опираются не на уязвимую алгоритмическую гипотезу $\mathrm{P}\neq\mathrm{NP}$ для биективных перестановок, а на фундаментальную неинъективность физического измерения~$\mathcal{B}$ (порог Гейзенберга $\Delta\varphi_{\mathrm{disc}}=41$ и диссипацию фаз в открытый океан~$A_5$).
 
+\section{Четырёхканальный нильпотентный каскад кубооктаэдра \texorpdfstring{$M_{\mathrm{chan}} = I_4 + N_{\mathrm{nil}}$}{M\_chan = I\_4 + N\_nil} (\texorpdfstring{$N_{\mathrm{nil}}^3 \equiv 0$}{N\_nil\^3 = 0}) в приборостроении и газовой динамике}
+\label{sec:compute-cuboctahedral-aperture-and-gas-dynamics}
+
+Инвариантность кванта действия суперъячейки $s_{\mathrm{floor}}(K) = \Delta p\cdot\Delta x = s_0 = \planckHbar/2$ позволяет напрямую перенести геометрию четырёх каналов кубооктаэдра~\latGCKshort\ на проектирование четырёхканальных детекторов и на вычислительную газовую динамику (где шаг суперъячейки $A = K\cdot dh$ равен длине свободного пробега молекулы~$\ell_{\mathrm{mfp}}$).
+
+\begin{theorem}[Нильпотентность меж-канального генератора $N_{\mathrm{nil}}^3 \equiv 0$, точное трёхчленное обращение и комбинаторные инварианты газовой динамики]
+\label{thm:compute-cuboctahedral-19node-aperture-and-gas}
+На любой координационной сфере $S_k$ ($k\ge 1$) решётки~\latGCKshort\ все $N_{\mathrm{shell}}(k) = (\geomNeighborTwelve - 2)k^2 + 2 = 10k^2 + 2$ узлов исчерпываются четырьмя физическими каналами кубооктаэдра $\mathbf{n}_k = \bigl(n_V(k),\,n_E(k),\,n_\square(k),\,n_\triangle(k)\bigr)$ с входными связностями $D_{\mathrm{in}} = \mathrm{diag}(1,2,4,3)$ и выходными связностями $d_{\mathrm{out}}(V,E,\square,\triangle) = (7,5,4,3)$. Выполняются три структурных закона:
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Спектр матрицы ветвления $T_{\mathrm{cascade}}$ и тождество гранных чисел на диагонали $24\,T_{\mathrm{cascade}}^{-1}$:}
+  верхнетреугольная матрица однотактового ветвления внешних связей $T_{\mathrm{cascade}}$ на каналах $(V,E,\square,\triangle)$ имеет собственные значения $\{1,2,4,3\} = d_{\mathrm{in}}(V,E,\square,\triangle)$ и определитель $\det(T_{\mathrm{cascade}}) = 1\times 2\times 4\times 3 = 24 = 2\geomNeighborTwelve = \delta_{\mathrm{pack}}^{-1}$, а диагональные элементы целочисленной обратной матрицы $24\,T_{\mathrm{cascade}}^{-1}$ совпадают с числами элементов самого кубооктаэдра:
+  \begin{equation}
+  \label{eq:compute-cascade-det-and-inverse}
+    T_{\mathrm{cascade}} =
+    \begin{pmatrix}
+      1 & 4 & 2 & 0 \\
+      0 & 2 & 2 & 1 \\
+      0 & 0 & 4 & 0 \\
+      0 & 0 & 0 & 3
+    \end{pmatrix},
+    \qquad
+    \mathrm{diag}\bigl(24\,T_{\mathrm{cascade}}^{-1}\bigr)
+    = \bigl(24,\; 12,\; 6,\; 8\bigr)
+    = \bigl(|E|,\; |V|,\; |\square|,\; |\triangle|\bigr).
+  \end{equation}
+\item \textbf{Унипотентность оператора переноса $M_{\mathrm{chan}} = I_4 + N_{\mathrm{nil}}$ ($N_{\mathrm{nil}}^3 \equiv 0$) и точное трёхчленное обращение прибора:}
+  поузловой оператор перехода со сферы $S_{k-1}$ на сферу $S_k$ равен $M_{\mathrm{chan}} = T_{\mathrm{cascade}}\,D_{\mathrm{in}}^{-1} = I_4 + N_{\mathrm{nil}}$, где наддиагональный генератор меж-канального перетекания нильпотентен индекса $d = 3$:
+  \begin{equation}
+  \label{eq:compute-nilpotent-generator}
+    N_{\mathrm{nil}} =
+    \begin{pmatrix}
+      0 & 2 & 1/2 & 0 \\
+      0 & 0 & 1/2 & 1/3 \\
+      0 & 0 & 0 & 0 \\
+      0 & 0 & 0 & 0
+    \end{pmatrix},
+    \qquad
+    N_{\mathrm{nil}}^2 =
+    \begin{pmatrix}
+      0 & 0 & 1 & 2/3 \\
+      0 & 0 & 0 & 0 \\
+      0 & 0 & 0 & 0 \\
+      0 & 0 & 0 & 0
+    \end{pmatrix},
+    \qquad
+    N_{\mathrm{nil}}^d = N_{\mathrm{nil}}^3 \equiv 0.
+  \end{equation}
+  Вследствие $N_{\mathrm{nil}}^3 \equiv 0$ прямой перенос на $m = k - 1$ сфер вперёд и обратный перенос на $m$ сфер назад исчерпываются конечными квадратичными трёхчленами с тождественно нулевым остатком (в элементе $(1,3)$ прямой матрицы складываются одношаговый вклад $m\cdot\frac{1}{2}$ от $N_{\mathrm{nil}}$ и двухшаговый вклад $\binom{m}{2}\cdot 1$ от $N_{\mathrm{nil}}^2$, давая $\frac{m}{2} + \frac{m(m-1)}{2} = \frac{m^2}{2}$):
+  \begin{equation}
+  \label{eq:compute-forward-inverse-channel-polynomials}
+  \begin{aligned}
+    M_{\mathrm{chan}}^{+m} &= I_4 + m\,N_{\mathrm{nil}} + \binom{m}{2} N_{\mathrm{nil}}^2 =
+    \begin{pmatrix}
+      1 & 2m & \frac{m^2}{2} & \frac{m(m-1)}{3} \\
+      0 & 1 & \frac{m}{2} & \frac{m}{3} \\
+      0 & 0 & 1 & 0 \\
+      0 & 0 & 0 & 1
+    \end{pmatrix},\\
+    M_{\mathrm{chan}}^{-m} &= I_4 - m\,N_{\mathrm{nil}} + \binom{m+1}{2} N_{\mathrm{nil}}^2 =
+    \begin{pmatrix}
+      1 & -2m & \frac{m^2}{2} & \frac{m(m+1)}{3} \\
+      0 & 1 & -\frac{m}{2} & -\frac{m}{3} \\
+      0 & 0 & 1 & 0 \\
+      0 & 0 & 0 & 1
+    \end{pmatrix}.
+  \end{aligned}
+  \end{equation}
+  При действии на вектор первой сферы $\mathbf{n}_1 = (12,0,0,0)$ при $m = k - 1$ матрица $M_{\mathrm{chan}}^{+m}$ порождает точное разбиение узлов сферы $S_k$:
+  \begin{equation}
+  \label{eq:compute-shell-channel-partition-sum}
+  \begin{aligned}
+    \mathbf{n}_k &= \mathbf{n}_1\,M_{\mathrm{chan}}^{\,k-1} = \bigl(12,\; 24m,\; 6m^2,\; 4m(m-1)\bigr),\\
+    N_{\mathrm{shell}}(k) &= 12 + 24m + 6m^2 + 4m(m-1) = 10(m+1)^2 + 2 = 10k^2 + 2,
+  \end{aligned}
+  \end{equation}
+  а прибор с четырьмя раздельными шинами считывания $(V,E,\square,\triangle)$, стробируемыми по каузальным окнам удержания $n_{\mathrm{ticks}}^{\max} = \lceil\frac{12}{d_{\mathrm{out}}}\frac{256}{41}\rceil = (11,15,19,25)$ тактов, восстанавливает вектор источника $\mathbf{n}_1 = \mathbf{n}_k\,M_{\mathrm{chan}}^{-(k-1)}$ алгебраически точно на любом расстоянии~$k$.
+\item \textbf{Двухшаговая генерация турбулентности $V\to E\to\triangle$ и инварианты газовой динамики:}
+  в газодинамическом потоке прямая передача из баллистического канала~$V$ в вихревой карман~$\triangle$ за один шаг равна нулю ($\bigl(N_{\mathrm{nil}}\bigr)_{V\to\triangle} = 0$), а двухшаговая амплитуда генерации вихря через сдвиговое ребро~$E$ ($V\xrightarrow{2} E\xrightarrow{1/3}\triangle$) равна
+  \begin{equation}
+  \label{eq:compute-vortex-cascade-23}
+    \bigl(N_{\mathrm{nil}}^2\bigr)_{V\to\triangle} = N_{V\to E}\,N_{E\to\triangle} = 2\times\frac{1}{3} = \frac{2}{3} = \frac{d-1}{d},
+  \end{equation}
+  что вместе с внешней связностью сдвигового ребра $d_{\mathrm{out}}(E) = 5$ фиксирует показатели инерционного интервала турбулентности Колмогорова $\bigl((d-1)/d,\ -d_{\mathrm{out}}(E)/d\bigr) = (2/3,\ -5/3)$ и константу $C_K = d_{\mathrm{out}}(E)/d = 5/3$.
+  Ранги каналов кубооктаэдра $f \in \{d = 3,\, d_{\mathrm{out}}(E) = 5,\, |\square| = 6,\, d_{\mathrm{out}}(V) = 7\}$ определяют показатели адиабаты и формулу Эйкена для числа Прандтля через константы носителя $(d_{\mathrm{in}}(\square) = 4,\ \mathrm{mod\_bits} = 9,\ d_{\mathrm{out}}(E) = 5)$:
+  \begin{equation}
+  \label{eq:compute-gas-gamma-prandtl}
+  \begin{aligned}
+    \gamma(f) &= \frac{f + (d-1)}{f} \in \left\{\frac{5}{3},\; \frac{7}{5},\; \frac{4}{3},\; \frac{9}{7}\right\},\\
+    \mathrm{Pr}(\gamma) &= \frac{d_{\mathrm{in}}(\square)\,\gamma}{\mathrm{mod\_bits}\,\gamma - d_{\mathrm{out}}(E)} = \frac{4\gamma}{9\gamma - 5}
+    \in \left\{\frac{d-1}{d} = \frac{2}{3},\; \frac{2d_{\mathrm{out}}(V)}{N_\varphi + |\square|} = \frac{14}{19},\; \frac{2\vevHierarchySteps}{N_{\mathrm{shell}}(2)/2} = \frac{16}{21}\right\},
+  \end{aligned}
+  \end{equation}
+  критическое число Маха включения двухтактовой дисперсии Бома на фронте ударной волны равно $\mathrm{Ma}_{\mathrm{crit}} = c_0/c_s = 1/\caKappaGeom = \sqrt{2} \approx 1{,}4142$, а нижний фазовый предел отношения сдвиговой вязкости к плотности энтропии равен $(\eta/s)_{\min,\Mlayer} = r_{\mathrm{disc}}\,\planckHbar/k_{\mathrm{B}} = \frac{41}{512}\,\planckHbar/k_{\mathrm{B}}$.
+\end{enumerate}
+\end{theorem}
+
 \input{volumes/include-computational-laboratory.tex}
 
 \input{volumes/include-measurement-processing.tex}
