@@ -1232,12 +1232,19 @@ class SISmRows:
         s_0 = 1.0 / float(d_pol)  # 0.5
         n_hb = mod_bits * d_out_v  # 63
 
-        # 1. Local Heisenberg-Newton deadband (|Phi_raw| < 41 -> 0) and local Pauli mirror (Phi_Pauli = 256 -> Z_next = -Z_past)
+        # 1. Local Heisenberg-Newton deadband (|Phi_raw| < 41 -> 0), local Pauli mirror (Phi_Pauli = 256 -> Z_next = -Z_past),
+        #    and the 4-level hierarchy of info-equivalence classes (E_PQ, E_Heis, E_gauge, E_B)
         delta_phi_disc = d_in_sq * d_in_sq + d_out_e * d_out_e  # 41
         heisenberg_deadband = d_pol * delta_phi_disc - d_in_v  # 2 * 41 - 1 = 81 = 3^4 = d^4
         heisenberg_active_ring = n_ring - heisenberg_deadband  # 431
         pauli_impulse_disc_val = n_ring // d_pol  # 256
         s1_pauli_delay_ticks = d_pol  # 2 ticks
+        frac_bits = mod_bits - d  # 6
+        pq_int_levels = 1 << d  # 8
+        pq_frac_states = 1 << frac_bits  # 64 = K_P
+        gauge_clique_orbits = (n12, d_pol * n12, n_hier)  # (K_2=12, K_3=24, K_4=8)
+        octahedral_group_order = d_pol * d_pol * n12  # |O_h| = 48
+        macro_cell_bits = (d_in_sq * mod_bits, d_pol * d_in_sq * mod_bits)  # (36, 72)
 
         # 2. Solid-state Cauchy elasticity, Dulong-Petit / Debye, and Laughlin-Jain FQHE
         cauchy_nu = float(d_in_v) / float(d_in_sq)  # 1/4 = 0.25
@@ -1275,6 +1282,10 @@ class SISmRows:
             and heisenberg_deadband + heisenberg_active_ring == n_ring
             and pauli_impulse_disc_val == n_ring // d_pol
             and s1_pauli_delay_ticks == d_pol
+            and pq_int_levels * pq_frac_states == n_ring
+            and gauge_clique_orbits == (n12, d_pol * n12, n_hier)
+            and octahedral_group_order == d_pol * d_pol * n12
+            and macro_cell_bits == (d_in_sq * mod_bits, d_pol * d_in_sq * mod_bits)
             and abs(cauchy_nu - 0.25) < 1e-12
             and abs(cauchy_g_over_k - 0.60) < 1e-12
             and abs(cauchy_e_over_g - 2.50) < 1e-12
@@ -1292,6 +1303,10 @@ class SISmRows:
             "heisenberg_active_ring_states": heisenberg_active_ring,
             "pauli_impulse_ticks": pauli_impulse_disc_val,
             "s1_pauli_lightcone_delay_ticks": s1_pauli_delay_ticks,
+            "info_equiv_pq_int_and_frac": (pq_int_levels, pq_frac_states),
+            "info_equiv_gauge_cliques": gauge_clique_orbits,
+            "info_equiv_octahedral_order": octahedral_group_order,
+            "info_equiv_macro_cell_bits": macro_cell_bits,
             "cauchy_poisson_ratio": cauchy_nu,
             "cauchy_shear_to_bulk_ratio": cauchy_g_over_k,
             "fqhe_laughlin_jain_fractions": fqhe_fractions,
@@ -1299,7 +1314,7 @@ class SISmRows:
             "photosynthesis_wavelengths_nm": photo_wavelengths_nm,
             "pythagorean_comma_ratio": pythagorean_comma,
             "ok": ok,
-            "note": "Local Heisenberg (81=3^4 deadband) & Pauli (256-tick mirror, 2-tick S_1 delay) gates, Cauchy/FQHE, Hodgkin-Huxley spike, photosynthesis, and 12=7+5 harmony",
+            "note": "Local Heisenberg (81=3^4 deadband) & Pauli (256-tick mirror, 2-tick S_1 delay) gates, 4-level info-equivalence hierarchy, Cauchy/FQHE, Hodgkin-Huxley spike, photosynthesis, and 12=7+5 harmony",
         }
 
 
