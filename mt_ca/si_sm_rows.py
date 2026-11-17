@@ -1193,6 +1193,25 @@ class SISmRows:
             float(d_out_v) / float(d_pol * n12),
             float(d) / float(n_phi),
         )  # (3/8 = 0.375 vdW, 7/24 ~ 0.2917 Ar/N2/O2/CH4 exp 0.290, 3/13 ~ 0.2308 H2O exp 0.229)
+        pitzer_omega_quantum = s_0 / float(n_phi)  # 1 / (2 * N_phi) = 1 / 26 ~ 0.03846 (N2 exp 0.037)
+        pitzer_omega_water = float(mod_bits) * pitzer_omega_quantum  # 9 / 26 ~ 0.3462 (H2O exp 0.344)
+        water_zc_over_omega = critical_z_ladder[2] / pitzer_omega_water  # (3/13)/(9/26) = 2/3 (exp: 0.229/0.344 = 0.6657)
+        lee_kesler_slope = 1.0 / float(n12)  # 1/12 ~ 0.0833 (Z_c(omega) = 7/24 - omega/12 vs Lee-Kesler 0.2905 - 0.085*omega)
+        n_ball_2 = 1 + n12 + 42  # 55 = N_ball(2) Mackay 2-shell ball
+        crit_alpha_3d = 1.0 / float(mod_bits)  # 1/9 ~ 0.11111 (3D Ising bootstrap: 0.11009)
+        crit_nu_3d = (2.0 - crit_alpha_3d) / float(d)  # 17/27 ~ 0.62963 (bootstrap: 0.62997)
+        crit_eta_3d = float(d_pol) / float(n_ball_2)  # 2/55 ~ 0.036364 (bootstrap: 0.036298)
+        crit_beta_3d = 0.5 * crit_nu_3d * (1.0 + crit_eta_3d)  # 323/990 ~ 0.32626 (bootstrap: 0.32642)
+        crit_gamma_3d = crit_nu_3d * (2.0 - crit_eta_3d)  # 68/55 ~ 1.23636 (bootstrap: 1.23708)
+        crit_delta_3d = (5.0 - crit_eta_3d) / (1.0 + crit_eta_3d)  # 91/19 ~ 4.78947 (bootstrap: 4.78984)
+        critical_exponents_3d = (
+            crit_alpha_3d,
+            crit_nu_3d,
+            crit_eta_3d,
+            crit_beta_3d,
+            crit_gamma_3d,
+            crit_delta_3d,
+        )
 
         ok = (
             abs((theta_tet + theta_oct) - half_turn_rad) < 1e-15
@@ -1237,6 +1256,12 @@ class SISmRows:
             and 92.0 < peroxide_liq_dh_kj < 99.0  # H2O2(l) -> H2O(l) + 1/2 O2(g) (~93.77 kJ/mol vs 98.05 NIST)
             and 0.289 < critical_z_ladder[1] < 0.295  # Z_c = 7/24 ~ 0.2917 (Ar/N2/O2/CH4 exp 0.290)
             and 0.228 < critical_z_ladder[2] < 0.233  # Z_c(H2O) = 3/13 ~ 0.2308 (NIST 0.229)
+            and 0.343 < pitzer_omega_water < 0.349  # omega(H2O) = 9/26 ~ 0.3462 (NIST 0.344)
+            and abs(water_zc_over_omega - float(d_pol) / float(d)) < 1e-12  # Z_c(H2O)/omega(H2O) == 2/3
+            and 0.629 < crit_nu_3d < 0.631  # nu = 17/27 ~ 0.62963 (3D bootstrap 0.62997)
+            and 0.326 < crit_beta_3d < 0.327  # beta = 323/990 ~ 0.32626 (3D bootstrap 0.32642)
+            and 1.235 < crit_gamma_3d < 1.238  # gamma = 68/55 ~ 1.23636 (3D bootstrap 1.23708)
+            and 4.788 < crit_delta_3d < 4.791  # delta = 91/19 ~ 4.78947 (3D bootstrap 4.78984)
             and neutral_ph == d_out_v
             and water_pkw == d_pol * d_out_v
         )
@@ -1277,6 +1302,10 @@ class SISmRows:
             "trouton_vaporization_jumps": trouton_vaporization_jumps,
             "guldberg_boil_over_crit": guldberg_boil_over_crit,
             "critical_z_ladder": critical_z_ladder,
+            "pitzer_omega_quantum_and_water": (pitzer_omega_quantum, pitzer_omega_water),
+            "water_zc_over_omega": water_zc_over_omega,
+            "lee_kesler_slope": lee_kesler_slope,
+            "critical_exponents_3d": critical_exponents_3d,
             "water_autoionization_dg_ehb": water_dg_auto_ehb,
             "water_pkw": water_pkw,
             "ok": ok,
