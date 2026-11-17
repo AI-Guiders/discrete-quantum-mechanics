@@ -484,7 +484,7 @@ def check_local_gates_solid_neuro_photo(device: str = "cpu") -> dict:
     eye_kp = torch.eye(k_p, dtype=torch.complex128, device=dev)
     u_q = torch.roll(eye_kp, shifts=1, dims=0)
     f_dft = torch.fft.ifft(eye_kp, dim=0) * (float(k_p) ** 0.5)
-    v_p = f_dft.conj().T @ u_q @ f_dft
+    v_p = f_dft @ u_q @ f_dft.conj().T
     omega_inv = f_dft[1, 1].conj() * (float(k_p) ** 0.5)
     weyl_comm_err = float((u_q @ v_p - omega_inv * (v_p @ u_q)).abs().max().item())
 
