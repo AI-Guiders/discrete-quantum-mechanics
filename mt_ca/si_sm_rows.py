@@ -1117,6 +1117,9 @@ class SISmRows:
         n_codons = 1 << n_squares  # 64
         syn_ti3_stems = d_pol * d_out_v  # 14 (all 16 except AU* and UG*)
         syn_ti3_codons = d_out_e * n12  # 60 = 64 - 4 (all 64 except AUA<->AUG and UGA<->UGG)
+        ti_tv_random_bg = 1.0 / float(d_pol)  # 4 / 8 = 0.5 = s_0
+        ti_tv_wgs_eq = float(d_pol)  # d - 1 = 2.0 = 4 * 0.5
+        ti_tv_exome_sel = float(d)  # d = 3.0
         cpg_stem = (d_in_v << d_pol) | d  # (1 << 2) | 3 = 7 = d_out(V)
         tpg_stem = (0 << d_pol) | d  # 3 = d
         mendel_geno = (d_in_v, d_pol, d_in_v)  # (1, 2, 1)
@@ -1167,6 +1170,8 @@ class SISmRows:
             and 31.0 < tm18_ang[2] < 32.0  # Venusian silazane/phosphazene membrane (~31.43 A)
             and syn_ti3_stems * n_hier == d_out_v * n_stems
             and syn_ti3_codons == n_codons - d_in_sq
+            and abs(ti_tv_wgs_eq - float(d_in_sq) * ti_tv_random_bg) < 1e-12
+            and abs(ti_tv_exome_sel - float(d)) < 1e-12
             and cpg_stem == d_out_v
             and tpg_stem == d
             and sum(mendel_geno) == d_in_sq
@@ -1195,6 +1200,7 @@ class SISmRows:
             "membrane_tm18_angstrom": tm18_ang,
             "synonymous_ti3_stems_ratio": float(syn_ti3_stems) / float(n_stems),
             "synonymous_ti3_codons_ratio": float(syn_ti3_codons) / float(n_codons),
+            "ti_tv_ladder": (ti_tv_random_bg, ti_tv_wgs_eq, ti_tv_exome_sel),
             "cpg_stem_code": cpg_stem,
             "mendel_genotype_kernel": mendel_geno,
             "mendel_phenotype_ratio": mendel_pheno,
