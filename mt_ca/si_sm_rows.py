@@ -1161,6 +1161,18 @@ class SISmRows:
             (hc_ev_nm / (float(n_phi) * q * e_hb_ev), hc_ev_nm / (float(n_hier) * q * e_hb_ev))
             for q in soft_quanta
         )  # ((1545.7, 2511.7) nm Titan IR, (441.6, 717.6) nm Earth vis, (220.8, 358.8) nm Venus UV)
+        venus_uv_subbands_nm = tuple(
+            hc_ev_nm / (float(q_step) * soft_quanta[2] * e_hb_ev)
+            for q_step in (n_hier, mod_bits, n12 - d_pol, n12, n_phi)
+        )  # (~358.8, ~318.9, ~287.1, ~239.2, ~220.8 nm: Fe-S/S2O2/S3/SO2/heterocycle UV bands)
+        burgi_dunitz_deg = theta_oct * 180.0 / half_turn_rad  # ~109.47 deg
+        catalytic_barrier_ladder_esoft = (
+            float(n_hier),
+            float(n_hier - d),
+            float(n_hier - d - d_pol),
+            s_0,
+        )  # (8.0, 5.0, 3.0, 0.5) E_soft^(m) via 8 = 3 (triad) + 2 (hole) + 3 (metal/macroerg)
+        catalytic_barrier_earth_kj = tuple(q * e_hb_kj_mol for q in catalytic_barrier_ladder_esoft)  # (~166.7, ~104.2, ~62.5, ~10.4 kJ/mol)
 
         ok = (
             abs((theta_tet + theta_oct) - half_turn_rad) < 1e-15
@@ -1198,6 +1210,9 @@ class SISmRows:
             and 710.0 < photo_windows_worlds_nm[1][1] < 725.0  # Earth PSI red edge (717.6 nm)
             and 218.0 < photo_windows_worlds_nm[2][0] < 224.0  # Venus UV absorber short edge (220.8 nm)
             and 355.0 < photo_windows_worlds_nm[2][1] < 365.0  # Venus UV absorber peak (358.8 nm)
+            and 109.0 < burgi_dunitz_deg < 110.0  # Burgi-Dunitz tetrahedral attack angle (~109.47 deg)
+            and 160.0 < catalytic_barrier_earth_kj[0] < 170.0  # Uncatalyzed peptide/phosphodiester barrier (~166.7 kJ/mol)
+            and 60.0 < catalytic_barrier_earth_kj[2] < 65.0  # Serine protease / ribosome barrier (~62.5 kJ/mol)
             and neutral_ph == d_out_v
             and water_pkw == d_pol * d_out_v
         )
@@ -1230,10 +1245,13 @@ class SISmRows:
             "membrane_v_rest_worlds_mv": v_rest_worlds_mv,
             "membrane_v_spike_worlds_mv": v_spike_worlds_mv,
             "photosynthesis_windows_worlds_nm": photo_windows_worlds_nm,
+            "venus_uv_subbands_nm": venus_uv_subbands_nm,
+            "burgi_dunitz_attack_angle_deg": burgi_dunitz_deg,
+            "catalytic_barrier_earth_kj_mol": catalytic_barrier_earth_kj,
             "water_autoionization_dg_ehb": water_dg_auto_ehb,
             "water_pkw": water_pkw,
             "ok": ok,
-            "note": "Universal 3-world (m=-1,0,+1) frustration, 5:6:7 scale, Z_4 genetics, Kleiber 3/4 allometry, homeostasis, macroerg bioenergetics, membrane potentials, and [N_phi, N_hier] photosynthesis windows",
+            "note": "Universal 3-world (m=-1,0,+1) frustration, 5:6:7 scale, Z_4 genetics, Kleiber 3/4 allometry, homeostasis, macroerg bioenergetics, membrane potentials, [N_phi, N_hier] photosynthesis windows, and O(1) catalytic barrier step-down",
         }
 
     def local_gates_solid_neuro_photo_row(self) -> dict[str, Any]:
