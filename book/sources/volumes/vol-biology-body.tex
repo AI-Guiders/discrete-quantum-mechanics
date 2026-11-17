@@ -559,6 +559,78 @@ II (ядро $1$) & \texttt{Stop} & \texttt{UAA,UAG,UGA} (3) & --- & освоб�
 \end{enumerate}
 \end{corollary}
 
+\chapter{Геометрическая фрустрация кубооктаэдра, законы генетики на \texorpdfstring{$\mathbb{Z}_4$}{Z\_4} и архитектура трёх планетарных типов жизни}
+\label{ch:bio-frustration-genetics-three-life-types}
+
+Почему из конечного набора параметров кубооктаэдра~\latGCKshort\ и детерминированного обратимого закона~$g$ рождается неограниченное разнообразие макроскопических форм, спиральных биополимеров и генетических систем?
+В этой главе показано, что разделение неживых периодических кристаллов и апериодических спиралей живой материи заложено в угловую фрустрацию между каналами~$\triangle$ и~$\square$ самого кубооктаэдра, классические законы генетики (правила Чаргаффа, спектр мутаций $\mathrm{Ti}/\mathrm{Tv}$, эпигенетическое метилирование $\mathrm{CpG}$ и расщепление Менделя $1:2:1$ и $3:1$) являются теоремами двухбитного регистра~$\mathbb{Z}_4$, а три планетарных окна жизни $m\in\{-1,0,+1\}$ подчиняются универсальному масштабному закону $5:6:7 = d_{\mathrm{out}}(E) : |\square| : d_{\mathrm{out}}(V)$.
+
+\section{Тождество угловой фрустрации \texorpdfstring{$\arccos(+1/3)+\arccos(-1/3)=\pi$}{arccos(1/3)+arccos(-1/3)=pi}: периодический кристалл против спирали Бёрдейка--Кокстера}
+\label{sec:bio-geometric-frustration}
+
+\begin{theorem}[Геометрическая фрустрация тетраэдра~$K_4$ и масштабный закон $5:6:7$ трёх планетарных типов жизни]
+\label{thm:bio-frustration-and-three-life-types}
+На решётке~\latGCKshort\ ($d=3$, $\geomNeighborTwelve=12$, $|\square|=6$, $|\triangle|=\vevHierarchySteps=8$, $d_{\mathrm{out}}(E,V)=(5,7)$) выполняются три структурных закона:
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Дополнительность двугранных углов каналов $\triangle$ и $\square$ и щель фрустрации $\Delta\theta_{\mathrm{frust}}\approx 7{,}36^\circ$:}
+  двугранный угол правильного тетраэдра~$K_4$ (канал~$8$ треугольных граней~$\triangle$) равен $\theta_{\mathrm{tet}} = \arccos(+1/d) = \arccos(+1/3) \approx 70{,}5288^\circ$, а двугранный угол правильного октаэдра (канал~$6$ квадратных граней~$\square$, совпадающий с центральным валентным углом $sp^3$-узла) равен $\theta_{\mathrm{oct}} = \arccos(-1/d) = \arccos(-1/3) \approx 109{,}4712^\circ$. Их сумма тождественно равна развёрнутому углу:
+  \begin{equation}
+  \label{eq:bio-tet-oct-dihedral-complement}
+    \arccos\!\left(+\frac{1}{d}\right) + \arccos\!\left(-\frac{1}{d}\right) \equiv \pi\quad (180^\circ),
+    \qquad
+    \Delta\theta_{\mathrm{frust}} = 2\pi - d_{\mathrm{out}}(E)\arccos\!\left(+\frac{1}{d}\right) \approx 7{,}3561^\circ > 0.
+  \end{equation}
+  Поскольку пять тетраэдров~$K_4$ вокруг общего ребра~$K_2$ оставляют незамкнутую угловую щель $\Delta\theta_{\mathrm{frust}} \approx 7{,}36^\circ$, периодическое замощение пространства (кристаллы и минералы) требует чередования каналов $\triangle$ и $\square$ в отношении $2:1$, тогда как полимерные цепи, растущие по локальному минимуму энергии чисто тетраэдрических пазов~$K_4$ без октаэдрических вставок, принудительно скручиваются в апериодическую хиральную спираль Бёрдейка--Кокстера ($\alpha$-спираль белка $n_\alpha = 18/5 = 3{,}6$ и двойную спираль нуклеиновых кислот $n_{\mathrm{turn}} = \geomNeighborTwelve - 2 = 10$).
+\item \textbf{Масштабный закон $5:6:7 = d_{\mathrm{out}}(E) : |\square| : d_{\mathrm{out}}(V)$ для трёх планетарных типов жизни ($m\in\{-1,0,+1\}$):}
+  в трёх температурных окнах жизни с квантами мягкого замка $E_{\mathrm{soft}}^{(m)} \in \{2/7,\ 1,\ 2\}\,E_{\mathrm{HB}}$ соизмеримый шаг ковалентного звена хребта $R_{\mathrm{bond}}^{(m)}$, шаг витка $\alpha$-спирали $P_\alpha^{(m)}$, толщина $18$-звенного трансмембранного стержня $L_{\mathrm{TM}}^{(m)}$ и шаг стэкинга информационного дуплекса $h_{\mathrm{stack}}^{(m)}$ масштабируются пропорционально трём последовательным инвариантам кубооктаэдра $|\square| + m \in \{5, 6, 7\} = \{d_{\mathrm{out}}(E),\ |\square|,\ d_{\mathrm{out}}(V)\}$:
+  \begin{equation}
+  \label{eq:bio-three-life-5-6-7-law}
+  \begin{aligned}
+    R_{\mathrm{bond}}^{(m)} &= \left(d_{\mathrm{in}}(\square) + m\,\frac{d-1}{d}\right)\caKappaGeom a_0
+    = \frac{2\bigl(|\square| + m\bigr)}{d}\,\caKappaGeom a_0
+    \in \left\{\frac{10}{3},\; 4,\; \frac{14}{3}\right\}\caKappaGeom a_0,\\
+    L_{\mathrm{TM}}^{(m)} &= \bigl(\geomNeighborTwelve + |\square|\bigr) R_{\mathrm{bond}}^{(m)}
+    = \bigl(|\square| + m\bigr)\,\geomNeighborTwelve\,\caKappaGeom a_0
+    \in \bigl\{5,\; 6,\; 7\bigr\}\cdot 12\caKappaGeom a_0 = \bigl\{60,\; 72,\; 84\bigr\}\caKappaGeom a_0,\\
+    h_{\mathrm{stack}}^{(m)} &= \frac{\mathrm{mod\_bits}}{d_{\mathrm{in}}(\square)}\,R_{\mathrm{bond}}^{(m)}
+    = \frac{3\bigl(|\square| + m\bigr)}{2}\,\caKappaGeom a_0
+    \in \bigl\{7{,}5,\; 9{,}0,\; 10{,}5\bigr\}\caKappaGeom a_0,
+  \end{aligned}
+  \end{equation}
+  что при приведённых шагах фотонов $\bar\lambda^{(-1,0,+1)}/a_0 = \{441,\ 126,\ 63\}\alpha_{\mathrm{fs}}^{-1}$ ($\lambda^{(m)} = 2\pi\bar\lambda^{(m)} \approx \{20{,}1,\ 5{,}74,\ 2{,}87\}\ \text{мкм}$, а на дискретном кольце с множителем $\Phi_{\mathrm{Pauli}}/\Delta\varphi_{\mathrm{disc}} = 256/41$: $\{19{,}97,\ 5{,}71,\ 2{,}85\}\ \text{мкм}$) даёт без подгоночных параметров:
+  \begin{itemize}[noitemsep]
+  \item \emph{Окно $m=-1$ (криогенная жизнь, Титан, $79{,}6\text{--}106{,}1\ \text{К}$, жидкий $\text{CH}_4$):} сопряжённый имин-нитрильный хребет $-\text{C{=}N}-$ с длиной звена $R_{\mathrm{bond}}^{(-1)} = \frac{10}{3}\caKappaGeom a_0 \approx 1{,}247\ \text{\normalfont\AA}$ (опыт: $1{,}25\ \text{\normalfont\AA}$), шаг спирали $P_\alpha^{(-1)} = 12\caKappaGeom a_0 \approx 4{,}49\ \text{\normalfont\AA}$, шаг стэкинга $h_{\mathrm{stack}}^{(-1)} = 7{,}5\caKappaGeom a_0 \approx 2{,}81\ \text{\normalfont\AA}$ и толщину инвертированной акрилонитриловой мембраны (азотосомы) $L_{\mathrm{TM}}^{(-1)} = 60\caKappaGeom a_0 \approx 22{,}45\ \text{\normalfont\AA}$ (расчёт Стивенсона--Лунин: $22\text{--}23\ \text{\normalfont\AA}$);
+  \item \emph{Окно $m=0$ (водно-углеродная жизнь, Земля, $278{,}5\text{--}371{,}3\ \text{К}$, жидкая $\text{H}_2\text{O}$):} пептидный хребет $-\text{C--N}-$ с $R_{\mathrm{bond}}^{(0)} = 4\caKappaGeom a_0 \approx 1{,}497\ \text{\normalfont\AA}$, $P_\alpha^{(0)} \approx 5{,}39\ \text{\normalfont\AA}$, $h_{\mathrm{stack}}^{(0)} = 9\caKappaGeom a_0 \approx 3{,}37\ \text{\normalfont\AA}$ и толщину липидного бислоя $L_{\mathrm{TM}}^{(0)} = 72\caKappaGeom a_0 \approx 26{,}94\ \text{\normalfont\AA}$ (опыт: $27{,}0\ \text{\normalfont\AA}$);
+  \item \emph{Окно $m=+1$ (термофильная жизнь, Венера, $556{,}9\text{--}742{,}6\ \text{К}$):} при едином шаге звена $R_{\mathrm{bond}}^{(+1)} = \frac{14}{3}\caKappaGeom a_0 \approx 1{,}746\ \text{\normalfont\AA}$ (опыт: $1{,}74\ \text{\normalfont\AA}$), шаге спирали $P_\alpha^{(+1)} = \frac{84}{5}\caKappaGeom a_0 \approx 6{,}29\ \text{\normalfont\AA}$, шаге стэкинга $h_{\mathrm{stack}}^{(+1)} = 10{,}5\caKappaGeom a_0 \approx 3{,}93\ \text{\normalfont\AA}$ и толщине мембраны $L_{\mathrm{TM}}^{(+1)} = 84\caKappaGeom a_0 = 2N_{\mathrm{shell}}(2)\caKappaGeom a_0 \approx 31{,}43\ \text{\normalfont\AA}$ в протонных кислотных расплавах ($\text{H}_3\text{PO}_4$) носителями служат устойчивые к кислотному сольволизу полифосфатные и борофосфатные цепи $-\text{P--O}-$, а в апротонных высококипящих расплавах и сухих безводных условиях поверхности Венеры ($737\ \text{К}$) — силазановые ($-\text{Si--N}-$) и фторсилоксановые цепи в сочетании с ароматическим боразин-бороксольным каркасом ($\text{B=N}$, $\text{B--O}$).
+  \end{itemize}
+\end{enumerate}
+\end{theorem}
+
+\section{Вывод законов классической, молекулярной и эпигенетической генетики из регистра \texorpdfstring{$\mathbb{Z}_4$}{Z\_4}}
+\label{sec:bio-genetics-laws-from-z4}
+
+\begin{theorem}[Законы Чаргаффа, спектр мутаций $7/8$ и $15/16$, эпигенетический стебель $\mathrm{CpG}=7$ и расщепление Менделя]
+\label{thm:bio-genetics-chargaff-mendel-mutations}
+Из двухбитного представления основания $b = (b_{\mathrm{ring}}\ll 1)\mid b_{\mathrm{keto}} \in \mathbb{Z}_4$, инволюции Румера на $\mathbb{Z}_{16}$ (\cref{thm:bio-z4-rumer-splicing}) и порогового затвора транскрипции вытекают четыре фундаментальных закона генетики:
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Первый и второй законы паритета Чаргаффа ($\oplus 2$):}
+  поскольку комплементарное спаривание $\mathrm{comp}(b) = b\oplus 2$ инвертирует старший бит кольца ($b_{\mathrm{ring}} + b_{\mathrm{ring}}(\mathrm{comp}(b)) \equiv 1$, равенство числа пуринов и пиримидинов) и сохраняет младший бит числа водородных дорожек ($b_{\mathrm{keto}}(\mathrm{comp}(b)) \equiv b_{\mathrm{keto}}(b)$), в любом дуплексе выполняется строгое равенство $n(\text{A}) = n(\text{T})$ и $n(\text{G}) = n(\text{C})$, а инвариантность двунаправленной репликации и инверсий в срезе $\{111\}$ относительно $\oplus 2$ переносит это равенство на каждую одиночную нить хромосомы.
+\item \textbf{Преобладание транзиций над трансверсиями ($\mathrm{Ti}/\mathrm{Tv} \approx d-1 = 2$) и синонимическая буферность $7/8$ и $15/16$:}
+  точечная транзиция ($b \mapsto b\oplus 1$: $\text{T}\leftrightarrow\text{C}$, $\text{A}\leftrightarrow\text{G}$) переключает только младший кето/амино-бит~$b_{\mathrm{keto}}$ на один мягкий квант~$E_{\mathrm{soft}}$ без изменения числа колец~$b_{\mathrm{ring}}$ в гексагональном срезе $\{111\}$, тогда как две трансверсии ($b\mapsto b\oplus 2,\ b\oplus 3$) требуют изменения старшего бита кольца~$b_{\mathrm{ring}}$ с деформацией поперечника дуплекса.
+  При этом в третьей позиции кодона транзиция $\mathrm{cod}\mapsto\mathrm{cod}\oplus 1$ полностью сохраняет кодируемую аминокислоту ровно в $14$ из $16$ дублетных стеблей и в $60 = d_{\mathrm{out}}(E)\geomNeighborTwelve$ из $64$ кодонов:
+  \begin{equation}
+  \label{eq:bio-synonymous-transition-fractions}
+    f_{\mathrm{stems}}(\mathrm{Ti}_3) = \frac{2d_{\mathrm{out}}(V)}{2\vevHierarchySteps} = \frac{14}{16} = \frac{7}{8} = 87{,}5\%,
+    \qquad
+    f_{\mathrm{codons}}(\mathrm{Ti}_3) = \frac{d_{\mathrm{out}}(E)\geomNeighborTwelve}{2^{\mathrm{frac\_bits}}} = \frac{60}{64} = \frac{15}{16} = 93{,}75\%.
+  \end{equation}
+\item \textbf{Эпигенетический переключатель метилирования $\mathrm{CpG}$ на стебле $s = d_{\mathrm{out}}(V) = 7$:}
+  в 4-битном регистре стебля $s = (b_1\ll 2)\mid b_2 \in \mathbb{Z}_{16}$ динуклеотид $\text{CG}$ ($b_1=1,\ b_2=3$) имеет целочисленный индекс $s(\text{CG}) = (1\ll 2)\mid 3 = 7 = d_{\mathrm{out}}(V) \in \text{Октет I}$ (кодирующий главный чтец большой бороздки $\text{Arg}$), а спонтанное дезаминирование $5$-метилцитозина ($b_1\colon 1\mapsto 0$, сдвиг $s\mapsto s\oplus 4$) переводит стебель $s=7$ в стебель $s(\text{TG}) = 3 = d \in \text{Октет II}$, создавая главный мутационно-эпигенетический часовой механизм генома.
+\item \textbf{Законы расщепления Менделя ($1:2:1$ и $3:1 = d:1$) как двухшаговое ядро сглаживания:}
+  диплоидное сочетание двух гаметных битов $a_1,a_2\in\{0,1\}$ является дискретной свёрткой двух одношаговых мер $[1,1]/2 * [1,1]/2 = [1,2,1]/4$, порождающей генотипическое отношение $1:2:1$, а пороговый затвор насыщения ферментативной активности ($\mathbf{1}[a_1 + a_2 \ge 1]$) объединяет гетерозиготу ($2$) и доминантную гомозиготу ($1$) над порогом против рецессивной гомозиготы ($a_1+a_2=0$) под порогом в точном отношении $d : d_{\mathrm{in}}(V) = 3 : 1$ (и $(3:1)^{\otimes 2} = 9:3:3:1$ на $2\vevHierarchySteps = 16$ клетках решётки Пеннета).
+\end{enumerate}
+\end{theorem}
+
 \input{volumes/include-computational-laboratory.tex}
 
 \input{volumes/include-measurement-processing.tex}
@@ -569,5 +641,9 @@ II (ядро $1$) & \texttt{Stop} & \texttt{UAA,UAG,UGA} (3) & --- & освоб�
 \begin{labseries}{Серия CE-B: геометрия B-ДНК, код Румера и \texorpdfstring{$O(1)$}{O(1)}-фолдинг белка}{sec:lab-series-ce-b}
 \begin{labrecord}{CE-B-01 · Нуклеосома \texorpdfstring{$147\ \mathrm{bp}$}{147 bp}, спираль \texorpdfstring{$3{,}6_{13}$}{3.6\_13} и линейная сложность \texorpdfstring{$O(L)\in\mathrm{P}$}{O(L) in P}}{lab:ce-b-01}
 \input{lab-journal/ce-b-01.tex}
+\end{labrecord}
+
+\begin{labrecord}{CE-B-02 · Щель фрустрации \texorpdfstring{$7{,}36^\circ$}{7.36 deg}, масштаб \texorpdfstring{$5:6:7$}{5:6:7} трёх типов жизни и законы генетики на \texorpdfstring{$\mathbb{Z}_4$}{Z\_4}}{lab:ce-b-02}
+\input{lab-journal/ce-b-02.tex}
 \end{labrecord}
 \end{labseries}

@@ -239,6 +239,7 @@ VERIFY_SUITES: dict[str, VerifySuiteSpec] = {
             check_sm_vortex_clique_atlas,
             check_periodic_and_fcc_graph_dirac,
             check_four_channel_nilpotent_cascade,
+            check_bio_frustration_and_three_life_types,
         ),
         ship=True,
     ),

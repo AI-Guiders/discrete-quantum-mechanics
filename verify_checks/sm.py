@@ -389,3 +389,21 @@ def check_four_channel_nilpotent_cascade(device: str = "cpu") -> dict:
         "ok": ok,
         "note": row["note"],
     }
+
+
+def check_bio_frustration_and_three_life_types(device: str = "cpu") -> dict:
+    """Floor 3 / Biology — Geometric frustration arccos(1/3)+arccos(-1/3)=pi and 5:6:7 scale law for 3 planetary life types."""
+    from mt_ca.si_constants import SI
+
+    del device
+    row = SI.bio_frustration_and_three_life_types_row()
+    ok = bool(row["ok"])
+    return {
+        "id": "Bio_frustration_three_life_types",
+        "frustration_gap_deg": row["frustration_gap_deg"],
+        "scale_invariants_5_6_7": row["scale_invariants_5_6_7"],
+        "backbone_bond_angstrom": row["backbone_bond_angstrom"],
+        "membrane_tm18_angstrom": row["membrane_tm18_angstrom"],
+        "ok": ok,
+        "note": row["note"],
+    }

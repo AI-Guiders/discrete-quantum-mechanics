@@ -1074,4 +1074,94 @@ class SISmRows:
             "note": "4-channel nilpotent cascade M_chan = I_4 + N_nil (N_nil^3=0), exact 3-term inverse, and gas-dynamics invariants",
         }
 
+    def bio_frustration_and_three_life_types_row(self) -> dict[str, Any]:
+        """Floor 3 / Biology — Geometric frustration arccos(1/d)+arccos(-1/d)=half-turn and 5:6:7 scale law for 3 planetary life windows."""
+        d = 3
+        d_in_v, d_in_sq = 1, 4
+        d_pol = d - d_in_v  # 2
+        d_out_e, n_squares, d_out_v = 5, 6, 7
+        mod_bits = 9
+        n12 = int(N12_FCC_CAUSAL_LINKS)  # 12
+        n_tm_units = n12 + n_squares  # 18
+
+        # 1. Tetrahedral K_4 vs Octahedral (square) dihedral angles on FCC N12
+        cos_tet = float(d_in_v) / float(d)  # +1/3
+        cos_oct = -float(d_in_v) / float(d)  # -1/3
+        half_turn_rad = math.acos(-1.0)
+        theta_tet = math.acos(cos_tet)
+        theta_oct = math.acos(cos_oct)
+        frustration_gap_rad = float(d_pol) * half_turn_rad - float(d_out_e) * theta_tet
+        frustration_gap_deg = frustration_gap_rad * 180.0 / half_turn_rad
+
+        # 2. Three planetary life windows m in (-1, 0, +1): 5:6:7 length scale and (2/7, 1, 2) energy scale
+        rungs = (-d_in_v, 0, d_in_v)
+        scale_5_6_7 = tuple(n_squares + m for m in rungs)  # (5, 6, 7)
+        soft_quanta = (float(d_pol) / float(d_out_v), float(d_in_v), float(d_pol))  # (2/7, 1, 2)
+        bond_in_ka0 = tuple(float(d_in_sq) + float(m * d_pol) / float(d) for m in rungs)  # (10/3, 4, 14/3)
+        tm18_in_ka0 = tuple(float(n_tm_units) * b for b in bond_in_ka0)  # (60, 72, 84)
+        helix_pitch_in_ka0 = tuple((float(n_tm_units) / float(d_out_e)) * b for b in bond_in_ka0)
+        duplex_stack_in_ka0 = tuple((float(mod_bits) / float(d_in_sq)) * b for b in bond_in_ka0)
+
+        # SI projections in Angstroms (using Bohr radius a_0 and kappa = 1/sqrt(2))
+        a0_ang = 0.529177210903
+        ka0_ang = KAPPA_FCC_1TICK * a0_ang
+        bond_ang = tuple(b * ka0_ang for b in bond_in_ka0)
+        tm18_ang = tuple(t * ka0_ang for t in tm18_in_ka0)
+
+        # 3. Genetic laws on Z_4 / Z_16 / Z_64:
+        #    - Synonymous 3rd-position transitions (c ^ 1): 14/16 = 7/8 = d_out(V)/N_hier stems, 60/64 = 15/16 codons!
+        #    - CpG epigenetic stem code: (1 << 2) | 3 = 7 = d_out(V) -> deaminates via b_1 ^ 1 to TG = 3 = d!
+        #    - Mendelian diploid inheritance: [1, 1] * [1, 1] = (1, 2, 1) genotype, threshold -> (d, 1) = (3, 1) phenotype!
+        n_hier = 8
+        n_stems = d_pol * n_hier  # 16
+        n_codons = 1 << n_squares  # 64
+        syn_ti3_stems = d_pol * d_out_v  # 14 (all 16 except AU* and UG*)
+        syn_ti3_codons = d_out_e * n12  # 60 = 64 - 4 (all 64 except AUA<->AUG and UGA<->UGG)
+        cpg_stem = (d_in_v << d_pol) | d  # (1 << 2) | 3 = 7 = d_out(V)
+        tpg_stem = (0 << d_pol) | d  # 3 = d
+        mendel_geno = (d_in_v, d_pol, d_in_v)  # (1, 2, 1)
+        mendel_pheno = (d_in_v + d_pol, d_in_v)  # (3, 1)
+
+        ok = (
+            abs((theta_tet + theta_oct) - half_turn_rad) < 1e-15
+            and frustration_gap_rad > 0.0
+            and scale_5_6_7 == (d_out_e, n_squares, d_out_v)
+            and all(
+                abs(tm18_in_ka0[i] - float(scale_5_6_7[i] * n12)) < 1e-12
+                for i in range(d)
+            )
+            and 1.24 < bond_ang[0] < 1.26  # C=N imine/nitrile bond (~1.25 A)
+            and 1.48 < bond_ang[1] < 1.51  # C-N peptide bond (~1.497 A)
+            and 1.73 < bond_ang[2] < 1.76  # Si-N silazane / P-O polyphosphate bond (~1.746 A)
+            and 22.0 < tm18_ang[0] < 23.0  # Titan azotosome membrane (~22.45 A)
+            and 26.5 < tm18_ang[1] < 27.5  # Earth lipid bilayer (~26.94 A)
+            and 31.0 < tm18_ang[2] < 32.0  # Venusian silazane/phosphazene membrane (~31.43 A)
+            and syn_ti3_stems * n_hier == d_out_v * n_stems
+            and syn_ti3_codons == n_codons - d_in_sq
+            and cpg_stem == d_out_v
+            and tpg_stem == d
+            and sum(mendel_geno) == d_in_sq
+            and mendel_pheno == (d, d_in_v)
+        )
+        return {
+            "theta_tet_deg": theta_tet * 180.0 / half_turn_rad,
+            "theta_oct_deg": theta_oct * 180.0 / half_turn_rad,
+            "frustration_gap_deg": frustration_gap_deg,
+            "scale_invariants_5_6_7": scale_5_6_7,
+            "soft_quanta_in_ehb": soft_quanta,
+            "backbone_bond_in_kappa_a0": bond_in_ka0,
+            "membrane_tm18_in_kappa_a0": tm18_in_ka0,
+            "helix_pitch_in_kappa_a0": helix_pitch_in_ka0,
+            "duplex_stack_in_kappa_a0": duplex_stack_in_ka0,
+            "backbone_bond_angstrom": bond_ang,
+            "membrane_tm18_angstrom": tm18_ang,
+            "synonymous_ti3_stems_ratio": float(syn_ti3_stems) / float(n_stems),
+            "synonymous_ti3_codons_ratio": float(syn_ti3_codons) / float(n_codons),
+            "cpg_stem_code": cpg_stem,
+            "mendel_genotype_kernel": mendel_geno,
+            "mendel_phenotype_ratio": mendel_pheno,
+            "ok": ok,
+            "note": "Geometric frustration arccos(+1/3)+arccos(-1/3)=180 deg, 5:6:7 scale law for 3 life types, and Z_4 genetics (7/8 stems, 15/16 codons, CpG=7, Mendel 1:2:1 & 3:1)",
+        }
+
 
