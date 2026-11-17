@@ -772,6 +772,43 @@ II (ядро $1$) & \texttt{Stop} & \texttt{UAA,UAG,UGA} (3) & --- & освоб�
     \approx \bigl\{2{,}98,\ \mathbf{10{,}42},\ 20{,}84\bigr\}\ \text{кДж}\cdot\text{моль}^{-1}\quad (\text{металлоферменты}).
   \end{aligned}
   \end{equation}
+\item \textbf{Четыре режима связности графа $\mathcal{C}_{13}$ (агрегатные состояния) и универсальные безразмерные инварианты фазовых переходов:}
+  при любом выборе вещества с межмолекулярным квантом сцепления $E_{\mathrm{bond}}$ доля размороженных фазовых слотов $\theta = n_{\mathrm{act}} / d^4$ в $81$-состоянии затвора Гейзенберга делит динамику графа связей под действием оператора $g$ на $d_{\mathrm{in}}(\square) = 4$ универсальных режима:
+  \begin{enumerate}[label=(\roman*),leftmargin=*,noitemsep]
+  \item \emph{Режим~I (фиксированный граф соседей $n_{\mathrm{act}} < \mathrm{mod\_bits} = 9$, твёрдая фаза):} порог срыва решётки равен $\theta_{\mathrm{lock}}^{(1)} = \frac{\mathrm{mod\_bits}}{d^4} = \frac{1}{9}$, а цена разрыва доли $\frac{1}{d_{\mathrm{out}}(V)} = \frac{1}{7}$ связей мягкой грани на одну ($d_{\mathrm{in}}(V)=1$) или две ($d-1=2$, тетраэдр $K_4$) поляризационные моды даёт инвариантный скачок Ричардса:
+    \begin{equation}
+    \label{eq:bio-richards-fusion-invariants}
+      \Sigma_{\mathrm{I\to II}}^{(\mathrm{iso})} = \frac{1/7}{1/9} = \frac{\mathrm{mod\_bits}}{d_{\mathrm{out}}(V)} = \mathbf{\frac{9}{7} \approx 1{,}286},\qquad
+      \Sigma_{\mathrm{I\to II}}^{(K_4)} = \frac{2/7}{1/9} = \frac{(d-1)\,\mathrm{mod\_bits}}{d_{\mathrm{out}}(V)} = \mathbf{\frac{18}{7} \approx 2{,}571}
+    \end{equation}
+    (на макроуровне~\Tlayer\ скачок $\Delta S_{\mathrm{fus}}/R\colon$ опыт для ГЦК-кристаллов $1{,}1\text{--}1{,}35$, для воды $2{,}64$);
+  \item \emph{Режим~II (перколяционный кластер с переключением рёбер $9 \le n_{\mathrm{act}} \le \geomNeighborTwelve = 12$, жидкая фаза):} порог разрыва гигантской связной компоненты звезды $N_{12}$ равен $\theta_{\mathrm{lock}}^{(2)} = \frac{\geomNeighborTwelve}{d^4} = \frac{4}{27}$, а полное гашение $d-1 = 2$ удерживающих связей даёт универсальные инварианты Трутона для ассоциированных и простых жидкостей (за вычетом $d=3$ вращательных мод):
+    \begin{equation}
+    \label{eq:bio-trouton-vaporization-invariants}
+      \Sigma_{\mathrm{II\to III}}^{(\mathrm{assoc})} = \frac{d-1}{4/27} = \frac{d^3}{d_{\mathrm{in}}(E)} = \mathbf{\frac{27}{2} = 13{,}5},\qquad
+      \Sigma_{\mathrm{II\to III}}^{(\mathrm{iso})} = \frac{27}{2} - d = \mathbf{\frac{21}{2} = 10{,}5}
+    \end{equation}
+    (опыт $\Delta S_{\mathrm{vap}}/R\colon$ вода и спирты $13{,}1\text{--}13{,}5$, простые жидкости $10{,}5$);
+  \item \emph{Режим~III (баллистический пролёт $n_{\mathrm{act}} > 12$, газовая фаза, и критическая точка слияния с Режимом~II):} граница между связным кластером и баллистическим газом исчезает при заполнении всех $\vevHierarchySteps = 8$ октантов куба в $d_{\mathrm{in}}(\square)\vevHierarchySteps - 1 = 31$ ненулевом состоянии полурегистра, $\theta_{\mathrm{crit}} = \frac{8}{31}$, откуда универсальное отношение Гульдберга и лестница критических факторов упаковки $Z_c = \frac{P_c V_c}{R T_c}$ (от $8$-октантного куба к звезде $\mathrm{FCC}\ N_{12}$ и полярному кластеру $\mathcal{C}_{13}$) равны:
+    \begin{equation}
+    \label{eq:bio-guldberg-and-critical-z}
+      \frac{\theta_{\mathrm{lock}}^{(2)}}{\theta_{\mathrm{crit}}} = \mathbf{\frac{31}{54} \approx 0{,}574},\qquad
+      Z_c \in \left\{\frac{d}{\vevHierarchySteps},\; \frac{d_{\mathrm{out}}(V)}{2\geomNeighborTwelve},\; \frac{d}{N_\varphi}\right\}
+      = \left\{\mathbf{\frac{3}{8}},\; \mathbf{\frac{7}{24} \approx 0{,}2917},\; \mathbf{\frac{3}{13} \approx 0{,}2308}\right\}
+    \end{equation}
+    (опыт: $T_{\mathrm{boil}}/T_{\mathrm{crit}} = 0{,}577$ для $\mathrm{H_2O}$; $Z_c = 0{,}290\pm 0{,}002$ для $\mathrm{Ar, Kr, Xe, N_2, O_2, CH_4}$ и $Z_c = 0{,}229$ для $\mathrm{H_2O}$);
+  \item \emph{Режим~IV (пробой сферы $S_1$ при $2^{\mathrm{frac\_bits}}-1 = 63$ мягких квантах, ионизованная плазма):} отрыв 13-узловой спинорной оболочки от центрального ядра при энергии $63\,E_{\mathrm{HB}} \equiv \mathrm{BE_H} = 13{,}606\ \text{эВ}$.
+  \end{enumerate}
+\item \textbf{Сквозной спуск по лестнице масштабов $k = 15 \to 0$ в \texttt{VACUUM\_BOIL} и термохимия распада пероксида $\mathrm{H_2O_2} \to \mathrm{H_2O} + \frac{1}{2}\mathrm{O_2}\uparrow$:}
+  в силу теоремы о сокращении масштаба $K$ (\cref{thm:bio-scale-contraction}) спуск молекулярного графа с макроэтажа $k=15$ на неизменный фон \texttt{VACUUM\_BOIL} ($k=0$) переводит чередующуюся синглетную цепь $\mathrm{H_2O\cdots H_2O}$ со знаками $(+,-,+,-)$ в стационарно связанный 4-узловой кластер под действием оператора $g$, тогда как фрустрированный пероксидный мостик $\mathrm{H\text{--}O\text{--}O\text{--}H}$ со знаками $(+,+,-,-)$ самопроизвольно размыкается затвором Паули ($\Phi_{\mathrm{Pauli}}=256$) с разгрузкой внутренней фазовой активности $\Delta\mathrm{zigzag} < 0$, баллистическим выбросом триплетного пакета $\mathrm{O_2}\uparrow$ и выделением тепла в океан ($\Delta\mathrm{norm} \approx +20{,}1$).
+  В газовой фазе разрыв пероксидного ребра высвобождает ровно $d_{\mathrm{out}}(E) = 5$ мягких квантов на моль $\mathrm{H_2O_2}$, а при переходе в жидкую фазу разность теплот испарения пероксида ($\Delta H_{\mathrm{vap}}^{\circ}(\mathrm{H_2O_2}) = \frac{d_{\mathrm{out}}(E)}{2}E_{\mathrm{HB}} = 2{,}5\,E_{\mathrm{HB}} \approx 52{,}09\ \text{кДж}\cdot\text{моль}^{-1}$, опыт NIST: $51{,}6$) и воды ($\Delta H_{\mathrm{vap}}^{\circ}(\mathrm{H_2O}) = (d-1)E_{\mathrm{HB}} = 2\,E_{\mathrm{HB}} \approx 41{,}67\ \text{кДж}\cdot\text{моль}^{-1}$, опыт: $40{,}7\text{--}44{,}0$), равная полукванту $s_0 E_{\mathrm{HB}} = \frac{1}{2}E_{\mathrm{HB}} \approx 10{,}42\ \text{кДж}\cdot\text{моль}^{-1}$, сдвигает тепловой эффект реакции до $\frac{\mathrm{mod\_bits}}{2}E_{\mathrm{HB}} = 4{,}5\,E_{\mathrm{HB}}$:
+  \begin{equation}
+  \label{eq:bio-peroxide-disproportionation-enthalpy}
+  \begin{aligned}
+    -\Delta H_{\mathrm{rxn}}^{\circ}(\text{г}) &= d_{\mathrm{out}}(E)\,E_{\mathrm{HB}} = \mathbf{5\,E_{\mathrm{HB}}} \approx 104{,}19\ \text{кДж}\cdot\text{моль}^{-1}\quad (\text{NIST: } 105{,}52),\\
+    -\Delta H_{\mathrm{rxn}}^{\circ}(\text{ж}) &= \left(d_{\mathrm{out}}(E) - s_0\right)E_{\mathrm{HB}} = \mathbf{\frac{9}{2}\,E_{\mathrm{HB}}} \approx 93{,}77\ \text{кДж}\cdot\text{моль}^{-1}\quad (\text{NIST: } 98{,}05).
+  \end{aligned}
+  \end{equation}
 \end{enumerate}
 \end{theorem}
 

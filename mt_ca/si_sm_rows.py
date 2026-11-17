@@ -1173,6 +1173,26 @@ class SISmRows:
             s_0,
         )  # (8.0, 5.0, 3.0, 0.5) E_soft^(m) via 8 = 3 (triad) + 2 (hole) + 3 (metal/macroerg)
         catalytic_barrier_earth_kj = tuple(q * e_hb_kj_mol for q in catalytic_barrier_ladder_esoft)  # (~166.7, ~104.2, ~62.5, ~10.4 kJ/mol)
+        peroxide_gas_dh_kj = float(d_out_e) * e_hb_kj_mol  # 5 E_HB ~ 104.19 kJ/mol (NIST gas: 105.52 kJ/mol)
+        peroxide_vap_kj = float(d_out_e) * s_0 * e_hb_kj_mol  # 2.5 E_HB ~ 52.09 kJ/mol (NIST H2O2 vap: 51.6 kJ/mol)
+        water_vap_kj = float(d_pol) * e_hb_kj_mol  # 2.0 E_HB ~ 41.67 kJ/mol (NIST H2O vap: 40.66-43.99 kJ/mol)
+        peroxide_liq_dh_kj = peroxide_gas_dh_kj - (peroxide_vap_kj - water_vap_kj)  # 4.5 E_HB ~ 93.77 kJ/mol (NIST liq: 98.05 kJ/mol)
+        richards_fusion_jumps = (
+            float(mod_bits) / float(d_out_v),
+            float(d_pol * mod_bits) / float(d_out_v),
+        )  # (9/7 ~ 1.286 FCC metals, 18/7 ~ 2.571 H2O vs 2.64 exp)
+        trouton_vaporization_jumps = (
+            float(d**d) / float(d_pol) - float(d),
+            float(d**d) / float(d_pol),
+        )  # (21/2 = 10.5 simple liquids, 27/2 = 13.5 H2O/alcohols vs 13.1 exp)
+        guldberg_boil_over_crit = (float(n12) / float(d**d_in_sq)) / (
+            float(n_hier) / float(d_in_sq * n_hier - d_in_v)
+        )  # (4/27)/(8/31) = 31/54 ~ 0.5741 (H2O exp: 373.15/647.1 = 0.5766)
+        critical_z_ladder = (
+            float(d) / float(n_hier),
+            float(d_out_v) / float(d_pol * n12),
+            float(d) / float(n_phi),
+        )  # (3/8 = 0.375 vdW, 7/24 ~ 0.2917 Ar/N2/O2/CH4 exp 0.290, 3/13 ~ 0.2308 H2O exp 0.229)
 
         ok = (
             abs((theta_tet + theta_oct) - half_turn_rad) < 1e-15
@@ -1213,6 +1233,10 @@ class SISmRows:
             and 109.0 < burgi_dunitz_deg < 110.0  # Burgi-Dunitz tetrahedral attack angle (~109.47 deg)
             and 160.0 < catalytic_barrier_earth_kj[0] < 170.0  # Uncatalyzed peptide/phosphodiester barrier (~166.7 kJ/mol)
             and 60.0 < catalytic_barrier_earth_kj[2] < 65.0  # Serine protease / ribosome barrier (~62.5 kJ/mol)
+            and 103.0 < peroxide_gas_dh_kj < 106.0  # H2O2(g) -> H2O(g) + 1/2 O2(g) (~104.19 kJ/mol vs 105.52 NIST)
+            and 92.0 < peroxide_liq_dh_kj < 99.0  # H2O2(l) -> H2O(l) + 1/2 O2(g) (~93.77 kJ/mol vs 98.05 NIST)
+            and 0.289 < critical_z_ladder[1] < 0.295  # Z_c = 7/24 ~ 0.2917 (Ar/N2/O2/CH4 exp 0.290)
+            and 0.228 < critical_z_ladder[2] < 0.233  # Z_c(H2O) = 3/13 ~ 0.2308 (NIST 0.229)
             and neutral_ph == d_out_v
             and water_pkw == d_pol * d_out_v
         )
@@ -1248,10 +1272,15 @@ class SISmRows:
             "venus_uv_subbands_nm": venus_uv_subbands_nm,
             "burgi_dunitz_attack_angle_deg": burgi_dunitz_deg,
             "catalytic_barrier_earth_kj_mol": catalytic_barrier_earth_kj,
+            "peroxide_gas_and_liq_dh_kj_mol": (peroxide_gas_dh_kj, peroxide_liq_dh_kj),
+            "richards_fusion_jumps": richards_fusion_jumps,
+            "trouton_vaporization_jumps": trouton_vaporization_jumps,
+            "guldberg_boil_over_crit": guldberg_boil_over_crit,
+            "critical_z_ladder": critical_z_ladder,
             "water_autoionization_dg_ehb": water_dg_auto_ehb,
             "water_pkw": water_pkw,
             "ok": ok,
-            "note": "Universal 3-world (m=-1,0,+1) frustration, 5:6:7 scale, Z_4 genetics, Kleiber 3/4 allometry, homeostasis, macroerg bioenergetics, membrane potentials, [N_phi, N_hier] photosynthesis windows, and O(1) catalytic barrier step-down",
+            "note": "Universal 3-world (m=-1,0,+1) frustration, 5:6:7 scale, Z_4 genetics, Kleiber 3/4 allometry, homeostasis, macroerg bioenergetics, membrane potentials, [N_phi, N_hier] photosynthesis windows, O(1) catalytic barrier step-down, and C_13 phase-transition invariants",
         }
 
     def local_gates_solid_neuro_photo_row(self) -> dict[str, Any]:
