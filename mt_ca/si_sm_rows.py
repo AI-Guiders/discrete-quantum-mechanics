@@ -1285,7 +1285,8 @@ class SISmRows:
             and pq_int_levels * pq_frac_states == n_ring
             and gauge_clique_orbits == (n12, d_pol * n12, n_hier)
             and octahedral_group_order == d_pol * d_pol * n12
-            and macro_cell_bits == (d_in_sq * mod_bits, d_pol * d_in_sq * mod_bits)
+            and macro_cell_bits == (n_squares * n_squares, n_squares * n12)
+            and macro_cell_bits == (d * n12, d_pol * d * n12)
             and abs(cauchy_nu - 0.25) < 1e-12
             and abs(cauchy_g_over_k - 0.60) < 1e-12
             and abs(cauchy_e_over_g - 2.50) < 1e-12
