@@ -359,19 +359,19 @@ $Z(x,\tau)$ & $(U_1, V_1, U_2, V_2) \in \mathbb{Z}_{512}^4$ & $4\times 9 = 36\ \
 \begin{table}[htbp]
 \centering
 \scriptsize
-\setlength{\tabcolsep}{2pt}
+\setlength{\tabcolsep}{1.8pt}
 \caption{Локальный фундамент $\Mlayer$-слоя и границы применимости континуальных формул на решётке~\latGCKshort}
 \label{tab:compute-theory-demarcation}
 \begin{tabular}{@{}llll@{}}
 \toprule
-Закон / теория ($\Tlayer$) & Область совпадения с $\Tlayer$ & Причинный порог на~\latGCKshort & Локальный механизм в одной ячейке~$V_P$ ($\Mlayer$) \\
+Закон / теория ($\Tlayer$) & Область совпадения & Порог на~\latGCKshort & Локальный затвор в~$V_P$ ($\Mlayer$) \\
 \midrule
-Гейзенберг $\Delta x\Delta p \ge \planckHbar/2$ & Надпороговый зонд $|\Phi| \ge 41$ & $|\Phi_{\mathrm{raw}}| \le 40$ ($81 = 3^4$) & Точные $(x,\Delta Z)$; инерция Ньютона $\delta Z \equiv 0$ \\
-Запрет Паули $\Psi(1,2)=-\Psi(2,1)$ & Стационарные моды $\tau \ge 2k$ & Конус $\Delta\tau < 2$ на $S_1$ & Зеркало $\Phi_{\mathrm{Pauli}}=256 \implies Z_{\mathrm{next}}=-Z_{\mathrm{past}}$ \\
-Уравнение Дирака $-Z\alpha/r$ & Внешние сферы $k \gg 1$ & $k=0\leftrightarrow 1$: $G(0)-G(1)=3$ & Конечный спектр $Z=137$; предел $^{208}_{82}\mathrm{Pb}_{126}$ \\
-Сферические гармоники $Y_{\ell m}$ & Дальнодействующая асимптотика & $4$ канала, $N_{\mathrm{nil}}^3 \equiv 0$ & 3-член $M_{\mathrm{chan}}^{\pm m}$ на $(V,E,\square,\triangle)$ \\
-Уравнения Навье--Стокса & Масштабы $k \gg 1$, $\mathrm{Ma}<\sqrt{2}$ & $\mathrm{Ma}_{\mathrm{crit}}=\sqrt{2}$; $r_{\mathrm{disc}}=41/512$ & Каскад $(N_{\mathrm{nil}}^2)_{V\to\triangle}=2/3$; окно $\le 25$ тактов \\
-ОТО и потенциал $1/R^2$ & Малая плотность $|Z|^2 \ll \rho_{\max}$ & Потолок $|Z|^2 = \rho_{\max}$ & Насыщение \texttt{SatBC\_Cppp}; отскок $N_{\mathrm{bounce}}=50$ \\
+Гейзенберг $\Delta x\Delta p$ & Зонд $|\Phi| \ge 41$ & $|\Phi_{\mathrm{raw}}| \le 40$ ($81 = 3^4$) & Точные $(x,\Delta Z)$; инерция $\delta Z \equiv 0$ \\
+Запрет Паули КМ & Моды $\tau \ge 2k$ & Конус $\Delta\tau < 2$ на $S_1$ & Зеркало $\Phi_{\mathrm{Pauli}}=256 \implies Z_{\mathrm{next}}=-Z_{\mathrm{past}}$ \\
+Дирак $-Z\alpha/r$ & Сферы $k \gg 1$ & $k=0\leftrightarrow 1$: $G(0)-G(1)=3$ & Конечный спектр $Z=137$; предел $^{208}_{82}\mathrm{Pb}_{126}$ \\
+Гармоники $Y_{\ell m}$ & Асимптотика $k\gg 1$ & $4$ канала, $N_{\mathrm{nil}}^3 \equiv 0$ & 3-член $M_{\mathrm{chan}}^{\pm m}$ на $(V,E,\square,\triangle)$ \\
+Навье--Стокс & $k \gg 1$, $\mathrm{Ma}<\sqrt{2}$ & $\mathrm{Ma}_{\mathrm{crit}}=\sqrt{2}$; $r_{\mathrm{disc}}=41/512$ & Каскад $(N_{\mathrm{nil}}^2)_{V\to\triangle}=2/3$; окно $\le 25$ тактов \\
+ОТО и закон $1/R^2$ & $|Z|^2 \ll \rho_{\max}$ & Потолок $|Z|^2 = \rho_{\max}$ & Насыщение \texttt{SatBC\_Cppp}; отскок $N_{\mathrm{bounce}}=50$ \\
 \bottomrule
 \end{tabular}
 \end{table}
