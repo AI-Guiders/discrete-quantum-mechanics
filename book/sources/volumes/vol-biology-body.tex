@@ -632,6 +632,53 @@ II (ядро $1$) & \texttt{Stop} & \texttt{UAA,UAG,UGA} (3) & --- & освоб�
 \end{enumerate}
 \end{theorem}
 
+\section{Аллометрия Клейбера \texorpdfstring{$3/4$}{3/4}, биоэнергетика ротора \texorpdfstring{$\mathrm{F_0F_1}$}{F0F1}-АТФ-синтазы \texorpdfstring{$8/3$}{8/3} и протонная кинетика Гротгуса}
+\label{sec:bio-allometry-atp-kinetics}
+
+\begin{theorem}[Аллометрические показатели $3/4$ и $\pm 1/4$, стехиометрия АТФ-синтазы $8/3$ и кванты протонной кинетики]
+\label{thm:bio-allometry-atp-and-kinetics}
+На решётке~\latGCKshort\ ($d=3$, $d_{\mathrm{in}}(V,\square)=(1,4)$, $d_{\mathrm{out}}(V)=7$, $\vevHierarchySteps=8$, $\mathrm{mod\_bits}=9$, $\geomNeighborTwelve=12$, $N_{\mathrm{ring}}=512$, $s_0=1/2$, $E_{\mathrm{HB}} = \mathrm{Ry}/63 \approx 0{,}2160\ \text{эВ} \approx 20{,}84\ \text{кДж}\cdot\text{моль}^{-1}$) метаболический скейлинг многоклеточных организмов, биоэнергетика синтеза АТФ и кинетика протонного переноса в воде определяются без подгоночных параметров следующими соотношениями:
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Закон метаболической аллометрии Клейбера $B \propto M^{3/4}$, инвариантное число ударов сердца $2^{30}$ и уставка гомойотермии $T_{\mathrm{body}} = \frac{10}{81}T_{\mathrm{HB}}$:}
+  питание 3D-объёма ткани ($V\propto M\propto L^d$) через иерархическое симплициальное ветвление сосудистых трубок (\texttt{Tube}$_4$ с входной ёмкостью квадратного канала $d_{\mathrm{in}}(\square) = d + 1 = 4$) задаёт показатели степени базового метаболизма $\alpha_{\mathrm{Kleiber}}$, физиологических частот $\beta_{\mathrm{freq}}$ (пульс, дыхание) и продолжительности жизни $\gamma_{\mathrm{life}}$:
+  \begin{equation}
+  \label{eq:bio-kleiber-allometry-exponents}
+  \begin{aligned}
+    \alpha_{\mathrm{Kleiber}} &= \frac{d}{d_{\mathrm{in}}(\square)} = \frac{3}{4} = 0{,}75,\\
+    \beta_{\mathrm{freq}} &= -\frac{d_{\mathrm{in}}(V)}{d_{\mathrm{in}}(\square)} = -\frac{1}{4},\qquad
+    \gamma_{\mathrm{life}} = +\frac{d_{\mathrm{in}}(V)}{d_{\mathrm{in}}(\square)} = +\frac{1}{4}.
+  \end{aligned}
+  \end{equation}
+  В силу $\beta_{\mathrm{freq}} + \gamma_{\mathrm{life}} \equiv 0$ полное число дыхательных циклов $N_{\mathrm{breaths}}$ и полное число сердечных сокращений $N_{\mathrm{beats}}$ за время жизни инвариантны относительно массы тела и определяются 3D-объёмом фазового кольца $N_{\mathrm{ring}}^d = 512^3$:
+  \begin{equation}
+  \label{eq:bio-lifetime-breaths-heartbeats}
+  \begin{aligned}
+    N_{\mathrm{breaths}} &= N_{\mathrm{ring}}^d = 512^3 = 2^{27} \approx 1{,}342\times 10^8,\\
+    N_{\mathrm{beats}} &= \vevHierarchySteps\,N_{\mathrm{ring}}^d = 8\times 512^3 = 2^{30} \approx 1{,}074\times 10^9\ \bigl(1{,}0\text{--}1{,}5\times 10^9\bigr),
+  \end{aligned}
+  \end{equation}
+  а температурная уставка эндотермного гомеостаза млекопитающих и птиц лежит ровно на одну треть ($1/d = 1/3$) выше точки плавления $T_{\mathrm{melt}} = \frac{9}{81}T_{\mathrm{HB}}$ на пути к точке кипения $T_{\mathrm{boil}} = \frac{12}{81}T_{\mathrm{HB}}$ (норма человека $36{,}6\,^\circ\text{C}$):
+  \begin{equation}
+  \label{eq:bio-homeothermy-setpoint}
+    T_{\mathrm{body}} = T_{\mathrm{melt}} + \frac{T_{\mathrm{boil}} - T_{\mathrm{melt}}}{d}
+    = \frac{\geomNeighborTwelve - 2}{d^4}\,T_{\mathrm{HB}}
+    = \frac{10}{81}\,T_{\mathrm{HB}} \approx 309{,}40\ \text{К}\ (36{,}25\,^\circ\text{C}).
+  \end{equation}
+\item \textbf{Роторная биоэнергетика $\mathrm{F_0F_1}$-АТФ-синтазы (стехиометрия $\vevHierarchySteps/d = 8/3$) и свободная энергия АТФ:}
+  мембранный ротор $\mathrm{F_0}$-АТФ-синтазы митохондрий млекопитающих содержит $c_{\vevHierarchySteps} = 8$ протонных субъединиц (полный оборот за $8$ перенесённых протонов при мембранном потенциале $1\,E_{\mathrm{HB}}/e \approx 216\ \text{мВ}$), а статорная головка $\mathrm{F_1}$ ($\alpha_3\beta_3$) содержит $d = 3$ каталитических узла с шагом $360^\circ/d = 120^\circ$, что задаёт точное стехиометрическое отношение числа протонов на одну синтезируемую молекулу АТФ (опыт: $8/3 \approx 2{,}67$), стандартную свободную энергию гидролиза $\Delta G_{\mathrm{ATP}}^{\circ\prime}$ (опыт: $30{,}5\text{--}31{,}4\ \text{кДж}\cdot\text{моль}^{-1}$) и физиологическую клеточную энергию $\Delta G_{\mathrm{ATP}}^{(\mathrm{vivo})}$ (опыт: $54\text{--}57\ \text{кДж}\cdot\text{моль}^{-1}$):
+  \begin{equation}
+  \label{eq:bio-atp-synthase-stoichiometry-energy}
+  \begin{aligned}
+    \frac{n(\mathrm{H}^+)}{n(\mathrm{ATP})} &= \frac{\vevHierarchySteps}{d} = \frac{8}{3} \approx 2{,}667,\\
+    |\Delta G_{\mathrm{ATP}}^{\circ\prime}| &= d\,s_0\,E_{\mathrm{HB}} = \frac{3}{2}\,E_{\mathrm{HB}} \approx 0{,}324\ \text{эВ} \approx 31{,}26\ \text{кДж}\cdot\text{моль}^{-1},\\
+    \bigl|\Delta G_{\mathrm{ATP}}^{(\mathrm{vivo})}\bigr| &= \frac{\vevHierarchySteps}{d}\,E_{\mathrm{HB}} = \frac{8}{3}\,E_{\mathrm{HB}} \approx 0{,}576\ \text{эВ} \approx 55{,}57\ \text{кДж}\cdot\text{моль}^{-1}.
+  \end{aligned}
+  \end{equation}
+\item \textbf{Эстафетная протонная проводимость Гротгуса ($s_0 E_{\mathrm{HB}}$), автопротолиз воды и нейтральный $\mathrm{pH} = d_{\mathrm{out}}(V) = 7$:}
+  перескок протона по водородно-связанной цепи Гротгуса в жидкой воде требует переключения ровно половины водородного кванта $E_a(\text{Гротгус}) = s_0 E_{\mathrm{HB}} = \frac{1}{2}E_{\mathrm{HB}} \approx 0{,}1080\ \text{эВ} \approx 10{,}42\ \text{кДж}\cdot\text{моль}^{-1}$ (опыт Агмона: $10{,}0\text{--}10{,}5\ \text{кДж}\cdot\text{моль}^{-1}$), стандартная энтальпия автоионизации воды $2\,\text{H}_2\text{O} \rightleftharpoons \text{H}_3\text{O}^+ + \text{OH}^-$ равна $\Delta H_{\mathrm{auto}}^\circ = \frac{\vevHierarchySteps}{d}\,E_{\mathrm{HB}} = \frac{8}{3}\,E_{\mathrm{HB}} \approx 55{,}57\ \text{кДж}\cdot\text{моль}^{-1}$ (опыт при $298\ \text{К}$: $55{,}8\ \text{кДж}\cdot\text{моль}^{-1}$, совпадение $0{,}4\%$), свободная энергия перестройки тетраэдрической клетки равна $\Delta G_{\mathrm{auto}} = d_{\mathrm{in}}(\square)E_{\mathrm{HB}} = 4\,E_{\mathrm{HB}} \approx 83{,}35\ \text{кДж}\cdot\text{моль}^{-1}$, что задаёт нейтральную точку кислотно-основной шкалы $\mathrm{pH}_{\mathrm{neutral}} = d_{\mathrm{out}}(V) = 7$ и показатель ионного произведения воды $\mathrm{p}K_w = 2d_{\mathrm{out}}(V) = 14$.
+\end{enumerate}
+\end{theorem}
+
 \input{volumes/include-computational-laboratory.tex}
 
 \input{volumes/include-measurement-processing.tex}

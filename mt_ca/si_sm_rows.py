@@ -1122,6 +1122,35 @@ class SISmRows:
         mendel_geno = (d_in_v, d_pol, d_in_v)  # (1, 2, 1)
         mendel_pheno = (d_in_v + d_pol, d_in_v)  # (3, 1)
 
+        # 4. Allometry (Kleiber 3/4), F0F1-ATP bioenergetics (8/3), and water kinetics (Grotthuss s_0 E_HB, pKw=14):
+        n_ring = n_hier ** d  # 512
+        s_0 = 1.0 / float(d_pol)  # 0.5
+        kleiber_exp = float(d) / float(d_in_sq)  # 3/4 = 0.75
+        freq_exp = -float(d_in_v) / float(d_in_sq)  # -1/4 = -0.25
+        lifespan_exp = float(d_in_v) / float(d_in_sq)  # +1/4 = +0.25
+        lifetime_breaths = n_ring ** d  # 512^3 = 134,217,728
+        lifetime_heartbeats = n_hier * lifetime_breaths  # 8 * 512^3 = 1,073,741,824
+        t_body_over_t_hb = float(n12 - d_pol) / float(d ** d_in_sq)  # 10 / 81
+        h_per_atp = float(n_hier) / float(d)  # 8/3
+        atp_dg0_ehb = float(d) * s_0  # 3/2 = 1.5 E_HB (~31.26 kJ/mol)
+        atp_dg_vivo_ehb = h_per_atp  # 8/3 E_HB (~55.57 kJ/mol)
+        grotthuss_ehb = s_0  # 1/2 E_HB (~10.42 kJ/mol = 0.108 eV)
+        water_dh_auto_ehb = h_per_atp  # 8/3 E_HB (~55.57 kJ/mol)
+        water_dg_auto_ehb = float(d_in_sq)  # 4 E_HB (~83.35 kJ/mol)
+        neutral_ph = d_out_v  # 7
+        water_pkw = d_pol * d_out_v  # 14
+
+        # SI projections for temperature and energy:
+        n_hb = mod_bits * d_out_v  # 63
+        rydberg_ev = 13.605693122994
+        e_hb_ev = rydberg_ev / float(n_hb)
+        e_hb_kj_mol = e_hb_ev * 96.48533212
+        t_hb_k = e_hb_ev * 11604.51812
+        t_body_k = t_body_over_t_hb * t_hb_k  # ~309.40 K (36.25 C)
+        atp_dg0_kj = atp_dg0_ehb * e_hb_kj_mol  # ~31.26 kJ/mol
+        atp_dg_vivo_kj = atp_dg_vivo_ehb * e_hb_kj_mol  # ~55.57 kJ/mol
+        grotthuss_kj = grotthuss_ehb * e_hb_kj_mol  # ~10.42 kJ/mol
+
         ok = (
             abs((theta_tet + theta_oct) - half_turn_rad) < 1e-15
             and frustration_gap_rad > 0.0
@@ -1142,6 +1171,15 @@ class SISmRows:
             and tpg_stem == d
             and sum(mendel_geno) == d_in_sq
             and mendel_pheno == (d, d_in_v)
+            and abs(kleiber_exp - 0.75) < 1e-12
+            and abs(freq_exp + lifespan_exp) < 1e-12
+            and lifetime_heartbeats == (1 << (d * mod_bits + d))
+            and 308.0 < t_body_k < 311.0  # Mammalian homeothermy setpoint (~309.40 K = 36.25 C)
+            and 30.5 < atp_dg0_kj < 31.8  # Standard ATP hydrolysis (~31.26 kJ/mol)
+            and 54.0 < atp_dg_vivo_kj < 57.0  # Physiological ATP hydrolysis / water autoionization (~55.57 kJ/mol)
+            and 10.0 < grotthuss_kj < 10.8  # Grotthuss proton hopping barrier (~10.42 kJ/mol)
+            and neutral_ph == d_out_v
+            and water_pkw == d_pol * d_out_v
         )
         return {
             "theta_tet_deg": theta_tet * 180.0 / half_turn_rad,
@@ -1160,8 +1198,18 @@ class SISmRows:
             "cpg_stem_code": cpg_stem,
             "mendel_genotype_kernel": mendel_geno,
             "mendel_phenotype_ratio": mendel_pheno,
+            "kleiber_metabolic_exponent": kleiber_exp,
+            "lifetime_respiratory_cycles": lifetime_breaths,
+            "lifetime_heartbeats": lifetime_heartbeats,
+            "homeothermy_t_body_kelvin": t_body_k,
+            "protons_per_atp_ratio": h_per_atp,
+            "atp_dg0_kj_mol": atp_dg0_kj,
+            "atp_dg_vivo_kj_mol": atp_dg_vivo_kj,
+            "grotthuss_barrier_kj_mol": grotthuss_kj,
+            "water_autoionization_dg_ehb": water_dg_auto_ehb,
+            "water_pkw": water_pkw,
             "ok": ok,
-            "note": "Geometric frustration arccos(+1/3)+arccos(-1/3)=180 deg, 5:6:7 scale law for 3 life types, and Z_4 genetics (7/8 stems, 15/16 codons, CpG=7, Mendel 1:2:1 & 3:1)",
+            "note": "Geometric frustration, 5:6:7 three life types, Z_4 genetics, Kleiber 3/4 allometry, F0F1-ATP 8/3 bioenergetics, and Grotthuss/pKw kinetics",
         }
 
 

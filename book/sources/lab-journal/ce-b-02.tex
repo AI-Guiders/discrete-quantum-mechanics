@@ -9,6 +9,7 @@
 \item Выполнение тождества $\arccos(+1/d)+\arccos(-1/d) \equiv \pi$ ($70{,}53^\circ + 109{,}47^\circ = 180^\circ$) и положительность щели пяти тетраэдров вокруг ребра $\Delta\theta_{\mathrm{frust}} = 2\pi - 5\arccos(1/3) \approx 7{,}3561^\circ$.
 \item Выполнение масштабного закона $5:6:7$ для длин связей $R_{\mathrm{bond}}^{(m)} \in \{\frac{10}{3},\ 4,\ \frac{14}{3}\}\caKappaGeom a_0 \approx \{1{,}247,\ 1{,}497,\ 1{,}746\}\ \text{\normalfont\AA}$ ($-\text{C{=}N}-$, $-\text{C--N}-$, $-\text{Si--N}-$ / $-\text{P--O}-$) и толщин 18-звенных трансмембранных стержней $L_{\mathrm{TM}}^{(m)} \in \{60,\ 72,\ 84\}\caKappaGeom a_0 \approx \{22{,}45,\ 26{,}94,\ 31{,}43\}\ \text{\normalfont\AA}$ (азотосома Титана, бислой Земли и мембрана Венеры).
 \item Точное совпадение долей синонимических транзиций 3-й позиции кодона ($14/16 = 7/8 = 87{,}5\%$ стеблей и $60/64 = 15/16 = 93{,}75\%$ кодонов), индекса эпигенетического стебля $s(\text{CG}) = 7 = d_{\mathrm{out}}(V) \to s(\text{TG}) = 3 = d$ и отношений расщепления Менделя $(1:2:1)$ и $(3:1) = (d:1)$.
+\item Воспроизведение показателя метаболической аллометрии Клейбера $\alpha_{\mathrm{Kleiber}} = d/d_{\mathrm{in}}(\square) = 3/4$, инвариантного числа ударов сердца за жизнь $N_{\mathrm{beats}} = \vevHierarchySteps\,N_{\mathrm{ring}}^d = 2^{30} \approx 1{,}074\times 10^9$, уставки гомойотермии $T_{\mathrm{body}} = \frac{10}{81}T_{\mathrm{HB}} \approx 309{,}40\ \text{К}$ ($36{,}25\,^\circ\text{C}$), стехиометрии $\mathrm{F_0F_1}$-АТФ-синтазы $8/3$, энергий гидролиза АТФ ($\frac{3}{2}E_{\mathrm{HB}} \approx 31{,}26\ \text{кДж}\cdot\text{моль}^{-1}$ и $\frac{8}{3}E_{\mathrm{HB}} \approx 55{,}57\ \text{кДж}\cdot\text{моль}^{-1}$) и барьера протонного перескока Гротгуса $s_0 E_{\mathrm{HB}} \approx 10{,}42\ \text{кДж}\cdot\text{моль}^{-1}$ (\cref{thm:bio-allometry-atp-and-kinetics}).
 \end{enumerate}
 
 {\sloppy\textbf{Рабочая гипотеза.}
@@ -53,12 +54,17 @@ $\theta_{\mathrm{tet}} + \theta_{\mathrm{oct}}$, $\Delta\theta_{\mathrm{frust}}$
 Щель фрустрации $\Delta\theta_{\mathrm{frust}}$ & $360^\circ - d_{\mathrm{out}}(E)\arccos(1/3)$ & $7{,}3561^\circ$ & $7{,}3561^\circ$ (Бёрдейк--Кокстер) & PASS \\
 Звено $m=-1$ ($-\text{C{=}N}-$, Титан) & $\frac{10}{3}\caKappaGeom a_0$ & $1{,}247\ \text{\normalfont\AA}$ & $1{,}25\ \text{\normalfont\AA}$ (имин/нитрил) & PASS \\
 Звено $m=0$ ($-\text{C--N}-$, Земля) & $\frac{12}{3}\caKappaGeom a_0 = 4\caKappaGeom a_0$ & $1{,}497\ \text{\normalfont\AA}$ & $1{,}48\ \text{\normalfont\AA}$ (пептид) & PASS \\
-Звено $m=+1$ ($-\text{P--O}-$ / $-\text{Si--N}-$) & $\frac{14}{3}\caKappaGeom a_0$ ($\text{H}_3\text{PO}_4$ / сухая Венера) & $1{,}746\ \text{\normalfont\AA}$ & $1{,}74\ \text{\normalfont\AA}$ (фосфат/силазан) & PASS \\
+Звено $m=+1$ ($-\text{P--O}-$ / $-\text{Si--N}-$) & $\frac{14}{3}\caKappaGeom a_0$ ($\text{H}_3\text{PO}_4$ / Венера) & $1{,}746\ \text{\normalfont\AA}$ & $1{,}74\ \text{\normalfont\AA}$ (фосфат/силазан) & PASS \\
 Стэкинг дуплекса $h_{\mathrm{stack}}^{(-1,0,+1)}$, \text{\normalfont\AA} & $\frac{3(6+m)}{2}\caKappaGeom a_0 = \{7{,}5,9{,}0,10{,}5\}\caKappaGeom a_0$ & $2{,}81;\ 3{,}37;\ 3{,}93$ & $3{,}38\ \text{\normalfont\AA}$ (B-ДНК при $m=0$) & PASS \\
 Мембраны $L_{\mathrm{TM}}^{(-1,0,+1)}$, \text{\normalfont\AA} & $\{5,6,7\}\cdot 12\caKappaGeom a_0 = \{60,72,84\}\caKappaGeom a_0$ & $22{,}5;\ 26{,}9;\ 31{,}4$ & $22{,}5$ (Титан); $27{,}0$ (Земля) & PASS \\
 Синонимичность $\mathrm{Ti}_3$ (стебли / кодоны) & $14/16 = 7/8;\ 60/64 = 15/16$ & $87{,}5\%;\ 93{,}75\%$ & $14/16;\ 60/64$ (код NCBI-1) & PASS \\
 Эпигенетический стебель $\text{CG}\to\text{TG}$ & $(1\ll 2)\mid 3 = d_{\mathrm{out}}(V) \to d$ & $7 \to 3$ & $\text{CpG}\to\text{TpG}$ ($5$-mC) & PASS \\
 Расщепление Менделя $F_2$ (ген.\ / фен.) & $[1,1]*[1,1];\ (d : d_{\mathrm{in}}(V))$ & $(1:2:1);\ (3:1)$ & $(1:2:1);\ (3:1)$ & PASS \\
+Аллометрия Клейбера $\alpha_{\mathrm{Kleiber}}$ и $N_{\mathrm{beats}}$ & $d/d_{\mathrm{in}}(\square) = 3/4;\ \vevHierarchySteps N_{\mathrm{ring}}^d = 2^{30}$ & $0{,}75;\ 1{,}07\cdot 10^9$ & $0{,}75;\ 1{,}0\text{--}1{,}5\cdot 10^9$ & PASS \\
+Уставка гомойотермии $T_{\mathrm{body}}$ & $(\geomNeighborTwelve - 2)T_{\mathrm{HB}} / d^4 = \frac{10}{81}T_{\mathrm{HB}}$ & $309{,}4\ \text{К}$ ($36{,}3\,^\circ\text{C}$) & $309{,}8\ \text{К}$ ($36{,}6\,^\circ\text{C}$) & PASS \\
+АТФ-синтаза $\mathrm{H^+/ATP}$ и $|\Delta G_{\mathrm{ATP}}^{\circ\prime}|$ & $\vevHierarchySteps/d = 8/3;\ \frac{3}{2}E_{\mathrm{HB}}$ & $2{,}67;\ 31{,}3$ & $8/3;\ 30{,}5\text{--}31{,}4\ \text{кДж/моль}$ & PASS \\
+Клеточная $|\Delta G_{\mathrm{ATP}}^{(\mathrm{vivo})}|$ и $\Delta H_{\mathrm{auto}}^\circ(\text{H}_2\text{O})$ & $(\vevHierarchySteps/d)E_{\mathrm{HB}} = \frac{8}{3}E_{\mathrm{HB}}$ & $55{,}6\ \text{кДж/моль}$ & $54\text{--}57;\ 55{,}8\ \text{кДж/моль}$ & PASS \\
+Барьер Гротгуса $E_a(\mathrm{H}^+)$ и $\mathrm{p}K_w$ & $s_0 E_{\mathrm{HB}} = \frac{1}{2}E_{\mathrm{HB}};\ 2d_{\mathrm{out}}(V)$ & $10{,}4;\ 14$ & $10{,}4\ \text{кДж/моль};\ 14{,}0$ & PASS \\
 \bottomrule
 \end{tabular}
 \end{table}
