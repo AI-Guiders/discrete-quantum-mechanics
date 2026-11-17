@@ -657,14 +657,16 @@ II (ядро $1$) & \texttt{Stop} & \texttt{UAA,UAG,UGA} (3) & --- & освоб�
   В каждом окне $m\in\{-1,0,+1\}$ жидкая фаза растворителя ограничена точкой плавления $T_{\mathrm{melt}}^{(m)} = \frac{9}{81}T_{\mathrm{soft}}^{(m)}$ и точкой кипения $T_{\mathrm{boil}}^{(m)} = \frac{12}{81}T_{\mathrm{soft}}^{(m)}$, а устойчивая рабочая точка клеточного гомеостаза лежит ровно на одну треть ($1/d = 1/3$) выше точки плавления:
   \begin{equation}
   \label{eq:bio-homeothermy-setpoint}
-    T_{\mathrm{homeo}}^{(m)} = T_{\mathrm{melt}}^{(m)} + \frac{T_{\mathrm{boil}}^{(m)} - T_{\mathrm{melt}}^{(m)}}{d}
+  \begin{aligned}
+    T_{\mathrm{homeo}}^{(m)} &= T_{\mathrm{melt}}^{(m)} + \frac{T_{\mathrm{boil}}^{(m)} - T_{\mathrm{melt}}^{(m)}}{d}
     = \frac{\geomNeighborTwelve - 2}{d^4}\,T_{\mathrm{soft}}^{(m)}
-    = \frac{10}{81}\,T_{\mathrm{soft}}^{(m)}
-    \approx \begin{cases}
-      88{,}40\ \text{К}\ (-184{,}8\,^\circ\text{C}), & m = -1\ (\text{Титан: моря } \mathrm{CH_4/C_2H_6},\ 90{,}6\text{--}93{,}7\ \text{К}),\\
+    = \frac{10}{81}\,T_{\mathrm{soft}}^{(m)}\\[0.3em]
+    &\approx \begin{cases}
+      88{,}40\ \text{К}\ (-184{,}8\,^\circ\text{C}), & m = -1\ (\text{Титан: моря } \mathrm{CH_4}\text{--}\mathrm{C_2H_6},\ 90{,}6\text{--}93{,}7\ \text{К}),\\
       309{,}40\ \text{К}\ (+36{,}25\,^\circ\text{C}), & m = 0\ (\text{Земля: гомойотермия } 36\text{--}38\,^\circ\text{C}),\\
       618{,}81\ \text{К}\ (+345{,}7\,^\circ\text{C}), & m = +1\ (\text{Венера / конденсированные расплавы}).
     \end{cases}
+  \end{aligned}
   \end{equation}
 \item \textbf{Универсальная биоэнергетическая валюта $|\Delta G_{\mathrm{vivo}}^{(m)}| = \frac{8}{3}E_{\mathrm{soft}}^{(m)}$ и инвариант глубины необратимости $\frac{108}{5} = 21{,}6$:}
   соотношение восьмиступенчатого мембранного каскада ($\vevHierarchySteps = 8$) и трёхтактной каталитической головки ($d = 3$, шаг $360^\circ/d = 120^\circ$) задаёт в любом мире $m\in\{-1,0,+1\}$ стандартный квант энерговалюты $|\Delta G_{0}^{(m)}| = d\,s_0 E_{\mathrm{soft}}^{(m)} = \frac{3}{2}E_{\mathrm{soft}}^{(m)} \approx \{8{,}93,\ 31{,}26,\ 62{,}51\}\ \text{кДж}\cdot\text{моль}^{-1}$ (на Земле при $m=0$ опыт для АТФ: $30{,}5\text{--}31{,}4\ \text{кДж}\cdot\text{моль}^{-1}$), рабочий клеточный квант $|\Delta G_{\mathrm{vivo}}^{(m)}| = \frac{\vevHierarchySteps}{d}E_{\mathrm{soft}}^{(m)} = \frac{8}{3}E_{\mathrm{soft}}^{(m)} \approx \{15{,}88,\ 55{,}57,\ 111{,}13\}\ \text{кДж}\cdot\text{моль}^{-1}$ (на Земле при $m=0$ опыт для АТФ: $54\text{--}57\ \text{кДж}\cdot\text{моль}^{-1}$) и универсальное безразмерное отношение кванта макроэрга к тепловому кванту гомеостаза $\Theta_{\mathrm{homeo}}^{(m)} = \frac{10}{81}E_{\mathrm{soft}}^{(m)}$, одинаковое во всех трёх мирах:
@@ -708,9 +710,9 @@ II (ядро $1$) & \texttt{Stop} & \texttt{UAA,UAG,UGA} (3) & --- & освоб�
   \begin{equation}
   \label{eq:bio-three-worlds-photosynthesis-windows}
     \bigl[\lambda_{13}^{(m)},\; \lambda_{8}^{(m)}\bigr] = \begin{cases}
-      \bigl[1545{,}7\ \text{нм},\; 2511{,}7\ \text{нм}\bigr] = \bigl[1{,}55,\; 2{,}51\bigr]\ \text{мкм}, & m = -1\ (\text{Титан: ИК-окна прозрачности смога } 1{,}5\text{ и } 2{,}0\text{--}2{,}5\ \text{мкм!}),\\
-      \bigl[441{,}6\ \text{нм},\; 717{,}6\ \text{нм}\bigr], & m = 0\ (\text{Земля: пик Соре } 440\ \text{нм и край } P_{700}\text{ хлорофилла!}),\\
-      \bigl[220{,}8\ \text{нм},\; 358{,}8\ \text{нм}\bigr], & m = +1\ (\text{Венера: полоса УФ-поглотителя облаков } 220\text{--}360\ \text{нм!}).
+      \bigl[1{,}55,\; 2{,}51\bigr]\ \text{мкм}, & m = -1\ (\text{Титан: ИК-окна смога } 1{,}5\text{ и } 2{,}0\text{--}2{,}5\ \text{мкм}),\\
+      \bigl[441{,}6,\; 717{,}6\bigr]\ \text{нм}, & m = 0\ (\text{Земля: пик Соре } 440\ \text{нм и край } P_{700}),\\
+      \bigl[220{,}8,\; 358{,}8\bigr]\ \text{нм}, & m = +1\ (\text{Венера: УФ-поглотитель облаков } 220\text{--}360\ \text{нм}).
     \end{cases}
   \end{equation}
 \item \textbf{Тождество координационных сфер кубооктаэдра $N_{\mathrm{shell}}(n) = 10n^2+2$ и икосаэдрических вирусных капсидов Каспара--Клуга, и цилиндр микротрубочки $N_\varphi = 13$:}
