@@ -1215,7 +1215,7 @@ class SISmRows:
         n_heis_81 = d**d_in_sq  # 81
         atm_slots_n2_o2_ar = (n_hb, d_pol * n_hier + 1, 1)  # (63, 17, 1) -> sum == 81
         atm_fracs_n2_o2_ar = tuple(float(s) / float(n_heis_81) for s in atm_slots_n2_o2_ar)  # (77.78%, 20.99%, 1.23%)
-        pauli_heis_flux_ratio = float(n_ring // d_pol) / float(n_heis_81)  # 256 / 81 = (4/3)^4 ~ 3.1605
+        pauli_heis_flux_ratio = float(1 << n_hier) / float(n_heis_81)  # 256 / 81 = (4/3)^4 ~ 3.1605
         t_trop_worlds_k = tuple(q * (float(d_out_v) / float(n_heis_81)) * t_hb_k for q in soft_quanta)  # (~61.88 K Titan, ~216.58 K Earth vs 216.65 K ISA, ~433.16 K Venus)
         t_surf_worlds_k = tuple((float(d_in_sq) / float(d)) * t_tr for t_tr in t_trop_worlds_k)  # (~82.51 K Titan, ~288.77 K Earth vs 288.15 K ISA, ~577.55 K Venus)
 
