@@ -658,9 +658,30 @@ class SISmRows:
         phi_min_from_shell2 = n_shell_2 - 1
         phi_min_from_seam = (n_ring + n_phi + n_tri_faces) // n_phi
         phi_min = int(heisenberg_phi_min_disc(phase_bits=mod_bits))
+        d_in_v = 1
+        d_out_v = n_tri_faces - d_in_v  # 7 = d_soft
+        m_hat_coulomb = (d_in_sq**d_pol) + (mod_bits**d_pol)  # 4^2 + 9^2 = 97
+        alpha_geom_inv = (d_in_sq**d_pol) + ((n12 - d_in_v) ** d_pol)  # 4^2 + 11^2 = 137
+        splitting_primes_zi = (
+            d_out_e,
+            n_phi,
+            phi_min_from_gauss,
+            m_hat_coulomb,
+            alpha_geom_inv,
+        )
+        gaussian_norms_ok = (
+            d_out_e == (d_in_v**d_pol) + (d_pol**d_pol)
+            and n_phi == (d_pol**d_pol) + (d_spatial**d_pol)
+            and phi_min_from_gauss == (d_in_sq**d_pol) + (d_out_e**d_pol)
+            and m_hat_coulomb == 1 + n12 * n_tri_faces
+            and alpha_geom_inv == n12 * n_phi - n_tri_faces - n12 + d_in_v
+            and all((p % d_in_sq) == d_in_v for p in splitting_primes_zi)
+            and (d_out_e * n_phi) == (d_in_sq**d_pol) + (d_out_v**d_pol) == (n_tri_faces**d_pol) + (d_in_v**d_pol)
+        )
         r_disc_geometric_ok = (
             n_ring == (n_tri_faces**d_spatial)
             and phi_min == phi_min_from_hier == phi_min_from_gauss == phi_min_from_shell2 == phi_min_from_seam
+            and gaussian_norms_ok
         )
         r_disc = float(phi_min_from_hier) / float(n_tri_faces**d_spatial)
         alpha = self.alpha_fs
