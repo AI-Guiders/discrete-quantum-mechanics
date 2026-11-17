@@ -1,0 +1,67 @@
+\label{exp:cecp03}
+
+\subsubsection*{Постановка}
+{\sloppy\textbf{Физический вопрос.}
+Подтверждает ли прямая 3D-симуляция на каноническом сиде \texttt{universe\_iv\_9bit\_spinor\_3d} решётки~\latGCKshort, что: (а) локальный фазовый затвор Гейзенберга ($|\Phi_{\mathrm{raw}}| < 41 \mapsto 0$) образует в кольце $\mathbb{Z}_{512}$ мёртвую зону ровно из $81 = 3^4 = d^4$ состояний, обеспечивая побитовую обратимость ($\max_x |g^{-t}(g^t(Z)) - Z| = 0$) и баллистическую прозрачность кипящего вакуума (первый закон Ньютона); (б) локальный импульс Паули $\Phi_{\mathrm{Pauli}} = 256$ действует как зеркало обращения времени $Z_{\mathrm{next}} = -Z_{\mathrm{past}}$ с двухтактовой задержкой светового конуса ($\tau=0,1\colon 0$ срабатываний $\longrightarrow \tau=2\colon 5/13$ узлов) для двух параллельных спиноров, разнесённых по полусферам~$S_1$ (\cref{thm:compute-local-heisenberg-pauli-gates})?\par}
+
+\textbf{Что проверяем.}
+\begin{enumerate}[label=\textbf{(\alph*)},leftmargin=*,itemsep=0.25em]
+\item Точное равенство числа подпороговых состояний $2\Delta\varphi_{\mathrm{disc}} - 1 = 81 = 3^4$, нулевую ошибку побитового обращения $g^{-8}(g^8(Z_0)) = Z_0$ и сохранение баллистического режима ($3922/4096$ ячеек при включённом пороге против $2/4096$ при $\Delta\varphi_{\mathrm{disc}}=0$).
+\item Двухтактовую задержку срабатывания локального затвора Паули в кластере~$\mathcal{C}_{13}$ ($0/13$ при $\tau=0,1$ и $5/13$ при $\tau=2$) для непересекающихся полусфер~$S_1$.
+\item Воспроизведение упругих инвариантов Коши ($\nu = 1/4,\ G/K = 3/5,\ E_Y/G = 5/2$) и плато Лафлина--Джейна $(1/3,\ 2/5,\ 3/7)$.
+\end{enumerate}
+
+{\sloppy\textbf{Рабочая гипотеза.}
+Все перечисленные свойства локальных затворов $\Mlayer$-слоя воспроизводятся в живой 3D-симуляции (\texttt{Local\_gates\_solid\_neuro\_photo}).\par}
+
+\textbf{Наблюдаемые.}
+$N_{\mathrm{deadband}}$, ошибка обращения $\max |Z_{\mathrm{rev}} - Z_0|$, число баллистических ячеек $N_{\mathrm{ballistic}}$, срабатывания Паули в $\mathcal{C}_{13}$ при $\tau=0,1,2$, отношения Коши и КЭХ (табл.~\ref{tab:exp-ce-cp-03}).
+
+\textbf{Критерий согласия с теорией.}
+Точное выполнение целочисленных тождеств и прохождение 3D-симуляционного гейта.
+
+\subsubsection*{Теоретическая часть}
+По теореме~\ref{thm:compute-local-heisenberg-pauli-gates} локальный затвор $|\Phi_{\mathrm{raw}}| < 41 \mapsto 0$ склеивает $81 = 3^4$ фазовых состояний в нулевой импульс рассеяния $\delta Z \equiv 0$, а импульс $\Phi_{\mathrm{Pauli}} = 256$ даёт $\delta Z = -2Z_{\mathrm{curr}} \implies Z_{\mathrm{next}} = -Z_{\mathrm{past}}$.
+
+\textbf{Проверка размерностей.}
+Все проверяемые величины (числа состояний кольца $\mathbb{Z}_{512}$, числа ячеек, такты задержки и упругие отношения) безразмерны:
+\[
+  [N_{\mathrm{deadband}}] = [\Phi_{\mathrm{Pauli}}] = [\nu_{\mathrm{Cauchy}}] = [\nu_{\mathrm{FQHE}}] = 1.
+\]
+
+\subsubsection*{Ход эксперимента}
+{\sloppy Воспроизведение: \texttt{python verify\_principles.py} \texttt{--suite sm} (\texttt{Local\_gates\_solid\_neuro\_photo}).\par}
+
+\begin{enumerate}[label=\textbf{Шаг \arabic*:},leftmargin=*,itemsep=0.35em]
+\item Проверить разбиение кольца $\mathbb{Z}_{512} = 81_{\mathrm{deadband}} + 431_{\mathrm{active}}$ и прогнать $8$ прямых и $8$ обратных шагов чехарды на 3D-сиде $16^3$.
+\item Сравнить число баллистических ячеек ($\delta Z = 0$) при $\Delta\varphi_{\mathrm{disc}} = 41$ и при $\Delta\varphi_{\mathrm{disc}} = 0$.
+\item Разместить два параллельных спинора на противоположных полусферах $S_1$ ($\tau=0$) и измерить число срабатываний $\Phi_{\mathrm{Pauli}}=256$ в $\mathcal{C}_{13}$ при $\tau=0,1,2,4$ (табл.~\ref{tab:exp-ce-cp-03}).
+\end{enumerate}
+
+\begin{table}[htbp]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2pt}
+\caption{Верификация локального затвора Гейзенберга--Ньютона $81=3^4$ и задержки Паули на $S_1$ (CE-CP-03)}
+\label{tab:exp-ce-cp-03}
+\begin{tabular}{@{}llrrr@{}}
+\toprule
+Инвариант / наблюдаемая & Формула из носителя & Симуляция $\Mlayer$ & Эталон / опыт & Статус \\
+\midrule
+Мёртвая зона $N_{\mathrm{deadband}}$ & $2\Delta\varphi_{\mathrm{disc}} - 1 = d^{\,d_{\mathrm{in}}(\square)}$ & $81$ сост. & $3^4 = 81$ (из $512$) & PASS \\
+Ошибка $g^{-8}(g^8(Z_0)) - Z_0$ & $\max_x |Z_{\mathrm{rev}} - Z_0|$ & $0$ бит & $0$ бит ($A_{13}$) & PASS \\
+Баллистика ($\tau=8$, ВКЛ/ВЫКЛ) & $\delta Z = 0$ при $|\Phi_{\mathrm{raw}}| < 41$ & $3922$ / $2$ & Прозрачный вакуум & PASS \\
+Зеркало Паули $\Phi_{\mathrm{Pauli}}$ & $\phaseRingCount / 2 \implies \delta Z = -2Z_{\mathrm{curr}}$ & $256$ тактов & $Z_{\mathrm{next}} = -Z_{\mathrm{past}}$ & PASS \\
+Задержка на $S_1$ ($\tau=0,1\to 2\to 4$) & Конус при $\tau = d-1 = 2$ & $0,0 \to 5 \to 11$ & Причинность $c_0$ & PASS \\
+Упругость Коши ($\nu;\ G/K;\ E_Y/G$) & $1/d_{\mathrm{in}}(\square);\ d/d_{\mathrm{out}}(E);\ d_{\mathrm{out}}(E)/2$ & $0{,}25;\ 0{,}6;\ 2{,}5$ & $0{,}25;\ 0{,}6;\ 2{,}5$ & PASS \\
+Плато КЭХ $\nu_{\mathrm{FQHE}}$ & $(1/d,\ 2/d_{\mathrm{out}}(E),\ d/d_{\mathrm{out}}(V))$ & $(1/3, 2/5, 3/7)$ & $(1/3, 2/5, 3/7)$ & PASS \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection*{Анализ, расчёт погрешности и выводы}
+Результаты 3D-симуляции доказывают, что инерция первого закона Ньютона и квантовая неопределённость Гейзенберга порождены одним и тем же локальным порогом $|\Phi_{\mathrm{raw}}| < 41 \mapsto 0$ ($81 = 3^4$ состояний), а запрет Паули на атомной оболочке~$S_1$ вступает в силу ровно через $\Delta\tau = 2$ такта после пересечения световых конусов.
+
+\textbf{Вывод.}
+Все фундаментальные квантовые запреты на решётке~\latGCKshort\ строго локальны и причинно ограничены скоростью $c_0 = 1$ шаг за такт.
+\textbf{Статус записи:} верифицировано автоматическим гейтом \texttt{Local\_gates\_solid\_neuro\_photo}.

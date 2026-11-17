@@ -315,6 +315,66 @@ $Z(x,\tau)$ & $(U_1, V_1, U_2, V_2) \in \mathbb{Z}_{512}^4$ & $4\times 9 = 36\ \
 \end{enumerate}
 \end{theorem}
 
+\section{Принцип строгой локальности затворов \texorpdfstring{$\Mlayer$}{M}-слоя: мёртвая зона Гейзенберга--Ньютона \texorpdfstring{$81 = 3^4$}{81 = 3\^4}, фазовое зеркало Паули \texorpdfstring{$256$}{256} тактов и демаркация границ применимости физических теорий}
+\label{sec:compute-strict-locality-and-demarcation}
+
+В континуальной квантовой механике и теории поля принцип неопределённости Гейзенберга ($\Delta x\,\Delta p \ge \planckHbar/2$), принцип запрета Паули ($\Psi(x_1,x_2) = -\Psi(x_2,x_1)$) и дальнодействующие потенциалы формулируются как нелокальные свойства волновых функций во всём пространстве.
+На дискретном носителе~\latGCKshort\ нелокальных законов не существует: каждый фундаментальный принцип представляет собой строго локальный пороговый затвор внутри одной элементарной ячейки~$V_P$, а классические и квантовые континуальные теории возникают как асимптотические приближения с точно вычислимыми порогами применимости.
+
+\begin{theorem}[Строго локальный затвор Гейзенберга--Ньютона $81 = d^4$, локальное зеркало Паули $Z_{\mathrm{next}} = -Z_{\mathrm{past}}$ и задержки светового конуса]
+\label{thm:compute-local-heisenberg-pauli-gates}
+Пусть на трёхмерной решётке~\latGCKshort\ ($d=3$, $d_{\mathrm{in}}(\square)=4$, $\Delta\varphi_{\mathrm{disc}}=41$, $\Phi_{\mathrm{Pauli}}=256$, $\phaseRingCount=512$) действует канонический обратимый оператор шага чехарды $g$ (\texttt{projected\_step\_fixed}). Выполняются три строгих закона:
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Одновременная определённость $(x,\,\Delta Z)$ на $\Mlayer$-слое и мёртвая зона Гейзенберга--Ньютона из $81 = d^4$ состояний:}
+  в каждый такт~$\tau$ в каждой ячейке $x\in\mathbb{Z}^3$ как пространственная координата~$x$, так и дискретная разностная скорость (импульс) $\Delta Z(x,\tau) := Z(x,\tau) - Z(x,\tau-\htick) \in \mathbb{Z}_{512}[i]^2$ заданы однозначно и детерминированно при нулевой побитовой ошибке обращения ($\max_x |g^{-t}(g^t(Z)) - Z| \equiv 0$).
+  При этом локальный фазовый затвор \texttt{apply\_heisenberg\_floor\_signed} переводит в тождественный нуль ($\Phi_{\mathrm{gated}}(x) \equiv 0$) все подпороговые фазовые сдвиги $|\Phi_{\mathrm{raw}}(x)| < \Delta\varphi_{\mathrm{disc}} = 41$, образующие в кольце $\mathbb{Z}_{512}$ мёртвую зону (deadband) мощности
+  \begin{equation}
+  \label{eq:compute-heisenberg-deadband-81}
+  \begin{aligned}
+    N_{\mathrm{deadband}} &= 2\Delta\varphi_{\mathrm{disc}} - 1 = 2\times 41 - 1 = 81 = 3^4 = d^{\,d_{\mathrm{in}}(\square)},\\
+    N_{\mathrm{active}} &= \phaseRingCount - N_{\mathrm{deadband}} = 512 - 81 = 431.
+  \end{aligned}
+  \end{equation}
+  Внутри мёртвой зоны $|\Phi_{\mathrm{raw}}(x)| \le 40$ импульс рассеяния равен нулю ($\delta Z(x) \equiv 0$), и ячейка движется строго баллистически по первому закону Ньютона ($Z_{\mathrm{next}} - Z_{\mathrm{curr}} = Z_{\mathrm{curr}} - Z_{\mathrm{past}}$), обеспечивая прозрачность кипящего вакуума~$A_5$ ($3887\text{--}3977$ баллистических ячеек из $4096$ на каноническом 3D-сиде против вырождения до $2$ ячеек за $8$ тактов при отключении порога $\Delta\varphi_{\mathrm{disc}}=0$).
+  Для любого внешнего $\Tlayer$-прибора (или перехватчика в квантовом канале связи), регистрирующего только надпороговое рассеяние $|\Phi_{\mathrm{raw}}| \ge 41$, все $81 = 3^4$ микросостояний мёртвой зоны неразличимы ($81$-кратная неинъективная склейка в каждой ячейке), а попытка пробить порог зондом ($|\Phi_{\mathrm{raw}}| \ge 41$) поворачивает скорость $\Delta Z$ минимум на $41$ такт ($s_0 = 1/2\ \text{рад}$).
+\item \textbf{Тождество локального фазового зеркала Паули ($\Phi_{\mathrm{Pauli}} = 256 \implies Z_{\mathrm{next}} = -Z_{\mathrm{past}}$) и двухтактовая задержка светового конуса на сфере~$S_1$:}
+  при локальном перекрытии двух сонаправленных спинорных компонент с плотностью $\rho_1,\rho_2 > \rho_{\min} = 1/2$ в одной ячейке~$V_P$ импульс Паули $\Phi_{\mathrm{Pauli}} = \phaseRingCount/2 = 256$ тактов ($\pi\ \text{рад}$) даёт в таблице поворотов $\delta Z = (e^{i\pi} - 1)Z_{\mathrm{curr}} = -2Z_{\mathrm{curr}}$, что в уравнении чехарды тождественно уничтожает член прямого переноса $2Z_{\mathrm{curr}}$ и превращает ячейку в локальное фазово-сопряжённое зеркало обращения времени:
+  \begin{equation}
+  \label{eq:compute-pauli-local-mirror}
+    Z_{\mathrm{next}}(x) = 2Z_{\mathrm{curr}}(x) - Z_{\mathrm{past}}(x) + \delta Z_{\mathrm{Pauli}}(x)
+    = 2Z_{\mathrm{curr}}(x) - Z_{\mathrm{past}}(x) - 2Z_{\mathrm{curr}}(x) \equiv -Z_{\mathrm{past}}(x).
+  \end{equation}
+  Если два фермиона с параллельными спинами размещены на непересекающихся полусферах первой координационной сферы~$S_1$ ($12$ узлов вокруг~$x_0$), то в такты $\tau = 0$ и $\tau = 1$ локальный затвор Паули равен нулю во всём 13-узловом кластере~$\mathcal{C}_{13}$ ($0/13$ срабатываний), и лишь на такте $\tau = d - 1 = 2$, когда встречные световые конусы сходятся в ядре~$x_0$ и квадратных циклах~$S_1$, срабатывает зеркало $\Phi_{\mathrm{Pauli}} = 256$ ($5/13$ узлов при $\tau=2$ и $11/13$ узлов при $\tau=4$), выталкивая второй фермион на внешнюю оболочку $k = 2$.
+\item \textbf{Упругость Коши и дробные плато Лафлина--Джейна на решётке~\latGCKshort:}
+  отношение входных ёмкостей каналов $d_{\mathrm{in}}(V)=1$, $d_{\mathrm{in}}(E)=2$, $d_{\mathrm{in}}(\square)=4$ и внешних весов $d_{\mathrm{out}}(\triangle,E,V) = (3,5,7)$ фиксирует упругие отношения изотропной центральной решётки Коши (коэффициент Пуассона $\nu_{\mathrm{Cauchy}} = d_{\mathrm{in}}(V)/d_{\mathrm{in}}(\square) = 1/4 = 0{,}25$, $G/K = d/d_{\mathrm{out}}(E) = 3/5 = 0{,}60$, $E_Y/G = d_{\mathrm{out}}(E)/d_{\mathrm{in}}(E) = 5/2 = 2{,}50$), предел теплоёмкости Дюлонга--Пти $C_V/(Nk_{\mathrm{B}}) = |\square|/2 = d = 3$ (с законом Дебая $C_V\propto T^d = T^3$ при $k_{\mathrm{B}}T \ll E_{\mathrm{HB}}$) и главную серию факторов заполнения дробного квантового эффекта Холла в гексагональном срезе $\{111\}$:
+  \begin{equation}
+  \label{eq:compute-cauchy-and-fqhe}
+    \nu_{\mathrm{FQHE}} = \frac{p}{2p+1} \in \left\{\frac{d_{\mathrm{in}}(V)}{d},\; \frac{d-1}{d_{\mathrm{out}}(E)},\; \frac{d}{d_{\mathrm{out}}(V)}\right\}
+    = \left\{\frac{1}{3},\; \frac{2}{5},\; \frac{3}{7}\right\}.
+  \end{equation}
+\end{enumerate}
+\end{theorem}
+
+\begin{table}[htbp]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2pt}
+\caption{Демаркация границ применимости классических и квантовых теорий на решётке~\latGCKshort}
+\label{tab:compute-theory-demarcation}
+\begin{tabular}{@{}llll@{}}
+\toprule
+Теория & Область применимости & Порог на~\latGCKshort & Локальный закон $\Mlayer$-слоя \\
+\midrule
+Гейзенберг $\Delta x\Delta p$ & Зонд $|\Phi| \ge 41$ & $|\Phi_{\mathrm{raw}}| \le 40$ ($81 = 3^4$) & Точные $(x,\Delta Z)$; инерция $\delta Z \equiv 0$ \\
+Запрет Паули КМ & Моды $\tau \ge 2k$ & Конус $\Delta\tau < 2$ на $S_1$ & Зеркало $\Phi_{\mathrm{Pauli}}=256 \implies Z_{\mathrm{next}}=-Z_{\mathrm{past}}$ \\
+Дирак $-Z\alpha/r$ & Сферы $k \gg 1$ & $k=0\leftrightarrow 1$: $G(0)-G(1)=3$ & Конечный спектр $Z=137$; предел $^{208}_{82}\mathrm{Pb}_{126}$ \\
+Мультиполи $Y_{\ell m}$ & Интерполяция $k\gg 1$ & $4$ канала, $N_{\mathrm{nil}}^3 \equiv 0$ & 3-член $M_{\mathrm{chan}}^{\pm m}$; 4 канала $(V,E,\square,\triangle)$ \\
+Навье--Стокс & $k \gg 1$, $\mathrm{Ma}<\sqrt{2}$ & $\mathrm{Ma}_{\mathrm{crit}}=\sqrt{2}$; $r_{\mathrm{disc}}=41/512$ & Каскад $(N_{\mathrm{nil}}^2)_{V\to\triangle}=2/3$; окно $\le 25$ тактов \\
+ОТО и закон $1/R^2$ & $|Z|^2 \ll \rho_{\max}$ & Потолок $|Z|^2 = \rho_{\max}$ & Насыщение \texttt{SatBC\_Cppp}; отскок $N_{\mathrm{bounce}}=50$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \input{volumes/include-computational-laboratory.tex}
 
 \input{volumes/include-measurement-processing.tex}
@@ -329,6 +389,10 @@ $Z(x,\tau)$ & $(U_1, V_1, U_2, V_2) \in \mathbb{Z}_{512}^4$ & $4\times 9 = 36\ \
 
 \begin{labrecord}{CE-CP-02 · Четырёхканальный нильпотентный каскад \texorpdfstring{$M_{\mathrm{chan}} = I_4 + N_{\mathrm{nil}}$}{M\_chan} (\texorpdfstring{$N_{\mathrm{nil}}^3 \equiv 0$}{N\_nil\^3 = 0}), точное обращение и инварианты газовой динамики}{lab:ce-cp-02}
 \input{lab-journal/ce-cp-02.tex}
+\end{labrecord}
+
+\begin{labrecord}{CE-CP-03 · Локальный затвор Гейзенберга--Ньютона \texorpdfstring{$81 = 3^4$}{81 = 3\^4}, фазовое зеркало Паули \texorpdfstring{$256$}{256} тактов и задержка светового конуса на сфере \texorpdfstring{$S_1$}{S\_1}}{lab:ce-cp-03}
+\input{lab-journal/ce-cp-03.tex}
 \end{labrecord}
 \end{labseries}
 

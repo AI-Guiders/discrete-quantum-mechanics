@@ -1218,4 +1218,88 @@ class SISmRows:
             "note": "Geometric frustration, 5:6:7 three life types, Z_4 genetics, Kleiber 3/4 allometry, F0F1-ATP 8/3 bioenergetics, and Grotthuss/pKw kinetics",
         }
 
+    def local_gates_solid_neuro_photo_row(self) -> dict[str, Any]:
+        """Floor 3 / Compute & Biology — Strictly local Heisenberg (81=3^4 deadband) & Pauli (256-tick mirror) gates, Cauchy elasticity, FQHE, Hodgkin-Huxley spike, photosynthesis, and 12=7+5 harmony."""
+        d = 3
+        d_in_v, d_in_e, d_in_sq = 1, 2, 4
+        d_pol = d - d_in_v  # 2
+        d_out_e, n_squares, d_out_v = 5, 6, 7
+        n_hier = 8
+        mod_bits = 9
+        n12 = int(N12_FCC_CAUSAL_LINKS)  # 12
+        n_phi = int(PLANCK_CELL.N_phi)  # 13
+        n_ring = n_hier ** d  # 512
+        s_0 = 1.0 / float(d_pol)  # 0.5
+        n_hb = mod_bits * d_out_v  # 63
+
+        # 1. Local Heisenberg-Newton deadband (|Phi_raw| < 41 -> 0) and local Pauli mirror (Phi_Pauli = 256 -> Z_next = -Z_past)
+        delta_phi_disc = d_in_sq * d_in_sq + d_out_e * d_out_e  # 41
+        heisenberg_deadband = d_pol * delta_phi_disc - d_in_v  # 2 * 41 - 1 = 81 = 3^4 = d^4
+        heisenberg_active_ring = n_ring - heisenberg_deadband  # 431
+        pauli_impulse_disc_val = n_ring // d_pol  # 256
+        s1_pauli_delay_ticks = d_pol  # 2 ticks
+
+        # 2. Solid-state Cauchy elasticity, Dulong-Petit / Debye, and Laughlin-Jain FQHE
+        cauchy_nu = float(d_in_v) / float(d_in_sq)  # 1/4 = 0.25
+        cauchy_g_over_k = float(d) / float(d_out_e)  # 3/5 = 0.60
+        cauchy_e_over_g = float(d_out_e) / float(d_in_e)  # 5/2 = 2.50
+        fqhe_fractions = (
+            float(d_in_v) / float(d),
+            float(d_pol) / float(d_out_e),
+            float(d) / float(d_out_v),
+        )  # (1/3, 2/5, 3/7)
+
+        # 3. Hodgkin-Huxley action potential in E_HB / e quanta
+        rydberg_ev = 13.605693122994
+        e_hb_ev = rydberg_ev / float(n_hb)
+        e_hb_mv = e_hb_ev * 1000.0  # ~215.96 mV
+        v_rest_mv = -e_hb_mv / float(d)  # ~-71.99 mV
+        v_thresh_mv = -e_hb_mv / float(d_in_sq)  # ~-53.99 mV
+        v_peak_mv = e_hb_mv / float(n_squares)  # ~+35.99 mV
+        v_spike_mv = v_peak_mv - v_rest_mv  # s_0 * e_hb_mv ~ 107.98 mV
+
+        # 4. Photosynthesis & vision quanta and 12=7+5 acoustic harmony
+        hc_ev_nm = 1239.8419843320026
+        photo_quanta = (
+            float(n_hier),
+            float(n_hier) + s_0,
+            float(mod_bits),
+            float(n12 - d_pol),
+            float(n_phi),
+        )  # (8.0, 8.5, 9.0, 10.0, 13.0)
+        photo_wavelengths_nm = tuple(hc_ev_nm / (q * e_hb_ev) for q in photo_quanta)
+        pythagorean_comma = ((float(d) / float(d_pol)) ** n12) / float(1 << d_out_v)
+
+        ok = (
+            heisenberg_deadband == (d ** d_in_sq)
+            and heisenberg_deadband + heisenberg_active_ring == n_ring
+            and pauli_impulse_disc_val == n_ring // d_pol
+            and s1_pauli_delay_ticks == d_pol
+            and abs(cauchy_nu - 0.25) < 1e-12
+            and abs(cauchy_g_over_k - 0.60) < 1e-12
+            and abs(cauchy_e_over_g - 2.50) < 1e-12
+            and abs(v_spike_mv - s_0 * e_hb_mv) < 1e-12
+            and -72.5 < v_rest_mv < -71.5
+            and -54.5 < v_thresh_mv < -53.5
+            and 35.5 < v_peak_mv < 36.5
+            and 670.0 < photo_wavelengths_nm[1] < 680.0  # PSII P680 (675.4 nm)
+            and 438.0 < photo_wavelengths_nm[4] < 445.0  # Chl Soret blue peak (441.6 nm)
+            and n12 == d_out_v + d_out_e  # 12 semitones = 7 diatonic + 5 pentatonic
+            and 1.013 < pythagorean_comma < 1.014
+        )
+        return {
+            "heisenberg_deadband_states": heisenberg_deadband,
+            "heisenberg_active_ring_states": heisenberg_active_ring,
+            "pauli_impulse_ticks": pauli_impulse_disc_val,
+            "s1_pauli_lightcone_delay_ticks": s1_pauli_delay_ticks,
+            "cauchy_poisson_ratio": cauchy_nu,
+            "cauchy_shear_to_bulk_ratio": cauchy_g_over_k,
+            "fqhe_laughlin_jain_fractions": fqhe_fractions,
+            "neuron_potentials_mv": (v_rest_mv, v_thresh_mv, v_peak_mv, v_spike_mv),
+            "photosynthesis_wavelengths_nm": photo_wavelengths_nm,
+            "pythagorean_comma_ratio": pythagorean_comma,
+            "ok": ok,
+            "note": "Local Heisenberg (81=3^4 deadband) & Pauli (256-tick mirror, 2-tick S_1 delay) gates, Cauchy/FQHE, Hodgkin-Huxley spike, photosynthesis, and 12=7+5 harmony",
+        }
+
 

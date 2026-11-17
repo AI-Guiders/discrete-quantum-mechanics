@@ -407,3 +407,94 @@ def check_bio_frustration_and_three_life_types(device: str = "cpu") -> dict:
         "ok": ok,
         "note": row["note"],
     }
+
+
+def check_local_gates_solid_neuro_photo(device: str = "cpu") -> dict:
+    """Compute / Bio / Chem — Local Heisenberg (81=3^4 deadband) & Pauli (256-tick mirror, 2-tick S_1 delay) gates, Cauchy/FQHE, Hodgkin-Huxley, photosynthesis, and 12=7+5 harmony."""
+    import torch
+    from mt_ca.config import MConfig
+    from mt_ca.fixed_point import encode_spinor, leapfrog_invert
+    from mt_ca.laplacian import _FCC_OFFSETS
+    from mt_ca.projected_collision import (
+        apply_heisenberg_floor_signed,
+        pauli_phi_int,
+        projected_step_fixed,
+    )
+    from mt_ca.seeds import universe_iv_9bit_spinor_3d
+    from mt_ca.si_constants import SI
+
+    row = SI.local_gates_solid_neuro_photo_row()
+    dev = torch.device(device if (device == "cuda" and torch.cuda.is_available()) else "cpu")
+    cfg_on = MConfig.for_stencil("fcc", heisenberg_floor=True, pauli_exclusion=True)
+    cfg_h_off = MConfig.for_stencil("fcc", heisenberg_floor=False, pauli_exclusion=True)
+
+    # 1. Verify exact 81 = 3^4 local Heisenberg deadband on Z_512 and bitwise reversibility on canonical 3D seed
+    n_ring = 1 << cfg_on.phase_bits
+    half_ring = n_ring >> 1
+    phi_all = torch.arange(-half_ring, half_ring, dtype=torch.int64, device=dev)
+    phi_gated = apply_heisenberg_floor_signed(phi_all, int(row["heisenberg_deadband_states"] + 1) // 2)
+    deadband_sim = int((phi_gated == 0).sum().item())
+
+    grid_n = 2 * cfg_on.phase_bits - 2  # 16
+    z0 = universe_iv_9bit_spinor_3d(grid_n, grid_n, grid_n, device=dev)
+    f0 = encode_spinor(z0, frac_bits=cfg_on.frac_bits, mod_bits=cfg_on.mod_bits)
+
+    fc_on, fp_on = f0.clone(), f0.clone()
+    fc_off, fp_off = f0.clone(), f0.clone()
+    impulses = []
+    n_test_steps = cfg_on.frac_bits + 2  # 8 steps
+    for _ in range(n_test_steps):
+        fc_on, fp_on, imp_on = projected_step_fixed(fc_on, fp_on, cfg_on)
+        fc_off, fp_off, imp_off = projected_step_fixed(fc_off, fp_off, cfg_h_off)
+        impulses.append(imp_on)
+
+    ballistic_cells_h_on = int((impulses[-1].abs().max(dim=-1).values == 0).sum().item())
+    ballistic_cells_h_off = int((imp_off.abs().max(dim=-1).values == 0).sum().item())
+
+    # Unwind 8 steps backward to verify 0 bit error
+    fc_rev, fp_rev = fc_on.clone(), fp_on.clone()
+    for imp in reversed(impulses):
+        fp_prev = leapfrog_invert(fp_rev, fc_rev, imp, mod_bits=cfg_on.mod_bits)
+        fc_rev, fp_rev = fp_rev, fp_prev
+    rev_max_err = int((fc_rev - f0).abs().max().item())
+
+    # 2. Verify 2-tick causal light-cone delay of local Pauli gate for disjoint S_1 parallel spinors
+    c = grid_n // 2
+    f_curr_p = f0.clone()
+    f_past_p = f0.clone()
+    f_curr_p[c, c, c] = torch.tensor([28, 8, 28, 8], dtype=torch.int64, device=dev)
+    f_past_p[c, c, c] = torch.tensor([20, 4, 20, 4], dtype=torch.int64, device=dev)
+    for idx, (dz, dy, dx) in enumerate(_FCC_OFFSETS):
+        if idx < len(_FCC_OFFSETS) // 2:
+            f_curr_p[c + dz, c + dy, c + dx] = torch.tensor([60, 16, 24, 6], dtype=torch.int64, device=dev)
+            f_past_p[c + dz, c + dy, c + dx] = torch.tensor([48, 12, 18, 4], dtype=torch.int64, device=dev)
+        else:
+            f_curr_p[c + dz, c + dy, c + dx] = torch.tensor([24, 6, 60, 16], dtype=torch.int64, device=dev)
+            f_past_p[c + dz, c + dy, c + dx] = torch.tensor([18, 4, 48, 12], dtype=torch.int64, device=dev)
+
+    c13_pts = [(0, 0, 0)] + list(_FCC_OFFSETS)
+    pauli_c13_t0 = sum(int(pauli_phi_int(f_curr_p, cfg_on)[c + dz, c + dy, c + dx] > 0) for dz, dy, dx in c13_pts)
+    f_curr_p, f_past_p, _ = projected_step_fixed(f_curr_p, f_past_p, cfg_on)
+    pauli_c13_t1 = sum(int(pauli_phi_int(f_curr_p, cfg_on)[c + dz, c + dy, c + dx] > 0) for dz, dy, dx in c13_pts)
+    f_curr_p, f_past_p, _ = projected_step_fixed(f_curr_p, f_past_p, cfg_on)
+    pauli_c13_t2 = sum(int(pauli_phi_int(f_curr_p, cfg_on)[c + dz, c + dy, c + dx] > 0) for dz, dy, dx in c13_pts)
+
+    ok = (
+        bool(row["ok"])
+        and deadband_sim == row["heisenberg_deadband_states"]
+        and rev_max_err == 0
+        and ballistic_cells_h_on > 10 * ballistic_cells_h_off
+        and pauli_c13_t0 == 0
+        and pauli_c13_t1 == 0
+        and pauli_c13_t2 >= 5
+    )
+    return {
+        "id": "Local_gates_solid_neuro_photo",
+        "heisenberg_deadband_states": deadband_sim,
+        "ballistic_cells_h_on_vs_off": (ballistic_cells_h_on, ballistic_cells_h_off),
+        "pauli_c13_t0_t1_t2": (pauli_c13_t0, pauli_c13_t1, pauli_c13_t2),
+        "neuron_potentials_mv": row["neuron_potentials_mv"],
+        "photosynthesis_wavelengths_nm": row["photosynthesis_wavelengths_nm"],
+        "ok": ok,
+        "note": row["note"],
+    }

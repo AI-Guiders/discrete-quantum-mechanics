@@ -240,6 +240,7 @@ VERIFY_SUITES: dict[str, VerifySuiteSpec] = {
             check_periodic_and_fcc_graph_dirac,
             check_four_channel_nilpotent_cascade,
             check_bio_frustration_and_three_life_types,
+            check_local_gates_solid_neuro_photo,
         ),
         ship=True,
     ),
