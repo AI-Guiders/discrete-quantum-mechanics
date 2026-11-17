@@ -1293,8 +1293,8 @@ class SISmRows:
         )  # (12, 42, 92, 162, 252) = N_shell(1..5)
         caspar_klug_t7_capsomers = shell_coeff * d_out_v + d_pol  # 72 = |square| * |N_12|
         n_classes = n_hier + n_phi  # 21
-        kappa_a0_nm = 0.529177210903 / math.sqrt(float(d_pol)) * 0.1  # ~0.374185 nm
-        kinesin_step_nm = float(n_classes) * kappa_a0_nm  # ~7.858 nm
+        kappa_a0_nm = 0.529177210903 / math.sqrt(float(d_pol)) * 0.1  # ~0.0374185 nm (= 0.374185 A)
+        kinesin_step_nm = float(shell_coeff * n_classes) * kappa_a0_nm  # 210 * kappa * a_0 ~ 7.858 nm
 
         ok = (
             heisenberg_deadband == (d ** d_in_sq)
