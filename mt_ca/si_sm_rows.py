@@ -35,25 +35,38 @@ class SISmRows:
     """Ask/row probes — do not grow si_constants with these."""
 
     def force_ansatz_row(self) -> dict[str, float]:
-        """§8.4.1 — v ladder; α_s(v)=d/(N_hier π); runner 1/(dπ) ln(v/μ) → M_Z."""
+        """§8.4.1 — v ladder; α_s(v)=(d·d_in(□)/N_hier)·r_disc (π-free) and T-projection."""
         pi = math.pi
         e_p_gev = self.E_P / EV_J / 1.0e9
-        n_hier = int(math.floor(2.0 * math.pi / LN2)) - 1
+        e_0_gev = self.E_0 / EV_J / 1.0e9
+        mod_bits = int(PLANCK_CELL.mod_bits)
+        n_hier = mod_bits - 1
         d_spatial = 3  # Minkowski space §1.6 — not N_c
+        d_in_sq = d_spatial + 1
+        r_disc = float(heisenberg_phi_min_disc(phase_bits=mod_bits)) / float(PLANCK_CELL.N_ring)
+        alpha_s_v_pifree = (float(d_spatial * d_in_sq) / float(n_hier)) * r_disc
+        beta_pack_pifree = (float(d_in_sq) / float(d_spatial)) * r_disc
+        v_pifree = (self.alpha_preferred**n_hier) * (e_0_gev / math.sqrt(r_disc))
         alpha_s_v = d_spatial / (n_hier * pi)
         v = (self.alpha_preferred**n_hier) * e_p_gev * math.sqrt(2.0 * pi)
         m_z = 91.1876  # GeV PDG pole mass (T control scale)
         beta_pack = 1.0 / (d_spatial * pi)
         alpha_s_mz = 1.0 / (1.0 / alpha_s_v + beta_pack * math.log(v / m_z))
+        alpha_s_mz_pifree = 1.0 / (1.0 / alpha_s_v_pifree + beta_pack_pifree * math.log(v_pifree / m_z))
         g_f = 1.0 / (math.sqrt(2.0) * v * v)
         return {
             "alpha_s_seed": alpha_s_v,
             "alpha_s_at_v": alpha_s_v,
+            "alpha_s_at_v_pifree": alpha_s_v_pifree,
             "alpha_s_MZ_model": alpha_s_mz,
+            "alpha_s_MZ_pifree": alpha_s_mz_pifree,
             "alpha_s_MZ_pdg": 0.1179,
             "alpha_s_MZ_rel_err": abs(alpha_s_mz - 0.1179) / 0.1179,
+            "alpha_s_MZ_pifree_rel_err": abs(alpha_s_mz_pifree - 0.1179) / 0.1179,
             "alpha_s_beta_pack": beta_pack,
+            "alpha_s_beta_pack_pifree": beta_pack_pifree,
             "v_GeV": v,
+            "v_pifree_GeV": v_pifree,
             "v_CODATA_GeV": 246.22,
             "M_Z_GeV": m_z,
             "G_F_GeV_m2": g_f,
@@ -61,7 +74,7 @@ class SISmRows:
             "G_F_rel_err": abs(g_f - 1.1663787e-5) / 1.1663787e-5,
             "N_hier": float(n_hier),
             "d_spatial": float(d_spatial),
-            "note": "§8.4.1: runner 1/(d π) ln(v/MZ); π from spatial denominator",
+            "note": "§8.4.1: π-free carrier α_s(v)=(d·d_in(□)/N_hier)·r_disc and T-projection",
         }
 
     def gr_passport_row(self) -> dict[str, float]:
@@ -85,22 +98,27 @@ class SISmRows:
     def weinberg_row(self) -> dict[str, float]:
         """§8.4.3 — bare sin²θ_W = d / (|N12|+1) = 3/13 from FCC cluster."""
         d_spatial = 3
-        n12 = 12  # FCC coordination §1.6
+        d_in_sq = d_spatial + 1
+        n12 = int(N12_FCC_CAUSAL_LINKS)  # FCC coordination §1.6
         n_cluster = n12 + 1
-        n_phi = math.ceil(2.0 * math.pi / DELTA_PHI_MIN)
+        n_phi = int(PLANCK_CELL.N_phi)
+        mod_bits = int(PLANCK_CELL.mod_bits)
+        n_hier = mod_bits - 1
+        r_disc = float(heisenberg_phi_min_disc(phase_bits=mod_bits)) / float(PLANCK_CELL.N_ring)
         sin2 = d_spatial / n_cluster
-        sin2_eff = 1.0 / 8.0 + 1.0 / (d_spatial * math.pi)  # soft neighbor, not SSOT
+        sin2_eff = (1.0 / float(n_hier)) + (float(d_in_sq) / float(d_spatial)) * r_disc  # π-free carrier!
         pdg = 0.23122
         return {
             "sin2_theta_W_bare": sin2,
             "sin2_theta_W_eff_neighbor": sin2_eff,
             "sin2_theta_W_PDG_MSbar": pdg,
             "bare_rel_err_vs_PDG": abs(sin2 - pdg) / pdg,
+            "eff_pifree_rel_err_vs_PDG": abs(sin2_eff - pdg) / pdg,
             "d_spatial": float(d_spatial),
             "N12": float(n12),
             "N_cluster": float(n_cluster),
             "N_phi": float(n_phi),
-            "note": "§8.4.3: bare=3/13=d/(|N12|+1); N_φ=⌈4π⌉ coincides; eff=1/8+1/(dπ) soft",
+            "note": "§8.4.3: bare=3/13=d/(|N12|+1); π-free eff=1/N_hier + (d_in(□)/d)*r_disc = 89/384",
         }
 
     def decay_row(self) -> dict[str, float | bool | str]:
@@ -496,8 +514,12 @@ class SISmRows:
         bridge_gev = (a**3) * m_e / (n_hier / 2.0)
         m_nu0_ev = m_nu0_gev * 1e9
         m_nu_ev = m_nu_gev * 1e9
-        # lemmas (reported, not hard-gated)
-        m_sol_ev = (a**3) * m_e / (n_phi * math.sqrt(math.pi)) * 1e9
+        # π-free carrier solar & lightest neutrino lemmas (using r_disc = Δφ_disc / N_ring):
+        d_spatial = 3
+        d_pol = d_spatial - 1
+        mod_bits = int(PLANCK_CELL.mod_bits)
+        r_disc = float(heisenberg_phi_min_disc(phase_bits=mod_bits)) / float(PLANCK_CELL.N_ring)
+        m_sol_ev = (float(d_pol) * (a**d_spatial) * math.sqrt(r_disc) / n_phi) * m_e * 1e9
         m_light_ev = (a**4) * m_e / n_phi * 1e9
         return {
             "v_GeV": v,
@@ -673,6 +695,21 @@ class SISmRows:
         t_rec_over_e0_pifree = e_ry_over_e0_pifree * theta_rec_over_ery_alg
         t_cmb_over_e0_pifree = e_ry_over_e0_pifree * theta_cmb_over_ery_alg
 
+        # Primordial Nucleosynthesis (BBN) invariants from carrier (ZERO π, ZERO ln, ZERO bare numbers!):
+        #   n / p at weak freeze-out = 1 / d_soft
+        #   Y_p^(0) = (d - 1)*(n/p) / (1 + n/p) = (d - 1) / N_hier = 1 / d_in(□)
+        #   Y_p     = (1 / d_in(□)) * (1 - 1 / (d_in(□) * N_φ))
+        #   D / H   = (d_out(V)^(d-1) / (d_in(□) * N_φ)) * α_fs^(d-1)
+        d_soft = n_hier - 1
+        bbn_n_over_p = 1.0 / float(d_soft)
+        bbn_yp_bare = float(d_pol) / float(n_hier)
+        bbn_yp_dressed = bbn_yp_bare * (1.0 - 1.0 / float(d_in_sq * n_phi))
+        bbn_d_over_h = (float(d_out_v**d_pol) / float(d_in_sq * n_phi)) * (alpha**d_pol)
+        bbn_yp_obs = 0.2450
+        bbn_dh_obs = 2.547e-5
+        rel_err_yp = abs(bbn_yp_dressed - bbn_yp_obs) / bbn_yp_obs
+        rel_err_dh = abs(bbn_d_over_h - bbn_dh_obs) / bbn_dh_obs
+
         # T-layer readout in Kelvin (using k_B only at the T-layer thermometer interface)
         kb_si = 1.380649e-23
         m_e_kg = float(self.birth_row()["m_e_kg"])
@@ -700,10 +737,18 @@ class SISmRows:
             and rel_err_t_cmb_carrier < 0.005
             and rel_err_t_cmb_alg < 0.01
             and rel_err_t_cmb_ticks < 0.005
+            and rel_err_yp < 0.002
+            and rel_err_dh < 0.01
         )
         return {
             "eta_B_carrier": eta_b,
             "inv_eta_B_prefactor_208_over_45": inv_eta_b_prefactor,
+            "bbn_n_over_p_freeze": bbn_n_over_p,
+            "bbn_Yp_bare": bbn_yp_bare,
+            "bbn_Yp_dressed": bbn_yp_dressed,
+            "bbn_D_over_H": bbn_d_over_h,
+            "rel_err_bbn_Yp": rel_err_yp,
+            "rel_err_bbn_D_over_H": rel_err_dh,
             "carrier_recomb_divisor_alg": carrier_recomb_divisor,
             "recomb_entropy_divisor_5_over_2_ln_inv_eta": recomb_entropy_divisor,
             "theta_rec_over_E_Ry_alg": theta_rec_over_ery_alg,

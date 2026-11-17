@@ -303,6 +303,9 @@ class SICarrierRows:
         t_ceiling = (u_p / a_rad) ** 0.25
         rad = self.radiation_row()
         nu0 = rad["nu_0_Hz"]
+        n_ring_f = float(hv.N_ring)
+        rho_vac_over_e0_fourth_pifree = 1.0 / n_ring_f
+        theta_m_vac_over_e0_pifree = n_ring_f ** (-0.25)
         return {
             "z_min": z_min,
             "frac_bits": hv.frac_bits,
@@ -311,6 +314,8 @@ class SICarrierRows:
             "rho_E_vac_J_m3": rho_vac,
             "u_P_J_m3": u_p,
             "rho_over_uP": z_sq_natural,
+            "rho_vac_over_E0_fourth_pifree": rho_vac_over_e0_fourth_pifree,
+            "Theta_M_vac_over_E0_pifree": theta_m_vac_over_e0_pifree,
             "T_M_bath_K": t_bath,
             "T_uP_ceiling_K": t_ceiling,
             "T_CMB_K_ref": T_CMB_K_REF,

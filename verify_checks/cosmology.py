@@ -157,26 +157,42 @@ def check_iv263_two_epoch_bottleneck(device: str = "cpu") -> dict:
         else (0, 0, 0)
     )
 
-    # 4. t = 336: Epoch II 3-quantum core (w_max = 3 = d) born at 1 FCC NN step from relic_offset
-    sim.step(336 - sim.tick, record_impulses=False)
-    rows_336, photons_336 = _snapshot()
-    w_max_336 = max((abs(r["w_auto"]) for r in rows_336), default=0.0)
-    core3_rows = [r for r in rows_336 if round(abs(r["w_auto"])) == d_spatial]
-    fcc_l1_dist_to_relic = (
-        abs((core3_rows[0]["iz"] - c) - relic_offset[0])
-        + abs((core3_rows[0]["y"] - c) - relic_offset[1])
-        + abs((core3_rows[0]["x"] - c) - relic_offset[2])
-        if core3_rows
-        else 999
-    )
+    # 4. Epoch II (t = 272..512, step 2*N_hier = 16): BBN winding census |w| in {1, 2, 3},
+    #    t = 336 3-quantum core (w_max = d) at 1 FCC NN step from relic_offset, and t = 352 peak (b_hits = N_hier)
+    counts_by_w = {1: 0, 2: 0, 3: 0}
+    mass_by_w = {1: 0, 2: 0, 3: 0}
+    w_max_336 = 0.0
+    fcc_l1_dist_to_relic = 999
+    rows_352: list[dict] = []
 
-    # 5. t = 352: Epoch II baryon wave peak (b_hits = 8 = N_hier)
-    sim.step(352 - sim.tick, record_impulses=False)
-    rows_352, photons_352 = _snapshot()
+    step_stride = (d_spatial - 1) * n_hier  # 16
+    for target_t in range(t_neck + step_stride, n_ring + 1, step_stride):
+        sim.step(target_t - sim.tick, record_impulses=False)
+        rows_t, _ = _snapshot()
+        for r in rows_t:
+            w_int = round(abs(r["w_auto"]))
+            if w_int in counts_by_w:
+                counts_by_w[w_int] += 1
+                mass_by_w[w_int] += w_int
+        if target_t == 336:
+            w_max_336 = max((abs(r["w_auto"]) for r in rows_t), default=0.0)
+            core3_rows = [r for r in rows_t if round(abs(r["w_auto"])) == d_spatial]
+            if core3_rows:
+                fcc_l1_dist_to_relic = (
+                    abs((core3_rows[0]["iz"] - c) - relic_offset[0])
+                    + abs((core3_rows[0]["y"] - c) - relic_offset[1])
+                    + abs((core3_rows[0]["x"] - c) - relic_offset[2])
+                )
+        elif target_t == 352:
+            rows_352 = rows_t
 
-    # Verify bit-exact resume from t = 256 checkpoint to t = 352
+    total_winding_mass = sum(mass_by_w.values())
+    w2_mass_share = float(mass_by_w[2]) / float(total_winding_mass) if total_winding_mass > 0 else 0.0
+    yp_bare = 1.0 / float(d_spatial + 1)  # 1 / d_in(□) = 0.25
+
+    # Verify bit-exact resume from t = 256 checkpoint to t = 512
     sim_resumed = LatticeFluidSimulator.from_checkpoint(ckpt_256, device=dev)
-    sim_resumed.step(352 - t_neck, record_impulses=False)
+    sim_resumed.step(n_ring - t_neck, record_impulses=False)
     ckpt_resume_ok = bool(
         torch.equal(sim_resumed._f_curr, sim._f_curr)
         and torch.equal(sim_resumed._f_past, sim._f_past)
@@ -189,8 +205,10 @@ def check_iv263_two_epoch_bottleneck(device: str = "cpu") -> dict:
         and len(rows_256) == 1
         and photons_256 > 2500
         and round(w_max_336) == d_spatial
-        and fcc_l1_dist_to_relic == 2  # exact 1 nearest-neighbor FCC edge |(±1, ±1, 0)|_1 = 2
+        and fcc_l1_dist_to_relic == (d_spatial - 1)  # exact 1 nearest-neighbor FCC edge |(±1, ±1, 0)|_1 = 2
         and len(rows_352) == n_hier
+        and counts_by_w == {1: 61, 2: 11, 3: 1}
+        and abs(w2_mass_share - yp_bare) < 0.01
         and ckpt_resume_ok
     )
     return {
@@ -205,8 +223,10 @@ def check_iv263_two_epoch_bottleneck(device: str = "cpu") -> dict:
         "t336_w_max": w_max_336,
         "t336_core3_fcc_l1_dist_to_relic": fcc_l1_dist_to_relic,
         "t352_peak_b_hits": len(rows_352),
+        "epoch2_winding_node_counts": counts_by_w,
+        "epoch2_w2_winding_mass_share": w2_mass_share,
         "checkpoint_256_resume_bit_exact": ckpt_resume_ok,
         "ok": ok,
-        "note": "CE-C-04: IV=263 two-epoch cascade through t=256=N_ring/2 bottleneck (1 relic seed + 2733 photon quanta -> w=3 core on adjacent FCC edge & b_hits=8)",
+        "note": "CE-C-04: IV=263 two-epoch cascade through t=256=N_ring/2 bottleneck, w=3 seed growth, and BBN w=2 mass share 22/86≈1/d_in(□)",
     }
 
