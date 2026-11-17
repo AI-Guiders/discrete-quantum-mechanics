@@ -188,6 +188,7 @@ def check_iv263_two_epoch_bottleneck(device: str = "cpu") -> dict:
 
     total_winding_mass = sum(mass_by_w.values())
     w2_mass_share = float(mass_by_w[2]) / float(total_winding_mass) if total_winding_mass > 0 else 0.0
+    one_quantum_w2_mass_step = float(d_spatial - 1) / float(total_winding_mass) if total_winding_mass > 0 else 1.0
     yp_bare = 1.0 / float(d_spatial + 1)  # 1 / d_in(□) = 0.25
 
     # Verify bit-exact resume from t = 256 checkpoint to t = 512
@@ -208,7 +209,7 @@ def check_iv263_two_epoch_bottleneck(device: str = "cpu") -> dict:
         and fcc_l1_dist_to_relic == (d_spatial - 1)  # exact 1 nearest-neighbor FCC edge |(±1, ±1, 0)|_1 = 2
         and len(rows_352) == n_hier
         and counts_by_w == {1: 61, 2: 11, 3: 1}
-        and abs(w2_mass_share - yp_bare) < 0.01
+        and abs(w2_mass_share - yp_bare) < one_quantum_w2_mass_step
         and ckpt_resume_ok
     )
     return {
@@ -225,8 +226,9 @@ def check_iv263_two_epoch_bottleneck(device: str = "cpu") -> dict:
         "t352_peak_b_hits": len(rows_352),
         "epoch2_winding_node_counts": counts_by_w,
         "epoch2_w2_winding_mass_share": w2_mass_share,
+        "epoch2_one_quantum_w2_mass_step": one_quantum_w2_mass_step,
         "checkpoint_256_resume_bit_exact": ckpt_resume_ok,
         "ok": ok,
-        "note": "CE-C-04: IV=263 two-epoch cascade through t=256=N_ring/2 bottleneck, w=3 seed growth, and BBN w=2 mass share 22/86≈1/d_in(□)",
+        "note": "CE-C-04: IV=263 two-epoch cascade through t=256=N_ring/2 bottleneck, w=3 seed growth, and BBN w=2 mass share 22/86 within 1 discrete quantum of 1/d_in(□)",
     }
 

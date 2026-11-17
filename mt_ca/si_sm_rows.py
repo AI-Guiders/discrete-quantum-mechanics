@@ -649,23 +649,34 @@ class SISmRows:
         d_spatial = 3
         d_pol = d_spatial - 1
         d_in_sq = d_spatial + 1
-        d_out_v = n12 - (d_spatial + d_in_sq)
+        d_out_e = n12 - (d_spatial + d_in_sq)
+        n_sq_faces = d_pol * d_spatial  # |square| = 6
+        n_tri_faces = 1 << d_spatial  # |triangle| = 8 = N_hier
+        n_shell_2 = n12 + (d_pol * n12) + n_sq_faces  # 12 + 24 + 6 = 42
+        phi_min_from_hier = 1 + d_out_e * n_tri_faces
+        phi_min_from_gauss = (d_in_sq**d_pol) + (d_out_e**d_pol)
+        phi_min_from_shell2 = n_shell_2 - 1
+        phi_min_from_seam = (n_ring + n_phi + n_tri_faces) // n_phi
         phi_min = int(heisenberg_phi_min_disc(phase_bits=mod_bits))
-        r_disc = float(phi_min) / float(n_ring)
+        r_disc_geometric_ok = (
+            n_ring == (n_tri_faces**d_spatial)
+            and phi_min == phi_min_from_hier == phi_min_from_gauss == phi_min_from_shell2 == phi_min_from_seam
+        )
+        r_disc = float(phi_min_from_hier) / float(n_tri_faces**d_spatial)
         alpha = self.alpha_fs
 
-        # Carrier baryon-to-photon ratio η_B = (⌊B_V⌋ * d_out(V)) / ((d-1) * N_φ * N_hier) * α_fs^(d_in(□))
-        eta_b = (float(mod_bits * d_out_v) / float(d_pol * n_phi * n_hier)) * (alpha**d_in_sq)
-        inv_eta_b_prefactor = float(d_pol * n_phi * n_hier) / float(mod_bits * d_out_v)
+        # Carrier baryon-to-photon ratio η_B = (⌊B_V⌋ * d_out(E)) / ((d-1) * N_φ * N_hier) * α_fs^(d_in(□))
+        eta_b = (float(mod_bits * d_out_e) / float(d_pol * n_phi * n_hier)) * (alpha**d_in_sq)
+        inv_eta_b_prefactor = float(d_pol * n_phi * n_hier) / float(mod_bits * d_out_e)
 
         # 1. Pure algebraic carrier recombination & CMB ratios (ZERO π, ZERO ln, ZERO bare numbers!):
-        #    E_Lya / E_Ry = d / d_in(□), and Θ_rec / E_Lya = 1 / (d_out(V) * N_hier)
-        carrier_recomb_divisor = float(d_in_sq * d_out_v * n_hier) / float(d_spatial)
-        theta_rec_over_ery_alg = float(d_spatial) / float(d_in_sq * d_out_v * n_hier)
-        lya_over_theta_rec_alg = float(d_out_v * n_hier)
+        #    E_Lya / E_Ry = d / d_in(□), and Θ_rec / E_Lya = 1 / (d_out(E) * N_hier)
+        carrier_recomb_divisor = float(d_in_sq * d_out_e * n_hier) / float(d_spatial)
+        theta_rec_over_ery_alg = float(d_spatial) / float(d_in_sq * d_out_e * n_hier)
+        lya_over_theta_rec_alg = float(d_out_e * n_hier)
 
         # T-layer continuum Saha logarithmic projection (for cross-check only):
-        recomb_entropy_divisor = (float(d_out_v) / float(d_pol)) * math.log(1.0 / eta_b)
+        recomb_entropy_divisor = (float(d_out_e) / float(d_pol)) * math.log(1.0 / eta_b)
         theta_rec_over_ery = 1.0 / recomb_entropy_divisor
         lya_over_theta_rec = (float(d_spatial) / float(d_in_sq)) * recomb_entropy_divisor
 
@@ -680,7 +691,7 @@ class SISmRows:
         theta_cmb_over_ery_carrier = theta_rec_over_ery / z_plus_1_carrier
         theta_cmb_over_ery_ticks = theta_rec_over_ery / z_plus_1_ticks
         theta_cmb_over_mec2_carrier = (alpha**d_pol) * theta_cmb_over_ery_carrier / float(d_pol)
-        hi_quanta_count = d_out_v * n_hier
+        hi_quanta_count = d_out_e * n_hier
 
         # Carrier scale T_P_M := E_0 = s_0 / dt (ZERO π, ZERO k_B, ZERO bare numbers!):
         #   Boiling ocean: ρ_vac / (E_0^4 / l_P^3) = 1 / N_ring  =>  Θ_vac / E_0 = N_ring^(-1 / d_in(□))
@@ -696,15 +707,15 @@ class SISmRows:
         t_cmb_over_e0_pifree = e_ry_over_e0_pifree * theta_cmb_over_ery_alg
 
         # Primordial Nucleosynthesis (BBN) invariants from carrier (ZERO π, ZERO ln, ZERO bare numbers!):
-        #   n / p at weak freeze-out = 1 / d_soft
+        #   n / p at weak freeze-out = 1 / d_soft (where d_soft = d_out(V) = 7)
         #   Y_p^(0) = (d - 1)*(n/p) / (1 + n/p) = (d - 1) / N_hier = 1 / d_in(□)
         #   Y_p     = (1 / d_in(□)) * (1 - 1 / (d_in(□) * N_φ))
-        #   D / H   = (d_out(V)^(d-1) / (d_in(□) * N_φ)) * α_fs^(d-1)
+        #   D / H   = (d_out(E)^(d-1) / (d_in(□) * N_φ)) * α_fs^(d-1)
         d_soft = n_hier - 1
         bbn_n_over_p = 1.0 / float(d_soft)
         bbn_yp_bare = float(d_pol) / float(n_hier)
         bbn_yp_dressed = bbn_yp_bare * (1.0 - 1.0 / float(d_in_sq * n_phi))
-        bbn_d_over_h = (float(d_out_v**d_pol) / float(d_in_sq * n_phi)) * (alpha**d_pol)
+        bbn_d_over_h = (float(d_out_e**d_pol) / float(d_in_sq * n_phi)) * (alpha**d_pol)
         bbn_yp_obs = 0.2450
         bbn_dh_obs = 2.547e-5
         rel_err_yp = abs(bbn_yp_dressed - bbn_yp_obs) / bbn_yp_obs
@@ -731,7 +742,8 @@ class SISmRows:
         rel_err_t_cmb_ticks = abs(t_cmb_k_ticks - T_CMB_K_REF) / T_CMB_K_REF
 
         ok = (
-            rel_err_t_rec < 0.005
+            r_disc_geometric_ok
+            and rel_err_t_rec < 0.005
             and rel_err_t_rec_alg < 0.005
             and rel_err_z_carrier_vs_ticks < 0.001
             and rel_err_t_cmb_carrier < 0.005
@@ -741,6 +753,8 @@ class SISmRows:
             and rel_err_dh < 0.01
         )
         return {
+            "r_disc_geometric_41_over_512_ok": r_disc_geometric_ok,
+            "r_disc": r_disc,
             "eta_B_carrier": eta_b,
             "inv_eta_B_prefactor_208_over_45": inv_eta_b_prefactor,
             "bbn_n_over_p_freeze": bbn_n_over_p,
@@ -781,7 +795,7 @@ class SISmRows:
             "rel_err_T_CMB_alg": rel_err_t_cmb_alg,
             "rel_err_T_CMB_ticks": rel_err_t_cmb_ticks,
             "ok": ok,
-            "note": "π-free, k_B-free, bare-number-free carrier: Θ_vac/E_0=N_ring^(-1/d_in(□)), Θ_rec/E_Ry=d/(d_in(□) d_out(V) N_hier), Θ_CMB/E_Ry=d α_fs/(d_in(□) d_out(V) N_hier^2)",
+            "note": "π-free, k_B-free, bare-number-free carrier: Θ_vac/E_0=N_ring^(-1/d_in(□)), Θ_rec/E_Ry=d/(d_in(□) d_out(E) N_hier), Θ_CMB/E_Ry=d α_fs/(d_in(□) d_out(E) N_hier^2)",
         }
 
 

@@ -92,11 +92,11 @@
   \end{equation}
   Прямое численное интегрирование обратимого шага~$g$ на трёхмерной решётке~\latGCKshort\ с начальным вектором $\mathrm{IV} = 263$ из состояния без посаженных вихрей ($b(\tau=0) \equiv 0$) детерминированно рождает устойчивые вихревые солитоны материи ($b = 1$) с чистым положительным топологическим зарядом $\sum n > 0$, тогда как инверсия старшего бита ($\mathrm{IV} = 7$, $b_{\mathrm{chir}} = 0$) зеркально меняет знак рождающегося мира на антиматерию ($\sum n < 0$).
 \item \textbf{Количественный вывод барион-фотонного отношения $\eta_B = n_B / n_\gamma$:}
-  при прохождении фронта нуклеации через $\vevHierarchySteps = 8$ ступеней электрослабой башни доля выживших барионных узлов~$K_3$ по отношению к числу родившихся безмассовых квантов излучения ($n=0$, фотонов реликтовой ванны) определяется четвёртой степенью константы сцепления~$\alpha_{\mathrm{fs}}^4$, умноженной на CP-нечётную мнимую часть вершины треугольника унитарности $\bar\eta = \lfloor\caBitBudget\rfloor / (2N_\varphi) = 9/26$ и долю внешних каналов вершины $d_{\mathrm{out}}(V)/\vevHierarchySteps = 5/8$:
+  при прохождении фронта нуклеации через $\vevHierarchySteps = 8$ ступеней электрослабой башни доля выживших барионных узлов~$K_3$ по отношению к числу родившихся безмассовых квантов излучения ($n=0$, фотонов реликтовой ванны) определяется четвёртой степенью константы сцепления~$\alpha_{\mathrm{fs}}^4$, умноженной на CP-нечётную мнимую часть вершины треугольника унитарности $\bar\eta = \lfloor\caBitBudget\rfloor / (2N_\varphi) = 9/26$ и долю внешних рёберных каналов $d_{\mathrm{out}}(E)/\vevHierarchySteps = 5/8$:
   \begin{equation}
   \label{eq:cosmo-baryon-to-photon}
     \eta_B := \frac{n_B}{n_\gamma}
-    = \bar\eta\,\frac{d_{\mathrm{out}}(V)}{\vevHierarchySteps}\,\alpha_{\mathrm{fs}}^4
+    = \bar\eta\,\frac{d_{\mathrm{out}}(E)}{\vevHierarchySteps}\,\alpha_{\mathrm{fs}}^4
     = \frac{45}{208}\,\alpha_{\mathrm{fs}}^4
     \approx 6{,}135\times 10^{-10}
   \end{equation}
@@ -188,17 +188,17 @@
 \begin{enumerate}[leftmargin=*]
 \item \textbf{Алгебраический порог отцепления Лайман-$\alpha$ и квант рекомбинации $\Theta_{\mathrm{rec}}$:}
   энергия главного дипольного перехода водорода равна $E_{\mathrm{Ly}\alpha} = \frac{d}{d_{\mathrm{in}}(\square)}\,E_{\mathrm{Ry}}$, где $E_{\mathrm{Ry}} = \frac{\alpha_{\mathrm{fs}}^{d-1}}{d-1}\,m_e c^2$.
-  На дискретном носителе отцепление фотонной бани от нейтрального водорода наступает тогда, когда квант Лайман-$\alpha$ распределяется по $d_{\mathrm{out}}(V)\,\vevHierarchySteps$ внешним иерархическим каналам вершины кубооктаэдра:
+  На дискретном носителе отцепление фотонной бани от нейтрального водорода наступает тогда, когда квант Лайман-$\alpha$ распределяется по $d_{\mathrm{out}}(E)\,\vevHierarchySteps$ внешним иерархическим рёберным каналам кубооктаэдра ($E=(2,5,5)$, $d_{\mathrm{out}}(E)=5$):
   \begin{equation}
   \label{eq:cosmo-theta-rec-natural}
     \frac{\Theta_{\mathrm{rec}}}{E_{\mathrm{Ly}\alpha}}
-    = \frac{1}{d_{\mathrm{out}}(V)\,\vevHierarchySteps}
+    = \frac{1}{d_{\mathrm{out}}(E)\,\vevHierarchySteps}
     \quad\Longleftrightarrow\quad
     \frac{\Theta_{\mathrm{rec}}}{E_{\mathrm{Ry}}}
-    = \frac{d}{d_{\mathrm{in}}(\square)\,d_{\mathrm{out}}(V)\,\vevHierarchySteps}
+    = \frac{d}{d_{\mathrm{in}}(\square)\,d_{\mathrm{out}}(E)\,\vevHierarchySteps}
     \approx 0{,}01875
   \end{equation}
-  (в континуальном описании Саха на~$\Tlayer$ тому же отношению отвечает логарифм барион-фотонного отношения $\bigl[\frac{d_{\mathrm{out}}(V)}{d-1}\ln(1/\eta_B)\bigr]^{-1} \approx 0{,}018857$ при $\eta_B^{-1} = \frac{(d-1)N_\varphi\vevHierarchySteps}{\lfloor\caBitBudget\rfloor d_{\mathrm{out}}(V)}\,\alpha_{\mathrm{fs}}^{-d_{\mathrm{in}}(\square)}$, сходящийся с алгебраическим отношением носителя~\eqref{eq:cosmo-theta-rec-natural} с точностью~$0{,}57\%$).
+  (в континуальном описании Саха на~$\Tlayer$ тому же отношению отвечает логарифм барион-фотонного отношения $\bigl[\frac{d_{\mathrm{out}}(E)}{d-1}\ln(1/\eta_B)\bigr]^{-1} \approx 0{,}018857$ при $\eta_B^{-1} = \frac{(d-1)N_\varphi\vevHierarchySteps}{\lfloor\caBitBudget\rfloor d_{\mathrm{out}}(E)}\,\alpha_{\mathrm{fs}}^{-d_{\mathrm{in}}(\square)}$, сходящийся с алгебраическим отношением носителя~\eqref{eq:cosmo-theta-rec-natural} с точностью~$0{,}57\%$).
   При переводе в шкалу Кельвина на приборном слое~$\Tlayer$ через $T_{\mathrm{Ry}} = E_{\mathrm{Ry}}/k_{\mathrm{B}}$ алгебраическая формула~\eqref{eq:cosmo-theta-rec-natural} даёт $T_{\mathrm{rec}}^{\mathrm{alg}} = 2960{,}39\ \mathrm{К}$, а логарифмическая проекция Саха — $T_{\mathrm{rec}} = 2977{,}35\ \mathrm{К}$ (наблюдение Planck~2018: $T_* = 2972{,}98\ \mathrm{К}$, отклонение $0{,}42\%$ и~$0{,}15\%$).
 \item \textbf{Коэффициент космологического остывания $1 + z_{\mathrm{CMB}}$ и современный квант $\Theta_{\mathrm{CMB}}$:}
   при расширении пузыря от такта~$N_{\mathrm{CMB}}$ до такта~$N_{\mathrm{today}}$ в размерности~$d$ тактовый фактор растяжения совпадает с отношением ступеней башни~$\vevHierarchySteps$ к~$\alpha_{\mathrm{fs}}$:
@@ -217,24 +217,44 @@
   \label{eq:cosmo-theta-cmb-natural}
   \begin{aligned}
     \frac{\Theta_{\mathrm{CMB}}}{E_{\mathrm{Ry}}}
-    &= \frac{d\,\alpha_{\mathrm{fs}}}{d_{\mathrm{in}}(\square)\,d_{\mathrm{out}}(V)\,\vevHierarchySteps^{d-1}},\\
+    &= \frac{d\,\alpha_{\mathrm{fs}}}{d_{\mathrm{in}}(\square)\,d_{\mathrm{out}}(E)\,\vevHierarchySteps^{d-1}},\\
     \frac{\Theta_{\mathrm{CMB}}}{m_e c^2}
-    &= \frac{d\,\alpha_{\mathrm{fs}}^{d}}{(d-1)\,d_{\mathrm{in}}(\square)\,d_{\mathrm{out}}(V)\,\vevHierarchySteps^{d-1}},
+    &= \frac{d\,\alpha_{\mathrm{fs}}^{d}}{(d-1)\,d_{\mathrm{in}}(\square)\,d_{\mathrm{out}}(E)\,\vevHierarchySteps^{d-1}},
     \qquad
     \frac{\Theta_{\mathrm{CMB}}}{E_{\mathrm{HI}}}
-    \approx d_{\mathrm{out}}(V)\,\vevHierarchySteps.
+    \approx d_{\mathrm{out}}(E)\,\vevHierarchySteps.
   \end{aligned}
   \end{equation}
-\item \textbf{Запись в собственной единице такта носителя $T_{P,\Mlayer} := E_0 = s_0/\htick$ (без $\pi$):}
-  поскольку на носителе электрослабый масштаб определяется дискретным фазовым остатком $r_{\mathrm{disc}} = \Delta\varphi_{\mathrm{disc}}/\phaseRingCount$ без участия~$\pi$ ($v/E_0 = \alpha_{\mathrm{fs}}^{\vevHierarchySteps}/\sqrt{r_{\mathrm{disc}}}$, $\lambda_H = 1/\vevHierarchySteps + \vevHierarchySteps r_{\mathrm{disc}}\alpha_{\mathrm{fs}}$, $m_H/E_0 = \sqrt{(d-1)\lambda_H}\,v/E_0$ и $E_{\mathrm{Ry}}/E_0 = \frac{\alpha_{\mathrm{fs}}^{|\mathrm{N12}|}}{(d-1)N_\varphi}\sqrt{(d-1)\lambda_H/r_{\mathrm{disc}}}$), оба космологических тепловых кванта выражаются через точные структурные показатели $|\mathrm{N12}|$ и $N_\varphi = |\mathrm{N12}| + 1$:
+\item \textbf{Запись в собственной единице такта носителя $T_{P,\Mlayer} := E_0 = s_0/\htick$ через чисто геометрический инвариант $r_{\mathrm{disc}} = \Delta\varphi_{\mathrm{disc}}/\phaseRingCount$ (без $\pi$ и без $\ln 2$):}
+  все целочисленные параметры регистра ячейки задаются непосредственно комбинаторикой граней и каналов однотактового кубооктаэдра ($|\square|=2d=6$, $|\triangle|=2^d=8$, $|\mathrm{N12}|=12$, $N_\varphi=1+|\mathrm{N12}|=13$, $d_{\mathrm{in}}(\square)=d+1=4$, $d_{\mathrm{out}}(E)=5$):
+  \[
+    \mathrm{frac\_bits} = |\square| = 6,\qquad
+    \vevHierarchySteps = |\triangle| = 8,\qquad
+    \mathrm{mod\_bits} = 1 + |\triangle| = d^2 = 9,\qquad
+    \phaseRingCount = |\triangle|^d = 2^{1+|\triangle|} = 512,
+  \]
+  а порог Гейзенберга $\Delta\varphi_{\mathrm{disc}} = 41$ определяется четырьмя тождественно совпадающими геометрическими соотношениями без участия~$\pi$:
+  \begin{equation}
+  \label{eq:cosmo-rdisc-geometric}
+    \Delta\varphi_{\mathrm{disc}}
+    = 1 + d_{\mathrm{out}}(E)\,|\triangle|
+    = d_{\mathrm{in}}(\square)^2 + d_{\mathrm{out}}(E)^2
+    = N_{\mathrm{shell}}(2) - 1
+    = \frac{\phaseRingCount + N_\varphi + |\triangle|}{N_\varphi}
+    = 41,
+    \qquad
+    r_{\mathrm{disc}} = \frac{\Delta\varphi_{\mathrm{disc}}}{\phaseRingCount} = \frac{1 + d_{\mathrm{out}}(E)\,|\triangle|}{|\triangle|^d} = \frac{41}{512} \approx 0{,}0800781
+  \end{equation}
+  (тогда как континуальная величина $1/(4\pi) \approx 0{,}0795775$, отличающаяся на фиксированный сдвиг $+0{,}63\%$, представляет собой лишь длинноволновое приближение~$r_{\mathrm{disc}}$ при сферическом усреднении на~$\Tlayer$).
+  Подстановка $r_{\mathrm{disc}}$ ($v/E_0 = \alpha_{\mathrm{fs}}^{\vevHierarchySteps}/\sqrt{r_{\mathrm{disc}}}$, $\lambda_H = 1/\vevHierarchySteps + \vevHierarchySteps r_{\mathrm{disc}}\alpha_{\mathrm{fs}}$, $m_H/E_0 = \sqrt{(d-1)\lambda_H}\,v/E_0$ и $E_{\mathrm{Ry}}/E_0 = \frac{\alpha_{\mathrm{fs}}^{|\mathrm{N12}|}}{(d-1)N_\varphi}\sqrt{(d-1)\lambda_H/r_{\mathrm{disc}}}$) выражает оба космологических тепловых кванта через точные структурные показатели $|\mathrm{N12}|$ и $N_\varphi = |\mathrm{N12}| + 1$:
   \begin{equation}
   \label{eq:cosmo-theta-cmb-in-e0}
   \begin{aligned}
     \frac{\Theta_{\mathrm{rec}}}{E_0}
-    &= \frac{d\,\alpha_{\mathrm{fs}}^{|\mathrm{N12}|}}{(d-1)\,d_{\mathrm{in}}(\square)\,d_{\mathrm{out}}(V)\,\vevHierarchySteps\,N_\varphi}\sqrt{\frac{(d-1)\lambda_H}{r_{\mathrm{disc}}}}
+    &= \frac{d\,\alpha_{\mathrm{fs}}^{|\mathrm{N12}|}}{(d-1)\,d_{\mathrm{in}}(\square)\,d_{\mathrm{out}}(E)\,\vevHierarchySteps\,N_\varphi}\sqrt{\frac{(d-1)\lambda_H}{r_{\mathrm{disc}}}}
     \approx 2{,}959\times 10^{-29},\\
     \frac{\Theta_{\mathrm{CMB}}}{E_0}
-    &= \frac{d\,\alpha_{\mathrm{fs}}^{N_\varphi}}{(d-1)\,d_{\mathrm{in}}(\square)\,d_{\mathrm{out}}(V)\,\vevHierarchySteps^{d}\,N_\varphi}\sqrt{\frac{(d-1)\lambda_H}{r_{\mathrm{disc}}}}
+    &= \frac{d\,\alpha_{\mathrm{fs}}^{N_\varphi}}{(d-1)\,d_{\mathrm{in}}(\square)\,d_{\mathrm{out}}(E)\,\vevHierarchySteps^{d}\,N_\varphi}\sqrt{\frac{(d-1)\lambda_H}{r_{\mathrm{disc}}}}
     \approx 2{,}699\times 10^{-32}.
   \end{aligned}
   \end{equation}
@@ -260,15 +280,15 @@
   \item различие между видимым возрастом разлёта текущей барионной волны после горлышка ($\tau_{\mathrm{wave}} = \tau - \tau_{\mathrm{neck}} \leftrightarrow 13{,}8\ \mathrm{млрд\ лет}$) и полным каузальным возрастом пузыря от момента нуклеации сида $\mathrm{IV}=263$ ($\tau_{\mathrm{total}} = \tau_{\mathrm{neck}} + \tau_{\mathrm{wave}} \sim 26\text{--}27\ \mathrm{млрд\ лет}$).
   \end{enumerate}
 \item \textbf{Первичный нуклеосинтез (BBN: массовая доля гелия-4~$Y_p$ и отношение $n_{\mathrm{D}}/n_{\mathrm{H}}$) и перепись намоток $|w|\in\{1,2,3\}$ во Второй Эпохе:}
-  на пороге замораживания слабых переходов отношение числа нейтронов к протонам равно $n/p = 1/d_{\mathrm{soft}}$ (один канал из $d_{\mathrm{soft}} = \vevHierarchySteps - 1$), откуда древесная массовая доля первичного гелия-4 составляет $Y_p^{(0)} = \frac{(d-1)(n/p)}{1 + n/p} = \frac{d-1}{\vevHierarchySteps} = \frac{1}{d_{\mathrm{in}}(\square)} = 0{,}25$, а с учётом распада свободных нейтронов на шве кластера $d_{\mathrm{in}}(\square)N_\varphi$:
+  на пороге замораживания слабых переходов отношение числа нейтронов к протонам равно $n/p = 1/d_{\mathrm{soft}} = 1/d_{\mathrm{out}}(V)$ (один канал из $d_{\mathrm{soft}} = \vevHierarchySteps - 1 = 7$ вершинных каналов), откуда древесная массовая доля первичного гелия-4 составляет $Y_p^{(0)} = \frac{(d-1)(n/p)}{1 + n/p} = \frac{d-1}{\vevHierarchySteps} = \frac{1}{d_{\mathrm{in}}(\square)} = 0{,}25$, а с учётом распада свободных нейтронов на шве кластера $d_{\mathrm{in}}(\square)N_\varphi$ и квадратичного ветвления по $d_{\mathrm{out}}(E)=5$ внешним рёберным каналам:
   \begin{equation}
   \label{eq:cosmo-bbn-yp-dh}
     Y_p = \frac{1}{d_{\mathrm{in}}(\square)}\!\left(1 - \frac{1}{d_{\mathrm{in}}(\square)\,N_\varphi}\right) \approx 0{,}24519,
     \qquad
-    \frac{n_{\mathrm{D}}}{n_{\mathrm{H}}} = \frac{d_{\mathrm{out}}(V)^{d-1}}{d_{\mathrm{in}}(\square)\,N_\varphi}\,\alpha_{\mathrm{fs}}^{d-1} \approx 2{,}560\times 10^{-5}
+    \frac{n_{\mathrm{D}}}{n_{\mathrm{H}}} = \frac{d_{\mathrm{out}}(E)^{d-1}}{d_{\mathrm{in}}(\square)\,N_\varphi}\,\alpha_{\mathrm{fs}}^{d-1} \approx 2{,}560\times 10^{-5}
   \end{equation}
   (наблюдения PDG / Planck~2018: $Y_p = 0{,}245 \pm 0{,}003$, откл.~$0{,}08\%$; $n_{\mathrm{D}}/n_{\mathrm{H}} = (2{,}547 \pm 0{,}025)\times 10^{-5}$, откл.~$0{,}52\%$).
-  Прямой подсчёт вихревых узлов по индексам намотки $|w|\in\{1,2,3\}$ во Второй Эпохе прогона $\mathrm{IV}=263$ ($\tau = 272\ldots 512$ с шагом $(d-1)\vevHierarchySteps = 16$) фиксирует $61$ одноквантовый узел $|w|=1$, $11$ двухквантовых узлов $|w|=2$ и $1$ трёхквантовый узел $|w|=d$, так что доля суммарной массы намотки $\sum |w|\,N_{|w|}$, приходящаяся на двухквантовый гелиевый канал $|w|=2$, равна $22/86 \approx 0{,}2558 \approx 1/d_{\mathrm{in}}(\square)$.
+  Прямой подсчёт вихревых узлов по индексам намотки $|w|\in\{1,2,3\}$ во Второй Эпохе прогона $\mathrm{IV}=263$ ($\tau = 272\ldots 512$ с шагом $(d-1)\vevHierarchySteps = 16$) фиксирует $61$ одноквантовый узел $|w|=1$, $11$ двухквантовых узлов $|w|=2$ и $1$ трёхквантовый узел $|w|=d$. На этой конечной выборке доля суммарной массы намотки $\sum |w|\,N_{|w|}$, приходящаяся на двухквантовый гелиевый канал $|w|=2$, равна $22/86 \approx 0{,}2558$, что совпадает с древесным порогом $1/d_{\mathrm{in}}(\square) = 0{,}2500$ с точностью $|22/86 - 1/4| = 1/172 \approx 0{,}0058$, то есть глубоко внутри одного дискретного кванта вихревой массы $\Delta w / \sum |w|N_{|w|} = 2/86 \approx 0{,}0233$ (и пуассоновского сдвига $\pm 1$ узел $\approx \pm 0{,}017$).
 \end{enumerate}
 
 \input{volumes/include-computational-laboratory.tex}
