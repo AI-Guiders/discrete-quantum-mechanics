@@ -479,6 +479,15 @@ def check_local_gates_solid_neuro_photo(device: str = "cpu") -> dict:
     f_curr_p, f_past_p, _ = projected_step_fixed(f_curr_p, f_past_p, cfg_on)
     pauli_c13_t2 = sum(int(pauli_phi_int(f_curr_p, cfg_on)[c + dz, c + dy, c + dx] > 0) for dz, dy, dx in c13_pts)
 
+    # 3. Verify 64x64 unitary DFT template-basis bridge and exact Weyl-Schwinger relation U_Q V_P = omega_64^-1 V_P U_Q
+    k_p = 1 << cfg_on.frac_bits  # 64
+    eye_kp = torch.eye(k_p, dtype=torch.complex128, device=dev)
+    u_q = torch.roll(eye_kp, shifts=1, dims=0)
+    f_dft = torch.fft.ifft(eye_kp, dim=0) * (float(k_p) ** 0.5)
+    v_p = f_dft.conj().T @ u_q @ f_dft
+    omega_inv = f_dft[1, 1].conj() * (float(k_p) ** 0.5)
+    weyl_comm_err = float((u_q @ v_p - omega_inv * (v_p @ u_q)).abs().max().item())
+
     ok = (
         bool(row["ok"])
         and deadband_sim == row["heisenberg_deadband_states"]
@@ -487,12 +496,15 @@ def check_local_gates_solid_neuro_photo(device: str = "cpu") -> dict:
         and pauli_c13_t0 == 0
         and pauli_c13_t1 == 0
         and pauli_c13_t2 >= 5
+        and weyl_comm_err < 1e-14
     )
     return {
         "id": "Local_gates_solid_neuro_photo",
         "heisenberg_deadband_states": deadband_sim,
         "ballistic_cells_h_on_vs_off": (ballistic_cells_h_on, ballistic_cells_h_off),
         "pauli_c13_t0_t1_t2": (pauli_c13_t0, pauli_c13_t1, pauli_c13_t2),
+        "weyl_pq_commutator_max_err": weyl_comm_err,
+        "info_equiv_macro_cell_bits": row["info_equiv_macro_cell_bits"],
         "neuron_potentials_mv": row["neuron_potentials_mv"],
         "photosynthesis_wavelengths_nm": row["photosynthesis_wavelengths_nm"],
         "ok": ok,
