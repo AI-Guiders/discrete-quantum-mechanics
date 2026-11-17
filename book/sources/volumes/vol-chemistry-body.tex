@@ -64,6 +64,68 @@ $\caKappaGeom=R_{\mathrm{in}}/R_{\mathrm{out}}$, $N_\varphi=1+\geomNeighborTwelv
 \end{enumerate}
 \end{corollary}
 
+\section{Внутренняя структура 13-узлового электрона и комбинаторный вывод всей периодической системы Менделеева и ядерных магических чисел}
+\label{sec:chem-electron-and-periodic-table}
+
+Прежде чем переходить к расчёту конкретных атомов и молекул, зафиксируем устройство самого главного строительного блока химии — одетого электрона ($B=0, |Q|=1$) — и покажем, что вся архитектура таблицы Менделеева (как электронные периоды, так и ядерные магические оболочки вплоть до свинца $^{208}_{82}\text{Pb}_{126}$ и сверхтяжёлого острова стабильности) однозначно выводится из комбинаторики кубооктаэдра.
+
+\begin{theorem}[Внутренняя структура 13-узлового электрона, закон периодов Маделунга и ядерные магические числа кубооктаэдра]
+\label{thm:chem-electron-and-periodic-table}
+На решётке~\latGCKshort\ с однотактовой звездой кубооктаэдра ($\geomNeighborTwelve = 12$, $N_\varphi = 1 + \geomNeighborTwelve = 13$, $|\square| = 6$, $|\triangle| = \vevHierarchySteps = 8$, $d_{\mathrm{in}}(V,E,\triangle,\square) = (1,2,3,4)$, $d_{\mathrm{out}}(E,V) = (5,7)$) выполняются четыре структурных закона:
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Состав электрона ($B=0, |Q|=1$) как 13-узлового ротора и три поколения лептонов ($e,\mu,\tau$):}
+  в отличие от бариона ($B=1$), запертого на замкнутой треугольной клике~$K_3$ из трёх взаимно ближайших узлов в трёх ортогональных плоскостях $\{YZ,XZ,XY\}$, электрон ($B=0$) свободен от треугольной клики~$K_3$ и представляет собой чистый $U(1)\times SU(2)$ фазовый ротор, распределённый по всем $N_\varphi = 13$ узлам однотактового кластера.
+  Вдоль любого вершинного луча $V=(1,4,7)$ эти $13$ узлов распадаются на четыре слоя:
+  \begin{equation}
+  \label{eq:chem-electron-13node-partition}
+    N_\varphi
+    = 1_{\mathrm{core}} + d_{\mathrm{in}}(V) + d_{\mathrm{same}}(V) + d_{\mathrm{out}}(V)
+    = 1 + 1 + 4 + 7 = 13,
+    \qquad
+    m_e = \frac{\alpha_{\mathrm{fs}}^{d-1}}{N_\varphi}\,m_H.
+  \end{equation}
+  Проекция этого 13-узлового ротора на $d = 3$ ортогональные оси кубооктаэдра ($g\in\{0,1,2\}$) с радиальным множителем $1/\caKappaGeom = \sqrt{2}$ и фазовым сдвигом $\delta_0 = (d-1)/\mathrm{mod\_bits} = 2/9$ порождает ровно три поколения заряженных лептонов с амплитудами $\sqrt{m_g}\propto 1 + \caKappaGeom^{-1}\cos(2\pi g/d + \delta_0)$ и точным инвариантом Коиде $Q_{\mathrm{Koide}} = (d-1)/d = 2/3$: основная мода $g=0$ является электроном, а две возбуждённые осевые моды $g=1,2$ ($\mu,\tau$ с отношениями масс $m_\mu/m_e \approx 206{,}768$ и $m_\tau/m_e \approx 3477{,}2$) релаксируют обратно в электрон через $N_{\mathrm{open}}(\mu) = \geomNeighborTwelve(\phaseRingCount - N_\varphi) = 5988$ открытых каналов фазового кольца.
+\item \textbf{Четыре блока $(s,p,d,f)$, правило Маделунга $(n+\ell,n)$ и длины 7 электронных периодов:}
+  четыре геометрических канала координационных сфер кубооктаэдра $(V,\square,E,\triangle)$ имеют пространственные ранги $g_\ell \in \{d_{\mathrm{in}}(V),\, d,\, d_{\mathrm{out}}(E),\, d_{\mathrm{out}}(V)\} = \{1,3,5,7\}$ и спиновые ёмкости $C_\ell = (d-1)g_\ell \in \{2,6,10,14\}$.
+  Поскольку каскадный подъём угловой сложности $\ell \mapsto \ell + 1$ по каналам $V\to\square\to E\to\triangle$ требует одного дополнительного каузального шага $\Delta k = 1$, полная каузальная глубина подоболочки $(n,\ell)$ равна $D_{\mathrm{causal}}(n,\ell) = n + \ell$. Это однозначно задаёт длины всех $d_{\mathrm{out}}(V) = 7$ периодов и атомные номера благородных газов:
+  \begin{equation}
+  \label{eq:chem-madelung-periods}
+  \begin{aligned}
+    L_p &= (d-1)\!\left\lfloor\frac{p + (d-1)}{d-1}\right\rfloor^{\!d-1} \in \bigl\{2,\; 8,\; 8,\; 18,\; 18,\; 32,\; 32\bigr\},\\
+    Z_{\mathrm{noble}}(p) &= \sum_{m=1}^p L_m \in \bigl\{2,\; 10,\; 18,\; 36,\; 54,\; 86,\; 118\bigr\}.
+  \end{aligned}
+  \end{equation}
+\item \textbf{Все 7 ядерных магических чисел $\{2,8,20,28,50,82,126\}$ и остров стабильности при $N=184$:}
+  в ядерном кластере первые три замкнутые тетраэдрические оболочки при $k \in \{d_{\mathrm{in}}(V),\, d_{\mathrm{in}}(E),\, d_{\mathrm{in}}(\triangle)\} = \{1,2,3\}$ и следующие четыре спин-орбитальные оболочки при $k \in \{d_{\mathrm{in}}(\square),\, d_{\mathrm{out}}(E),\, |\square|,\, d_{\mathrm{out}}(V)\} = \{4,5,6,7\}$ (с вторжением старшей подоболочки через рёберный канал $d_{\mathrm{out}}(E)=5$) определяются двумя замкнутыми полиномами:
+  \begin{equation}
+  \label{eq:chem-nuclear-magic-polynomials}
+  \begin{aligned}
+    M_{\mathrm{magic}}^{(\mathrm{low})}(k) &= \frac{k(k+1)(k+2)}{d} \in \bigl\{2,\; 8,\; 20\bigr\} &&(k = 1,2,3),\\
+    M_{\mathrm{magic}}^{(\mathrm{high})}(k) &= \frac{k\bigl(k^2 + d_{\mathrm{out}}(E)\bigr)}{d} \in \bigl\{28,\; 50,\; 82,\; 126\bigr\} &&(k = 4,5,6,7),
+  \end{aligned}
+  \end{equation}
+  воспроизводя железный пик нуклеосинтеза ($k=4 \implies 28$, $^{56}_{28}\text{Ni}_{28}\to\,^{56}\text{Fe}$), рекорд изотопной устойчивости олова ($k=5 \implies Z=50$, $10$ стабильных изотопов), протонное замыкание свинца ($k=6 \implies Z=82$) и нейтронное замыкание ($k=7 \implies N=126$).
+  Продолжение верхней ветви~\eqref{eq:chem-nuclear-magic-polynomials} на следующий иерархический индекс $k = \vevHierarchySteps = |\triangle| = 8$ предсказывает магическое число нейтронов центра сверхтяжёлого «острова стабильности»:
+  \begin{equation}
+  \label{eq:chem-island-of-stability-184}
+    N_{\mathrm{island}} = M_{\mathrm{magic}}^{(\mathrm{high})}(\vevHierarchySteps) = \frac{\vevHierarchySteps\bigl(\vevHierarchySteps^2 + d_{\mathrm{out}}(E)\bigr)}{d} = \frac{8(64 + 5)}{3} = 184,
+  \end{equation}
+  тогда как в заряженном протонном регистре кулоновское отталкивание на 12-лучевой звезде ($\geomNeighborTwelve=12$) и 6 квадратных гранях ($|\square|=6$) сдвигает протонное замыкание со $126$ вниз в полосу $Z_{\mathrm{island}} \in \{126 - \geomNeighborTwelve,\; 126 - |\square|\} = \{114,\; 120\}$ (дважды магический флеровий $^{298}_{114}\text{Fl}_{184}$).
+\item \textbf{Тождество терминального абсолютно стабильного ядра $^{208}_{82}\text{Pb}_{126}$ и фейнмановский потолок $Z_{\max}=137$:}
+  сумма фазового порога Гейзенберга $\Delta\varphi_{\mathrm{disc}} = 41$ и ёмкости 6-битного амплитудного регистра $N_{\mathrm{HB}} = 2^{|\square|} - 1 = 63$ тождественно равна произведению высоты башни на размер кластера ($\Delta\varphi_{\mathrm{disc}} + N_{\mathrm{HB}} = 41 + 63 = 104 = \vevHierarchySteps N_\varphi$).
+  Умножение на спиновую кратность $(d-1)=2$ связывает максимальное протонное и нейтронное магические числа последнего абсолютно стабильного ядра ($T_{1/2}=\infty$) — свинца $^{208}_{82}\text{Pb}_{126}$:
+  \begin{equation}
+  \label{eq:chem-lead208-terminal-identity}
+  \begin{aligned}
+    Z_{\max}^{\mathrm{stable}} &= (d-1)\Delta\varphi_{\mathrm{disc}} = 82,\qquad
+    N_{\max}^{\mathrm{stable}} = (d-1)N_{\mathrm{HB}} = 126,\\
+    A_{\max}^{\mathrm{stable}} &= Z_{\max}^{\mathrm{stable}} + N_{\max}^{\mathrm{stable}} = (d-1)\vevHierarchySteps N_\varphi = 208
+  \end{aligned}
+  \end{equation}
+  (при $Z = 83 > 2\Delta\varphi_{\mathrm{disc}}$ единственный природный изотоп висмута $^{209}_{83}\text{Bi}_{126}$ уже переходит через фазовый порог в режим квазистабильного $\alpha$-распада с $T_{1/2}\approx 1{,}9\times 10^{19}\ \text{лет}$), а абсолютный электромагнитный потолок периодической системы задаётся расщепляющимся простым числом $Z_{\max}^{\mathrm{EM}} = \alpha_{\mathrm{geom}}^{-1} = d_{\mathrm{in}}(\square)^2 + (\geomNeighborTwelve - 1)^2 = 137$.
+\end{enumerate}
+\end{theorem}
+
 \section{Поузловое экранирование на кубооктаэдре: атом Гелия (\texorpdfstring{$Z=2$}{Z=2})}
 \label{sec:chem-helium-screening}
 
