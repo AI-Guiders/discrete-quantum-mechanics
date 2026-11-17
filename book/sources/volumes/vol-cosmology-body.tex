@@ -228,22 +228,28 @@
 \item \textbf{Запись в собственной единице такта носителя $T_{P,\Mlayer} := E_0 = s_0/\htick$ через чисто геометрический инвариант $r_{\mathrm{disc}} = \Delta\varphi_{\mathrm{disc}}/\phaseRingCount$ (без $\pi$ и без $\ln 2$):}
   все целочисленные параметры регистра ячейки задаются непосредственно комбинаторикой граней и каналов однотактового кубооктаэдра ($|\square|=2d=6$, $|\triangle|=2^d=8$, $|\mathrm{N12}|=12$, $N_\varphi=1+|\mathrm{N12}|=13$, $d_{\mathrm{in}}(\square)=d+1=4$, $d_{\mathrm{out}}(E)=5$):
   \[
-    \mathrm{frac\_bits} = |\square| = 6,\qquad
-    \vevHierarchySteps = |\triangle| = 8,\qquad
-    \mathrm{mod\_bits} = 1 + |\triangle| = d^2 = 9,\qquad
-    \phaseRingCount = |\triangle|^d = 2^{1+|\triangle|} = 512,
+  \begin{aligned}
+    \mathrm{frac\_bits} &= |\square| = 6, &
+    \vevHierarchySteps &= |\triangle| = 8,\\
+    \mathrm{mod\_bits} &= 1 + |\triangle| = d^2 = 9, &
+    \phaseRingCount &= |\triangle|^d = 2^{1+|\triangle|} = 512,
+  \end{aligned}
   \]
   а порог Гейзенберга $\Delta\varphi_{\mathrm{disc}} = 41$ определяется четырьмя тождественно совпадающими геометрическими соотношениями без участия~$\pi$:
   \begin{equation}
   \label{eq:cosmo-rdisc-geometric}
+  \begin{aligned}
     \Delta\varphi_{\mathrm{disc}}
-    = 1 + d_{\mathrm{out}}(E)\,|\triangle|
+    &= 1 + d_{\mathrm{out}}(E)\,|\triangle|
     = d_{\mathrm{in}}(\square)^2 + d_{\mathrm{out}}(E)^2
     = N_{\mathrm{shell}}(2) - 1
     = \frac{\phaseRingCount + N_\varphi + |\triangle|}{N_\varphi}
-    = 41,
-    \qquad
-    r_{\mathrm{disc}} = \frac{\Delta\varphi_{\mathrm{disc}}}{\phaseRingCount} = \frac{1 + d_{\mathrm{out}}(E)\,|\triangle|}{|\triangle|^d} = \frac{41}{512} \approx 0{,}0800781
+    = 41,\\
+    r_{\mathrm{disc}}
+    &= \frac{\Delta\varphi_{\mathrm{disc}}}{\phaseRingCount}
+    = \frac{1 + d_{\mathrm{out}}(E)\,|\triangle|}{|\triangle|^d}
+    = \frac{41}{512} \approx 0{,}0800781
+  \end{aligned}
   \end{equation}
   (тогда как континуальная величина $1/(4\pi) \approx 0{,}0795775$, отличающаяся на фиксированный сдвиг $+0{,}63\%$, представляет собой лишь длинноволновое приближение~$r_{\mathrm{disc}}$ при сферическом усреднении на~$\Tlayer$).
   Подстановка $r_{\mathrm{disc}}$ ($v/E_0 = \alpha_{\mathrm{fs}}^{\vevHierarchySteps}/\sqrt{r_{\mathrm{disc}}}$, $\lambda_H = 1/\vevHierarchySteps + \vevHierarchySteps r_{\mathrm{disc}}\alpha_{\mathrm{fs}}$, $m_H/E_0 = \sqrt{(d-1)\lambda_H}\,v/E_0$ и $E_{\mathrm{Ry}}/E_0 = \frac{\alpha_{\mathrm{fs}}^{|\mathrm{N12}|}}{(d-1)N_\varphi}\sqrt{(d-1)\lambda_H/r_{\mathrm{disc}}}$) выражает оба космологических тепловых кванта через точные структурные показатели $|\mathrm{N12}|$ и $N_\varphi = |\mathrm{N12}| + 1$:
