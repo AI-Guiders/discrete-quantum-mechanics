@@ -706,6 +706,46 @@ II (ядро $1$) & \texttt{Stop} & \texttt{UAA,UAG,UGA} (3) & --- & освоб�
 \end{enumerate}
 \end{theorem}
 
+\section{Дискретный каскад точности печати \texorpdfstring{$N_\varphi^{-2k} = 13^{-2k}$}{N\_phi\^-2k = 13\^-2k}, капсидные сферы Каспара--Клуга \texorpdfstring{$N_{\mathrm{shell}}(m) = 10m^2+2$}{N\_shell(m) = 10m\^2+2} и цилиндр микротрубочки \texorpdfstring{$N_\varphi = 13$}{N\_phi = 13}}
+\label{sec:bio-discrete-proofreading-capsids-microtubules}
+
+Наконец, прямо из дискретной комбинаторики 13-узлового ядра $\mathcal{C}_{13}$ ($N_\varphi = 1 + \geomNeighborTwelve = 13$), координационных сфер $S_m$ ($N_{\mathrm{shell}}(m) = (\geomNeighborTwelve - 2)m^2 + 2 = 10m^2 + 2$) и числа смысловых классов кода Румера $N_{\mathrm{classes}} = \vevHierarchySteps + N_\varphi = 21$ (без континуальных экспонент Больцмана и без $k_{\mathrm{B}}$) вытекают три структурных закона молекулярной самосборки и точности биопечати:
+
+\begin{theorem}[Каскад точности молекулярной печати $13^{-2k}$, потолки длины Эйгена, капсиды $10T+2$ и микротрубочка $N_\varphi = 13$]
+\label{thm:bio-discrete-proofreading-capsids-microtubules}
+На решётке~\latGCKshort\ ($d=3$, $d_{\mathrm{in}}(V,E,\square) = (1,2,4)$, $d_{\mathrm{out}}(E,V) = (5,7)$, $|\square|=6$, $\geomNeighborTwelve=12$, $N_\varphi=13$, $N_{\mathrm{classes}}=21$) выполняются три точных дискретных соотношения:
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Четырёхступенчатый каскад точности печати $\varepsilon_k = N_\varphi^{-2k} = 13^{-2k}$ и пороги длины биополимеров и геномов $L_{\max}(k) = 13^{2k}$ ($k \in \{1,2,3,4\} = \{d_{\mathrm{in}}(V),\, d_{\mathrm{in}}(E),\, d,\, d_{\mathrm{in}}(\square)\}$):}
+  одиночный геометрический фильтр комплементарного спаривания двух полуспиноров в 13-узловой ячейке $\mathcal{C}_{13}$ пропускает некомплементарную фазу с дискретной долей $\varepsilon_1 = 1/N_\varphi^2 = 1/13^2 = 1/169 \approx 5{,}92\times 10^{-3}$.
+  Последовательное включение $k \in \{1,2,3,4\}$ каскадов проверки (пассивная гибридизация при $k=1$; двухступенчатый затвор рибосомы до и после гидролиза $\mathrm{EF\text{-}Tu\cdot GTP}$ при $k=2$; трёхступенчатый затвор репликативной ДНК-полимеразы с обратным шагом чехарды $g^{-1}$ в $3'\to 5'$ экзонуклеазе при $k=3$; четырёхступенчатый затвор эукариот с пострепликативным сканированием $\mathrm{MutS/MutL}$ при $k=4$) даёт дискретную лестницу погрешностей $\varepsilon_k = N_\varphi^{-2k}$ и соответствующих верхних потолков безошибочной длины цепи $L_{\max}(k) = 1/\varepsilon_k = N_\varphi^{2k}$:
+  \begin{equation}
+  \label{eq:bio-eigen-ceiling-ladder}
+  \begin{aligned}
+    L_{\max}(1) &= 13^2 = \mathbf{169}\quad (\varepsilon_1 \approx 5{,}92\times 10^{-3}\colon \text{порог РНК-олигомеров и хроматосома } 147+22\text{ п.о.}),\\
+    L_{\max}(2) &= 13^4 = \mathbf{28\,561}\quad (\varepsilon_2 \approx 3{,}50\times 10^{-5}\colon \text{рибосома; потолок титина } 26\,926\text{--}33\,423\text{ а.к. и РНК-вирусов } 29\,903\text{ нт}),\\
+    L_{\max}(3) &= 13^6 = \mathbf{4\,826\,809}\quad (\varepsilon_3 \approx 2{,}07\times 10^{-7}\colon \text{кольцевая хромосома бактерий, \emph{E.~coli} } 4{,}64\times 10^6\text{ п.о.}),\\
+    L_{\max}(4) &= 13^8 = \mathbf{815\,730\,721}\text{ триплетов} \implies d\,L_{\max}(4) \approx \mathbf{2{,}45\times 10^9}\text{ п.о.}\quad (\varepsilon_4 \approx 1{,}23\times 10^{-9}\colon \text{гаплоидный геном млекопитающих } 2{,}5\text{--}3{,}0\times 10^9\text{ п.о.}).
+  \end{aligned}
+  \end{equation}
+\item \textbf{Тождество координационных сфер кубооктаэдра $N_{\mathrm{shell}}(m) = 10m^2+2$ и икосаэдрических вирусных капсидов Каспара--Клуга:}
+  при сворачивании гексагонального белкового листа $\{111\}$ в замкнутую сферу теорема Эйлера и винтовое смыкание $6$ квадратных окон кубооктаэдра ($\square \to E$) фиксируют ровно $\geomNeighborTwelve = 12$ пятиугольных вершин-пентамеров ($12\times d_{\mathrm{out}}(E) = 60$ субъединиц при $T=1$), а норма вектора сдвига $(h,k)$ на решётке Эйзенштейна среза $\{111\}$ задаёт число триангуляции $T(h,k) = h^2 + hk + k^2$, полное число белковых субъединиц $N_{\mathrm{sub}}(T) = d_{\mathrm{out}}(E)\geomNeighborTwelve T = 60T$ и полное число морфологических капсомеров ($12$ пентамеров $+ 10(T-1)$ гексамеров):
+  \begin{equation}
+  \label{eq:bio-caspar-klug-shells}
+    N_{\mathrm{capsomers}}(T) = (\geomNeighborTwelve - 2)T + 2 = 10T + 2,
+    \qquad
+    N_{\mathrm{capsomers}}(m^2) \equiv N_{\mathrm{shell}}(m) = 10m^2 + 2 \in \{12,\ 42,\ 92,\ 162,\ 252\}\quad (m=1\ldots 5),
+  \end{equation}
+  что без свободных параметров воспроизводит архитектуру парвовирусов ($m=1\colon T=1,\ 12$ капсомеров), вируса гепатита~B и альфавирусов ($m=2\colon T=4,\ N_{\mathrm{shell}}(2)=42$ капсомера, $240$ субъединиц), вируса герпеса HSV-1 ($m=4\colon T=16,\ N_{\mathrm{shell}}(4)=162$ капсомера, $960$ субъединиц), аденовируса ($m=5\colon T=25,\ N_{\mathrm{shell}}(5)=252$ капсомера, $1500$ субъединиц), а при косом векторе $(h,k)=(2,1)$ с $T = d_{\mathrm{out}}(V) = 7$ даёт $N_{\mathrm{capsomers}}(7) = 72 = |\square|\cdot\geomNeighborTwelve$ капсомера ($420$ субъединиц: бактериофаги $\lambda$, HK97, P22 и папилломавирус HPV).
+\item \textbf{Цилиндрическое замыкание микротрубочки из $N_\varphi = 13$ протофиламентов и шаг кинезина $21\,\caKappaGeom a_0 \approx 7{,}86\ \text{нм}$:}
+  сворачивание двумерного листа глобулярных субъединиц тубулина (длина мономера вдоль оси $\frac{1}{2}N_{\mathrm{classes}}\caKappaGeom a_0 = 10{,}5\,\caKappaGeom a_0 \approx 3{,}93\ \text{нм}$, совпадающая с шагом стэкинга при $m=+1$) в цилиндрический рельс с нулевым азимутальным суперскручиванием протофиламентов замыкается ровно на $N_\varphi = 1 + \geomNeighborTwelve = \mathbf{13}$ параллельных протофиламентах со швом сдвига в $d = 3$ мономера ($B$-решётка), а одиночный шаг линейного моторного белка кинезина вдоль протофиламента равен длине одного $\alpha\beta$-димера тубулина:
+  \begin{equation}
+  \label{eq:bio-microtubule-kinesin-step}
+    L_{\mathrm{kinesin}} = N_{\mathrm{classes}}\,\caKappaGeom a_0 = (\vevHierarchySteps + N_\varphi)\,\caKappaGeom a_0 = 21\,\caKappaGeom a_0 \approx 7{,}858\ \text{нм}
+    \quad (\text{опыт Свободы--Блока: } 8{,}0 \pm 0{,}2\ \text{нм на один АТФ}).
+  \end{equation}
+\end{enumerate}
+\end{theorem}
+
 \input{volumes/include-computational-laboratory.tex}
 
 \input{volumes/include-measurement-processing.tex}

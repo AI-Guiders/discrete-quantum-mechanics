@@ -1277,6 +1277,25 @@ class SISmRows:
         photo_wavelengths_nm = tuple(hc_ev_nm / (q * e_hb_ev) for q in photo_quanta)
         pythagorean_comma = ((float(d) / float(d_pol)) ** n12) / float(1 << d_out_v)
 
+        # 5. Discrete proofreading cascade (N_phi^-2k), Eigen polymer ceilings, Caspar-Klug capsomers N_shell(m)=10m^2+2,
+        #    and 13-protofilament microtubule / kinesin step 21 * kappa * a_0
+        eigen_ceilings = (
+            n_phi ** (d_pol * d_in_v),
+            n_phi ** (d_pol * d_in_e),
+            n_phi ** (d_pol * d),
+            n_phi ** (d_pol * d_in_sq),
+        )  # (169, 28561, 4826809, 815730721)
+        euk_haploid_bp_ceiling = d * eigen_ceilings[d]  # 2_447_192_163
+        shell_coeff = n12 - d_pol  # 10
+        caspar_klug_capsomers = tuple(
+            shell_coeff * (m * m) + d_pol
+            for m in (d_in_v, d_in_e, d, d_in_sq, d_out_e)
+        )  # (12, 42, 92, 162, 252) = N_shell(1..5)
+        caspar_klug_t7_capsomers = shell_coeff * d_out_v + d_pol  # 72 = |square| * |N_12|
+        n_classes = n_hier + n_phi  # 21
+        kappa_a0_nm = 0.529177210903 / math.sqrt(float(d_pol)) * 0.1  # ~0.374185 nm
+        kinesin_step_nm = float(n_classes) * kappa_a0_nm  # ~7.858 nm
+
         ok = (
             heisenberg_deadband == (d ** d_in_sq)
             and heisenberg_deadband + heisenberg_active_ring == n_ring
@@ -1298,6 +1317,10 @@ class SISmRows:
             and 438.0 < photo_wavelengths_nm[4] < 445.0  # Chl Soret blue peak (441.6 nm)
             and n12 == d_out_v + d_out_e  # 12 semitones = 7 diatonic + 5 pentatonic
             and 1.013 < pythagorean_comma < 1.014
+            and eigen_ceilings == (169, 28561, 4826809, 815730721)
+            and caspar_klug_capsomers == (12, 42, 92, 162, 252)
+            and caspar_klug_t7_capsomers == n_squares * n12
+            and 7.7 < kinesin_step_nm < 8.1  # Kinesin 1-dimer step (~7.86 nm vs 8.0 nm exp)
         )
         return {
             "heisenberg_deadband_states": heisenberg_deadband,
@@ -1314,8 +1337,13 @@ class SISmRows:
             "neuron_potentials_mv": (v_rest_mv, v_thresh_mv, v_peak_mv, v_spike_mv),
             "photosynthesis_wavelengths_nm": photo_wavelengths_nm,
             "pythagorean_comma_ratio": pythagorean_comma,
+            "eigen_polymer_ceiling_ladder": eigen_ceilings,
+            "eukaryotic_haploid_bp_ceiling": euk_haploid_bp_ceiling,
+            "caspar_klug_principal_capsomers": caspar_klug_capsomers,
+            "caspar_klug_skew_t7_capsomers": caspar_klug_t7_capsomers,
+            "kinesin_step_nm": kinesin_step_nm,
             "ok": ok,
-            "note": "Local Heisenberg (81=3^4 deadband) & Pauli (256-tick mirror, 2-tick S_1 delay) gates, 4-level info-equivalence hierarchy, Cauchy/FQHE, Hodgkin-Huxley spike, photosynthesis, and 12=7+5 harmony",
+            "note": "Local Heisenberg/Pauli gates, 4-level info-equivalence, Cauchy/FQHE, Hodgkin-Huxley, photosynthesis, 12=7+5 harmony, discrete proofreading N_phi^2k, Caspar-Klug capsids, and 13-protofilament microtubule/kinesin",
         }
 
 
