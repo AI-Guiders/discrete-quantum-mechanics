@@ -402,18 +402,18 @@ $Z(x,\tau)$ & $(U_1, V_1, U_2, V_2) \in \mathbb{Z}_{512}^4$ & $4\times 9 = 36\ \
 \begin{table}[htbp]
 \centering
 \scriptsize
-\setlength{\tabcolsep}{1.8pt}
+\setlength{\tabcolsep}{1.6pt}
 \caption{Как автомат $\mathbb{Z}_{512}[i]^2$ на~\latGCKshort\ предлагает конструктивное разрешение пяти открытых проблем программы Г.~’т~Хоофта \cite{tHooft2016}}
 \label{tab:compute-thooft-resolution}
 \begin{tabular}{@{}llll@{}}
 \toprule
-Открытая проблема в \cite{tHooft2016} & Раздел \cite{tHooft2016} & Причина трудности в $\mathbb{Z}^d$ & Конструктивное разрешение на~\latGCKshort \\
+Проблема в \cite{tHooft2016} & Раздел \cite{tHooft2016} & Причина трудности в $\mathbb{Z}^d$ & Конструктивное разрешение на~\latGCKshort \\
 \midrule
-Выбор решётки и модуля $\mathbb{N}$ & \S\,5.1, \S\,16 & Произвольные сетка и $\mathbb{N}$ & Бекенштейн $\lfloor B_V\rfloor = 9 \implies \mathbb{Z}_{512}[i]^2$; звезда $\geomNeighborTwelve$ \\
-Неустойчивость при $d > 1$ & \S\,17.2.1 (17.74) & Сумма $\sum 2(1-\cos k_i) > 4$ & Вес $1/12$, $\caKappaGeom^2=1/2$, насыщение $\Phi$ и \texttt{Rot\_LUT} \\
-Нелокальность ряда BCH & \S\,14, \S\,21.2 & Хвост $\ln U$ при $n\to\infty$ & Мёртвая зона $81=3^4$ за $1$ такт; каскад $N_{\mathrm{nil}}^3 \equiv 0$ \\
-Обратимость и инфо-классы & \S\,7.1, \S\,9.3 & Слияние орбит в микрозаконе & Шаг $g$ биективен ($A_{13}$); склейка $81\to 1$ в затворе и $\mathcal{B}$ \\
-КА для СМ и иерархии масс & \S\,8.1--8.2 & 25 констант и разрыв $m_{\mathrm{Pl}}/m_p$ & Клики $\mathcal{C}_{13}$ ($12,24,8$), $\alpha_{\mathrm{fs}}^{-1}\approx 137{,}036$, лестница $\alpha_{\mathrm{fs}}^k$ \\
+Решётка и модуль $\mathbb{N}$ & \S\,5.1, \S\,16 & Произвольные сетка и $\mathbb{N}$ & Бекенштейн $\lfloor B_V\rfloor = 9 \implies \mathbb{Z}_{512}[i]^2$; звезда $\geomNeighborTwelve$ \\
+Разгон мод при $d > 1$ & \S\,17.2.1 (17.74) & Сумма $\sum 2(1-\cos k_i) > 4$ & Вес $1/12$, $\caKappaGeom^2=1/2$, затвор $\Phi$ и \texttt{Rot\_LUT} \\
+Ряд BCH для $\ln U$ & \S\,14, \S\,21.2 & Хвост $\ln U$ при $n\to\infty$ & Порог $81=3^4$ за $1$ такт; каскад $N_{\mathrm{nil}}^3 \equiv 0$ \\
+Инфо-классы и время & \S\,7.1, \S\,9.3 & Слияние орбит в микрозаконе & Шаг $g$ биективен ($A_{13}$); склейка $81\to 1$ и $\mathcal{B}$ \\
+КА для СМ и масс & \S\,8.1--8.2 & 25 констант и $m_{\mathrm{Pl}}/m_p$ & Клики $\mathcal{C}_{13}$ ($12,24,8$), $\alpha_{\mathrm{fs}}^{-1}\approx 137{,}036$, $\alpha_{\mathrm{fs}}^k$ \\
 \bottomrule
 \end{tabular}
 \end{table}
