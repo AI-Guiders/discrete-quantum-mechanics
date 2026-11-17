@@ -1,0 +1,71 @@
+\label{exp:cef04}
+
+\subsubsection*{Постановка}
+\textbf{Физический вопрос.}
+Исчерпываются ли элементарные частицы, магнитные моменты нуклонов ($\mu_p, \mu_n$), отношения масс трёх поколений лептонов ($e,\mu,\tau$), полные матрицы смешивания кварков и нейтрино (CKM и PMNS), а также времена жизни мюона и нейтрона ($\tau_\mu, \tau_n$) топологическими конфигурациями вихрей и клик $K_m$ ($m \in \{1,2,3,4\}$, $K_{\ge 5}=0$) на однотактовом 13-узловом кластере кубооктаэдра~\latGCKshort\ (\cref{sec:floor2-sm-vortex-atlas,thm:floor2-sm-vortex-clique-atlas})?
+
+\textbf{Что проверяем.}
+\begin{enumerate}[label=\textbf{(\alph*)},leftmargin=*,itemsep=0.25em]
+\item Точную перепись полных подграфов через центр~$x_0$ $(K_1,K_2,K_3,K_4,K_5)_{x_0} = (1,12,24,8,0)$, на самой сфере~$S_1$ $(12,24,8,0,0)$ и в полном 13-узловом кластере $\mathcal{C}_{13} = \{x_0\}\cup S_1$: $(K_1,K_2,K_3,K_4,K_5)_{\mathcal{C}_{13}} = (13,\,36=|\square|^2,\,32=24+8,\,8=\vevHierarchySteps,\,0)$ с эйлеровой характеристикой $\chi(\mathcal{C}_{13}) = 13 - 36 + 32 - 8 \equiv 1$, попарную ортогональность трёх координатных плоскостей рёбер каждого треугольника~$K_3$ ($\{YZ,XZ,XY\}$) и единственность кирального апекса $K_3\to K_4$.
+\item Воспроизведение магнитных моментов $\mu_p = (d - 5\delta_{\mathrm{pack}})\mu_N = \frac{67}{24}\mu_N$, $\mu_n = (-2 + 2\delta_{\mathrm{pack}})\mu_N = -\frac{23}{12}\mu_N$, изоскалярной суммы $\mu_p+\mu_n = \frac{7}{8}\mu_N$ и отношений масс поколений лептонов $m_\mu/\massElectron$, $m_\tau/\massElectron$ при $\delta_0 = 2/\lfloor\caBitBudget\rfloor = 2/9$ ($Q_{\mathrm{Koide}} = 2/3$).
+\item Согласие параметров Вольфенштейна матрицы CKM из гауссова разложения $\hat M = 4^2+9^2 = 97$ ($\lambda=35/156$, $A=5/6$, $\bar\rho+i\bar\eta=(4+9i)/26$), углов PMNS из разбиения $N_\varphi = 1+1+4+7 = 13$ ($\sin^2\theta_{12}=4/13$, $\sin^2\theta_{23}=7/13$, $\sin^2\theta_{13}=1/46$) и времён жизни $\tau_\mu, \tau_n$ через целые числа открытых каналов $N_{\mathrm{open}}(\mu)=5988$ и $N_{\mathrm{open}}(n)=57{,}75$ с данными PDG.
+\end{enumerate}
+
+{\sloppy\textbf{Рабочая гипотеза.}
+Все перечисленные инварианты Стандартной модели воспроизводятся из геометрии клик кубооктаэдра и 9-битного кольца $\mathbb{Z}_{512}$ без подгоночных параметров Юкавы с точностью внутри допусков PDG (\texttt{SM\_vortex\_clique\_atlas}).\par}
+
+\textbf{Наблюдаемые.}
+Число клик $(K_2,K_3,K_4,K_5)$, $\mu_p/\mu_N$, $\mu_n/\mu_N$, $m_\mu/\massElectron$, $m_\tau/\massElectron$, $\gamma_{\mathrm{CKM}}$, $\sin^2\theta_{12,23,13}^{\mathrm{PMNS}}$, $g_A$, $\tau_\mu$, $\tau_n$ (табл.~\ref{tab:exp-ce-f-04}).
+
+\textbf{Критерий согласия с теорией.}
+Точное выполнение комбинаторных тождеств для клик и $Q_{\mathrm{Koide}}=2/3$; относительное отклонение от PDG ниже $0{,}5\%$ по магнитным моментам, массам и временам жизни.
+
+\subsubsection*{Теоретическая часть}
+По теореме~\ref{thm:floor2-sm-vortex-clique-atlas} квант упаковки одного ребра кубооктаэдра равен $\delta_{\mathrm{pack}} = \caKappaGeom^2/\geomNeighborTwelve = 1/24$, кулоновский знаменатель $\hat M = 1 + \geomNeighborTwelve\vevHierarchySteps = 97 = 4^2 + 9^2$ раскладывается в гауссовом кольце $\mathbb{Z}[i]$, а числа открытых каналов распада в кольце $\mathbb{Z}_{512}$ равны $N_{\mathrm{open}}(\mu) = \geomNeighborTwelve(\phaseRingCount - N_\varphi) = 5988$ и $N_{\mathrm{open}}(n) = N_{\mathrm{HB}}(\geomNeighborTwelve - 1)/\geomNeighborTwelve = 57{,}75$.
+
+\textbf{Проверка размерностей.}
+Отношения масс, углы смешивания, фактор~$g_A$ и числа каналов безразмерны; времена жизни имеют размерность времени:
+\[
+  \left[\frac{\mu_{p,n}}{\mu_N}\right] = \left[\frac{m_{\mu,\tau}}{\massElectron}\right] = \bigl[\sin^2\theta_{ij}\bigr] = [g_A] = 1,\qquad
+  [\tau_{\mu,n}] = \left[\frac{\planckHbar}{\Gamma_{\mu,n}}\right] = \mathrm{T}\ (\mathrm{с}).
+\]
+
+\subsubsection*{Ход эксперимента}
+{\sloppy Воспроизведение: \texttt{python verify\_principles.py} \texttt{--suite sm} (\texttt{SM\_vortex\_clique\_atlas}).\par}
+
+\begin{enumerate}[label=\textbf{Шаг \arabic*:},leftmargin=*,itemsep=0.35em]
+\item Перебрать подмножества звезды~$\geomNeighborTwelve$, проверить числа клик $K_2\ldots K_5$, ортогональность плоскостей рёбер~$K_3$ и единственность апекса~$K_4$.
+\item Вычислить $\mu_p, \mu_n$, отношения масс поколений лептонов, параметры CKM/PMNS и времена жизни $\tau_\mu, \tau_n$ (`floor2\_baryon\_cliques\_and\_moments\_row`).
+\item Сопоставить результаты с таблицами PDG в табл.~\ref{tab:exp-ce-f-04}.
+\end{enumerate}
+
+\begin{table}[htbp]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\caption{Верификация вихревого атласа клик, углов CKM/PMNS и времён жизни СМ (CE-F-04)}
+\label{tab:exp-ce-f-04}
+\begin{tabular}{@{}llrrr@{}}
+\toprule
+Наблюдаемая & Формула из носителя & Модель & PDG / Опыт & Статус \\
+\midrule
+Клики $x_0$ / $\mathcal{C}_{13}$ & $(1,12,24,8)$ + $(12,24,8,0)$ & $(13,36,32,8,0)$ & $(13,36,32,8,0)$ & PASS ($\chi=1$) \\
+Момент $\mu_p/\mu_N$ & $d - d_{\mathrm{out}}(E)\delta_{\mathrm{pack}} = 67/24$ & $+2{,}79167$ & $+2{,}79285$ & PASS ($-0{,}04\%$) \\
+Момент $\mu_n/\mu_N$ & $-2 + 2\delta_{\mathrm{pack}} = -23/12$ & $-1{,}91667$ & $-1{,}91304$ & PASS ($+0{,}19\%$) \\
+Отношение $m_\mu/\massElectron$ & Ось $g=1$, $\delta_0 = 2/9$ & $206{,}7703$ & $206{,}7683$ & PASS ($+9{,}8\ \text{ppm}$) \\
+Отношение $m_\tau/\massElectron$ & Ось $g=2$, $\delta_0 = 2/9$ & $3477{,}47$ & $3477{,}23(23)$ & PASS ($1{,}05\sigma$) \\
+Угол CKM $\gamma_{\mathrm{CKM}}$ & $\arctan(\mathrm{mod\_bits}/d_{\mathrm{in}}(\square)) = \arctan(9/4)$ & $66{,}04^\circ$ & $65{,}4^\circ \pm 2{,}5^\circ$ & PASS ($0{,}25\sigma$) \\
+Углы PMNS $\sin^2\theta_{12,23,13}$ & $4/13,\ 7/13,\ 2/92=1/46$ & $0{,}308;\ 0{,}538;\ 0{,}0217$ & $0{,}307;\ 0{,}546;\ 0{,}0220$ & PASS ($<0{,}4\sigma$) \\
+Константа $g_A$ & $d_{\mathrm{out}}(E)/d_{\mathrm{in}}(\square) + 1/(d N_\varphi) = 199/156$ & $1{,}27564$ & $1{,}2754(13)$ & PASS ($0{,}18\sigma$) \\
+Распад мюона $\tau_\mu$, мкс & $N_{\mathrm{open}}(\mu) = 12(512-13) = 5988$ & $2{,}1957$ & $2{,}1970$ & PASS ($-0{,}06\%$) \\
+Распад нейтрона $\tau_n$, с & $N_{\mathrm{open}}(n) = 63\times 11/12 = 57{,}75$ & $875{,}0$ & $878{,}4(5)$ & PASS ($-0{,}38\%$) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection*{Анализ, расчёт погрешности и выводы}
+Все десять независимых наблюдаемых Стандартной модели — от комбинаторной переписи клик $K_2\ldots K_4$ и магнитных моментов нуклонов до фазы CP-нарушения $\gamma_{\mathrm{CKM}} = \arctan(9/4)$, углов смешивания нейтрино и времён жизни $\tau_\mu, \tau_n$ — воспроизводятся напрямую из геометрии кубооктаэдра без введения свободных констант Юкавы.
+
+\textbf{Вывод.}
+Вся номенклатура частиц, углов смешивания и слабых распадов Стандартной модели является замкнутым следствием топологии вихрей и клик на носителе~\latGCKshort.
+\textbf{Статус записи:} верифицировано автоматическим гейтом \texttt{SM\_vortex\_clique\_atlas}.

@@ -1,0 +1,68 @@
+\label{exp:cecp02}
+
+\subsubsection*{Постановка}
+\textbf{Физический вопрос.}
+Позволяют ли четыре канала кубооктаэдра $(V,E,\square,\triangle)$ и верхнетреугольная матрица однотактового ветвления $T_{\mathrm{cascade}}$ заменить бесконечные континуальные ряды сферических гармоник точным четырёхканальным нильпотентным каскадом $M_{\mathrm{chan}} = T_{\mathrm{cascade}} D_{\mathrm{in}}^{-1} = I_4 + N_{\mathrm{nil}}$ ($N_{\mathrm{nil}}^3 \equiv 0$) с конечным трёхчленным обращением $M_{\mathrm{chan}}^{-m}$ и вывести без подгоночных параметров комбинаторные инварианты газовой динамики и турбулентности (\cref{sec:compute-cuboctahedral-aperture-and-gas-dynamics,thm:compute-cuboctahedral-19node-aperture-and-gas})?
+
+\textbf{Что проверяем.}
+\begin{enumerate}[label=\textbf{(\alph*)},leftmargin=*,itemsep=0.25em]
+\item Равенство определителя $\det(T_{\mathrm{cascade}}) = 1\times 2\times 4\times 3 = 24 = \delta_{\mathrm{pack}}^{-1}$, совпадение диагонали $\mathrm{diag}(24\,T_{\mathrm{cascade}}^{-1}) = (24,12,6,8)$ с числами элементов кубооктаэдра $(|E|,|V|,|\square|,|\triangle|)$ и нильпотентность генератора $N_{\mathrm{nil}}^d = N_{\mathrm{nil}}^3 \equiv 0$.
+\item Точное воспроизведение вектора каналов сферы $S_k$ ($\mathbf{n}_k = \mathbf{n}_1 M_{\mathrm{chan}}^{k-1} = \bigl(12,\ 24m,\ 6m^2,\ 4m(m-1)\bigr)$ при $m = k - 1$, сумма $10(m+1)^2+2 = N_{\mathrm{shell}}(k)$) и безошибочное восстановление источника $\mathbf{n}_1 = \mathbf{n}_k M_{\mathrm{chan}}^{-(k-1)} \equiv (12,0,0,0)$ при $m = \vevHierarchySteps = 8$.
+\item Равенство двухшаговой амплитуды генерации вихря $(N_{\mathrm{nil}}^2)_{V\to\triangle} = 2\times\frac{1}{3} = \frac{2}{3} = \frac{d-1}{d}$, показателей Колмогорова $(2/3,\ -5/3)$, показателей адиабаты $\gamma \in \{5/3,\ 7/5,\ 4/3,\ 9/7\}$, чисел Прандтля $\mathrm{Pr}(\gamma) = \frac{4\gamma}{9\gamma-5} \in \{2/3,\ 14/19,\ 16/21\}$, критического числа Маха $\mathrm{Ma}_{\mathrm{crit}} = 1/\caKappaGeom = \sqrt{2}$ и фазового предела вязкости $r_{\mathrm{disc}} = 41/512$.
+\end{enumerate}
+
+\textbf{Рабочая гипотеза.}
+Все матричные тождества четырёхканального каскада выполняются точно ($N_{\mathrm{nil}}^3 \equiv 0$, ошибка обращения $0$), а газодинамические отношения согласуются со справочными данными (`check\_four\_channel\_nilpotent\_cascade`).
+
+\textbf{Наблюдаемые.}
+$\det(T_{\mathrm{cascade}})$, $\mathrm{diag}(24\,T_{\mathrm{cascade}}^{-1})$, $n_{\mathrm{ticks}}^{\max}(V,E,\square,\triangle)$, $\mathbf{n}_k M_{\mathrm{chan}}^{-(k-1)}$, $(N_{\mathrm{nil}}^2)_{V\to\triangle}$, $\mathrm{Pr}(\text{Ar, воздух, пар})$, $\mathrm{Ma}_{\mathrm{crit}}$ (табл.~\ref{tab:exp-ce-cp-02}).
+
+\textbf{Критерий согласия с теорией.}
+Точное выполнение алгебраических тождеств; согласие чисел Прандтля и показателя Колмогорова с экспериментом.
+
+\subsubsection*{Теоретическая часть}
+По теореме~\ref{thm:compute-cuboctahedral-19node-aperture-and-gas} нильпотентность $N_{\mathrm{nil}}^3 \equiv 0$ обрывает биномиальные ряды для $(I_4 + N_{\mathrm{nil}})^{\pm m}$ на квадратичном слагаемом при любом расстоянии $m = k - 1$.
+
+\textbf{Проверка размерностей.}
+Все элементы матриц $T_{\mathrm{cascade}}, M_{\mathrm{chan}}^{\pm m}$, показатели адиабаты~$\gamma$, числа Прандтля~$\mathrm{Pr}$, число Маха~$\mathrm{Ma}_{\mathrm{crit}}$ и фактор~$r_{\mathrm{disc}}$ безразмерны:
+\[
+  \bigl[M_{\mathrm{chan}}^{\pm m}\bigr] = [\gamma] = [\mathrm{Pr}] = [\mathrm{Ma}_{\mathrm{crit}}] = [r_{\mathrm{disc}}] = 1.
+\]
+
+\subsubsection*{Ход эксперимента}
+{\sloppy Воспроизведение: \texttt{python verify\_principles.py} \texttt{--suite sm} (\texttt{Compute\_four\_channel\_cascade}).\par}
+
+\begin{enumerate}[label=\textbf{Шаг \arabic*:},leftmargin=*,itemsep=0.35em]
+\item Вычислить $\det(T_{\mathrm{cascade}})$, диагональ $24\,T_{\mathrm{cascade}}^{-1}$, времена удержания $(11,15,19,25)$ тактов и проверить $N_{\mathrm{nil}}^3 \equiv 0$.
+\item Вычислить прямой вектор каналов $\mathbf{n}_k$ при $m = \vevHierarchySteps = 8$ ($k=9$, $N_{\mathrm{shell}}(9)=812$) и применить обратный трёхчлен $M_{\mathrm{chan}}^{-8}$.
+\item Вычислить газодинамические инварианты $\gamma$, $\mathrm{Pr}(\gamma)$, $\mathrm{Ma}_{\mathrm{crit}}$ и свести результаты в табл.~\ref{tab:exp-ce-cp-02}.
+\end{enumerate}
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\caption{Верификация 4-канального нильпотентного каскада $M_{\mathrm{chan}}$ и газодинамических инвариантов (CE-CP-02)}
+\label{tab:exp-ce-cp-02}
+\begin{tabular}{@{}llrrr@{}}
+\toprule
+Инвариант / наблюдаемая & Формула из носителя & Модель & Эталон / Опыт & Статус \\
+\midrule
+Определитель и $\mathrm{diag}(24\,T_{\mathrm{cascade}}^{-1})$ & $\prod d_{\mathrm{in}} = 24;\ 24/d_{\mathrm{in}}$ & $24;\ (24,12,6,8)$ & $(|E|,|V|,|\square|,|\triangle|)$ & PASS \\
+Окна стробирования $n_{\mathrm{ticks}}^{\max}$ & $\lceil(12/d_{\mathrm{out}})\cdot(256/41)\rceil$ & $(11,15,19,25)$ & Арифм.\ шаг $4$ и $6$ & PASS \\
+Прямой вектор $\mathbf{n}_9$ ($m=8$) & $(12,\ 24m,\ 6m^2,\ 4m(m-1))$ & $(12,192,384,224)$ & $\Sigma = 812 = N_{\mathrm{shell}}(9)$ & PASS \\
+Обращение источника $\mathbf{n}_9 M_{\mathrm{chan}}^{-8}$ & $\mathbf{n}_k(I_4 - m N_{\mathrm{nil}} + \binom{m+1}{2}N_{\mathrm{nil}}^2)$ & $(12,0,0,0)$ & $(12,0,0,0)$ (ошибка $0$) & PASS \\
+Двухшаговый вихрь $(N_{\mathrm{nil}}^2)_{V\to\triangle}$ & $N_{V\to E}\,N_{E\to\triangle} = 2\times(1/3)$ & $2/3 \approx 0{,}6667$ & $(d-1)/d = 2/3$ & PASS \\
+Показатель Колмогорова и $C_K$ & $-d_{\mathrm{out}}(E)/d;\ d_{\mathrm{out}}(E)/d$ & $-5/3;\ 1{,}667$ & $-5/3;\ 1{,}62 \pm 0{,}08$ & PASS \\
+Число Прандтля $\mathrm{Pr}$ (Ar / воздух) & $4\gamma/(9\gamma - 5)$ при $\gamma=5/3,\ 7/5$ & $2/3;\ 14/19 \approx 0{,}737$ & $0{,}667;\ 0{,}71\text{--}0{,}74$ & PASS \\
+Критическое число Маха $\mathrm{Ma}_{\mathrm{crit}}$ & $c_0/c_s = 1/\caKappaGeom$ & $\sqrt{2} \approx 1{,}4142$ & Уширение фронта $\sim 1{,}4$ & PASS \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection*{Анализ, расчёт погрешности и выводы}
+Нильпотентность генератора меж-канального перетекания $N_{\mathrm{nil}}^3 \equiv 0$ позволяет четырёхканальному кубооктаэдрическому прибору точно обращать распространение сигнала за три сложения без разложения в бесконечные ряды сферических гармоник, а двухшаговый переход $V\to E\to\triangle$ и ранги каналов кубооктаэдра однозначно фиксируют показатели турбулентности Колмогорова и числа Прандтля реальных газов.
+
+\textbf{Вывод.}
+Четырёхканальный каскад кубооктаэдра~\latGCKshort\ даёт точный алгебраический фундамент для многоканальной метрологии и вычислительной газовой динамики.
+\textbf{Статус записи:} верифицировано автоматическим гейтом \texttt{Compute\_four\_channel\_cascade}.

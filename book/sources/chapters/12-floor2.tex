@@ -28,19 +28,19 @@
 выводится непосредственно из переписи полных подграфов (клик) на \latGCKshort,
 запрета Паули и модуля~$K_P$.
 
-\begin{theorem}[Перепись клик $K_m$ и три ортогональные плоскости цвета на \latGCKshort]
+\begin{theorem}[Перепись клик $K_m$ на 13-узловом кластере $\mathcal{C}_{13}$ и три ортогональные плоскости цвета на \latGCKshort]
 \label{thm:floor2-fcc-cliques}
 Пусть $K_m$ --- полный подграф из $m$ узлов~$\Lambda$, в котором любая пара вершин
 соединена ребром ближайших соседей длины $1\cdot\caStepSpace$ (прямой каузальный обмен за один такт~$\htick$ по A1).
-Тогда вокруг каждого узла $x_0\in\Lambda$ на \latGCKshort\ ($\geomNeighborTwelve=12$):
+Тогда на первой сфере $S_1$ ($12$ вершин кубооктаэдра, $24$ поверхностных ребра, образующих $4$ пересекающихся больших шестиугольника в плоскостях $\{111\}$, и $8$ треугольных граней~$\triangle$) и в полном 13-узловом кластере $\mathcal{C}_{13} = \{x_0\}\cup S_1$ ($N_\varphi = 1 + \geomNeighborTwelve = 13$):
 \begin{enumerate}[noitemsep]
-\item \textbf{$m=2$ ($K_2$, двухфокусный димер):} ровно $12$ рёбер (мезонный канал $B=0$ / пара $\pm$);
-\item \textbf{$m=3$ ($K_3$, минимальный замкнутый цикл, $\mathrm{girth}=3=d$):} ровно $24$ равносторонних треугольника
-  (барионный узел $B=1$ из $d=3$ взаимно связанных фокусов);
-\item \textbf{$m=4$ ($K_4$, максимальная клика):} ровно $8$ правильных тетраэдров над $8$ треугольными гранями кубооктаэдра;
-  при этом каждый треугольник~$K_3$ достраивается до тетраэдра~$K_4$ ровно \emph{одной} четвёртой вершиной в~$\Lambda$
+\item \textbf{$m=1$ ($K_1$, вершины):} $1$ центральный узел~$x_0$ и $12$ вершин сферы~$S_1$, всего $|K_1(\mathcal{C}_{13})| = 1 + 12 = 13 = N_\varphi$ (носитель 13-узлового лептонного ротора $B=0$);
+\item \textbf{$m=2$ ($K_2$, двухфокусный димер):} ровно $12$ радиальных спиц через~$x_0$ и $24$ поверхностных ребра на~$S_1$, всего $|K_2(\mathcal{C}_{13})| = 12 + 24 = 36 = |\square|^2$ рёбер (мезонный канал $B=0$ / пара $\pm$);
+\item \textbf{$m=3$ ($K_3$, минимальный замкнутый цикл, $\mathrm{girth}=3=d$):} ровно $24$ радиальных равносторонних треугольника через~$x_0$ (центр $x_0$ плюс каждое из $24$ рёбер сферы~$S_1$) и $8$ поверхностных треугольных граней~$\triangle$ на~$S_1$, всего $|K_3(\mathcal{C}_{13})| = 24 + 8 = 32$ треугольника (барионный узел $B=1$ из $d=3$ взаимно связанных фокусов);
+\item \textbf{$m=4$ ($K_4$, максимальная клика):} ровно $8 = \vevHierarchySteps = |\triangle|$ правильных тетраэдров (каждый образован центром~$x_0$ и одной из $8$ треугольных граней~$\triangle$ сферы~$S_1$, причём на самой сфере~$S_1$ без~$x_0$ тетраэдров~$K_4$ нет: $|K_4(\mathcal{C}_{13})| = 8 + 0 = 8$);
+  каждый радиальный треугольник~$K_3$ достраивается до тетраэдра~$K_4$ ровно \emph{одной} четвёртой вершиной в~$\Lambda$
   (зеркальная вершина исключена условием чётности ГЦК $x_1+x_2+x_3\equiv 0\pmod 2$);
-\item \textbf{$m\ge 5$ ($K_{\ge 5}$):} строго $0$ клик --- компактный однотактовый узел из пяти и более взаимных соседей
+\item \textbf{$m\ge 5$ ($K_{\ge 5}$):} строго $0$ клик ($\chi(\mathcal{C}_{13}) = 13 - 36 + 32 - 8 \equiv 1$) --- компактный однотактовый узел из пяти и более взаимных соседей
   на \latGCKshort\ геометрически невозможен.
 \end{enumerate}
 У любого треугольника~$K_3$ (например, $\{(0,0,0),(0,1,1),(1,0,1)\}$) три его ребра
@@ -276,6 +276,72 @@ $\alpha_s(v)=d/(\vevHierarchySteps\pi)=3/(8\pi)$.
     \qquad\bigl(\text{при }K=N_{a0}:\ N_{\mathrm{pack}}=N_{a0}^3\in\mathbb{Z}\bigr).
   \]
 \end{enumerate}
+
+\section{Единый вихревой атлас частиц, матриц смешивания CKM/PMNS и каналов распада Стандартной модели на кликах кубооктаэдра}
+\label{sec:floor2-sm-vortex-atlas}
+
+Подведём итог построению этажей~$0\text{--}2$: все элементарные частицы, константы связи, матрицы смешивания и скорости распада Стандартной модели исчерпываются топологическими конфигурациями вихрей и клик $K_m$ ($m\in\{1,2,3,4\}$, $K_{\ge 5}=0$) на одном и том же 13-узловом кластере кубооктаэдра~\latGCKshort.
+
+\begin{theorem}[Единый вихревой атлас Стандартной модели на кликах $K_1\ldots K_4$ кубооктаэдра]
+\label{thm:floor2-sm-vortex-clique-atlas}
+На решётке~\latGCKshort\ со спинорным кольцом $\mathbb{Z}_{\phaseRingCount}[i]^2$ ($\phaseRingCount=512$, $\mathrm{mod\_bits}=9$, $\vevHierarchySteps=8$, $N_{\mathrm{HB}}=63$, $\Delta\varphi_{\mathrm{disc}}=41$, $N_\varphi=13$, $\hat M = 1+\geomNeighborTwelve\vevHierarchySteps = 97$, $\delta_{\mathrm{pack}}=1/24$) все сектора Стандартной модели однозначно задаются четырьмя топологическими классами вихревых узлов на полке $v = r^{-1/2}\alpha_{\mathrm{fs}}^{\vevHierarchySteps}\ladderEnergy$:
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Бозонные моды и калибровочные каналы ($B=0$, спин $0,1,2$):}
+  скалярное дыхание амплитуды кластера порождает бозон Хиггса $m_H^{(\mathrm{bare})} = \caKappaGeom^2 v$;
+  поперечные фазовые волны без топологического полюса ($n=0$) порождают безмассовый фотон с константой связи $\alpha_{\mathrm{fs}}$;
+  переброс спинорных компонент на $N_\varphi=13$ узлах фиксирует электрослабый угол Вайнберга $\sin^2\theta_W(M_Z) = d/N_\varphi + \caKappaGeom^2\alpha_{\mathrm{fs}}/\vevHierarchySteps = 3/13 + \alpha_{\mathrm{fs}}/16 \approx 0{,}231225$ и массы $W^\pm,Z^0$;
+  обмен потоком между тремя ортогональными плоскостями треугольника~$K_3$ через $\vevHierarchySteps = |\triangle| = 8$ треугольных граней задаёт константу сильной связи $\alpha_s(v) = \frac{d\,d_{\mathrm{in}}(\square)}{\vevHierarchySteps}r = \frac{3}{2}r \implies \alpha_s(M_Z)\approx 0{,}1179$.
+\item \textbf{Лептонный ротор без треугольной клики ($K_1$, $B=0$, спин $1/2$) и матрица PMNS:}
+  вихрь с единичной обмоткой $|n|=1$, распределённый по $N_\varphi = 1_{\mathrm{core}} + d_{\mathrm{in}}(V) + d_{\mathrm{same}}(V) + d_{\mathrm{out}}(V) = 1+1+4+7 = 13$ узлам кубооктаэдра, порождает три осевых поколения заряженных лептонов $(e,\mu,\tau)$ с инвариантом Коидэ $Q_{\mathrm{Koide}} = (d-1)/d = 2/3$, а доли слоёв вершинного канала $V=(1,4,7)$ в $N_\varphi=13$ и третьей сфере $N_{\mathrm{shell}}(3)=92$ определяют три угла смешивания нейтрино:
+  \begin{equation}
+  \label{eq:floor2-pmns-exact-fractions}
+  \begin{aligned}
+    \sin^2\theta_{12}^{\mathrm{PMNS}} &= \frac{d_{\mathrm{same}}(V)}{N_\varphi} = \frac{4}{13},\qquad
+    \sin^2\theta_{23}^{\mathrm{PMNS}} = \frac{d_{\mathrm{out}}(V)}{N_\varphi} = \frac{7}{13},\\
+    \sin^2\theta_{13}^{\mathrm{PMNS}} &= \frac{1 + d_{\mathrm{in}}(V)}{N_{\mathrm{shell}}(3)} = \frac{2}{92} = \frac{1}{46}.
+  \end{aligned}
+  \end{equation}
+\item \textbf{Барионная клика~$K_3$, тетраэдр~$K_4$ и матрица кваркового смешивания CKM из гауссова разложения $\hat M = 4^2+9^2 = 97$:}
+  замкнутый треугольник~$K_3$ ($B=1$, три ребра в плоскостях $YZ\perp XZ\perp XY$) несёт массу протона $m_p = \alpha_{\mathrm{fs}} m_H^{(\mathrm{bare})}(1+\delta_{\mathrm{pack}})$, разность масс нуклонов $m_n - m_p = 2(\mathrm{mod\_bits}/\vevHierarchySteps)^2\massElectron = \frac{81}{32}\massElectron$ и шесть кварковых ступеней ($m_u=4\massElectron$, $m_d=9\massElectron$, $m_s=m_p/10$, $m_c=\frac{4}{3}m_p$, $m_b=\frac{7}{3}\alpha_{\mathrm{fs}}v$, $m_t^{(\mathrm{bare})}=\caKappaGeom v$).
+  Разложение кулоновского знаменателя $\hat M = d_{\mathrm{in}}(\square)^2 + \mathrm{mod\_bits}^2 = 4^2 + 9^2 = 97$ в гауссовом кольце $\mathbb{Z}[i]$ на $2N_\varphi = 26$ спинорных состояниях кластера задаёт все четыре параметра Вольфенштейна матрицы CKM и барионную асимметрию Вселенной:
+  \begin{equation}
+  \label{eq:floor2-ckm-gaussian-97}
+  \begin{aligned}
+    \lambda &= \frac{d}{N_\varphi}\!\left(1 - \frac{d-1}{d}\delta_{\mathrm{pack}}\right) = \frac{35}{156},\qquad
+    A = \frac{\geomNeighborTwelve - 2}{\geomNeighborTwelve} = \frac{5}{6},\\
+    \bar\rho + i\bar\eta &= \frac{d_{\mathrm{in}}(\square) + i\,\mathrm{mod\_bits}}{2N_\varphi} = \frac{4 + 9i}{26},\qquad
+    \eta_B = \bar\eta\,\frac{d_{\mathrm{out}}(E)}{\vevHierarchySteps}\,\alpha_{\mathrm{fs}}^4 = \frac{45}{208}\,\alpha_{\mathrm{fs}}^4.
+  \end{aligned}
+  \end{equation}
+\item \textbf{Целочисленные каналы слабых распадов ($\tau_\mu,\tau_n$) без множителя $\pi^3$:}
+  релаксация возбуждённой осевой моды мюона ($g=1\to 0$) идёт через $N_{\mathrm{open}}(\mu) = \geomNeighborTwelve(\phaseRingCount - N_\varphi) = 12\times 499 = 5988$ открытых каналов фазового кольца ($\Gamma_\mu = G_F^2 m_\mu^5 f_{\mathrm{Dalitz}}/N_{\mathrm{open}}(\mu) \implies \tau_\mu \approx 2{,}196\ \text{мкс}$), а $\beta$-распад нейтрона идёт через $N_{\mathrm{open}}(n) = N_{\mathrm{HB}}(\geomNeighborTwelve - 1)/\geomNeighborTwelve = 63\times 11/12 = 57{,}75$ каналов амплитудного регистра при аксиальном отношении $g_A = \frac{d_{\mathrm{out}}(E)}{d_{\mathrm{in}}(\square)} + \frac{1}{d N_\varphi} = \frac{5}{4} + \frac{1}{39} = \frac{199}{156} \approx 1{,}27564$ ($\tau_n \approx 875\text{--}879\ \text{с}$).
+\end{enumerate}
+\end{theorem}
+
+\begin{table}[htbp]
+\centering
+\caption{Сводный вихревой атлас частиц, углов смешивания и каналов распада Стандартной модели на кубооктаэдре~\latGCKshort\ (\texttt{SM\_vortex\_clique\_atlas}).}
+\label{tab:floor2-sm-vortex-atlas}
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{@{}llllr@{}}
+\toprule
+Объект СМ & Носитель на \latGCKshort & Формула ($\Mlayer\to\layerMacro$) & Модель & PDG \\
+\midrule
+Клики $x_0$ / $\mathcal{C}_{13}$ & Конус над $S_1=(12,24,8,0)$ & $(1,12,24,8)$ / $(13,36,32,8)$ & $\chi=1$ & $\chi=1$ \\
+Бозон Хиггса $m_H$ & Амплитуда $N_\varphi=13$ & $\caKappaGeom^2 v\sqrt{1+8\alpha_{\mathrm{fs}}/(\pi\caKappaGeom^2)}$ & $125{,}31\ \text{ГэВ}$ & $125{,}25\ \text{ГэВ}$ \\
+Угол $\sin^2\theta_W(M_Z)$ & $d=3$ оси в $N_\varphi=13$ & $3/13 + \alpha_{\mathrm{fs}}/16$ & $0{,}231225$ & $0{,}23122(4)$ \\
+Связь $\alpha_s(M_Z)$ & $\vevHierarchySteps=8$ граней $\triangle$ & Бегунок от $\alpha_s(v)=\frac{3}{2}r$ & $0{,}11788$ & $0{,}1179(9)$ \\
+Электрон $\massElectron$ & Ротор $B=0$ на $N_\varphi=13$ & $\alpha_{\mathrm{fs}}^2 m_H / 13$ & $0{,}5133\ \text{МэВ}$ & $0{,}5110\ \text{МэВ}$ \\
+$m_\mu/\massElectron,\ m_\tau/\massElectron$ & 3 оси $g\in\{0,1,2\}$, $\delta_0=2/9$ & $(1+\caKappaGeom^{-1}\cos(2\pi g/3+2/9))^2$ & $206{,}77;\ 3477{,}5$ & $206{,}77;\ 3477{,}2$ \\
+Протон $m_p,\ \mu_p/\mu_N$ & Клика $K_3$ ($B=1$) & $\alpha_{\mathrm{fs}} m_H^{(\mathrm{bare})}(1+\frac{1}{24});\ \frac{67}{24}$ & $935{,}3\ \text{МэВ};\ +2{,}792$ & $938{,}3\ \text{МэВ};\ +2{,}793$ \\
+Нейтрон $\mu_n/\mu_N,\ g_A$ & $K_3$ ($Q=0$, $k=2$) & $-2+\frac{2}{24}=-\frac{23}{12};\ \frac{199}{156}$ & $-1{,}917;\ 1{,}2756$ & $-1{,}913;\ 1{,}2754$ \\
+Вершина CKM $(\bar\rho,\bar\eta,\gamma)$ & $\hat M=4^2+9^2=97$ на $26$ & $(4+9i)/26,\ \arctan(9/4)$ & $0{,}154;\ 0{,}346;\ 66{,}0^\circ$ & $0{,}159;\ 0{,}348;\ 65{,}4^\circ$ \\
+Углы PMNS $\sin^2\theta_{12,23,13}$ & $V=(1,4,7)$ в $13$ и $S_3=92$ & $4/13,\ 7/13,\ 2/92=1/46$ & $0{,}308;\ 0{,}538;\ 0{,}0217$ & $0{,}307;\ 0{,}546;\ 0{,}0220$ \\
+Распады $\tau_\mu,\ \tau_n$ & $N_{\mathrm{open}}=5988;\ 57{,}75$ & Сброс в $\mathbb{Z}_{512}$ без $\pi^3$ & $2{,}196\ \text{мкс};\ 875\ \text{с}$ & $2{,}197\ \text{мкс};\ 878{,}4\ \text{с}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \section{Статус этажа~2}
 \label{sec:floor2-open}

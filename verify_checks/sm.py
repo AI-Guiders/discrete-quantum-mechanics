@@ -322,3 +322,70 @@ def check_annihilation_t_stats(device: str = "cpu") -> dict:
         "ok": ok,
         "note": row["note"],
     }
+
+
+def check_sm_vortex_clique_atlas(device: str = "cpu") -> dict:
+    """§5.0.4-C — Unified SM vortex & clique atlas (K_2=12, K_3=24, K_4=8, CKM, PMNS, μ_p, μ_n, τ_μ, τ_n)."""
+    from mt_ca.si_constants import SI
+
+    del device
+    row = SI.floor2_baryon_cliques_and_moments_row()
+    ok = bool(row["checks_ok"])
+    return {
+        "id": "SM_vortex_clique_atlas",
+        "cliques_K_m": row["cliques_K_m"],
+        "mu_p_pred_muN": row["mu_p_pred_muN"],
+        "mu_n_pred_muN": row["mu_n_pred_muN"],
+        "m_mu_over_m_e_pred": row["m_mu_over_m_e_pred"],
+        "m_tau_over_m_e_pred": row["m_tau_over_m_e_pred"],
+        "ckm_gamma_deg": row["ckm_gamma_deg"],
+        "pmns_sin2_12": row["pmns_sin2_12"],
+        "pmns_sin2_23": row["pmns_sin2_23"],
+        "pmns_sin2_13": row["pmns_sin2_13"],
+        "tau_mu_s": row["tau_mu_s"],
+        "tau_n_s": row["tau_n_s"],
+        "ok": ok,
+        "note": "§5.0.4-C: K_2=12, K_3=24, K_4=8, K_>=5=0; 3 orthogonal planes; μ_p=67/24, μ_n=-23/12; Koide; CKM/PMNS; τ_μ, τ_n",
+    }
+
+
+def check_periodic_and_fcc_graph_dirac(device: str = "cpu") -> dict:
+    """Floor 3 / Chemistry — Periodic Table periods, Pb-208, N=184 island, discrete Gauss edges, and FCC Graph Dirac."""
+    from mt_ca.si_constants import SI
+
+    del device
+    row = SI.periodic_table_and_fcc_graph_dirac_row()
+    ok = bool(row["ok"])
+    return {
+        "id": "Chem_periodic_and_fcc_dirac",
+        "noble_gas_closures": row["noble_gas_closures"],
+        "nuclear_magic_all": row["nuclear_magic_all"],
+        "terminal_stable_Pb208": row["terminal_stable_Pb208"],
+        "island_of_stability_N184": row["island_of_stability_N184"],
+        "z_core_zero_crossing": row["z_core_zero_crossing"],
+        "z_core_continuum_diving": row["z_core_continuum_diving"],
+        "e_1s_shell_at_137": row["e_1s_shell_at_137"],
+        "ok": ok,
+        "note": row["note"],
+    }
+
+
+def check_four_channel_nilpotent_cascade(device: str = "cpu") -> dict:
+    """§4.1.1-HL(H4b) — 4-channel nilpotent cascade M_chan = I_4 + N_nil (N_nil^3=0), exact inverse, and gas dynamics."""
+    from mt_ca.si_constants import SI
+
+    del device
+    row = SI.four_channel_nilpotent_cascade_and_gas_row()
+    ok = bool(row["ok"])
+    return {
+        "id": "Compute_four_channel_cascade",
+        "cascade_determinant": row["cascade_determinant"],
+        "cascade_inverse_diag_24": row["cascade_inverse_diag_24"],
+        "channel_retention_ticks": row["channel_retention_ticks"],
+        "two_step_vortex_amplitude": row["two_step_vortex_amplitude"],
+        "reconstructed_source_s1": row["reconstructed_source_s1"],
+        "prandtl_numbers": row["prandtl_numbers"],
+        "critical_mach_number": row["critical_mach_number"],
+        "ok": ok,
+        "note": row["note"],
+    }

@@ -270,6 +270,24 @@ class SISmRows:
             )
             for m in range(2, 6)
         }
+        cliques_surface_s1 = {
+            m: sum(
+                1
+                for sub in combinations(n12, m)
+                if all(is_nn(u, v) for u, v in combinations(sub, 2))
+            )
+            for m in range(1, 6)
+        }
+        cliques_cluster_c13 = {
+            1: 1 + cliques_surface_s1[1],
+            **{m: cliques[m] + cliques_surface_s1[m] for m in range(2, 6)},
+        }
+        euler_c13 = (
+            cliques_cluster_c13[1]
+            - cliques_cluster_c13[2]
+            + cliques_cluster_c13[3]
+            - cliques_cluster_c13[4]
+        )
         k3_tris = [(u, v) for u, v in combinations(n12, 2) if is_nn(u, v)]
         # Every K_3 triangle has 3 edges lying in the 3 mutually orthogonal coordinate planes {YZ, XZ, XY}
         all_k3_triplanar = True
@@ -357,6 +375,9 @@ class SISmRows:
 
         ok = (
             cliques == {2: 12, 3: 24, 4: 8, 5: 0}
+            and cliques_surface_s1 == {1: 12, 2: 24, 3: 8, 4: 0, 5: 0}
+            and cliques_cluster_c13 == {1: 13, 2: 36, 3: 32, 4: 8, 5: 0}
+            and euler_c13 == 1
             and all_k3_triplanar
             and unique_k4_apex
             and abs(mu_sum_pred - 7.0 / 8.0) < 1e-15
@@ -380,6 +401,9 @@ class SISmRows:
         )
         return {
             "cliques_K_m": cliques,
+            "cliques_surface_S1": cliques_surface_s1,
+            "cliques_cluster_C13": cliques_cluster_c13,
+            "euler_characteristic_C13": euler_c13,
             "all_K3_three_orthogonal_planes": all_k3_triplanar,
             "unique_chiral_K4_apex_per_K3": unique_k4_apex,
             "delta_pack": delta_pack,
@@ -817,6 +841,237 @@ class SISmRows:
             "rel_err_T_CMB_ticks": rel_err_t_cmb_ticks,
             "ok": ok,
             "note": "π-free, k_B-free, bare-number-free carrier: Θ_vac/E_0=N_ring^(-1/d_in(□)), Θ_rec/E_Ry=d/(d_in(□) d_out(E) N_hier), Θ_CMB/E_Ry=d α_fs/(d_in(□) d_out(E) N_hier^2)",
+        }
+
+    def periodic_table_and_fcc_graph_dirac_row(self) -> dict[str, Any]:
+        """§5.0.4-B / Floor 3 — Periodic Table periods, nuclear magic numbers to Pb-208 & N=184, and discrete FCC Graph Dirac spectrum."""
+        d = 3
+        d_in_v, d_in_e, d_in_tri, d_in_sq = 1, 2, 3, 4
+        d_pol = d - d_in_v  # 2
+        d_out_e, n_squares, d_out_v = 5, 6, 7
+        n_hier = 8
+        n12 = int(N12_FCC_CAUSAL_LINKS)  # 12
+        n_phi = int(PLANCK_CELL.N_phi)  # 13
+        delta_phi_disc = d_in_sq * d_in_sq + d_out_e * d_out_e  # 41
+        n_hb = (1 << n_squares) - d_in_v  # 63
+        n_ring = n_hier ** d  # 512
+
+        # 1. Subshell capacities, Madelung period lengths, and noble gas closures
+        subshell_caps = tuple(d_pol * g for g in (d_in_v, d, d_out_e, d_out_v))  # (2, 6, 10, 14)
+        period_lengths = tuple(
+            d_pol * (((p + d_pol) // d_pol) ** d_pol)
+            for p in range(d_in_v, d_out_v + d_in_v)
+        )  # (2, 8, 8, 18, 18, 32, 32)
+        noble_gases = tuple(
+            sum(period_lengths[:i]) for i in range(d_in_v, d_out_v + d_in_v)
+        )  # (2, 10, 18, 36, 54, 86, 118)
+
+        # 2. Nuclear magic numbers: low tetrahedral branch (k=1..3) and high spin-orbit branch (k=4..7, k=8 island)
+        magic_low = tuple(
+            (k * (k + d_in_v) * (k + d_pol)) // d for k in (d_in_v, d_in_e, d_in_tri)
+        )  # (2, 8, 20)
+        magic_high = tuple(
+            (k * ((k ** d_pol) + d_out_e)) // d for k in (d_in_sq, d_out_e, n_squares, d_out_v)
+        )  # (28, 50, 82, 126)
+        z_lead = d_pol * delta_phi_disc  # 82
+        n_lead = d_pol * n_hb  # 126
+        a_lead = d_pol * n_hier * n_phi  # 208
+        n_island = (n_hier * ((n_hier ** d_pol) + d_out_e)) // d  # 184
+        z_island_bounds = (n_lead - n12, n_lead - n_squares)  # (114, 120)
+        z_point_em = (d_in_sq ** d_pol) + ((n12 - d_in_v) ** d_pol)  # 137
+        p8_partition = (subshell_caps[0], subshell_caps[-1], d)  # (2, 14, 3) -> sum = 19
+        z_qed_diving = (z_point_em + d_out_e * d_out_v, z_point_em + (n_squares ** d_pol))  # (172, 173)
+
+        # 3. Discrete Gauss edge identity and discrete FCC Graph Dirac Sturm solver
+        k_max = (d_in_v + n12 * n_hier) + d  # 100
+        n_sh = [d_in_v if k == 0 else (n12 - d_pol) * k * k + d_pol for k in range(k_max + 1)]
+        gauss_edges_ok = all(
+            n12 * ((k ** d) - ((k - d_in_v) ** d))
+            + d_in_sq * n12 * (k * k)
+            + n12 * (((k + d_in_v) ** d) - (k ** d))
+            == n12 * n_sh[k]
+            for k in range(d_in_v, n_hier + d_in_v)
+        )
+
+        tail_m = n_ring * d_in_sq  # 2048
+        acc = 0.0
+        g_fcc = [0.0] * (tail_m + 1)
+        for m in range(tail_m, 0, -1):
+            acc += float(d) / float((m ** d) - ((m - d_in_v) ** d))
+            g_fcc[m - 1] = acc
+
+        geom_norm = float(n12 - d_pol) / float(d)
+        a_hop = [0.0] * (k_max + 1)
+        b_hop = [0.0] * (k_max + 1)
+        for k in range(d_in_v, k_max + 1):
+            ew = float((k ** d) - ((k - d_in_v) ** d))
+            a_hop[k] = math.sqrt(geom_norm * ew / float(n_sh[k - 1]))
+            b_hop[k] = math.sqrt(geom_norm * ew / float(n_sh[k]))
+
+        alpha = self.alpha_preferred
+
+        def count_below(z_val: int, energy: float, start_k: int) -> int:
+            neg = 0
+            prev = 0.0
+            for k in range(start_k, k_max + 1):
+                diag = 1.0 - float(z_val) * alpha * g_fcc[k] - energy
+                if k >= d_in_v:
+                    v_in = -float(z_val) * alpha * (0.5 * (g_fcc[k - 1] + g_fcc[k]) if start_k == 0 else g_fcc[k])
+                    den_in = 1.0 + energy - v_in
+                    diag += (b_hop[k] ** d_pol) / den_in
+                    if k > start_k:
+                        pivot = diag - (((a_hop[k] * b_hop[k]) / den_in) ** d_pol) / prev
+                    else:
+                        pivot = diag
+                else:
+                    pivot = diag
+                if k < k_max:
+                    v_out = -float(z_val) * alpha * (0.5 * (g_fcc[k] + g_fcc[k + 1]) if start_k == 0 else g_fcc[k + 1])
+                    den_out = 1.0 + energy - v_out
+                    pivot += (a_hop[k + 1] ** d_pol) / den_out
+                if pivot < 0.0:
+                    neg += 1
+                prev = pivot if abs(pivot) > 1e-30 else 1e-30
+            return neg
+
+        def bisect_eval(z_val: int, target_idx: int, start_k: int) -> float:
+            lo, hi = -0.9999999, 0.9999999
+            if count_below(z_val, lo, start_k) > target_idx:
+                return -1.0
+            for _ in range(54):
+                mid = 0.5 * (lo + hi)
+                if count_below(z_val, mid, start_k) > target_idx:
+                    hi = mid
+                else:
+                    lo = mid
+            return 0.5 * (lo + hi)
+
+        z_core_zero = next(z_c for z_c in range(z_lead - n_hier, z_lead + n_hier) if count_below(z_c, 0.0, 0) >= d_in_v)
+        z_core_dive = next(z_c for z_c in range(n_lead - n_hier, n_lead + n_hier) if count_below(z_c, -0.9999999, 0) >= d_in_v)
+        z_1s_zero = next(z_c for z_c in range(d_pol * z_point_em - n12, d_pol * z_point_em + n12) if count_below(z_c, 0.0, d_in_v) >= d_in_v)
+        e_core_82 = bisect_eval(z_lead, 0, 0)
+        e_core_122 = bisect_eval(z_core_dive - d_in_v, 0, 0)
+        e_1s_137 = bisect_eval(z_point_em, d_in_v, 0)
+        e_1s_hard_137 = bisect_eval(z_point_em, 0, d_in_v)
+
+        ok = (
+            gauss_edges_ok
+            and z_lead + n_lead == a_lead
+            and magic_high[-2] == z_lead
+            and magic_high[-1] == n_lead
+            and sum(p8_partition) == z_point_em - noble_gases[-1] == n_phi + n_squares
+            and abs((g_fcc[0] - g_fcc[1]) - float(d)) < 1e-12
+            and z_core_zero == z_lead - d_in_v
+            and e_core_82 < 0.0
+            and z_island_bounds[1] < z_core_dive < n_lead
+            and e_core_122 > -1.0
+            and e_1s_137 > 0.5
+            and e_1s_hard_137 > 0.5
+        )
+        return {
+            "subshell_capacities": subshell_caps,
+            "period_lengths": period_lengths,
+            "noble_gas_closures": noble_gases,
+            "nuclear_magic_all": magic_low + magic_high,
+            "terminal_stable_Pb208": (z_lead, n_lead, a_lead),
+            "island_of_stability_N184": n_island,
+            "island_of_stability_Z_bounds": z_island_bounds,
+            "period_8_partition": p8_partition,
+            "finite_nucleus_qed_diving_Z_bounds": z_qed_diving,
+            "gauss_edges_identity_ok": gauss_edges_ok,
+            "green_core_k0": g_fcc[0],
+            "green_shell_k1": g_fcc[1],
+            "z_core_zero_crossing": z_core_zero,
+            "e_core_at_Pb82": e_core_82,
+            "z_core_continuum_diving": z_core_dive,
+            "e_core_at_122": e_core_122,
+            "e_1s_shell_at_137": e_1s_137,
+            "e_1s_hard_core_at_137": e_1s_hard_137,
+            "z_1s_hard_core_zero_crossing": z_1s_zero,
+            "ok": ok,
+            "note": "Periodic Table periods, Pb-208 (82+126=208), N=184 island, discrete Gauss law, and nonsingular FCC Graph Dirac at Z=137",
+        }
+
+    def four_channel_nilpotent_cascade_and_gas_row(self) -> dict[str, Any]:
+        """§4.1.1-HL(H4b) — 4-channel nilpotent cascade M_chan = I_4 + N_nil (N_nil^3 = 0), exact inverse, and gas-dynamics invariants."""
+        d = 3
+        d_in_v, d_in_e, d_in_tri, d_in_sq = 1, 2, 3, 4
+        d_pol = d - d_in_v  # 2
+        d_out_tri, d_out_sq, d_out_e, n_squares, d_out_v = 3, 4, 5, 6, 7
+        n_hier = 8
+        mod_bits = 9
+        n12 = int(N12_FCC_CAUSAL_LINKS)  # 12
+        n_phi = int(PLANCK_CELL.N_phi)  # 13
+        delta_phi_disc = d_in_sq * d_in_sq + d_out_e * d_out_e  # 41
+        n_ring = n_hier ** d  # 512
+        phi_pauli = n_ring // d_pol  # 256
+
+        d_in_vec = (d_in_v, d_in_e, d_in_sq, d_in_tri)  # (1, 2, 4, 3)
+        d_out_vec = (d_out_v, d_out_e, d_out_sq, d_out_tri)  # (7, 5, 4, 3)
+        det_t = 1
+        for v_in in d_in_vec:
+            det_t *= v_in  # 24
+        inv_diag_24 = tuple(det_t // v_in for v_in in d_in_vec)  # (24, 12, 6, 8)
+        retention_ticks = tuple(
+            math.ceil((float(n12) / float(v_out)) * (float(phi_pauli) / float(delta_phi_disc)))
+            for v_out in d_out_vec
+        )  # (11, 15, 19, 25)
+
+        n_01 = float(d_in_sq) / float(d_in_e)  # 2.0
+        n_02 = float(d_in_e) / float(d_in_sq)  # 0.5
+        n_12 = float(d_in_e) / float(d_in_sq)  # 0.5
+        n_13 = float(d_in_v) / float(d_in_tri)  # 1/3
+        n2_02 = n_01 * n_12  # 1.0
+        n2_03 = n_01 * n_13  # 2/3
+
+        m_step = n_hier  # 8
+        binom_m_minus_1 = float(m_step * (m_step - d_in_v)) / float(d_pol)
+        fwd_v = float(n12)
+        fwd_e = float(n12) * (float(m_step) * n_01)
+        fwd_sq = float(n12) * (float(m_step) * n_02 + binom_m_minus_1 * n2_02)
+        fwd_tri = float(n12) * (binom_m_minus_1 * n2_03)
+        fwd_channels = (round(fwd_v), round(fwd_e), round(fwd_sq), round(fwd_tri))
+        k_target = m_step + d_in_v
+        expected_shell_sites = (n12 - d_pol) * (k_target ** d_pol) + d_pol
+
+        binom_m_plus_1 = float(m_step * (m_step + d_in_v)) / float(d_pol)
+        rec_v = fwd_v
+        rec_e = fwd_v * (-float(m_step) * n_01) + fwd_e
+        rec_sq = fwd_v * (-float(m_step) * n_02 + binom_m_plus_1 * n2_02) + fwd_e * (-float(m_step) * n_12) + fwd_sq
+        rec_tri = fwd_v * (binom_m_plus_1 * n2_03) + fwd_e * (-float(m_step) * n_13) + fwd_tri
+        reconstructed_s1 = (round(rec_v), round(rec_e), round(rec_sq), round(rec_tri))
+
+        dof_classes = (d, d_out_e, n_squares, d_out_v)
+        gammas = tuple(float(f + d_pol) / float(f) for f in dof_classes)
+        prandtls = tuple((float(d_in_sq) * g) / (float(mod_bits) * g - float(d_out_e)) for g in gammas[:d])
+        ma_crit = 1.0 / KAPPA_FCC_1TICK
+        r_disc = float(delta_phi_disc) / float(n_ring)
+
+        ok = (
+            det_t == d_pol * n12
+            and inv_diag_24 == (d_pol * n12, n12, n_squares, n_hier)
+            and abs(n2_03 - float(d_pol) / float(d)) < 1e-12
+            and sum(fwd_channels) == expected_shell_sites
+            and reconstructed_s1 == (n12, 0, 0, 0)
+            and abs(prandtls[0] - float(d_pol) / float(d)) < 1e-12
+            and abs(prandtls[1] - float(d_pol * d_out_v) / float(n_phi + n_squares)) < 1e-12
+            and abs(ma_crit - math.sqrt(float(d_pol))) < 1e-12
+        )
+        return {
+            "cascade_determinant": det_t,
+            "cascade_inverse_diag_24": inv_diag_24,
+            "channel_retention_ticks": retention_ticks,
+            "nilpotent_index": d,
+            "two_step_vortex_amplitude": n2_03,
+            "forward_shell_channels_k9": fwd_channels,
+            "reconstructed_source_s1": reconstructed_s1,
+            "adiabatic_indices": gammas,
+            "prandtl_numbers": prandtls,
+            "critical_mach_number": ma_crit,
+            "kolmogorov_exponents": (float(d_pol) / float(d), -float(d_out_e) / float(d)),
+            "viscosity_entropy_floor": r_disc,
+            "ok": ok,
+            "note": "4-channel nilpotent cascade M_chan = I_4 + N_nil (N_nil^3=0), exact 3-term inverse, and gas-dynamics invariants",
         }
 
 
