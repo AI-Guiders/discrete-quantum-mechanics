@@ -191,3 +191,15 @@
 \DeclareMathOperator{\atan}{atan}
 
 \DeclareMathOperator{\wrap}{wrap}
+
+% Тупик — врезка для показанного провала: что предполагали → что сломалось →
+% чем проверили → что осталось. Правило книги: провал приводится с числом и следом;
+% без числа это украшение, а не отчёт.
+\newenvironment{deadend}[1]{%
+  \par\addvspace{0.9\baselineskip}%
+  \noindent\rule{\linewidth}{0.4pt}\par\nopagebreak
+  \noindent\textbf{Тупик:}~\textit{#1}\par\nopagebreak
+  \smallskip\noindent\ignorespaces
+}{%
+  \par\nopagebreak\noindent\rule{\linewidth}{0.4pt}\par\addvspace{0.9\baselineskip}%
+}

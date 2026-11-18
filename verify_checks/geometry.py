@@ -580,3 +580,49 @@ def check_repo_text_eol() -> dict:
         "note": "LF only; fix: python tools/normalize_text_eol.py",
     }
 
+
+# Phrases that stand in for a proof ("as is obvious", "it is easy to see"). The book's
+# rule: every such place either carries a reference to a proof or an explicit
+# "not verified" mark. A line may opt out with the marker `gate:ok`.
+_HANDWAVE_PATTERNS = (
+    r"(?<!не)очевидн",
+    r"само собой",
+    r"(?<!не)ясно,?\s+что\b",
+    r"нетрудно видеть",
+    r"легко видеть",
+    r"легко показать",
+    r"(?<!не)тривиальн(?:о\b|ым\s+образом)",
+)
+_HANDWAVE_MARKER = "gate:ok"
+
+
+def check_repo_no_handwave() -> dict:
+    """No "obviously / easy to see" standing in for a proof in book or MODEL prose."""
+    root = Path(__file__).resolve().parents[1]
+    targets: list[Path] = []
+    for pat in ("book/sources/**/*.tex", "model/**/*.md"):
+        targets.extend(sorted(root.glob(pat)))
+    rx = re.compile("|".join(_HANDWAVE_PATTERNS), re.IGNORECASE)
+    hits: list[str] = []
+    for path in targets:
+        try:
+            text = path.read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            continue
+        for lineno, line in enumerate(text.splitlines(), start=1):
+            if _HANDWAVE_MARKER in line:
+                continue
+            m = rx.search(line)
+            if m:
+                rel = path.relative_to(root).as_posix()
+                hits.append(f"{rel}:{lineno}: {m.group(0)!r}")
+    return {
+        "id": "Repo_no_handwave",
+        "count": len(hits),
+        "violations": hits[:16],
+        "scanned": len(targets),
+        "ok": len(hits) == 0,
+        "note": "замени на ссылку на доказательство или пометку «не проверено»; "
+                "осознанное исключение — маркер gate:ok в строке",
+    }
+

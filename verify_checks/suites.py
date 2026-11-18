@@ -48,7 +48,7 @@ VERIFY_SUITES: dict[str, VerifySuiteSpec] = {
     "gate": VerifySuiteSpec(
         id="gate",
         description="MODEL purity + LF text EOL (.gitattributes).",
-        check_names=_names(check_model_purity, check_repo_text_eol),
+        check_names=_names(check_model_purity, check_repo_text_eol, check_repo_no_handwave),
         ship=True,
     ),
     "m_axioms": VerifySuiteSpec(
