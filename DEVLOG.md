@@ -6,6 +6,24 @@ SSOT: [`MODEL.md`](MODEL.md) + [`model/`](model/) · META: [`META.md`](META.md) 
 
 ---
 
+## 2026-11-18 · §3.12.6 · mod_bits = 1 + |△| = d² from carrier, Bekenstein B_V as T-check, unit-boundary map
+
+**Триггер.** Разбор абляции аксиом и границ слоёв $M \leftrightarrow T$: откуда берётся $\mathrm{mod\_bits} = 9$, почему $4\times 9 = 36$ бит в декартовой 4-дорожечной записи нарушают предел Бекенштейна $B_V \approx 9{,}065$, и в каком ровно месте перепутались единицы квантов ядра ($\mu \in \{1..64\}$) и доли потолка Планка ($|z| = \mu / 64$).
+
+**Найдено и проверено.**
+1. **Обращение порядка $\mathrm{mod\_bits}$ и $B_V$:** предел Бекенштейна $B_V = 2\pi/\ln 2 \approx 9{,}0647$ содержит $\pi$ и $\ln 2$ (термодинамическая энтропия на $T$), поэтому на $M$ он не может быть источником $\mathrm{mod\_bits}$. На носителе $\mathrm{mod\_bits} = 1 + |\triangle| = d^2 = 9$ и $\mathrm{frac\_bits} = \mathrm{mod\_bits} - d = |\square| = 6$ выводятся напрямую из комбинаторики однотактового кубооктаэдра ($d=3$, $|\triangle|=8$, $|\square|=6$), $N_\varphi = 13$ и $\Delta\varphi_{\mathrm{disc}} = 41$ — из алфавита ($\mathrm{mod\_bits}=9$ и $\Delta\varphi_{\min}=1/2$ рад, $(512+13+8)/13=41$), а $B_V$ становится проверкой на выходе: одно 9-битное слово с двумя чтениями проходит проверку ($9 \le 9{,}065$, запас $\varepsilon_B \approx 0{,}065$ бит), тогда как 4 независимые 9-битные декартовы дорожки ($36$ бит) превышают $B_V$ вчетверо.
+2. **Изъятие $B_V$ из входов $\alpha_{\mathrm{fs}}$:** в `thm:alpha`, `rem:alpha-canonical-form` (`chapters/07-alpha.tex`), `model/08-alpha.md`, `si_alpha_thm_rows.py` и `si_floor1_rows.py` число мест силы записано как $\hat M = 1 + |N_{12}|(\mathrm{mod\_bits} - 1) = 1 + |N_{12}|\,|\triangle| = 97$ без обращения к $\lfloor B_V\rfloor$.
+3. **Карта единиц и границ перевода (`sec-coords-bridge.tex`, `08-invariant.tex`, `model/03-evolution.md`):**
+   - На $M$: амплитуда $\mu \in \{1..64\}$ в квантах, $R^2, \zeta_r, \zeta_i$ в $\mathrm{quanta}^2$, $\varphi_{\mathrm{disc}}, \Phi \in \mathbb{Z}_{512}$ в тиках кольца. Внутри ворот отношение $\zeta_i / (\zeta_r + R^2 + 1)$ безразмерно (при регуляризаторе $+1\ \mathrm{квант}^2$), а множитель $K_P = 64$ тика стоит только в числителе.
+   - Сдвиг `>> frac_bits` в `holonomy_zeta_int` при $+K_P = 64$ в знаменателе смешивал кванты ядра с долями потолка Планка, обнуляя голономию вакуумного дна $\mu = 1$ и завышая знаменатель в $4096$ раз; в `bekenstein_scale_spinor` (`z_ring.py:93`) `rho_max_int = 64` повторно умножался на $2^{2F}=4096$, выставляя потолок $\rho_{\max} = 64$ вместо $1$.
+4. **Прототип полярного регистра $(\mu, \varphi_{\mathrm{disc}}) \in \mathbb{Z}_{64}\times\mathbb{Z}_{512}$:** шаг $\varphi^{t+1} = (2\varphi^t - \varphi^{t-1} + \Phi) \bmod 512$ даёт точную $\mathbb{Z}_{512}$-эквивариантность ($0$ ошибок на всех $512$ углах), побитовую обратимость на $512$ тактах без стека импульсов, сохранение $\mu$ без `clamp`, двухщелевой режим ($\Phi_1=0, \Phi_{12}=64$ при $\mu_{\mathrm{bg}}=1$) и биективный $13/13$ одиночный отсчёт Борна.
+
+**Проверка.** `verify_principles.py --suite gate --suite carrier --suite alpha` — **48/48 PASS** (`PlanckCellBitBudget` проверяет `mod_bits == 9`, `bekenstein_check_single_word_ok == True`, `four_lane_exceeds_bekenstein == True`). `book/build.ps1 -Volume construction` — 110 стр., 0 undefined refs, 0 новых Overfull hbox.
+
+**Открыто.** Перевод рабочего ядра `mt_ca/` с 4 декартовых дорожек на полярный регистр $(\mu, \varphi_{\mathrm{disc}})$ с целочисленным переносом $\Delta\mu$ по связям $N_{12}$ и закрытие 14 динамических проверок.
+
+---
+
 ## 2026-11-18 · §8.2·α · book-number-vs-formula + honest naming of the encoder roundtrip
 
 **Триггер.** Независимая проверка значения $\alpha^{-1}$, напечатанного в `chapters/07-alpha.tex`

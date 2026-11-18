@@ -307,7 +307,7 @@ class SIAlphaThmRows:
         hv = planck_cell_bit_budget()
         kappa = KAPPA_FCC_1TICK
         n12 = int(N12_FCC_CAUSAL_LINKS)
-        floor_b = int(math.floor(hv.B_V))
+        floor_b = int(hv.mod_bits)
         n_hier = floor_b - 1
         alpha_c = 7.2973525693e-3
         m_96 = n12 * n_hier
@@ -417,7 +417,7 @@ class SIAlphaThmRows:
         hv = planck_cell_bit_budget()
         kappa = KAPPA_FCC_1TICK
         n12 = int(N12_FCC_CAUSAL_LINKS)
-        floor_b = int(math.floor(hv.B_V))
+        floor_b = int(hv.mod_bits)
         n_hier = floor_b - 1  # occupancy bit removed (T1)
         alpha_c = 7.2973525693e-3
 

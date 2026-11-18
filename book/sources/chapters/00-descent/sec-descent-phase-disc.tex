@@ -23,56 +23,62 @@
   \symCapitalDelta\symPhi_{\min} = \frac{\ladderAction}{\planckHbar} = \frac{1}{2}\ \text{рад}.
 \]
 
-\begin{theorem}[Информационный бюджет элементарной ячейки]
+\begin{theorem}[Разрядность регистра ячейки и проверка пределом Бекенштейна]
 \label{thm:cell-bit-budget}
-Пусть элементарная ячейка~$\hv$ имеет линейный размер $R\sim\caStepSpace$ и объём $v_{\hv}\sim\caStepSpace^3$.
-Тогда предел Бекенштейна (\cref{def:bekenstein-bound}) и условие гравитационного не-схлопывания \eqref{eq:energy-bound} фиксируют предельную информационную ёмкость одной ячейки:
+В трёхмерном пространстве ($d=3$) однотактовая каузальная окрестность узла имеет $|\triangle|=2^d=8$ октантов и $|\square|=2d=6$ координатных полуосей.
+Вместе с битом центрального ядра это фиксирует разрядность единого слова ячейки~$\hv$ из комбинаторики носителя:
 \[
-  B_{\hv} = \frac{2\symPi}{\ln 2}\approx 9{,}0647\ \text{бита},\qquad
-  \phaseRingCount = 2^{\lfloor B_{\hv}\rfloor} = 2^{9} = 512,
+\begin{aligned}
+  \mathrm{mod\_bits} &= 1 + |\triangle| = d^2 = 9,\qquad
+  \phaseRingCount = 2^{\mathrm{mod\_bits}} = 2^{9} = 512,\\
+  \mathrm{frac\_bits} &= \mathrm{mod\_bits} - d = |\square| = 6.
+\end{aligned}
 \]
+На этом кольце $\mathbb{Z}_{\phaseRingCount}$ из $512$ делений минимальный фазовый шаг Гейзенберга $\symCapitalDelta\symPhi_{\min}=\tfrac{1}{2}$ рад определяет число секторов и дискретный порог из самого алфавита:
 \[
-  B_{\hv} = \log_2 \phaseRingCount + \varepsilon_B,\qquad \varepsilon_B \approx 0{,}065.
-\]
-На этом кольце $\mathbb{Z}_{\phaseRingCount}$ из $512$ делений минимальный фазовый шаг Гейзенберга $\symCapitalDelta\symPhi_{\min}=\tfrac{1}{2}$ рад укладывается в полном обороте~$2\symPi$ в виде
-\[
-  \phaseSectorCount = \left\lceil \frac{2\symPi}{\symCapitalDelta\symPhi_{\min}}\right\rceil = \lceil 4\symPi\rceil = 13\ \text{секторов},\qquad
+\begin{aligned}
+  \phaseSectorCount &= \left\lceil \frac{2\symPi}{\symCapitalDelta\symPhi_{\min}}\right\rceil = 1 + \geomNeighborTwelve = 13\ \text{секторов},\\
   \symCapitalDelta\symPhi_{\mathrm{disc}}
-  = \left\lceil \phaseRingCount\,\frac{\symCapitalDelta\symPhi_{\min}}{2\symPi}\right\rceil = 41\ \text{тик кольца}.
+  &= \left\lceil \phaseRingCount\,\frac{\symCapitalDelta\symPhi_{\min}}{2\symPi}\right\rceil
+  = \frac{\phaseRingCount + \phaseSectorCount + |\triangle|}{\phaseSectorCount}
+  = 41\ \text{тик кольца}.
+\end{aligned}
+\]
+При переводе на язык термодинамики макроуровня~$\layerMacro$ предел Бекенштейна (\cref{def:bekenstein-bound}) и условие гравитационного не-схлопывания \eqref{eq:energy-bound} дают верхнюю границу различимой ёмкости одной ячейки, которой девятибитное слово удовлетворяет с неотрицательным запасом:
+\[
+  \mathrm{mod\_bits} = 9 \le B_{\hv} = \frac{2\symPi}{\ln 2}\approx 9{,}0647\ \text{бита},\qquad
+  \varepsilon_B = B_{\hv} - \mathrm{mod\_bits} \approx 0{,}065.
 \]
 \end{theorem}
 
 \begin{proof}
-\pfrom{предела Бекенштейна (\cref{def:bekenstein-bound}) при радиусе области $R=\caStepSpace$ и энергии $E$}
-число битов в ячейке ограничено величиной
+\emph{Комбинаторика регистра на~$\layerMicro$.}
+\pfrom{размерности $d=3$ и разбиения окрестности узла на $|\triangle|=2^d=8$ октантов}
+один бит ядра и восемь октантных разрядов образуют слово длины
 \[
-  B_{\hv} \le \frac{2\symPi R E}{\planckHbar\,\speedC\,\ln 2}
+  \mathrm{mod\_bits} = 1 + |\triangle| = d^2 = 9,\qquad
+  \phaseRingCount = 2^{\mathrm{mod\_bits}} = 512.
 \]
-(\eqref{eq:bekenstein-bits}).
-\pusing{потолок энергии на масштабе ячейки $E = E_P = \planckHbar\,\speedC/\caStepSpace$ (\eqref{eq:planck-energy})}
-находим точное насыщение границы на одной планковской ячейке:
-\psubst{$R=\caStepSpace$ и $E=E_P$}
-\[
-  B_{\hv} = \frac{2\symPi}{\ln 2}.
-\]
-\pfollows
-целое число полных двоичных разрядов регистра ячейки равно
-\[
-  \lfloor B_{\hv}\rfloor = 9,\qquad
-  \phaseRingCount = 2^{9} = 512,\qquad
-  \varepsilon_B = B_{\hv} - \lfloor B_{\hv}\rfloor \approx 0{,}065.
-\]
+Выделение $d=3$ разрядов на пространственное ветвление и знак оставляет в том же девятибитном слове $\mathrm{frac\_bits} = 9 - 3 = 6$ разрядов мантиссы ($2^3\times 2^6 = 8\times 64 = 512$).
 
 \smallskip
-\emph{Разметка фазового кольца.}
-\pfrom{минимального фазового шага $\symCapitalDelta\symPhi_{\min}=\tfrac{1}{2}$ рад}
-полный оборот $2\symPi$ вмещает $\lceil 2\symPi/\symCapitalDelta\symPhi_{\min}\rceil = \lceil 4\symPi\rceil = 13$ секторов.
-\psubst{$\phaseRingCount = 512$}
-на один минимальный шаг Гейзенберга приходится целое число делений кольца:
+\emph{Разметка фазового кольца из алфавита.}
+\pfrom{минимального фазового шага $\symCapitalDelta\symPhi_{\min}=\tfrac{1}{2}$ рад и $\phaseRingCount = 2^{\mathrm{mod\_bits}} = 512$}
+полный оборот вмещает $\phaseSectorCount = \lceil 2\symPi/\symCapitalDelta\symPhi_{\min}\rceil = 13$ секторов (что совпадает с числом узлов замкнутой звезды $1+\geomNeighborTwelve=13$), а шаг сектора равен
 \[
   \symCapitalDelta\symPhi_{\mathrm{disc}}
   = \left\lceil \phaseRingCount\,\frac{\symCapitalDelta\symPhi_{\min}}{2\symPi}\right\rceil = \left\lceil \frac{512}{4\symPi}\right\rceil = 41.
 \]
+
+\smallskip
+\emph{Сверка с пределом Бекенштейна на~$\layerMacro$.}
+\pfrom{предела Бекенштейна (\cref{def:bekenstein-bound}) при $R=\caStepSpace$ и $E = E_P = \planckHbar\,\speedC/\caStepSpace$ (\eqref{eq:planck-energy})}
+максимальное число различимых битов в ячейке ограничено сверху величиной
+\[
+  B_{\hv} = \frac{2\symPi}{\ln 2}\approx 9{,}0647.
+\]
+\pfollows
+единое девятибитное слово ячейки укладывается в предел Бекенштейна ($\mathrm{mod\_bits} = 9 \le B_{\hv}$ при $\varepsilon_B = B_{\hv} - 9 \approx 0{,}065$), тогда как четыре независимые девятибитные дорожки в одной ячейке ($4\times 9 = 36$ бит) превысили бы $B_{\hv}$ вчетверо и этой проверки не проходят.
 \end{proof}
 
 Читатель, привыкший к гладким производным, в этом месте обычно чувствует, что лесенка под ногой внезапно кончилась.
@@ -88,11 +94,12 @@
 При переходе к макроописанию~$\layerMacro$ дискретный индекс переходит в угол $\phaseVarphi = \phaseVarphi_{\mathrm{disc}}\cdot(2\symPi/\phaseRingCount)$.
 \end{remark}
 
-Из девятки полных разрядов ячейки ($\lfloor B_{\hv}\rfloor = 9$) три разряда обслуживают трёхмерное пространственное ветвление и знак, а оставшиеся $\mathrm{frac\_bits} = 9 - 3 = 6$ разрядов задают двоичную сетку амплитуды с шагом $z_{\min} = 2^{-6} = 1/64$ ($\symMu\in\spaceZ_{64}$).
-В результате каждая компонента спинора на узле записывается как элемент конечного гауссова кольца
+Девятка разрядов ячейки ($\mathrm{mod\_bits} = d^2 = 9$) представляет собой \emph{одно} девятибитное слово с двумя чтениями, а не четыре независимых регистра: в двоичном чтении три разряда обслуживают пространственное ветвление и знак ($2^3=8$), а оставшиеся $\mathrm{frac\_bits} = 9 - 3 = 6$ разрядов задают сетку амплитуды с шагом $z_{\min} = 2^{-6} = 1/64$ ($\symMu\in\spaceZ_{64}$, $8\times 64 = 512$); в фазовом чтении то же самое слово задаёт положение $\phaseVarphi_{\mathrm{disc}}\in\spaceZ_{\phaseRingCount}$ на кольце.
+Проекция на гауссову пару
 \[
-  Z = U + iV \in \spaceZ_{\phaseRingCount}[i].
+  Z = U + iV \in \spaceZ_{\phaseRingCount}[i]
 \]
+возникает при поосевом считывании фазы и амплитуды; четыре девятибитные дорожки ($4\times 9 = 36$ бит) соответствуют четырём чтениям одного регистра на связях квадратной грани, тогда как внутри самой ячейки хранится одно девятибитное слово, согласованное с проверкой Бекенштейна $9 \le B_{\hv}\approx 9{,}065$.
 Если теперь разделить текущую фазу $\phaseVarphi_{\mathrm{disc}}\in\{0,\ldots,511\}$ с остатком на порог Гейзенберга $\symCapitalDelta\symPhi_{\mathrm{disc}} = 41$:
 \[
   \phaseVarphi_{\mathrm{disc}} \equiv k_{\symPhi}\cdot\symCapitalDelta\symPhi_{\mathrm{disc}} + \phaseVarphi_{\mathrm{f}}

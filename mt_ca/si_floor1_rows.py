@@ -46,7 +46,7 @@ class SIFloor1Rows:
         """
         n12 = int(N12_FCC_CAUSAL_LINKS)
         n_phi = int(planck_cell_bit_budget().N_phi)
-        n_hier = int(math.floor(planck_cell_bit_budget().B_V)) - 1
+        n_hier = int(planck_cell_bit_budget().mod_bits) - 1
         l_p = self.l_P
         # linear scales in ·dl
         lo = float(n12**3)

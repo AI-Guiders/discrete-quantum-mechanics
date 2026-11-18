@@ -602,6 +602,10 @@ def check_planck_cell_bit_budget(device: str = "cpu") -> dict:
         row["rel_err"] < 1e-12
         and row["N_phi"] == 13
         and row["mod_bits"] == 9
+        and row["mod_bits"] == row["mod_bits_from_carrier_d2"]
+        and row["mod_bits"] == row["mod_bits_from_one_plus_triangles"]
+        and bool(row["bekenstein_check_single_word_ok"])
+        and bool(row["four_lane_exceeds_bekenstein"])
         and row["N_ring"] == 512
         and row["phase_bits"] == 9
         and row["frac_bits"] == 6
@@ -617,7 +621,7 @@ def check_planck_cell_bit_budget(device: str = "cpu") -> dict:
         "alias_ids": ["HvBitBudget"],
         "ok": ok,
         **{k: v for k, v in row.items()},
-        "note": "§3.12.6: B_V=2π/ln2, N_ring=512, defaults from Planck brick",
+        "note": "§3.12.6: mod_bits=1+|△|=d²=9 from carrier; B_V=2π/ln2≈9.065 is T-layer check (9 ≤ B_V, whereas 4×9=36 exceeds B_V)",
     }
 
 def check_rho_P_binary(device: str = "cpu") -> dict:

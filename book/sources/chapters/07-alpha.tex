@@ -159,7 +159,7 @@ $\mathbf{97}=1+\geomNeighborTwelve\,\vevHierarchySteps$ & ядро $b=1$ $+$ $8$
 
 \begin{theorem}[Точная алгебраическая формула постоянной тонкой структуры $\alphaFs$]
 \label{thm:alpha}
-С учётом числа мест силы $\hat M = 1 + \geomNeighborTwelve(\lfloor\caBitBudget\rfloor - 1) = 97$, отношения сфер кубооктаэдра $\caKappaGeom = R_{\mathrm{in}}/R_{\mathrm{out}} = 1/\sqrt{2}$ и показателя мягкой грани $d_{\mathrm{soft}} = (1-\caKappaGeom^6)/\caKappaGeom^6 = 7$ постоянная тонкой структуры равна
+С учётом числа мест силы $\hat M = 1 + \geomNeighborTwelve(\mathrm{mod\_bits} - 1) = 1 + \geomNeighborTwelve\,|\triangle| = 97$ (где $\mathrm{mod\_bits} = 1 + |\triangle| = d^2 = 9$), отношения сфер кубооктаэдра $\caKappaGeom = R_{\mathrm{in}}/R_{\mathrm{out}} = 1/\sqrt{2}$ и показателя мягкой грани $d_{\mathrm{soft}} = (1-\caKappaGeom^6)/\caKappaGeom^6 = 7$ постоянная тонкой структуры равна
 \[
   \alphaFs
   =
@@ -179,7 +179,7 @@ $\mathbf{97}=1+\geomNeighborTwelve\,\vevHierarchySteps$ & ядро $b=1$ $+$ $8$
 
 \begin{remark}[Каноническая запись и эквивалентные формы]
 \label{rem:alpha-canonical-form}
-Входные величины формулы исчерпываются четырьмя: отношение сфер $\caKappaGeom = R_{\mathrm{in}}/R_{\mathrm{out}} = 1/\sqrt{2}$, число соседей $\geomNeighborTwelve = 12$, бюджет Бекенштейна одной ячейки $\caBitBudget = 2\pi/\ln 2$ и минимальный фазовый шаг $\Delta\varphi_{\min} = s_0/\hbar = 1/2$. Величины $\hat M = 1 + \geomNeighborTwelve(\lfloor\caBitBudget\rfloor - 1) = 97$, $\caKappaGeom^6 = 1/8$ и $d_{\mathrm{soft}} = (1-\caKappaGeom^6)/\caKappaGeom^6 = 7$ являются их следствиями, причём $d_{\mathrm{soft}} = 7$ — точное равенство в $\mathbb{Q}$, а не приближение.
+Входные величины формулы определяются комбинаторикой и геометрией однотактового кубооктаэдра носителя: отношением сфер $\caKappaGeom = R_{\mathrm{in}}/R_{\mathrm{out}} = 1/\sqrt{2}$, числом соседей $\geomNeighborTwelve = 12$ и разрядностью слова ячейки $\mathrm{mod\_bits} = 1 + |\triangle| = d^2 = 9$ (причём $|\triangle| = 2^d = 1/\caKappaGeom^6 = 8$, а предел Бекенштейна $\caBitBudget = 2\pi/\ln 2 \approx 9{,}065$ служит проверкой $\mathrm{mod\_bits} \le \caBitBudget$ на макроуровне, а не входом формулы). Величины $\hat M = 1 + \geomNeighborTwelve(\mathrm{mod\_bits} - 1) = 97$, $\caKappaGeom^6 = 1/8$ и $d_{\mathrm{soft}} = (1-\caKappaGeom^6)/\caKappaGeom^6 = 7$ являются их следствиями, причём $d_{\mathrm{soft}} = 7$ — точное равенство в $\mathbb{Q}$, а не приближение.
 
 Запись через $d_{\mathrm{soft}}$ и подстановка $d_{\mathrm{soft}} = 7$ тождественны. Вычислительная реализация (\texttt{alpha\_from\_fundamentals}) хранит ту же функцию в эквивалентной форме со знаменателем $d_{\mathrm{soft}}\hat M^{4} - \hat M\caKappaGeom^{3} - 1/(1-\caKappaGeom^{6})$, получаемой умножением числителя и знаменателя на $d_{\mathrm{soft}}$; численные значения совпадают до машинной точности. Любая иная запись подлежит проверке на тождественность прямым вычислением, а не на глаз: расхождение между записями в младших знаках уже приводило к ошибочной публикации $\alpha^{-1} = 137{,}035999074$.
 \end{remark}

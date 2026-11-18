@@ -183,18 +183,21 @@ class PlanckCellBitBudget:
 
 
 def planck_cell_bit_budget(*, delta_phi_min: float = DELTA_PHI_MIN) -> PlanckCellBitBudget:
-    """Derive M-layer register widths from Planck brick only (§3.12.6).
+    """Derive M-layer register widths from carrier combinatorics, then check against Bekenstein B_V (§3.12.6).
 
-    Chain:
-      B_V = 2π/ln2  →  N_ring = 2^⌊B_V⌋
-      Δφ_min = s₀/ℏ = ½ rad  →  N_φ = ⌈2π/Δφ_min⌉ = ⌈4π⌉
-      frac_bits = ⌈log₂(N_ring / N_φ)⌉  — amplitude resolution inside phase topology
+    Chain (M-first, Bekenstein as T-check):
+      d = 3, |△| = 2^d = 8  →  mod_bits = 1 + |△| = d² = 9,  N_ring = 2^mod_bits = 512
+      frac_bits = mod_bits − d = |□| = 6  (single 9-bit word split as 2^d × 2^frac_bits = 8 × 64 = 512)
+      Δφ_min = s₀/ℏ = ½ rad  →  N_φ = ⌈2π/Δφ_min⌉ = 1 + |N₁₂| = 13,  Δφ_disc = 41
+      Check on T: mod_bits = 9 ≤ B_V = 2π/ln 2 ≈ 9.0647 < mod_bits + 1 (margin ε_B ≈ 0.065 bit)
     """
-    b_hv = 2.0 * math.pi / LN2
+    d_spatial = 3
+    n_triangles = 1 << d_spatial  # |△| = 8 octants of the cuboctahedron
+    mod_bits = 1 + n_triangles  # d² = 9 bits (one 9-bit word per cell)
+    n_ring = 1 << mod_bits  # 512
+    frac_bits = mod_bits - d_spatial  # |□| = 6 bits (mantissa inside the 9-bit word)
     n_phi = int(math.ceil(2.0 * math.pi / delta_phi_min))
-    mod_bits = int(math.floor(b_hv))
-    n_ring = 1 << mod_bits
-    frac_bits = max(4, int(math.ceil(math.log2(n_ring / n_phi))))
+    b_hv = 2.0 * math.pi / LN2
     b_phase = math.log2(n_phi)
     return PlanckCellBitBudget(
         B_V=b_hv,
@@ -210,9 +213,9 @@ def planck_cell_bit_budget(*, delta_phi_min: float = DELTA_PHI_MIN) -> PlanckCel
 
 
 def bekenshtein_fractional_part() -> float:
-    """{B_V} = B_V − ⌊B_V⌋ — unused Bekenstein fraction of one V_P (§3.12.6); field B_V in rows."""
+    """{B_V} = B_V − mod_bits — Bekenstein headroom above the 9-bit carrier word (§3.12.6)."""
     b_hv = 2.0 * math.pi / LN2
-    return b_hv - math.floor(b_hv)
+    return b_hv - float(PLANCK_CELL.mod_bits)
 
 
 # von Neumann causal star on d=2 square MVP (§3.6, §5.2.2)
@@ -227,7 +230,7 @@ KAPPA_FCC_1TICK = 1.0 / math.sqrt(2.0)  # inscribed sphere in cuboctahedron (12 
 PLANCK_CELL = planck_cell_bit_budget()
 
 # §8.2·α·nF·Thm — force seats on one charged FCC core (not a free fit).
-N_HIER_CHANNELS = int(PLANCK_CELL.mod_bits) - 1  # ⌊B_V⌋−1; B_V=2π/ln2 → ⌊…⌋−1=8 (occupancy bit out)
+N_HIER_CHANNELS = int(PLANCK_CELL.mod_bits) - 1  # |△| = 2^d = 8 octant channels (mod_bits = 1 + |△| = 9)
 M_FORCE_SEATS = 1 + N12_FCC_CAUSAL_LINKS * N_HIER_CHANNELS  # = 97
 D_SOFT = N4_CAUSAL_LINKS + 3  # von Neumann cross + SU(2) Pauli = 7
 U_SOFT = (D_SOFT + 1) / D_SOFT  # = 8/7 = 1/(1−κ⁶)
@@ -1483,42 +1486,39 @@ def internal_phase_coords_row() -> dict[str, float | int | str | bool]:
     }
 
 
-def planck_cell_bit_budget_row() -> dict[str, float | int]:
-
-    """§3.12.6 — Planck cell bit budget (B_V) for verify / configs."""
-
+def planck_cell_bit_budget_row() -> dict[str, float | int | bool | str]:
+    """§3.12.6 — Carrier 9-bit word (mod_bits = 1 + |△| = d² = 9) checked against Bekenstein B_V."""
     row = planck_cell_bit_budget()
-
+    d_spatial = N4_CAUSAL_LINKS - 1  # 3
+    n_triangles = 1 << d_spatial  # |△| = 8
+    single_word_bits = row.mod_bits  # 9
+    four_lane_cartesian_bits = N4_CAUSAL_LINKS * row.mod_bits  # 36
+    headroom = row.B_V - float(single_word_bits)
+    bekenstein_check_ok = 0.0 <= headroom < 1.0
     rel = abs(row.B_V - SI.bekenstein_bits_B_V) / row.B_V
-
     return {
-
         "B_V_bits": row.B_V,
-
         "bekenstein_SI_bits": SI.bekenstein_bits_B_V,
-
         "rel_err": rel,
-
         "N_phi": row.N_phi,
-
         "mod_bits": row.mod_bits,
-
+        "mod_bits_from_carrier_d2": d_spatial * d_spatial,
+        "mod_bits_from_one_plus_triangles": 1 + n_triangles,
+        "single_word_bits": single_word_bits,
+        "four_lane_cartesian_bits": four_lane_cartesian_bits,
+        "bekenstein_headroom_bits": headroom,
+        "bekenstein_check_single_word_ok": bekenstein_check_ok,
+        "four_lane_exceeds_bekenstein": float(four_lane_cartesian_bits) > row.B_V,
         "N_ring": row.N_ring,
-
         "phase_bits": row.phase_bits,
-
         "frac_bits": row.frac_bits,
-
         "n_states": row.n_states,
-
         "B_phase_bits": row.B_phase,
-
         "B_amp_bits": row.B_amp,
-
         "alpha_fs_inv": SI.alpha_fs_inv,
         "heisenberg_phi_min_rad": heisenberg_phi_min_physical(),
         "heisenberg_phi_min_disc": heisenberg_phi_min_disc(phase_bits=row.phase_bits),
-        "frac_bits_formula": f"ceil(log2({row.N_ring}/{row.N_phi}))",
+        "frac_bits_formula": f"mod_bits - d = |□| = {row.frac_bits}",
     }
 
 

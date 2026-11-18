@@ -650,10 +650,10 @@ $$
 
 ($\Delta\varphi_{\min}$ — дно Heisenberg/Arg; в саму $\alpha$ ниже не входит, только в насыщающей фазе $\alpha^*$.)
 
-Свёртка регистра (не новое дно — имя для $\lfloor B_V\rfloor$, код `PLANCK_CELL.mod_bits`):
+Свёртка регистра из комбинаторики носителя ($\mathrm{mod\_bits} = 1 + |\triangle| = d^2 = 9$, код `PLANCK_CELL.mod_bits`; предел Бекенштейна $B_V = 2\pi/\ln 2 \approx 9{,}065$ служит проверкой $\mathrm{mod\_bits} \le B_V$ на $T$, а не входом):
 
 $$
-\mathrm{mod\_bits} := \lfloor B_V\rfloor.
+\mathrm{mod\_bits} := 1 + |\triangle| = d^2 = 9 \le B_V.
 $$
 
 **$\alpha$ — только из дна** (без ярлыков $M,d,U,N_{\mathrm{hier}}$):
@@ -679,10 +679,10 @@ $$
 :=
 1 + |N_{12}|\bigl(\mathrm{mod\_bits} - 1\bigr)
 =
-1 + |N_{12}|\bigl(\lfloor B_V\rfloor - 1\bigr).
+1 + |N_{12}|\,|\triangle|.
 $$
 
-(Не пишем $\lfloor 2\pi/\ln 2\rfloor$ голым — это разворот $B_V$, уже в дне; $\mathrm{mod\_bits}$ — параметр регистра.)
+(Не выводим $\mathrm{mod\_bits}$ из $\lfloor 2\pi/\ln 2\rfloor$: $\mathrm{mod\_bits}=d^2=9$ — комбинаторика носителя, а $B_V$ — проверка на $T$.)
 
 Эквивалентно $\kappa^{6}$-лицо (тождество геометрии: $(1-\kappa^{6})/\kappa^{6}=N_4+n_{\mathrm{SU}(2)}$):
 
@@ -700,7 +700,7 @@ $$
 \kappa=\frac{R_{\mathrm{in}}}{R_{\mathrm{out}}}.
 $$
 
-Подстановка дна (exact): $\kappa=1/\sqrt{2}$, $\mathrm{mod\_bits}=\lfloor B_V\rfloor=9$, $\hat M=1+|N_{12}|(\mathrm{mod\_bits}-1)=97$. Тогда $\alpha\in\mathbb{Q}(\sqrt{2})$ — **точного** значения формулы, не approx. Десятичная печать / сравнение с CODATA — отдельно, не часть определения.
+Подстановка дна (exact): $\kappa=1/\sqrt{2}$, $\mathrm{mod\_bits}=1+|\triangle|=d^2=9$, $\hat M=1+|N_{12}|(\mathrm{mod\_bits}-1)=97$. Тогда $\alpha\in\mathbb{Q}(\sqrt{2})$ — **точного** значения формулы, не approx. Десятичная печать / сравнение с CODATA — отдельно, не часть определения.
 
 Код: `SI.alpha_from_fundamentals()` (= `SI.alpha_preferred`).
 

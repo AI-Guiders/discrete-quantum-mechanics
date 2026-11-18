@@ -7,19 +7,29 @@
 
 \begin{table}[ht]
 \centering
-\caption{Соответствие между целочисленными инвариантами ядра~$\layerMicro$ и их записью на макроуровне~$\layerMacro$.}
+\caption{На каком слое живёт каждая величина, в каких единицах она измеряется и на какой границе происходит перевод.}
 \label{tab:m-t-bridge}
-\begin{tabular}{@{}p{0.44\linewidth}p{0.46\linewidth}@{}}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}p{0.22\linewidth}p{0.25\linewidth}p{0.24\linewidth}p{0.23\linewidth}@{}}
 \toprule
-Целочисленное ядро $\layerMicro$ & Макроскопическая запись на $\layerMacro$ \\
+Величина & Ядро $\layerMicro$ (целые $\spaceZ$) & Граница декодера $\layerMicro\leftrightarrow\layerMacro$ & Макроуровень $\layerMacro$ / СИ \\
 \midrule
-регистр $(\symMu,\phaseVarphi_{\mathrm{disc}},k_{\symPhi})$; шаги $dh, dt$ & размерные эталоны $\planckHbar$, $\timePlanck$, $\lengthPlanck$, $\speedC$ \\
-разрядность кольца $\log_2\phaseRingCount = 9$ ($\phaseRingCount = 512$) & битовый бюджет Бекенштейна $B_{\hv} = 2\symPi/\ln 2 \approx 9{,}065$ \\
-шаг Гейзенберга $\symCapitalDelta\symPhi_{\mathrm{disc}}/\phaseRingCount = 41/512$ & фазовый вычет одного такта $\symAlpha_* - 1 = 1/(4\symPi)$ \\
-число секторов кластера $\phaseSectorCount = 13$ & полное покрытие сферы $\lceil 4\symPi\rceil = 13$ \\
+пространство и время & шаги $N\in\spaceZ$ ($dh$), такты $\symTau\in\spaceZ$ ($dt$); $c_0 = 1\,dh/dt$ & $1\,dh \mapsto \lengthPlanck$, $1\,dt \mapsto \htick = \caKappaGeom\timePlanck$ & $r = N\lengthPlanck$ [м], $t = \symTau\htick$ [с], $\speedC = \caKappaGeom\caSignalSpeed$ [м/с] \\
+амплитуда спинора & $\symMu\in\{1,\ldots,64\}$ в квантах амплитуды (дно $1$, потолок $K_P=64$) & деление на $K_P=64$ только в декодере: $|z|=\symMu/64$ & $|z|\in[1/64,\,1]$; плотность $\rho_E = |z|^2 u_P$ [Дж/м$^3$] \\
+квадрат амплитуды и голономия & $R^2=\symMu^2$ и $\zeta_{\mathrm{real}},\zeta_{\mathrm{imag}}\in\spaceZ$ в $\mathrm{кванты}^2$ ($1\ldots 4096$) & внутри ворот отношение $\frac{\zeta_{\mathrm{imag}}}{\zeta_{\mathrm{real}}+R^2+1}$ безразмерно & $\rho = R^2/4096 \in [2^{-12},1]$ \\
+фаза и импульс $\symCapitalPhi$ & $\phaseVarphi_{\mathrm{disc}},\symCapitalPhi\in\spaceZ_{\phaseRingCount}$ в тиках кольца ($512$ тиков $=$ круг) & внутри ворот $\symCapitalPhi = \lfloor K_P\frac{\zeta_{\mathrm{imag}}}{\zeta_{\mathrm{real}}+R^2+1}\rfloor$; наружу $\times\frac{2\symPi}{512}$ & угол $\phaseVarphi\in(-\symPi,\symPi]$ [рад]; действие $S=\planckHbar\phaseVarphi$ [Дж$\cdot$с] \\
+порог Гейзенберга и кванты обмена & $\symCapitalDelta\symPhi_{\mathrm{disc}} = 41$ тик; $n_E = \lfloor|\symCapitalPhi|/41\rfloor\in\{0,\ldots,12\}$ & $41\text{ тик} \mapsto \symCapitalDelta\symPhi_{\min} = \tfrac{1}{2}$ рад $\mapsto \ladderAction = \planckHbar/2$ & $E = n_E\ladderEnergy$ [Дж], $p = n_p\ladderMomentum$, $F = n_F\ladderForce$ \\
+разрядность ячейки & слово $\mathrm{mod\_bits} = 1+|\triangle| = d^2 = 9$ бит ($\phaseRingCount=512$) & сверка с термодинамической энтропией на выходе & проверка Бекенштейна: $9 \le B_{\hv} = \frac{2\symPi}{\ln 2}\approx 9{,}065$ \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+Из табл.~\ref{tab:m-t-bridge} следуют два жёстких правила разграничения единиц:
+\begin{enumerate}[nosep]
+\item \textbf{Внутри шага~$g$ на~$\layerMicro$ нет вещественных дробей и делений на~$64$:} элементарный квант амплитуды на микроуровне равен целому числу~$1$ (а не $1/64$), поэтому $R^2$, $\zeta_{\mathrm{real}}$, $\zeta_{\mathrm{imag}}$ и единичный регуляризатор знаменателя~$+1$ измеряются в одних и тех же квадратах квантов, а множитель $K_P = 64$ тика стоит только перед их безразмерным отношением, переводя его в тики фазового кольца~$\spaceZ_{\phaseRingCount}$.
+\item \textbf{Перевод $\div 64$ и $\times 2\symPi/512$ выполняется ровно один раз} --- на границе декодирования состояния при выходе к макроописанию~$\layerMacro$. Смешение целых квантов ядра с нормированными к потолку Планка долями $|z|\in[0,1]$ внутри самого шага~$g$ занижает голономию вакуумного дна в $64$ раза и завышает порог знаменателя в $4096$ раз.
+\end{enumerate}
 
 На этом спуск от приборной физики к дискретному носителю завершён.
 В следующих главах мы начнём обратный подъём: выберем единственную трёхмерную решётку~$\carrierLattice$, удовлетворяющую требованиям изотропии и плотнейшей упаковки (\latGCKshort), сформулируем абсолютные условия~$A_1$--$A_{16}$ и запишем явный обратимый закон эволюции~$g$.
