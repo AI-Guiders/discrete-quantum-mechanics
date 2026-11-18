@@ -368,14 +368,27 @@ $\mathcal{F}_{\mathrm{GL}}[\Phi]$ для неоднородного $\Phi(X)$, �
     S(\mathbf{k}) = 1 - \frac{\caKappaGeom^2}{d}\,a^2|\mathbf{k}|^2 + O(|\mathbf{k}|^4)
     = 1 - \frac{1}{|\square|}\,a^2|\mathbf{k}|^2 + O(|\mathbf{k}|^4),
   \]
-  откуда уравнение второго порядка схемы «лягушка» даёт точную дисперсию в первой зоне Бриллюэна:
+  откуда уравнение второго порядка схемы «лягушка» с нормировкой связи $g = d$ на звезде
+  (единственной, при которой длинноволновый предел даёт $c = \caKappaGeom\caSignalSpeed$)
+  даёт точную дисперсию в первой зоне Бриллюэна:
   \begin{equation}
   \label{eq:fcc-exact-dispersion}
-    \sin^2\!\left(\frac{\omega(\mathbf{k})\,\htick}{2}\right) = \frac{d}{2}\bigl(1 - S(\mathbf{k})\bigr)
-    \quad\xrightarrow{|\mathbf{k}|a\ll 1}\quad
+  \begin{gathered}
+    \cos\!\bigl(\omega(\mathbf{k})\,\htick\bigr) = \frac{d\,S(\mathbf{k}) - 1}{d - 1},
+    \qquad
+    \sin^2\!\left(\frac{\omega(\mathbf{k})\,\htick}{2}\right) = \frac{d}{2(d-1)}\bigl(1 - S(\mathbf{k})\bigr),\\
+    \xrightarrow{|\mathbf{k}|a\ll 1}\quad
     \omega(\mathbf{k}) = \caKappaGeom\,\caSignalSpeed\,|\mathbf{k}| = c\,|\mathbf{k}|,
+  \end{gathered}
   \end{equation}
-  то есть изотропный световой конус $c = \caKappaGeom\caSignalSpeed$ возникает автоматически при $|\mathbf{k}|a\ll 1$, а на границе зоны Бриллюэна частота ограничена потолком Дебая $\omega_{\max} = 2/\htick$ без ультрафиолетовой расходимости.
+  то есть изотропный световой конус $c = \caKappaGeom\caSignalSpeed$ возникает автоматически при $|\mathbf{k}|a\ll 1$.
+  На звезде из $\geomNeighborTwelve$ связей структурный фактор ограничен снизу:
+  в $X$-точке зоны (например $k = (0,\,2\symPi/(a\sqrt{2}),\,0)$) восемь связей дают $\mathbf{k}\cdot\mathbf{e} = \symPi$,
+  четыре --- ноль, откуда $S = -1/3$ и $\sin^2(\omega\htick/2) = 1$:
+  край зоны достигается \emph{в точности} при $\omega = \symPi/\htick$ и остаётся колеблющимся.
+  Гиперболических мод ($|\cos\omega| > 1$) на этой звезде нет ни в одной точке зоны,
+  что и снимает разгон, известный для декартовой сетки $\mathbb{Z}^d$ при $d>1$
+  (\bcref{sec:thooft-programme}).
 \item \textbf{Распределение Бозе--Эйнштейна и закон Стефана--Больцмана:}
   поскольку в секторе излучения ($n=0$, две поперечные поляризации $g_{\mathrm{pol}} = d-1 = 2$) каждая мода~$\mathbf{k}$ несёт целое число квантов $n_{\mathbf{k}}\in\mathbb{Z}_{\ge 0}$ с энергией $E(n_{\mathbf{k}}) = n_{\mathbf{k}}\planckHbar\omega(\mathbf{k})$ (\cref{thm:51}), в тепловом равновесии на макроуровне~$\Tlayer$ при температуре~$T$ среднее число заполнения моды и спектральная плотность энергии равны:
   \[
