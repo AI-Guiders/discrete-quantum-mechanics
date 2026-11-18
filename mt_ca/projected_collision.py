@@ -50,6 +50,21 @@ def heisenberg_phi_min_int(cfg: MConfig) -> int:
     )
 
 
+def signed_lanes(f: torch.Tensor, cfg: MConfig) -> torch.Tensor:
+    """Ring lanes → signed integers in (−N/2, N/2].
+
+    A lane stores a class mod N; the physical value it stands for is its signed
+    representative. Any non-linear function of a lane (neighbour sum, holonomy,
+    rotation) must see the class, not the arbitrary cut: shifting a lane by N
+    leaves the state unchanged, and so must the law.
+    """
+    from mt_ca.z_ring import signed_from_mod
+
+    return torch.stack(
+        [signed_from_mod(f[..., i], cfg.mod_bits) for i in range(f.shape[-1])], dim=-1
+    )
+
+
 def int_neighbor_sum(f: torch.Tensor, stencil: str) -> torch.Tensor:
     """Σ_N on each fixed lane (N₄ / N₆ / N₁₂)."""
     out = torch.zeros_like(f, dtype=torch.int64)
@@ -108,6 +123,17 @@ def saturating_phi_impulse(
     return mod_lane(phi, cfg.mod_bits)
 
 
+def _rshift_round(x: torch.Tensor, shift: int) -> torch.Tensor:
+    """Arithmetic right shift with symmetric rounding (half away from zero).
+
+    Plain ``>>`` is a floor: floor(−a) ≠ −floor(a). Under a 90° rotation the two
+    products swap, so a floor-rounded rotator is not Z_4-equivariant — it leaks
+    ~0.15% of lanes per tick. Symmetric rounding keeps the discrete symmetry exact.
+    """
+    half = 1 << (shift - 1)
+    return torch.where(x >= 0, (x + half) >> shift, -(((-x) + half) >> shift))
+
+
 def rot_impulse_uv(
     u: torch.Tensor,
     v: torch.Tensor,
@@ -127,8 +153,8 @@ def rot_impulse_uv(
         idx = (phi_i << (LUT_BITS - phase_bits)) % LUT_SIZE
     cos_v = cu[idx]
     sin_v = sv[idx]
-    ur = (u * cos_v - v * sin_v) >> TRIG_SHIFT
-    vr = (u * sin_v + v * cos_v) >> TRIG_SHIFT
+    ur = _rshift_round(u * cos_v - v * sin_v, TRIG_SHIFT)
+    vr = _rshift_round(u * sin_v + v * cos_v, TRIG_SHIFT)
     return ur - u, vr - v
 
 
@@ -201,9 +227,10 @@ def projected_phi_int(f: torch.Tensor, cfg: MConfig) -> torch.Tensor:
     Pauli (A16) remains an extra on V_P overlap.
     """
     fb = cfg.frac_bits
-    u0 = f[..., 0].to(torch.int64)
-    v0 = f[..., 1].to(torch.int64)
-    sum_n = int_neighbor_sum(f, cfg.stencil)
+    fs = signed_lanes(f, cfg)
+    u0 = fs[..., 0]
+    v0 = fs[..., 1]
+    sum_n = int_neighbor_sum(fs, cfg.stencil)
     su0, sv0 = sum_n[..., 0], sum_n[..., 1]
     zeta_r, zeta_i = holonomy_zeta_int(u0, v0, su0, sv0, frac_bits=fb)
     rho2 = rho2_int(u0, v0, frac_bits=fb)
@@ -215,10 +242,11 @@ def projected_phi_int(f: torch.Tensor, cfg: MConfig) -> torch.Tensor:
 
 def projected_collision_impulse(f: torch.Tensor, cfg: MConfig) -> torch.Tensor:
     """⌊𝒩⌋: integer saturating Φ + LUT rot impulse on both spinor components (§3.12.5)."""
-    u0 = f[..., 0].to(torch.int64)
-    v0 = f[..., 1].to(torch.int64)
-    u1 = f[..., 2].to(torch.int64)
-    v1 = f[..., 3].to(torch.int64)
+    fs = signed_lanes(f, cfg)
+    u0 = fs[..., 0]
+    v0 = fs[..., 1]
+    u1 = fs[..., 2]
+    v1 = fs[..., 3]
 
     phi = projected_phi_int(f, cfg)
 
