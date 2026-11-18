@@ -211,9 +211,11 @@ def check_phonon_from_carrier(device: str = "cpu") -> dict:
     ok = (
         int(row["g_acoustic_branches"]) == 3
         and row["n_density_over_sqrt2_lP3"] is True
-        and row["v_acoustic_equals_2c0"] is True
+        and row["v_acoustic_equals_c0"] is True
+        and row["v_phase_slope_equals_kappa_c0"] is True
+        and abs(float(row["omega_D_times_ht_over_pi"]) - 1.0) < 1e-12
         and row["omega_D_equals_v_a_k_max"] is True
-        and abs(float(row["omega_D_over_nu0"]) - 1.0) < 1e-12
+        and abs(float(row["omega_D_over_nu0"]) - 0.5) < 1e-12
         and row["hbar_nu0_equals_2E0"] is True
         and row["p0_equals_hbar_k_max_over_2pi"] is True
         and row["phonon_not_sin_wave"] is True

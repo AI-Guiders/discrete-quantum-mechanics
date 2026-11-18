@@ -988,8 +988,12 @@ class SICarrierRows:
         g_scale = 2.0 * math.pi / lp
         nu0 = 1.0 / ht
         omega0 = 2.0 * math.pi / ht
-        omega_d = omega0
-        v_acoustic = omega_d / k_bz_max
+        # Zone edge of the derived FCC dispersion: cos(omega hT) = (dS-1)/(d-1) gives
+        # cos = -1 at the X point (S = -1/3), i.e. omega_max = pi/hT — the Nyquist limit
+        # of the second-order scheme. 2*pi/hT = omega0 is the sampling rate, not a mode.
+        omega_d = math.pi / ht
+        v_acoustic = omega_d / k_bz_max            # secant: cutoff / zone edge = c0
+        v_phase_slope = self.c                     # long-wave slope of the same branch
         hbar = self.hbar
         h = 2.0 * math.pi * hbar
         k_debye = (6.0 * math.pi**2 * n_density) ** (1.0 / 3.0)
@@ -1013,7 +1017,11 @@ class SICarrierRows:
             "omega_D_over_nu0": omega_d / (2.0 * math.pi * nu0),
             "v_acoustic_m_s": v_acoustic,
             "v_acoustic_over_c0": v_acoustic / c0,
-            "v_acoustic_equals_2c0": abs(v_acoustic - 2.0 * c0) / c0 < tol,
+            "v_acoustic_equals_c0": abs(v_acoustic - c0) / c0 < tol,
+            "v_phase_slope_m_s": v_phase_slope,
+            "v_phase_slope_over_c0": v_phase_slope / c0,
+            "v_phase_slope_equals_kappa_c0": abs(v_phase_slope - (c0 / math.sqrt(2.0))) / c0 < tol,
+            "omega_D_times_ht_over_pi": omega_d * ht / math.pi,
             "omega_D_equals_v_a_k_max": abs(omega_d - v_acoustic * k_bz_max) / omega_d < tol,
             "E0_J": e0,
             "hbar_nu0_J": hbar * nu0,
@@ -1029,7 +1037,8 @@ class SICarrierRows:
             "phonon_not_sin_wave": True,
             "pressure_wave_c_macro": self.c,
             "pressure_wave_not_same_as_phonon_v_a": abs(self.c - v_acoustic) / self.c > 0.1,
-            "note": "§5.2.6: phonon v_a=2c0, k_max=pi/l_P, omega_D=2pi/hT; sound=n_k quanta",
+            "note": "§5.2.6: one branch; long-wave slope = kappa*c0 = c, zone edge omega_D = pi/hT "
+                    "(cos(omega hT) = -1 at X), secant omega_D/k_max = c0; sound = n_k quanta",
         }
 
     def square_face_holonomy_probe_row(self, *, grid: int = 16, device: str = "cpu") -> dict:
