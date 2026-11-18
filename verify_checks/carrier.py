@@ -90,23 +90,27 @@ def check_square_face_holonomy_probe(device: str = "cpu") -> dict:
         abs(row["edge_a_over_l_P"] - 1.0) < 1e-12
         and abs(row["phi_square_vac_rad"]) < 0.2
         and abs(row["delta_phi_nn_vortex"]) > 0.5
-        and row["alpha_link_ok"]
-        and row["alpha_match_open"]
+        and row["phase_encoder_roundtrip_ok"]
+        and row["alpha_from_E_route_open"]
         and row["V_over_dV"] == 16.0 / 3.0
     )
     return {
         "id": "Phi_square_probe",
         "phi_square_vortex_rad": row["phi_square_vortex_rad"],
         "delta_phi_nn_vortex": row["delta_phi_nn_vortex"],
-        "delta_phi_nn_alpha_link": row["delta_phi_nn_alpha_link"],
-        "alpha_link_rel_err": row["alpha_link_rel_err"],
+        "delta_phi_nn_roundtrip": row["delta_phi_nn_roundtrip"],
+        "phase_encoder_roundtrip_rel_err": row["phase_encoder_roundtrip_rel_err"],
         "B_square_vortex_T": row["B_square_vortex_T"],
         "alpha_fs": row["alpha_fs"],
         "alpha_from_E_rel_err": row["alpha_from_E_rel_err"],
-        "alpha_match_open": row["alpha_match_open"],
-        "alpha_link_ok": row["alpha_link_ok"],
+        "alpha_from_E_route_open": row["alpha_from_E_route_open"],
+        "phase_encoder_roundtrip_ok": row["phase_encoder_roundtrip_ok"],
         "ok": ok,
-        "note": row["note"],
+        "note": (
+            "§8.2·geo probe: Phi_□ hull path; phase-encoder roundtrip is a self-consistency "
+            "check of Z_512 phase storage, NOT an independent derivation of alpha; "
+            "alpha from E-route remains open."
+        ),
     }
 
 def check_cuboctahedron_carrier(device: str = "cpu") -> dict:

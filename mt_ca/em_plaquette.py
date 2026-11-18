@@ -121,14 +121,19 @@ def _mod_index(
     return (bz + dz) % nz, (by + dy) % ny, (bx + dx) % nx
 
 
-def alpha_link_phase_field(
+def phase_encoder_roundtrip_field(
     z_base: torch.Tensor,
     base: tuple[int, int, int],
     nn: tuple[int, int, int],
     *,
     alpha: float,
 ) -> torch.Tensor:
-    """Construct phi(O)=0, phi(NN)=alpha on spinor lane-0 (link sanity for E=-Δφ/a)."""
+    """Sanity probe: write phi(NN)=alpha into lane-0, read it back.
+
+    NOT a derivation of alpha — the value is inserted here and measured back, so the
+    roundtrip error only characterises phase quantisation on Z_512. See
+    `phase_encoder_roundtrip_rel_err` in the returned row.
+    """
     z = z_base.clone()
     i0 = _mod_index(base, (0, 0, 0), z.shape[:3])
     i1 = _mod_index(base, nn, z.shape[:3])
@@ -214,7 +219,7 @@ def square_face_holonomy_probe(
     z_vtx = make_seed(SeedClass.VORTEX_P, ny, nx, nz=nz, device=dev)
     z_mono = monopole_phase_field(nz, ny, nx, base=base, device=dev)
     z_grad = linear_gradient_phase_field(nz, ny, nx, base=base, slope=alpha, device=dev)
-    z_alpha = alpha_link_phase_field(z_vac, base, nn, alpha=alpha)
+    z_alpha = phase_encoder_roundtrip_field(z_vac, base, nn, alpha=alpha)
 
     phi_vac = phi_square_hull_face(z_vac, base=base)
     phi_vtx = phi_square_hull_face(z_vtx, base=base)
@@ -234,7 +239,7 @@ def square_face_holonomy_probe(
     f_over_fp = alpha
     alpha_from_dphi = abs(dphi_nn_mono)
     alpha_rel_err = abs(alpha_from_dphi - alpha) / alpha if alpha > 0 else float("inf")
-    alpha_link_rel_err = abs(abs(dphi_nn_alpha) - alpha) / alpha if alpha > 0 else float("inf")
+    roundtrip_rel_err = abs(abs(dphi_nn_alpha) - alpha) / alpha if alpha > 0 else float("inf")
 
     return {
         "grid": grid,
@@ -248,7 +253,7 @@ def square_face_holonomy_probe(
         "delta_phi_nn_vac": dphi_nn_vac,
         "delta_phi_nn_vortex": dphi_nn_vtx,
         "delta_phi_nn_monopole": dphi_nn_mono,
-        "delta_phi_nn_alpha_link": dphi_nn_alpha,
+        "delta_phi_nn_roundtrip": dphi_nn_alpha,
         "E_link_monopole_SI": e_link_mono,
         "E_link_alpha_SI": e_link_alpha,
         "alpha_fs": alpha,
@@ -256,9 +261,9 @@ def square_face_holonomy_probe(
         "F_P_N": f_p,
         "alpha_from_abs_dphi_nn": alpha_from_dphi,
         "alpha_from_E_rel_err": alpha_rel_err,
-        "alpha_link_rel_err": alpha_link_rel_err,
-        "alpha_match_open": alpha_rel_err > 0.05,
-        "alpha_link_ok": alpha_link_rel_err < 1e-6,
+        "phase_encoder_roundtrip_rel_err": roundtrip_rel_err,
+        "alpha_from_E_route_open": alpha_rel_err > 0.05,
+        "phase_encoder_roundtrip_ok": roundtrip_rel_err < 1e-6,
         "V_over_dV": 16.0 / 3.0,
         "kappa_1tick": 1.0 / math.sqrt(2.0),
         "alpha_geom_inv": 137.0,

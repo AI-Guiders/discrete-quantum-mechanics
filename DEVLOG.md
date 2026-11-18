@@ -6,6 +6,38 @@ SSOT: [`MODEL.md`](MODEL.md) + [`model/`](model/) · META: [`META.md`](META.md) 
 
 ---
 
+## 2026-11-18 · §8.2·α · book-number-vs-formula + honest naming of the encoder roundtrip
+
+**Триггер.** Независимая проверка значения $\alpha^{-1}$, напечатанного в `chapters/07-alpha.tex`
+(`thm:alpha`), против значения, которое выдаёт напечатанная там же формула.
+
+**Найдено (ошибка в тексте, не в формуле).** Формула теоремы и `alpha_from_fundamentals()` тождественны
+и обе дают $\alpha^{-1} = 137{,}035999186851$. В книге было напечатано $\alpha^{-1} \approx 137{,}035999074$
+с эталоном CODATA-2018 и отклонением $-7\times10^{-11}$; это отклонение не воспроизводится из формулы
+(расхождение $1{,}13\times10^{-7}$). Обе строки — формула и число — внесены одним коммитом `ae0af4a`,
+сверки после не было.
+
+**Исправлено.**
+1. `thm:alpha`: $\alpha^{-1} = 137{,}035999187\ldots$, эталон CODATA-2022 ($137{,}035999177(21)$),
+   отклонение $+7{,}2\times10^{-11}$ — теперь воспроизводимо запуском `alpha_from_fundamentals()`.
+2. Добавлено `rem:alpha-canonical-form`: перечислены четыре входа ($\kappa$, $|N_{12}|$, $B_V$, $\Delta\varphi_{\min}$),
+   зафиксирована каноническая запись, эквивалентные формы подлежат проверке вычислением.
+   В доказательство добавлена оговорка: вид функции — мотивированный анзац, вынуждены только аргументы.
+3. `mt_ca/em_plaquette.py`: `alpha_link_phase_field` → `phase_encoder_roundtrip_field`,
+   `alpha_link_rel_err`/`alpha_link_ok` → `phase_encoder_roundtrip_rel_err`/`_ok`,
+   `alpha_match_open` → `alpha_from_E_route_open`. Поле **вписывается** в начальные условия и читается назад,
+   поэтому это round-trip кодировщика фазы $Z_{512}$, а **не** независимый вывод $\alpha$.
+   Старый ключ читался как второй вывод и завышал впечатление; `note` переписан явно.
+
+**Проверка.** `verify_principles.py --suite carrier --suite alpha --suite gate` — 47/47 PASS.
+`book/build.ps1 -Volume construction` — 106 стр., undefined refs 0. Переполнения > 10 pt в томе остаются
+три (`06-si-sm.tex` §10 стр. 345 и 360–362; `ce-m-05.tex` стр. 28–43) — **предсуществующие**, не из этой правки.
+
+**Открыто.** `alpha_from_E_rel_err \approx 1.0` — маршрут «$\alpha$ из $E$» не работает и помечен open;
+это честный статус, не скрытая ошибка.
+
+---
+
 ## 2026-09-28 · §5.0.4-B · floor1-shell-transitions-boil
 
 **UoW:** один `VORTEX_P` на `VACUUM_BOIL`; профиль \(|\Delta\varphi|\) по координационным сферам FCC (proxy \(\rho_\Theta\)); антипод как фон кипения.
