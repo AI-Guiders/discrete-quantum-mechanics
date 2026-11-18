@@ -183,32 +183,29 @@ class PlanckCellBitBudget:
 
 
 def planck_cell_bit_budget(*, delta_phi_min: float = DELTA_PHI_MIN) -> PlanckCellBitBudget:
-    """Derive M-layer register widths from carrier combinatorics, then check against Bekenstein B_V (§3.12.6).
+    """Derive M-layer register widths purely from CarrierSpec.from_d(3), then check against Bekenstein B_V on T (§3.12.6).
 
-    Chain (M-first, Bekenstein as T-check):
-      d = 3, |△| = 2^d = 8  →  mod_bits = 1 + |△| = d² = 9,  N_ring = 2^mod_bits = 512
-      frac_bits = mod_bits − d = |□| = 6  (single 9-bit word split as 2^d × 2^frac_bits = 8 × 64 = 512)
-      Δφ_min = s₀/ℏ = ½ rad  →  N_φ = ⌈2π/Δφ_min⌉ = 1 + |N₁₂| = 13,  Δφ_disc = 41
+    Chain (Catalan lock 1 + 2^d = d² = 9 on M, Bekenstein B_V as T-check):
+      d = 3 → |N₁₂| = 12, |△| = 8, |□| = 6, mod_bits = 1 + |△| = 9, N_ring = 512, frac_bits = 6
+      N_φ = 1 + |N₁₂| = 13, Δφ_disc = (N_ring + N_φ + |△|) // N_φ = 533 // 13 = 41 (no 2π on M!)
       Check on T: mod_bits = 9 ≤ B_V = 2π/ln 2 ≈ 9.0647 < mod_bits + 1 (margin ε_B ≈ 0.065 bit)
     """
-    d_spatial = 3
-    n_triangles = 1 << d_spatial  # |△| = 8 octants of the cuboctahedron
-    mod_bits = 1 + n_triangles  # d² = 9 bits (one 9-bit word per cell)
-    n_ring = 1 << mod_bits  # 512
-    frac_bits = mod_bits - d_spatial  # |□| = 6 bits (mantissa inside the 9-bit word)
-    n_phi = int(math.ceil(2.0 * math.pi / delta_phi_min))
+    from mt_ca.carrier_core import CANONICAL_CARRIER
+
+    _ = delta_phi_min
+    c = CANONICAL_CARRIER
     b_hv = 2.0 * math.pi / LN2
-    b_phase = math.log2(n_phi)
+    b_phase = math.log2(c.n_phi)
     return PlanckCellBitBudget(
         B_V=b_hv,
-        N_phi=n_phi,
-        mod_bits=mod_bits,
-        N_ring=n_ring,
-        phase_bits=mod_bits,
-        frac_bits=frac_bits,
+        N_phi=c.n_phi,
+        mod_bits=c.mod_bits,
+        N_ring=c.n_ring,
+        phase_bits=c.mod_bits,
+        frac_bits=c.frac_bits,
         n_states=2.0**b_hv,
         B_phase=b_phase,
-        B_amp=float(frac_bits),
+        B_amp=float(c.frac_bits),
     )
 
 
@@ -334,9 +331,22 @@ def heisenberg_phi_min_rad(*, delta_phi_min: float = DELTA_PHI_MIN) -> float:
 
 
 def heisenberg_phi_min_disc(*, phase_bits: int, delta_phi_min: float = DELTA_PHI_MIN) -> int:
-    """Δφ_min [rad] → integer phase ticks mod N_ring (strict Z_512 verify)."""
+    """Closed carrier Heisenberg sector step Δφ_disc = (N_ring + N_φ + |△|) // N_φ = 41 (no 2π on M).
+
+    For the canonical 9-bit ring (d=3), returns CANONICAL_CARRIER.dphi_min_ticks = 41 directly
+    from the Heisenberg divisibility lock (512 + 13 + 8) // 13 = 41; scales proportionally
+    if non-canonical phase_bits or delta_phi_min is requested in synthetic tests.
+    """
+    from mt_ca.carrier_core import CANONICAL_CARRIER
+
+    c = CANONICAL_CARRIER
+    if phase_bits == c.mod_bits and abs(delta_phi_min - DELTA_PHI_MIN) < 1e-12:
+        return c.dphi_min_ticks
     n_ring = 1 << phase_bits
-    return max(1, int(round(delta_phi_min * n_ring / (2.0 * math.pi))))
+    # Scale from canonical 41 ticks without using 2π when delta_phi_min == 0.5:
+    if abs(delta_phi_min - DELTA_PHI_MIN) < 1e-12:
+        return max(1, (c.dphi_min_ticks * n_ring + (c.n_ring // 2)) // c.n_ring)
+    return max(1, int(round(delta_phi_min * (2 * c.dphi_min_ticks) * (n_ring / float(c.n_ring)))))
 
 
 def phase_disc_to_rad(phi_disc: int, *, phase_bits: int) -> float:

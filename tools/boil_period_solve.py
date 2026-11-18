@@ -57,9 +57,9 @@ def run(
         for _ in range(ticks):
             z_p = lab.sim.z_past.clone() if lab.sim.z_past is not None else lab.sim.z.clone()
             if ca_cycle:
-                assert lab.sim._f_curr is not None and lab.sim._f_past is not None
-                f_currs.append(lab.sim._f_curr.detach().cpu().clone())
-                f_pasts.append(lab.sim._f_past.detach().cpu().clone())
+                assert lab.sim.state_curr is not None and lab.sim.state_past is not None
+                f_currs.append(lab.sim.state_curr.detach().cpu().clone())
+                f_pasts.append(lab.sim.state_past.detach().cpu().clone())
             lab.step(1)
             fld = lab.field_row(z_past=z_p)
             contrast.append(float(fld[InstrumentId.RHO_CONTRAST.value]))

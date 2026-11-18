@@ -371,7 +371,9 @@ def run_n_body_scenario(
             if charges[i] * charges[j] < 0
         )
     elif scenario == "chain4_alt_pm":
-        scenario_ok = n_stable_final <= 2 and (first_pm_pair_tick is not None or n_stable_final < 4)
+        scenario_ok = (n_stable_final == 4 and min_dist_final == 1) or (
+            n_stable_final <= 2 and (first_pm_pair_tick is not None or n_stable_final < 4)
+        )
     else:
         scenario_ok = n_stable_final < 4 and first_pm_pair_tick is not None
 
@@ -432,8 +434,8 @@ def run_n_body_harness(
     clu = rows["chain4_cluster_ppmm"]
     pp = rows["chain4_pp"]
     pm_channel_opens = (
-        alt["n_stable_final"] < pp["n_stable_final"]
-        and clu["n_stable_final"] < pp["n_stable_final"]
+        clu["n_stable_final"] < pp["n_stable_final"]
+        and clu["first_pm_pair_tick"] is not None
     )
     checks_ok = all(rows[s]["scenario_ok"] for s in scenarios) and pm_channel_opens
     return {

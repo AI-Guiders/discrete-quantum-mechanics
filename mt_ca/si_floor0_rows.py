@@ -246,7 +246,7 @@ class SIFloor0Rows:
         z = sim.z
         plane = spinor_plane(z, site)
         y, x = site.y, site.x
-        f = canonical_fixed(z, cfg)
+        f = sim.f_curr
         phi = projected_phi_int(f, cfg)
         n_e = n_E_field(phi, cfg)
         ch = winding_channels(plane, center=(y, x), radius=2)
@@ -254,12 +254,15 @@ class SIFloor0Rows:
         plane_cfg = plane_mconfig(plane, cfg)
         dphi = arg_phase_defect(plane, plane_cfg, apply_floor=False)
         dphi_core = float(dphi[y, x].abs().item())
+        from mt_ca.carrier_core import signed_phi_ticks
+
+        phi_s = signed_phi_ticks(phi, mod_bits=cfg.mod_bits)
         if site.iz is None:
             n_e_core = int(n_e[y, x].item())
-            phi_core = float(phi[y, x].abs().item())
+            phi_core = float(phi_s[y, x].abs().item())
         else:
             n_e_core = int(n_e[site.iz, y, x].item())
-            phi_core = float(phi[site.iz, y, x].abs().item())
+            phi_core = float(phi_s[site.iz, y, x].abs().item())
 
         z_core = plane[y, x] if plane.ndim == 3 else z[y, x]
         axis = bloch_vector(z_core.unsqueeze(0).unsqueeze(0))[0, 0]
@@ -279,7 +282,7 @@ class SIFloor0Rows:
         snapshot_ok = (
             b_core == 1
             and abs(float(ch["auto"])) >= 0.75
-            and n_e_core == 0
+            and 0 <= n_e_core <= n_ring // ticks_per_e0
         )
 
         b_hits = 0

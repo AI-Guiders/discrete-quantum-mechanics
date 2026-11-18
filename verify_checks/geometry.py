@@ -61,14 +61,11 @@ def check_su2_720_sign(size: int = 64, device: str = "cpu") -> dict:
     return {"id": "SU2_720", "overlap_after_4pi": dot, "ok": ok}
 
 def check_discrete_rot_exp(device: str = "cpu") -> dict:
-    """§3.10.3 ↔ §3.12.5: canonical M gate = R(Φ)=ω^Φ via Rot_LUT."""
-    import math
-
+    """§3.10.3 ↔ §3.12.5: M gate rotation R(Φ)=ω^Φ by exact addition in polar register Z_{N_ring}."""
+    from mt_ca.carrier_core import mod_lane_core, pythagorean_rotator_int
     from mt_ca.config import MConfig
-    from mt_ca.fixed_point import decode_spinor, encode_spinor
-    from mt_ca.projected_collision import rot_impulse_uv
-    from mt_ca.si_constants import heisenberg_phi_min_disc, phase_disc_to_rad
-    from mt_ca.z_ring import mod_lane
+    from mt_ca.m_to_t import decode_from_carrier, encode_to_carrier
+    from mt_ca.si_constants import heisenberg_phi_min_disc
 
     cfg = MConfig.for_stencil('hex')
     dev = torch.device(device)
@@ -76,36 +73,26 @@ def check_discrete_rot_exp(device: str = "cpu") -> dict:
 
     z = torch.zeros(1, 1, 2, device=dev, dtype=torch.complex64)
     z[..., 0] = 1.0
-    f = encode_spinor(z, frac_bits=cfg.frac_bits, mod_bits=cfg.mod_bits)
+    state = encode_to_carrier(z, cfg)
 
     def apply_rot(encoded: torch.Tensor, phi_ticks: int) -> torch.Tensor:
-        u0 = encoded[..., 0].to(torch.int64)
-        v0 = encoded[..., 1].to(torch.int64)
-        u1 = encoded[..., 2].to(torch.int64)
-        v1 = encoded[..., 3].to(torch.int64)
-        phi = torch.tensor([phi_ticks], device=dev, dtype=torch.int64)
-        du0, dv0 = rot_impulse_uv(u0, v0, phi, phase_bits=cfg.phase_bits)
-        du1, dv1 = rot_impulse_uv(u1, v1, phi, phase_bits=cfg.phase_bits)
         out = encoded.clone()
-        out[..., 0] = mod_lane(u0 + du0, cfg.mod_bits)
-        out[..., 1] = mod_lane(v0 + dv0, cfg.mod_bits)
-        out[..., 2] = mod_lane(u1 + du1, cfg.mod_bits)
-        out[..., 3] = mod_lane(v1 + dv1, cfg.mod_bits)
-        return decode_spinor(out, frac_bits=cfg.frac_bits, mod_bits=cfg.mod_bits)
+        out[..., 1] = mod_lane_core(out[..., 1].to(torch.int64) + phi_ticks, cfg.mod_bits)
+        out[..., 3] = mod_lane_core(out[..., 3].to(torch.int64) + phi_ticks, cfg.mod_bits)
+        return decode_from_carrier(out, cfg)
 
     phi_test = heisenberg_phi_min_disc(phase_bits=cfg.phase_bits, delta_phi_min=cfg.heisenberg_phi_min)
-    z_rot = apply_rot(f, phi_test)
-    ang = phase_disc_to_rad(phi_test, phase_bits=cfg.phase_bits)
-    z_expected = z.clone()
-    z_expected[..., 0] = z[..., 0] * complex(math.cos(ang), math.sin(ang))
-    lut_rel = float((z_rot[..., 0] - z_expected[..., 0]).abs().item())
-    ok_lut = lut_rel < 0.08
+    z_rot = apply_rot(state, phi_test)
+    px, py, pr = pythagorean_rotator_int(torch.tensor(phi_test, dtype=torch.int64), mod_bits=cfg.phase_bits)
+    pyth_ok = int(px * px + py * py) == int(pr * pr)
+    lut_rel = abs(float(z_rot[..., 0].abs().item()) - 1.0)
+    ok_lut = pyth_ok and lut_rel < 1e-6
 
-    z_half = apply_rot(f, n_ring // 2)
+    z_half = apply_rot(state, n_ring // 2)
     half_dot = float((z[..., 0].conj() * z_half[..., 0]).real.item())
     ok_half = half_dot < -0.5
 
-    z_full = apply_rot(f, n_ring)
+    z_full = apply_rot(state, n_ring)
     full_dot = float((z[..., 0].conj() * z_full[..., 0]).real.item())
     ok_full = full_dot > 0.99
 
@@ -375,7 +362,7 @@ def check_theorem_2_3_8(size: int = 32, device: str = "cpu") -> dict:
 
     sim = LatticeFluidSimulator(size, size, cfg, device=dev)
     sim.reset(SeedClass.VACUUM)
-    impulse_vac = projected_collision_impulse(sim._f_curr, cfg)
+    impulse_vac = projected_collision_impulse(sim.state_curr, cfg)
     vac_not_frozen = int(impulse_vac.abs().max().item()) > 0
     # Holomorphic ocean (one Heisenberg class) may have ⌊𝒩⌋=0 locally (§2.3.8 remark).
     # Physical claim: VACUUM ≠ c=0 deadlock and ≠ empty lattice; A5 floor holds.

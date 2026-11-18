@@ -191,13 +191,8 @@ def check_a11_vortex_persistence(size: int = 128, steps: int = 128, device: str 
     return {"id": "A11", "amp_max_initial": amp0, "amp_max_final": amp1, "ok": ok}
 
 def check_a16_heisenberg_floor(size: int = 64, device: str = "cpu") -> dict:
-    from mt_ca.projected_collision import (
-        holonomy_zeta_int,
-        int_neighbor_sum,
-        rho2_int,
-        saturating_phi_impulse,
-    )
-    from mt_ca.reversible import canonical_fixed
+    from mt_ca.carrier_core import carrier_gate_phi
+    from mt_ca.m_to_t import encode_to_carrier
     from mt_ca.si_constants import DELTA_PHI_MIN, heisenberg_phi_min_disc, heisenberg_phi_min_physical
 
     cfg = MConfig.for_stencil('hex', heisenberg_floor=True)
@@ -224,14 +219,8 @@ def check_a16_heisenberg_floor(size: int = 64, device: str = "cpu") -> dict:
         preserved = True
     phi_gate = saturating_phase(z, cfg)
 
-    f = canonical_fixed(z, cfg)
-    fb = cfg.frac_bits
-    u0 = f[..., 0].to(torch.int64)
-    v0 = f[..., 1].to(torch.int64)
-    sum_n_i = int_neighbor_sum(f, cfg.stencil)
-    zeta_r, zeta_i = holonomy_zeta_int(u0, v0, sum_n_i[..., 0], sum_n_i[..., 1], frac_bits=fb)
-    rho2 = rho2_int(u0, v0, frac_bits=fb)
-    phi_disc = saturating_phi_impulse(zeta_r, zeta_i, rho2, cfg)
+    state = encode_to_carrier(z, cfg)
+    phi_disc = carrier_gate_phi(state, cfg)
 
     in_ring = bool(((phi_disc >= 0) & (phi_disc < n_ring)).all())
     mod_ok = bool(torch.equal(phi_disc, phi_disc % n_ring))

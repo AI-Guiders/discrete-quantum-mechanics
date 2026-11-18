@@ -271,14 +271,157 @@ z(t−1) = 2z(t) + ⌊𝒩(z(t))⌋ − z(t+1)
 R(\Phi) = \omega^{\Phi}
 \]
 
-Holonomy (без `atan2`):
+Holonomy (без `atan2`, в целых $\text{квантах}^2$ без сдвига `>> F`):
 
 \[
-\zeta_{\mathrm{real}} = \left\lfloor \frac{\langle U\rangle U + \langle V\rangle V}{2^{F}} \right\rfloor,\quad
-\zeta_{\mathrm{imag}} = \left\lfloor \frac{\langle V\rangle U - \langle U\rangle V}{2^{F}} \right\rfloor
+\zeta_{\mathrm{real}} = \langle U\rangle U + \langle V\rangle V,\quad
+\zeta_{\mathrm{imag}} = \langle V\rangle U - \langle U\rangle V,\quad
+|Z|^2 = U^2 + V^2
 \]
 
-Насыщающий импульс Φ:
+#### 3.12.5b Ортогональное расщепление голономии $i(\partial_t z)z^*$, закон движения $\mu$ и уравнение непрерывности
+
+Для $z(x) = \mu(x)e^{i\varphi(x)}$ умножение уравнения эволюции $i\,\partial_t z = -\gamma\,\Delta_{\mathrm{disc}} z$ на $z^*(x)$ расщепляет голономию звезды $N(x)$ на действительную (чётную по $\Delta\varphi$) и мнимую (нечётную по $\Delta\varphi$) части:
+
+\[
+i\,(\partial_t z)\,z^*
+= \underbrace{-\mu^2\,\partial_t\varphi}_{\text{действительная часть}}
++ i\,\underbrace{\frac{1}{2}\,\partial_t(\mu^2)}_{\text{мнимая часть}}
+= -\gamma\Bigl(\bigl(\zeta_{\mathrm{real}} - |N|\,\mu^2\bigr) + i\,\zeta_{\mathrm{imag}}\Bigr).
+\]
+
+Отсюда следуют два ортогональных закона на **M**:
+
+1. **Вращение фазы $\varphi$ (чётный дефицит голономии $\delta\zeta_{\mathrm{real}}$):**
+   \[
+   \mu^2\,\partial_t\varphi = \gamma\,\delta\zeta_{\mathrm{real}}(x),\qquad
+   \delta\zeta_{\mathrm{real}}(x) := |N|\,\mu^2(x) - \zeta_{\mathrm{real}}(x) = \sum_{y\in N(x)}\mu(x)\mu(y)\bigl(1 - \cos(\varphi(y)-\varphi(x))\bigr) \ge 0.
+   \]
+   Слагаемые противоположных рёбер $+\mathbf{e}$ и $-\mathbf{e}$ имеют одинаковый знак ($1-\cos(+\Delta\varphi)=1-\cos(-\Delta\varphi)\ge 0$) и не сокращаются на симметричной звезде: именно $\delta\zeta_{\mathrm{real}}$ даёт частоту дисперсии плоской волны, ход фазы кипящего океана и одевающий ореол вихря $R_{\mathrm{dress}} = 1\cdot dl$ на первой координационной сфере $S_1$ (где $100\%$ из 12 узлов кубооктаэдра лежат над порогом $\Delta\varphi_{\min} = 1/2\text{ рад}$, а на $S_3$ — $0\%$).
+
+2. **Движение амплитуды $\mu$ и точное уравнение непрерывности (нечётная голономия $\zeta_{\mathrm{imag}}$):**
+   \[
+   \frac{1}{2}\,\partial_t\bigl(\mu^2(x)\bigr) = -\gamma\,\zeta_{\mathrm{imag}}(x) = -\sum_{y\in N(x)} J(x\to y) = -\operatorname{div}_{\mathrm{disc}}\mathbf{j}(x),
+   \]
+   где поток квантов веса $q = \mu^2$ по направленному ребру $(x\to y)$ антисимметричен:
+   \[
+   J(x\to y) := \gamma\,\mu(x)\mu(y)\sin\bigl(\varphi(x)-\varphi(y)\bigr) = -J(y\to x).
+   \]
+   В силу $J(x\to y) = -J(y\to x)$ сумма по всем узлам решётки тождественно равна нулю на любой конфигурации (источник равен нулю):
+   \[
+   \sum_{x\in\Lambda}\zeta_{\mathrm{imag}}(x) = -\frac{1}{\gamma}\sum_{x\in\Lambda}\operatorname{div}_{\mathrm{disc}}\mathbf{j}(x) \equiv 0.
+   \]
+
+3. **Три физические роли $\mu \in \{1,\dots,64\}$:**
+   - **Инерция фазы и локальный реберный закон преломления $\Delta_t A_\perp = (d_0\Phi)_\perp < 0$:** приращение фазы $\Phi$ определяется отношением к знаменателю ворот $D(r) := \zeta_{\mathrm{real}}(r) + \mu^2(r) + K_P$. На каноническом 3D-вихре `VORTEX_P` ($24^3$, ГЦК $N_{12}$) замер даёт монотонный рост $q=\mu^2$ и $D(r)$ от периферии к центру: в вакууме $q_{\mathrm{vac}}=2, D_{\mathrm{vac}}=82\ \text{кванта}^2$; на $S_3$ $\langle q\rangle=158, \langle D\rangle=2077$; на $S_2$ $\langle q\rangle=826.4, \langle D\rangle=9426.7$; на одевающей сфере $S_1$ $\langle q\rangle=2499.3, \langle D\rangle=24138.0$; в ядре $q=3929, D=32493\ \text{кванта}^2$. Для *собственной* фазы вихря на ядре и $S_1$ дефицит $\delta\zeta_{\mathrm{real}}$ максимален ($18648$ в ядре и $8417$ на $S_1$ против $8$ в вакууме) и открывает затвор $|\Phi|\ge 41$ тик ($n_E\ge 1$). Для *пробной волны*, проходящей мимо массивного узла, на любом поперечном ребре $e_\perp = (x_{\mathrm{out}}\to x_{\mathrm{in}})$ (где $x_{\mathrm{in}}$ ближе к центру, $D(x_{\mathrm{in}}) > D(x_{\mathrm{out}})$) за **один такт $dt$** возникает поперечная разность фаз $\Delta_t A_\perp(x_{\mathrm{out}}\to x_{\mathrm{in}}) = (d_0\Phi)_{x_{\mathrm{out}}\to x_{\mathrm{in}}} = \Phi(x_{\mathrm{in}}) - \Phi(x_{\mathrm{out}}) < 0$ (частный случай дискретного закона Фарадея $d_1 E = 0$), которая строго локально заворачивает волновой фронт вдоль $\nabla_{\mathrm{disc}} D(x)$ **к массивному центру**. Показатель преломления $n(r) = D(r)/D_{\mathrm{vac}} > 1$, принцип Ферма на **T** и отклонение $\theta_{\mathrm{def}} = 4GM/(c^2 b)$ — длинноволновая сумма этих одношаговых реберных поворотов.
+   - **Проводимость ребра:** и натяжение $\delta\zeta_{\mathrm{real}}$, и поток $J(x\to y)$ пропорциональны $\mu(x)\mu(y)$.
+   - **Стационарность уединённых структур и переток при столкновениях:** на гармонических фазовых полях ($\Delta_{\mathrm{disc}}\varphi = 0$: плоская волна, кипящий океан, уединённый симметричный вихрь) $\zeta_{\mathrm{imag}}(x) = 0$ поячеечно, поэтому профиль $\mu(x)$ стационарен. При столкновении пакетов или вихревой пары ($p+m$) $\zeta_{\mathrm{imag}}\ne 0$, и вес $q=\mu^2$ перетекает по рёбрам по закону $q(x,t+1) = q(x,t) - \sum_{y\in N(x)} J_{\mathrm{disc}}(x\to y)$ между полом **A5** ($\mu\ge 1$) и потолком **A7** ($\mu\le 64$) с точным сохранением $\sum_x q(x)$.
+
+#### 3.12.5c Дискретные уравнения Максвелла на комплексе кубооктаэдра и единство взаимодействий без внешних источников
+
+На клеточном комплексе кубооктаэдра $N_{12}$ ($0$-узлы $x$, $1$-рёбра $e=(x\to y)$, $2$-грани $f\in 8\triangle\cup 6\square$, $3$-ячейка $V_P$) с кограничными операторами $d_0, d_1, d_2$ ($d_{k+1}\circ d_k \equiv 0$) свёрнутая фазовая связность на ребре
+
+\[
+A_{xy} := \mathrm{wrap}\bigl(\varphi(y)-\varphi(x)\bigr) = \bigl(\varphi(y)-\varphi(x)\bigr) - N_{\mathrm{ring}}\,k_{xy},\qquad k_{xy}\in\{-1,0,+1\},
+\]
+
+электрическое поле на ребре $E_{xy} := -\Delta_t A_{xy} - (d_0\,\Delta_t\varphi)_{xy}$ и магнитный поток через грань $f\in 8\triangle\cup 6\square$
+
+\[
+B_f := (d_1 A)_f = \sum_{e\in\partial f} A_e = -N_{\mathrm{ring}}\,(d_1 k)_f = N_{\mathrm{ring}}\,n_f,\qquad n_f := -(d_1 k)_f \in \mathbb{Z}
+\]
+
+удовлетворяют четырём точным дискретным уравнениям Максвелла **без внешних источников**:
+
+1. **Закон Фарадея на каждой грани $f\in 8\triangle\cup 6\square$:**
+   \[
+   \Delta_t B_f + (d_1 E)_f = -(d_1 d_0\,\Delta_t\varphi)_f \equiv 0\qquad (d_1\circ d_0 \equiv 0).
+   \]
+2. **Закон Гаусса для магнитного потока на замкнутой оболочке $\partial V_P = 8\triangle\cup 6\square$:**
+   \[
+   (d_2 B)_{V_P} = \sum_{f\in\partial V_P} B_f = (d_2 d_1 A)_{V_P} \equiv 0,\qquad \sum_{f\in 8\triangle\cup 6\square} n_f \equiv 0\qquad (d_2\circ d_1 \equiv 0).
+   \]
+3. **Вторая пара Максвелла как тождество скачков ветви $k_{xy}$ и топологических чисел $n_f$:**
+   \[
+   (d_0^\dagger E)_x = N_{\mathrm{ring}}\,\Delta_t(d_0^\dagger k)_x,\qquad
+   (d_1^\dagger B - \Delta_t E)_{xy} = N_{\mathrm{ring}}\,(d_1^\dagger n)_{xy} + \bigl(\Delta_t^2 A + d_0\,\Delta_t^2\varphi\bigr)_{xy}.
+   \]
+   Вне дефектов ($n_f=0, b=0$) правая часть равна нулю (свободные волны); на дефектах ($n_f=\pm 1, b=1$) ротор $N_{\mathrm{ring}}(d_1^\dagger n)_{xy}$ вокруг вихревого ядра и есть то, что на **T** считывается как заряд и ток источника.
+4. **Тождественное сохранение заряда:** $d_0^\dagger(d_1^\dagger B) = N_{\mathrm{ring}}(d_0^\dagger d_1^\dagger n) \equiv 0$ в силу $(d_1\circ d_0)^\dagger \equiv 0$.
+
+**Пять граней одних ворот $\Phi$ на комплексе $(12\text{ вершин}, 24\text{ ребра}, 8\triangle + 6\square\text{ граней})$:**
+- **Гравитация** — знаменатель ворот $\zeta_{\mathrm{real}} + \mu^2 + K_P$ (вес $q=\mu^2=\rho_{\mathrm{vac}}(1+\varepsilon_x)$ замедляет локальный шаг фазы $\Phi$ в $(1+\varepsilon_x)$ раз $\implies h_{00}$ и преломление Редже).
+- **Квантовая дисперсия (Шрёдингер)** — чётная часть числителя $\delta\zeta_{\mathrm{real}} = \sum \mu_x\mu_y(1-\cos\Delta\varphi) \ge 0$.
+- **Поток материи (уравнение непрерывности без источника)** — нечётная часть числителя $\zeta_{\mathrm{imag}} = -\operatorname{div}_{\mathrm{disc}}\mathbf{j}$.
+- **Калибровочные поля ($U(1)\times SU(2)\times SU(3)$)** — циркуляция $d_1 A$ по граням $8\triangle$ ($\dim\mathfrak{su}(3)=8$) и $6\square$ кубооктаэдра при $\hat M = 1+|N_{12}|\,|\triangle| = 97$.
+- **Материя («источники»)** — узлы с топологическим числом ветви $n_f \ne 0$ ($b=1$), одетые на первой сфере $S_1$ ($R_{\mathrm{dress}}=1\cdot dl$).
+
+#### 3.12.5d Закрытая алгебра реберных проекций на гранях кубооктаэдра без тригонометрических функций ($\cos, \sin$)
+
+На **M** носитель не использует ни $\cos,\sin$, ни $\pi$, ни плавающей запятой: чётная и нечётная проекции реберной разности фаз $A_{xy} = \mathrm{wrap}(\varphi(y)-\varphi(x))$ полностью определяются комбинаторными инвариантами граней одношаговой оболочки кубооктаэдра в размерности $d=3$:
+
+\[
+|N_{12}| = 2d(d-1) = 12,\quad
+|\triangle| = 2^d = 8,\quad
+|\square| = 2d = 6,\quad
+d_{\mathrm{in}}(\square) = \frac{|N_{12}|}{d} = 2(d-1) = 4,
+\]
+\[
+\mathrm{mod\_bits} = 1+|\triangle| = d^2 = 9,\quad
+\mathrm{frac\_bits} = \mathrm{mod\_bits}-d = |\square| = 6,\quad
+N_{\mathrm{ring}} = 2^{1+|\triangle|} = 512,\quad
+K_P = 2^{|\square|} = 64.
+\]
+
+Экваториальная квадратная грань $\square$ с $d_{\mathrm{in}}(\square)=4$ вершинами делит кольцо $\mathbb{Z}_{N_{\mathrm{ring}}}$ на $d_{\mathrm{in}}(\square)$ равных квадрантов длины $Q_\square$ и полуоборот Паули $\Phi_{\mathrm{Pauli}}$:
+
+\[
+Q_\square := \frac{N_{\mathrm{ring}}}{d_{\mathrm{in}}(\square)} = 2^{|\triangle|-1} = 2K_P = 128,\qquad
+\Phi_{\mathrm{Pauli}} = \frac{N_{\mathrm{ring}}}{2} = 2Q_\square = 2^{|\triangle|} = d_{\mathrm{in}}(\square)K_P = 256.
+\]
+
+Для каждого направленного ребра $e=(x\to y)$ с $A_{xy}\in[-\Phi_{\mathrm{Pauli}}, +\Phi_{\mathrm{Pauli}}]$:
+1. **Чётная проекция ребра (когерентность) и чётное натяжение ребра:**
+   \[
+   C(A_{xy}) := Q_\square - |A_{xy}| = \frac{N_{\mathrm{ring}}}{d_{\mathrm{in}}(\square)} - |A_{xy}| \in [-Q_\square, +Q_\square],\qquad
+   T(A_{xy}) := Q_\square - C(A_{xy}) = |A_{xy}| \ge 0.
+   \]
+2. **Нечётная проекция ребра (поток, сдвинутый на один квадрант квадратной грани $Q_\square$):**
+   \[
+   S(A_{xy}) := C\bigl(\mathrm{wrap}(A_{xy}-Q_\square)\bigr) = \operatorname{sgn}(A_{xy})\cdot\Bigl(Q_\square - \bigl||A_{xy}| - Q_\square\bigr|\Bigr) = -S(A_{yx}) \in [-Q_\square, +Q_\square].
+   \]
+3. **Точное метрическое тождество на квадратной грани ($L^1$-инвариант) и целочисленный пифагоров ротатор ($L^2$-инвариант без $\pi$):**
+   \[
+   \bigl|C(A_{xy})\bigr| + \bigl|S(A_{xy})\bigr| \equiv Q_\square = \frac{N_{\mathrm{ring}}}{d_{\mathrm{in}}(\square)} = 2K_P\quad\forall\,A_{xy}\in\mathbb{Z}_{N_{\mathrm{ring}}},
+   \]
+   а целочисленная пифагорова тройка Кэли $P_x(A) := \operatorname{sgn}(C(A))(Q_\square^2 - S(A)^2)$, $P_y(A) := 2Q_\square S(A)$, $P_r(A) := Q_\square^2 + S(A)^2$ удовлетворяет точному основному тригонометрическому тождеству в целых числах:
+   \[
+   P_x(A)^2 + P_y(A)^2 \equiv P_r(A)^2 \iff \left(\frac{Q_\square^2-S^2}{Q_\square^2+S^2}\right)^{\!2} + \left(\frac{2Q_\square S}{Q_\square^2+S^2}\right)^{\!2} \equiv 1\quad\forall\,A\in\mathbb{Z}_{N_{\mathrm{ring}}}.
+   \]
+   При $A = \Delta\varphi_{\mathrm{disc}} = 41$ и $Q_\square = 128$ получаем точную пифагорову тройку Гейзенберга $(14703, 10496, 18065)$, где $14703^2 + 10496^2 = 18065^2$.
+4. **Выход к гармоническим $\cos$ и $\sin$ на T:** при мягком чтении $\mathcal{B}$ с отношением граней $\kappa = |\square|/|N_{12}| = 1/(d-1) = 1/2$ и $|\triangle|/|\square| = 2^{d-1}/d = 4/3$ многократная свёртка кусочно-линейных проекций $(C,S)/Q_\square$ по оболочке кубооктаэдра переводит $L^1$-ромб $|C|+|S|=Q_\square$ в гладкую $L^2$-окружность $\cos^2\varphi+\sin^2\varphi=1$ на **T** (§4.1.2, `thm:t-cl`).
+
+#### 3.12.5e Диофантова единственность $d=3$ (замок Каталана), единственность начального вектора $\mathrm{IV}(3)=263$ и полная замкнутость траектории $\Psi^t = g^t(\mathrm{IV}(3))$
+
+Три арифметических условия замкнутости носителя в пространственной размерности $d\in\mathbb{N}$:
+1. **Замок битового регистра (уравнение Каталана):** $\mathrm{mod\_bits}(d) := 1 + 2^d = d^2$ $\implies$ единственное решение в $\mathbb{N}$ по теореме Михайлеску: **$d = 3$** ($1 + 2^3 = 3^2 = 9$).
+2. **Замок целочисленности сектора Гейзенберга:** $\Delta\varphi_{\mathrm{disc}}(d) := \frac{2^{1+2^d} + (1+2d(d-1)) + 2^d}{1+2d(d-1)} \in \mathbb{Z}$ $\implies$ при $d=3$: $\frac{512+13+8}{13} = \frac{533}{13} = 41\in\mathbb{Z}$.
+3. **Замок гауссовой факторизации Кулона в $\mathbb{Z}[i]$:** $\hat M(d) := 1 + 2d(d-1)\cdot 2^d = \bigl(2(d-1)\bigr)^2 + (1+2^d)^2$ $\implies$ единственное решение в $\mathbb{N}$: **$d = 3$** ($1 + 12\cdot 8 = 4^2 + 9^2 = 97$).
+4. **Единственность $9$-битного начального вектора Вселенной $\Psi^0 = \mathrm{IV}(d)$:** в том же $9$-битном слове ($\mathrm{mod\_bits} = 1 + 2^d = 9$) зародыш нуклеации пузыря однозначно равен:
+   \[
+   \mathrm{IV}(d) := 2^{2^d} + (2^d - 1) = 2^8 + (2^3 - 1) = 256 + 7 = \mathbf{263} = \texttt{0b1\_00000111}
+   \]
+   (старший бит $2^{|\triangle|}=256$ — бит хиральности центрального ядра $b_{\mathrm{chir}}=1$, младшие $2^d-1=7$ — маска трёхгранного барионного угла $K_3$ по $d=3$ координатным измерениям из $|\triangle|=8$ октантов), с радиусом ядра $R_{\mathrm{IV}}(d) = |\square| = 2d = 6\,dh$, амплитудой ядра $\mu_{\mathrm{IV}}(d) = N_\varphi = 1 + 2d(d-1) = 13$ квантов и фазовым сдвигом октантов $\Delta\varphi_{\mathrm{IV}}(d) = d\cdot\Delta\varphi_{\mathrm{disc}}(d) = 3\times 41 = 123$ тика кольца $\mathbb{Z}_{512}$.
+
+Следовательно, ни геометрия носителя, ни закон эволюции $g$, ни фундаментальные константы, ни начальное состояние Вселенной $\Psi^0$ **не содержат свободных параметров**: вся физическая история есть единственная детерминированная целочисленная траектория
+\[
+\Psi^t = g^t\bigl(\mathrm{IV}(3)\bigr),\qquad d = 3,\quad \mathrm{IV}(3) = 263,\quad t\in\mathbb{Z}.
+\]
+
+**Откуда берётся $2\pi$ в $\hbar = h/(2\pi)$ (`rem:hbar-is-t-artifact`):**
+На **M** элементарным атомом действия является один тик фазового кольца $s_0 = 1$, полный оборот кольца равен целому числу $h = N_{\mathrm{ring}}\,s_0 = 512\,s_0$, а порог Гейзенберга равен целому числу $\Delta\varphi_{\mathrm{disc}} = 41\,s_0$. Величина $\hbar := h/(2\pi) = (512/(2\pi))\,s_0 \approx 81.487\,s_0$ (и $\hbar/2 \approx 40.744\,s_0$) — макроскопический артефакт **T**, возникающий только при переводе целых оборотов 512-угольника в радианную меру длины окружности $2\pi$. Элементарный такт $dt$ — абсолютная единица времени носителя, а секунда СИ — фиксированное число тактов $\mathcal{N}_{\mathrm{sec}}(d=3)\,dt$.
+
+Насыщающий импульс Φ (с учётом обеих компонент спинора и чётного дефицита $\delta\zeta_{\mathrm{real}}$):
 
 \[
 \Phi_{\mathrm{imp}} = \left\lfloor \frac{K_P\,\zeta_{\mathrm{imag}}}{\zeta_{\mathrm{real}} + |Z|^2 + K_P} \right\rfloor \in \mathbb{Z}_{N}

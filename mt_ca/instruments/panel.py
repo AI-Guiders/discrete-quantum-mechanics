@@ -70,9 +70,8 @@ def sample_site(
         pi_x, pi_y = momentum_density(plane)
         row[InstrumentId.PI_X.value] = float(pi_x[y, x].item())
         row[InstrumentId.PI_Y.value] = float(pi_y[y, x].item())
-        u = plane[..., 0]
-        row[InstrumentId.J_X.value] = float((u.conj() * torch.roll(u, -1, 1)).imag[y, x].item())
-        row[InstrumentId.J_Y.value] = float((u.conj() * torch.roll(u, -1, 0)).imag[y, x].item())
+        row[InstrumentId.J_X.value] = float((plane.conj() * torch.roll(plane, -1, 1)).sum(dim=-1).imag[y, x].item())
+        row[InstrumentId.J_Y.value] = float((plane.conj() * torch.roll(plane, -1, 0)).sum(dim=-1).imag[y, x].item())
         lz = angular_momentum_density(plane)
         row[InstrumentId.L_Z.value] = float(lz[y, x].item())
     else:

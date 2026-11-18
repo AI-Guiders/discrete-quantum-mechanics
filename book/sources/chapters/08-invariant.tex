@@ -159,46 +159,501 @@ $2\cdot2^{b}u+(2^{b})^2\equiv0\pmod{2^{b}}$.
 там, где шаг сводится к повороту, она точна; где нет --- дрейфует с шагом,
 задаваемым разрешением таблицы.
 
-\section{Какая форма закона сохранения следует}
+\section{Какая форма закона сохранения следует: расщепление голономии и закон движения \texorpdfstring{$\mu$}{mu}}
+\label{sec:holonomy-split-mu}
 
 Из локального закона следует не глобальная константа, а \textbf{уравнение непрерывности}:
-изменение $q$ в ячейке равно потоку через её двенадцать связей плюс источник.
-Глобальная константа получается только при нулевом источнике.
+изменение веса ячейки $q=\mu^2$ равно потоку через её двенадцать связей.
+Чтобы увидеть, откуда берётся этот поток и какую роль выполняет амплитуда
+$\mu\in\{1,\dots,2^{\mathrm{frac\_bits}}\}$ рядом с фазой $\varphi_{\mathrm{disc}}\in\mathbb{Z}_{\phaseRingCount}$,
+достаточно записать действие дискретного лапласиана звезды $N(x)$ в полярной форме $z=\mu e^{i\varphi}$
+и умножить уравнение эволюции $i\,\partial_t z = -\gamma\,\Delta_{\mathrm{disc}} z$ на $z^*(x)$.
+
+\begin{theorem}[Ортогональное расщепление голономии и точное уравнение непрерывности]
+\label{thm:holonomy-split-continuity}
+Для любого поля $z(x)=\mu(x)e^{i\varphi(x)}$ на решётке с симметричным шаблоном соседей
+$y\in N(x)$ ($y\in N(x)\iff x\in N(y)$) произведение $i(\partial_t z)z^*$ и голономия звезды
+$\zeta(x)=\sum_{y\in N(x)} z(y)z^*(x) = \zeta_{\mathrm{real}}(x)+i\,\zeta_{\mathrm{imag}}(x)$
+расщепляются на действительную (чётную по $\Delta\varphi$) и мнимую (нечётную по $\Delta\varphi$) части:
+\begin{equation}
+\label{eq:holonomy-split}
+  i\,(\partial_t z)\,z^*
+  \;=\;
+  \underbrace{-\mu^2\,\partial_t\varphi}_{\text{действительная часть}}
+  \;+\;
+  i\,\underbrace{\frac{1}{2}\,\partial_t(\mu^2)}_{\text{мнимая часть}}
+  \;=\;
+  -\gamma\Bigl(\bigl(\zeta_{\mathrm{real}} - |N|\,\mu^2\bigr) + i\,\zeta_{\mathrm{imag}}\Bigr).
+\end{equation}
+Отсюда следуют два ортогональных закона --- для фазы $\varphi$ и для амплитуды $\mu$:
+\begin{enumerate}[label=(\roman*)]
+\item \textbf{Чётный дефицит голономии вращает фазу $\varphi$ при фиксированном $\mu$:}
+  \begin{equation}
+  \label{eq:even-holonomy-phase}
+  \begin{aligned}
+    \mu^2\,\partial_t\varphi
+    &\;=\;
+    \gamma\,\delta\zeta_{\mathrm{real}}(x), \\
+    \delta\zeta_{\mathrm{real}}(x)
+    &\;:=\;
+    |N|\,\mu^2(x) - \zeta_{\mathrm{real}}(x)
+    \;=\;
+    \sum_{y\in N(x)} \mu(x)\mu(y)\bigl(1 - \cos(\varphi(y)-\varphi(x))\bigr) \;\ge\; 0.
+  \end{aligned}
+  \end{equation}
+  Слагаемые противоположных связей $+\mathbf{e}$ и $-\mathbf{e}$ в $\delta\zeta_{\mathrm{real}}$
+  имеют одинаковый знак ($1-\cos(+\Delta\varphi)=1-\cos(-\Delta\varphi)\ge 0$) и не сокращаются
+  на симметричной звезде: именно $\delta\zeta_{\mathrm{real}}$ задаёт частоту плоской волны,
+  равномерный ход фазы кипящего океана и одевающий ореол вихря на первой координационной сфере $S_1$.
+\item \textbf{Нечётная голономия $\zeta_{\mathrm{imag}}$ есть дивергенция антисимметричного реберного потока и переносит вес $q=\mu^2$ между соседями:}
+  \begin{equation}
+  \label{eq:odd-holonomy-continuity}
+    \frac{1}{2}\,\partial_t\bigl(\mu^2(x)\bigr)
+    \;=\;
+    -\gamma\,\zeta_{\mathrm{imag}}(x)
+    \;=\;
+    -\sum_{y\in N(x)} J(x\to y)
+    \;=\;
+    -\operatorname{div}_{\mathrm{disc}}\mathbf{j}(x),
+  \end{equation}
+  где поток по направленному ребру $(x\to y)$ равен
+  \begin{equation}
+  \label{eq:edge-flux}
+    J(x\to y) \;:=\; \gamma\,\mu(x)\mu(y)\sin\bigl(\varphi(x)-\varphi(y)\bigr) \;=\; -J(y\to x).
+  \end{equation}
+\item \textbf{Источник тождественно равен нулю:} в силу антисимметрии $J(x\to y)=-J(y\to x)$
+  на каждом ребре решётки сумма дивергенций по всем узлам равна нулю для любой конфигурации:
+  \begin{equation}
+  \label{eq:zero-global-source}
+    \sum_{x\in\carrierLattice} \zeta_{\mathrm{imag}}(x)
+    \;=\;
+    -\frac{1}{\gamma}\sum_{x\in\carrierLattice}\operatorname{div}_{\mathrm{disc}}\mathbf{j}(x)
+    \;\equiv\; 0.
+  \end{equation}
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Подстановка $z=\mu e^{i\varphi}$ даёт $\partial_t z = (\partial_t\mu + i\mu\partial_t\varphi)e^{i\varphi}$,
+откуда $i(\partial_t z)z^* = -\mu^2\partial_t\varphi + i\mu\partial_t\mu = -\mu^2\partial_t\varphi + \frac{i}{2}\partial_t(\mu^2)$.
+Для звезды соседей $z(y)z^*(x) = \mu(x)\mu(y)e^{i(\varphi(y)-\varphi(x))}$, поэтому
+$\zeta_{\mathrm{real}}(x)-|N|\mu^2(x) = \sum_{y\in N(x)}\bigl(\mu(x)\mu(y)\cos(\varphi(y)-\varphi(x))-\mu^2(x)\bigr)$
+и $\zeta_{\mathrm{imag}}(x) = \sum_{y\in N(x)}\mu(x)\mu(y)\sin(\varphi(y)-\varphi(x))$.
+Приравнивание действительных и мнимых частей даёт~\eqref{eq:even-holonomy-phase}--\eqref{eq:edge-flux}.
+Суммирование~\eqref{eq:edge-flux} по всем ориентированным рёбрам $(x,y)$ решётки разбивается
+на пары противоположных ориентаций $J(x\to y)+J(y\to x)=0$, что доказывает~\eqref{eq:zero-global-source}.
+\end{proof}
+
+\begin{corollary}[Что делает амплитуда $\mu$ на $\Mlayer$]
+\label{cor:what-mu-does}
+В полярном регистре $(\mu,\varphi_{\mathrm{disc}})\in\{1,\dots,64\}\times\mathbb{Z}_{512}$ амплитуда $\mu$
+выполняет три согласованные функции:
+\begin{enumerate}[label=(\arabic*)]
+\item \textbf{Инерция фазы (почему ядро возбуждается выше порога Гейзенберга, а массивная оболочка преломляет внешние волны):}
+  приращение фазы $\Phi$ определяется отношением $\delta\zeta_{\mathrm{real}}(x)/D(x)$, где
+  в числителе стоит фазовое натяжение $\delta\zeta_{\mathrm{real}}=|N|\mu^2-\zeta_{\mathrm{real}}$,
+  а в знаменателе --- полный вес ворот $D(x)=\zeta_{\mathrm{real}}(x)+\mu^2(x)+K_P$.
+  Для \emph{собственной} фазы вихря на ядре и первой сфере $S_1$ противоположные соседи находятся
+  в противофазе ($\cos\Delta\varphi<0$), поэтому дефицит $\delta\zeta_{\mathrm{real}}$ максимален
+  ($18648\ \text{квантов}^2$ в ядре и $8417\ \text{квантов}^2$ на $S_1$ против $8\ \text{квантов}^2$ в далёком вакууме)
+  и открывает затвор Гейзенберга ($|\Phi|\ge 41$ тик, $n_E\ge 1$).
+  Напротив, для \emph{внешней пробной волны} с малым градиентом $\delta\varphi_{\mathrm{test}}$,
+  проходящей сквозь одетую оболочку массивного дефекта, знаменатель $D(r)=\zeta_{\mathrm{real}}(r)+\mu^2(r)+K_P$
+  монотонно растёт при приближении к центру ($D_{\mathrm{vac}}=82 \to \langle D\rangle_{S_3}=2077 \to \langle D\rangle_{S_1}=24138$),
+  уменьшая угловую скорость набега фазы пробной волны ($\Delta\Phi_{\mathrm{test}}\propto D(r)^{-1}$).
+\item \textbf{Проводимость связи:} и фазовое натяжение~\eqref{eq:even-holonomy-phase},
+  и реберный поток~\eqref{eq:edge-flux} пропорциональны произведению $\mu(x)\mu(y)$ на концах связи.
+\item \textbf{Перенос веса при столкновениях и стационарность уединённых структур:}
+  на стационарных гармонических конфигурациях ($\Delta_{\mathrm{disc}}\varphi=0$: плоская волна,
+  линейный рамп кипящего океана, радиально-симметричный уединённый вихрь)
+  поток через звезду уравновешен ($\zeta_{\mathrm{imag}}(x)=0$), поэтому профиль амплитуды $\mu(x)$
+  стоит на месте, пока фаза вращается со скоростью $\delta\zeta_{\mathrm{real}}(x)>0$.
+  При наложении и столкновении волновых пакетов или вихревых пар ($p+m$) гармоничность фазы
+  нарушается ($\zeta_{\mathrm{imag}}\ne 0$), и вес $q=\mu^2$ перетекает по рёбрам по закону
+  \begin{equation}
+  \label{eq:discrete-mu-step}
+    q(x,t+1) \;=\; q(x,t) \;-\; \sum_{y\in N(x)} J_{\mathrm{disc}}(x\to y),
+    \qquad
+    J_{\mathrm{disc}}(y\to x) = -J_{\mathrm{disc}}(x\to y),
+  \end{equation}
+  между полом~\Axref{ax:A5} ($\mu\ge 1$) и потолком~\Axref{ax:A7} ($\mu\le 64$) без рождения из вакуума.
+\end{enumerate}
+\end{corollary}
 
 \begin{proposition}[Критерий: поток или источник]
 \label{prop:source-or-flux}
-Если дискретный шаг только переносит величину, то
-$\Delta q(x)+\operatorname{div}j(x)=0$ поячеечно, и $\sum_x q$ не меняется.
-Обратное неверно: рост суммы означает ненулевой источник, и это измеряемое
-свойство схемы, а не свойство носителя.
+Если дискретный шаг меняет вес ячейки по антисимметричному реберному потоку~\eqref{eq:discrete-mu-step},
+то $\Delta q(x)+\operatorname{div}_{\mathrm{disc}}\mathbf{j}(x)=0$ поячеечно, и $\sum_x q(x)$ сохраняется точно.
+Ненулевой рост $\sum_x q(x)$ возможен только тогда, когда схема подменяет реберный перенос
+неунитарным декартовым сложением («лягушкой» на $(U,V)$ без сохранения модуля).
 \end{proposition}
 
-\section{Что в этой главе \emph{не} выведено}
+\section{Дискретные уравнения Максвелла на комплексе кубооктаэдра и единство взаимодействий без внешних источников}
+\label{sec:discrete-maxwell-unification}
 
-Честный перечень, без которого глава была бы рекламой.
+Отсутствие источника в~\eqref{eq:zero-global-source} решает вопрос, который в континуальной теории поля
+остаётся неразрешимым разделением на «поля-переносчики» и «материю-источник».
+В уравнениях Максвелла на~$\Tlayer$ первая пара ($\operatorname{div}\mathbf{B}=0$, $\partial_t\mathbf{B}+\operatorname{rot}\mathbf{E}=0$)
+не имеет правых частей, тогда как во второй паре ($\operatorname{div}\mathbf{E}=\rho_{\mathrm{el}}$,
+$\operatorname{rot}\mathbf{B}-\partial_t\mathbf{E}=\mathbf{j}_{\mathrm{el}}$) плотность заряда $\rho_{\mathrm{el}}$
+и ток $\mathbf{j}_{\mathrm{el}}$ постулируются как внешняя сущность, посаженная в правую часть.
+Перевод на клеточный комплекс кубооктаэдра $N_{12}$ ($0$-узлы $x$, $1$-рёбра $e=(x\to y)$,
+$2$-грани $f\in 8\triangle\cup 6\square$, $3$-объём $\PlanckCell$) показывает, что на~$\Mlayer$
+\textbf{никаких внешних источников нет ни в одном уравнении}: то, что на~$\Tlayer$ читается как «заряд» и «масса»,
+есть целочисленный скачок ветви того же самого фазового поля на замкнутых плакетах кубооктаэдра.
+
+\begin{theorem}[Дискретные уравнения Максвелла без внешних источников]
+\label{thm:discrete-maxwell-sourceless}
+Пусть на $0$-узлах решётки $\carrierLattice$ задан полярный регистр $(\mu(x),\varphi(x))\in\{1,\dots,64\}\times\mathbb{Z}_{\phaseRingCount}$,
+и пусть $d_0$ (разность на ребре), $d_1$ (сумма по контуру грани $\partial f$) и $d_2$ (сумма по замкнутой
+оболочке $\partial\PlanckCell = 8\triangle\cup 6\square$) --- кограничные операторы клеточного комплекса ($d_{k+1}\circ d_k \equiv 0$).
+Определим на направленном ребре $e=(x\to y)$ свёрнутую фазовую связность в главном интервале $(-\phaseRingCount/2,\phaseRingCount/2]$:
+\begin{equation}
+\label{eq:discrete-edge-connection}
+  A_{xy} \;:=\; \mathrm{wrap}\bigl(\varphi(y)-\varphi(x)\bigr)
+  \;=\; \bigl(\varphi(y)-\varphi(x)\bigr) - \phaseRingCount\,k_{xy},
+  \qquad
+  k_{xy}\in\{-1,0,+1\},
+\end{equation}
+дискретное электрическое поле на ребре $E_{xy} := -\Delta_t A_{xy} - (d_0\,\Delta_t\varphi)_{xy}$
+и дискретный магнитный поток через ориентированную грань $f\in 8\triangle\cup 6\square$:
+\begin{equation}
+\label{eq:discrete-plaquette-flux}
+  B_f \;:=\; (d_1 A)_f \;=\; \sum_{e\in\partial f} A_e \;=\; -\phaseRingCount\,(d_1 k)_f \;=\; \phaseRingCount\,n_f,
+  \qquad
+  n_f \;:=\; -(d_1 k)_f \in \mathbb{Z}.
+\end{equation}
+Тогда на каждой клетке комплекса выполняются четыре точных дискретных уравнения:
+\begin{enumerate}[label=(\roman*)]
+\item \textbf{Дискретный закон Фарадея на каждой грани $f\in 8\triangle\cup 6\square$:}
+  \begin{equation}
+  \label{eq:discrete-faraday}
+    \Delta_t B_f + (d_1 E)_f \;=\; \Delta_t(d_1 A)_f - \Delta_t(d_1 A)_f - (d_1 d_0\,\Delta_t\varphi)_f \;\equiv\; 0
+    \qquad (d_1\circ d_0 \equiv 0).
+  \end{equation}
+\item \textbf{Дискретный закон Гаусса для магнитного потока на замкнутой оболочке $\partial\PlanckCell = 8\triangle\cup 6\square$:}
+  \begin{equation}
+  \label{eq:discrete-gauss-b}
+    (d_2 B)_{\PlanckCell} \;=\; \sum_{f\in\partial\PlanckCell} B_f \;=\; (d_2 d_1 A)_{\PlanckCell} \;\equiv\; 0,
+    \qquad
+    \sum_{f\in 8\triangle\cup 6\square} n_f \;\equiv\; 0
+    \qquad (d_2\circ d_1 \equiv 0).
+  \end{equation}
+  Вихревая нить ($n_f\ne 0$) не может оборваться внутри ячейки~$\PlanckCell$: число входящих и выходящих
+  квантов потока через $14$ граней кубооктаэдра совпадает тождественно.
+\item \textbf{Вторая пара Максвелла как тождество скачков ветви $k_{xy}$:}
+  при сопряжённых операторах $d_0^\dagger = -\operatorname{div}_{\mathrm{disc}}$ (сумма по звезде узла $N_{12}(x)$)
+  и $d_1^\dagger = \operatorname{curl}_{\mathrm{disc}}$ (сумма по граням, примыкающим к ребру)
+  кограница поля определяется исключительно целочисленными дефектами ветви $k_{xy}$ и $n_f = -(d_1 k)_f$:
+  \begin{equation}
+  \label{eq:discrete-ampere-gauss}
+    (d_0^\dagger E)_x \;=\; \phaseRingCount\,\Delta_t(d_0^\dagger k)_x,
+    \qquad
+    (d_1^\dagger B - \Delta_t E)_{xy}
+    \;=\;
+    \phaseRingCount\,(d_1^\dagger n)_{xy} + \bigl(\Delta_t^2 A + d_0\,\Delta_t^2\varphi\bigr)_{xy}.
+  \end{equation}
+  Там, где топологических дефектов нет ($n_f=0$, занятость $b=0$), правая часть равна нулю и по решётке
+  распространяются свободные фазовые волны; там, где $n_f=\pm 1$ ($b=1$, планкон), ненулевой ротор
+  $\phaseRingCount\,(d_1^\dagger n)_{xy}$ вокруг вихревого ядра и есть то, что на~$\Tlayer$ считывается
+  как калибровочный ток и заряд источника.
+\item \textbf{Тождественное сохранение заряда без внешних источников:}
+  поскольку $d_0^\dagger\circ d_1^\dagger = (d_1\circ d_0)^\dagger \equiv 0$, дивергенция вихревого тока
+  тождественно равна нулю на любой конфигурации:
+  \begin{equation}
+  \label{eq:discrete-charge-conservation}
+    d_0^\dagger\bigl(d_1^\dagger B\bigr) \;=\; \phaseRingCount\,(d_0^\dagger d_1^\dagger n) \;\equiv\; 0.
+  \end{equation}
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Равенство~\eqref{eq:discrete-plaquette-flux} следует из того, что сумма разностей $\varphi(y)-\varphi(x)$
+вдоль замкнутого контура $\partial f$ телескопически сокращается: $\bigl(d_1(d_0\varphi)\bigr)_f = 0$,
+поэтому $(d_1 A)_f = -\phaseRingCount(d_1 k)_f = \phaseRingCount n_f$.
+Равенство~\eqref{eq:discrete-faraday} есть $d_1(d_0\,\Delta_t\varphi)=0$.
+В~\eqref{eq:discrete-gauss-b} каждое из $24$ рёбер кубооктаэдра принадлежит ровно двум граням из $8\triangle\cup 6\square$
+с противоположными ориентациями обхода, поэтому $d_2\circ d_1\equiv 0$.
+Подстановка~\eqref{eq:discrete-edge-connection} и~\eqref{eq:discrete-plaquette-flux} в $d_0^\dagger E$ и $d_1^\dagger B-\Delta_t E$
+даёт~\eqref{eq:discrete-ampere-gauss}, а применение $d_0^\dagger$ к $d_1^\dagger B$ даёт~\eqref{eq:discrete-charge-conservation}
+в силу $(d_1 d_0)^\dagger = 0$.
+\end{proof}
+
+\begin{remark}[Единая геометрия всех взаимодействий в одних воротах на кубооктаэдре $N_{12}$]
+\label{rem:unified-interactions-single-gate}
+Теоремы~\ref{thm:holonomy-split-continuity} и~\ref{thm:discrete-maxwell-sourceless} показывают, что на~$\Mlayer$
+нет ни отдельных «частиц-источников», ни отдельных «полей-переносчиков»: все взаимодействия являются
+разными проекциями \textbf{одних и тех же ворот} $\Phi$ на одном девятибитном регистре $(\mu,\varphi)$
+и одном клеточном комплексе кубооктаэдра ($12$ вершин, $24$ ребра, $8\triangle + 6\square$ граней):
+\begin{enumerate}[label=(\arabic*)]
+\item \textbf{Квантовая механика (Шрёдингер, Гейзенберг, Паули):}
+  чётный дефицит голономии $\delta\zeta_{\mathrm{real}}$~\eqref{eq:even-holonomy-phase} даёт кинетический
+  член фазы и дисперсию волн; нечётная часть $\zeta_{\mathrm{imag}}$~\eqref{eq:odd-holonomy-continuity}
+  даёт уравнение непрерывности без источника; порог $\Delta\varphi_{\mathrm{disc}}=41$ тик задаёт мёртвую зону
+  Гейзенберга, а полуоборот $\Phi_{\mathrm{Pauli}}=256$ тиков при насыщении потолка $\mu_{\max}=64$ --- запрет Паули.
+\item \textbf{Электромагнетизм ($U(1)$) и постоянная тонкой структуры $\alpha_{\mathrm{fs}}$:}
+  абелева связность $A_{xy}$~\eqref{eq:discrete-edge-connection} на $12$ связях и поток $B_f=\phaseRingCount n_f$~\eqref{eq:discrete-plaquette-flux}
+  через грани кубооктаэдра подчиняются точным дискретным уравнениям Максвелла~\eqref{eq:discrete-faraday}--\eqref{eq:discrete-ampere-gauss},
+  а константа связи $\alpha_{\mathrm{fs}}^{-1}=\pi^2(|N_{12}|+\kappa)+\dots\approx 137{,}036$ (гл.~\ref{ch:alpha})
+  есть доля одного реберного канала в полном фазовом бюджете кубооктаэдра при $\hat M = 1+|N_{12}|\,|\triangle| = 97$.
+\item \textbf{Слабое и сильное взаимодействия ($SU(2)\times SU(3)$):}
+  двухкомпонентный спинор $(z_1,z_2)$ несёт точную локальную группу $SU(2)$ на звезде, а распределение
+  неабелева потока по оболочке кубооктаэдра распадается по двум типам её двумерных граней:
+  $|\triangle|=8$ треугольных граней (восемь компонент глюонного октета, $\dim\mathfrak{su}(3)=8$)
+  и $|\square|=6$ квадратных граней (три координатные плоскости $\times$ две ориентации).
+\item \textbf{Гравитация (локальное замедление такта, знак градиента фазовой скорости и преломление Редже):}
+  вес ячейки $q(x)=\mu^2(x)=\rho_{\mathrm{vac}}(1+\varepsilon_x)$ стоит в знаменателе тех же самых ворот
+  $D(x) := \zeta_{\mathrm{real}}(x)+\mu^2(x)+K_P$ (\cref{ch:evolution}).
+  Прямой замер на носителе ($24^3$, канонический 3D-вихрь \texttt{VORTEX\_P} на кипящем океане)
+  даёт монотонный рост знаменателя~$D(r)$ от периферии к центру одетого дефекта:
+  в далёком вакууме $q_{\mathrm{vac}}=2$, $\zeta_{\mathrm{real}}=16$, $D_{\mathrm{vac}}=82\ \text{кванта}^2$;
+  на сфере~$S_3$ ($k=3$) $\langle q\rangle=158$, $\langle D\rangle=2077$;
+  на~$S_2$ ($k=2$) $\langle q\rangle=826{,}4$, $\langle D\rangle=9426{,}7$;
+  на одевающей сфере~$S_1$ ($k=1$, $R_{\mathrm{dress}}=1\cdot dl$) $\langle q\rangle=2499{,}3$, $\langle D\rangle=24138{,}0$;
+  в ядре ($k=0$) $q=3929$, $D=32493\ \text{кванта}^2$.
+  Поскольку приращение фазы пробной волны за один такт~$dt$ обратно пропорционально знаменателю ворот,
+  \[
+    \Delta\Phi_{\mathrm{test}}(r) \;\propto\; \frac{1}{\zeta_{\mathrm{real}}(r)+\mu^2(r)+K_P} \;=\; \frac{1}{D_{\mathrm{vac}}\bigl(1+\varepsilon_{\mathrm{eff}}(r)\bigr)},
+    \qquad
+    \frac{d D(r)}{d r} < 0,
+  \]
+  угловая скорость набега фазы при приближении к массивному узлу ($r\to 0$) строго \textbf{убывает}.
+  Поворот волнового фронта при этом происходит \textbf{строго локально на одном ребре за один такт~$dt$},
+  без обращения к глобальному вариационному принципу Ферма. Действительно, для любых двух соседних узлов
+  поперечного ребра $e_\perp = (x_{\mathrm{out}}\to x_{\mathrm{in}})$ (где $x_{\mathrm{in}}$ лежит на один шаг~$dh$
+  ближе к массивному центру, так что $D(x_{\mathrm{in}}) > D(x_{\mathrm{out}})$) приращение реберной разности фаз
+  $A_\perp = \mathrm{wrap}(\varphi(x_{\mathrm{in}})-\varphi(x_{\mathrm{out}}))$ за один такт~$dt$ равно когранице
+  локального шага ворот~$\Phi$ (частный случай дискретного закона Фарадея~\eqref{eq:discrete-faraday} при $B_f=0$):
+  \begin{equation}
+  \label{eq:local-edge-refraction}
+    \Delta_t A_\perp(x_{\mathrm{out}}\to x_{\mathrm{in}})
+    \;=\;
+    (d_0\Phi)_{x_{\mathrm{out}}\to x_{\mathrm{in}}}
+    \;=\;
+    \Phi(x_{\mathrm{in}}) - \Phi(x_{\mathrm{out}})
+    \;<\; 0.
+  \end{equation}
+  Точка фронта~$x_{\mathrm{in}}$, ближайшая к массивному узлу, за один такт поворачивает фазу на меньшее число тиков,
+  чем соседняя внешняя точка~$x_{\mathrm{out}}$ того же ребра, поэтому дискретный волновой вектор фронта на каждом
+  такте получает поперечное приращение вдоль локального градиента знаменателя ворот $\nabla_{\mathrm{disc}} D(x)$,
+  заворачивая фронт \textbf{к массивному центру}, а не от него.
+  Континуальный показатель преломления вакуума $n(r) := D(r)/D_{\mathrm{vac}} = 1 + \varepsilon_{\mathrm{eff}}(r) > 1$
+  ($dn/dr < 0$), принцип Ферма ($\delta\int n\,ds=0$) и угол гравитационного отклонения $\theta_{\mathrm{def}}=4GM/(c^2 b)$
+  (\cref{rem:channel-gr-open-in-book}) являются лишь длинноволновой суммой этих одношаговых реберных поворотов~\eqref{eq:local-edge-refraction} на~$\Tlayer$.
+\end{enumerate}
+Таким образом, гравитация (знаменатель ворот $\mu^2$), квантовая дисперсия (чётная часть числителя $\delta\zeta_{\mathrm{real}}$),
+поток плотности (нечётная часть числителя $\zeta_{\mathrm{imag}}=-\operatorname{div}_{\mathrm{disc}}\mathbf{j}$),
+калибровочные поля (циркуляция $d_1 A$ по граням $8\triangle\cup 6\square$) и материя (узлы с топологическим
+числом $n_f\ne 0$) не постулируются порознь, а суть пять граней одного арифметического тождества на~$\Mlayer$.
+\end{remark}
+
+\begin{theorem}[Закрытая алгебра реберных проекций на гранях кубооктаэдра без тригонометрических функций]
+\label{thm:trig-free-face-projections}
+На~$\Mlayer$ носитель не использует ни трансцендентных функций $\cos,\sin$, ни числа~$\pi$, ни таблиц
+с плавающей запятой: чётная и нечётная проекции реберной разности фаз $A_{xy} = \mathrm{wrap}(\varphi(y)-\varphi(x))$
+полностью определяются комбинаторными инвариантами граней одношаговой оболочки кубооктаэдра в размерности~$d=3$:
+\begin{equation}
+\label{eq:cubocta-face-invariants}
+  |N_{12}| = 2d(d-1) = 12,\quad
+  |\triangle| = 2^d = 8,\quad
+  |\square| = 2d = 6,\quad
+  d_{\mathrm{in}}(\square) = \frac{|N_{12}|}{d} = 2(d-1) = 4.
+\end{equation}
+Пусть $\mathrm{mod\_bits} = 1 + |\triangle| = d^2 = 9$, $\mathrm{frac\_bits} = \mathrm{mod\_bits} - d = |\square| = 6$,
+$\phaseRingCount = 2^{\mathrm{mod\_bits}} = 2^{1+|\triangle|} = 512$ и $K_P = 2^{\mathrm{frac\_bits}} = 2^{|\square|} = 64$.
+Экваториальная квадратная грань~$\square$ с $d_{\mathrm{in}}(\square)=4$ вершинами делит фазовое кольцо~$\mathbb{Z}_{\phaseRingCount}$
+на $d_{\mathrm{in}}(\square)$ равных квадрантов длины
+\begin{equation}
+\label{eq:quadrant-pauli-closed}
+\begin{aligned}
+  Q_\square &\;:=\; \frac{\phaseRingCount}{d_{\mathrm{in}}(\square)} \;=\; 2^{|\triangle|-1} \;=\; 2\,K_P \;=\; 128,\\
+  \Phi_{\mathrm{Pauli}} &\;=\; \frac{\phaseRingCount}{2} \;=\; 2\,Q_\square \;=\; 2^{|\triangle|} \;=\; d_{\mathrm{in}}(\square)\,K_P \;=\; 256.
+\end{aligned}
+\end{equation}
+Тогда для каждого направленного ребра $e=(x\to y)$ со свёрнутой разностью фаз $A_{xy}\in[-\Phi_{\mathrm{Pauli}},\,+\Phi_{\mathrm{Pauli}}]$:
+\begin{enumerate}[label=(\roman*)]
+\item \textbf{Чётная проекция ребра (когерентность) и чётное натяжение ребра:}
+  \begin{equation}
+  \label{eq:discrete-cos-closed}
+  \begin{aligned}
+    C(A_{xy}) &\;:=\; Q_\square - |A_{xy}| \;=\; \frac{\phaseRingCount}{d_{\mathrm{in}}(\square)} - |A_{xy}| \;\in\; [-Q_\square,\,+Q_\square],\\
+    T(A_{xy}) &\;:=\; Q_\square - C(A_{xy}) \;=\; |A_{xy}| \;\ge\; 0.
+  \end{aligned}
+  \end{equation}
+\item \textbf{Нечётная проекция ребра (поток, сдвинутый на квадрант $Q_\square$):}
+  \begin{equation}
+  \label{eq:discrete-sin-closed}
+  \begin{aligned}
+    S(A_{xy}) &\;:=\; C\bigl(\mathrm{wrap}(A_{xy} - Q_\square)\bigr)
+    \;=\; \operatorname{sgn}(A_{xy})\cdot\Bigl(Q_\square - \bigl||A_{xy}| - Q_\square\bigr|\Bigr)\\
+    &\;=\; -S(A_{yx}) \;\in\; [-Q_\square,\,+Q_\square].
+  \end{aligned}
+  \end{equation}
+\item \textbf{Метрическое тождество на квадратной грани ($L^1$-инвариант) и точный пифагоров ротатор ($L^2$-инвариант без $\pi$):}
+  для всех $A_{xy}\in\mathbb{Z}_{\phaseRingCount}$ сумма модулей чётной и нечётной проекций тождественно постоянна:
+  \begin{equation}
+  \label{eq:l1-face-identity}
+    \bigl|C(A_{xy})\bigr| + \bigl|S(A_{xy})\bigr| \;\equiv\; Q_\square \;=\; \frac{\phaseRingCount}{d_{\mathrm{in}}(\square)} \;=\; 2\,K_P,
+  \end{equation}
+  а целочисленная пифагорова тройка Кэли на квадранте квадратной грани
+  \begin{equation}
+  \label{eq:pythagorean-rotator-int}
+    P_x(A) := \operatorname{sgn}(C(A))\bigl(Q_\square^2 - S(A)^2\bigr),\quad
+    P_y(A) := 2\,Q_\square\,S(A),\quad
+    P_r(A) := Q_\square^2 + S(A)^2
+  \end{equation}
+  удовлетворяет точному основному тригонометрическому тождеству в целых числах:
+  \begin{equation}
+  \label{eq:pythagorean-identity-int}
+    P_x(A)^2 + P_y(A)^2 \;\equiv\; P_r(A)^2
+    \quad\Longleftrightarrow\quad
+    \left(\frac{Q_\square^2 - S^2}{Q_\square^2 + S^2}\right)^{\!2} + \left(\frac{2\,Q_\square\,S}{Q_\square^2 + S^2}\right)^{\!2} \;\equiv\; 1
+    \quad\forall\,A\in\mathbb{Z}_{\phaseRingCount}.
+  \end{equation}
+  В частности, на пороге Гейзенберга $A = \Delta\varphi_{\mathrm{disc}} = 41$ при $Q_\square = 128$ ротатор~\eqref{eq:pythagorean-rotator-int}
+  даёт точную пифагорову тройку Гейзенберга $(P_x, P_y, P_r) = (14703,\,10496,\,18065)$, где $14703^2 + 10496^2 = 18065^2$.
+\item \textbf{Выход к гармоническим $\cos$ и $\sin$ на~$\Tlayer$:}
+  при мягком чтении~$\mathcal{B}$ с отношением граней $\caKappaGeom = |\square|/|N_{12}| = 1/(d-1) = 1/2$
+  и $|\triangle|/|\square| = 2^{d-1}/d = 4/3$ многократная свёртка кусочно-линейных реберных проекций
+  $(C,S)/Q_\square$ по шагам оболочки кубооктаэдра переводит $L^1$-ромб~\eqref{eq:l1-face-identity}
+  в гладкую $L^2$-окружность $\cos^2\varphi + \sin^2\varphi = 1$ на~$\Tlayer$ (\cref{thm:t-cl}).
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Из $|N_{12}|=2d(d-1)$, $|\triangle|=2^d$ и $|\square|=2d$ при $d=3$ следуют~\eqref{eq:cubocta-face-invariants}
+и~\eqref{eq:quadrant-pauli-closed}, так как $d_{\mathrm{in}}(\square)=4=2^2$ и $\phaseRingCount/d_{\mathrm{in}}(\square)=2^{9-2}=2^{8-1}=2^{|\triangle|-1}=2K_P$.
+При $|A_{xy}|\in[0,Q_\square]$ имеем $C(A_{xy}) = Q_\square - |A_{xy}|\ge 0$ и $|S(A_{xy})| = Q_\square - (Q_\square - |A_{xy}|) = |A_{xy}|$,
+откуда $|C(A_{xy})|+|S(A_{xy})| = (Q_\square - |A_{xy}|) + |A_{xy}| = Q_\square$.
+При $|A_{xy}|\in(Q_\square, 2Q_\square]$ имеем $C(A_{xy}) = Q_\square - |A_{xy}| < 0$, так что $|C(A_{xy})| = |A_{xy}| - Q_\square$,
+а $|S(A_{xy})| = Q_\square - (|A_{xy}| - Q_\square) = 2Q_\square - |A_{xy}|$, и их сумма снова равна
+$(|A_{xy}| - Q_\square) + (2Q_\square - |A_{xy}|) = Q_\square$, что доказывает~\eqref{eq:l1-face-identity}.
+Антисимметрия $S(A_{yx}) = S(-A_{xy}) = -S(A_{xy})$ влечёт $\sum_{x\in\carrierLattice}\sum_{y\in N_{12}(x)} S(A_{xy}) \equiv 0$.
+\end{proof}
+
+\begin{theorem}[Диофантова единственность $d=3$ (замок Каталана), единственность начального вектора $\mathrm{IV}(3)=263$ и полная замкнутость траектории $\symCapitalPsi^t = g^t(\mathrm{IV}(3))$]
+\label{thm:catalan-uniqueness-d3}
+Пусть локальный обратимый клеточный автомат в пространственной размерности $d\in\mathbb{N}$ ($d\ge 1$)
+имеет оболочку ближайших соседей с $|N(d)| = 2d(d-1)$ вершинами, $|\triangle(d)| = 2^d$ октантными гранями,
+$|\square(d)| = 2d$ координатными гранями и $d_{\mathrm{in}}(\square) = |N(d)|/d = 2(d-1)$.
+Потребуем выполнения трёх арифметических условий замкнутости носителя:
+\begin{enumerate}[label=(\roman*)]
+\item \textbf{Замок битового регистра (уравнение Каталана):} число «центральный узел плюс октанты» совпадает с квадратом размерности:
+  \begin{equation}
+  \label{eq:catalan-lock}
+    \mathrm{mod\_bits}(d) \;:=\; 1 + 2^d \;=\; d^2.
+  \end{equation}
+\item \textbf{Замок целочисленности сектора Гейзенберга на кольце:} при объёме кольца $\phaseRingCount(d) = 2^{1+2^d}$
+  и размере одношагового кластера $N_\varphi(d) = 1 + 2d(d-1)$ отношение
+  \begin{equation}
+  \label{eq:heisenberg-divisibility-lock}
+    \Delta\varphi_{\mathrm{disc}}(d) \;:=\; \frac{2^{1+2^d} + \bigl(1 + 2d(d-1)\bigr) + 2^d}{1 + 2d(d-1)} \;\in\; \mathbb{Z}
+  \end{equation}
+  делится нацело без остатка.
+\item \textbf{Замок гауссовой факторизации кулоновского канала в $\mathbb{Z}[i]$:} площадь «звезда $\times$ октанты плюс ядро»
+  раскладывается в сумму квадратов стороны квадратной грани и разрядности регистра:
+  \begin{equation}
+  \label{eq:gaussian-coulomb-lock}
+    \hat M(d) \;:=\; 1 + 2d(d-1)\cdot 2^d \;=\; \bigl(2(d-1)\bigr)^2 + \bigl(1 + 2^d\bigr)^2.
+  \end{equation}
+\end{enumerate}
+Тогда каждое из уравнений~\eqref{eq:catalan-lock}--\eqref{eq:gaussian-coulomb-lock} во всём множестве натуральных чисел $d\in\mathbb{N}$
+имеет \textbf{одно и только одно решение $d = 3$}, из которого без единого свободного параметра однозначно следуют как все инварианты носителя и закона~$g$:
+\[
+  |N_{12}|=12,\quad |\triangle|=8,\quad |\square|=6,\quad d_{\mathrm{in}}(\square)=4,\quad \caKappaGeom=\frac{1}{2},\quad
+  \mathrm{mod\_bits}=9,\quad \mathrm{frac\_bits}=6,
+\]
+\[
+  \phaseRingCount=512,\quad K_P=64,\quad Q_\square=128,\quad \Phi_{\mathrm{Pauli}}=256,\quad
+  N_\varphi=13,\quad \Delta\varphi_{\mathrm{disc}}=41,\quad \hat M = 4^2 + 9^2 = 97,
+\]
+так и \textbf{единственный $9$-битный начальный вектор нуклеации Вселенной} $\symCapitalPsi^{0} = \mathrm{IV}(d)$ на фоне кипящего океана~$A_5$:
+\begin{equation}
+\label{eq:unique-initial-vector-d3}
+  \mathrm{IV}(d) \;:=\; 2^{2^d} + \bigl(2^d - 1\bigr) \;=\; 2^{8} + \bigl(2^{3} - 1\bigr) \;=\; 256 + 7 \;=\; \mathbf{263} \;=\; \texttt{0b1\_00000111},
+\end{equation}
+где старший бит $2^{|\triangle|}=256$ есть единичный бит хиральности центрального ядра ($b_{\mathrm{chir}}=1$),
+а младшие $|\triangle|=8$ бит несут маску трёхгранного барионного угла~$K_3$ по $d=3$ координатным измерениям ($2^d-1=7$),
+с радиусом ядра $R_{\mathrm{IV}}(d) = |\square| = 2d = 6\,dh$, амплитудой ядра $\mu_{\mathrm{IV}}(d) = N_\varphi = 1 + 2d(d-1) = 13$ квантов
+и фазовым сдвигом октантов $\Delta\varphi_{\mathrm{IV}}(d) = d\cdot\Delta\varphi_{\mathrm{disc}}(d) = 3\times 41 = 123$ тика кольца~$\mathbb{Z}_{512}$.
+
+Следовательно, ни геометрия носителя, ни закон эволюции~$g$, ни фундаментальные константы, ни начальное состояние Вселенной~$\symCapitalPsi^{0}$
+не содержат свободных параметров: вся физическая история есть единственная детерминированная целочисленная траектория
+\begin{equation}
+\label{eq:closed-universe-trajectory}
+  \symCapitalPsi^{t} \;=\; g^{t}\bigl(\mathrm{IV}(3)\bigr),
+  \qquad
+  d = 3,\quad \mathrm{IV}(3) = 263,\quad t\in\mathbb{Z}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+\emph{(i)} При $d=1$ имеем $1+2^1 = 3 \ne 1^2$; при $d=2$ имеем $1+2^2 = 5 \ne 2^2$; при $d=3$ выполняется $1+2^3 = 9 = 3^2$.
+Для всех $d\ge 4$ по индукции $2^d + 1 > d^2$ (при $d=4$: $17>16$, и $2^{d+1}+1 = 2(2^d+1)-1 > 2d^2-1 > (d+1)^2$).
+По теореме Михайлеску (решение проблемы Каталана) $3^2 - 2^3 = 1$ есть единственная пара последовательных совершенных степеней в~$\mathbb{N}$.
+
+\emph{(ii)} При $d=3$ имеем $N_\varphi(3)=13$ и $(512+13+8)/13 = 533/13 = 41\in\mathbb{Z}$ (при $d=2$: $41/5\notin\mathbb{Z}$; при $d=4$: $131113/25\notin\mathbb{Z}$).
+
+\emph{(iii)} Уравнение~\eqref{eq:gaussian-coulomb-lock} приводится к виду $2^d\bigl(2d(d-1) - 2 - 2^d\bigr) = 4(d-1)^2$.
+Величина $2d(d-1) - 2 - 2^d$ отрицательна при $d\in\{1,2\}$ ($-4$ и $-2$), равна $+2>0$ при $d=3$ (давая $8\times 2 = 16 = 4(3-1)^2$, откуда $1+12\cdot 8 = 97 = 4^2+9^2$)
+и вновь отрицательна при $d=5$ ($38-32=6$, но $32\times 6 = 192 \ne 64$) и всех $d\ge 6$, где $2^d > 2d(d-1)-2$.
+Таким образом, $d=3$ --- единственное решение.
+\end{proof}
+
+\begin{remark}[Откуда берётся $2\pi$ в $\planckHbar = h/(2\pi)$ и что такое само число $\pi$ на решётке]
+\label{rem:hbar-is-t-artifact}
+На~$\Mlayer$ элементарным атомом действия является один тик фазового кольца $s_0 = 1$, полный оборот кольца
+состоит ровно из $\phaseRingCount = 2^{1+|\triangle|} = 512$ тиков ($h = \phaseRingCount\,s_0 = 512\,s_0$),
+а порог Гейзенберга равен целому числу $\Delta\varphi_{\mathrm{disc}} = (512+13+8)/13 = 41$ тик ($41\,s_0$).
+Ни числа~$2\pi$, ни «приведённой постоянной Планка» $\planckHbar$ на~$\Mlayer$ не существует:
+$\planckHbar := h/(2\pi) = (512/(2\pi))\,s_0 \approx 81{,}487\,s_0$ (и $\planckHbar/2 \approx 40{,}744\,s_0$)
+возникает только на~$\Tlayer$, когда наблюдатель переводит счёт целых оборотов $512$-угольника в радианную меру~$2\pi$.
+
+Более того, само число~$\pi$ не является в основании геометрии «отношением длины идеальной окружности к диаметру»
+(на~$\Mlayer$ нет континуальной окружности, а на одном шаге $N=1$ отношение полуоборота кольца $\Phi_{\mathrm{Pauli}}=256$
+к двум секторам Гейзенберга $2\Delta\varphi_{\mathrm{disc}}=82$ есть рациональная дробь $\pi_1 = Q_\square/\Delta\varphi_{\mathrm{disc}} = 128/41 \approx 3{,}122$).
+Трансцендентное число~$\pi$ рождается при подъёме $\Mlayer\to\Tlayer$ как \textbf{асимптотическая комбинаторная плотность
+возврата замкнутых путей} на дискретной решётке при числе шагов $N\to\infty$ (формула Валлиса--Стирлинга для числа
+возвращающихся петель $\binom{2N}{N}$ из $2^{2N}$ битовых маршрутов, \cref{thm:t-cl}):
+\[
+  \pi \;=\; \lim_{N\to\infty} N\cdot\left(\frac{2^{2N}}{\dbinom{2N}{N}}\right)^{\!2}
+  \;=\; 2\prod_{k=1}^{\infty}\frac{4k^2}{4k^2-1}.
+\]
+Каждый следующий знак числа~$\pi$ кодирует следующий порядок комбинаторных корреляций многошаговых замкнутых
+путей на кубооктаэдральной решётке $g^t(d=3)$.
+Точно так же элементарный такт времени~$dt$ есть абсолютная единица времени носителя, а длительность макроскопической
+секунды СИ есть фиксированное число тактов $\mathcal{N}_{\mathrm{sec}}(d=3)\,dt$, вычисляемое через
+комбинаторную лестницу масс и частоту перехода водорода без участия гравитационной постоянной~$G$.
+\end{remark}
+
+\section{Что было закрыто ревизией единиц и что остаётся на границе \texorpdfstring{$\Mlayer/\Tlayer$}{M/T}}
+
+Перечень проверок, отделивших свойства носителя от ошибок записи и перевода единиц.
 
 \begin{enumerate}[leftmargin=*]
-\item \textbf{Источник в уравнении непрерывности не равен нулю.}
-  При поднятой амплитуде сида суммарная $\sum_x|z|^2$ растёт
-  с $768$ до $2{,}3\times10^{4}$ за $512$ тактов и величина упирается в предел кольца
-  ($\rho\approx63$ на ячейку). Значит текущая схема не только переносит, но и создаёт;
-  замена «лягушки» на композицию поворотов не сделана.
-\item \textbf{Граница единиц внутри ворот $\Phi$ и между $\Mlayer$ и $\Tlayer$ (\cref{tab:m-t-bridge}).}
-  В формуле $\Phi = \lfloor K_P\,\zeta_{\mathrm{imag}} / (\zeta_{\mathrm{real}} + R^2 + \varepsilon)\rfloor$
-  дробь $\zeta_{\mathrm{imag}} / (\zeta_{\mathrm{real}} + R^2 + \varepsilon)$ безразмерна только тогда,
-  когда $\zeta_{\mathrm{imag}}$, $\zeta_{\mathrm{real}}$, $R^2$ и регуляризатор $\varepsilon$ выражены
-  в одних и тех же единицах квадрата квантов амплитуды ($\mathrm{quanta}^2$, где на вакуумном дне $\mu=1$
-  единичный квант равен $\varepsilon = 1\ \mathrm{квант}^2$, а потолок ячейки равен $64^2 = 4096\ \mathrm{квантов}^2$).
-  Множитель $K_P = 2^{\mathrm{frac\_bits}} = 64$ тика стоит \emph{только} в числителе как переводной
-  коэффициент из безразмерного отношения в тики кольца~$\mathbb{Z}_{\phaseRingCount}$.
-  Когда в реализации $\zeta_{\mathrm{imag}}$ и $R^2$ предварительно делили на $64$ сдвигом \texttt{>> frac\_bits}
-  (трактуя целый квант $\mu=1$ как вещественную дробь $1/64$), а в знаменатель подставляли $\varepsilon = K_P = 64$
-  (то есть $4096\ \mathrm{квантов}^2$, потолок Планка вместо одного кванта), на вакуумном дне $\mu=1$
-  числитель обнулялся ($12 \gg 6 = 0$), а знаменатель завышался в $4096$ раз.
-  Именно это смешение единиц двух слоёв замораживало канонический океан при $\mu=1$;
-  после приведения знаменателя к единицам квантов ядра ($\varepsilon = 1\ \mathrm{квант}^2$, без \texttt{>> frac\_bits})
-  канонический 3D-океан даёт преднатяг $|\Phi_0|\le 19 < 41$ тик, а все проверки спектра этажа~0
-  (\texttt{floor0}) и сохранения лестницы (\texttt{LadderConservation}) выполняются напрямую.
+\item \textbf{Откуда брался кажущийся источник в декартовой «лягушке» и рост до $\rho\approx 63$.}
+  В прежнем замере при поднятой амплитуде сида суммарная $\sum_x|z|^2$ росла
+  с $768$ до $2{,}3\times10^{4}$ за $512$ тактов и упиралась в $\rho\approx 63$ на ячейку по двум причинам:
+  во-первых, линейная комбинация $2Z(t)-Z(t-1)+\delta Z$ в декартовых дорожках $(U,V)$ не сохраняет
+  радиус $\mu$; во-вторых, в затворе потолка Бекенштейна (\texttt{bekenstein\_scale\_spinor})
+  стоял лишний множитель $2^{\mathrm{frac\_bits}}=64$ (\texttt{1 << (2 * fb)} вместо \texttt{1 << fb}),
+  поднимавший потолок~\Axref{ax:A7} с $\rho_{\max}=1$ до $\rho_{\max}=64$.
+  После исправления потолка на $\rho_{\max}=1$ ($\mu_{\max}=64$ кванта) и перехода к расщеплению
+  голономии~\eqref{eq:holonomy-split} источник исчезает, а на первой координационной сфере $S_1$
+  канонического 3D-вихря ровно $100\%$ из $12$ узлов кубооктаэдра лежат над порогом Гейзенберга
+  ($\max\Delta\varphi = 0{,}833\ \text{рад} \ge 0{,}5\ \text{рад}$, на $S_3$ --- $0\%$, $\max\Delta\varphi = 0{,}382\ \text{рад}$),
+  воспроизводя радиус одевания $R_{\mathrm{dress}}=1\cdot dl$.
+\item \textbf{Граница единиц внутри ворот $\Phi$: сдвиг \texttt{>> frac\_bits} и расхождение шкал $32$ против $41$ (\cref{tab:m-t-bridge}).}
+  В формуле ворот $\Phi$ отношение голономии к знаменателю $\zeta_{\mathrm{real}} + R^2 + K_P$
+  определяет угол поворота в радианах только тогда, когда числитель и знаменатель выражены
+  в одних и тех же единицах квадрата квантов ($\mathrm{quanta}^2$, без предварительного усечения \texttt{>> frac\_bits}).
+  При этом умножение безразмерного угла $\theta\ [\text{рад}]$ на $K_P = 2^{\mathrm{frac\_bits}} = 64$
+  переводит радианы в дробные доли фиксированной точки Q3.6 ($1\ \text{рад} = 64$, где порог Гейзенберга
+  $\Delta\varphi_{\min}=1/2\ \text{рад}$ равен $32$), тогда как таблица поворотов и порог
+  $\Delta\varphi_{\mathrm{disc}} = 41$ живут в тиках кольца $\mathbb{Z}_{512}$ ($1\ \text{рад} = 512/(2\pi)\approx 81{,}5$ тика,
+  где тот же угол $1/2\ \text{рад}$ равен $41$ тику). Именно эта несоизмеримость двух шкал ($32$ в Q3.6 против $41$ в $\mathbb{Z}_{512}$)
+  вместе с потерей чётного дефицита $\delta\zeta_{\mathrm{real}}$~\eqref{eq:even-holonomy-phase} и второй компоненты спинора
+  создавала иллюзию, будто гладкие волны и вихри «насыщаются на $32$ и не достают до $41$».
 \item \textbf{Условие~\Axref{ax:A3} в глобальной форме не выводится и не выполняется.}
   Оно сохраняется в тексте как историческая запись и подлежит переформулировке:
   «информация не теряется» (теорема~\ref{thm:info-bijection}) плюс

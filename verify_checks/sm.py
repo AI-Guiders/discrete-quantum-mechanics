@@ -441,6 +441,8 @@ def check_local_gates_solid_neuro_photo(device: str = "cpu") -> dict:
     z0 = universe_iv_9bit_spinor_3d(grid_n, grid_n, grid_n, device=dev)
     f0 = encode_spinor(z0, frac_bits=cfg_on.frac_bits, mod_bits=cfg_on.mod_bits)
 
+    from mt_ca.carrier_core import carrier_reverse
+
     fc_on, fp_on = f0.clone(), f0.clone()
     fc_off, fp_off = f0.clone(), f0.clone()
     impulses = []
@@ -450,29 +452,24 @@ def check_local_gates_solid_neuro_photo(device: str = "cpu") -> dict:
         fc_off, fp_off, imp_off = projected_step_fixed(fc_off, fp_off, cfg_h_off)
         impulses.append(imp_on)
 
-    ballistic_cells_h_on = int((impulses[-1].abs().max(dim=-1).values == 0).sum().item())
-    ballistic_cells_h_off = int((imp_off.abs().max(dim=-1).values == 0).sum().item())
+    ballistic_cells_h_on = int((impulses[-1] == 0).sum().item())
+    ballistic_cells_h_off = int((imp_off == 0).sum().item())
 
-    # Unwind 8 steps backward to verify 0 bit error
+    # Unwind 8 steps backward literally without impulse stack to verify 0 bit error
     fc_rev, fp_rev = fc_on.clone(), fp_on.clone()
-    for imp in reversed(impulses):
-        fp_prev = leapfrog_invert(fp_rev, fc_rev, imp, mod_bits=cfg_on.mod_bits)
-        fc_rev, fp_rev = fp_rev, fp_prev
+    for _ in range(n_test_steps):
+        fp_rev, fc_rev = carrier_reverse(fp_rev, fc_rev, cfg_on)
     rev_max_err = int((fc_rev - f0).abs().max().item())
 
-    # 2. Verify 2-tick causal light-cone delay of local Pauli gate for disjoint S_1 parallel spinors
+    # 2. Verify 2-tick causal light-cone delay of local Pauli gate on polar register [μ₀, φ₀, μ₁, φ₁]
     c = grid_n // 2
     f_curr_p = f0.clone()
     f_past_p = f0.clone()
-    f_curr_p[c, c, c] = torch.tensor([28, 8, 28, 8], dtype=torch.int64, device=dev)
-    f_past_p[c, c, c] = torch.tensor([20, 4, 20, 4], dtype=torch.int64, device=dev)
-    for idx, (dz, dy, dx) in enumerate(_FCC_OFFSETS):
-        if idx < len(_FCC_OFFSETS) // 2:
-            f_curr_p[c + dz, c + dy, c + dx] = torch.tensor([60, 16, 24, 6], dtype=torch.int64, device=dev)
-            f_past_p[c + dz, c + dy, c + dx] = torch.tensor([48, 12, 18, 4], dtype=torch.int64, device=dev)
-        else:
-            f_curr_p[c + dz, c + dy, c + dx] = torch.tensor([24, 6, 60, 16], dtype=torch.int64, device=dev)
-            f_past_p[c + dz, c + dy, c + dx] = torch.tensor([18, 4, 48, 12], dtype=torch.int64, device=dev)
+    f_curr_p[c, c, c] = torch.tensor([60, 0, 60, 75], dtype=torch.int32, device=dev)
+    f_past_p[c, c, c] = torch.tensor([60, 0, 60, 100], dtype=torch.int32, device=dev)
+    for dz, dy, dx in _FCC_OFFSETS:
+        f_curr_p[c + dz, c + dy, c + dx] = torch.tensor([60, 0, 60, 75], dtype=torch.int32, device=dev)
+        f_past_p[c + dz, c + dy, c + dx] = torch.tensor([60, 0, 60, 100], dtype=torch.int32, device=dev)
 
     c13_pts = [(0, 0, 0)] + list(_FCC_OFFSETS)
     pauli_c13_t0 = sum(int(pauli_phi_int(f_curr_p, cfg_on)[c + dz, c + dy, c + dx] > 0) for dz, dy, dx in c13_pts)

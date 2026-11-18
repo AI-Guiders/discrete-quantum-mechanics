@@ -48,8 +48,15 @@ def shell_halo_profile(
     dphi_min: float = DELTA_PHI_MIN,
     max_k: int = 3,
 ) -> dict[int, dict[str, float | bool]]:
+    from mt_ca.carrier_core import signed_phi_ticks
+    from mt_ca.projected_collision import heisenberg_phi_min_int, projected_phi_int
+    from mt_ca.reversible import canonical_fixed
+
     nz, ny, nx = z.shape[0], z.shape[1], z.shape[2]
-    dphi = arg_phase_defect(z, cfg, apply_floor=False).abs()
+    f = canonical_fixed(z, cfg)
+    phi_ticks = signed_phi_ticks(projected_phi_int(f, cfg), mod_bits=cfg.mod_bits).abs()
+    ticks_per_rad = float(2 * heisenberg_phi_min_int(cfg))
+    dphi = phi_ticks.to(torch.float32) / ticks_per_rad
     out: dict[int, dict[str, float | bool]] = {}
     for k in range(1, max_k + 1):
         sites = sites_on_shell(k, ball_max_k=max_k)

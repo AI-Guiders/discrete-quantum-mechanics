@@ -183,8 +183,8 @@ def probe_core_near_anchor(
     iz0, iy0, ix0 = anchor
     nz, ny, nx = z.shape[0], z.shape[1], z.shape[2]
     cfg = cfg or MConfig.for_stencil("fcc")
-    if rho is None:
-        rho = spinor_density(z)
+    z_cpu = z.detach().cpu()
+    rho_cpu = spinor_density(z_cpu) if rho is None else rho.detach().cpu()
     best_score = -1.0
     best_site = anchor
     best_row = None
@@ -197,7 +197,7 @@ def probe_core_near_anchor(
                 if exclude is not None and (iz, iy, ix) == exclude:
                     continue
                 row = survey_at_site(
-                    z, MatterSite(iz, iy, ix), contour_radius=contour_radius, cfg=cfg, rho=rho
+                    z_cpu, MatterSite(iz, iy, ix), contour_radius=contour_radius, cfg=cfg, rho=rho_cpu
                 )
                 w_abs = abs(float(row.winding_auto)) if row.winding_auto == row.winding_auto else -1.0
                 score = w_abs + (0.25 if row.b == 1 else 0.0)
@@ -278,7 +278,7 @@ def run_two_body_scenario(
     n_max: int = 72,
     device: str | None = None,
     contour_radius: int = 2,
-    tick_resolve: bool = True,
+    tick_resolve: bool = False,
 ) -> dict[str, Any]:
     q_a, q_b, graph_sep = scenario_charges(scenario)
     device = device or default_sim_device()
@@ -444,7 +444,7 @@ def run_two_body_harness(
     relaxation: int = 12,
     n_max: int = 72,
     device: str | None = None,
-    tick_resolve: bool = True,
+    tick_resolve: bool = False,
 ) -> dict[str, Any]:
     """Run pp_nn, mm_nn, pm_nn and aggregate verify criteria."""
     device = device or default_sim_device()

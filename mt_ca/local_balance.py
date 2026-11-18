@@ -32,15 +32,21 @@ def n4_neighbor_sum(field: torch.Tensor, cfg: MConfig) -> torch.Tensor:
 
 
 def n_E_field(phi: torch.Tensor, cfg: MConfig) -> torch.Tensor:
-    """|Φ| → integer E₀ units (§5.2.3)."""
+    """|Φ| → integer E₀ units (§5.2.3), folding unsigned Z_{N_ring} or radians to signed ticks ∈ (−256, 256] first."""
+    from mt_ca.carrier_core import signed_phi_ticks
+
     unit = energy_balance_ticks_per_E0(phase_bits=cfg.phase_bits)
-    return phi.abs() // unit
+    phi_signed = signed_phi_ticks(phi, mod_bits=cfg.mod_bits)
+    return phi_signed.abs() // unit
 
 
 def signed_energy_deposit(phi: torch.Tensor, cfg: MConfig) -> torch.Tensor:
     """Signed n_E·E₀ deposit per cell from Φ ticks."""
-    n_e = n_E_field(phi, cfg)
-    sign = torch.sign(phi.to(torch.float64)).to(torch.int64)
+    from mt_ca.carrier_core import signed_phi_ticks
+
+    phi_signed = signed_phi_ticks(phi, mod_bits=cfg.mod_bits)
+    n_e = phi_signed.abs() // energy_balance_ticks_per_E0(phase_bits=cfg.phase_bits)
+    sign = torch.sign(phi_signed.to(torch.float64)).to(torch.int64)
     sign = torch.where(sign == 0, torch.ones_like(sign), sign)
     return sign * n_e
 
@@ -69,7 +75,11 @@ def mod_star_error(star: torch.Tensor, quantum: float) -> float:
 
 
 def momentum_density(z: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
-    """π^a(x) = Im(z* · [z(x+ê_a) − z(x−ê_a)]) / (2 hT), hT=1 natural (§5.2.1)."""
+    """π^a(x) = Im(z† · [z(x+ê_a) − z(x−ê_a)]) / (2 hT), SU(2)-invariant over both spinor components (§5.2.1)."""
+    if z.ndim == 3 and z.shape[-1] == 2:
+        pi_x = ((z.conj() * (torch.roll(z, -1, 1) - torch.roll(z, 1, 1))).sum(dim=-1)).imag * 0.5
+        pi_y = ((z.conj() * (torch.roll(z, -1, 0) - torch.roll(z, 1, 0))).sum(dim=-1)).imag * 0.5
+        return pi_x, pi_y
     u = _spinor_scalar(z)
     pi_x = (u.conj() * (torch.roll(u, -1, 1) - torch.roll(u, 1, 1))).imag * 0.5
     pi_y = (u.conj() * (torch.roll(u, -1, 0) - torch.roll(u, 1, 0))).imag * 0.5
@@ -121,9 +131,11 @@ def balance_step_probe(
     cfg: MConfig,
 ) -> dict[str, torch.Tensor | float]:
     """One canonical tick — star residuals for §5.2.1 balance equations."""
+    from mt_ca.carrier_core import signed_phi_ticks
+
     f_curr = canonical_fixed(z, cfg)
     f_past = canonical_fixed(z_past, cfg)
-    phi = projected_phi_int(f_curr, cfg)
+    phi = signed_phi_ticks(projected_phi_int(f_curr, cfg), mod_bits=cfg.mod_bits)
     f_next, _, _ = leapfrog_forward_fixed(f_curr, f_past, cfg)
     z_next = decode_spinor(f_next, frac_bits=cfg.frac_bits, mod_bits=cfg.mod_bits).to(
         device=z.device, dtype=z.dtype
@@ -195,9 +207,13 @@ def ladder_conservation_report(
         and momentum_step_ok
         and angular_ok
     )
-    # n_E on vacuum ocean may be 0 (holomorphic Φ=0); sample from plane-wave step instead.
+    # n_E on vacuum ocean and smooth plane wave may be 0 (holomorphic Φ=0 by symmetry);
+    # sample from plane-wave or vortex core step instead.
     if n_e_sample < 1:
         n_e_sample = int(n_E_from_phi_ticks(int(pw1["phi"].abs().max().item()), phase_bits=cfg.phase_bits))
+    if n_e_sample < 1:
+        v1 = balance_step_probe(z_v, z_v.clone(), cfg)
+        n_e_sample = int(n_E_from_phi_ticks(int(v1["phi"].abs().max().item()), phase_bits=cfg.phase_bits))
     ok = ok and n_e_sample >= 1
 
     return {

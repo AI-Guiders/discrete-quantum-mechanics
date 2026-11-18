@@ -23,7 +23,11 @@ def rotate_c4(z: torch.Tensor) -> torch.Tensor:
 
 
 def madelung_div_j(z: torch.Tensor) -> torch.Tensor:
-    """Discrete Madelung flux divergence on the first spinor component (2D T-layer)."""
+    """Discrete Madelung flux divergence summed SU(2)-invariantly over both spinor components (2D T-layer)."""
+    if z.ndim == 3 and z.shape[-1] == 2:
+        jx = (z.conj() * torch.roll(z, -1, 1)).sum(dim=-1).imag
+        jy = (z.conj() * torch.roll(z, -1, 0)).sum(dim=-1).imag
+        return jx - torch.roll(jx, 1, 1) + jy - torch.roll(jy, 1, 0)
     u = spinor_scalar(z)
     jx = (u.conj() * torch.roll(u, -1, 1)).imag
     jy = (u.conj() * torch.roll(u, -1, 0)).imag

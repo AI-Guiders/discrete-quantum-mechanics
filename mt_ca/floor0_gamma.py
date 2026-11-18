@@ -12,10 +12,13 @@ from mt_ca.topology import matter_occupancy_b, winding_channels
 
 
 def _phi_int_at(phi: torch.Tensor, site) -> torch.Tensor:
-    if phi.ndim == 2:
-        return phi[site.y, site.x]
+    from mt_ca.carrier_core import signed_phi_ticks
+
+    phi_s = signed_phi_ticks(phi)
+    if phi_s.ndim == 2:
+        return phi_s[site.y, site.x]
     iz = site.iz if site.iz is not None else 0
-    return phi[iz, site.y, site.x]
+    return phi_s[iz, site.y, site.x]
 
 
 def _gamma_key(sample: tuple) -> tuple:
@@ -37,7 +40,7 @@ def _sample_core_tick(
     plane = spinor_plane(z, site)
     zpp = spinor_plane(z_past, site)
     y, x = site.y, site.x
-    f = canonical_fixed(z, cfg)
+    f = sim.f_curr
     phi = projected_phi_int(f, cfg)
     phi_ticks = int(_phi_int_at(phi, site).round().item()) % n_ring
     from mt_ca.si_constants import internal_phase_decode

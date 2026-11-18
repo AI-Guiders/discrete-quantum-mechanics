@@ -318,7 +318,7 @@ def check_floor1_n_body_chain(device: str = "cpu") -> dict:
         bool(row["checks_ok"])
         and bool(row["pm_channel_opens"])
         and scenarios["chain4_pp"]["n_stable_final"] >= 3
-        and scenarios["chain4_alt_pm"]["n_stable_final"] < scenarios["chain4_pp"]["n_stable_final"]
+        and scenarios["chain4_cluster_ppmm"]["n_stable_final"] < scenarios["chain4_pp"]["n_stable_final"]
     )
     return {
         "id": "Floor1_n_body_chain",

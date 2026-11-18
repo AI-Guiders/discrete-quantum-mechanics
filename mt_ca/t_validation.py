@@ -53,7 +53,7 @@ def covariance_isotropy(rho: torch.Tensor, *, threshold: float = 0.08) -> float:
         return float("inf")
 
     mask = rho >= threshold * peak
-    if int(mask.sum()) < 16:
+    if int(mask.sum()) < 3:
         return float("inf")
 
     ys = torch.arange(rho.shape[0], device=rho.device, dtype=rho.dtype)

@@ -60,33 +60,19 @@ def vacuum_ocean_fixed(
     phase_bits: int = PLANCK_CELL.phase_bits,
     phase_class: int = 0,
 ) -> torch.Tensor:
-    """Full-lattice vacuum IC on Z_N[i] — every cell a complete brick (§0.5 · §3.12.6).
+    """Full-lattice vacuum IC in polar carrier register [μ₀, φ₀, μ₁, φ₁] (§0.5 · §3.12.6).
 
-    Each cell: one amplitude quantum + one Heisenberg phase class (N_φ = 13 bins).
-    Default ``phase_class=0`` is the U(1)_vac gauge-fixed representative — not RNG.
-    Both spinor components share the class (vacuum has no relative topological charge).
+    Each cell: one amplitude quantum (μ₀ = μ₁ = 1) + one Heisenberg phase class tick
+    φ₀ = φ₁ = (phase_class · Δφ_disc) mod N_ring.
     Returns int32 (…, 4).
     """
     if not spatial:
         raise ValueError("spatial shape required")
-    _ = frac_bits
-    n_ring = 1 << phase_bits
-    q = 1  # one Planck amplitude quantum in fixed-point lanes
+    _ = (mod_bits, frac_bits)
     tick = heisenberg_phase_tick(phase_class, phase_bits=phase_bits)
-    tick1 = torch.full(spatial, tick, device=device, dtype=torch.int64)
-    tick2 = torch.full(spatial, tick, device=device, dtype=torch.int64)
-    ang1 = tick1.to(torch.float64) * (2.0 * math.pi / n_ring)
-    ang2 = tick2.to(torch.float64) * (2.0 * math.pi / n_ring)
-    re1 = torch.round(q * torch.cos(ang1)).to(torch.int64)
-    im1 = torch.round(q * torch.sin(ang1)).to(torch.int64)
-    re2 = torch.round(q * torch.cos(ang2)).to(torch.int64)
-    im2 = torch.round(q * torch.sin(ang2)).to(torch.int64)
-    dead1 = (re1 == 0) & (im1 == 0)
-    dead2 = (re2 == 0) & (im2 == 0)
-    re1 = torch.where(dead1, torch.ones_like(re1), re1)
-    re2 = torch.where(dead2, torch.ones_like(re2), re2)
-    f = torch.stack([re1, im1, re2, im2], dim=-1)
-    return mod_lane(f, mod_bits).to(torch.int32)
+    mu = torch.ones(spatial, device=device, dtype=torch.int32)
+    phi = torch.full(spatial, tick, device=device, dtype=torch.int32)
+    return torch.stack([mu, phi, mu, phi], dim=-1)
 
 
 def _filled_brick_from_phase_class(
@@ -96,20 +82,15 @@ def _filled_brick_from_phase_class(
     mod_bits: int = PLANCK_CELL.mod_bits,
     phase_bits: int = PLANCK_CELL.phase_bits,
 ) -> torch.Tensor:
-    """Encode a per-cell Heisenberg class grid into Z_N[i] (filled lattice, no void)."""
+    """Encode a per-cell Heisenberg class grid k_φ ∈ Z_{13} into polar register [1, k_φ·41, 1, k_φ·41]."""
+    _ = (device, mod_bits)
     if phase_class.dim() not in (2, 3):
         raise ValueError("phase_class must be 2D (ny,nx) or 3D (nz,ny,nx)")
     n_ring = 1 << phase_bits
     delta = heisenberg_phi_min_disc(phase_bits=phase_bits)
-    tick = (phase_class.to(torch.int64) * int(delta)) % n_ring
-    q = 1
-    ang = tick.to(torch.float64) * (2.0 * math.pi / n_ring)
-    re = torch.round(q * torch.cos(ang)).to(torch.int64)
-    im = torch.round(q * torch.sin(ang)).to(torch.int64)
-    dead = (re == 0) & (im == 0)
-    re = torch.where(dead, torch.ones_like(re), re)
-    f = torch.stack([re, im, re, im], dim=-1)
-    return mod_lane(f, mod_bits).to(torch.int32)
+    phi = ((phase_class.to(torch.int64) * int(delta)) % n_ring).to(torch.int32)
+    mu = torch.ones_like(phi, dtype=torch.int32)
+    return torch.stack([mu, phi, mu, phi], dim=-1)
 
 
 def vacuum_boil_fixed(
@@ -339,42 +320,19 @@ def universe_iv_9bit_spinor_3d(
     """
     if not 0 <= int(iv_9bit) < (1 << mod_bits):
         raise ValueError(f"iv_9bit must be in 0..{(1 << mod_bits) - 1}, got {iv_9bit}")
-    d_spatial = 3
-    n12 = int(N12_FCC_CAUSAL_LINKS)
-    z_boil = boil_ocean_spinor_3d(
+    from mt_ca.carrier_core import universe_iv_carrier_3d
+    from mt_ca.m_to_t import decode_from_carrier
+
+    _ = phase_bits
+    p = universe_iv_carrier_3d(
         nz,
         ny,
         nx,
         device=device,
-        dtype=dtype,
-        mod_bits=mod_bits,
-        frac_bits=frac_bits,
-        phase_bits=phase_bits,
+        iv_9bit=int(iv_9bit),
+        radius=int(radius),
     )
-    zz, yy, xx = torch.meshgrid(
-        torch.arange(nz, device=device, dtype=torch.int64),
-        torch.arange(ny, device=device, dtype=torch.int64),
-        torch.arange(nx, device=device, dtype=torch.int64),
-        indexing="ij",
-    )
-    cz, cy, cx = nz // 2, ny // 2, nx // 2
-    octant_idx = ((zz >= cz).long() << 2) | ((yy >= cy).long() << 1) | (xx >= cx).long()
-    b_chir = (int(iv_9bit) >> (mod_bits - 1)) & 1
-    mask8 = int(iv_9bit) & ((1 << (mod_bits - 1)) - 1)
-    sign = 1.0 if b_chir == 1 else -1.0
-    r2 = (zz - cz) ** 2 + (yy - cy) ** 2 + (xx - cx) ** 2
-    ball_mask = (r2 <= int(radius) ** 2).to(torch.float32)
-    step_rad = 2.0 * math.pi * (float(heisenberg_phi_min_disc(phase_bits=phase_bits)) / float(1 << phase_bits))
-    bit_m = ((mask8 >> octant_idx) & 1).to(torch.float32)
-    bit_m2 = ((mask8 >> (octant_idx ^ d_spatial)) & 1).to(torch.float32)
-    phi1 = sign * bit_m * (float(d_spatial) * step_rad) * ball_mask
-    phi2 = sign * bit_m2 * (float(d_spatial) * step_rad) * ball_mask
-    boost = 1.0 + float(n12) * ball_mask
-    z = z_boil.clone()
-    z[..., 0] = z[..., 0] * boost * torch.exp(1j * phi1).to(dtype)
-    z[..., 1] = z[..., 1] * boost * torch.exp(1j * phi2).to(dtype)
-    f = encode_spinor(z, frac_bits=frac_bits, mod_bits=mod_bits, gauge_fix=False)
-    return decode_spinor(f, frac_bits=frac_bits, mod_bits=mod_bits).to(dtype)
+    return decode_from_carrier(p, frac_bits=frac_bits, mod_bits=mod_bits).to(dtype)
 
 
 def ice_ocean_spinor_3d(

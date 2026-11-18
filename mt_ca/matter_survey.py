@@ -214,21 +214,24 @@ def planckon_instrument(
 ) -> dict[str, Any]:
     """Full instrument: anchor lane + ρ survey (denisitometer modes)."""
     cfg = cfg or MConfig.for_stencil("fcc" if z.ndim == 4 else "hex")
-    rho = spinor_density(z)
+    z_cpu = z.detach().cpu()
+    rho = spinor_density(z_cpu)
     margin = survey_margin if survey_margin is not None else contour_radius + 1
+
+    sites = survey_density_sites(
+        rho, top_k=top_k, margin=margin, require_local_max=require_local_max
+    )
 
     anchor_row: SiteSurvey | None = None
     if anchor is not None:
         anchor_row = survey_at_site(
-            z, anchor, contour_radius=contour_radius, rho_frac=rho_frac, cfg=cfg
+            z_cpu, anchor, contour_radius=contour_radius, rho_frac=rho_frac, cfg=cfg, rho=rho
         )
 
     survey_rows: list[SiteSurvey] = []
-    for site in survey_density_sites(
-        rho, top_k=top_k, margin=margin, require_local_max=require_local_max
-    ):
+    for site in sites:
         survey_rows.append(
-            survey_at_site(z, site, contour_radius=contour_radius, rho_frac=rho_frac, cfg=cfg)
+            survey_at_site(z_cpu, site, contour_radius=contour_radius, rho_frac=rho_frac, cfg=cfg, rho=rho)
         )
 
     b_survey_max = max((r.b for r in survey_rows), default=0)
@@ -283,8 +286,7 @@ def default_anchor(z: torch.Tensor) -> MatterSite:
         return MatterSite(None, ny // 2, nx // 2)
     cy, cx = ny // 2, nx // 2
     rho = spinor_density(z)
-    iz = int(rho[:, cy, cx].argmax().item())
-    return MatterSite(iz, cy, cx)
+    return snap_column_peak(rho, cy, cx, iz_hint=nz // 2)
 
 
 def defect_candidates(

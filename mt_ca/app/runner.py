@@ -31,10 +31,13 @@ def _site_key(site: MatterSite) -> str:
 
 
 def _phi_int_at(phi: torch.Tensor, site: MatterSite) -> torch.Tensor:
-    if phi.ndim == 2:
-        return phi[site.y, site.x]
+    from mt_ca.carrier_core import signed_phi_ticks
+
+    phi_s = signed_phi_ticks(phi)
+    if phi_s.ndim == 2:
+        return phi_s[site.y, site.x]
     iz = site.iz if site.iz is not None else 0
-    return phi[iz, site.y, site.x]
+    return phi_s[iz, site.y, site.x]
 
 
 def apply_scenario(sim: LatticeFluidSimulator, scenario: ScenarioSpec) -> None:
@@ -415,7 +418,7 @@ def run_floor0_nE_excitation_harness(
 
     for tick in range(1, track + 1):
         sim.step(1)
-        f = canonical_fixed(sim.z, sim.cfg)
+        f = sim.f_curr
         phi = projected_phi_int(f, sim.cfg)
         n_e = int(n_E_field(phi, sim.cfg)[site.y, site.x].item()) if phi.ndim == 2 else int(
             n_E_field(phi, sim.cfg)[site.iz, site.y, site.x].item()
@@ -502,7 +505,7 @@ def run_floor0_selection_harness(
 
     for _ in range(track):
         sim.step(1)
-        f = canonical_fixed(sim.z, sim.cfg)
+        f = sim.f_curr
         phi = projected_phi_int(f, sim.cfg)
         phi_ticks = int(_phi_int_at(phi, site).abs().item())
         n_e = int(n_E_field(phi, sim.cfg)[site.y, site.x].item()) if phi.ndim == 2 else int(

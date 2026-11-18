@@ -2,26 +2,36 @@
 
 from __future__ import annotations
 
-import math
-
 import torch
 
+from mt_ca.carrier_core import (
+    CANONICAL_CARRIER,
+    carrier_collision_impulse,
+    carrier_gate_phi,
+    carrier_reverse,
+    carrier_step,
+    edge_proj_cos_int,
+    edge_proj_sin_int,
+    face_quadrant_ticks,
+    int_neighbor_sum_core,
+    pauli_phi_core,
+    signed_lanes_core,
+    wrap_ring_signed,
+)
 from mt_ca.config import MConfig
-from mt_ca.fixed_point import decode_spinor
 from mt_ca.si_constants import heisenberg_phi_min_disc
-from mt_ca.laplacian import neighbor_sum
-from mt_ca.z_ring import bekenstein_scale_spinor, leapfrog_next, mod_lane
+from mt_ca.z_ring import mod_lane
 
-LUT_BITS = 12
-LUT_SIZE = 1 << LUT_BITS
-TRIG_SHIFT = 30
+LUT_BITS = CANONICAL_CARRIER.mod_bits
+LUT_SIZE = CANONICAL_CARRIER.n_ring
+TRIG_SHIFT = CANONICAL_CARRIER.n_tri - 1  # = 7 so Q_□ = 2^TRIG_SHIFT = 128
 
 
 def _build_trig_lut(device: torch.device) -> tuple[torch.Tensor, torch.Tensor]:
-    idx = torch.arange(LUT_SIZE, device=device, dtype=torch.float64)
-    ang = 2.0 * math.pi * idx / LUT_SIZE
-    cu = torch.round(torch.cos(ang) * (1 << TRIG_SHIFT)).to(torch.int64)
-    sv = torch.round(torch.sin(ang) * (1 << TRIG_SHIFT)).to(torch.int64)
+    """Closed integer face-projection LUT (C(Δφ), S(Δφ)) on Z_{N_ring} (no math.pi / torch.cos / torch.sin)."""
+    idx = torch.arange(LUT_SIZE, device=device, dtype=torch.int64)
+    cu = edge_proj_cos_int(idx, LUT_BITS)
+    sv = edge_proj_sin_int(idx, LUT_BITS)
     return cu, sv
 
 
@@ -36,10 +46,8 @@ def trig_lut(device: torch.device) -> tuple[torch.Tensor, torch.Tensor]:
 
 
 def k_p_int(cfg: MConfig) -> int:
-    """K_P in fixed-point natural units (ε ↔ u_P)."""
-    from mt_ca.fixed_point import scale
-
-    return max(1, int(round(cfg.epsilon * scale(cfg.frac_bits))))
+    """K_P = 2^frac_bits = 2^|□| = 64 integer quanta on M."""
+    return 1 << cfg.frac_bits
 
 
 def heisenberg_phi_min_int(cfg: MConfig) -> int:
@@ -51,58 +59,23 @@ def heisenberg_phi_min_int(cfg: MConfig) -> int:
 
 
 def signed_lanes(f: torch.Tensor, cfg: MConfig) -> torch.Tensor:
-    """Ring lanes → signed integers in (−N/2, N/2].
-
-    A lane stores a class mod N; the physical value it stands for is its signed
-    representative. Any non-linear function of a lane (neighbour sum, holonomy,
-    rotation) must see the class, not the arbitrary cut: shifting a lane by N
-    leaves the state unchanged, and so must the law.
-    """
-    from mt_ca.z_ring import signed_from_mod
-
-    return torch.stack(
-        [signed_from_mod(f[..., i], cfg.mod_bits) for i in range(f.shape[-1])], dim=-1
-    )
+    """Delegate to carrier_core.signed_lanes_core."""
+    return signed_lanes_core(f, cfg.mod_bits)
 
 
 def int_neighbor_sum(f: torch.Tensor, stencil: str) -> torch.Tensor:
-    """Σ_N on each fixed lane (N₄ / N₆ / N₁₂)."""
-    out = torch.zeros_like(f, dtype=torch.int64)
-    for lane_i in range(f.shape[-1]):
-        out[..., lane_i] = neighbor_sum(f[..., lane_i].to(torch.float32), stencil).to(torch.int64)
-    return out
-
-
-def holonomy_zeta_int(
-    u: torch.Tensor,
-    v: torch.Tensor,
-    su: torch.Tensor,
-    sv: torch.Tensor,
-    *,
-    frac_bits: int,
-) -> tuple[torch.Tensor, torch.Tensor]:
-    """ζ_real = ⟨U⟩U+⟨V⟩V, ζ_imag = ⟨V⟩U−⟨U⟩V with bit-shift renormalization."""
-    zeta_r = (su * u + sv * v) >> frac_bits
-    zeta_i = (sv * u - su * v) >> frac_bits
-    return zeta_r, zeta_i
+    """Delegate to carrier_core.int_neighbor_sum_core."""
+    return int_neighbor_sum_core(f, stencil)
 
 
 def apply_heisenberg_floor_signed(
     phi_signed: torch.Tensor,
     phi_min: int,
 ) -> torch.Tensor:
-    """Quantize sub-threshold impulse to 0; leave |Φ|≥φ_min and exact 0 alone.
+    """Delegate Heisenberg deadband to carrier_core.apply_heisenberg_floor_core."""
+    from mt_ca.carrier_core import apply_heisenberg_floor_core
 
-    Model §3.7: |Δφ| < Δφ_min is not resolvable on the Heisenberg ring.
-    §2.3.8 remark: holomorphic Φ=0 is locally admissible (anti-smear ≠ forced noise).
-    Snap-*up* to ±φ_min on tiny holonomy pumps amplitude under leapfrog (dogfood).
-    Snap-*down* to 0 matches discrete resolution and keeps vacuum ocean stable.
-    """
-    abs_phi = phi_signed.abs()
-    sub = (abs_phi > 0) & (abs_phi < phi_min)
-    if not bool(sub.any().item()):
-        return phi_signed
-    return torch.where(sub, torch.zeros_like(phi_signed), phi_signed)
+    return apply_heisenberg_floor_core(phi_signed, phi_min)
 
 
 def saturating_phi_impulse(
@@ -111,168 +84,140 @@ def saturating_phi_impulse(
     rho2: torch.Tensor,
     cfg: MConfig,
 ) -> torch.Tensor:
-    """Φ = ⌊K_P·ζ_imag / (ζ_real + |Z|² + K_P)⌋ in Z_{2^phase_bits} (+ Heisenberg floor)."""
+    """Delegate saturating gate Φ to carrier_core.carrier_saturating_gate_core."""
+    from mt_ca.carrier_core import carrier_saturating_gate_core
+
     kp = k_p_int(cfg)
-    denom = zeta_r + rho2 + kp
-    denom = torch.where(denom > 0, denom, torch.ones_like(denom))
-    phi = (kp * zeta_i) // denom
-
-    if cfg.heisenberg_floor:
-        phi = apply_heisenberg_floor_signed(phi, heisenberg_phi_min_int(cfg))
-
-    return mod_lane(phi, cfg.mod_bits)
-
-
-def _rshift_round(x: torch.Tensor, shift: int) -> torch.Tensor:
-    """Arithmetic right shift with symmetric rounding (half away from zero).
-
-    Plain ``>>`` is a floor: floor(−a) ≠ −floor(a). Under a 90° rotation the two
-    products swap, so a floor-rounded rotator is not Z_4-equivariant — it leaks
-    ~0.15% of lanes per tick. Symmetric rounding keeps the discrete symmetry exact.
-    """
-    half = 1 << (shift - 1)
-    return torch.where(x >= 0, (x + half) >> shift, -(((-x) + half) >> shift))
-
-
-def rot_impulse_uv(
-    u: torch.Tensor,
-    v: torch.Tensor,
-    phi: torch.Tensor,
-    *,
-    phase_bits: int,
-) -> tuple[torch.Tensor, torch.Tensor]:
-    """δU, δV from LUT rotation by Φ (mod 2^phase_bits).
-
-    Φ ticks live on N_ring = 2^phase_bits; finer Rot_LUT subsamples that circle.
-    """
-    cu, sv = trig_lut(u.device)
-    phi_i = phi.to(torch.int64)
-    if phase_bits >= LUT_BITS:
-        idx = (phi_i >> (phase_bits - LUT_BITS)) % LUT_SIZE
-    else:
-        idx = (phi_i << (LUT_BITS - phase_bits)) % LUT_SIZE
-    cos_v = cu[idx]
-    sin_v = sv[idx]
-    ur = _rshift_round(u * cos_v - v * sin_v, TRIG_SHIFT)
-    vr = _rshift_round(u * sin_v + v * cos_v, TRIG_SHIFT)
-    return ur - u, vr - v
-
-
-def rho2_int(u: torch.Tensor, v: torch.Tensor, *, frac_bits: int) -> torch.Tensor:
-    return (u * u + v * v) >> frac_bits
+    return carrier_saturating_gate_core(
+        zeta_r,
+        zeta_i,
+        rho2,
+        scale_ticks=kp,
+        eps_quanta2=kp,
+        mod_bits=cfg.mod_bits,
+        heisenberg_floor=cfg.heisenberg_floor,
+        phi_min=heisenberg_phi_min_int(cfg),
+    )
 
 
 def pauli_phi_int(f: torch.Tensor, cfg: MConfig) -> torch.Tensor:
-    """§3.10.4: parallel spinors on V_P → extra Φ ticks (decode probe → ℤ)."""
-    if not cfg.pauli_exclusion:
-        return torch.zeros(f.shape[:-1], device=f.device, dtype=torch.int64)
-    from mt_ca.topology import pauli_phi
-
-    z = decode_spinor(f, frac_bits=cfg.frac_bits, mod_bits=cfg.mod_bits)
-    extra = pauli_phi(z, cfg)
-    from mt_ca.si_constants import pauli_impulse_disc
-
-    impulse = float(pauli_impulse_disc(phase_bits=cfg.phase_bits))
-    ticks = torch.where(extra > 0, torch.full_like(extra, impulse), torch.zeros_like(extra))
-    return mod_lane(ticks.to(torch.int64), cfg.mod_bits)
-
-
-def cr_phi_int(f: torch.Tensor, cfg: MConfig) -> torch.Tensor:
-    """§3.9: CR defect + holomorphy sync → extra Φ ticks on Z_N (2D slice).
-
-    Maps float ``cr_phase_drive`` + ``holomorphy_sync_step`` phase into ticks.
-    Cap at ±sync_strength_disc (§5.2.3) — uncapped sync·Arg pumped amp under leapfrog.
-    FCC bulk CR — open.
-    """
-    import math
-
-    if f.ndim != 3:
-        return torch.zeros(f.shape[:-1], device=f.device, dtype=torch.int64)
-
-    from mt_ca.cauchy_riemann import cauchy_riemann_residual
-    from mt_ca.si_constants import sync_strength_disc
-    from mt_ca.update import wrapped_phase_diff
-
-    z = decode_spinor(f, frac_bits=cfg.frac_bits, mod_bits=cfg.mod_bits)
-    phi_rad = torch.zeros(z.shape[:-1], device=z.device, dtype=z.real.dtype)
-
-    if cfg.cr_strength > 0:
-        drive = torch.zeros_like(phi_rad)
-        for comp in (0, 1):
-            r1, r2 = cauchy_riemann_residual(z[..., comp])
-            drive = drive + torch.sqrt(r1.square() + r2.square())
-        phi_rad = phi_rad + cfg.cr_strength * 0.25 * drive
-
-    if cfg.holomorphy_sync and cfg.sync_strength > 0:
-        from mt_ca.spinor import spinor_neighbor_sum, holonomy_zeta
-
-        sum_n = spinor_neighbor_sum(z, cfg)
-        zeta = holonomy_zeta(z, sum_n)
-        phase_pull = wrapped_phase_diff(zeta, torch.ones_like(zeta))
-        phi_rad = phi_rad + cfg.sync_strength * phase_pull
-
-    n_ring = 1 << cfg.phase_bits
-    ticks = torch.round(phi_rad * (n_ring / (2.0 * math.pi))).to(torch.int64)
-    cap = sync_strength_disc(phase_bits=cfg.phase_bits)
-    ticks = torch.clamp(ticks, -cap, cap)
-    return mod_lane(ticks, cfg.mod_bits)
+    """Delegate to carrier_core.pauli_phi_core."""
+    return pauli_phi_core(
+        f,
+        mod_bits=cfg.mod_bits,
+        frac_bits=cfg.frac_bits,
+        phi_min=heisenberg_phi_min_int(cfg),
+        enabled=cfg.pauli_exclusion,
+    )
 
 
 def projected_phi_int(f: torch.Tensor, cfg: MConfig) -> torch.Tensor:
-    """Integer Φ ticks per cell before Rot_LUT (§3.12.5 · §5.2.3 energy balance equation).
-
-    Canon: Φ from saturating holonomy ζ only. §3.9 defect Arg(⟨z⟩/z) *is* Δφ_N
-    inside that gate — not a second CR/sync impulse stacked on Φ (that double-count
-    pumped |Z| under leapfrog; sim: vortex stable iff CR extras off).
-    Pauli (A16) remains an extra on V_P overlap.
-    """
-    fb = cfg.frac_bits
-    fs = signed_lanes(f, cfg)
-    u0 = fs[..., 0]
-    v0 = fs[..., 1]
-    sum_n = int_neighbor_sum(fs, cfg.stencil)
-    su0, sv0 = sum_n[..., 0], sum_n[..., 1]
-    zeta_r, zeta_i = holonomy_zeta_int(u0, v0, su0, sv0, frac_bits=fb)
-    rho2 = rho2_int(u0, v0, frac_bits=fb)
-    phi = saturating_phi_impulse(zeta_r, zeta_i, rho2, cfg)
-    if cfg.pauli_exclusion:
-        phi = mod_lane(phi + pauli_phi_int(f, cfg), cfg.mod_bits)
-    return phi
+    """Delegate to carrier_core.carrier_gate_phi."""
+    return carrier_gate_phi(f, cfg)
 
 
 def projected_collision_impulse(f: torch.Tensor, cfg: MConfig) -> torch.Tensor:
-    """⌊𝒩⌋: integer saturating Φ + LUT rot impulse on both spinor components (§3.12.5)."""
-    fs = signed_lanes(f, cfg)
-    u0 = fs[..., 0]
-    v0 = fs[..., 1]
-    u1 = fs[..., 2]
-    v1 = fs[..., 3]
-
-    phi = projected_phi_int(f, cfg)
-
-    du0, dv0 = rot_impulse_uv(u0, v0, phi, phase_bits=cfg.phase_bits)
-    du1, dv1 = rot_impulse_uv(u1, v1, phi, phase_bits=cfg.phase_bits)
-
-    return mod_lane(torch.stack([du0, dv0, du1, dv1], dim=-1), cfg.mod_bits)
+    """Delegate to carrier_core.carrier_collision_impulse."""
+    return carrier_collision_impulse(f, cfg)
 
 
-def projected_step_fixed(
+def projected_step(
     f_curr: torch.Tensor,
     f_past: torch.Tensor,
     cfg: MConfig,
 ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
-    """One modular leapfrog tick: Z⁺ + Z⁻ = 2Z + ⌊𝒩⌋ in Z_N[i], then A7 integer scale."""
-    n_impulse = projected_collision_impulse(f_curr, cfg)
-    f_raw = leapfrog_next(f_curr, f_past, n_impulse, mod_bits=cfg.mod_bits)
-    rho_max_int = max(1, int(round(cfg.rho_max * (1 << cfg.frac_bits))))
-    f_next = bekenstein_scale_spinor(
-        f_raw,
-        frac_bits=cfg.frac_bits,
-        rho_max_int=rho_max_int,
-        mod_bits=cfg.mod_bits,
-    )
-    n_impulse_eff = mod_lane(
-        f_next.to(torch.int64) + f_past.to(torch.int64) - 2 * f_curr.to(torch.int64),
-        cfg.mod_bits,
-    )
-    return f_next, f_curr, n_impulse_eff
+    """Delegate to carrier_core.carrier_step (exact bijection on Z_{N_ring}[i]^2)."""
+    return carrier_step(f_curr, f_past, cfg)
+
+
+def projected_reverse(
+    f_curr: torch.Tensor,
+    f_next: torch.Tensor,
+    cfg: MConfig,
+) -> tuple[torch.Tensor, torch.Tensor]:
+    """Delegate to carrier_core.carrier_reverse (literal reverse without impulse stack)."""
+    return carrier_reverse(f_curr, f_next, cfg)
+
+
+projected_step_fixed = projected_step
+projected_reverse_fixed = projected_reverse
+
+
+# ---------------------------------------------------------------------------
+# Polar cell register (μ, φ_disc) ∈ Z_{2^frac_bits} × Z_{2^mod_bits}
+# and closed trig-free face projections C(A), S(A) on cuboctahedron faces
+# (Book def:internal-coords & Theorem thm:trig-free-face-projections, §3.12.5d:
+# Q_□ = N_ring / d_in(□) = 2^(|△|−1) = 2·K_P = 128, Φ_Pauli = N_ring/2 = 256,
+# C(A) = Q_□ − |A|, S(A) = C(wrap(A − Q_□)), |C(A)| + |S(A)| ≡ Q_□.)
+# ---------------------------------------------------------------------------
+
+
+def ring_trig_lut(n_ring: int, device: torch.device) -> tuple[torch.Tensor, torch.Tensor]:
+    """Delegate to carrier_core.ring_face_lut_core."""
+    from mt_ca.carrier_core import ring_face_lut_core
+
+    return ring_face_lut_core(n_ring, device)
+
+
+def encode_polar_spinor(
+    z: torch.Tensor,
+    *,
+    frac_bits: int,
+    mod_bits: int,
+) -> torch.Tensor:
+    """Delegate complex->polar encoding to the M↔T bridge (mt_ca.m_to_t)."""
+    from mt_ca.m_to_t import encode_polar_spinor_bridge
+
+    return encode_polar_spinor_bridge(z, frac_bits=frac_bits, mod_bits=mod_bits)
+
+
+def decode_polar_spinor(
+    p: torch.Tensor,
+    *,
+    frac_bits: int,
+    mod_bits: int,
+) -> torch.Tensor:
+    """Delegate polar->complex decoding to the M↔T bridge (mt_ca.m_to_t)."""
+    from mt_ca.m_to_t import decode_polar_spinor_bridge
+
+    return decode_polar_spinor_bridge(p, frac_bits=frac_bits, mod_bits=mod_bits)
+
+
+def polar_phi_int(p: torch.Tensor, cfg: MConfig) -> torch.Tensor:
+    """Delegate to carrier_core.polar_phi_core."""
+    from mt_ca.carrier_core import polar_phi_core
+
+    return polar_phi_core(p, cfg)
+
+
+def polar_edge_flux_step_q(
+    mu: torch.Tensor,
+    phi: torch.Tensor,
+    cfg: MConfig,
+) -> tuple[torch.Tensor, torch.Tensor]:
+    """Delegate to carrier_core.polar_edge_flux_step_q_core."""
+    from mt_ca.carrier_core import polar_edge_flux_step_q_core
+
+    return polar_edge_flux_step_q_core(mu, phi, cfg)
+
+
+def polar_step_fixed(
+    p_curr: torch.Tensor,
+    p_past: torch.Tensor,
+    cfg: MConfig,
+) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+    """Delegate to carrier_core.polar_step_core."""
+    from mt_ca.carrier_core import polar_step_core
+
+    return polar_step_core(p_curr, p_past, cfg)
+
+
+def polar_reverse_fixed(
+    p_curr: torch.Tensor,
+    p_next: torch.Tensor,
+    cfg: MConfig,
+) -> tuple[torch.Tensor, torch.Tensor]:
+    """Delegate to carrier_core.polar_reverse_core."""
+    from mt_ca.carrier_core import polar_reverse_core
+
+    return polar_reverse_core(p_curr, p_next, cfg)

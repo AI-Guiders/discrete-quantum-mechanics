@@ -89,10 +89,10 @@ def stream_ca_cycle_search(
     sample_each_tick: Callable[[int], None] | None = None,
 ) -> dict:
     """Step ``sim`` up to ``max_ticks``; return on first exact repeat of (f_curr, f_past)."""
-    f_curr = sim._f_curr
-    f_past = sim._f_past
+    f_curr = sim.state_curr
+    f_past = sim.state_past
     if f_curr is None or f_past is None:
-        raise RuntimeError("simulator has no leapfrog registers (_f_curr/_f_past)")
+        raise RuntimeError("simulator has no carrier registers (state_curr/state_past)")
     seen: dict[bytes, int] = {}
     for t in range(max_ticks + 1):
         key = ca_pair_digest(f_curr, f_past)
@@ -113,8 +113,8 @@ def stream_ca_cycle_search(
         sim.step(1)
         if sample_each_tick is not None:
             sample_each_tick(t + 1)
-        f_curr = sim._f_curr
-        f_past = sim._f_past
+        f_curr = sim.state_curr
+        f_past = sim.state_past
         assert f_curr is not None and f_past is not None
     return {
         "solved": False,

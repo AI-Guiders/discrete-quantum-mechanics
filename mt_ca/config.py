@@ -15,8 +15,12 @@ from mt_ca.si_constants import (
     pauli_rho_min_natural,
     sync_strength_rad,
 )
-from mt_ca.fixed_point import vacuum_amplitude_quantum
+from mt_ca.carrier_core import CANONICAL_CARRIER
 from mt_ca.laplacian import stencil_n_links
+
+
+def vacuum_amplitude_quantum(frac_bits: int = CANONICAL_CARRIER.frac_bits) -> float:
+    return 1.0 / float(1 << frac_bits)
 
 
 @dataclass(frozen=True)
