@@ -331,6 +331,90 @@
 \end{enumerate}
 \end{theorem}
 
+\chapter{Генеративное материаловедение, куперовский возврат \texorpdfstring{$2e$}{2e} на полупериоде Паули и конструирование функциональных сплавов и сверхпроводников}
+\label{ch:applied-materials-cad-superconductivity}
+
+\section{Квантование потока Купера--Ааронова--Бома и генеративный синтез сплавов по замкнутым оболочкам кубооктаэдра}
+\label{sec:applied-cooper-and-alloys}
+
+\begin{theorem}[Оператор куперовского возврата $2e$ на полупериоде $\Phi_{\mathrm{Pauli}}(d)$ и генеративного замыкания функциональных сплавов и сверхпроводников]
+\label{thm:applied-materials-and-superconductors}
+Для любого $d\in\mathbb{N}$ операторный закон Каталана $\mathrm{CatalanLaw}(P,d)$ (\texttt{generative\_materials\_cooper\_pairing\_and\_superconductor\_shells\_operator} в \texttt{lean/MtCarrier/UnifiedOperators.lean}) эквивалентен системе следующих операторных тождеств:
+\begin{enumerate}[label=\textbf{(\roman*)},leftmargin=*]
+\item \textbf{Удвоение фазового отклика куперовской пары ($2e = \mathrm{c0OverCSqOp}(d)\cdot e$):}
+  операторы чётной и нечётной голономии спин-синглетной пары $\mathrm{cooperPairProjCOp}(d,\Delta\varphi) = \mathcal{C}_d(\mathrm{c0OverCSqOp}(d)\cdot\Delta\varphi)$ и $\mathrm{cooperPairProjSOp}(d,\Delta\varphi) = \mathcal{S}_d(\mathrm{c0OverCSqOp}(d)\cdot\Delta\varphi)$ достигают деструктивного минимума уже на четверть-периодном седле $Q_\square(d)$ и полного конструктивного возврата Ааронова--Бома на полупериоде Паули $\Phi_{\mathrm{Pauli}}(d)$:
+  \[
+    \mathrm{cooperPairProjCOp}\bigl(d,Q_\square(d)\bigr) = -Q_\square(d),\qquad
+    \mathrm{cooperPairProjSOp}\bigl(d,Q_\square(d)\bigr) = 0,
+  \]
+  \[
+    \mathrm{cooperPairProjCOp}\bigl(d,\Phi_{\mathrm{Pauli}}(d)\bigr) = +Q_\square(d) = \mathrm{cooperPairProjCOp}(d,0),\qquad
+    \mathrm{cooperPairProjSOp}\bigl(d,\Phi_{\mathrm{Pauli}}(d)\bigr) = 0.
+  \]
+\item \textbf{Генеративное замыкание оболочек функциональных сплавов и сверхпроводящих фаз:}
+  реакционный оператор $\mathrm{isClosedDifferentiationReactionOp}$ и генератор бинарных пар $\mathrm{discoverBinaryShellPairsOp}$ без перебора выделяют:
+  \begin{itemize}[noitemsep]
+  \item интерметаллид с памятью формы нитинол ($\mathrm{TiNi}$), замыкающий вторую высшую ядерную магическую оболочку перовскита и корунда:
+    \[
+      \mathrm{zNitinolShapeMemoryOp}(d) \;=\; \mathrm{zTitaniumBeamOp}(d) + \mathrm{zNickelOp}(d) \;=\; \mathrm{nuclearMagicHighOp}\bigl(d,d_{\mathrm{out}}(E)(d)\bigr);
+    \]
+  \item сверхпроводящий диборид магния ($\mathrm{MgB_2}$), изозарядный титановому снаряду: $\mathrm{zMagnesiumDiborideOp}(d) = \mathrm{zTitaniumBeamOp}(d)$;
+  \item купратную сверхпроводящую плоскость ($\mathrm{CuO_2}$) и бесконечнослоевую родительскую фазу ВТСП ($\mathrm{CaCuO_2}$):
+    \[
+      \mathrm{zCupratePlaneOp}(d) \;=\; \mathrm{modBits}(d)\cdot d_{\mathrm{out}}(E)(d),\qquad
+      \mathrm{zInfiniteLayerCuprateOp}(d) \;=\; K_P(d) + \mu_{\mathrm{vac}}(d);
+    \]
+  \item халькогенидный сверхпроводящий слой ($\mathrm{FeS}$), замыкающий вторую координационную сферу кубооктаэдра: $\mathrm{zIronSulfideCoreOp}(d) = \mathrm{cuboctShellSizeOp}(d,\mathrm{c0OverCSqOp}(d))$.
+  \end{itemize}
+\end{enumerate}
+\end{theorem}
+
+\chapter{Прикладная биоинженерия (\emph{Bio-CAD}), сквозной компилятор ДНК и терапевтическое управление клеточной средой}
+\label{ch:applied-bio-cad-therapy}
+
+\section{Неразрушающая редифференцировка ткани, сброс эпигенетического дрейфа \texorpdfstring{$\mathrm{CpG}$}{CpG} и селективная кавитация дефектов}
+\label{sec:applied-therapeutic-redifferentiation}
+
+\begin{theorem}[Операторный протокол прикладного Bio-CAD, противофазной терапии на экране Маркова и селективного апоптоза без коллатерального мутагенеза]
+\label{thm:applied-bio-cad-and-therapy}
+Для любого $d\in\mathbb{N}$ и числа колец $R\in\mathbb{Z}$ операторный закон Каталана $\mathrm{CatalanLaw}(P,d)$ (\texttt{applied\_bio\_cad\_therapeutic\_redifferentiation\_and\_epigenetic\_reset\_operator} в \texttt{lean/MtCarrier/UnifiedOperators.lean}) эквивалентен системе следующих трёх инженерных свойств:
+\begin{enumerate}[label=\textbf{(\roman*)},leftmargin=*]
+\item \textbf{Противофазное гашение патологического тока перегрузки на экране Маркова:}
+  для любого стрессового потока внешней среды $\mathcal{E}_{\mathrm{stress}}$ подключение компенсирующего противофазного потока $\mathrm{therapeuticCounterEnvOp}(\mathcal{E}_{\mathrm{stress}})$ тождественно обнуляет суммарный нечётный ток $\mathrm{envZiListOp}(d,\mu_x,\mathcal{E}_{\mathrm{stress}}\mathbin{++}\mathrm{therapeuticCounterEnvOp}(\mathcal{E}_{\mathrm{stress}})) = 0$ и запирает патологический затвор открытой системы ($\mathrm{openMultiEnvGateOp} = 0$).
+\item \textbf{Инволютивный сброс эпигенетического дрейфа $\mathrm{CpG}$ и сквозная редифференцировка ткани из последовательности ДНК:}
+  повторное действие оператора $\mathrm{deaminateFirstBaseStemOp}$ тождественно возвращает смещённый стебель к $\mathrm{cpgEpigeneticStemOp}(d)$, а выращивание ткани из скомпилированной последовательности нуклеотидов ДНК $\mathrm{compilePhenotypeToDnaSequenceOp}(d,\Delta\varphi_{\mathrm{disc}}(d))$ через $\mathrm{growTissueFromDnaSequenceInEnvOp}$ восстанавливает дифференцированный топологический инвариант органа $\mathrm{tissueEuler2DOp} = \Delta\varphi_{\mathrm{disc}}(d)$.
+\item \textbf{Селективная кавитация запертого дефектного узла при нулевом повреждении здоровых клеток:}
+  полное окружение дефектного узла по всем $|N(d)|$ каналам оболочки кубооктаэдра закрывает его граничный затвор контакта со средой ($\mathrm{envFreeSurfaceGateOp}(d,|N(d)|) = 0$, запуская селективный апоптоз), тогда как для всех окружающих здоровых клеток в мёртвой зоне Гейзенберга ($\Phi_{\mathrm{env}}=0$) мутационный оператор тождественно сохраняет каждое основание $b\in\mathbb{Z}_{d_{\mathrm{in}}(\square)}$ ($\mathrm{envDrivenBaseMutationOp}(d,b,0) = b$).
+\end{enumerate}
+\end{theorem}
+
+\chapter{Обратимая вычислительная техника без теплового предела Ландауэра (\texorpdfstring{$A_{13}$}{A13}) и разрешение фундаментальных парадоксов}
+\label{ch:applied-reversible-computing-and-paradoxes}
+
+\section{Адиабатический двухтактовый регистр Верле и сводная теорема разрешения семи классических парадоксов}
+\label{sec:applied-landauer-and-paradoxes}
+
+\begin{theorem}[Оператор обратимых вычислений с нулевым тепловыделением Ландауэра и формальное разрешение семи классических парадоксов]
+\label{thm:applied-landauer-and-seven-paradoxes}
+Для любого $d\in\mathbb{N}$ операторный закон Каталана $\mathrm{CatalanLaw}(P,d)$ (\texttt{reversible\_computing\_zero\_landauer\_heat\_and\_paradox\_resolutions\_operator} в \texttt{lean/MtCarrier/UnifiedOperators.lean}) эквивалентен системе следующих операторных разрешений:
+\begin{enumerate}[label=\textbf{(\roman*)},leftmargin=*]
+\item \textbf{Тепловой предел Ландауэра в вычислительной технике ($A_{13}$):}
+  поскольку двухтактовый шаг чехарды $\mathrm{polarStepCell}(d,\cdot)$ обладает точным обратным оператором без стека истории $\mathrm{polarReverseCell}(d,\cdot)$ (отсутствие стирания бит $2\to 1$), в баллистическом канале с $\Phi_{\mathrm{scatter}}=0$ число рассеянных тепловых квантов на логический такт строго равно нулю ($\mathrm{energyQuantumOperator}(d,0) = 0$).
+\item \textbf{Парадокс стрелы Зенона и квантовый эффект Зенона:}
+  полное динамическое фазовое пространство ячейки имеет удвоенную битовую ёмкость $\mathrm{twoTickPhaseSpaceBitBudgetOp}(d) = \mathrm{c0OverCSqOp}(d)\cdot\mathrm{singleTickSpinorBitBudgetOp}(d)$, хранящую скорость $\varphi(t)-\varphi(t-1)$ внутри двухтактовой пары, тогда как частые подпороговые измерения $|\Phi_{\mathrm{probe}}| < \Delta\varphi_{\mathrm{disc}}(d)$ обнуляются оператором $\mathrm{heisenbergDeadbandOp}$, замораживая квантовый переход.
+\item \textbf{Парадокс обратимости Лошмидта (стрела времени при биективном микрозаконе~$g$):}
+  при старте из состояния покоя $P(0)=Q(0)$ на диагонали размерности $\mathrm{singleTickSpinorBitBudgetOp}(d)$ макропроектор прибора $\mathcal{B}_N$ склеивает $K_P(d)$ субквантовых состояний мантиссы (Уровень~I) и $\mathrm{heisenbergEquivClassSizeOp}(d) = \mathrm{c0OverCSqOp}(d)\cdot\Delta\varphi_{\mathrm{disc}}(d)-\mu_{\mathrm{vac}}(d) = d^{d_{\mathrm{in}}(\square)} = (\mathrm{modBits}(d))^2$ подпороговых фазовых состояний каждой ячейки (Уровень~II, причём $\mathrm{cuboctShellSizeOp}(d,d_{\mathrm{in}}(\square)) = \mathrm{c0OverCSqOp}(d)\cdot\mathrm{heisenbergEquivClassSizeOp}(d)$) в один макрокласс нулевого рассеяния.
+\item \textbf{Ультрафиолетовая катастрофа (Рэлея--Джинса и петлевых расходимостей КТП):}
+  фазовый импульс ограничен потолком Паули $|\Phi|\le\Phi_{\mathrm{Pauli}}(d)$, число квантов энергии за такт ограничено числом квадратных граней $\mathrm{energyQuantumOperator}(d,\Phi_{\mathrm{Pauli}}(d)) = |\square(d)|$, а скачок функции Грина в центре решётки конечен и равен $\mathrm{centralGreenPotentialJumpOp}(d) = d$.
+\item \textbf{Парадокс нелокальности ЭПР / Белла и проблема космологического горизонта:}
+  квадрат отношения тактовой скорости звена $\caSignalSpeed$ к скорости света $\speedC$ равен $\mathrm{c0OverCSqOp}(d)$, порождая геометрическую прогрессию границ Белла--Цирельсона $\mathrm{tsirelsonQmSqOp}(d) = \mathrm{c0OverCSqOp}(d)\cdot\mathrm{bellLhvSqOp}(d)$ при строгом равенстве нулю нечётного тока переноса энергии на синглетном замке Паули ($\mathcal{S}_d(\Phi_{\mathrm{Pauli}}(d)) = 0$).
+\item \textbf{Парадокс гравитационной сингулярности, информационный парадокс Хокинга и проблема тёмной материи:}
+  на потолке Паули $\mu=K_P(d),\ \Delta\varphi=\Phi_{\mathrm{Pauli}}(d)$ знаменатель импеданса строго положителен ($\mathrm{shellGateDenomOp}(d,K_P(d),\Phi_{\mathrm{Pauli}}(d)) = \varepsilon(d) > 0$), тёмный остаток тождественно равен нулю ($D_{\mathrm{dark}}\equiv 0$), а биективность $\mathrm{polarReverseCell}$ сохраняет информацию побитово.
+\item \textbf{Парадокс фолдинга Левинталя и космобиологический парадокс Ферми:}
+  ко-трансляционная укладка на $d$ пазах тетраэдра~$K_4$ и обратный компилятор ДНК работают за линейное время $O(L)\in\mathrm{P}$, а фотонные резонансы трёх планетарных окон жизни $m_{\mathrm{env}}\in\{-\mu_{\mathrm{vac}}(d),0,+\mu_{\mathrm{vac}}(d)\}$ квантованы в точном отношении $\mathrm{universalPhotonStepOp}(d,m_{\mathrm{env}}) = \{\mathrm{zNitrogenOp}(d),\,\mathrm{c0OverCSqOp}(d),\,\mu_{\mathrm{vac}}(d)\}\cdot\mathrm{hBondDivisorOp}(d)$.
+\end{enumerate}
+\end{theorem}
+
 \input{volumes/include-computational-laboratory.tex}
 
 \input{volumes/include-measurement-processing.tex}
