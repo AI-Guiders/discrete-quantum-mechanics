@@ -43,6 +43,9 @@ namespace MtCarrier.Audit
 #print axioms MtCarrier.plaquette_winding_zero_of_principal
 #print axioms MtCarrier.shared_edge_charge_conservation
 #print axioms MtCarrier.discrete_gauss_cube_divergence_zero
+#print axioms MtCarrier.instrument_convolution_plaquette_flux_exact
+#print axioms MtCarrier.instrument_convolution_gauss_monopole_free_exact
+#print axioms MtCarrier.instrument_convolution_faraday_law_exact
 
 -- 4. TrajectoryIV263.lean (Rule Z4, Uniqueness of Polar Verlet Step, A3/A4/A5/A7/A13/A16 Theorems & IV(3)=263 3D Census)
 #print axioms MtCarrier.int_eq_of_sq_eq_of_pos
@@ -67,5 +70,7 @@ namespace MtCarrier.Audit
 #print axioms MtCarrier.ablation_heisenberg_threshold_15_breaks_octant_silence
 #print axioms MtCarrier.ablation_tdiv_destroys_domain_wall_chiral_asymmetry
 #print axioms MtCarrier.ablation_no_denom_guard_corrupts_t2_vortex_pair
+#print axioms MtCarrier.gravity_denominator_strictly_positive_floor_8192
+#print axioms MtCarrier.closed_form_unified_4channel_measurement_iv263_t2
 
 end MtCarrier.Audit
