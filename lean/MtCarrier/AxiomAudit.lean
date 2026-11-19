@@ -110,5 +110,6 @@ namespace MtCarrier.Audit
 #print axioms MtCarrier.superheavy_synthesis_recipes_and_uranium_shell_transfer_to_island_184
 #print axioms MtCarrier.post_island_cavitated_hypernuclei_neutron_pasta_and_nonsingular_black_hole_core
 #print axioms MtCarrier.shell_compression_gauss_flux_limit_and_pauli_rebound_operator
+#print axioms MtCarrier.gauss_green_compression_series_denominators_and_rational_bounds
 
 end MtCarrier.Audit
