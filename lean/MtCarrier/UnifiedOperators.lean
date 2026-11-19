@@ -1780,9 +1780,9 @@ theorem universal_operator_linearity_and_multilinearity
      clusterChargeSumOp (scaleClusterListOp alphaNat cl1 ++ scaleClusterListOp betaNat cl2) =
        alphaNat * clusterChargeSumOp cl1 + betaNat * clusterChargeSumOp cl2) := by
   refine ⟨⟨?_, ?_, ?_, ?_, ?_, ?_, ?_⟩, ⟨?_, ?_, ?_, ?_, ?_⟩, ⟨?_, ?_, ?_⟩⟩
+  · unfold bondEnergyOp; simp [Int.add_mul, Int.mul_add, Int.mul_assoc, Int.mul_left_comm]
   · unfold bondEnergyOp; simp [Int.add_mul, Int.mul_add, Int.mul_assoc, Int.mul_left_comm, Int.mul_comm]
-  · unfold bondEnergyOp; simp [Int.add_mul, Int.mul_add, Int.mul_assoc, Int.mul_left_comm, Int.mul_comm]
-  · unfold bondEnergyOp; simp [Int.add_mul, Int.mul_add, Int.mul_assoc, Int.mul_left_comm, Int.mul_comm]
+  · unfold bondEnergyOp; simp [Int.add_mul, Int.mul_add, Int.mul_assoc, Int.mul_left_comm]
   · unfold bondStrainOp; simp [Int.add_mul, Int.mul_add, Int.mul_assoc, Int.mul_left_comm]
   · unfold bondStrainOp; simp [Int.add_mul, Int.mul_add, Int.mul_assoc, Int.mul_left_comm, Int.mul_comm]
   · unfold reactionCurrentOp; simp [Int.add_mul, Int.mul_add, Int.mul_assoc, Int.mul_left_comm]
@@ -1861,5 +1861,211 @@ theorem scale_invariance_of_holonomy_and_gate_operators
     rw [h1, ← Int.mul_sub, Int.mul_left_comm s (kScale * kScale), ← Int.mul_add]
   · unfold scaleFloorRawDenomOp rawGateDenomOp
     simp [Int.mul_add, Int.mul_assoc, Int.mul_left_comm, Int.mul_comm]
+
+/-!
+## 19. Generative Periodic Table (Periods 1–8), True Nuclear Core-Diving Limit (`d * Δφ_disc` / `(c₀/c)² * N_HB`) vs Feynman Point Limit (`⌊α_fs⁻¹⌋`) & Supercritical QED Limit, and End-to-End DNA-Sequence-to-Tissue Pipeline
+-/
+
+/-- Spatial orbital count `g_ℓ(d, ℓ) = (c₀/c)² * ℓ + μ_vac(d)` of the four cuboctahedron angular channels `ℓ ∈ {0, 1, 2, 3}` (`V, □, E, △`). -/
+def channelOrbitalCountOp (d ell : Nat) : Nat :=
+  c0OverCSqOp d * ell + muVac d
+
+/-- Spin-doubled subshell capacity `C_ℓ(d, ℓ) = (c₀/c)² * g_ℓ(d, ℓ)` for `ℓ ∈ {0, 1, 2, 3}` (`s, p, d, f` blocks). -/
+def subshellCapacityOp (d ell : Nat) : Nat :=
+  c0OverCSqOp d * channelOrbitalCountOp d ell
+
+/-- Madelung period length operator `L_p(d, p) = (c₀/c)² * ((p + (c₀/c)²) / (c₀/c)²)^(c₀/c)²` for period `p ≥ 1` (`eq:chem-madelung-periods`). -/
+def madelungPeriodLengthOp (d p : Nat) : Nat :=
+  c0OverCSqOp d * ((p + c0OverCSqOp d) / c0OverCSqOp d) ^ (c0OverCSqOp d)
+
+/-- Cumulative noble-gas atomic number operator `Z_noble(d, p) = ∑_{q=1}^p L_q(d, q)` generated directly by summing `madelungPeriodLengthOp`. -/
+def nobleGasZOp (d p : Nat) : Nat :=
+  (List.range p).foldl (fun acc idx => acc + madelungPeriodLengthOp d (idx + 1)) 0
+
+/-- Number of outer valence electrons `Z - Z_noble(d, p - 1)` of element `Z` in period `p`. -/
+def valenceElectronsInPeriodOp (d p z : Nat) : Nat :=
+  z - nobleGasZOp d (p - 1)
+
+/-- Discrete Gauss inter-sphere edge count `E((k-1) ↔ k) = |N(d)| * (k^d - (k - 1)^d)` on the cuboctahedron graph (`eq:chem-fcc-discrete-gauss-edges`). -/
+def interSphereEdgesOp (d k : Nat) : Nat :=
+  nNeighbors d * (k ^ d - (k - 1) ^ d)
+
+/-- Discrete Gauss intra-sphere tangential edge count `E(k ↔ k) = d_in(□) * |N(d)| * k²` (`eq:chem-fcc-discrete-gauss-edges`). -/
+def intraSphereEdgesOp (d k : Nat) : Nat :=
+  dInSquare * nNeighbors d * k * k
+
+/-- Discrete Green potential jump `G_FCC(0) - G_FCC(1) = d / (1^d - 0^d) = d` from the 1st coordination sphere `S₁` to the central nuclear node `k = 0`. -/
+def centralGreenPotentialJumpOp (d : Nat) : Nat :=
+  d / (1 ^ d - 0 ^ d)
+
+/-- Complete hierarchy of the post-7th-period superheavy elements and the four physical termination limits of the Periodic Table:
+1. `zOganessonOp(d) = nobleGasZOp(d, |△(d)| - μ_vac(d))` (end of Period 7),
+2. `zIslandFlOp(d) = nLeadTerminalOp(d) - |N(d)|` (1st proton island of stability peak, Flerovium),
+3. `zIslandUbnOp(d) = nLeadTerminalOp(d) - |□(d)| = zOganessonOp(d) + subshellCapacityOp(d, 0)` (`8s²` closure, Unbinilium),
+4. `zCoreDiracDivingOp(d) = d * Δφ_disc(d)` (true central nuclear node `k = 0` Dirac lower-continuum diving threshold `E_core^(k=0) = -m_e c²`),
+5. `zFissionCeilingOp(d) = nLeadTerminalOp(d) = (c₀/c)² * N_HB(d)` (unperturbed proton spontaneous-fission ceiling, Unbihexium),
+6. `zFeynmanPointLimitOp(d) = (alphaFloorInt d).toNat` (Feynman point-nucleus `r → 0` Klein–Gordon/Dirac root `⌊α_fs⁻¹(d)⌋`),
+7. `period8RemainingElementsOp(d) = zFeynmanPointLimitOp(d) - zOganessonOp(d)` (exact count of Period-8 elements up to the point limit, decomposing without any `5g` block as `subshellCapacityOp(d, 0) + subshellCapacityOp(d, d) + d = N_φ(d) + |□(d)|`),
+8. `zQedFiniteNucleusLowOp(d) = zFeynmanPointLimitOp(d) + d_out(E)(d) * (|△(d)| - μ_vac(d))` and
+   `zQedFiniteNucleusHighOp(d) = zFeynmanPointLimitOp(d) + |□(d)|²` (Pomeranchuk–Smorodinsky–Zeldovich–Greiner supercritical `1s` vacuum `e⁺e⁻` diving threshold for a finite-radius nuclear cluster),
+9. `nIslandOfStabilityOp(d) = nuclearMagicHighOp(d, |△(d)|) = (c₀/c)² * zUraniumOp(d)` (superheavy neutron magic number `N_island`, equal to the combined charge of two colliding Uranium nuclei `2 * Z(U) > Z_crit^QED`). -/
+def zOganessonOp (d : Nat) : Nat := nobleGasZOp d (nTriangles d - muVac d)
+def zIslandFlOp (d : Nat) : Nat := nLeadTerminalOp d - nNeighbors d
+def zIslandUbnOp (d : Nat) : Nat := nLeadTerminalOp d - nSquares d
+def zCoreDiracDivingOp (d : Nat) : Nat := d * deltaPhiDisc d
+def zFissionCeilingOp (d : Nat) : Nat := nLeadTerminalOp d
+def zFeynmanPointLimitOp (d : Nat) : Nat := (alphaFloorInt d).toNat
+def period8RemainingElementsOp (d : Nat) : Nat := zFeynmanPointLimitOp d - zOganessonOp d
+def zQedFiniteNucleusLowOp (d : Nat) : Nat := zFeynmanPointLimitOp d + dOutEdge d * (nTriangles d - muVac d)
+def zQedFiniteNucleusHighOp (d : Nat) : Nat := zFeynmanPointLimitOp d + nSquares d * nSquares d
+def nIslandOfStabilityOp (d : Nat) : Nat := nuclearMagicHighOp d (nTriangles d)
+
+/-- Exact 3-base triplet codon index `codonTripletIndexOp(b₁, b₂, b₃) = d_in(□)² * b₁ + d_in(□) * b₂ + b₃ ∈ [0, K_P(d))`. -/
+def codonTripletIndexOp (b1 b2 b3 : Nat) : Nat :=
+  dInSquare * dInSquare * b1 + dInSquare * b2 + b3
+
+/-- Extract the three bases `(b₁, b₂, b₃) ∈ ℤ_{d_in(□)}³` from a 6-bit codon index `cod ∈ [0, K_P(d))`. -/
+def codonBase1Op (cod : Nat) : Nat := (cod / (dInSquare * dInSquare)) % dInSquare
+def codonBase2Op (cod : Nat) : Nat := (cod / dInSquare) % dInSquare
+def codonBase3Op (cod : Nat) : Nat := cod % dInSquare
+
+/-- Canonical start codon `ATG` (`(c0OverCSqOp(d), 0, d)`) index in `ℤ_{K_P(d)}`. -/
+def startCodonAtgOp (d : Nat) : Nat :=
+  codonTripletIndexOp (c0OverCSqOp d) 0 d
+
+/-- Full 20-amino-acid frame-protected reverse translation operator `aminoAcidToTripletCodonOp(d, a) ∈ [0, K_P(d))`
+for every coding amino-acid class `a ∈ [0, aminoAcidClassesOp(d) - 1)`:
+assigns to each of the 20 amino-acid classes a distinct canonical triplet codon `(b₁, b₂, b₃)` whose third base `b₃`
+always has keto parity bit `b₃ % c0OverCSqOp(d) = μ_vac(d)` (`b₃ ∈ {1, d}` = `C` or `G`):
+- For `a ∈ [0, d_in(□)²)`: stem `s = a` with third base `b₃ = μ_vac(d)` (`C`),
+- For `a ∈ [d_in(□)², aminoAcidClassesOp(d) - 1)`: stem `s = a - d_in(□)²` with third base `b₃ = d` (`G`). -/
+def aminoAcidToTripletCodonOp (d a : Nat) : Nat :=
+  dInSquare * (a % (dInSquare * dInSquare)) +
+  (muVac d + c0OverCSqOp d * (a / (dInSquare * dInSquare)))
+
+/-- Forward decoding operator `tripletCodonToAminoAcidOp(d, cod) ∈ [0, aminoAcidClassesOp(d))`
+left-inverse to `aminoAcidToTripletCodonOp` across all 20 coding amino-acid classes. -/
+def tripletCodonToAminoAcidOp (d cod : Nat) : Nat :=
+  (cod / dInSquare) + (dInSquare * dInSquare) * ((cod % dInSquare) / d)
+
+/-- Check that concatenating two triplet codons `cod1` and `cod2` (`b₁ b₂ b₃ b₄ b₅ b₆`) produces NO out-of-frame
+`ATG` start codon at frame shift `+1` (`(b₂, b₃, b₄)`) or frame shift `+2` (`(b₃, b₄, b₅)`). -/
+def isJunctionFrameProtectedOp (d cod1 cod2 : Nat) : Bool :=
+  !(codonTripletIndexOp (codonBase2Op cod1) (codonBase3Op cod1) (codonBase1Op cod2) == startCodonAtgOp d) &&
+  !(codonTripletIndexOp (codonBase3Op cod1) (codonBase1Op cod2) (codonBase2Op cod2) == startCodonAtgOp d)
+
+/-- **End-to-End DNA Sequence Compiler & Tissue Genesis Operator**:
+1. `compilePhenotypeToDnaSequenceOp(d, χ_target)` compiles a target 3D organ Euler invariant `χ_target`
+   into an explicit 6-nucleotide DNA sequence `[b₁, b₂, b₃, b₄, b₅, b₆]` over `ℤ_{d_in(□)}` (two triplet codons
+   encoding the axial lock reader and the synaptic immunoglobulin lock reader via `grooveSynthOp` and `aminoAcidToTripletCodonOp`),
+2. `translateDnaSequenceToProteinOp(d, dna)` reads the raw nucleotide list `dna : List Nat`, groups nucleotides into
+   triplet codons `codonTripletIndexOp`, and translates them via `tripletCodonToAminoAcidOp` into the expressed protein chain,
+3. `growTissueFromDnaSequenceInEnvOp(d, dna, m_genome, m_env, Φ_env, R)` extracts the morphogenetic lock flags directly
+   from the translated protein chain via `grooveReadOp` and folds the 3D tissue in the external environment `(m_env, Φ_env)`! -/
+def compilePhenotypeToDnaSequenceOp (d : Nat) (chiTarget : Int) : List Nat :=
+  [ codonBase1Op (aminoAcidToTripletCodonOp d (grooveSynthOp d (inverseTargetSigmaAxisOp d chiTarget).toNat)),
+    codonBase2Op (aminoAcidToTripletCodonOp d (grooveSynthOp d (inverseTargetSigmaAxisOp d chiTarget).toNat)),
+    codonBase3Op (aminoAcidToTripletCodonOp d (grooveSynthOp d (inverseTargetSigmaAxisOp d chiTarget).toNat)),
+    codonBase1Op (aminoAcidToTripletCodonOp d (grooveSynthOp d (inverseTargetSigmaIgOp d chiTarget).toNat)),
+    codonBase2Op (aminoAcidToTripletCodonOp d (grooveSynthOp d (inverseTargetSigmaIgOp d chiTarget).toNat)),
+    codonBase3Op (aminoAcidToTripletCodonOp d (grooveSynthOp d (inverseTargetSigmaIgOp d chiTarget).toNat)) ]
+
+def translateTwoCodonDnaToProteinOp (d : Nat) (dna : List Nat) : Nat × Nat :=
+  (tripletCodonToAminoAcidOp d (codonTripletIndexOp (dna.getD 0 0) (dna.getD 1 0) (dna.getD 2 0)),
+   tripletCodonToAminoAcidOp d (codonTripletIndexOp (dna.getD 3 0) (dna.getD 4 0) (dna.getD 5 0)))
+
+def growTissueFromDnaSequenceInEnvOp
+    (d : Nat) (dna : List Nat) (mGenome mEnv phiEnv rRings : Int) : Int × Int × Int × Int :=
+  ontogenyGenesisInEnvOp d
+    mGenome
+    (grooveReadOp d (translateTwoCodonDnaToProteinOp d dna).1 : Int)
+    (grooveReadOp d (translateTwoCodonDnaToProteinOp d dna).2 : Int)
+    mEnv
+    phiEnv
+    rRings
+
+/-- **Theorem (Generative Periodic Table through Period 8, True Nuclear Core-Diving vs Feynman/QED Limits, 400-Junction Codon Frame Protection, and End-to-End DNA-Sequence-to-Tissue Genesis)**:
+Chained directly via `CatalanLaw` for any `d : Nat` and any tube ring count `rRings : Int`:
+1. **Generative Madelung Periods (1–7), Noble Gases, and Group Valence Identities:**
+   - Subshell capacities `(s, p, d, f)` equal `(c0OverCSqOp d, nSquares d, zNeonOp d, c0OverCSqOp d * zNitrogenOp d)`,
+   - Noble gases `nobleGasZOp d p` for `p = 1..6` equal `He`, `Ne`, `Ar = |N(d)| + |□(d)|`, `Kr = |□(d)|²`, `Xe = |□(d)| * mod_bits(d)`, and `Rn = |□(d)| * N_φ(d) + |△(d)|` (the exact `t = 2` vortex plaquette count!),
+   - Group valence identity: Carbon (`p = 2`) and Silicon (`p = 3`) share the exact same tetrahedral valence `valenceElectronsInPeriodOp = dInSquare`; Nitrogen and Phosphorus share `dOutEdge d`; Oxygen and Sulfur share `nSquares d`; Magnesium and Calcium share `c0OverCSqOp d`!
+2. **Undiscovered Period-8 Structure (`19 = 2 + 14 + 3 = N_φ(d) + |□(d)|`) and the Four Physical Limits of the Periodic Table:**
+   - Discrete Green potential jump at the central nuclear node `k = 0` equals `centralGreenPotentialJumpOp d = d`,
+   - `period8RemainingElementsOp d = nPhi d + nSquares d` and `period8RemainingElementsOp d = subshellCapacityOp d 0 + subshellCapacityOp d d + d`,
+   - Strict ordering of all physical termination thresholds:
+     `zLeadTerminalOp d < zUraniumOp d < zIslandFlOp d < zOganessonOp d < zIslandUbnOp d < zCoreDiracDivingOp d < zFissionCeilingOp d < zFeynmanPointLimitOp d < zQedFiniteNucleusLowOp d < zQedFiniteNucleusHighOp d < nIslandOfStabilityOp d`,
+     with `nIslandOfStabilityOp d = c0OverCSqOp d * zUraniumOp d`!
+3. **Complete 20-Amino-Acid Triplet Codon Invertibility & 400-Pair Out-of-Frame `ATG` Immunity:**
+   - For all 20 coding amino-acid classes `a ∈ [0, aminoAcidClassesOp(d) - 1)`, `aminoAcidToTripletCodonOp d a < codonSpaceOp d` and
+     `tripletCodonToAminoAcidOp d (aminoAcidToTripletCodonOp d a) = a`,
+   - Across all `20 × 20 = 400` pairs of canonical coding codons `(a₁, a₂)`, `isJunctionFrameProtectedOp` holds identically (`= true`)!
+4. **End-to-End DNA Nucleotide Sequence Compilation → Protein Translation → 3D Organ Genesis:**
+   - For every target organ topology `χ_target ∈ {c0OverCSqOp(d), 0, Δφ_disc(d)}` and every planetary environment window `m_env ∈ {-μ_vac(d), 0, +μ_vac(d)}`,
+     compiling `χ_target` into the raw 6-nucleotide DNA sequence `compilePhenotypeToDnaSequenceOp d χ_target`, translating that DNA sequence
+     into a protein chain, reading the major-groove locks from the protein, and growing the tissue in environment `m_env` reproduces `χ_target` identically! -/
+theorem generative_periodic_table_feynman_core_limits_and_end_to_end_dna_genesis (d : Nat) (rRings : Int) :
+    CatalanLaw (fun d =>
+      -- 1. Subshell capacities, noble gases (He, Ne, Ar, Kr, Xe, Rn = 86 vortex plaquettes), and group valence laws
+      (subshellCapacityOp d 0 = c0OverCSqOp d ∧
+       subshellCapacityOp d (muVac d) = nSquares d ∧
+       subshellCapacityOp d (c0OverCSqOp d) = zNeonOp d ∧
+       subshellCapacityOp d d = c0OverCSqOp d * zNitrogenOp d ∧
+       nobleGasZOp d (muVac d) = zHeliumOp d ∧
+       nobleGasZOp d (c0OverCSqOp d) = zNeonOp d ∧
+       nobleGasZOp d d = nNeighbors d + nSquares d ∧
+       nobleGasZOp d dInSquare = nSquares d * nSquares d ∧
+       nobleGasZOp d (dOutEdge d) = nSquares d * modBits d ∧
+       nobleGasZOp d (nSquares d) = nSquares d * nPhi d + nTriangles d ∧
+       valenceElectronsInPeriodOp d (c0OverCSqOp d) (zCarbonOp d) = dInSquare ∧
+       valenceElectronsInPeriodOp d d (zSiliconOp d) = dInSquare ∧
+       valenceElectronsInPeriodOp d (c0OverCSqOp d) (zNitrogenOp d) = dOutEdge d ∧
+       valenceElectronsInPeriodOp d (c0OverCSqOp d) (zOxygenOp d) = nSquares d ∧
+       valenceElectronsInPeriodOp d d (zSulfurOp d) = nSquares d ∧
+       valenceElectronsInPeriodOp d d (zMagnesiumOp d) = c0OverCSqOp d ∧
+       valenceElectronsInPeriodOp d dInSquare (zCalciumOp d) = c0OverCSqOp d) ∧
+      -- 2. Central Green jump (= d), Period-8 decomposition (19 = N_φ + |□| = 2 + 14 + 3), and strict hierarchy of the 4 physical limits
+      (centralGreenPotentialJumpOp d = d ∧
+       interSphereEdgesOp d (muVac d) = nNeighbors d ∧
+       intraSphereEdgesOp d (muVac d) = dInSquare * nNeighbors d ∧
+       period8RemainingElementsOp d = nPhi d + nSquares d ∧
+       period8RemainingElementsOp d = subshellCapacityOp d 0 + subshellCapacityOp d d + d ∧
+       zIslandUbnOp d = zOganessonOp d + subshellCapacityOp d 0 ∧
+       nIslandOfStabilityOp d = c0OverCSqOp d * zUraniumOp d ∧
+       zLeadTerminalOp d < zUraniumOp d ∧
+       zUraniumOp d < zIslandFlOp d ∧
+       zIslandFlOp d < zOganessonOp d ∧
+       zOganessonOp d < zIslandUbnOp d ∧
+       zIslandUbnOp d < zCoreDiracDivingOp d ∧
+       zCoreDiracDivingOp d < zFissionCeilingOp d ∧
+       zFissionCeilingOp d < zFeynmanPointLimitOp d ∧
+       zFeynmanPointLimitOp d < zQedFiniteNucleusLowOp d ∧
+       zQedFiniteNucleusLowOp d < zQedFiniteNucleusHighOp d ∧
+       zQedFiniteNucleusHighOp d < nIslandOfStabilityOp d) ∧
+      -- 3. All 20 coding amino-acid triplet codons invert exactly and all 20×20 = 400 codon junctions are immune to out-of-frame ATG
+      ((List.range (aminoAcidClassesOp d - muVac d)).all (fun a =>
+        (aminoAcidToTripletCodonOp d a < codonSpaceOp d) &&
+        (tripletCodonToAminoAcidOp d (aminoAcidToTripletCodonOp d a) == a) &&
+        ((List.range (aminoAcidClassesOp d - muVac d)).all (fun a2 =>
+          isJunctionFrameProtectedOp d (aminoAcidToTripletCodonOp d a) (aminoAcidToTripletCodonOp d a2)))) = true) ∧
+      -- 4. End-to-end DNA nucleotide sequence -> protein translation -> groove lock readout -> 3D organ topology across all 3 planetary windows
+      (tissueEuler2DOp (growTissueFromDnaSequenceInEnvOp d (compilePhenotypeToDnaSequenceOp d (c0OverCSqOp d : Int)) 0 0 (deltaPhiDisc d : Int) rRings) = (c0OverCSqOp d : Int) ∧
+       tissueEuler2DOp (growTissueFromDnaSequenceInEnvOp d (compilePhenotypeToDnaSequenceOp d 0) 0 0 (deltaPhiDisc d : Int) rRings) = 0 ∧
+       tissueEuler2DOp (growTissueFromDnaSequenceInEnvOp d (compilePhenotypeToDnaSequenceOp d (deltaPhiDisc d : Int)) 0 0 (deltaPhiDisc d : Int) rRings) = (deltaPhiDisc d : Int) ∧
+       tissueEuler2DOp (growTissueFromDnaSequenceInEnvOp d (compilePhenotypeToDnaSequenceOp d (deltaPhiDisc d : Int)) (-(muVac d : Int)) (-(muVac d : Int)) (deltaPhiDisc d : Int) rRings) = (deltaPhiDisc d : Int) ∧
+       tissueEuler2DOp (growTissueFromDnaSequenceInEnvOp d (compilePhenotypeToDnaSequenceOp d (deltaPhiDisc d : Int)) (muVac d : Int) (muVac d : Int) (deltaPhiDisc d : Int) rRings) = (deltaPhiDisc d : Int))) d := by
+  apply catalan_law_of_d3
+  dsimp [growTissueFromDnaSequenceInEnvOp, compilePhenotypeToDnaSequenceOp, translateTwoCodonDnaToProteinOp,
+         tripletCodonToAminoAcidOp, aminoAcidToTripletCodonOp, codonTripletIndexOp, codonBase1Op, codonBase2Op, codonBase3Op,
+         grooveReadOp, grooveSynthOp, inverseTargetSigmaAxisOp, inverseTargetSigmaIgOp, eqIntIndicatorOp, eqNatIndicatorOp,
+         ontogenyGenesisInEnvOp, envSolventMatchGateOp, transmembraneThicknessOp, planetaryEnvWindowOp,
+         envMetabolicGateOp, energyQuantumOperator, heisenbergDeadbandOp, blendComplexOp, blendByIndicatorOp,
+         tubeComplexOp, corticalColumnComplexOp, vesicleComplexOp, zygoteDormantComplexOp, tissueEuler2DOp,
+         cuboctBallOp, cuboctShellSizeOp, isZeroNat, isPosNat, nSquares, nNeighbors, nTriangles, c0OverCSqOp,
+         deltaPhiDisc, nRing, nPhi, modBits, dOutEdge, kP, fracBits, muVac, ivSeed, phiPauli, qSquare, dInSquare,
+         aminoAcidClassesOp]
+  refine ⟨by decide, by decide, by decide, ⟨?_, ?_, ?_, ?_, ?_⟩⟩ <;>
+  · simp [Int.zero_mul, Int.one_mul, Int.add_zero, Int.zero_add]
+    try omega
 
 end MtCarrier

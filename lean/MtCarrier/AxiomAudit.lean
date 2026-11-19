@@ -105,5 +105,6 @@ namespace MtCarrier.Audit
 #print axioms MtCarrier.universal_cosmobiology_three_planetary_windows_operator
 #print axioms MtCarrier.universal_operator_linearity_and_multilinearity
 #print axioms MtCarrier.scale_invariance_of_holonomy_and_gate_operators
+#print axioms MtCarrier.generative_periodic_table_feynman_core_limits_and_end_to_end_dna_genesis
 
 end MtCarrier.Audit
