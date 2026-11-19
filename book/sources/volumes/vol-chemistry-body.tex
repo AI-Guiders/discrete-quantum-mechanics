@@ -675,6 +675,74 @@ $Z$ & Элемент & Канал & $Z_{\mathrm{eff}}^{\mathrm{pred}}$ & $IE_1^{
 \item Сложность выбора паза для каждого остатка равна $O(1)$ локальных целочисленных сравнений по звезде кубооктаэдра, а полная укладка цепи длины~$L$ происходит ко-трансляционно за $O(L)$ шагов без лагов.
 \end{enumerate}
 
+\section{Универсальный оператор планетогенеза, реакций дифференциации всех типов планетных ядер и межэтажного изоморфизма замкнутых оболочек}
+\label{sec:chem-planetogenesis-operator}
+
+Геохимическая дифференциация протопланетного диска и внутреннее расслоение всех типов планетных и субзвёздных тел (включая тела без биосферы: газовые гиганты, коричневые карлики, суперионные ледяные гиганты, азотно-карбонильные транснептуновые тела, карбидно-алмазные экзопланеты, сверхгорячие корундовые суперземли, хондритовые оливиновые тела, сульфидно-железные и силицидно-никелевые ядра, металлические железно-никелевые ядра с перовскитной мантией и радиогенным нагревателем динамо) подчиняются тому же операторному закону замыкания оболочек кубооктаэдра $O_2(d)$:
+
+\begin{theorem}[Операторный закон планетогенеза, генеративного отбора реакций расслоения ядер и мантии и межэтажного изоморфизма оболочек]
+\label{thm:chem-planetogenesis-and-cross-floor-isomorphism}
+Для любого $d\in\mathbb{N}$ операторный закон Каталана $\mathrm{CatalanLaw}(P,d)$ (\texttt{planetogenesis\_all\_planetary\_cores\_and\_mantle\_invariants\_operator} и \texttt{cross\_floor\_shell\_closure\_isomorphism\_operator} в \texttt{lean/MtCarrier/UnifiedOperators.lean}) эквивалентен системе следующих чисто операторных соотношений между оператором низших ядерных магических оболочек $\mathrm{nuclearMagicLowOp}(d,m) = m(m+\mu_{\mathrm{vac}}(d))(m+\mathrm{c0OverCSqOp}(d))/d$, оператором высших ядерных магических оболочек $\mathrm{nuclearMagicHighOp}(d,k) = k(k^2+d_{\mathrm{out}}(E)(d))/d$, оператором координационных сфер $\mathrm{cuboctShellSizeOp}(d,k)$, оператором заряда многоэлементного кластера $\mathrm{clusterChargeSumOp}$, универсальным оператором замкнутых реакций дифференциации $\mathrm{isClosedDifferentiationReactionOp}(d,\mathcal{R},\mathcal{P})$ и генеративным оператором бинарных пар $\mathrm{discoverBinaryShellPairsOp}$:
+\begin{enumerate}[label=\textbf{(\roman*)},leftmargin=*]
+\item \textbf{Водородно-гелиевые ядра газовых гигантов и литий-борный порог коричневых карликов:}
+  \[
+    \mathrm{zHeliumOp}(d) = \mathrm{nuclearMagicLowOp}\bigl(d,\mu_{\mathrm{vac}}(d)\bigr) = \mathrm{c0OverCSqOp}(d),\qquad
+    \mathrm{zHydrogenOp}(d) + \mathrm{zHeliumOp}(d) = d,
+  \]
+  \[
+    \mathrm{isClosedDifferentiationReactionOp}\bigl(d,\,[(1,\mathrm{zLithiumOp}(d)),(1,\mathrm{zBoronOp}(d))],\,[(1,\mathrm{zOxygenOp}(d))]\bigr) = \mathrm{true}.
+  \]
+\item \textbf{Суперионные ледяные ядра ($\mathrm{CH_4}\leftrightarrow\mathrm{NH_3}\leftrightarrow\mathrm{H_2O}\leftrightarrow\mathrm{Ne}$) и криогенные азотно-карбонильные ядра ($\mathrm{N_2}\leftrightarrow\mathrm{CO}\leftrightarrow\mathrm{Si}$):}
+  \[
+    \mathrm{zMethaneIceOp}(d) = \mathrm{zAmmoniaIceOp}(d) = \mathrm{zWaterIceOp}(d) = \mathrm{zNeonOp}(d) = |N(d)| - \mathrm{c0OverCSqOp}(d),
+  \]
+  \[
+    \mathrm{zDinitrogenIceOp}(d) = \mathrm{zCarbonMonoxideIceOp}(d) = \mathrm{zSiliconOp}(d) = N_\varphi(d) + \mu_{\mathrm{vac}}(d).
+  \]
+\item \textbf{Карбидно-алмазные ядра экзопланет ($\mathrm{SiC}\leftrightarrow\mathrm{Ca}$), металлические железно-никелевые ядра ($\mathrm{Mg}+\mathrm{Si}\leftrightarrow 2\mathrm{Al}\leftrightarrow\mathrm{Fe}$, $2\mathrm{Si}\leftrightarrow\mathrm{Mg}+\mathrm{S}\leftrightarrow\mathrm{Ni}$) и тройное замыкание второй сферы ($\mathrm{FeS}\leftrightarrow\mathrm{NiSi}\leftrightarrow\mathrm{MgCO_3}$):}
+  генеративный оператор $\mathrm{discoverBinaryShellPairsOp}$ и реакционный оператор $\mathrm{isClosedDifferentiationReactionOp}$ автоматически выделяют замкнутые реакции расслоения ядра и мантии:
+  \begin{equation}
+  \label{eq:planetogenesis-reaction-identities}
+  \begin{aligned}
+    \mathrm{zSiliconCarbideCoreOp}(d) &= \mathrm{zCalciumOp}(d) = \mathrm{nuclearMagicLowOp}(d,d) = d_{\mathrm{in}}(\square)\cdot d_{\mathrm{out}}(E)(d),\\
+    \mathrm{clusterChargeSumOp}\bigl([(1,\mathrm{zMagnesiumOp}(d)),(1,\mathrm{zSiliconOp}(d))]\bigr)
+    &= \mathrm{clusterChargeSumOp}\bigl([(\mathrm{c0OverCSqOp}(d),\mathrm{zAluminumOp}(d))]\bigr)
+    = \mathrm{zIronOp}(d) = \mathrm{c0OverCSqOp}(d)\cdot N_\varphi(d),\\
+    \mathrm{clusterChargeSumOp}\bigl([(\mathrm{c0OverCSqOp}(d),\mathrm{zSiliconOp}(d))]\bigr)
+    &= \mathrm{clusterChargeSumOp}\bigl([(1,\mathrm{zMagnesiumOp}(d)),(1,\mathrm{zSulfurOp}(d))]\bigr)
+    = \mathrm{zNickelOp}(d) = \mathrm{nuclearMagicHighOp}\bigl(d,d_{\mathrm{in}}(\square)\bigr),\\
+    \mathrm{zIronSulfideCoreOp}(d) &= \mathrm{zNickelSilicideCoreOp}(d) = \mathrm{zMagnesiteCarbonateMantleOp}(d)
+    = \mathrm{cuboctShellSizeOp}\bigl(d,\mathrm{c0OverCSqOp}(d)\bigr).
+  \end{aligned}
+  \end{equation}
+\item \textbf{Тугоплавкие корундовые ядра ($\mathrm{Al_2O_3}$), перовскитная мантия ($\mathrm{MgSiO_3}$), хондритовый оливин ($\mathrm{Mg_2SiO_4}$) и радиогенный двигатель динамо ($\mathrm{U}\to\mathrm{Pb}$):}
+  \[
+    \mathrm{zPerovskiteMantleOp}(d) = \mathrm{zCorundumCoreOp}(d) = \mathrm{nuclearMagicHighOp}\bigl(d,d_{\mathrm{out}}(E)(d)\bigr),
+  \]
+  \[
+    \mathrm{zOlivineChondriteOp}(d) = \mathrm{zPerovskiteMantleOp}(d) + \mathrm{zCalciumOp}(d) = K_P(d) + |\square(d)|,
+  \]
+  \[
+    \mathrm{zUraniumOp}(d) = \mathrm{cuboctShellSizeOp}(d,d),\qquad
+    \mathrm{zLeadTerminalOp}(d) = \mathrm{c0OverCSqOp}(d)\cdot\Delta\varphi_{\mathrm{disc}}(d),
+  \]
+  \[
+    \mathrm{nLeadTerminalOp}(d) = \mathrm{c0OverCSqOp}(d)\cdot\mathrm{hBondDivisorOp}(d),\qquad
+    \mathrm{aLeadTerminalOp}(d) = \mathrm{c0OverCSqOp}(d)\cdot |{\triangle}(d)|\cdot N_\varphi(d).
+  \]
+\item \textbf{Межэтажный изоморфизм замкнутых оболочек носителя (\texttt{cross\_floor\_shell\_closure\_isomorphism\_operator}):}
+  каждая каноническая оболочка кубооктаэдра $O_2(d)$ связывает инварианты всех этажей единым операторным равенством:
+  \begin{itemize}[noitemsep]
+  \item оболочка $\mathrm{c0OverCSqOp}(d)$: квадрат отношения скоростей $(\caSignalSpeed/\speedC)^2$ $=$ шаг лестницы Белла--Цирельсона $\mathrm{tsirelsonQmSqOp}(d)/\mathrm{bellLhvSqOp}(d)$ $=$ число поляризаций гравитационной волны $|\square(d)|-d-\mu_{\mathrm{vac}}(d)$ $=$ первое ядерное магическое замыкание $\mathrm{zHeliumOp}(d)$ $=$ эйлерова характеристика альвеолярного пузырька $\mathrm{tissueEuler2DOp}(\mathrm{vesicleComplexOp}(d))$;
+  \item оболочка $|{\triangle}(d)|$: число треугольных граней кубооктаэдра $=$ квантовая граница Цирельсона $\mathrm{tsirelsonQmSqOp}(d)$ $=$ второе ядерное магическое замыкание $\mathrm{zOxygenOp}(d) = \mathrm{zLithiumOp}(d)+\mathrm{zBoronOp}(d)$ $=$ размер нерасщеплённого Октета~I Румера;
+  \item оболочка $\mathrm{c0OverCSqOp}(d)\cdot N_\varphi(d)$: сумма трёх орбит куба смещений $|O_1|+|O_2|+|O_3|$ $=$ число экваториальных вихревых плакетов при $t=2$ $=$ железное ядро планет $\mathrm{zIronOp}(d) = \mathrm{zMagnesiumOp}(d)+\mathrm{zSiliconOp}(d) = \mathrm{c0OverCSqOp}(d)\cdot\mathrm{zAluminumOp}(d)$;
+  \item оболочка $\Delta\varphi_{\mathrm{disc}}(d)$: квантовый порог Гейзенберга $=$ шаг донорной иммуноглобулиновой петли синапса $\mathrm{cuboctShellSizeOp}(d,\mathrm{c0OverCSqOp}(d))-\mu_{\mathrm{vac}}(d)$ $=$ число делений и эйлерова характеристика кортикальной колонки мозга $\mathrm{tissueEuler2DOp}(\mathrm{corticalColumnComplexOp}(d,|\square(d)|))$;
+  \item оболочка $\mathrm{cuboctShellSizeOp}(d,\mathrm{c0OverCSqOp}(d))$ (вторая сфера $S_2$): сульфидное ядро $\mathrm{zIronSulfideCoreOp}(d)$ $=$ силицидное ядро $\mathrm{zNickelSilicideCoreOp}(d)$ $=$ карбонат мантии $\mathrm{zMagnesiteCarbonateMantleOp}(d)$ $=$ удвоенное число смысловых классов кода $\mathrm{c0OverCSqOp}(d)\cdot\mathrm{aminoAcidClassesOp}(d)$ $=$ число нейронов кортикальной колонки $V(\mathrm{corticalColumnComplexOp}(d,|\square(d)|))$;
+  \item оболочка $\mathrm{cuboctBallOp}(d)$ (трёхсферный шар $B_d$): вместимость нуклеосомной катушки хроматина $=$ полное число синаптических контактов кортикальной колонки $E(\mathrm{corticalColumnComplexOp}(d,|\square(d)|))$.
+  \end{itemize}
+\end{enumerate}
+\end{theorem}
+
 \input{volumes/include-computational-laboratory.tex}
 
 \input{volumes/include-measurement-processing.tex}

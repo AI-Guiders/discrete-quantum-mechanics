@@ -99,5 +99,7 @@ namespace MtCarrier.Audit
 #print axioms MtCarrier.closed_form_organism_genesis_in_environment_operator
 #print axioms MtCarrier.predictive_mutagenesis_and_epigenetic_saturation_operator
 #print axioms MtCarrier.inverse_phenotype_to_genome_compiler_operator
+#print axioms MtCarrier.planetogenesis_all_planetary_cores_and_mantle_invariants_operator
+#print axioms MtCarrier.cross_floor_shell_closure_isomorphism_operator
 
 end MtCarrier.Audit
