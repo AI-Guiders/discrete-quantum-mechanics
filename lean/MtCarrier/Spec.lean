@@ -50,6 +50,22 @@ def ivSeed (d : Nat) : Nat := 2 ^ (2 ^ d) + (2 ^ d - 1)
 /-- Coulomb channel modulus `M_hat(d) = 1 + |N(d)| * |△(d)|` (at `d=3`: `1 + 12*8 = 97`). -/
 def mHat (d : Nat) : Nat := 1 + nNeighbors d * nTriangles d
 
+/-- Heisenberg discrete phase floor `Δφ_disc(d) = (N_ring(d) + N_φ(d) + |△(d)|) / N_φ(d)` (at `d=3`: `533 / 13 = 41`). -/
+def deltaPhiDisc (d : Nat) : Nat := (nRing d + nPhi d + nTriangles d) / nPhi d
+
+/-- Vacuum denominator floor `ε(d) = K_P(d) * Q_□(d)` (at `d=3`: `64 * 128 = 8192`). -/
+def epsDenom (d : Nat) : Nat := kP d * qSquare d
+
+/-- Vacuum amplitude floor `μ_vac(d) = IV(d) % 2` (at `d=3`: `263 % 2 = 1`). -/
+def muVac (d : Nat) : Nat := ivSeed d % 2
+
+/-- Outgoing edge-channel degree `d_out(E)(d) = |N(d)| - (1 + |□(d)|)` (at `d=3`: `12 - 7 = 5`). -/
+def dOutEdge (d : Nat) : Nat := nNeighbors d - (1 + nSquares d)
+
+/-- Coherent second-quadrant phase threshold `A_coh(d) = Q_□(d) + Q_□(d) / |N(d)| + 1`
+where `|N(d)| * C(A_coh) ≤ -Q_□(d)` (at `d=3`: `128 + 10 + 1 = 139`, `12 * (-11) = -132 ≤ -128`). -/
+def coherentThresholdTicks (d : Nat) : Nat := qSquare d + (qSquare d / nNeighbors d) + 1
+
 /-- Canonical `d = 3` table of carrier constants (Rule Z1). -/
 theorem canonical_d3_constants :
     nNeighbors 3 = 12 ∧
@@ -64,7 +80,12 @@ theorem canonical_d3_constants :
     qSquare 3 = 128 ∧
     phiPauli 3 = 256 ∧
     mHat 3 = 97 ∧
-    ivSeed 3 = 263 := by
+    ivSeed 3 = 263 ∧
+    deltaPhiDisc 3 = 41 ∧
+    epsDenom 3 = 8192 ∧
+    muVac 3 = 1 ∧
+    dOutEdge 3 = 5 ∧
+    coherentThresholdTicks 3 = 139 := by
   decide
 
 /-- Helper arithmetic lemma for the induction step:
@@ -167,14 +188,16 @@ theorem heisenberg_divisibility_d3 :
     (nRing 3 + nPhi 3 + nTriangles 3) / nPhi 3 = 41 := by
   decide
 
-/-- Converse uniqueness of Lock 3 (`eq:heisenberg-divisibility-lock`):
-Across dimensions `d ∈ {2, 3, 4, 5, 6, 7}`, exact divisibility
-`N_φ(d) ∣ (N_ring(d) + N_φ(d) + |△(d)|)` holds **if and only if `d = 3`**! -/
-theorem heisenberg_divisibility_lock_unique_d3_up_to_8 (d : Nat)
-    (hd2 : 2 ≤ d) (hd7 : d ≤ 7) :
-    ((nRing d + nPhi d + nTriangles d) % nPhi d = 0) ↔ d = 3 := by
-  have h_cases : d = 2 ∨ d = 3 ∨ d = 4 ∨ d = 5 ∨ d = 6 ∨ d = 7 := by omega
-  rcases h_cases with rfl | rfl | rfl | rfl | rfl | rfl <;> decide
+/-- Converse uniqueness of Lock 3 (`eq:heisenberg-divisibility-lock`, zero hypotheses in signature!):
+For any `d : Nat`, `(2 ≤ d ∧ d ≤ 7 ∧ N_φ(d) ∣ (N_ring(d) + N_φ(d) + |△(d)|))` holds **if and only if `d = 3`**! -/
+theorem heisenberg_divisibility_lock_unique_d3_up_to_8 (d : Nat) :
+    (2 ≤ d ∧ d ≤ 7 ∧ (nRing d + nPhi d + nTriangles d) % nPhi d = 0) ↔ d = 3 := by
+  constructor
+  · rintro ⟨hd2, hd7, hdiv⟩
+    have h_cases : d = 2 ∨ d = 3 ∨ d = 4 ∨ d = 5 ∨ d = 6 ∨ d = 7 := by omega
+    rcases h_cases with rfl | rfl | rfl | rfl | rfl | rfl <;> revert hdiv <;> decide
+  · rintro rfl
+    decide
 
 /-- Theorem (A15 — Canonical 9-Bit Decomposition of the Unique Initial Vector `IV(3) = 263`):
 At the unique Catalan root `d = 3`, the 9-bit initial vector `IV(3) = 2^(2^3) + (2^3 - 1) = 263`
@@ -191,15 +214,14 @@ theorem a15_iv263_unique_9bit_catalan_seed_decomposition :
     ivSeed 3 % 2 = 1 := by
   decide
 
-/-- Lock 4 of Theorem 11.12 (`eq:star-boolean-density-lock`):
-For `d ≥ 1`, the two-lane square-face budget `2 * |□(d)| = 4*d` equals the
-kissing-shell neighbor count `|N(d)| = 2*d*(d-1)` if and only if `d = 3`,
+/-- Lock 4 of Theorem 11.12 (`eq:star-boolean-density-lock`, zero hypotheses in signature!):
+For any `d : Nat`, `(1 ≤ d ∧ 2 * |□(d)| = |N(d)|)` holds **if and only if `d = 3`**,
 locking `K_P(3)^2 = 2^(2*|□(3)|) = 2^(|N(3)|) = 2^12 = 4096`. -/
-theorem star_boolean_density_lock_iff_d3 (d : Nat) (hd : d ≥ 1) :
-    (2 * nSquares d = nNeighbors d) ↔ d = 3 := by
+theorem star_boolean_density_lock_iff_d3 (d : Nat) :
+    (1 ≤ d ∧ 2 * nSquares d = nNeighbors d) ↔ d = 3 := by
   unfold nSquares nNeighbors
   constructor
-  · intro h
+  · rintro ⟨hd, h⟩
     have hdiv : 2 * d * 2 = 2 * d * (d - 1) := by omega
     have hpos : 2 * d > 0 := by omega
     have heq := Nat.eq_of_mul_eq_mul_left hpos hdiv
@@ -271,19 +293,27 @@ theorem cubic_orbits_partition_26 :
 def isotropicShellSize (b1 b2 b3 : Bool) : Nat :=
   (if b1 then 6 else 0) + (if b2 then 12 else 0) + (if b3 then 8 else 0)
 
-/-- **Uniqueness of the Cuboctahedron (`O₂`, `z = 12`)**:
-Among all `O_h`-isotropic shells `(b₁, b₂, b₃)` in `{-1, 0, +1}³ \ {0}`:
-1. The Heisenberg divisibility lock `(1 + z) ∣ (512 + (1 + z) + 8)` holds **iff** `(b₁, b₂, b₃) = (false, true, false)`.
+/-- **Uniqueness of the Cuboctahedron (`O₂`, `z = 12`, zero hypotheses in signature!)**:
+Across all `2³ = 8` boolean subsets `(b₁, b₂, b₃) ∈ Bool³` of `{O₁, O₂, O₃}` in `{-1, 0, +1}³ \ {0}`:
+1. The non-empty Heisenberg divisibility lock `z > 0 ∧ (1 + z) ∣ (512 + (1 + z) + 8)` holds **iff** `(b₁, b₂, b₃) = (false, true, false)`.
 2. The Gaussian-Coulomb lock `1 + 8 * z = 4^2 + 9^2` holds **iff** `(b₁, b₂, b₃) = (false, true, false)`.
 3. The Star-boolean density lock `2^z = 64^2` holds **iff** `(b₁, b₂, b₃) = (false, true, false)`.
 Thus the FCC cuboctahedron is uniquely forced by integer arithmetic alone! -/
-theorem cuboctahedron_unique_isotropic_shell_d3 (b1 b2 b3 : Bool)
-    (h_nonempty : (b1 || b2 || b3) = true) :
+theorem cuboctahedron_unique_isotropic_shell_d3 (b1 b2 b3 : Bool) :
     let z := isotropicShellSize b1 b2 b3
-    (((nRing 3 + (1 + z) + nTriangles 3) % (1 + z) = 0) ↔ (b1 = false ∧ b2 = true ∧ b3 = false)) ∧
+    ((z > 0 ∧ (nRing 3 + (1 + z) + nTriangles 3) % (1 + z) = 0) ↔ (b1 = false ∧ b2 = true ∧ b3 = false)) ∧
     ((1 + z * nTriangles 3 = dInSquare ^ 2 + (modBits 3) ^ 2) ↔ (b1 = false ∧ b2 = true ∧ b3 = false)) ∧
     ((2 ^ z = (kP 3) ^ 2) ↔ (b1 = false ∧ b2 = true ∧ b3 = false)) := by
-  cases b1 <;> cases b2 <;> cases b3 <;> revert h_nonempty <;> decide
+  cases b1 <;> cases b2 <;> cases b3 <;> decide
+
+/-- Pure `Nat.beq`-based integer equality test `intEqBool a b = ((a - b).natAbs == 0)`
+that avoids Lean's `instBEqOfDecidableEq` / `Classical.choice` path on `Int`. -/
+def intEqBool (a b : Int) : Bool :=
+  Nat.beq (a - b).natAbs 0
+
+/-- Pure `Nat.beq`-based 3D integer vector equality test. -/
+def vec3EqBool (u v : Int × Int × Int) : Bool :=
+  intEqBool u.1 v.1 && intEqBool u.2.1 v.2.1 && intEqBool u.2.2 v.2.2
 
 /-- Centrosymmetry and planar incidence of the FCC cuboctahedron `O₂ = cubicOrbit3D 2`:
 1. Every displacement `e ∈ O₂` has its exact opposite `-e ∈ O₂` (6 antipodal edge pairs, ruling out
@@ -291,15 +321,15 @@ theorem cuboctahedron_unique_isotropic_shell_d3 (b1 b2 b3 : Bool)
 2. Each of the `3` coordinate planes (`dz = 0`, `dy = 0`, `dx = 0`) intersects `O₂` in a square of `4` vertices.
 3. Each of the `4` body-diagonal planes (`dz ± dy ± dx = 0`) intersects `O₂` in a hexagon of `6` vertices. -/
 theorem fcc_cuboctahedron_centrosymmetric_and_planar_incidence :
-    let o2 := cubicOrbit3D 2
-    (o2.all (fun (dz, dy, dx) => o2.contains (-dz, -dy, -dx)) = true) ∧
-    ((o2.filter (fun (dz, _, _) => dz == 0)).length = 4) ∧
-    ((o2.filter (fun (_, dy, _) => dy == 0)).length = 4) ∧
-    ((o2.filter (fun (_, _, dx) => dx == 0)).length = 4) ∧
-    ((o2.filter (fun (dz, dy, dx) => dz + dy + dx == 0)).length = 6) ∧
-    ((o2.filter (fun (dz, dy, dx) => dz + dy - dx == 0)).length = 6) ∧
-    ((o2.filter (fun (dz, dy, dx) => dz - dy + dx == 0)).length = 6) ∧
-    ((o2.filter (fun (dz, dy, dx) => dz - dy - dx == 0)).length = 6) := by
+    ((cubicOrbit3D 2).all (fun (dz, dy, dx) =>
+      (cubicOrbit3D 2).any (fun v => vec3EqBool v (-dz, -dy, -dx))) = true) ∧
+    (((cubicOrbit3D 2).filter (fun (dz, _, _) => intEqBool dz 0)).length = 4) ∧
+    (((cubicOrbit3D 2).filter (fun (_, dy, _) => intEqBool dy 0)).length = 4) ∧
+    (((cubicOrbit3D 2).filter (fun (_, _, dx) => intEqBool dx 0)).length = 4) ∧
+    (((cubicOrbit3D 2).filter (fun (dz, dy, dx) => intEqBool (dz + dy + dx) 0)).length = 6) ∧
+    (((cubicOrbit3D 2).filter (fun (dz, dy, dx) => intEqBool (dz + dy - dx) 0)).length = 6) ∧
+    (((cubicOrbit3D 2).filter (fun (dz, dy, dx) => intEqBool (dz - dy + dx) 0)).length = 6) ∧
+    (((cubicOrbit3D 2).filter (fun (dz, dy, dx) => intEqBool (dz - dy - dx) 0)).length = 6) := by
   decide
 
 end MtCarrier

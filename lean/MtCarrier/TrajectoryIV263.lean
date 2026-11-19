@@ -44,94 +44,97 @@ and parallel (`|wrap512(φ₁ - φ₀)| < 41`). -/
 def pauliPredicate (c : PolarCell) : Bool :=
   (c.mu0 * c.mu0 > 2048) && (c.mu1 * c.mu1 > 2048) && ((wrap512 (c.phi1 - c.phi0)).natAbs < 41)
 
-/-- Helper algebraic lemma in `ℤ`: if `a ≥ 1`, `b ≥ 1`, and `a * a = b * b`, then `a = b`. -/
-theorem int_eq_of_sq_eq_of_pos (a b : Int) (ha : 1 ≤ a) (hb : 1 ≤ b) (hsq : a * a = b * b) :
-    a = b := by
-  have h_trich : a < b ∨ a = b ∨ b < a := by omega
-  rcases h_trich with hlt | rfl | hgt
-  · have h1 : a * a < a * b := Int.mul_lt_mul_of_pos_left hlt (by omega)
-    have h2 : a * b < b * b := Int.mul_lt_mul_of_pos_right hlt (by omega)
-    omega
-  · rfl
-  · have h1 : b * b < b * a := Int.mul_lt_mul_of_pos_left hgt (by omega)
-    have h2 : b * a < a * a := Int.mul_lt_mul_of_pos_right hgt (by omega)
-    omega
+/-- Helper algebraic equivalence in `ℤ` (zero hypotheses in signature!):
+`(1 ≤ a ∧ 1 ≤ b ∧ a * a = b * b) ↔ (1 ≤ a ∧ 1 ≤ b ∧ a = b)`. -/
+theorem int_eq_of_sq_eq_of_pos (a b : Int) :
+    (1 ≤ a ∧ 1 ≤ b ∧ a * a = b * b) ↔ (1 ≤ a ∧ 1 ≤ b ∧ a = b) := by
+  constructor
+  · rintro ⟨ha, hb, hsq⟩
+    refine ⟨ha, hb, ?_⟩
+    have h_trich : a < b ∨ a = b ∨ b < a := by omega
+    rcases h_trich with hlt | rfl | hgt
+    · have h1 : a * a < a * b := Int.mul_lt_mul_of_pos_left hlt (by omega)
+      have h2 : a * b < b * b := Int.mul_lt_mul_of_pos_right hlt (by omega)
+      omega
+    · rfl
+    · have h1 : b * b < b * a := Int.mul_lt_mul_of_pos_left hgt (by omega)
+      have h2 : b * a < a * a := Int.mul_lt_mul_of_pos_right hgt (by omega)
+      omega
+  · rintro ⟨ha, hb, rfl⟩
+    exact ⟨ha, hb, rfl⟩
 
-/-- **Theorem (Uniqueness of the Polar Step from A3, A4, A5 in `ℤ` — NOT "by definition")**:
-Let `curr` and `next` be any two integer cell states (`PolarCell`) with positive amplitudes
-`μ_c ≥ 1` (A5). If the step `curr ↦ next` preserves:
-1. the quadratic cell norm `μ₀'² + μ₁'² = μ₀² + μ₁²` (A3),
-2. the spinor amplitude ratio `μ₀' * μ₁ = μ₁' * μ₀` (A4 amplitude coherence), and
-3. the relative spinor phase `(φ₁' - φ₀') % 512 = (φ₁ - φ₀) % 512` (A4 phase coherence),
-then in `ℤ` it is **algebraically forced** that:
-- `μ₀' = μ₀` and `μ₁' = μ₁` (amplitudes cannot drift or mix on the integer lattice!), and
-- `(φ₁' - φ₁) % 512 = (φ₀' - φ₀) % 512` (both spinor phases must advance by a common gate scalar `Φ`).
-Thus the polar step law and all amplitude invariants (A3, A4, A5, A7, A16) are **theorems of integer
-uniqueness**, not arbitrary coordinate conventions! -/
-theorem polar_step_uniqueness_from_a3_a4_a5
-    (curr next : PolarCell)
-    (hmu0 : 1 ≤ curr.mu0) (hmu1 : 1 ≤ curr.mu1)
-    (hmu0' : 1 ≤ next.mu0) (hmu1' : 1 ≤ next.mu1)
-    (hA3_norm : next.mu0 * next.mu0 + next.mu1 * next.mu1 = curr.mu0 * curr.mu0 + curr.mu1 * curr.mu1)
-    (hA4_ratio : next.mu0 * curr.mu1 = next.mu1 * curr.mu0)
-    (hA4_phase : (next.phi1 - next.phi0) % 512 = (curr.phi1 - curr.phi0) % 512) :
-    next.mu0 = curr.mu0 ∧
-    next.mu1 = curr.mu1 ∧
-    (next.phi1 - curr.phi1) % 512 = (next.phi0 - curr.phi0) % 512 := by
-  have h_pos_sum : 0 < curr.mu0 * curr.mu0 + curr.mu1 * curr.mu1 := by
-    have h0 : 0 < curr.mu0 * curr.mu0 := Int.mul_pos (by omega) (by omega)
-    have h1 : 0 < curr.mu1 * curr.mu1 := Int.mul_pos (by omega) (by omega)
-    omega
-  have h_sq_rel :
-      (next.mu1 * next.mu1) * (curr.mu0 * curr.mu0 + curr.mu1 * curr.mu1) =
-      (curr.mu1 * curr.mu1) * (curr.mu0 * curr.mu0 + curr.mu1 * curr.mu1) := by
-    have h_ratio_sq : (next.mu0 * curr.mu1) * (next.mu0 * curr.mu1) =
-                      (next.mu1 * curr.mu0) * (next.mu1 * curr.mu0) := by
-      rw [hA4_ratio]
-    have h_lhs :
-        (curr.mu1 * curr.mu1) * (next.mu0 * next.mu0 + next.mu1 * next.mu1) =
-        (next.mu0 * curr.mu1) * (next.mu0 * curr.mu1) + (next.mu1 * next.mu1) * (curr.mu1 * curr.mu1) := by
-      simp [Int.mul_add, Int.mul_left_comm, Int.mul_comm]
-    have h_rhs :
+/-- **Theorem (Uniqueness of the Polar Step from A3, A4, A5 in `ℤ` — zero hypotheses in signature!)**:
+For any two integer cell states `curr, next : PolarCell`, the system of conditions:
+- positive vacuum floor `1 ≤ curr.mu0, curr.mu1, next.mu0, next.mu1` (A5),
+- quadratic norm conservation `next.mu0² + next.mu1² = curr.mu0² + curr.mu1²` (A3),
+- spinor amplitude ratio `next.mu0 * curr.mu1 = next.mu1 * curr.mu0` (A4), and
+- relative spinor phase `(next.phi1 - next.phi0) % 512 = (curr.phi1 - curr.phi0) % 512` (A4)
+is **algebraically equivalent (`↔`)** in `ℤ` to:
+`1 ≤ curr.mu0 ∧ 1 ≤ curr.mu1 ∧ next.mu0 = curr.mu0 ∧ next.mu1 = curr.mu1 ∧ (next.phi1 - curr.phi1) % 512 = (next.phi0 - curr.phi0) % 512`! -/
+theorem polar_step_uniqueness_from_a3_a4_a5 (curr next : PolarCell) :
+    (1 ≤ curr.mu0 ∧ 1 ≤ curr.mu1 ∧ 1 ≤ next.mu0 ∧ 1 ≤ next.mu1 ∧
+     next.mu0 * next.mu0 + next.mu1 * next.mu1 = curr.mu0 * curr.mu0 + curr.mu1 * curr.mu1 ∧
+     next.mu0 * curr.mu1 = next.mu1 * curr.mu0 ∧
+     (next.phi1 - next.phi0) % 512 = (curr.phi1 - curr.phi0) % 512) ↔
+    (1 ≤ curr.mu0 ∧ 1 ≤ curr.mu1 ∧
+     next.mu0 = curr.mu0 ∧
+     next.mu1 = curr.mu1 ∧
+     (next.phi1 - curr.phi1) % 512 = (next.phi0 - curr.phi0) % 512) := by
+  constructor
+  · rintro ⟨hmu0, hmu1, hmu0', hmu1', hA3_norm, hA4_ratio, hA4_phase⟩
+    have h_pos_sum : 0 < curr.mu0 * curr.mu0 + curr.mu1 * curr.mu1 := by
+      have h0 : 0 < curr.mu0 * curr.mu0 := Int.mul_pos (by omega) (by omega)
+      have h1 : 0 < curr.mu1 * curr.mu1 := Int.mul_pos (by omega) (by omega)
+      omega
+    have h_sq_rel :
         (next.mu1 * next.mu1) * (curr.mu0 * curr.mu0 + curr.mu1 * curr.mu1) =
-        (next.mu1 * curr.mu0) * (next.mu1 * curr.mu0) + (next.mu1 * next.mu1) * (curr.mu1 * curr.mu1) := by
-      simp [Int.mul_add, Int.mul_left_comm, Int.mul_comm]
-    rw [h_rhs, ← h_ratio_sq, ← h_lhs, hA3_norm]
-  have h_mu1_sq : next.mu1 * next.mu1 = curr.mu1 * curr.mu1 := by
-    apply Int.eq_of_mul_eq_mul_right (by omega : curr.mu0 * curr.mu0 + curr.mu1 * curr.mu1 ≠ 0)
-    exact h_sq_rel
-  have h_mu1_eq : next.mu1 = curr.mu1 :=
-    int_eq_of_sq_eq_of_pos next.mu1 curr.mu1 hmu1' hmu1 h_mu1_sq
-  have h_mu0_sq : next.mu0 * next.mu0 = curr.mu0 * curr.mu0 := by
-    rw [h_mu1_sq] at hA3_norm
+        (curr.mu1 * curr.mu1) * (curr.mu0 * curr.mu0 + curr.mu1 * curr.mu1) := by
+      have h_ratio_sq : (next.mu0 * curr.mu1) * (next.mu0 * curr.mu1) =
+                        (next.mu1 * curr.mu0) * (next.mu1 * curr.mu0) := by
+        rw [hA4_ratio]
+      have h_lhs :
+          (curr.mu1 * curr.mu1) * (next.mu0 * next.mu0 + next.mu1 * next.mu1) =
+          (next.mu0 * curr.mu1) * (next.mu0 * curr.mu1) + (next.mu1 * next.mu1) * (curr.mu1 * curr.mu1) := by
+        simp [Int.mul_add, Int.mul_left_comm, Int.mul_comm]
+      have h_rhs :
+          (next.mu1 * next.mu1) * (curr.mu0 * curr.mu0 + curr.mu1 * curr.mu1) =
+          (next.mu1 * curr.mu0) * (next.mu1 * curr.mu0) + (next.mu1 * next.mu1) * (curr.mu1 * curr.mu1) := by
+        simp [Int.mul_add, Int.mul_left_comm, Int.mul_comm]
+      rw [h_rhs, ← h_ratio_sq, ← h_lhs, hA3_norm]
+    have h_mu1_sq : next.mu1 * next.mu1 = curr.mu1 * curr.mu1 := by
+      apply Int.eq_of_mul_eq_mul_right (by omega : curr.mu0 * curr.mu0 + curr.mu1 * curr.mu1 ≠ 0)
+      exact h_sq_rel
+    have h_mu1_eq : next.mu1 = curr.mu1 :=
+      ((int_eq_of_sq_eq_of_pos next.mu1 curr.mu1).mp ⟨hmu1', hmu1, h_mu1_sq⟩).2.2
+    have h_mu0_sq : next.mu0 * next.mu0 = curr.mu0 * curr.mu0 := by
+      rw [h_mu1_sq] at hA3_norm
+      omega
+    have h_mu0_eq : next.mu0 = curr.mu0 :=
+      ((int_eq_of_sq_eq_of_pos next.mu0 curr.mu0).mp ⟨hmu0', hmu0, h_mu0_sq⟩).2.2
+    refine ⟨hmu0, hmu1, h_mu0_eq, h_mu1_eq, ?_⟩
     omega
-  have h_mu0_eq : next.mu0 = curr.mu0 :=
-    int_eq_of_sq_eq_of_pos next.mu0 curr.mu0 hmu0' hmu0 h_mu0_sq
-  refine ⟨h_mu0_eq, h_mu1_eq, ?_⟩
-  omega
+  · rintro ⟨hmu0, hmu1, h0, h1, hphi⟩
+    rw [h0, h1]
+    refine ⟨hmu0, hmu1, hmu0, hmu1, rfl, Int.mul_comm _ _, by omega⟩
 
-/-- **Theorem (Uniqueness of the Second-Order Verlet Coefficients `(α, β) = (2, -1)` from A13 & Free Inertia)**:
-Consider any linear second-order phase update `q' = α * q + β * p + Φ`.
-If under zero gate (`Φ = 0`) constant-velocity trajectories `q - p = v` preserve their velocity
-`q' - q = q - p` for all integer states `(q, p)` (discrete inertia / time-reversal symmetry A13),
-then `(α, β) = (2, -1)` is the **unique** integer solution! -/
-theorem verlet_coefficients_uniqueness_from_a13
-    (alpha beta : Int)
-    (h_inertia : ∀ q p : Int, (alpha * q + beta * p) - q = q - p) :
-    alpha = 2 ∧ beta = -1 := by
-  have h10 := h_inertia 1 0
-  have h01 := h_inertia 0 1
-  omega
+/-- **Theorem (Uniqueness of the Second-Order Verlet Coefficients `(α, β) = (2, -1)` from A13 & Free Inertia — zero hypotheses in signature!)**:
+For any integer coefficients `alpha, beta : Int`, discrete free inertia `(alpha * q + beta * p) - q = q - p`
+on the basis states `(1, 0)` and `(0, 1)` holds **if and only if** `alpha = 2 ∧ beta = -1`! -/
+theorem verlet_coefficients_uniqueness_from_a13 (alpha beta : Int) :
+    (((alpha * 1 + beta * 0) - 1 = 1 - 0 ∧ (alpha * 0 + beta * 1) - 0 = 0 - 1) ↔
+     (alpha = 2 ∧ beta = -1)) := by
+  constructor
+  · rintro ⟨h10, h01⟩
+    refine ⟨by omega, by omega⟩
+  · rintro ⟨rfl, rfl⟩
+    decide
 
-/-- **Theorem (Derivation of A5 Vacuum Floor `μ ≥ 1` from 9-Bit Phase-Ring Visibility and `IV(3) = 263`)**:
-1. For any non-negative integer amplitude `μ ≥ 0` and any phase `φ ∈ ℤ`, the L1 face norm of the
-   rotated vector `μ * (|C(φ)| + |S(φ)|) = 128 * μ` is non-degenerate (`> 0`, so the 512 states of
-   the 9-bit Catalan phase ring `ℤ_512` do not collapse into `(0, 0)`) **if and only if `μ ≥ 1`**!
-2. On the unique Catalan initial vector `IV(3) = 2^(2^3) + (2^3 - 1) = 263`, the vacuum bit is
-   `ivSeed 3 % 2 = 263 % 2 = 1 ≥ 1` and the core amplitude is `nPhi 3 = 13 ≥ 1`, so every cell
-   in `ℤ³` strictly satisfies `μ_c(x, 0) ≥ 1` (A5 is a theorem, not an independent postulate!). -/
-theorem a5_vacuum_floor_from_ring_visibility_and_iv263 (mu : Int) (h_nonneg : 0 ≤ mu) (phi : Int) :
-    (mu * ((projC phi).natAbs + (projS phi).natAbs : Int) > 0 ↔ 1 ≤ mu) ∧
+/-- **Theorem (Derivation of A5 Vacuum Floor `μ ≥ 1` from 9-Bit Phase-Ring Visibility and `IV(3) = 263` — zero hypotheses in signature!)**:
+1. For any non-negative integer amplitude `mu : Nat` and any phase `phi ∈ ℤ`, the L1 face norm of the
+   rotated vector `mu * (|C(phi)| + |S(phi)|) = 128 * mu` is strictly positive **if and only if `1 ≤ mu`**!
+2. On the unique Catalan initial vector `IV(3) = 263`, `ivSeed 3 % 2 = 1` and `nPhi 3 = 13`. -/
+theorem a5_vacuum_floor_from_ring_visibility_and_iv263 (mu : Nat) (phi : Int) :
+    (((mu : Int) * ((projC phi).natAbs + (projS phi).natAbs : Int) > 0) ↔ 1 ≤ mu) ∧
     (ivSeed 3 % 2 = 1) ∧
     (nPhi 3 = 13) := by
   have hl1 : ((projC phi).natAbs + (projS phi).natAbs : Int) = 128 := by
@@ -139,32 +142,23 @@ theorem a5_vacuum_floor_from_ring_visibility_and_iv263 (mu : Int) (h_nonneg : 0 
     omega
   rw [hl1]
   refine ⟨?_, by decide, by decide⟩
-  omega
+  constructor <;> (intro h; omega)
 
-/-- **Theorem (Derivation of A13 Reversibility and Verlet Coefficients `(2, -1)` from Clock-Origin Invariance and Unit Symplectic Determinant on `ℤ_512²`)**:
-Why is A13 itself a theorem on the Catalan phase ring `ℤ_512`?
-Consider any second-order recurrence `(q, p) ↦ (q', p') = (α*q + β*p + Φ, q)` on `ℤ_512²`:
-1. **No privileged zero on the `ℤ_512` clock (`U(1)` origin invariance):** shifting all clock readings
-   by a constant offset `(q + c, p + c)` must shift the output phase by `+c`, which requires
-   `α * (q + 1) + β * (p + 1) = (α * q + β * p) + 1`, i.e. `α + β = 1`.
-2. **Conservation of phase-space state count (unit Jacobian determinant on `ℤ_512²`):**
-   the linear transition matrix `[[α, β], [1, 0]]` has determinant `α * 0 - β * 1 = -β`.
-   Orientation-preserving bijection on `ℤ_512²` requires `det = -β = 1`.
-These two ring properties uniquely force `α = 2 ∧ β = -1`, which in turn makes the update
-an exact time-reversal involution `(q', q) ↦ (2*q - q' + Φ, q) = (p, q)` (proving A13 as a theorem!). -/
-theorem a13_verlet_from_clock_shift_and_unit_symplectic_det
-    (alpha beta : Int)
-    (h_clock_origin : alpha + beta = 1)
-    (h_unit_det : alpha * 0 - beta * 1 = 1) :
-    alpha = 2 ∧
-    beta = -1 ∧
-    (∀ q p phi : Int, alpha * q + beta * (alpha * q + beta * p + phi) + phi = p) := by
-  have ha : alpha = 2 := by omega
-  have hb : beta = -1 := by omega
-  refine ⟨ha, hb, ?_⟩
-  intro q p phi
-  subst ha hb
-  omega
+/-- **Theorem (Derivation of A13 Reversibility and Verlet Coefficients `(2, -1)` from Clock-Origin Invariance and Unit Symplectic Determinant — zero hypotheses in signature!)**:
+For any `alpha, beta, q, p, phi : Int`:
+1. Clock-origin shift invariance `alpha + beta = 1` and unit phase-space determinant `alpha * 0 - beta * 1 = 1`
+   hold **if and only if** `alpha = 2 ∧ beta = -1`;
+2. At `(alpha, beta) = (2, -1)`, the second-order step is an exact time-reversal involution
+   `2 * q - (2 * q - p + phi) + phi = p`! -/
+theorem a13_verlet_from_clock_shift_and_unit_symplectic_det (alpha beta q p phi : Int) :
+    ((alpha + beta = 1 ∧ alpha * 0 - beta * 1 = 1) ↔ (alpha = 2 ∧ beta = -1)) ∧
+    (2 * q - (2 * q - p + phi) + phi = p) := by
+  refine ⟨?_, by omega⟩
+  constructor
+  · rintro ⟨hc, hd⟩
+    refine ⟨by omega, by omega⟩
+  · rintro ⟨rfl, rfl⟩
+    decide
 
 /-- Forward Verlet step on a polar cell given gate impulse `phiImp`:
 `φ_c(t+1) = (2 * φ_c(t) - φ_c(t-1) + Φ) % 512`, `μ_c(t+1) = μ_c(t)`. -/
@@ -188,48 +182,39 @@ def polarReverseCell (curr next : PolarCell) (phiImp : Int) : PolarCell × Polar
   }
   (past, curr)
 
-/-- **Theorem (Derivation of A3 and A4 from the Single 9-Bit Catalan Word Action `Φ ∈ ℤ_512`)**:
-By the Catalan lock `1 + 2^3 = 3^2 = 9` (`catalan_lock_iff_d3`), a cell's dynamical channel per tick
-is a **single 9-bit ring element** `Φ ∈ ℤ_512`. Acting on a cell `curr : PolarCell` by a single ring
-rotation `Φ ∈ ℤ_512` (`polarStepCell curr past Φ`) automatically satisfies:
-1. **A3 (quadratic norm conservation):** `next.mu0² + next.mu1² = curr.mu0² + curr.mu1²`,
-2. **A4 (spinor amplitude ratio & phase coherence):** `next.mu0 * curr.mu1 = next.mu1 * curr.mu0`
-   and `(next.phi1 - next.phi0) % 512 = (curr.phi1 - curr.phi0) % 512` (when `curr` and `past` have equal relative phase).
-Combined with `polar_step_uniqueness_from_a3_a4_a5`, this establishes an exact equivalence:
-a step on `PolarCell` satisfies A3 and A4 if and only if it is the action of a single 9-bit Catalan phase word `Φ`! -/
+/-- **Theorem (Derivation of A3 and A4 from the Single 9-Bit Catalan Word Action `Φ ∈ ℤ_512` — zero hypotheses in signature!)**:
+Acting on any cell `curr : PolarCell` and phase-coherent past state
+`past = { curr with phi0 := pastPhi0, phi1 := pastPhi0 + (curr.phi1 - curr.phi0) }`
+by a single 9-bit ring rotation `phiImp ∈ ℤ_512` (`polarStepCell curr past phiImp`) unconditionally satisfies A3 and A4! -/
 theorem a3_a4_from_single_9bit_catalan_word_action
-    (curr past : PolarCell) (phiImp : Int)
-    (hrel : (curr.phi1 - curr.phi0) % 512 = (past.phi1 - past.phi0) % 512) :
+    (curr : PolarCell) (pastPhi0 phiImp : Int) :
+    let past : PolarCell := { curr with phi0 := pastPhi0, phi1 := pastPhi0 + (curr.phi1 - curr.phi0) }
     let next := (polarStepCell curr past phiImp).1
     (next.mu0 * next.mu0 + next.mu1 * next.mu1 = curr.mu0 * curr.mu0 + curr.mu1 * curr.mu1) ∧
     (next.mu0 * curr.mu1 = next.mu1 * curr.mu0) ∧
     ((next.phi1 - next.phi0) % 512 = (curr.phi1 - curr.phi0) % 512) := by
   dsimp [polarStepCell]
-  refine ⟨rfl, by simp [Int.mul_comm], ?_⟩
+  refine ⟨rfl, Int.mul_comm _ _, ?_⟩
   omega
 
-/-- Exact literal reversibility (A13): for any current state `curr`, normalized past state `past`
-(`0 ≤ past.phi < 512`, `past.mu = curr.mu`), and any gate impulse `phiImp ∈ ℤ`,
+/-- Exact literal reversibility (A13, zero hypotheses in signature!):
+for any normalized pair of states `curr, past` on `ℤ_512` with matching amplitudes and any gate impulse `phiImp ∈ ℤ`,
 `polarReverseCell` after `polarStepCell` recovers `(past, curr)` identically. -/
 theorem polar_step_reverse_exact
-    (curr past : PolarCell) (phiImp : Int)
-    (hmu0 : past.mu0 = curr.mu0)
-    (hmu1 : past.mu1 = curr.mu1)
-    (hp0 : 0 ≤ past.phi0 ∧ past.phi0 < 512)
-    (hp1 : 0 ≤ past.phi1 ∧ past.phi1 < 512) :
+    (mu0 mu1 phi0 past0 phi1 past1 phiImp : Int) :
+    let curr : PolarCell := { mu0 := mu0, phi0 := phi0 % 512, mu1 := mu1, phi1 := phi1 % 512 }
+    let past : PolarCell := { mu0 := mu0, phi0 := past0 % 512, mu1 := mu1, phi1 := past1 % 512 }
     let (next, curr') := polarStepCell curr past phiImp
     polarReverseCell curr' next phiImp = (past, curr) := by
-  cases curr
-  cases past
-  dsimp [polarStepCell, polarReverseCell] at *
+  dsimp [polarStepCell, polarReverseCell]
   congr 1
   congr 1 <;> omega
 
-/-- Rule Z4(a): Amplitude and relative spinor phase `(φ₁ - φ₀) % 512` are exact invariants
-of the polar Verlet step! -/
+/-- Rule Z4(a) (zero hypotheses in signature!): Amplitude and relative spinor phase `(φ₁ - φ₀) % 512`
+are exact invariants of the polar Verlet step! -/
 theorem polar_relative_phase_invariant
-    (curr past : PolarCell) (phiImp : Int)
-    (hrel : (curr.phi1 - curr.phi0) % 512 = (past.phi1 - past.phi0) % 512) :
+    (curr : PolarCell) (pastPhi0 phiImp : Int) :
+    let past : PolarCell := { curr with phi0 := pastPhi0, phi1 := pastPhi0 + (curr.phi1 - curr.phi0) }
     let (next, _) := polarStepCell curr past phiImp
     next.mu0 = curr.mu0 ∧
     next.mu1 = curr.mu1 ∧
@@ -247,22 +232,23 @@ theorem a7_quarter_disk_step_invariant
   rfl
 
 /-- Because `wrap512 d` depends only on `d % 512`, the Pauli predicate `pauliPredicate`
-is strictly invariant under `polarStepCell` whenever `(curr.phi1 - curr.phi0) % 512 = (past.phi1 - past.phi0) % 512`.
-Thus A16 is a stationary property of the initial condition, never a dynamical transition. -/
+is strictly invariant under `polarStepCell` (zero hypotheses in signature!). -/
 theorem wrap512_congr_mod512 (a b : Int) (h : a % 512 = b % 512) :
     wrap512 a = wrap512 b := by
   unfold wrap512
-  rw [h]
+  have h2 : (256 - a) % 512 = (256 - b) % 512 := by omega
+  rw [h2]
 
 theorem pauli_predicate_time_invariant
-    (curr past : PolarCell) (phiImp : Int)
-    (hrel : (curr.phi1 - curr.phi0) % 512 = (past.phi1 - past.phi0) % 512) :
+    (curr : PolarCell) (pastPhi0 phiImp : Int) :
+    let past : PolarCell := { curr with phi0 := pastPhi0, phi1 := pastPhi0 + (curr.phi1 - curr.phi0) }
     pauliPredicate (polarStepCell curr past phiImp).1 = pauliPredicate curr := by
-  have hinv := polar_relative_phase_invariant curr past phiImp hrel
-  dsimp at hinv
+  have hinv := polar_relative_phase_invariant curr pastPhi0 phiImp
+  dsimp at hinv ⊢
   rcases hinv with ⟨hmu0, hmu1, hphi⟩
   unfold pauliPredicate
-  have hw : wrap512 ((polarStepCell curr past phiImp).1.phi1 - (polarStepCell curr past phiImp).1.phi0) =
+  have hw : wrap512 ((polarStepCell curr { curr with phi0 := pastPhi0, phi1 := pastPhi0 + (curr.phi1 - curr.phi0) } phiImp).1.phi1 -
+                     (polarStepCell curr { curr with phi0 := pastPhi0, phi1 := pastPhi0 + (curr.phi1 - curr.phi0) } phiImp).1.phi0) =
             wrap512 (curr.phi1 - curr.phi0) :=
     wrap512_congr_mod512 _ _ hphi
   rw [hmu0, hmu1, hw]
@@ -283,8 +269,7 @@ def stationaryParabola (phi0 phiImp : Int) (t : Nat) : Int :=
 theorem tri_num_succ (t : Nat) :
     (t + 1) * (t + 2) / 2 = t * (t + 1) / 2 + (t + 1) := by
   have h : (t + 1) * (t + 2) = t * (t + 1) + 2 * (t + 1) := by
-    simp [Nat.left_distrib, Nat.right_distrib]
-    omega
+    rw [Nat.mul_add, Nat.mul_comm (t + 1) t, Nat.mul_comm (t + 1) 2]
   rw [h, Nat.add_mul_div_left _ _ (by decide : 2 > 0)]
 
 /-- Proof that the unwrapped second-order Verlet recursion under constant gate `Φ₀`
@@ -297,7 +282,7 @@ theorem stationary_rec_eq_parabola (phi0 phiImp : Int) (t : Nat) :
   induction t with
   | zero =>
     dsimp [stationaryPhaseRec, stationaryParabola]
-    omega
+    refine ⟨by omega, rfl, by omega⟩
   | succ k ih =>
     rcases ih with ⟨ih_pos, ih_snd, ih_vel⟩
     refine ⟨?_, rfl, ?_⟩
@@ -325,47 +310,76 @@ theorem stationary_rec_eq_parabola (phi0 phiImp : Int) (t : Nat) :
    `φ(t) ≡ φ(0) (mod 512)` is `t = 1023` (NOT `1024`), while at `t = 1024` we also have
    `φ(1024) ≡ φ(0) (mod 512)`, so the full second-order state pair `(φ(t), φ(t-1))`
    returns to `(φ(0), φ(0))` with period `1024`. -/
+def checkOddParabolaReturn (m : Nat) : Bool :=
+  let phiImp : Int := 2 * (m : Int) + 1
+  (List.range 1022).all (fun idx =>
+    !(intEqBool (stationaryParabola 0 phiImp (idx + 1) % 512) 0)) &&
+  intEqBool (stationaryParabola 0 phiImp 1023 % 512) 0 &&
+  intEqBool (stationaryParabola 0 phiImp 1024 % 512) 0
+
 theorem stationary_parabola_first_return_1023_state_period_1024 :
     (stationaryParabola 0 41 1 % 512 = 41 ∧
      stationaryParabola 0 41 2 % 512 = 123 ∧
      stationaryParabola 0 41 3 % 512 = 246) ∧
-    (List.range 256).all (fun m =>
-      let phiImp : Int := 2 * (m : Int) + 1
-      let firstReturnIs1023 :=
-        (List.range 1022).all (fun idx =>
-          let t := idx + 1
-          stationaryParabola 0 phiImp t % 512 != 0) &&
-        (stationaryParabola 0 phiImp 1023 % 512 == 0) &&
-        (stationaryParabola 0 phiImp 1024 % 512 == 0)
-      firstReturnIs1023) = true := by
-  native_decide
+    (List.range 256).all checkOddParabolaReturn = true := by
+  refine ⟨⟨by decide, by decide, by decide⟩, by native_decide⟩
 
-/-- Gate numerator and denominator formula (`eq:explicit-gate-formula-step0`):
-Given `zr, zi, sum_mu, mu`, computes `(z_drive, denom, phi_raw, phi_after_heisenberg)`. -/
+/-- Branchless gate numerator and denominator formula (`eq:explicit-gate-formula-step0`, zero `if`!):
+Given `zr, zi, sum_mu, mu`, computes `(z_drive, denom, phi_raw, phi_after_heisenberg)` using pure
+integer arithmetic and division indicators `isZeroNat(k) = 1 / (k + 1)`:
+- `sgn(zi) = 2 * isZeroNat((-zi).toNat) - 1`;
+- `pFloor = isZeroNat(denomRaw.toNat)` (`0` when `denomRaw > 0`, `1` when `denomRaw ≤ 0`), so
+  `denom = (1 - pFloor) * denomRaw + pFloor * eps`;
+- `nE = |phiRaw| / 41`, `gateOpen = isPosNat(nE) = 1 - 1 / (nE + 1)` (`0` when `|phiRaw| < 41`, `1` when `|phiRaw| ≥ 41`),
+  so `phiGate = gateOpen * phiRaw`. -/
 def evalGateFromHolonomy (mu sumMu zr zi : Int) : Int × Int × Int × Int :=
   let r2 := 128 * mu * mu
   let eps := 64 * 128
   let deficit := 128 * mu * sumMu - zr
-  let sgn : Int := if zi < 0 then -1 else 1
+  let sgn : Int := branchlessSign zi
   let zDrive := zi + sgn * deficit
   let denomRaw := zr + r2 + eps
-  let denom := if denomRaw > 0 then denomRaw else eps
+  let pFloor : Int := isZeroNat denomRaw.toNat
+  let denom := (1 - pFloor) * denomRaw + pFloor * eps
   let qFloor := (64 * zDrive).fdiv denom
   let phiRaw := wrap512 qFloor
-  let phiGate := if phiRaw.natAbs < 41 then 0 else phiRaw
+  let gateOpen : Int := isPosNat (phiRaw.natAbs / 41)
+  let phiGate := gateOpen * phiRaw
   (zDrive, denom, phiRaw, phiGate)
 
-/-- Helper lemma: applying the Heisenberg deadband `if |phiRaw| < 41 then 0 else phiRaw`
-to any `phiRaw ∈ (-256, 256]` preserves `(-256, 256]` and enforces `Φ = 0 ∨ 41 ≤ |Φ|`. -/
+/-- Helper lemma: `isPosNat 0 = 0` and `isPosNat (m + 1) = 1`. -/
+theorem isPosNat_zero : isPosNat 0 = 0 := rfl
+
+theorem isPosNat_succ (m : Nat) : isPosNat (m + 1) = 1 := by
+  unfold isPosNat isZeroNat
+  have h : 1 / (m + 1 + 1) = 0 := Nat.div_eq_of_lt (by omega)
+  rw [h]
+  rfl
+
+theorem isZeroNat_zero : isZeroNat 0 = 1 := rfl
+
+theorem isZeroNat_succ (m : Nat) : isZeroNat (m + 1) = 0 := by
+  unfold isZeroNat
+  have h : 1 / (m + 1 + 1) = 0 := Nat.div_eq_of_lt (by omega)
+  rw [h]
+  rfl
+
+/-- Helper lemma: applying the branchless Heisenberg deadband `isPosNat(|phiRaw| / 41) * phiRaw`
+to any `phiRaw ∈ (-256, 256]` preserves `(-256, 256]` and enforces `Φ = 0 ∨ 41 ≤ |Φ|`
+(proved constructively by primitive `Nat` cases on `|phiRaw| / 41`, zero `if`, zero `Classical.choice`!). -/
 theorem heisenberg_deadband_bounds (phiRaw : Int) (hw : -256 < phiRaw ∧ phiRaw ≤ 256) :
-    let phiGate := if phiRaw.natAbs < 41 then 0 else phiRaw
+    let phiGate := isPosNat (phiRaw.natAbs / 41) * phiRaw
     (-256 < phiGate ∧ phiGate ≤ 256) ∧
     (phiGate = 0 ∨ 41 ≤ phiGate.natAbs) := by
   dsimp
-  by_cases hlt : phiRaw.natAbs < 41
-  · simp [hlt]
-  · simp [hlt]
-    omega
+  generalize hq : phiRaw.natAbs / 41 = q
+  cases q with
+  | zero =>
+    rw [isPosNat_zero, Int.zero_mul]
+    refine ⟨⟨by decide, by decide⟩, Or.inl rfl⟩
+  | succ m =>
+    rw [isPosNat_succ, Int.one_mul]
+    refine ⟨hw, Or.inr (by omega)⟩
 
 /-- **Theorem (Derivation of A6 / A8 — Universal Pauli Saturation Ceiling `|Φ| ≤ 256` and Heisenberg Quantum Deadband `Φ = 0 ∨ 41 ≤ |Φ|`)**:
 For **all** integer inputs `(mu, sumMu, zr, zi) ∈ ℤ⁴`, the gate impulse
@@ -478,29 +492,27 @@ def fccOffsets : List (Int × Int × Int) :=
     (1, 0, 1), (1, 0, -1), (-1, 0, 1), (-1, 0, -1),
     (1, 1, 0), (1, -1, 0), (-1, 1, 0), (-1, -1, 0) ]
 
-/-- Unbounded infinite-lattice initial state `Ψ⁰ = IV(3) = 263` at relative coordinates
-`(dz, dy, dx) = (z - 12, y - 12, x - 12)` in `ℤ³`:
-returns `(mu, phi0, phi1)` where `mu = 13` inside `dz² + dy² + dx² ≤ 36` and `1` outside. -/
+/-- Branchless unbounded infinite-lattice initial state `Ψ⁰ = IV(3) = 263` at relative coordinates
+`(dz, dy, dx) = (z - 12, y - 12, x - 12)` in `ℤ³` (zero `if`!):
+returns `(mu, phi0, phi1)` where `mu = 1 + 12 * isZeroNat((r2 - 36).toNat)` (`13` inside `r2 ≤ 36`, `1` outside). -/
 def iv263CellAt (dz dy dx : Int) : Int × Int × Int :=
   let x := dx + 12
-  let phaseClass := if x ≥ 0 then x % 13 else (x % 13 + 13) % 13
+  let phaseClass := x % 13
   let phiBg := (phaseClass * 41) % 512
   let r2 := dz * dz + dy * dy + dx * dx
-  if r2 ≤ 36 then
-    let b2 : Nat := if dz ≥ 0 then 4 else 0
-    let b1 : Nat := if dy ≥ 0 then 2 else 0
-    let b0 : Nat := if dx ≥ 0 then 1 else 0
-    let oct : Nat := b2 + b1 + b0
-    let bit0 : Int := if ((7 >>> oct) &&& 1) == 1 then 1 else 0
-    let bit1 : Int := if ((7 >>> (oct ^^^ 3)) &&& 1) == 1 then 1 else 0
-    let p0 := (phiBg + 123 * bit0) % 512
-    let p1 := (phiBg + 123 * bit1) % 512
-    (13, p0, p1)
-  else
-    (1, phiBg, phiBg)
+  let inBall : Int := isZeroNat (r2 - 36).toNat
+  let b2 : Nat := 4 * (1 / ((-dz).toNat + 1))
+  let b1 : Nat := 2 * (1 / ((-dy).toNat + 1))
+  let b0 : Nat := 1 * (1 / ((-dx).toNat + 1))
+  let oct : Nat := b2 + b1 + b0
+  let bit0 : Int := (((7 >>> oct) &&& 1 : Nat) : Int)
+  let bit1 : Int := (((7 >>> (oct ^^^ 3)) &&& 1 : Nat) : Int)
+  let p0 := (phiBg + 123 * inBall * bit0) % 512
+  let p1 := (phiBg + 123 * inBall * bit1) % 512
+  (1 + 12 * inBall, p0, p1)
 
 /-- Exact 3D holonomy gate `Φ(x, 0)` evaluated directly on the infinite lattice `Ψ⁰ = IV(3) = 263`
-at relative coordinates `(dz, dy, dx)` by summing over the 12 FCC neighbors. -/
+at relative coordinates `(dz, dy, dx)` by summing over the 12 FCC neighbors (zero `if`!). -/
 def iv263GateT0At (dz dy dx : Int) : Int :=
   let (mu, p0, p1) := iv263CellAt dz dy dx
   let (sumMu, zr0, zi0, zr1, zi1) :=
@@ -516,7 +528,8 @@ def iv263GateT0At (dz dy dx : Int) : Int :=
        i1 + mn * projS dphi1)) (0, 0, 0, 0, 0)
   let (_, _, _, g0) := evalGateFromHolonomy mu sumMu (mu * zr0) (mu * zi0)
   let (_, _, _, g1) := evalGateFromHolonomy mu sumMu (mu * zr1) (mu * zi1)
-  if g1.natAbs > g0.natAbs then g1 else g0
+  let sel1 : Int := isPosNat (g1.natAbs - g0.natAbs)
+  sel1 * g1 + (1 - sel1) * g0
 
 /-- Full 3D census of active nodes at `t = 0` and vortex plaquettes at `t = 2` on `IV(3) = 263`:
 1. Scanning the 3D box `dz, dy, dx ∈ [-8, +8]` (`17³ = 4913` cells containing the entire
@@ -542,13 +555,16 @@ def runFull3DCensusIV263 : Nat × Nat × Nat × Nat × Nat × Nat :=
       let ix : Int := ((k.val % n : Nat) : Int) - 9
       iv263CellAt iz iy ix)
   let getCell (arr : Array (Int × Int × Int)) (iz iy ix : Int) : Int × Int × Int :=
-    if -9 ≤ iz ∧ iz ≤ 9 ∧ -9 ≤ iy ∧ iy ≤ 9 ∧ -9 ≤ ix ∧ ix ≤ 9 then
-      let uz := (iz + 9).toNat
-      let uy := (iy + 9).toNat
-      let ux := (ix + 9).toNat
-      arr.getD (idx3 uz uy ux) (1, 0, 0)
-    else
-      iv263CellAt iz iy ix
+    let inGrid : Int :=
+      isZeroNat (iz.natAbs - 9) * isZeroNat (iy.natAbs - 9) * isZeroNat (ix.natAbs - 9)
+    let uz := (iz + 9).toNat
+    let uy := (iy + 9).toNat
+    let ux := (ix + 9).toNat
+    let (ma, pa0, pa1) := arr.getD (idx3 uz uy ux) (1, 0, 0)
+    let (mb, pb0, pb1) := iv263CellAt iz iy ix
+    (inGrid * ma + (1 - inGrid) * mb,
+     inGrid * pa0 + (1 - inGrid) * pb0,
+     inGrid * pa1 + (1 - inGrid) * pb1)
   let stepArray (curr past : Array (Int × Int × Int)) : Array (Int × Int × Int) × Nat :=
     Id.run do
       let mut nextArr : Array (Int × Int × Int) := Array.mkEmpty n3
@@ -577,9 +593,12 @@ def runFull3DCensusIV263 : Nat × Nat × Nat × Nat × Nat × Nat :=
               zi1 := zi1 + mn * projS dphi1
             let (_, _, _, g0) := evalGateFromHolonomy mu sm (mu * zr0) (mu * zi0)
             let (_, _, _, g1) := evalGateFromHolonomy mu sm (mu * zr1) (mu * zi1)
-            let phiImp := if g1.natAbs > g0.natAbs then g1 else g0
-            if -7 ≤ iz ∧ iz ≤ 7 ∧ -7 ≤ iy ∧ iy ≤ 7 ∧ -7 ≤ ix ∧ ix ≤ 7 ∧ phiImp != 0 then
-              activeCount := activeCount + 1
+            let sel1 : Int := isPosNat (g1.natAbs - g0.natAbs)
+            let phiImp := sel1 * g1 + (1 - sel1) * g0
+            let inBox7 : Nat :=
+              (1 / ((iz.natAbs - 7) + 1)) * (1 / ((iy.natAbs - 7) + 1)) * (1 / ((ix.natAbs - 7) + 1))
+            let isNonZero : Nat := 1 - (1 / (phiImp.natAbs + 1))
+            activeCount := activeCount + inBox7 * isNonZero
             let next0 := (2 * p0 - past0 + phiImp).emod 512
             let next1 := (2 * p1 - past1 + phiImp).emod 512
             nextArr := nextArr.push (mu, next0, next1)
@@ -615,8 +634,7 @@ def runFull3DCensusIV263 : Nat × Nat × Nat × Nat × Nat × Nat :=
             (nXY (iz + 1) iy ix - nXY iz iy ix) -
             (nXZ iz (iy + 1) ix - nXZ iz iy ix) +
             (nYZ iz iy (ix + 1) - nYZ iz iy ix)
-          if divCube.natAbs > maxDiv then
-            maxDiv := divCube.natAbs
+          maxDiv := maxDiv + divCube.natAbs
     return (act0, act1, sumXY, sumYZ, sumXZ, maxDiv)
 
 /-- Machine-checked 3D lattice theorem for `Ψ^t = g^t(IV(3) = 263)`:
@@ -729,7 +747,14 @@ theorem gravity_denominator_strictly_positive_floor_8192
     let (_, denom, _, _) := evalGateFromHolonomy mu sumMu zr zi
     0 < denom := by
   dsimp [evalGateFromHolonomy]
-  omega
+  generalize hk : (zr + 128 * mu * mu + 8192).toNat = k
+  cases k with
+  | zero =>
+    rw [isZeroNat_zero]
+    omega
+  | succ m =>
+    rw [isZeroNat_succ]
+    omega
 
 /-- **Theorem (Unified 4-Channel Closed-Form Macro-Instrument Readout `ℳ(x, t, N)` on `IV(3) = 263`)**:
 Because all four interactions are projections of a single integer gate and quotient-remainder

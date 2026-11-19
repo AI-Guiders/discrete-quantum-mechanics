@@ -18,10 +18,10 @@ namespace MtCarrier
 /-- Unsigned representative in `[0, 512)` using Euclidean modulo `Int.emod`. -/
 def mod512 (x : Int) : Int := x % 512
 
-/-- Fold any integer tick `x ∈ ℤ` into the canonical signed interval `(-256, +256]`. -/
+/-- Fold any integer tick `x ∈ ℤ` into the canonical signed interval `(-256, +256]`
+via the pure branchless quotient-remainder formula `256 - ((256 - x) % 512)` (zero `if`!). -/
 def wrap512 (x : Int) : Int :=
-  let u := x % 512
-  if u > 256 then u - 512 else u
+  256 - (256 - x) % 512
 
 /-- Closed even square-face projection `C(A) = 128 - |wrap512(A)| ∈ [-128, +128]`. -/
 def projC (a : Int) : Int :=
@@ -31,13 +31,23 @@ def projC (a : Int) : Int :=
 def projS (a : Int) : Int :=
   projC (a - 128)
 
-/-- Pythagorean rotator horizontal leg `P_x(A) = sgn(C(A)) * (128^2 - S(A)^2)`. -/
+/-- Pure arithmetic zero indicator `isZeroNat(k) = 1 / (k + 1) ∈ {0, 1}` (`1` if `k = 0`, `0` if `k ≥ 1`, zero `if`!). -/
+def isZeroNat (k : Nat) : Int :=
+  ((1 / (k + 1) : Nat) : Int)
+
+/-- Pure arithmetic positivity indicator `isPosNat(k) = 1 - 1 / (k + 1) ∈ {0, 1}` (`0` if `k = 0`, `1` if `k ≥ 1`, zero `if`!). -/
+def isPosNat (k : Nat) : Int :=
+  1 - isZeroNat k
+
+/-- Pure arithmetic sign `sgn(x) = 2 * isZeroNat((-x).toNat) - 1 ∈ {-1, +1}` (`+1` for `x ≥ 0`, `-1` for `x < 0`, zero `if`!). -/
+def branchlessSign (x : Int) : Int :=
+  2 * isZeroNat (-x).toNat - 1
+
+/-- Pythagorean rotator horizontal leg `P_x(A) = isPosNat(|C(A)|) * sgn(C(A)) * (128^2 - S(A)^2)` (zero `if`!). -/
 def pythPx (a : Int) : Int :=
   let c := projC a
   let s := projS a
-  if c == 0 then 0
-  else if c < 0 then -(128 * 128 - s * s)
-  else (128 * 128 - s * s)
+  isPosNat c.natAbs * branchlessSign c * (128 * 128 - s * s)
 
 /-- Pythagorean rotator vertical leg `P_y(A) = 2 * 128 * S(A)`. -/
 def pythPy (a : Int) : Int :=
@@ -48,12 +58,11 @@ def pythPr (a : Int) : Int :=
   let s := projS a
   128 * 128 + s * s
 
-/-- `wrap512` always lands in `(-256, +256]` and is congruent to `x` modulo `512`. -/
+/-- `wrap512` always lands in `(-256, +256]` and is congruent to `x` modulo `512` (zero `if`, zero `Classical.choice`!). -/
 theorem wrap512_spec (x : Int) :
     -256 < wrap512 x ∧ wrap512 x ≤ 256 ∧ (x - wrap512 x) % 512 = 0 := by
   unfold wrap512
-  dsimp
-  split <;> omega
+  refine ⟨by omega, by omega, by omega⟩
 
 /-- Exact values of `C(Δφ)` and `S(Δφ)` for all six step-0 differences in Corollary 11.9. -/
 theorem step0_face_projection_table :
@@ -78,9 +87,9 @@ for every integer `a ∈ ℤ` (not just `[0, 512)`). -/
 theorem l1_face_identity_int (a : Int) :
     ((projC a).natAbs : Int) + ((projS a).natAbs : Int) = 128 := by
   unfold projS projC wrap512
-  dsimp
-  have h1 : (a - 128) % 512 = (a % 512 - 128) % 512 := by omega
-  rw [h1]
+  have h1 : (256 - (a - 128)) % 512 = (384 - a % 512) % 512 := by omega
+  have h2 : (256 - a) % 512 = (256 - a % 512) % 512 := by omega
+  rw [h1, h2]
   omega
 
 /-- Theorem 11.11 (`eq:pythagorean-rotator-int`):
@@ -88,8 +97,9 @@ For every integer `a ∈ ℤ`, `(P_x(a), P_y(a), P_r(a))` satisfies the exact in
 Pythagorean identity `P_x(a)^2 + P_y(a)^2 = P_r(a)^2` with zero rounding error. -/
 theorem pythagorean_rotator_identity_all_512 :
     (List.range 512).all (fun n =>
-      let a : Int := n
-      pythPx a * pythPx a + pythPy a * pythPy a == pythPr a * pythPr a) = true := by
+      intEqBool
+        (pythPx (n : Int) * pythPx (n : Int) + pythPy (n : Int) * pythPy (n : Int))
+        (pythPr (n : Int) * pythPr (n : Int))) = true := by
   native_decide
 
 /-- At the Heisenberg threshold `A = Δφ_disc = 41`, the integer Pythagorean triple
@@ -99,13 +109,13 @@ theorem heisenberg_pythagorean_triple :
     pythPy 41 = 10496 ∧
     pythPr 41 = 18065 ∧
     14703 * 14703 + 10496 * 10496 = 18065 * 18065 := by
-  decide
+  refine ⟨by decide, by decide, by decide, by decide⟩
 
 /-- Evenness of `C` and oddness of `S` across all interior edge differences `a ∈ (-256, 256)`. -/
 theorem projC_even_projS_odd_interior :
     (List.range 511).all (fun n =>
-      let a : Int := (n : Int) - 255
-      projC (-a) == projC a ∧ projS (-a) == -projS a) = true := by
+      intEqBool (projC (-((n : Int) - 255))) (projC ((n : Int) - 255)) &&
+      intEqBool (projS (-((n : Int) - 255))) (-projS ((n : Int) - 255))) = true := by
   native_decide
 
 end MtCarrier

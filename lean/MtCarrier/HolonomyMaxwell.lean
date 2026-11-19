@@ -37,21 +37,25 @@ theorem quotient_remainder_512_spec (dphi : Int) :
   unfold edgeConnection
   omega
 
+/-- Helper boolean check for the three regimes of `branchQuotient` and `edgeConnection` at `n ∈ [0, 1023)` (zero `if`!). -/
+def checkQuotientRemainderRegime (n : Nat) : Bool :=
+  let dphi : Int := (n : Int) - 511
+  let k := branchQuotient dphi
+  let a := edgeConnection dphi
+  intEqBool dphi (512 * k + a) &&
+  Nat.ble 1 (a + 256).toNat &&
+  Nat.ble (a + 256).toNat 512 &&
+  (!(Nat.ble (n + 1) 256) || (intEqBool k (-1) && intEqBool a (dphi + 512))) &&
+  (!(Nat.ble 256 n && Nat.ble n 767) || (intEqBool k 0 && intEqBool a dphi)) &&
+  (!(Nat.ble 768 n) || (intEqBool k 1 && intEqBool a (dphi - 512)))
+
 /-- Exhaustive verification of the three regimes of `branchQuotient` and `edgeConnection`
 for all `dphi ∈ [-511, +511]` (Corollary 11.9):
 - `dphi ∈ [-255, +256] → k = 0, A = dphi`;
 - `dphi ∈ [+257, +511] → k = +1, A = dphi - 512`;
 - `dphi ∈ [-511, -256] → k = -1, A = dphi + 512`. -/
 theorem quotient_remainder_three_regimes :
-    (List.range 1023).all (fun n =>
-      let dphi : Int := (n : Int) - 511
-      let k := branchQuotient dphi
-      let a := edgeConnection dphi
-      (dphi == 512 * k + a) ∧
-      (-256 < a ∧ a ≤ 256) ∧
-      (if dphi < -255 then k == -1 ∧ a == dphi + 512
-       else if dphi ≤ 256 then k == 0 ∧ a == dphi
-       else k == 1 ∧ a == dphi - 512)) = true := by
+    (List.range 1023).all checkQuotientRemainderRegime = true := by
   native_decide
 
 /-- Plaquette circulation `(d₁u)_f = u_01 + u_12 + u_23 + u_30` around a 4-edge square loop. -/
