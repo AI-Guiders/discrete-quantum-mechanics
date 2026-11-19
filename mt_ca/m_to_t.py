@@ -148,6 +148,8 @@ def encode_polar_spinor_bridge(
 ) -> torch.Tensor:
     """T→M boundary encoder: complex spinor (..., 2) → polar integer register [μ₀, φ₀, μ₁, φ₁].
 
+    Enforces the SU(2)-invariant A7 ceiling ρ_q = μ₀² + μ₁² ≤ K_P² (quarter-disk in {1..K_P}²)
+    on the M↔T projection bridge using symmetric bin-center rounding (+0.5).
     The 2π circle conversion lives strictly on the M↔T bridge, never inside M-layer gates.
     """
     import math
@@ -155,11 +157,22 @@ def encode_polar_spinor_bridge(
 
     s = float(1 << frac_bits)
     q_max = 1 << frac_bits
+    q_max_sq = q_max * q_max
     n_ring = 1 << mod_bits
-    mu0_raw = torch.floor(z[..., 0].abs() * s + 0.5).to(torch.int64)
-    mu1_raw = torch.floor(z[..., 1].abs() * s + 0.5).to(torch.int64)
-    mu0 = torch.where(mu0_raw > q_max, torch.full_like(mu0_raw, q_max), torch.where(mu0_raw < 1, torch.ones_like(mu0_raw), mu0_raw))
-    mu1 = torch.where(mu1_raw > q_max, torch.full_like(mu1_raw, q_max), torch.where(mu1_raw < 1, torch.ones_like(mu1_raw), mu1_raw))
+    r0 = z[..., 0].abs()
+    r1 = z[..., 1].abs()
+    rho = r0 * r0 + r1 * r1
+    scale_a7 = torch.where(rho > 1.0, torch.rsqrt(rho.clamp_min(1e-30)), torch.ones_like(rho))
+    mu0_raw = torch.floor(r0 * scale_a7 * s + 0.5).to(torch.int64)
+    mu1_raw = torch.floor(r1 * scale_a7 * s + 0.5).to(torch.int64)
+    mu0 = mu0_raw.clamp(1, q_max)
+    mu1 = mu1_raw.clamp(1, q_max)
+    over = (mu0 * mu0 + mu1 * mu1) > q_max_sq
+    if bool(over.any()):
+        # Resolve boundary rounding (e.g. 45² + 46² = 4141 > 4096) onto the quarter-disk μ₀² + μ₁² ≤ K_P²
+        hi_is_0 = mu0 >= mu1
+        mu0 = torch.where(over & hi_is_0, (mu0 - 1).clamp_min(1), mu0)
+        mu1 = torch.where(over & (~hi_is_0), (mu1 - 1).clamp_min(1), mu1)
     phi0 = mod_lane_core(torch.floor(torch.angle(z[..., 0]) * (n_ring / (2.0 * math.pi)) + 0.5).to(torch.int64), mod_bits)
     phi1 = mod_lane_core(torch.floor(torch.angle(z[..., 1]) * (n_ring / (2.0 * math.pi)) + 0.5).to(torch.int64), mod_bits)
     return torch.stack([mu0.to(torch.int32), phi0, mu1.to(torch.int32), phi1], dim=-1)

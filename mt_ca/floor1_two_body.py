@@ -157,8 +157,9 @@ def _torus_wrap(val: int, n: int) -> int:
     return int(val) % n
 
 
-def _row_to_core(site: tuple[int, int, int], row: Any) -> CoreProbe:
-    w = float(row.winding_auto)
+def _row_to_core(site: tuple[int, int, int], row: Any, *, channel: str = "rel") -> CoreProbe:
+    w_raw = row.winding_rel if channel == "rel" else row.winding_auto
+    w = float(w_raw)
     if w != w or abs(w) < _WINDING_MIN:
         q = 0
     else:
@@ -166,7 +167,8 @@ def _row_to_core(site: tuple[int, int, int], row: Any) -> CoreProbe:
         if abs(q) != 1:
             q = 0
     iz, iy, ix = site
-    return CoreProbe(iz=iz, y=iy, x=ix, Q=q, b=row.b, winding_auto=w)
+    b_val = 1 if (row.rho_floor_ok and abs(q) == 1) else 0
+    return CoreProbe(iz=iz, y=iy, x=ix, Q=q, b=b_val, winding_auto=w)
 
 
 def probe_core_near_anchor(
@@ -178,6 +180,7 @@ def probe_core_near_anchor(
     exclude: tuple[int, int, int] | None = None,
     rho: torch.Tensor | None = None,
     cfg: MConfig | None = None,
+    channel: str = "rel",
 ) -> CoreProbe:
     """Track |Q|≈1 core in a cube around anchor; pass ``rho`` to avoid recomputing density."""
     iz0, iy0, ix0 = anchor
@@ -199,15 +202,16 @@ def probe_core_near_anchor(
                 row = survey_at_site(
                     z_cpu, MatterSite(iz, iy, ix), contour_radius=contour_radius, cfg=cfg, rho=rho_cpu
                 )
-                w_abs = abs(float(row.winding_auto)) if row.winding_auto == row.winding_auto else -1.0
-                score = w_abs + (0.25 if row.b == 1 else 0.0)
+                w_raw = row.winding_rel if channel == "rel" else row.winding_auto
+                w_abs = abs(float(w_raw)) if w_raw == w_raw else -1.0
+                score = w_abs + (0.25 if row.rho_floor_ok and w_abs >= _WINDING_MIN else 0.0)
                 if score > best_score:
                     best_score = score
                     best_site = (iz, iy, ix)
                     best_row = row
     if best_row is None:
         return CoreProbe(iz=iz0, y=iy0, x=ix0, Q=0, b=0, winding_auto=float("nan"))
-    return _row_to_core(best_site, best_row)
+    return _row_to_core(best_site, best_row, channel=channel)
 
 
 def _probe_tracked_pair(
@@ -224,28 +228,12 @@ def _probe_tracked_pair(
     if rho is None:
         rho = spinor_density(z)
 
-    def _one(
-        track: tuple[int, int, int],
-        anchor: tuple[int, int, int],
-        exclude: tuple[int, int, int] | None,
-    ) -> CoreProbe:
-        p = probe_core_near_anchor(
-            z, track, contour_radius=contour_radius, search_radius=0, exclude=None, rho=rho, cfg=cfg
-        )
-        if p.stable_signed_Q is None:
-            p = probe_core_near_anchor(
-                z,
-                anchor,
-                contour_radius=contour_radius,
-                search_radius=3,
-                exclude=exclude,
-                rho=rho,
-                cfg=cfg,
-            )
-        return p
-
-    pa = _one(track_a, anchor_a, None)
-    pb = _one(track_b, anchor_b, (pa.iz, pa.y, pa.x))
+    pa = probe_core_near_anchor(
+        z, track_a, contour_radius=contour_radius, search_radius=0, exclude=None, rho=rho, cfg=cfg
+    )
+    pb = probe_core_near_anchor(
+        z, track_b, contour_radius=contour_radius, search_radius=0, exclude=(pa.iz, pa.y, pa.x), rho=rho, cfg=cfg
+    )
     return pa, pb, (pa.iz, pa.y, pa.x), (pb.iz, pb.y, pb.x)
 
 

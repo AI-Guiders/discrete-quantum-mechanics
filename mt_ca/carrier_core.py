@@ -560,19 +560,14 @@ def polar_step_core(
 ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
     """Second-order Verlet step on the polar phase ring Z_{N_ring} (exact Z_{N_ring} rotation by addition):
 
-      φ₀(t+1) = (2·φ₀(t) − φ₀(t−1) + Φ₀(p_curr)) mod N_ring,
-      φ₁(t+1) = (2·φ₁(t) − φ₁(t−1) + Φ₁(p_curr) + Φ_Pauli) mod N_ring,   μ_c(t+1) = μ_c(t).
+      φ_c(t+1) = (2·φ_c(t) − φ_c(t−1) + Φ(p_curr)) mod N_ring,   μ_c(t+1) = μ_c(t).
     """
     mod_bits = CANONICAL_CARRIER.mod_bits if cfg is None else cfg.mod_bits
-    frac_bits = CANONICAL_CARRIER.frac_bits if cfg is None else cfg.frac_bits
-    pauli_on = True if cfg is None else cfg.pauli_exclusion
-    phi_min = CANONICAL_CARRIER.dphi_min_ticks
     phi_imp = polar_phi_core(p_curr, cfg)
-    p_pauli = pauli_polar_phi_core(p_curr, mod_bits=mod_bits, frac_bits=frac_bits, phi_min=phi_min, enabled=pauli_on)
     mu0 = p_curr[..., 0]
     mu1 = p_curr[..., 2]
     phi0_next = mod_lane_core(
-        2 * p_curr[..., 1].to(torch.int64) - p_past[..., 1].to(torch.int64) + (phi_imp.to(torch.int64) - p_pauli),
+        2 * p_curr[..., 1].to(torch.int64) - p_past[..., 1].to(torch.int64) + phi_imp.to(torch.int64),
         mod_bits,
     )
     phi1_next = mod_lane_core(
@@ -590,15 +585,11 @@ def polar_reverse_core(
 ) -> tuple[torch.Tensor, torch.Tensor]:
     """Literal reverse on the polar phase ring Z_{N_ring} without an impulse stack."""
     mod_bits = CANONICAL_CARRIER.mod_bits if cfg is None else cfg.mod_bits
-    frac_bits = CANONICAL_CARRIER.frac_bits if cfg is None else cfg.frac_bits
-    pauli_on = True if cfg is None else cfg.pauli_exclusion
-    phi_min = CANONICAL_CARRIER.dphi_min_ticks
     phi_imp = polar_phi_core(p_curr, cfg)
-    p_pauli = pauli_polar_phi_core(p_curr, mod_bits=mod_bits, frac_bits=frac_bits, phi_min=phi_min, enabled=pauli_on)
     mu0 = p_curr[..., 0]
     mu1 = p_curr[..., 2]
     phi0_past = mod_lane_core(
-        2 * p_curr[..., 1].to(torch.int64) - p_next[..., 1].to(torch.int64) + (phi_imp.to(torch.int64) - p_pauli),
+        2 * p_curr[..., 1].to(torch.int64) - p_next[..., 1].to(torch.int64) + phi_imp.to(torch.int64),
         mod_bits,
     )
     phi1_past = mod_lane_core(

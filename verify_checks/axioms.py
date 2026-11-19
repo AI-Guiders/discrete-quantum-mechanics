@@ -252,6 +252,9 @@ def check_a16_heisenberg_floor(size: int = 64, device: str = "cpu") -> dict:
     }
 
 def check_a7_density_clamp(device: str = "cpu") -> dict:
+    from mt_ca.carrier_core import CARRIER
+    from mt_ca.m_to_t import decode_from_carrier, encode_to_carrier
+
     cfg = MConfig.for_stencil('hex', rho_max=1.0)
     sim = LatticeFluidSimulator(4, 4, cfg, device=device)
     z = torch.zeros(4, 4, 2, device=device, dtype=torch.complex64)
@@ -259,9 +262,40 @@ def check_a7_density_clamp(device: str = "cpu") -> dict:
     z[..., 1] = 2.0 + 0j
     sim.set_field(z)
     sim.step(1)
-    rho = float(sim.z.abs().square().mean(dim=-1).max().item())
-    ok = rho <= 1.0 + 1e-5
-    return {"id": "A7", "rho_after_step": rho, "rho_max": cfg.rho_max, "ok": ok}
+    # Sum over spinor components: ρ_q = μ₀² + μ₁² ≤ K_P² = 4096 (quarter-disk on M↔T bridge), ρ = |z₀|² + |z₁|² ≤ 1.0
+    mu0 = sim.state_curr[..., 0].to(torch.int64)
+    mu1 = sim.state_curr[..., 2].to(torch.int64)
+    rho_q_max = int((mu0 * mu0 + mu1 * mu1).max().item())
+    kp_sq = CARRIER.k_p * CARRIER.k_p
+    rho = float(sim.z.abs().square().sum(dim=-1).max().item())
+    # Verify decode -> encode is an exact identity on the legal quarter-disk μ₀² + μ₁² ≤ K_P²
+    g0, g1 = torch.meshgrid(
+        torch.arange(1, CARRIER.k_p + 1, device=device, dtype=torch.int32),
+        torch.arange(1, CARRIER.k_p + 1, device=device, dtype=torch.int32),
+        indexing="ij",
+    )
+    legal = (g0.to(torch.int64) ** 2 + g1.to(torch.int64) ** 2) <= kp_sq
+    p_legal = torch.stack(
+        [
+            g0[legal],
+            torch.full_like(g0[legal], 123),
+            g1[legal],
+            torch.full_like(g1[legal], 371),
+        ],
+        dim=-1,
+    )
+    p_roundtrip = encode_to_carrier(decode_from_carrier(p_legal))
+    roundtrip_exact = bool(torch.equal(p_legal, p_roundtrip))
+    ok = (rho_q_max <= kp_sq) and (rho <= 1.0 + 1e-5) and roundtrip_exact
+    return {
+        "id": "A7",
+        "rho_q_max": rho_q_max,
+        "kp_sq": kp_sq,
+        "rho_after_step": rho,
+        "rho_max": cfg.rho_max,
+        "quarter_disk_roundtrip_exact": roundtrip_exact,
+        "ok": ok,
+    }
 
 def check_a10_winding(size: int = 128, steps: int = 128, device: str = "cpu") -> dict:
     from mt_ca.seeds import make_seed
@@ -298,16 +332,35 @@ def check_a10_winding(size: int = 128, steps: int = 128, device: str = "cpu") ->
     }
 
 def check_pauli_repel(device: str = "cpu") -> dict:
-    cfg = MConfig.for_stencil('hex', pauli_exclusion=True)
-    sim = LatticeFluidSimulator(1, 1, cfg, device=device)
-    z = torch.zeros(1, 1, 2, device=device, dtype=torch.complex64)
-    z[..., 0] = 0.8 + 0j
-    z[..., 1] = 0.8 + 0j
-    sim.set_field(z)
-    sim.step(1)
-    overlap = float((0.5 * (sim.z[..., 0] + sim.z[..., 1])).abs().square().item())
-    ok = overlap <= 0.5 + 1e-5
-    return {"id": "Pauli", "overlap_after_step": overlap, "ok": ok}
+    from mt_ca.carrier_core import CARRIER, carrier_step
+
+    dev = torch.device(device)
+    cfg_on = MConfig.for_stencil('hex', pauli_exclusion=True)
+    cfg_off = MConfig.for_stencil('hex', pauli_exclusion=False)
+    # Two dense parallel spinor lanes on M: μ₀ = μ₁ = 46 (46² = 2116 > K_P²/2 = 2048), φ₀ = φ₁ = 0.
+    # Overlap is an invariant of motion in the polar register; A16 acts as a Φ_Pauli = 256-tick phase impulse.
+    p0 = torch.tensor([[[46, 0, 46, 0]]], device=dev, dtype=torch.int32)
+    p_on, _, _ = carrier_step(p0, p0, cfg_on)
+    dphi_on = int(((p_on[..., 1] - p0[..., 1]) % CARRIER.n_ring).item())
+
+    p_off, _, _ = carrier_step(p0, p0, cfg_off)
+    dphi_off = int(((p_off[..., 1] - p0[..., 1]) % CARRIER.n_ring).item())
+
+    # Antiparallel control: μ₀ = μ₁ = 46, φ₁ - φ₀ = 256 (not parallel) -> 0 Pauli impulse
+    p_anti = torch.tensor([[[46, 0, 46, CARRIER.pauli_ticks]]], device=dev, dtype=torch.int32)
+    p_anti_next, _, _ = carrier_step(p_anti, p_anti, cfg_on)
+    dphi_anti = int(((p_anti_next[..., 1] - p_anti[..., 1]) % CARRIER.n_ring).item())
+
+    pauli_jump = (dphi_on - dphi_off) % CARRIER.n_ring
+    ok = (pauli_jump == CARRIER.pauli_ticks) and (dphi_off == 0) and (dphi_anti == 0)
+    return {
+        "id": "Pauli",
+        "pauli_phase_ticks_on": dphi_on,
+        "pauli_phase_ticks_off": dphi_off,
+        "pauli_phase_ticks_antiparallel": dphi_anti,
+        "expected_pauli_ticks": CARRIER.pauli_ticks,
+        "ok": ok,
+    }
 
 def check_a3_global_norm(size: int = 64, device: str = "cpu") -> dict:
     from mt_ca.conservation import a3_global_norm_report

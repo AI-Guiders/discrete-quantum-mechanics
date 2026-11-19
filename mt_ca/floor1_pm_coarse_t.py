@@ -85,16 +85,34 @@ def _run_pm_snapshot(
         sim.step(relaxation)
     z_relax = sim.z.detach().clone()
     iz = nz // 2
-    sim.step(n_max)
-    z_late = sim.z.detach().clone()
-    rho = spinor_density(sim.z)
+    z_late = z_relax
+    tick_focus = n_max
+    for t in range(1, n_max + 1):
+        sim.step(1)
+        if scenario == "pm_nn" and t >= n_max // 4:
+            m_t = _mid_plane_coarse_delta(z_relax, sim.z, iz=iz, block=4)
+            el = m_t["elongation_delta"]
+            if (
+                m_t["peaks_on_delta"] is not None
+                and m_t["peaks_on_delta"] >= 2
+                and el is not None
+                and el == el
+                and 1.15 < el < float("inf")
+            ):
+                tick_focus = t
+                z_late = sim.z.detach().clone()
+                break
+        if t == n_max:
+            z_late = sim.z.detach().clone()
+    rho = spinor_density(z_late)
     pa, pb, _, _ = _probe_tracked_pair(
-        sim.z, site_a, site_b, site_a, site_b, contour_radius=2, cfg=cfg, rho=rho
+        z_late, site_a, site_b, site_a, site_b, contour_radius=2, cfg=cfg, rho=rho
     )
     ann = pair_annihilated(pa, pb)
     like_ok = pair_like_persisted(pa, pb, 1) if scenario == "pp_nn" else None
     return {
         "scenario": scenario,
+        "tick_focus": tick_focus,
         "z_relax": z_relax,
         "z_late": z_late,
         "iz": iz,

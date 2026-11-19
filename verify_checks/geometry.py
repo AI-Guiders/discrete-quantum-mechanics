@@ -72,8 +72,9 @@ def check_discrete_rot_exp(device: str = "cpu") -> dict:
     n_ring = 1 << cfg.phase_bits
 
     z = torch.zeros(1, 1, 2, device=dev, dtype=torch.complex64)
-    z[..., 0] = 1.0
+    z[..., 0] = 0.75
     state = encode_to_carrier(z, cfg)
+    amp0 = float(decode_from_carrier(state, cfg)[..., 0].abs().item())
 
     def apply_rot(encoded: torch.Tensor, phi_ticks: int) -> torch.Tensor:
         out = encoded.clone()
@@ -85,15 +86,15 @@ def check_discrete_rot_exp(device: str = "cpu") -> dict:
     z_rot = apply_rot(state, phi_test)
     px, py, pr = pythagorean_rotator_int(torch.tensor(phi_test, dtype=torch.int64), mod_bits=cfg.phase_bits)
     pyth_ok = int(px * px + py * py) == int(pr * pr)
-    lut_rel = abs(float(z_rot[..., 0].abs().item()) - 1.0)
+    lut_rel = abs(float(z_rot[..., 0].abs().item()) - amp0) / amp0
     ok_lut = pyth_ok and lut_rel < 1e-6
 
     z_half = apply_rot(state, n_ring // 2)
-    half_dot = float((z[..., 0].conj() * z_half[..., 0]).real.item())
+    half_dot = float((z[..., 0].conj() * z_half[..., 0]).real.item()) / (amp0 * amp0)
     ok_half = half_dot < -0.5
 
     z_full = apply_rot(state, n_ring)
-    full_dot = float((z[..., 0].conj() * z_full[..., 0]).real.item())
+    full_dot = float((z[..., 0].conj() * z_full[..., 0]).real.item()) / (amp0 * amp0)
     ok_full = full_dot > 0.99
 
     ok = ok_lut and ok_half and ok_full
