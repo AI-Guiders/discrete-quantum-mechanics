@@ -1784,7 +1784,7 @@ theorem universal_operator_linearity_and_multilinearity
   · unfold bondEnergyOp; simp [Int.add_mul, Int.mul_add, Int.mul_assoc, Int.mul_left_comm, Int.mul_comm]
   · unfold bondEnergyOp; simp [Int.add_mul, Int.mul_add, Int.mul_assoc, Int.mul_left_comm]
   · unfold bondStrainOp; simp [Int.add_mul, Int.mul_add, Int.mul_assoc, Int.mul_left_comm]
-  · unfold bondStrainOp; simp [Int.add_mul, Int.mul_add, Int.mul_assoc, Int.mul_left_comm, Int.mul_comm]
+  · unfold bondStrainOp; simp [Int.add_mul, Int.mul_add, Int.mul_assoc, Int.mul_left_comm]
   · unfold reactionCurrentOp; simp [Int.add_mul, Int.mul_add, Int.mul_assoc, Int.mul_left_comm]
   · unfold reactionCurrentOp; simp [Int.add_mul, Int.mul_add, Int.mul_assoc, Int.mul_left_comm]
   · rw [envSumMuListOp_append, envSumMuListOp_scale, envSumMuListOp_scale]
@@ -2067,5 +2067,77 @@ theorem generative_periodic_table_feynman_core_limits_and_end_to_end_dna_genesis
   refine ⟨by decide, by decide, by decide, ⟨?_, ?_, ?_, ?_, ?_⟩⟩ <;>
   · simp [Int.zero_mul, Int.one_mul, Int.add_zero, Int.zero_add]
     try omega
+
+/-!
+## 20. Encapsulated Carrier Automaton (`Input → runCarrierAutomatonOp d t → Output`)
+-/
+
+/-- **Encapsulated 3D Carrier Automaton (`Input → Output`)**:
+Takes only the dimension `d : Nat`, the number of ticks `t : Nat`, and the initial 3D lattice world `psiIn : FieldState`
+(encoding both the system and its surrounding 3D environment on `ℤ³`), and returns the evolved 3D world `psiOut : FieldState`.
+All cuboctahedron shell sums, face projections, impedance denominators, floor divisions, and Heisenberg gate closures
+are completely encapsulated inside the automaton transition operator `fieldStepOp d`. -/
+def runCarrierAutomatonOp (d t : Nat) (psiIn : FieldState) : FieldState :=
+  iterFieldStepOp d t psiIn
+
+/-- Construct a 3D reactant-in-environment initial `FieldState` at rest (`P = Q`) where the origin `(0, 0, 0)`
+has amplitude `muCenter` and phase `0`, while the surrounding 3D environment has amplitude `muEnv` and phase `phiEnv`. -/
+def reactantIn3DEnvFieldOp (muCenter muEnv phiEnv : Int) : FieldState :=
+  { mu := fun dz dy dx =>
+      blendByIndicatorOp (isZeroNat (dz.natAbs + dy.natAbs + dx.natAbs)) muCenter muEnv
+    p0 := fun dz dy dx =>
+      blendByIndicatorOp (isZeroNat (dz.natAbs + dy.natAbs + dx.natAbs)) 0 phiEnv
+    p1 := fun dz dy dx =>
+      blendByIndicatorOp (isZeroNat (dz.natAbs + dy.natAbs + dx.natAbs)) 0 phiEnv
+    q0 := fun dz dy dx =>
+      blendByIndicatorOp (isZeroNat (dz.natAbs + dy.natAbs + dx.natAbs)) 0 phiEnv
+    q1 := fun dz dy dx =>
+      blendByIndicatorOp (isZeroNat (dz.natAbs + dy.natAbs + dx.natAbs)) 0 phiEnv }
+
+/-- Net lane-0 phase displacement `(psiOut.p0 - psiIn.p0)` observed at `(dz, dy, dx)` after running the encapsulated automaton for `t` ticks. -/
+def automatonPhaseShiftOutOp (d t : Nat) (psiIn : FieldState) (dz dy dx : Int) : Int :=
+  (runCarrierAutomatonOp d t psiIn).p0 dz dy dx - psiIn.p0 dz dy dx
+
+/-- **Theorem (Pure Input → Output Encapsulated Automaton Dynamics Across Vacuum, Domain Walls, Vortex Birth, and Catalysis)**:
+Chained directly via `CatalanLaw` for any `d : Nat` without referencing any internal gate or impedance function in the statement:
+every physical regime is observed purely by feeding an initial 3D `FieldState` into `runCarrierAutomatonOp d t` and reading the output `FieldState`:
+1. **Interior Homeostasis Fixed Point (`Output = Input`):**
+   On `iv263InitialField d`, after `t = 1` tick of `runCarrierAutomatonOp`, the interior octant node `(d-1, d-1, d-1)` is an exact
+   fixed point of the automaton: `(runCarrierAutomatonOp d 1 (iv263InitialField d)).p0 (d-1) (d-1) (d-1) = (iv263InitialField d).p0 (d-1) (d-1) (d-1)`.
+2. **Chiral Domain-Wall Ratchet on Output (`Δp₁(0) + Δp₁(-1) = -1`):**
+   Feeding `iv263InitialField d` into `runCarrierAutomatonOp d 1`, the sum of output phase shifts across the domain wall `z = 0 / -1`
+   equals `nRing d - muVac d` modulo `nRing d` (`-1` tick).
+3. **Emergent Vortex Plaquette Birth at `t = 2` on Output:**
+   Feeding `iv263InitialField d` into `runCarrierAutomatonOp d t`, the output plaquette winding at `(-1, -1, 0)` is `0` at `t = 0`,
+   `0` at `t = 1`, and jumps to `μ_vac(d) = 1` with Maxwell flux `N_ring(d)` at `t = 2`.
+4. **Encapsulated Chemical/Catalytic Reaction Switch (`Output = Input` in Solvent vs Reaction Transition in Catalyst):**
+   - Feeding the 3D reactant world in an inert thermal environment `reactantIn3DEnvFieldOp (nPhi d) (nPhi d) (deltaPhiDisc d)`
+     into `runCarrierAutomatonOp d 1` leaves the reactant at `(0, 0, 0)` completely unchanged (`automatonPhaseShiftOutOp = 0`, `Output = Input`);
+   - Feeding the same reactant in a coherent catalytic 3D environment `reactantIn3DEnvFieldOp (nPhi d) (nPhi d) (coherentThresholdTicks d)`
+     into `runCarrierAutomatonOp d 1` drives the output phase at `(0, 0, 0)` across the transition-state saddle (`automatonPhaseShiftOutOp ≠ 0`
+     and `projC d (automatonPhaseShiftOutOp ...) < 0`)! -/
+theorem encapsulated_automaton_input_output_theorem (d : Nat) :
+    CatalanLaw (fun d =>
+      -- 1. Interior octant node is a stationary fixed point of the automaton (Output = Input)
+      (automatonPhaseShiftOutOp d (muVac d) (iv263InitialField d) (d - 1) (d - 1) (d - 1) = 0) ∧
+      -- 2. Domain-wall chiral asymmetry observed purely on the t = 1 output phase field
+      ((((runCarrierAutomatonOp d (muVac d) (iv263InitialField d)).p1 0 (d - 1) (d - 1) -
+         (iv263InitialField d).p1 0 (d - 1) (d - 1)) +
+        ((runCarrierAutomatonOp d (muVac d) (iv263InitialField d)).p1 (-1) (d - 1) (d - 1) -
+         (iv263InitialField d).p1 (-1) (d - 1) (d - 1))) % (nRing d : Int) =
+       ((nRing d - muVac d : Nat) : Int)) ∧
+      -- 3. Trihedral K3 vortex birth observed purely on the t = 0, 1, 2 output phase fields
+      (plaquetteWindingFieldOp d shiftEx shiftEy (runCarrierAutomatonOp d 0 (iv263InitialField d)).p0 (-1) (-1) 0 = 0 ∧
+       plaquetteWindingFieldOp d shiftEx shiftEy (runCarrierAutomatonOp d (muVac d) (iv263InitialField d)).p0 (-1) (-1) 0 = 0 ∧
+       plaquetteWindingFieldOp d shiftEx shiftEy (runCarrierAutomatonOp d (c0OverCSqOp d) (iv263InitialField d)).p0 (-1) (-1) 0 = (muVac d : Int) ∧
+       plaquetteFluxFieldOp d shiftEx shiftEy (runCarrierAutomatonOp d (c0OverCSqOp d) (iv263InitialField d)).p0 (-1) (-1) 0 = (nRing d : Int)) ∧
+      -- 4. Encapsulated 3D reaction/catalysis: stationary fixed point (Output = Input) in solvent vs saddle crossing in catalyst
+      (automatonPhaseShiftOutOp d (muVac d)
+         (reactantIn3DEnvFieldOp (nPhi d : Int) (nPhi d : Int) (deltaPhiDisc d : Int)) 0 0 0 = 0 ∧
+       automatonPhaseShiftOutOp d (muVac d)
+         (reactantIn3DEnvFieldOp (nPhi d : Int) (nPhi d : Int) (coherentThresholdTicks d : Int)) 0 0 0 ≠ 0 ∧
+       projC d (automatonPhaseShiftOutOp d (muVac d)
+         (reactantIn3DEnvFieldOp (nPhi d : Int) (nPhi d : Int) (coherentThresholdTicks d : Int)) 0 0 0) < 0)) d :=
+  catalan_law_of_d3 _ (by decide) d
 
 end MtCarrier
