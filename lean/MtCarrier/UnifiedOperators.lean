@@ -2083,18 +2083,23 @@ def runCarrierAutomatonOp (d t : Nat) (psiIn : FieldState) : FieldState :=
   iterFieldStepOp d t psiIn
 
 /-- Construct a 3D reactant-in-environment initial `FieldState` at rest (`P = Q`) where the origin `(0, 0, 0)`
-has amplitude `muCenter` and phase `0`, while the surrounding 3D environment has amplitude `muEnv` and phase `phiEnv`. -/
+has amplitude `muCenter` and phase `0`, while the surrounding 3D environment has amplitude `muEnv` and
+antipodally balanced phase `phiEnv * branchlessSign (4 * dz + 2 * dy + dx)` on `(dz, dy, dx) ≠ (0, 0, 0)`. -/
 def reactantIn3DEnvFieldOp (muCenter muEnv phiEnv : Int) : FieldState :=
   { mu := fun dz dy dx =>
       blendByIndicatorOp (isZeroNat (dz.natAbs + dy.natAbs + dx.natAbs)) muCenter muEnv
     p0 := fun dz dy dx =>
-      blendByIndicatorOp (isZeroNat (dz.natAbs + dy.natAbs + dx.natAbs)) 0 phiEnv
+      blendByIndicatorOp (isZeroNat (dz.natAbs + dy.natAbs + dx.natAbs)) 0
+        (phiEnv * branchlessSign (4 * dz + 2 * dy + dx))
     p1 := fun dz dy dx =>
-      blendByIndicatorOp (isZeroNat (dz.natAbs + dy.natAbs + dx.natAbs)) 0 phiEnv
+      blendByIndicatorOp (isZeroNat (dz.natAbs + dy.natAbs + dx.natAbs)) 0
+        (phiEnv * branchlessSign (4 * dz + 2 * dy + dx))
     q0 := fun dz dy dx =>
-      blendByIndicatorOp (isZeroNat (dz.natAbs + dy.natAbs + dx.natAbs)) 0 phiEnv
+      blendByIndicatorOp (isZeroNat (dz.natAbs + dy.natAbs + dx.natAbs)) 0
+        (phiEnv * branchlessSign (4 * dz + 2 * dy + dx))
     q1 := fun dz dy dx =>
-      blendByIndicatorOp (isZeroNat (dz.natAbs + dy.natAbs + dx.natAbs)) 0 phiEnv }
+      blendByIndicatorOp (isZeroNat (dz.natAbs + dy.natAbs + dx.natAbs)) 0
+        (phiEnv * branchlessSign (4 * dz + 2 * dy + dx)) }
 
 /-- Net lane-0 phase displacement `(psiOut.p0 - psiIn.p0)` observed at `(dz, dy, dx)` after running the encapsulated automaton for `t` ticks. -/
 def automatonPhaseShiftOutOp (d t : Nat) (psiIn : FieldState) (dz dy dx : Int) : Int :=
@@ -2105,8 +2110,8 @@ Chained directly via `CatalanLaw` for any `d : Nat` without referencing any inte
 every physical regime is observed purely by feeding an initial 3D `FieldState` into `runCarrierAutomatonOp d t` and reading the output `FieldState`:
 1. **Interior Homeostasis Fixed Point (`Output = Input`):**
    On `iv263InitialField d`, after `t = 1` tick of `runCarrierAutomatonOp`, the interior octant node `(d-1, d-1, d-1)` is an exact
-   fixed point of the automaton: `(runCarrierAutomatonOp d 1 (iv263InitialField d)).p0 (d-1) (d-1) (d-1) = (iv263InitialField d).p0 (d-1) (d-1) (d-1)`.
-2. **Chiral Domain-Wall Ratchet on Output (`Δp₁(0) + Δp₁(-1) = -1`):**
+   fixed point of the automaton: `automatonPhaseShiftOutOp d (muVac d) (iv263InitialField d) (d-1) (d-1) (d-1) = 0`.
+2. **Chiral Domain-Wall Ratchet on Output (`Δp₁(0) + Δp₁(-1) ≡ -1`):**
    Feeding `iv263InitialField d` into `runCarrierAutomatonOp d 1`, the sum of output phase shifts across the domain wall `z = 0 / -1`
    equals `nRing d - muVac d` modulo `nRing d` (`-1` tick).
 3. **Emergent Vortex Plaquette Birth at `t = 2` on Output:**
@@ -2126,7 +2131,7 @@ theorem encapsulated_automaton_input_output_theorem (d : Nat) :
       ((((runCarrierAutomatonOp d (muVac d) (iv263InitialField d)).p1 0 (d - 1) (d - 1) -
          (iv263InitialField d).p1 0 (d - 1) (d - 1)) +
         ((runCarrierAutomatonOp d (muVac d) (iv263InitialField d)).p1 (-1) (d - 1) (d - 1) -
-         (iv263InitialField d).p1 (-1) (d - 1) (d - 1))) % (nRing d : Int) =
+         (iv263InitialField d).p1 (-1) (d - 1) (d - 1))).emod (nRing d : Int) =
        ((nRing d - muVac d : Nat) : Int)) ∧
       -- 3. Trihedral K3 vortex birth observed purely on the t = 0, 1, 2 output phase fields
       (plaquetteWindingFieldOp d shiftEx shiftEy (runCarrierAutomatonOp d 0 (iv263InitialField d)).p0 (-1) (-1) 0 = 0 ∧
