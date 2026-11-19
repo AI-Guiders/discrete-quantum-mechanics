@@ -1,0 +1,19 @@
+\documentclass[11pt,a4paper,twoside,openany]{book}
+\usepackage{pdfpages}
+\usepackage[pdfencoding=auto,psdextra,bookmarks=true,bookmarksopen=true]{hyperref}
+
+\hypersetup{
+  pdftitle={Дискретная квантовая механика в двух словах — Полное собрание (Тома I–VIII)},
+  pdfauthor={D. Karavaev}
+}
+
+\begin{document}
+\includepdf[pages=-,addtotoc={1,part,1,{Том I. Построение модели (Construction)},vol:construction}]{../out/pdf/construction.pdf}
+\includepdf[pages=-,addtotoc={1,part,1,{Том II. Иерархия этажей и Стандартная модель (Floors)},vol:floors}]{../out/pdf/floors.pdf}
+\includepdf[pages=-,addtotoc={1,part,1,{Том III. Космология и гравитационная голономия (Cosmology)},vol:cosmology}]{../out/pdf/cosmology.pdf}
+\includepdf[pages=-,addtotoc={1,part,1,{Том IV. Химия, периодическая система и планетогенез (Chemistry)},vol:chemistry}]{../out/pdf/chemistry.pdf}
+\includepdf[pages=-,addtotoc={1,part,1,{Том V. Биология, генетический код и онтогенез в среде (Biology)},vol:biology}]{../out/pdf/biology.pdf}
+\includepdf[pages=-,addtotoc={1,part,1,{Том VI. Теория наблюдателя и измерения (Observer)},vol:observer}]{../out/pdf/observer.pdf}
+\includepdf[pages=-,addtotoc={1,part,1,{Том VII. Вычислительная теория, классы эквивалентности и P vs NP (Compute)},vol:compute}]{../out/pdf/compute.pdf}
+\includepdf[pages=-,addtotoc={1,part,1,{Том VIII. Прикладные операторные технологии и катализ (Applied)},vol:applied}]{../out/pdf/applied.pdf}
+\end{document}

@@ -296,6 +296,41 @@
 Пункты~1--4 проверены ядром Lean~4 в теоремах \texttt{chemical\_\allowbreak bond\_\allowbreak holonomy\_\allowbreak conservation\_\allowbreak and\_\allowbreak saddle\_\allowbreak 128}, \texttt{hess\_\allowbreak law\_\allowbreak and\_\allowbreak catalytic\_\allowbreak cycle\_\allowbreak zero\_\allowbreak enthalpy}, \texttt{woodward\_\allowbreak hoffmann\_\allowbreak and\_\allowbreak valence\_\allowbreak 123\_\allowbreak stability\_\allowbreak from\_\allowbreak d3} и \texttt{catalytic\_\allowbreak reaction\_\allowbreak gate\_\allowbreak opening\_\allowbreak on\_\allowbreak cuboctahedron} (\texttt{lean/MtCarrier/UnifiedOperators.lean}).
 \end{proof}
 
+\chapter{Практическое применение тактовой скорости звена \texorpdfstring{$\caSignalSpeed = \caKappaGeom(d)^{-1}\speedC$}{c0 = kappa\^-1 c}, баллистическая передача энергии и информации без потерь и инкапсулированный автомат}
+\label{ch:applied-c0-lossless-transmission}
+
+\section{Опережение кулоновского разлёта в 12-лучевом концентраторе и баллистический волновод Гейзенберга}
+\label{sec:applied-c0-overdrive-and-waveguide}
+
+В теоремах \texttt{c0\_superluminal\_link\_applications\_and\_lossless\_ballistic\_transmission\_operator} и \texttt{encapsulated\_automaton\_input\_output\_theorem} (\texttt{lean/MtCarrier/UnifiedOperators.lean}, разделы~20 и~27) доказана двойственность двух противоположных режимов работы оболочки кубооктаэдра $O_2(d)=\mathrm{cubicOrbit3D}(d-1)$:
+
+\begin{theorem}[Операторный закон опережения кулоновского разлёта тактовой скоростью $\caSignalSpeed$ и баллистической передачи энергии и информации без потерь]
+\label{thm:applied-c0-and-lossless-waveguide}
+Для любого $d\in\mathbb{N}$ операторный закон Каталана $\mathrm{CatalanLaw}(P,d)$ эквивалентен системе следующих точных операторных свойств:
+\begin{enumerate}[label=\textbf{(\roman*)},leftmargin=*]
+\item \textbf{Опережение электромагнитного разлёта тактовой скоростью звена $\caSignalSpeed$ в 12-лучевом кубооктаэдре и гидродинамические пределы:}
+  квадрат отношения тактовой скорости звена $\caSignalSpeed$ на $\Mlayer$-слое к скорости электромагнитного фронта $\speedC$ на $\Tlayer$-слое вдоль каждого из $|N(d)|$ векторов $e\in O_2(d)$ строго превышает единицу вакуума:
+  \[
+    \|e\|_2^2 \;=\; \mathrm{c0OverCSqOp}(d) \;=\; d - \mu_{\mathrm{vac}}(d) \;>\; \mu_{\mathrm{vac}}(d),
+  \]
+  благодаря чему в $12$-лучевом фазовом концентраторе сходящийся вдоль диагональных звеньев $O_2(d)$ импульс опережает поперечную электромагнитную волну кулоновского разлёта по квадрату скорости в $\mathrm{c0OverCSqOp}(d)$ раз, квадрат критического числа Маха включения двухтактовой дисперсии Бома и квадрат предельной решёточной завихренности равны $(\mathrm{Ma}_{\mathrm{crit}})^2 = (\omega_{\max}\,dh/\speedC)^2 = \mathrm{c0OverCSqOp}(d)$, а нижний квантовый предел отношения сдвиговой вязкости к плотности энтропии равен $\mathrm{minViscosityEntropyRatOp}(d) = (\Delta\varphi_{\mathrm{disc}}(d),N_{\mathrm{ring}}(d))$.
+\item \textbf{Передача энергии без потерь рассеяния ($\Phi_{\mathrm{loss}}\equiv 0,\ \widehat{n}_{E,\mathrm{loss}}\equiv 0$) в высокоимпедансном волноводе Гейзенберга:}
+  в отличие от каталитического реактора (где оболочка переводится во второй квадрант $A_{\mathrm{coh}}(d)$ для схлопывания импеданса до $\varepsilon(d)$), в линии передачи энергии поперечная защитная оболочка волновода запирается в синфазном первом квадранте ($\Delta\varphi_{\mathrm{shield}}=0$, $\mathcal{C}_d(0)=+Q_\square(d)$), поднимая знаменатель импеданса оболочки до максимума
+  \[
+    \mathrm{waveguideShieldMaxDenomOp}(d) \;=\; \mathrm{maxGravitationalCompressionRatioOp}(d)\cdot\varepsilon(d) \;=\; \bigl(\mu_{\mathrm{vac}}(d) + N_\varphi(d)\cdot K_P(d)\bigr)\cdot\varepsilon(d).
+  \]
+  При этом внешние тепловые возмущения среды $z_{\mathrm{noise}}$ подавляются знаменателем $\mathrm{waveguideShieldMaxDenomOp}(d)$ внутрь мёртвой зоны Гейзенберга ($|\Phi_{\mathrm{raw,noise}}| < \Delta\varphi_{\mathrm{disc}}(d)$), так что оператор рассеяния и оператор потерь энергии обращаются в тождественный нуль:
+  \[
+    \mathrm{waveguideNoiseScatterGateOp}\bigl(d,d\cdot\varepsilon(d)\bigr) \;=\; 0,
+    \qquad
+    \mathrm{energyQuantumOperator}\bigl(d,\mathrm{waveguideNoiseScatterGateOp}(d,d\cdot\varepsilon(d))\bigr) \;=\; 0,
+  \]
+  тогда как продольный ток переноса энергии на седле $\Delta\varphi_{\mathrm{sig}} = Q_\square(d)$ достигает полного потолка $\mathrm{reactionCurrentOp}(d,\mu_{\mathrm{vac}}(d),K_P(d),K_P(d),Q_\square(d)) = K_P(d)^2\cdot Q_\square(d)$.
+\item \textbf{Баллистическая передача информации без потерь и инкапсулированный автомат (\texttt{runCarrierAutomatonOp}):}
+  при $\Phi_{\mathrm{scatter}}=0$ шаг чехарды $\mathrm{polarStepCell}(d,\mathrm{curr},\mathrm{coherentPastCell}(\mathrm{curr},\mathrm{pastPhi0}),0)$ переносит фазовую скорость $(\varphi_0(t+1)-\varphi_0(t))\bmod N_{\mathrm{ring}}(d) = (\varphi_0(t)-\varphi_0(t-1))\bmod N_{\mathrm{ring}}(d)$ и относительную спинорную фазу $(\varphi_1-\varphi_0)\bmod N_{\mathrm{ring}}(d)$ без затухания и с побитовой обратимостью $\mathrm{polarReverseCell}$. На уровне полного 3D-поля инкапсулированный оператор автомата $\Psi_{\mathrm{out}} = \mathrm{runCarrierAutomatonOp}(d,t,\Psi_{\mathrm{in}})$ воспроизводит неподвижную точку гомеостаза ($\Psi_{\mathrm{out}}=\Psi_{\mathrm{in}}$ внутри октанта и в инертном растворителе), киральный храповик доменной стенки, рождение вихря $K_3$ при $t=\mathrm{c0OverCSqOp}(d)$ и каталитический переход через седло исключительно по соотношению входного и выходного 3D-полей.
+\end{enumerate}
+\end{theorem}
+
 \input{volumes/include-computational-laboratory.tex}
 
 \input{volumes/include-measurement-processing.tex}
