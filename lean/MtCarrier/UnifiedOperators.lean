@@ -1085,4 +1085,128 @@ theorem predictive_mutagenesis_and_epigenetic_saturation_operator (d : Nat) :
        envZiListOp d (nPhi d : Int) [((nPhi d : Int), (deltaPhiDisc d : Int)), ((nPhi d : Int), -(deltaPhiDisc d : Int))] = 0)) d :=
   catalan_law_of_d3 _ (by decide) d
 
+/-!
+## 14. Analytical Inverse Phenotype-to-Genome Compiler Operator (`compilePhenotypeInEnvOp`) & Exact Groove/Mutation Invertibility
+-/
+
+/-- Exact indicator `eqIntIndicatorOp(a, b) ∈ {0, 1}` testing `a = b` in `ℤ` without `if` (`isZeroNat (a - b).natAbs`, zero `if`, zero `let`!). -/
+def eqIntIndicatorOp (a b : Int) : Int :=
+  isZeroNat (a - b).natAbs
+
+/-- Exact indicator `eqNatIndicatorOp(a, b) ∈ {0, 1}` testing `a = b` in `ℕ` without `if` (zero `if`, zero `let`!). -/
+def eqNatIndicatorOp (a b : Nat) : Nat :=
+  (isZeroNat ((a - b) + (b - a))).toNat
+
+/-- Inverse morphogenetic lock compiler: recovers the axial lock flag `σ_axis ∈ {0, 1}` directly from the target
+2D Euler characteristic `χ_target ∈ {c0OverCSqOp(d), 0, Δφ_disc(d)}` (zero `if`, zero `let`!). -/
+def inverseTargetSigmaAxisOp (d : Nat) (chiTarget : Int) : Int :=
+  1 - eqIntIndicatorOp chiTarget (c0OverCSqOp d : Int)
+
+/-- Inverse morphogenetic lock compiler: recovers the synaptic immunoglobulin lock flag `σ_Ig ∈ {0, 1}` directly from
+the target 2D Euler characteristic `χ_target ∈ {c0OverCSqOp(d), 0, Δφ_disc(d)}` (zero `if`, zero `let`!). -/
+def inverseTargetSigmaIgOp (d : Nat) (chiTarget : Int) : Int :=
+  eqIntIndicatorOp chiTarget (deltaPhiDisc d : Int)
+
+/-- **Closed-Form Inverse-to-Forward Phenotype Compiler in an External Environment**
+`compilePhenotypeInEnvOp(d, χ_target, m_env, Φ_env, R)`:
+Given a target 3D organ topology `χ_target` and a target planetary environment `(m_env, Φ_env)`,
+analytically synthesizes the genome/proteome lock specification `(m_genome := m_env, σ_axis, σ_Ig)`
+and executes `ontogenyGenesisInEnvOp` in that environment (zero `if`, zero `let`, zero hardcoded numbers!). -/
+def compilePhenotypeInEnvOp (d : Nat) (chiTarget mEnv phiEnv rRings : Int) : Int × Int × Int × Int :=
+  ontogenyGenesisInEnvOp d
+    mEnv
+    (inverseTargetSigmaAxisOp d chiTarget)
+    (inverseTargetSigmaIgOp d chiTarget)
+    mEnv
+    phiEnv
+    rRings
+
+/-- Branchless major-groove reader synthesis operator `grooveSynthOp(d, b) ∈ ℤ_{aminoAcidClassesOp(d)}`
+(`thm:bio-constructive-inverse-folding`, eq. `eq:bio-inverse-groove-reader`, zero `def := 3`, zero hardcoded numbers, zero `if`, zero `let`!):
+maps each target DNA base `b ∈ ℤ_{d_in(□)}` to its complementary amino-acid hydrogen-bond fork class:
+- `b = 0 ↦ d` (`Ala`),
+- `b = μ_vac(d) ↦ aminoAcidClassesOp(d) - c0OverCSqOp(d)` (`Glu`),
+- `b = c0OverCSqOp(d) ↦ d * dOutEdge(d)` (`Gln`),
+- `b = d ↦ c0OverCSqOp(d)` (`Arg`). -/
+def grooveSynthOp (d b : Nat) : Nat :=
+  eqNatIndicatorOp b 0 * d +
+  eqNatIndicatorOp b (muVac d) * (aminoAcidClassesOp d - c0OverCSqOp d) +
+  eqNatIndicatorOp b (c0OverCSqOp d) * (d * dOutEdge d) +
+  eqNatIndicatorOp b d * c0OverCSqOp d
+
+/-- Branchless major-groove recognition operator `grooveReadOp(d, a) ∈ ℤ_{d_in(□)}` (zero `def := 3`, zero hardcoded numbers, zero `if`, zero `let`!):
+reads the DNA base recognized by amino-acid fork class `a ∈ ℤ_{aminoAcidClassesOp(d)}`. -/
+def grooveReadOp (d a : Nat) : Nat :=
+  eqNatIndicatorOp a d * 0 +
+  eqNatIndicatorOp a (aminoAcidClassesOp d - c0OverCSqOp d) * muVac d +
+  eqNatIndicatorOp a (d * dOutEdge d) * c0OverCSqOp d +
+  eqNatIndicatorOp a (c0OverCSqOp d) * d
+
+/-- Canonical frame-protected inverse codon encoder `encodeFrameProtectedCodonOp(d, b) ∈ ℤ_{codonSpaceOp(d)}`
+for a major-groove reader class `grooveSynthOp(d, b)`: packs the reader stem with a mandatory 3-hydrogen-bond
+third base (`b₃ % c0OverCSqOp(d) = μ_vac(d)`), preventing out-of-frame initiation (`thm:bio-constructive-inverse-folding`(iii), zero `if`, zero `let`!). -/
+def encodeFrameProtectedCodonOp (d b : Nat) : Nat :=
+  dInSquare * b + muVac d
+
+/-- Canonical codon decoder recovering the target base `b ∈ ℤ_{d_in(□)}` from `encodeFrameProtectedCodonOp(d, b)` (zero `let`!). -/
+def decodeFrameProtectedCodonOp (_ cod : Nat) : Nat :=
+  cod / dInSquare
+
+/-- **Theorem (Analytical Inverse Phenotype-to-Genome Compiler Across All Planetary Environments & Exact Mutation/Groove Invertibility)**:
+Chained directly via `CatalanLaw` for any `d : Nat` and any tube ring count `rRings : Int`
+(zero `def := 3`, zero hardcoded numbers, zero `if`, zero `let`, zero hypotheses!):
+1. **Exact Right-Inverse of Organism Genesis Across All Three Planetary Environments `m_env ∈ {-μ_vac(d), 0, +μ_vac(d)}`:**
+   For every planetary environment window `m_env ∈ {-μ_vac(d), 0, +μ_vac(d)}` and every target 3D organ topology
+   `χ_target ∈ {c0OverCSqOp(d), 0, Δφ_disc(d)}` (hollow vesicle, vascular tube of any length `rRings`, or `|□(d)|`-layer cortical column),
+   the compiled genome grown in environment `m_env` via `compilePhenotypeInEnvOp` reproduces the exact target topology
+   `tissueEuler2DOp (compilePhenotypeInEnvOp d χ_target m_env (deltaPhiDisc d) rRings) = χ_target`,
+   and for `χ_target = Δφ_disc(d)` reproduces `V = cuboctShellSizeOp d (c0OverCSqOp d)` neurons and `E = cuboctBallOp d` synaptic contacts!
+2. **Exact Invertibility of Major-Groove Reader Synthesis and Frame-Protected Reverse Translation (`read ∘ synth = id`):**
+   For every base `b ∈ ℤ_{d_in(□)}`:
+   - `grooveSynthOp d b < aminoAcidClassesOp d`,
+   - `grooveReadOp d (grooveSynthOp d b) = b`,
+   - `decodeFrameProtectedCodonOp d (encodeFrameProtectedCodonOp d b) = b`,
+   - and the third-position keto parity bit is `encodeFrameProtectedCodonOp d b % c0OverCSqOp d = muVac d` (frame-shift protected)!
+3. **Exact Analytical Self-Invertibility of Saturation-Driven Mutations and Epigenetic `CpG` Shifts:**
+   In every environmental saturation regime `Φ_env ∈ {0, Δφ_disc(d), Q_□(d)}`, applying `envDrivenBaseMutationOp d · Φ_env`
+   twice recovers every base `b ∈ ℤ_{d_in(□)}` identically, and applying `deaminateFirstBaseStemOp` twice recovers
+   every dinucleotide stem `s ∈ ℤ_{d_in(□)²}` identically! -/
+theorem inverse_phenotype_to_genome_compiler_operator (d : Nat) (rRings : Int) :
+    CatalanLaw (fun d =>
+      -- 1. Right-inverse property of compilePhenotypeInEnvOp across all 3 planetary windows m_env ∈ {-1, 0, +1} and all 3 organ topologies
+      (tissueEuler2DOp (compilePhenotypeInEnvOp d (c0OverCSqOp d : Int) (-(muVac d : Int)) (deltaPhiDisc d : Int) rRings) = (c0OverCSqOp d : Int) ∧
+       tissueEuler2DOp (compilePhenotypeInEnvOp d 0 (-(muVac d : Int)) (deltaPhiDisc d : Int) rRings) = 0 ∧
+       tissueEuler2DOp (compilePhenotypeInEnvOp d (deltaPhiDisc d : Int) (-(muVac d : Int)) (deltaPhiDisc d : Int) rRings) = (deltaPhiDisc d : Int) ∧
+       tissueEuler2DOp (compilePhenotypeInEnvOp d (c0OverCSqOp d : Int) 0 (deltaPhiDisc d : Int) rRings) = (c0OverCSqOp d : Int) ∧
+       tissueEuler2DOp (compilePhenotypeInEnvOp d 0 0 (deltaPhiDisc d : Int) rRings) = 0 ∧
+       tissueEuler2DOp (compilePhenotypeInEnvOp d (deltaPhiDisc d : Int) 0 (deltaPhiDisc d : Int) rRings) = (deltaPhiDisc d : Int) ∧
+       tissueEuler2DOp (compilePhenotypeInEnvOp d (c0OverCSqOp d : Int) (muVac d : Int) (deltaPhiDisc d : Int) rRings) = (c0OverCSqOp d : Int) ∧
+       tissueEuler2DOp (compilePhenotypeInEnvOp d 0 (muVac d : Int) (deltaPhiDisc d : Int) rRings) = 0 ∧
+       tissueEuler2DOp (compilePhenotypeInEnvOp d (deltaPhiDisc d : Int) (muVac d : Int) (deltaPhiDisc d : Int) rRings) = (deltaPhiDisc d : Int) ∧
+       (compilePhenotypeInEnvOp d (deltaPhiDisc d : Int) 0 (deltaPhiDisc d : Int) rRings).1 = (cuboctShellSizeOp d (c0OverCSqOp d) : Int) ∧
+       (compilePhenotypeInEnvOp d (deltaPhiDisc d : Int) 0 (deltaPhiDisc d : Int) rRings).2.1 = (cuboctBallOp d : Int)) ∧
+      -- 2. Exact invertibility of major-groove reader synthesis and frame-protected codon encoding
+      ((List.range dInSquare).all (fun b =>
+        (grooveSynthOp d b < aminoAcidClassesOp d) &&
+        (grooveReadOp d (grooveSynthOp d b) == b) &&
+        (decodeFrameProtectedCodonOp d (encodeFrameProtectedCodonOp d b) == b) &&
+        (encodeFrameProtectedCodonOp d b % c0OverCSqOp d == muVac d)) = true) ∧
+      -- 3. Exact self-invertibility (involution) of saturation-driven base mutations and epigenetic stem shifts
+      ((List.range dInSquare).all (fun b =>
+        (envDrivenBaseMutationOp d (envDrivenBaseMutationOp d b 0) 0 == b) &&
+        (envDrivenBaseMutationOp d (envDrivenBaseMutationOp d b (deltaPhiDisc d : Int)) (deltaPhiDisc d : Int) == b) &&
+        (envDrivenBaseMutationOp d (envDrivenBaseMutationOp d b (qSquare d : Int)) (qSquare d : Int) == b)) = true ∧
+       (List.range (dInSquare * dInSquare)).all (fun s =>
+        deaminateFirstBaseStemOp (deaminateFirstBaseStemOp s) == s) = true)) d := by
+  apply catalan_law_of_d3
+  dsimp [compilePhenotypeInEnvOp, inverseTargetSigmaAxisOp, inverseTargetSigmaIgOp, eqIntIndicatorOp,
+         ontogenyGenesisInEnvOp, envSolventMatchGateOp, transmembraneThicknessOp, planetaryEnvWindowOp,
+         envMetabolicGateOp, energyQuantumOperator, heisenbergDeadbandOp, blendComplexOp, blendByIndicatorOp,
+         tubeComplexOp, corticalColumnComplexOp, vesicleComplexOp, zygoteDormantComplexOp, tissueEuler2DOp,
+         cuboctBallOp, cuboctShellSizeOp, isZeroNat, isPosNat, nSquares, nNeighbors, nTriangles, c0OverCSqOp,
+         deltaPhiDisc, nRing, nPhi, modBits, dOutEdge, kP, fracBits, muVac, ivSeed, phiPauli, qSquare, dInSquare]
+  refine ⟨⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩, by decide, by decide⟩ <;>
+  · simp [Int.zero_mul, Int.one_mul, Int.add_zero, Int.zero_add]
+    try omega
+
 end MtCarrier

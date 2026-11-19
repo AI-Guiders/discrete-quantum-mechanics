@@ -98,5 +98,6 @@ namespace MtCarrier.Audit
 #print axioms MtCarrier.universal_environment_coupling_across_quantum_chemistry_cosmology
 #print axioms MtCarrier.closed_form_organism_genesis_in_environment_operator
 #print axioms MtCarrier.predictive_mutagenesis_and_epigenetic_saturation_operator
+#print axioms MtCarrier.inverse_phenotype_to_genome_compiler_operator
 
 end MtCarrier.Audit
