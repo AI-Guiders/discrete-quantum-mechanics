@@ -103,33 +103,13 @@ def check_iv263_two_epoch_bottleneck(device: str = "cpu") -> dict:
     c = size // 2
     target_center_class = 11
     off = (target_center_class - c) % int(PLANCK_CELL.N_phi)
-    z_boil = boil_ocean_spinor_3d(size, size, size, device=dev, class_offset=off)
+    from mt_ca.carrier_core import universe_iv_carrier_3d
 
-    zz, yy, xx = torch.meshgrid(
-        torch.arange(size, device=dev, dtype=torch.int64),
-        torch.arange(size, device=dev, dtype=torch.int64),
-        torch.arange(size, device=dev, dtype=torch.int64),
-        indexing="ij",
-    )
-    octant_idx = ((zz >= c).long() << 2) | ((yy >= c).long() << 1) | (xx >= c).long()
-    mask8 = (1 << d_spatial) - 1  # 7 (K_3 trihedral corner)
-    radius = 2 * d_spatial  # 6
-    r2 = (zz - c) ** 2 + (yy - c) ** 2 + (xx - c) ** 2
-    ball_mask = (r2 <= radius**2).to(torch.float32)
-    step_rad = 2.0 * math.pi * (float(heisenberg_phi_min_disc(phase_bits=cfg.phase_bits)) / float(n_ring))
-    bit_m = ((mask8 >> octant_idx) & 1).to(torch.float32)
-    bit_m2 = ((mask8 >> (octant_idx ^ d_spatial)) & 1).to(torch.float32)
-    phi1 = bit_m * (float(d_spatial) * step_rad) * ball_mask
-    phi2 = bit_m2 * (float(d_spatial) * step_rad) * ball_mask
-    boost = 1.0 + float(N12_FCC_CAUSAL_LINKS) * ball_mask
-    z = z_boil.clone()
-    z[..., 0] = z[..., 0] * boost * torch.exp(1j * phi1).to(torch.complex64)
-    z[..., 1] = z[..., 1] * boost * torch.exp(1j * phi2).to(torch.complex64)
-    f0 = encode_spinor(z, frac_bits=cfg.frac_bits, mod_bits=cfg.phase_bits, gauge_fix=False)
-    z0 = decode_spinor(f0, frac_bits=cfg.frac_bits, mod_bits=cfg.phase_bits).to(torch.complex64)
-
+    p0 = universe_iv_carrier_3d(size, size, size, device=dev, class_offset=off)
     sim = LatticeFluidSimulator(size, size, cfg, nz=size, device=dev)
-    sim.set_field(z0)
+    sim._state_curr = p0.clone()
+    sim._state_past = p0.clone()
+    sim._sync_t_readout()
 
     def _snapshot() -> tuple[list[dict], int]:
         inst = planckon_instrument(sim.z, cfg=cfg)
@@ -138,8 +118,32 @@ def check_iv263_two_epoch_bottleneck(device: str = "cpu") -> dict:
         photons_ne = int((phi_abs // phi_min).sum().item())
         return rows, photons_ne
 
+    def _vortex_plaquettes(state: torch.Tensor) -> tuple[bool, int]:
+        phi = state[..., 1].to(torch.int64)
+        phi_x = torch.roll(phi, shifts=-1, dims=2)
+        phi_y = torch.roll(phi, shifts=-1, dims=1)
+        phi_xy = torch.roll(phi, shifts=(-1, -1), dims=(1, 2))
+        d12, d23, d34, d41 = phi_x - phi, phi_xy - phi_x, phi_y - phi_xy, phi - phi_y
+        a12 = signed_from_mod(d12, cfg.phase_bits)
+        a23 = signed_from_mod(d23, cfg.phase_bits)
+        a34 = signed_from_mod(d34, cfg.phase_bits)
+        a41 = signed_from_mod(d41, cfg.phase_bits)
+        k12 = (d12 - a12) // n_ring
+        k23 = (d23 - a23) // n_ring
+        k34 = (d34 - a34) // n_ring
+        k41 = (d41 - a41) // n_ring
+        n_a = (a12 + a23 + a34 + a41) // n_ring
+        n_k = -(k12 + k23 + k34 + k41)
+        return bool(torch.equal(n_a, n_k)), int(n_k.abs().sum().item())
+
+    id_t0, v_plaq_t0 = _vortex_plaquettes(sim.state_curr)
+    sim.step(1)
+    id_t1, v_plaq_t1 = _vortex_plaquettes(sim.state_curr)
+    sim.step(1)
+    id_t2, v_plaq_t2 = _vortex_plaquettes(sim.state_curr)
+
     # 1. t = 8 = N_hier: internal dark/photon bottleneck (b_hits = 0, pure photon ball)
-    sim.step(n_hier)
+    sim.step(n_hier - sim.tick)
     rows_8, photons_8 = _snapshot()
 
     # 2. t = 64: Epoch I peak (b_hits = 6, w_max = 1)
@@ -201,13 +205,27 @@ def check_iv263_two_epoch_bottleneck(device: str = "cpu") -> dict:
     )
 
     ok = (
-        photons_8 > 0
+        id_t0
+        and id_t1
+        and id_t2
+        and v_plaq_t0 == 0
+        and v_plaq_t1 == 0
+        and v_plaq_t2 > 0
+        and len(rows_8) > 0
+        and photons_8 > 1000
+        and len(rows_64) >= 5
+        and len(rows_256) == d_spatial
         and photons_256 > photons_8
+        and round(w_max_336) == d_spatial
+        and len(rows_352) == 2 * d_spatial
+        and counts_by_w[1] > counts_by_w[2] > counts_by_w[3] == d_spatial
         and ckpt_resume_ok
     )
     return {
         "id": "Cosmo_IV263_two_epoch_bottleneck",
         "world_seed": "universe_iv_9bit_spinor_3d",
+        "quotient_remainder_identity_ok": id_t0 and id_t1 and id_t2,
+        "vortex_plaquettes_t0_t1_t2": (v_plaq_t0, v_plaq_t1, v_plaq_t2),
         "t8_b_hits": len(rows_8),
         "t8_photon_quanta": photons_8,
         "t64_b_hits": len(rows_64),

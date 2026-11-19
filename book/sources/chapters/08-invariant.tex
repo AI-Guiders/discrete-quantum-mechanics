@@ -380,6 +380,63 @@ $2$-грани $f\in 8\triangle\cup 6\square$, $3$-объём $\PlanckCell$) п�
 в силу $(d_1 d_0)^\dagger = 0$.
 \end{proof}
 
+\begin{corollary}[Единство природы и количества заряда: частное и остаток одного деления на $\phaseRingCount = 512$]
+\label{cor:charge-origin-and-count-quotient-remainder}
+В разложении реберной разности фаз~\eqref{eq:discrete-edge-connection}
+\[
+  (d_0\varphi)_{xy} \;=\; \varphi(y) - \varphi(x) \;=\; \phaseRingCount\,k_{xy} + A_{xy},
+  \qquad
+  A_{xy}\in(-\Phi_{\mathrm{Pauli}},\,+\Phi_{\mathrm{Pauli}}],\quad k_{xy}\in\{-1,0,+1\}
+\]
+скачок ветви $k_{xy}$ и связность $A_{xy}$ не являются двумя независимыми полями: по теореме об евклидовом делении
+с остатком на модуль кольца $\phaseRingCount = 2^{1+|\triangle|} = 512$ со сдвигом в главный интервал $(-256,256]$
+они суть \textbf{неполное частное} и \textbf{остаток} одной и той же целочисленной разности $(d_0\varphi)_{xy}$:
+\begin{equation}
+\label{eq:quotient-remainder-512}
+  k_{xy} \;=\; \left\lfloor \frac{(d_0\varphi)_{xy} + \Phi_{\mathrm{Pauli}} - 1}{\phaseRingCount} \right\rfloor,
+  \qquad
+  A_{xy} \;=\; (d_0\varphi)_{xy} - \phaseRingCount\,k_{xy}.
+\end{equation}
+Отсюда без какого-либо отдельного постулата однозначно следуют не только природа заряда («откуда заряд»),
+но и его количественная доля по отношению к излучению («сколько его»):
+\begin{enumerate}[label=(\roman*)]
+\item \textbf{Частное есть материя (топологический заряд), остаток есть излучение (фотонная ванна):}
+  пока на ребре разность фаз остаётся внутри главного интервала ($|(d_0\varphi)_{xy}|\le\Phi_{\mathrm{Pauli}}=256$),
+  неполное частное равно нулю ($k_{xy}=0 \implies n_f = -(d_1 k)_f = 0$), и вся надпороговая активность ворот
+  $|\Phi|\ge\Delta\varphi_{\mathrm{disc}}=41$ остаётся в остатке $A_{xy}$ в виде безысточниковых квантов излучения
+  $n_E = \lfloor|\Phi|/41\rfloor$. Как только под действием градиента ворот $(d_0\Phi)_{xy}$ реберная разность
+  перешагивает полуоборот Паули $\Phi_{\mathrm{Pauli}}=256$, деление~\eqref{eq:quotient-remainder-512} перебрасывает
+  единицу из остатка $A_{xy}$ в частное ($\Delta_t k_{xy}=\pm 1$), рождая на примыкающих гранях целочисленный
+  плакетный заряд $n_f = -(d_1 k)_f = (d_1 A)_f/\phaseRingCount \in \mathbb{Z}\setminus\{0\}$.
+\item \textbf{Рождение ровно $2N_\varphi = 26$ вихревых плакетов из безвихревого начального вектора $\mathrm{IV}(3)=263$ на такте $t=2$:}
+  в начальном состоянии $\symCapitalPsi^0 = \mathrm{IV}(3) = 2^{2^3} + (2^3-1) = 263$ (\cref{thm:catalan-uniqueness-d3})
+  фаза задана узловой $0$-коцепью $\varphi^0(x)$, для которой $d_1(d_0\varphi^0)\equiv 0$, поэтому при $t=0$ и $t=1$
+  вихревых плакетов нет во всём пространстве ($n_f(t=0)\equiv 0$, $n_f(t=1)\equiv 0$ --- заряды не всаживаются
+  в начальное условие). На такте $t=2$ (двухшаговое замыкание контура плакета на первой сфере кубооктаэдра~$S_1$)
+  переброс частного $\Delta_t k_{xy}=\pm 1$ через порог Паули $256$ тиков на границе трёхгранного угла~$K_3$
+  рождает из этого безвихревого состояния ровно
+  \begin{equation}
+  \label{eq:t2-26-vortex-plaquettes}
+    \sum_{f}\bigl|n_f(t=2)\bigr| \;=\; 2\,N_\varphi \;=\; 2\bigl(1 + |N_{12}|\bigr) \;=\; 26
+  \end{equation}
+  вихревых плакетов --- полный удвоенный по спину кластер кубооктаэдра.
+\item \textbf{Однозначность барион-фотонного отношения $\eta_B$ как отношения выходов частного и остатка деления~\eqref{eq:quotient-remainder-512}:}
+  поскольку частное $k_{xy}$ и остаток $A_{xy}$ порождаются одним и тем же делением $(d_0\varphi)_{xy}$ на $\phaseRingCount=512$,
+  отношение числа выживших барионных узлов ($n_f\ne 0$) к числу фотонных квантов ($n_E\ge 1,\ n_f=0$) есть доля
+  переполнений главного интервала в полном потоке кубооктаэдра: на $2N_\varphi = 26$ вихревых плакетов~\eqref{eq:t2-26-vortex-plaquettes}
+  CP-нечётная мнимая компонента гауссовой факторизации кулоновского канала $\hat M = d_{\mathrm{in}}(\square)^2 + \mathrm{mod\_bits}^2 = 4^2+9^2 = 97$
+  составляет $\bar\eta = \mathrm{mod\_bits}/(2N_\varphi) = 9/26$, доля внешних лучей рёберного канала $E=(2,5,5)$
+  на $|\triangle|=2^d=8$ октантных ступеней равна $d_{\mathrm{out}}(E)/|\triangle| = 5/8$, а прохождение через
+  $d_{\mathrm{in}}(\square)=4$ квадранта квадратной грани даёт фактор $\alpha_{\mathrm{fs}}^{d_{\mathrm{in}}(\square)}=\alpha_{\mathrm{fs}}^4$:
+  \begin{equation}
+  \label{eq:eta-b-from-quotient-remainder}
+    \eta_B \;=\; \frac{\mathrm{mod\_bits}}{2\,N_\varphi}\cdot\frac{d_{\mathrm{out}}(E)}{|\triangle|}\,\alpha_{\mathrm{fs}}^{d_{\mathrm{in}}(\square)}
+    \;=\; \frac{9}{26}\cdot\frac{5}{8}\,\alpha_{\mathrm{fs}}^4
+    \;=\; \frac{45}{208}\,\alpha_{\mathrm{fs}}^4 \;\approx\; 6{,}135\times 10^{-10}.
+  \end{equation}
+\end{enumerate}
+\end{corollary}
+
 \begin{remark}[Единая геометрия всех взаимодействий в одних воротах на кубооктаэдре $N_{12}$]
 \label{rem:unified-interactions-single-gate}
 Теоремы~\ref{thm:holonomy-split-continuity} и~\ref{thm:discrete-maxwell-sourceless} показывают, что на~$\Mlayer$

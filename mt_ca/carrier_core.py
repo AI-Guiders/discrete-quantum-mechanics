@@ -265,9 +265,11 @@ def pauli_phi_core(
 def carrier_gate_phi(
     state: torch.Tensor,
     cfg=None,
+    *,
+    include_even_deficit: bool = True,
 ) -> torch.Tensor:
     """Single source of truth for the M-layer holonomy gate Φ ∈ Z_{N_ring} on polar register [μ₀, φ₀, μ₁, φ₁]."""
-    return polar_phi_core(state, cfg)
+    return polar_phi_core(state, cfg, include_even_deficit=include_even_deficit)
 
 
 def carrier_collision_impulse(state: torch.Tensor, cfg=None) -> torch.Tensor:
@@ -420,6 +422,8 @@ def polar_component_phi_core(
     mu: torch.Tensor,
     phi: torch.Tensor,
     cfg=None,
+    *,
+    include_even_deficit: bool = True,
 ) -> tuple[torch.Tensor, torch.Tensor]:
     """Signed Φ ticks and odd flux divergence ζ_imag // Q_□ for polar channel(s) (μ, φ_disc)."""
     mod_bits = CANONICAL_CARRIER.mod_bits
@@ -433,9 +437,12 @@ def polar_component_phi_core(
     r2 = (mu * mu) * q_sq
     kp = CANONICAL_CARRIER.k_p
     eps = kp * q_sq
-    deficit = mu * sum_mu * q_sq - zr
-    sgn = torch.where(zi < 0, -torch.ones_like(zi), torch.ones_like(zi))
-    z_drive = zi + sgn * deficit
+    if include_even_deficit:
+        deficit = mu * sum_mu * q_sq - zr
+        sgn = torch.where(zi < 0, -torch.ones_like(zi), torch.ones_like(zi))
+        z_drive = zi + sgn * deficit
+    else:
+        z_drive = zi
     denom = zr + r2 + eps
     denom = torch.where(denom > 0, denom, torch.full_like(denom, eps))
     phi_imp = (kp * z_drive) // denom
@@ -469,7 +476,7 @@ def pauli_polar_phi_core(
     return torch.where(bad, torch.full_like(mu0, pauli_ticks), torch.zeros_like(mu0))
 
 
-def polar_phi_core(p: torch.Tensor, cfg=None) -> torch.Tensor:
+def polar_phi_core(p: torch.Tensor, cfg=None, *, include_even_deficit: bool = True) -> torch.Tensor:
     """Gate Φ ∈ Z_{N_ring} on polar register [μ₀, φ₀, μ₁, φ₁] — both components fused in one pass."""
     mod_bits = CANONICAL_CARRIER.mod_bits
     frac_bits = CANONICAL_CARRIER.frac_bits
@@ -478,7 +485,7 @@ def polar_phi_core(p: torch.Tensor, cfg=None) -> torch.Tensor:
     n_ring = CANONICAL_CARRIER.n_ring
     mu_both = p[..., 0::2].to(torch.int64)
     phi_both = p[..., 1::2].to(torch.int64) % n_ring
-    p_both, _ = polar_component_phi_core(mu_both, phi_both, cfg)
+    p_both, _ = polar_component_phi_core(mu_both, phi_both, cfg, include_even_deficit=include_even_deficit)
     p0, p1 = p_both[..., 0], p_both[..., 1]
     phi_imp = torch.where(p1.abs() > p0.abs(), p1, p0)
     if pauli_on:
@@ -553,14 +560,19 @@ def polar_step_core(
 ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
     """Second-order Verlet step on the polar phase ring Z_{N_ring} (exact Z_{N_ring} rotation by addition):
 
-      φ_c(t+1) = (2·φ_c(t) − φ_c(t−1) + Φ(p_curr)) mod N_ring,   μ_c(t+1) = μ_c(t).
+      φ₀(t+1) = (2·φ₀(t) − φ₀(t−1) + Φ₀(p_curr)) mod N_ring,
+      φ₁(t+1) = (2·φ₁(t) − φ₁(t−1) + Φ₁(p_curr) + Φ_Pauli) mod N_ring,   μ_c(t+1) = μ_c(t).
     """
     mod_bits = CANONICAL_CARRIER.mod_bits if cfg is None else cfg.mod_bits
+    frac_bits = CANONICAL_CARRIER.frac_bits if cfg is None else cfg.frac_bits
+    pauli_on = True if cfg is None else cfg.pauli_exclusion
+    phi_min = CANONICAL_CARRIER.dphi_min_ticks
     phi_imp = polar_phi_core(p_curr, cfg)
+    p_pauli = pauli_polar_phi_core(p_curr, mod_bits=mod_bits, frac_bits=frac_bits, phi_min=phi_min, enabled=pauli_on)
     mu0 = p_curr[..., 0]
     mu1 = p_curr[..., 2]
     phi0_next = mod_lane_core(
-        2 * p_curr[..., 1].to(torch.int64) - p_past[..., 1].to(torch.int64) + phi_imp.to(torch.int64),
+        2 * p_curr[..., 1].to(torch.int64) - p_past[..., 1].to(torch.int64) + (phi_imp.to(torch.int64) - p_pauli),
         mod_bits,
     )
     phi1_next = mod_lane_core(
@@ -578,11 +590,15 @@ def polar_reverse_core(
 ) -> tuple[torch.Tensor, torch.Tensor]:
     """Literal reverse on the polar phase ring Z_{N_ring} without an impulse stack."""
     mod_bits = CANONICAL_CARRIER.mod_bits if cfg is None else cfg.mod_bits
+    frac_bits = CANONICAL_CARRIER.frac_bits if cfg is None else cfg.frac_bits
+    pauli_on = True if cfg is None else cfg.pauli_exclusion
+    phi_min = CANONICAL_CARRIER.dphi_min_ticks
     phi_imp = polar_phi_core(p_curr, cfg)
+    p_pauli = pauli_polar_phi_core(p_curr, mod_bits=mod_bits, frac_bits=frac_bits, phi_min=phi_min, enabled=pauli_on)
     mu0 = p_curr[..., 0]
     mu1 = p_curr[..., 2]
     phi0_past = mod_lane_core(
-        2 * p_curr[..., 1].to(torch.int64) - p_next[..., 1].to(torch.int64) + phi_imp.to(torch.int64),
+        2 * p_curr[..., 1].to(torch.int64) - p_next[..., 1].to(torch.int64) + (phi_imp.to(torch.int64) - p_pauli),
         mod_bits,
     )
     phi1_past = mod_lane_core(

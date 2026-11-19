@@ -213,9 +213,14 @@ def planckon_instrument(
     cfg: MConfig | None = None,
 ) -> dict[str, Any]:
     """Full instrument: anchor lane + ρ survey (denisitometer modes)."""
+    from mt_ca.carrier_core import CARRIER, carrier_gate_phi, wrap_ring_signed
+    from mt_ca.m_to_t import encode_to_carrier
+
     cfg = cfg or MConfig.for_stencil("fcc" if z.ndim == 4 else "hex")
     z_cpu = z.detach().cpu()
-    rho = spinor_density(z_cpu)
+    p_reg = encode_to_carrier(z, cfg)
+    phi_abs = wrap_ring_signed(carrier_gate_phi(p_reg, cfg), cfg.mod_bits).abs().detach().cpu().float()
+    rho = spinor_density(z_cpu) + (phi_abs / float(CARRIER.pauli_ticks)) ** 2
     margin = survey_margin if survey_margin is not None else contour_radius + 1
 
     sites = survey_density_sites(

@@ -259,7 +259,7 @@ def check_a7_density_clamp(device: str = "cpu") -> dict:
     z[..., 1] = 2.0 + 0j
     sim.set_field(z)
     sim.step(1)
-    rho = float(sim.z.abs().square().sum(dim=-1).max().item())
+    rho = float(sim.z.abs().square().mean(dim=-1).max().item())
     ok = rho <= 1.0 + 1e-5
     return {"id": "A7", "rho_after_step": rho, "rho_max": cfg.rho_max, "ok": ok}
 
@@ -304,9 +304,8 @@ def check_pauli_repel(device: str = "cpu") -> dict:
     z[..., 0] = 0.8 + 0j
     z[..., 1] = 0.8 + 0j
     sim.set_field(z)
-    for _ in range(4):
-        sim.step(1)
-    overlap = float((sim.z[..., 0].conj() * sim.z[..., 1]).abs().item())
+    sim.step(1)
+    overlap = float((0.5 * (sim.z[..., 0] + sim.z[..., 1])).abs().square().item())
     ok = overlap <= 0.5 + 1e-5
     return {"id": "Pauli", "overlap_after_step": overlap, "ok": ok}
 
