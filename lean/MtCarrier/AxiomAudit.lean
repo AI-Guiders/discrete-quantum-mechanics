@@ -39,7 +39,10 @@ namespace MtCarrier.Audit
 #print axioms MtCarrier.shared_edge_charge_conservation
 #print axioms MtCarrier.discrete_gauss_cube_divergence_zero
 
--- 4. TrajectoryIV263.lean (Rule Z4, Polar Step, A7/A16 Invariance & IV(3)=263 3D Census)
+-- 4. TrajectoryIV263.lean (Rule Z4, Uniqueness of Polar Verlet Step, A7/A16 Theorems & IV(3)=263 3D Census)
+#print axioms MtCarrier.int_eq_of_sq_eq_of_pos
+#print axioms MtCarrier.polar_step_uniqueness_from_a3_a4_a5
+#print axioms MtCarrier.verlet_coefficients_uniqueness_from_a13
 #print axioms MtCarrier.polar_step_reverse_exact
 #print axioms MtCarrier.polar_relative_phase_invariant
 #print axioms MtCarrier.a7_quarter_disk_step_invariant
