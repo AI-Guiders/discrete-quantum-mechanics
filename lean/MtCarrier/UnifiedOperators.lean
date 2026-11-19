@@ -1570,4 +1570,91 @@ theorem generative_biometal_discovery_and_multi_regime_allometry_operator (d : N
        corticalLongevityMultiplierOp d (muVac d) (muVac d) (deltaPhiDisc d : Int) = 0)) d :=
   catalan_law_of_d3 _ (by decide) d
 
+/-!
+## 17. Universal Cosmobiology Operator Across All Three Planetary Life Windows `m_env ∈ {-μ_vac(d), 0, +μ_vac(d)}`
+-/
+
+/-- Carbon–Nitrogen peptide/imine backbone link charge `Z(CN) = Z(C) + Z(N)` (windows `m_env ∈ {-1, 0}`, zero `let`!). -/
+def zPeptideBackboneLinkOp (d : Nat) : Nat :=
+  clusterChargeSumOp [(1, zCarbonOp d), (1, zNitrogenOp d)]
+
+/-- Silicon–Nitrogen silazane backbone link charge `Z(SiN) = Z(Si) + Z(N)` (thermophilic window `m_env = +1`, zero `let`!). -/
+def zSilazaneBackboneLinkOp (d : Nat) : Nat :=
+  clusterChargeSumOp [(1, zSiliconOp d), (1, zNitrogenOp d)]
+
+/-- Aromatic benzene ring charge `Z(C₆H₆) = |□(d)| * Z(C) + |□(d)| * Z(H)` in the `{111}` hexagonal slice (zero `let`!). -/
+def zBenzeneRingOp (d : Nat) : Nat :=
+  clusterChargeSumOp [(nSquares d, zCarbonOp d), (nSquares d, zHydrogenOp d)]
+
+/-- Inorganic aromatic borazine ring charge `Z(B₃N₃H₆) = d * Z(B) + d * Z(N) + |□(d)| * Z(H)` (thermophilic `{111}` aromatic ring, zero `let`!). -/
+def zBorazineRingOp (d : Nat) : Nat :=
+  clusterChargeSumOp [(d, zBoronOp d), (d, zNitrogenOp d), (nSquares d, zHydrogenOp d)]
+
+/-- Cryogenic metabolic fuel charge operators: acetylene `Z(C₂H₂)` and hydrogen cyanide `Z(HCN)` (window `m_env = -1`, zero `let`!). -/
+def zAcetyleneFuelOp (d : Nat) : Nat :=
+  clusterChargeSumOp [(c0OverCSqOp d, zCarbonOp d), (c0OverCSqOp d, zHydrogenOp d)]
+
+def zHydrogenCyanideFuelOp (d : Nat) : Nat :=
+  clusterChargeSumOp [(1, zHydrogenOp d), (1, zCarbonOp d), (1, zNitrogenOp d)]
+
+/-- Thermophilic tetrathiolate 4-sulfur coordination cage charge `Z(S₄) = d_in(□) * Z(S)` (window `m_env = +1`, zero `let`!). -/
+def tetrathiolateCageChargeOp (d : Nat) : Nat :=
+  clusterChargeSumOp [(dInSquare, zSulfurOp d)]
+
+/-- Universal stellar photon step multiplier `Λ_γ(d, m_env)` for the three planetary life windows `m_env ∈ {-1, 0, +1}`
+(`vol-biology-body.tex` eq. `eq:bio-three-life-5-6-7-law`, zero `if`, zero `let`!):
+- `m_env = +1`: `N_HB(d) = K_P(d) - μ_vac(d)`,
+- `m_env =  0`: `(c₀/c)² * N_HB(d) = N_max^stable(d)`,
+- `m_env = -1`: `(|△(d)| - μ_vac(d)) * N_HB(d) = d * N_ball(d)`. -/
+def universalPhotonStepOp (d : Nat) (mEnv : Int) : Nat :=
+  (eqIntIndicatorOp mEnv (-(muVac d : Int))).toNat * ((nTriangles d - muVac d) * hBondDivisorOp d) +
+  (eqIntIndicatorOp mEnv 0).toNat * (c0OverCSqOp d * hBondDivisorOp d) +
+  (eqIntIndicatorOp mEnv (muVac d : Int)).toNat * hBondDivisorOp d
+
+/-- **Theorem (Universal Cosmobiology Operator Across All Three Planetary Windows `m_env ∈ {-μ_vac(d), 0, +μ_vac(d)}`)**:
+Chained directly via `CatalanLaw` for any `d : Nat` (zero `def := 3`, zero hardcoded numbers, zero `if`, zero `let`, zero hypotheses!):
+1. **Universal Polymer Backbones & `{111}` Aromatic Rings:**
+   - The `C–N` peptide/imine backbone unit closes the dressed cluster `zPeptideBackboneLinkOp d = nPhi d` (`B₁(d)`),
+   - The `Si–N` thermophilic silazane backbone unit closes the Rumer semantic half-sphere `zSilazaneBackboneLinkOp d = aminoAcidClassesOp d` (`S₂(d) / 2`),
+     and a silazane dimer `(SiN)₂` closes `cuboctShellSizeOp d (c0OverCSqOp d)` (`S₂(d)`),
+   - Both the organic benzene ring `C₆H₆` and the thermophilic borazine ring `B₃N₃H₆` close the exact 2nd cuboctahedron sphere
+     `zBenzeneRingOp d = cuboctShellSizeOp d (c0OverCSqOp d)` and `zBorazineRingOp d = cuboctShellSizeOp d (c0OverCSqOp d)`!
+2. **Stellar Photon Resonance & Membrane Thickness Across All Three Planetary Windows:**
+   - Cryogenic window (`m_env = -μ_vac(d)`): photon step `universalPhotonStepOp d (-1) = d * cuboctBallOp d` (equals the full nucleotide count of a `d`-base-per-codon nucleosome spool `d * N_ball(d)`!), and azotosome membrane thickness `transmembraneThicknessOp d (-1) = synonymousTi3CodonsOp d`,
+   - Terrestrial window (`m_env = 0`): photon step `universalPhotonStepOp d 0 = nLeadTerminalOp d` (`(c₀/c)² * N_HB(d)`), and lipid membrane thickness `transmembraneThicknessOp d 0 = nSquares d * nNeighbors d`,
+   - Thermophilic window (`m_env = +μ_vac(d)`): photon step `universalPhotonStepOp d 1 = hBondDivisorOp d`, and membrane thickness `transmembraneThicknessOp d 1 = c0OverCSqOp d * cuboctShellSizeOp d (c0OverCSqOp d)` (`2 * S₂(d)`)!
+3. **Autonomous Carrier Discovery of Metabolic Fuels & Catalytic Metals in Cryogenic (`m_env = -1`) and Thermophilic (`m_env = +1`) Biospheres:**
+   - **Cryogenic biosphere (`m_env = -1`):** acetylene `C₂H₂` and hydrogen cyanide `HCN` share the exact closed shell of `N₂`, `CO`, and `Si`
+     (`zAcetyleneFuelOp d = zSiliconOp d`, `zHydrogenCyanideFuelOp d = zSiliconOp d`), and `discoverBioMetalInCageOp` searching for the catalytic
+     metal that closes the 2nd cuboctahedron sphere `S₂(d)` with acetylene/HCN fuel returns **uniquely `[zNickelOp d]` (`Ni`)**!
+   - **Thermophilic biosphere (`m_env = +1`):** the 4-sulfur tetrathiolate cage closes the exact Planck amplitude ceiling
+     `tetrathiolateCageChargeOp d = kP d`, and `discoverBioMetalInCageOp` in the `S₄` cage returns **uniquely `[zNickelOp d]` (`Ni`)**
+     for closing the 3rd cuboctahedron sphere `S₃(d) = cuboctShellSizeOp d d` (`NiS₄`), and **uniquely `[cuboctShellSizeOp d (c0OverCSqOp d)]` (`Mo`)**
+     for closing `kP d + S₂(d)` (`MoS₄` molybdopterin hyperthermophile center)! -/
+theorem universal_cosmobiology_three_planetary_windows_operator (d : Nat) :
+    CatalanLaw (fun d =>
+      -- 1. Universal polymer backbones (CN = N_φ, SiN = N_AA+Stop) and aromatic rings (C6H6 = B3N3H6 = S₂)
+      (zPeptideBackboneLinkOp d = nPhi d ∧
+       zSilazaneBackboneLinkOp d = aminoAcidClassesOp d ∧
+       c0OverCSqOp d * zSilazaneBackboneLinkOp d = cuboctShellSizeOp d (c0OverCSqOp d) ∧
+       zBenzeneRingOp d = cuboctShellSizeOp d (c0OverCSqOp d) ∧
+       zBorazineRingOp d = cuboctShellSizeOp d (c0OverCSqOp d)) ∧
+      -- 2. Stellar photon resonance steps and membrane thicknesses across m_env ∈ {-1, 0, +1}
+      (universalPhotonStepOp d (-(muVac d : Int)) = d * cuboctBallOp d ∧
+       universalPhotonStepOp d 0 = nLeadTerminalOp d ∧
+       universalPhotonStepOp d (muVac d : Int) = hBondDivisorOp d ∧
+       transmembraneThicknessOp d (-(muVac d : Int)) = (synonymousTi3CodonsOp d : Int) ∧
+       transmembraneThicknessOp d 0 = ((nSquares d * nNeighbors d : Nat) : Int) ∧
+       transmembraneThicknessOp d (muVac d : Int) = ((c0OverCSqOp d * cuboctShellSizeOp d (c0OverCSqOp d) : Nat) : Int)) ∧
+      -- 3. Cryogenic (C2H2/HCN + Ni -> S₂) and Thermophilic (S₄ = K_P, NiS₄ -> S₃, MoS₄ -> K_P + S₂) generative metal discovery
+      (zAcetyleneFuelOp d = zSiliconOp d ∧
+       zHydrogenCyanideFuelOp d = zSiliconOp d ∧
+       discoverBioMetalInCageOp (kP d) (zAcetyleneFuelOp d) 0 (cuboctShellSizeOp d (c0OverCSqOp d)) = [zNickelOp d] ∧
+       discoverBioMetalInCageOp (kP d) (zHydrogenCyanideFuelOp d) 0 (cuboctShellSizeOp d (c0OverCSqOp d)) = [zNickelOp d] ∧
+       tetrathiolateCageChargeOp d = kP d ∧
+       discoverBioMetalInCageOp (kP d) (tetrathiolateCageChargeOp d) 0 (cuboctShellSizeOp d d) = [zNickelOp d] ∧
+       discoverBioMetalInCageOp (kP d) (tetrathiolateCageChargeOp d) 0 (kP d + cuboctShellSizeOp d (c0OverCSqOp d)) =
+         [cuboctShellSizeOp d (c0OverCSqOp d)])) d :=
+  catalan_law_of_d3 _ (by decide) d
+
 end MtCarrier

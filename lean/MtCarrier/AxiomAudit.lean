@@ -102,5 +102,6 @@ namespace MtCarrier.Audit
 #print axioms MtCarrier.planetogenesis_all_planetary_cores_and_mantle_invariants_operator
 #print axioms MtCarrier.cross_floor_shell_closure_isomorphism_operator
 #print axioms MtCarrier.generative_biometal_discovery_and_multi_regime_allometry_operator
+#print axioms MtCarrier.universal_cosmobiology_three_planetary_windows_operator
 
 end MtCarrier.Audit
