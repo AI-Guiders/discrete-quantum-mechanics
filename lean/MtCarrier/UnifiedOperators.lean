@@ -1783,21 +1783,26 @@ theorem universal_operator_linearity_and_multilinearity
   · unfold bondEnergyOp; simp [Int.add_mul, Int.mul_add, Int.mul_assoc, Int.mul_left_comm, Int.mul_comm]
   · unfold bondEnergyOp; simp [Int.add_mul, Int.mul_add, Int.mul_assoc, Int.mul_left_comm, Int.mul_comm]
   · unfold bondEnergyOp; simp [Int.add_mul, Int.mul_add, Int.mul_assoc, Int.mul_left_comm, Int.mul_comm]
+  · unfold bondStrainOp; simp [Int.add_mul, Int.mul_add, Int.mul_assoc, Int.mul_left_comm]
   · unfold bondStrainOp; simp [Int.add_mul, Int.mul_add, Int.mul_assoc, Int.mul_left_comm, Int.mul_comm]
-  · unfold bondStrainOp; simp [Int.add_mul, Int.mul_add, Int.mul_assoc, Int.mul_left_comm, Int.mul_comm]
-  · unfold reactionCurrentOp; simp [Int.add_mul, Int.mul_add, Int.mul_assoc, Int.mul_left_comm, Int.mul_comm]
-  · unfold reactionCurrentOp; simp [Int.add_mul, Int.mul_add, Int.mul_assoc, Int.mul_left_comm, Int.mul_comm]
+  · unfold reactionCurrentOp; simp [Int.add_mul, Int.mul_add, Int.mul_assoc, Int.mul_left_comm]
+  · unfold reactionCurrentOp; simp [Int.add_mul, Int.mul_add, Int.mul_assoc, Int.mul_left_comm]
   · rw [envSumMuListOp_append, envSumMuListOp_scale, envSumMuListOp_scale]
   · unfold envZrListOp; simp [Int.add_mul, Int.mul_assoc]
   · unfold envZrListOp
     rw [envRawZrListOp_append, envRawZrListOp_scale, envRawZrListOp_scale]
-    simp [Int.mul_add, Int.mul_assoc, Int.mul_left_comm]
+    simp [Int.mul_add, Int.mul_left_comm]
   · unfold envZiListOp; simp [Int.add_mul, Int.mul_assoc]
   · unfold envZiListOp
     rw [envRawZiListOp_append, envRawZiListOp_scale, envRawZiListOp_scale]
-    simp [Int.mul_add, Int.mul_assoc, Int.mul_left_comm]
-  · unfold reactionEnthalpyOp; omega
-  · unfold tissueEuler2DOp linearCombComplexOp; omega
+    simp [Int.mul_add, Int.mul_left_comm]
+  · unfold reactionEnthalpyOp
+    simp [Int.mul_sub]
+    omega
+  · unfold tissueEuler2DOp linearCombComplexOp
+    dsimp
+    simp [Int.mul_sub, Int.mul_add]
+    omega
   · rw [clusterChargeSumOp_append, clusterChargeSumOp_scale, clusterChargeSumOp_scale]
 
 /-- Scale-floor raw denominator operator `D_raw^(K)(d, K, μ, ζ_real) = ζ_real + Q_□(d) * μ² + K² * ε(d)` on floor `K`. -/
