@@ -107,5 +107,6 @@ namespace MtCarrier.Audit
 #print axioms MtCarrier.scale_invariance_of_holonomy_and_gate_operators
 #print axioms MtCarrier.generative_periodic_table_feynman_core_limits_and_end_to_end_dna_genesis
 #print axioms MtCarrier.encapsulated_automaton_input_output_theorem
+#print axioms MtCarrier.superheavy_synthesis_recipes_and_uranium_shell_transfer_to_island_184
 
 end MtCarrier.Audit
