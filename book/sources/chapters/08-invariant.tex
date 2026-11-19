@@ -614,16 +614,23 @@ $|\square(d)| = 2d$ координатными гранями и $d_{\mathrm{in}
   \label{eq:gaussian-coulomb-lock}
     \hat M(d) \;:=\; 1 + 2d(d-1)\cdot 2^d \;=\; \bigl(2(d-1)\bigr)^2 + \bigl(1 + 2^d\bigr)^2.
   \end{equation}
+\item \textbf{Замок булеана звезды потолка плотности $K_P^2 = 2^{|N(d)|} = 4096$:} при $\mathrm{frac\_bits}(d) = |\square(d)| = 2d$
+  квадрат потолка амплитуды $K_P(d)^2 = (2^{2d})^2 = 2^{4d}$ в точности совпадает с числом всех подмножеств связей звезды $2^{|N(d)|} = 2^{2d(d-1)}$:
+  \begin{equation}
+  \label{eq:star-boolean-density-lock}
+    2\,|\square(d)| = 4d = 2d(d-1) = |N(d)|
+    \iff
+    K_P(d)^2 = 2^{2|\square(d)|} = 2^{|N(d)|} = 2^{12} = 4096.
+  \end{equation}
 \end{enumerate}
-Тогда каждое из диофантовых уравнений~\eqref{eq:catalan-lock} и~\eqref{eq:gaussian-coulomb-lock} в отдельности, как и вся система~\eqref{eq:catalan-lock}--\eqref{eq:gaussian-coulomb-lock}, во всём множестве натуральных чисел $d\in\mathbb{N}$
+Тогда каждое из диофантовых уравнений~\eqref{eq:catalan-lock}, \eqref{eq:gaussian-coulomb-lock} и~\eqref{eq:star-boolean-density-lock} в отдельности, как и вся система~\eqref{eq:catalan-lock}--\eqref{eq:star-boolean-density-lock}, во всём множестве натуральных чисел $d\in\mathbb{N}$
 имеет \textbf{одно и только одно решение $d = 3$}, из которого без единого свободного параметра однозначно следуют как все инварианты носителя и закона~$g$:
 \[
   |N_{12}|=12,\;\; |\triangle|=8,\;\; |\square|=6,\;\; d_{\mathrm{in}}(\square)=4,\;\; \caKappaGeom^2=\frac{1}{2}\ \Bigl(\caKappaGeom=\frac{1}{\sqrt{2}}\Bigr),\;\;
   \mathrm{mod\_bits}=9,\;\; \mathrm{frac\_bits}=6,
 \]
 \[
-  \phaseRingCount=512,\;\; K_P=64,\;\; Q_\square=128,\;\; \Phi_{\mathrm{Pauli}}=256,\;\;
-  N_\varphi=13,\;\; \Delta\varphi_{\mathrm{disc}}=41,\;\; \hat M = 4^2 + 9^2 = 97,
+  \phaseRingCount=512,\ K_P=64,\ K_P^2=4096,\ Q_\square=128,\ \Phi_{\mathrm{Pauli}}=256,\ N_\varphi=13,\ \Delta\varphi_{\mathrm{disc}}=41,\ \hat M = 97,
 \]
 так и \textbf{единственный $9$-битный начальный вектор нуклеации Вселенной} $\symCapitalPsi^{0} = \mathrm{IV}(d)$ на фоне кипящего океана~$A_5$:
 \begin{equation}
@@ -693,7 +700,8 @@ $2^6 + 1 = 65 = 5\times 13$ и $N_\varphi(3) = 1 + 2\cdot 3\cdot 2 = 13$, отк
 \[
   \Delta\varphi_{\mathrm{disc}}(3) \;=\; 1 + \frac{8\times 65}{13} \;=\; 1 + 40 \;=\; 41 \;\in\; \mathbb{Z}.
 \]
-Таким образом, $d=3$ --- единственное решение системы~\eqref{eq:catalan-lock}--\eqref{eq:gaussian-coulomb-lock} в~$\mathbb{N}$.
+\emph{(iv)} Уравнение~\eqref{eq:star-boolean-density-lock} при $d\ge 1$ после деления на $2d>0$ сводится к линейному уравнению $2 = d-1$, имеющему единственное решение $d=3$ ($2|\square|=12=|N_{12}|$, $K_P^2 = 2^{12} = 4096$).
+Таким образом, $d=3$ --- единственное решение системы~\eqref{eq:catalan-lock}--\eqref{eq:star-boolean-density-lock} в~$\mathbb{N}$.
 \end{proof}
 
 \begin{remark}[Откуда берётся $2\pi$ в $\planckHbar = h/(2\pi)$ и что такое само число $\pi$ на решётке]
@@ -741,10 +749,40 @@ $\planckHbar := h/(2\pi) = (512/(2\pi))\,s_0 \approx 81{,}487\,s_0$ (и $\planck
   при евклидовом делении реберной разности фаз $(d_0\varphi)_{xy} = 512\,k_{xy} + A_{xy}$ со сдвигом в $(-256,256]$
   остаток $A_{xy}$ переносит безысточниковые волны излучения ($n_E = \lfloor|\Phi|/41\rfloor$), а кограница неполного частного
   $n_f = -(d_1 k)_f = (d_1 A)_f/512 \in \mathbb{Z}$ образует дискретные топологические заряды материи.
-\item \textbf{Единая обратимая траектория Вселенной $\symCapitalPsi^t = g^t(\mathrm{IV}(3))$:}
+\item \textbf{Единая обратимая траектория Вселенной $\symCapitalPsi^t = g^t(\mathrm{IV}(3))$, её явная квадратура через треугольное ядро Грина и замкнутый световой конус из $\mathrm{IV}(3)=263$:}
   поворот фазы есть сложение по модулю~$512$, $\varphi^{t+1} = (2\varphi^t - \varphi^{t-1} + \Phi^t)\bmod 512$
   (с буквальным обращением времени $\varphi^{t-1} = (2\varphi^t - \varphi^{t+1} + \Phi^t)\bmod 512$), стартующее из единственного
-  $9$-битного начального вектора $\mathrm{IV}(3) = 2^{2^3} + (2^3-1) = 263$.
+  $9$-битного начального вектора $\mathrm{IV}(3) = 2^{2^3} + (2^3-1) = 263$, который задаёт начальное условие в каждой ячейке решётки без единого свободного числа ($\mu_c(x,0) = 13$ при $\|x\|\le R_{\mathrm{IV}}=6$ и $\mu_c(x,0) = 1$ вне шара; $\varphi_c(x,0) = \varphi_c(x,-1) = (41\,x_1 + 123\,b_c(\mathrm{oct}(x))\,\mathbf{1}_{\|x\|\le 6})\bmod 512$).
+  Из явной заданности $\mathrm{IV}(3)=263$ следуют четыре точных аналитических интеграла траектории $\symCapitalPsi^t = g^t(\mathrm{IV}(3))$:
+  \begin{enumerate}[label=(\alph*),nosep]
+  \item \emph{Поячеечный инвариант амплитуды и относительной спинорной фазы:}
+    для всех $t\in\mathbb{Z}$ выполняются $\mu_c(x,t) \equiv \mu_c(x,0)$ и
+    \[
+      \bigl(\varphi_1(x,t)-\varphi_0(x,t)\bigr)\bmod 512
+      \;\equiv\;
+      123\,\bigl(b_1(\mathrm{oct}(x))-b_0(\mathrm{oct}(x))\bigr)\,\mathbf{1}_{\|x\|\le 6}\bmod 512.
+    \]
+  \item \emph{Точная замкнутая квадратура с треугольным ядром Грина $(t-\tau)$:}
+    при старте с покоя ($\varphi_c(x,0)=\varphi_c(x,-1)$) разностное уравнение второго порядка $\Delta_t^2\varphi^t = \Phi^t$ на любом такте $t\ge 1$ интегрируется явно:
+    \begin{equation}
+    \label{eq:exact-trajectory-quadrature}
+      \varphi_c(x,t)
+      \;=\;
+      \left(\varphi_c(x,0) + \sum_{\tau=0}^{t-1} (t-\tau)\,\Phi(x,\tau)\right) \bmod 512,
+    \end{equation}
+    а на каждом интервале постоянных ворот $\Phi(x,\tau)\equiv\Phi_0(x)$ сворачивается в параболу в кольце вычетов~$\mathbb{Z}_{512}$:
+    \begin{equation}
+    \label{eq:stationary-gate-parabola}
+      \varphi_c(x,t)
+      \;=\;
+      \left(\varphi_c(x,0) + \frac{t(t-1)}{2}\,\Phi_0(x)\right) \bmod 512
+    \end{equation}
+    с периодом $2\phaseRingCount = 1024$ тика при нечётном $\Phi_0$ (удвоенное спинорное накрытие $720^\circ$).
+  \item \emph{Точное стационарное решение вне светового конуса зародыша ($d_{\mathrm{FCC}}(x,\mathcal{B}_6) > t$):}
+    поскольку в фоновом океане~$A_5$ все реберные разности равны $|\Delta\varphi|=41$ и затвор Гейзенберга закрыт ($\Phi(x,\tau)\equiv 0$), для всех узлов вне светового конуса шара нуклеации траектория решена в замкнутом виде на все времена: $\symCapitalPsi^t(x) \equiv \symCapitalPsi^0(x)$ при $d_{\mathrm{FCC}}(x,\mathcal{B}_6) > t$.
+  \item \emph{Конечное дерево переключений внутри светового конуса ($d_{\mathrm{FCC}}(x,\mathcal{B}_6) \le t$):}
+    внутри конуса сумма~\eqref{eq:exact-trajectory-quadrature} зависит от конечного дерева моментов переключения двух порогов в $\Phi(x,\tau)$ --- затвора Гейзенберга $|\Phi|=41$ и разреза ветви Паули $|A_{xy}|=256$, порождающих на $t=2$ рождение $2N_\varphi=26$ вихревых плакетов~\eqref{eq:t2-26-vortex-plaquettes} и последующий каскад эпох.
+  \end{enumerate}
 \end{enumerate}
 
 Возникает главный вопрос: \emph{почему и каким образом из этих четырёх правил в целых числах~$\mathbb{Z}$ на макроуровне~$\Tlayer$
