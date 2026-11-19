@@ -94,5 +94,8 @@ namespace MtCarrier.Audit
 #print axioms MtCarrier.woodward_hoffmann_and_valence_123_stability_from_d3
 #print axioms MtCarrier.catalytic_reaction_gate_opening_on_cuboctahedron
 #print axioms MtCarrier.quantum_entanglement_c0_causal_holonomy_and_tsirelson_bound
+#print axioms MtCarrier.multi_component_environment_homomorphism_and_markov_blanket
+#print axioms MtCarrier.universal_environment_coupling_across_quantum_chemistry_cosmology
+#print axioms MtCarrier.closed_form_organism_genesis_in_environment_operator
 
 end MtCarrier.Audit

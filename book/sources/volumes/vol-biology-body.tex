@@ -559,6 +559,53 @@ II (ядро $1$) & \texttt{Stop} & \texttt{UAA,UAG,UGA} (3) & --- & освоб�
 \end{enumerate}
 \end{corollary}
 
+\begin{theorem}[Гомоморфизм многокомпонентной внешней среды, голографический экран Маркова на границе кубооктаэдра и замкнутый оператор генеза организма в среде]
+\label{thm:bio-closed-form-genesis-in-environment}
+Для любого $d\in\mathbb{N}$, внутренней подсистемы $\mathcal{E}_{\mathrm{sys}}$ и произвольных гетерогенных внешних сред $\mathcal{E}_1,\mathcal{E}_2$ (состоящих из любого конечного числа вакуумных, растворительных, ионных, фотонных, метаболических и соседних клеточных потоков $(\mu_e,\Delta\varphi_e)$) в \texttt{lean/MtCarrier/UnifiedOperators.lean} (\texttt{multi\_component\_environment\_homomorphism\_and\_markov\_blanket}, \texttt{universal\_environment\_coupling\_across\_quantum\_chemistry\_cosmology} и \texttt{closed\_form\_organism\_genesis\_in\_environment\_operator}) доказаны следующие чисто операторные законы:
+\begin{enumerate}[label=\textbf{(\roman*)},leftmargin=*]
+\item \textbf{Аддитивный гомоморфизм суперпозиции сред и голографический экран Маркова:}
+  граничные операторы суммарного амплитудного веса $\mathrm{envSumMuListOp}$, чётной голономии $\mathrm{envZrListOp}(d,\mu_x,\cdot)$ и нечётного тока переноса $\mathrm{envZiListOp}(d,\mu_x,\cdot)$ являются точными гомоморфизмами конкатенации списков компонентов внешней среды $\mathcal{E}_1\mathbin{++}\mathcal{E}_2$:
+  \begin{equation}
+  \label{eq:env-list-homomorphism}
+  \begin{aligned}
+    \mathrm{envSumMuListOp}(\mathcal{E}_1\mathbin{++}\mathcal{E}_2) &= \mathrm{envSumMuListOp}(\mathcal{E}_1) + \mathrm{envSumMuListOp}(\mathcal{E}_2),\\
+    \mathrm{envZrListOp}(d,\mu_x,\mathcal{E}_1\mathbin{++}\mathcal{E}_2) &= \mathrm{envZrListOp}(d,\mu_x,\mathcal{E}_1) + \mathrm{envZrListOp}(d,\mu_x,\mathcal{E}_2),\\
+    \mathrm{envZiListOp}(d,\mu_x,\mathcal{E}_1\mathbin{++}\mathcal{E}_2) &= \mathrm{envZiListOp}(d,\mu_x,\mathcal{E}_1) + \mathrm{envZiListOp}(d,\mu_x,\mathcal{E}_2).
+  \end{aligned}
+  \end{equation}
+  Любые две сколь угодно сложные внешние среды $\mathcal{E}_1,\mathcal{E}_2$, индуцирующие на границе кубооктаэдра одинаковую тройку $(\mathrm{envSumMuListOp},\mathrm{envZrListOp},\mathrm{envZiListOp})$, порождают тождественно совпадающий импеданс открытой системы $\mathrm{openMultiEnvDenomOp}(d,\mu_x,\mathcal{E}_{\mathrm{sys}},\mathcal{E}_1) = \mathrm{openMultiEnvDenomOp}(d,\mu_x,\mathcal{E}_{\mathrm{sys}},\mathcal{E}_2)$ и тождественно совпадающий оператор ворот эволюции $\mathrm{openMultiEnvGateOp}(d,\mu_x,\mathcal{E}_{\mathrm{sys}},\mathcal{E}_1) = \mathrm{openMultiEnvGateOp}(d,\mu_x,\mathcal{E}_{\mathrm{sys}},\mathcal{E}_2)$.
+\item \textbf{Операторная связка кода, второй сферы и водородного делителя:}
+  при операторном законе Каталана $\mathrm{CatalanLaw}(P,d)$ оператор пространства кодонов $\mathrm{codonSpaceOp}(d) = d_{\mathrm{in}}(\square)^d$, оператор суммы октетов Румера $\mathrm{aminoAcidClassesOp}(d) = |{\triangle}(d)| + N_\varphi(d)$, оператор делителя водородной связи $\mathrm{hBondDivisorOp}(d) = K_P(d) - \mu_{\mathrm{vac}}(d)$ и оператор координационных сфер кубооктаэдра $\mathrm{cuboctShellSizeOp}(d,k) = (|N(d)| - \mathrm{c0OverCSqOp}(d))k^2 + \mathrm{c0OverCSqOp}(d)$ связаны точными операторными соотношениями:
+  \begin{equation}
+  \label{eq:bio-operator-identities-clean}
+  \begin{aligned}
+    \mathrm{codonSpaceOp}(d) &= K_P(d),\\
+    \mathrm{c0OverCSqOp}(d)\cdot\mathrm{aminoAcidClassesOp}(d) &= \mathrm{cuboctShellSizeOp}\bigl(d,\mathrm{c0OverCSqOp}(d)\bigr),\\
+    \mathrm{c0OverCSqOp}(d)\cdot\mathrm{hBondDivisorOp}(d) &= d\cdot\mathrm{cuboctShellSizeOp}\bigl(d,\mathrm{c0OverCSqOp}(d)\bigr),
+  \end{aligned}
+  \end{equation}
+  а побитовые операторы комплементарности Уотсона--Крика $\mathrm{watsonCrickCompOp}(d,\cdot)$ и стебля Румера $\mathrm{rumerStemInvolutionOp}(d,\cdot)$ являются точными инволюциями.
+\item \textbf{Замкнутый оператор генеза организма в среде $\mathrm{ontogenyGenesisInEnvOp}(d,m_{\mathrm{genome}},\sigma_{\mathrm{axis}},\sigma_{\mathrm{Ig}},m_{\mathrm{env}},\Phi_{\mathrm{env}},R)$:}
+  сопряжение генома с внешней средой определяется тремя безветвевыми операторами-затворами среды --- затвором совпадения планетарного окна растворителя $\mathrm{envSolventMatchGateOp}(d,m_{\mathrm{genome}},m_{\mathrm{env}})$ (где $\mathrm{planetaryEnvWindowOp}(d,m_{\mathrm{env}})\in\{d_{\mathrm{out}}(E)(d),\,|\square(d)|,\,|{\triangle}(d)|-\mu_{\mathrm{vac}}(d)\}$), метаболическим затвором Гейзенберга от внешнего притока энергии $\mathrm{envMetabolicGateOp}(d,\Phi_{\mathrm{env}})$ и граничным затвором контакта со свободной поверхностью среды $\mathrm{envFreeSurfaceGateOp}(d,z_{\mathrm{int}}) = \mathrm{isPosNat}(|N(d)| - z_{\mathrm{int}})$:
+  \begin{itemize}[noitemsep]
+  \item при несовпадении среды растворителя ($\mathrm{envSolventMatchGateOp}=0$) либо в подпороговой голодной среде ($|\Phi_{\mathrm{env}}| < \Delta\varphi_{\mathrm{disc}}(d) \implies \mathrm{envMetabolicGateOp}=0$) оператор $\mathrm{ontogenyGenesisInEnvOp}$ удерживает организм в состоянии покоящейся зиготы/споры $\mathrm{zygoteDormantComplexOp}(d) = (\mu_{\mathrm{vac}}(d),0,0,0)$;
+  \item при полном внутреннем запирании клетки соседями без контакта с внешней средой ($z_{\mathrm{int}} = |N(d)|$) граничный затвор среды закрывается ($\mathrm{envFreeSurfaceGateOp}(d,|N(d)|) = 0$), запуская кавитацию просвета (люмена);
+  \item в совместимой метаболически активной внешней среде ($\mathrm{envSolventMatchGateOp}\cdot\mathrm{envMetabolicGateOp}=1$) оператор $\mathrm{ontogenyGenesisInEnvOp}$ детерминированно порождает стадии морфогенеза, топологические инварианты которых выражаются исключительно через структурные операторы носителя:
+    \begin{equation}
+    \label{eq:ontogeny-genesis-operator-invariants}
+    \begin{aligned}
+      \mathrm{tissueEuler2DOp}\bigl(\mathrm{ontogenyGenesisInEnvOp}(d,0,0,0,0,\Delta\varphi_{\mathrm{disc}}(d),R)\bigr) &= \mathrm{c0OverCSqOp}(d),\\
+      \mathrm{tissueEuler2DOp}\bigl(\mathrm{ontogenyGenesisInEnvOp}(d,0,1,0,0,\Delta\varphi_{\mathrm{disc}}(d),R)\bigr) &= 0\quad (\forall R\in\mathbb{Z}),\\
+      V\bigl(\mathrm{ontogenyGenesisInEnvOp}(d,0,1,1,0,\Delta\varphi_{\mathrm{disc}}(d),R)\bigr) &= \mathrm{cuboctShellSizeOp}\bigl(d,\mathrm{c0OverCSqOp}(d)\bigr),\\
+      V\bigl(\mathrm{ontogenyGenesisInEnvOp}(d,0,1,1,0,\Delta\varphi_{\mathrm{disc}}(d),R)\bigr) - \mu_{\mathrm{vac}}(d) &= \Delta\varphi_{\mathrm{disc}}(d),\\
+      E\bigl(\mathrm{ontogenyGenesisInEnvOp}(d,0,1,1,0,\Delta\varphi_{\mathrm{disc}}(d),R)\bigr) &= \mathrm{cuboctBallOp}(d),\\
+      \mathrm{tissueEuler2DOp}\bigl(\mathrm{ontogenyGenesisInEnvOp}(d,0,1,1,0,\Delta\varphi_{\mathrm{disc}}(d),R)\bigr) &= \Delta\varphi_{\mathrm{disc}}(d).
+    \end{aligned}
+    \end{equation}
+  \end{itemize}
+\end{enumerate}
+\end{theorem}
+
 \chapter{Геометрическая фрустрация кубооктаэдра, законы генетики на \texorpdfstring{$\mathbb{Z}_4$}{Z\_4} и архитектура трёх планетарных типов жизни}
 \label{ch:bio-frustration-genetics-three-life-types}
 
