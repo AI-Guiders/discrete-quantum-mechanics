@@ -292,9 +292,9 @@ i\,(\partial_t z)\,z^*
 
 Отсюда следуют два ортогональных закона на **M**:
 
-1. **Вращение фазы $\varphi$ (чётный дефицит голономии $\delta\zeta_{\mathrm{real}}$):**
+1. **Вращение фазы $\varphi$ (чётный дефицит голономии $\delta\zeta_{\mathrm{real}}$, положительная частота $\omega(x) = -\partial_t\varphi(x)$):**
    \[
-   \mu^2\,\partial_t\varphi = \gamma\,\delta\zeta_{\mathrm{real}}(x),\qquad
+   -\mu^2\,\partial_t\varphi = \mu^2\,\omega(x) = \gamma\,\delta\zeta_{\mathrm{real}}(x),\qquad
    \delta\zeta_{\mathrm{real}}(x) := |N|\,\mu^2(x) - \zeta_{\mathrm{real}}(x) = \sum_{y\in N(x)}\mu(x)\mu(y)\bigl(1 - \cos(\varphi(y)-\varphi(x))\bigr) \ge 0.
    \]
    Слагаемые противоположных рёбер $+\mathbf{e}$ и $-\mathbf{e}$ имеют одинаковый знак ($1-\cos(+\Delta\varphi)=1-\cos(-\Delta\varphi)\ge 0$) и не сокращаются на симметричной звезде: именно $\delta\zeta_{\mathrm{real}}$ даёт частоту дисперсии плоской волны, ход фазы кипящего океана и одевающий ореол вихря $R_{\mathrm{dress}} = 1\cdot dl$ на первой координационной сфере $S_1$ (где $100\%$ из 12 узлов кубооктаэдра лежат над порогом $\Delta\varphi_{\min} = 1/2\text{ рад}$, а на $S_3$ — $0\%$).
@@ -325,7 +325,7 @@ i\,(\partial_t z)\,z^*
 A_{xy} := \mathrm{wrap}\bigl(\varphi(y)-\varphi(x)\bigr) = \bigl(\varphi(y)-\varphi(x)\bigr) - N_{\mathrm{ring}}\,k_{xy},\qquad k_{xy}\in\{-1,0,+1\},
 \]
 
-электрическое поле на ребре $E_{xy} := -\Delta_t A_{xy} - (d_0\,\Delta_t\varphi)_{xy}$ и магнитный поток через грань $f\in 8\triangle\cup 6\square$
+электрическое поле на ребре $E_{xy} := -\Delta_t A_{xy} = -(d_0\,\Delta_t\varphi)_{xy} + N_{\mathrm{ring}}\,\Delta_t k_{xy}$ и магнитный поток через грань $f\in 8\triangle\cup 6\square$
 
 \[
 B_f := (d_1 A)_f = \sum_{e\in\partial f} A_e = -N_{\mathrm{ring}}\,(d_1 k)_f = N_{\mathrm{ring}}\,n_f,\qquad n_f := -(d_1 k)_f \in \mathbb{Z}
@@ -335,7 +335,7 @@ B_f := (d_1 A)_f = \sum_{e\in\partial f} A_e = -N_{\mathrm{ring}}\,(d_1 k)_f = N
 
 1. **Закон Фарадея на каждой грани $f\in 8\triangle\cup 6\square$:**
    \[
-   \Delta_t B_f + (d_1 E)_f = -(d_1 d_0\,\Delta_t\varphi)_f \equiv 0\qquad (d_1\circ d_0 \equiv 0).
+   \Delta_t B_f + (d_1 E)_f = \Delta_t(d_1 A)_f - (d_1\,\Delta_t A)_f = -(d_1 d_0\,\Delta_t\varphi)_f \equiv 0\qquad (d_1\circ d_0 \equiv 0).
    \]
 2. **Закон Гаусса для магнитного потока на замкнутой оболочке $\partial V_P = 8\triangle\cup 6\square$:**
    \[
@@ -343,8 +343,8 @@ B_f := (d_1 A)_f = \sum_{e\in\partial f} A_e = -N_{\mathrm{ring}}\,(d_1 k)_f = N
    \]
 3. **Вторая пара Максвелла как тождество скачков ветви $k_{xy}$ и топологических чисел $n_f$:**
    \[
-   (d_0^\dagger E)_x = N_{\mathrm{ring}}\,\Delta_t(d_0^\dagger k)_x,\qquad
-   (d_1^\dagger B - \Delta_t E)_{xy} = N_{\mathrm{ring}}\,(d_1^\dagger n)_{xy} + \bigl(\Delta_t^2 A + d_0\,\Delta_t^2\varphi\bigr)_{xy}.
+   (d_0^\dagger E)_x = -(d_0^\dagger d_0\,\Delta_t\varphi)_x + N_{\mathrm{ring}}\,\Delta_t(d_0^\dagger k)_x,\qquad
+   (d_1^\dagger B - \Delta_t E)_{xy} = N_{\mathrm{ring}}\,(d_1^\dagger n)_{xy} + (\Delta_t^2 A)_{xy}.
    \]
    Вне дефектов ($n_f=0, b=0$) правая часть равна нулю (свободные волны); на дефектах ($n_f=\pm 1, b=1$) ротор $N_{\mathrm{ring}}(d_1^\dagger n)_{xy}$ вокруг вихревого ядра и есть то, что на **T** считывается как заряд и ток источника.
 4. **Тождественное сохранение заряда:** $d_0^\dagger(d_1^\dagger B) = N_{\mathrm{ring}}(d_0^\dagger d_1^\dagger n) \equiv 0$ в силу $(d_1\circ d_0)^\dagger \equiv 0$.
@@ -399,14 +399,14 @@ Q_\square := \frac{N_{\mathrm{ring}}}{d_{\mathrm{in}}(\square)} = 2^{|\triangle|
    P_x(A)^2 + P_y(A)^2 \equiv P_r(A)^2 \iff \left(\frac{Q_\square^2-S^2}{Q_\square^2+S^2}\right)^{\!2} + \left(\frac{2Q_\square S}{Q_\square^2+S^2}\right)^{\!2} \equiv 1\quad\forall\,A\in\mathbb{Z}_{N_{\mathrm{ring}}}.
    \]
    При $A = \Delta\varphi_{\mathrm{disc}} = 41$ и $Q_\square = 128$ получаем точную пифагорову тройку Гейзенберга $(14703, 10496, 18065)$, где $14703^2 + 10496^2 = 18065^2$.
-4. **Выход к гармоническим $\cos$ и $\sin$ на T:** при мягком чтении $\mathcal{B}$ с отношением граней $\kappa = |\square|/|N_{12}| = 1/(d-1) = 1/2$ и $|\triangle|/|\square| = 2^{d-1}/d = 4/3$ многократная свёртка кусочно-линейных проекций $(C,S)/Q_\square$ по оболочке кубооктаэдра переводит $L^1$-ромб $|C|+|S|=Q_\square$ в гладкую $L^2$-окружность $\cos^2\varphi+\sin^2\varphi=1$ на **T** (§4.1.2, `thm:t-cl`).
+4. **Выход к гармоническим $\cos$ и $\sin$ на T:** при мягком чтении $\mathcal{B}$ с отношением граней $\kappa^2 = |\square|/|N_{12}| = 1/(d-1) = 1/2$ ($\kappa = 1/\sqrt{2}$) и $|\triangle|/|\square| = 2^{d-1}/d = 4/3$ многократная свёртка кусочно-линейных проекций $(C,S)/Q_\square$ по оболочке кубооктаэдра переводит $L^1$-ромб $|C|+|S|=Q_\square$ в гладкую $L^2$-окружность $\cos^2\varphi+\sin^2\varphi=1$ на **T** (§4.1.2, `thm:t-cl`).
 
-#### 3.12.5e Диофантова единственность $d=3$ (замок Каталана), единственность начального вектора $\mathrm{IV}(3)=263$ и полная замкнутость траектории $\Psi^t = g^t(\mathrm{IV}(3))$
+#### 3.12.5e Диофантова единственность $d=3$ ($1+2^d=d^2$), единственность начального вектора $\mathrm{IV}(3)=263$ и полная замкнутость траектории $\Psi^t = g^t(\mathrm{IV}(3))$
 
 Три арифметических условия замкнутости носителя в пространственной размерности $d\in\mathbb{N}$:
-1. **Замок битового регистра (уравнение Каталана):** $\mathrm{mod\_bits}(d) := 1 + 2^d = d^2$ $\implies$ единственное решение в $\mathbb{N}$ по теореме Михайлеску: **$d = 3$** ($1 + 2^3 = 3^2 = 9$).
-2. **Замок целочисленности сектора Гейзенберга:** $\Delta\varphi_{\mathrm{disc}}(d) := \frac{2^{1+2^d} + (1+2d(d-1)) + 2^d}{1+2d(d-1)} \in \mathbb{Z}$ $\implies$ при $d=3$: $\frac{512+13+8}{13} = \frac{533}{13} = 41\in\mathbb{Z}$.
-3. **Замок гауссовой факторизации Кулона в $\mathbb{Z}[i]$:** $\hat M(d) := 1 + 2d(d-1)\cdot 2^d = \bigl(2(d-1)\bigr)^2 + (1+2^d)^2$ $\implies$ единственное решение в $\mathbb{N}$: **$d = 3$** ($1 + 12\cdot 8 = 4^2 + 9^2 = 97$).
+1. **Замок битового регистра:** $\mathrm{mod\_bits}(d) := 1 + 2^d = d^2$ $\implies$ единственное решение в $\mathbb{N}$ по индукции ($2^d + 1 > d^2$ при всех $d \ge 4$, так как $2(2^d+1)-1 > 2d^2-1 > (d+1)^2$ ввиду $(d-1)^2 - 3 \ge 6 > 0$): **$d = 3$** ($1 + 2^3 = 3^2 = 9$).
+2. **Замок целочисленности сектора Гейзенберга:** $\Delta\varphi_{\mathrm{disc}}(d) := \frac{2^{1+2^d} + (1+2d(d-1)) + 2^d}{1+2d(d-1)} = 1 + \frac{2^d(2^{2^d-d+1}+1)}{1+2d(d-1)} \in \mathbb{Z}$ $\implies$ при $d=3$: $2^6+1 = 65 = 5\times 13$, откуда $\frac{512+13+8}{13} = \frac{533}{13} = 41\in\mathbb{Z}$.
+3. **Замок гауссовой факторизации Кулона в $\mathbb{Z}[i]$:** $\hat M(d) := 1 + 2d(d-1)\cdot 2^d = \bigl(2(d-1)\bigr)^2 + (1+2^d)^2 \iff 2^d(2d(d-1)-2-2^d) = 4(d-1)^2$ $\implies$ единственное решение в $\mathbb{N}$ по индукции ($2^d > 2d(d-1)-2$ при всех $d\ge 6$, так как $2(2d(d-1)-2) - (2(d+1)d-2) = 2d(d-3)-2 \ge 34 > 0$): **$d = 3$** ($1 + 12\cdot 8 = 4^2 + 9^2 = 97$).
 4. **Единственность $9$-битного начального вектора Вселенной $\Psi^0 = \mathrm{IV}(d)$:** в том же $9$-битном слове ($\mathrm{mod\_bits} = 1 + 2^d = 9$) зародыш нуклеации пузыря однозначно равен:
    \[
    \mathrm{IV}(d) := 2^{2^d} + (2^d - 1) = 2^8 + (2^3 - 1) = 256 + 7 = \mathbf{263} = \texttt{0b1\_00000111}

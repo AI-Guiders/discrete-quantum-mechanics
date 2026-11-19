@@ -187,12 +187,14 @@ $\zeta(x)=\sum_{y\in N(x)} z(y)z^*(x) = \zeta_{\mathrm{real}}(x)+i\,\zeta_{\math
 \end{equation}
 Отсюда следуют два ортогональных закона --- для фазы $\varphi$ и для амплитуды $\mu$:
 \begin{enumerate}[label=(\roman*)]
-\item \textbf{Чётный дефицит голономии вращает фазу $\varphi$ при фиксированном $\mu$:}
+\item \textbf{Чётный дефицит голономии задаёт положительную угловую частоту фазы $\omega(x) = -\partial_t\varphi(x)$ при фиксированном $\mu$:}
   \begin{equation}
   \label{eq:even-holonomy-phase}
   \begin{aligned}
-    \mu^2\,\partial_t\varphi
+    -\mu^2\,\partial_t\varphi
     &\;=\;
+    \mu^2\,\omega(x)
+    \;=\;
     \gamma\,\delta\zeta_{\mathrm{real}}(x), \\
     \delta\zeta_{\mathrm{real}}(x)
     &\;:=\;
@@ -315,7 +317,7 @@ $2$-грани $f\in 8\triangle\cup 6\square$, $3$-объём $\PlanckCell$) п�
   \qquad
   k_{xy}\in\{-1,0,+1\},
 \end{equation}
-дискретное электрическое поле на ребре $E_{xy} := -\Delta_t A_{xy} - (d_0\,\Delta_t\varphi)_{xy}$
+дискретное электрическое поле на ребре $E_{xy} := -\Delta_t A_{xy} = -(d_0\,\Delta_t\varphi)_{xy} + \phaseRingCount\,\Delta_t k_{xy}$
 и дискретный магнитный поток через ориентированную грань $f\in 8\triangle\cup 6\square$:
 \begin{equation}
 \label{eq:discrete-plaquette-flux}
@@ -328,7 +330,7 @@ $2$-грани $f\in 8\triangle\cup 6\square$, $3$-объём $\PlanckCell$) п�
 \item \textbf{Дискретный закон Фарадея на каждой грани $f\in 8\triangle\cup 6\square$:}
   \begin{equation}
   \label{eq:discrete-faraday}
-    \Delta_t B_f + (d_1 E)_f \;=\; \Delta_t(d_1 A)_f - \Delta_t(d_1 A)_f - (d_1 d_0\,\Delta_t\varphi)_f \;\equiv\; 0
+    \Delta_t B_f + (d_1 E)_f \;=\; \Delta_t(d_1 A)_f - (d_1\,\Delta_t A)_f \;=\; -\phaseRingCount\,\Delta_t(d_1 k)_f + \phaseRingCount\,(d_1\,\Delta_t k)_f - (d_1 d_0\,\Delta_t\varphi)_f \;\equiv\; 0
     \qquad (d_1\circ d_0 \equiv 0).
   \end{equation}
 \item \textbf{Дискретный закон Гаусса для магнитного потока на замкнутой оболочке $\partial\PlanckCell = 8\triangle\cup 6\square$:}
@@ -344,14 +346,14 @@ $2$-грани $f\in 8\triangle\cup 6\square$, $3$-объём $\PlanckCell$) п�
 \item \textbf{Вторая пара Максвелла как тождество скачков ветви $k_{xy}$:}
   при сопряжённых операторах $d_0^\dagger = -\operatorname{div}_{\mathrm{disc}}$ (сумма по звезде узла $N_{12}(x)$)
   и $d_1^\dagger = \operatorname{curl}_{\mathrm{disc}}$ (сумма по граням, примыкающим к ребру)
-  кограница поля определяется исключительно целочисленными дефектами ветви $k_{xy}$ и $n_f = -(d_1 k)_f$:
+  кограница поля раскладывается на гладкую волновую часть и целочисленные дефекты ветви $k_{xy}$ и $n_f = -(d_1 k)_f$:
   \begin{equation}
   \label{eq:discrete-ampere-gauss}
-    (d_0^\dagger E)_x \;=\; \phaseRingCount\,\Delta_t(d_0^\dagger k)_x,
+    (d_0^\dagger E)_x \;=\; -(d_0^\dagger d_0\,\Delta_t\varphi)_x + \phaseRingCount\,\Delta_t(d_0^\dagger k)_x,
     \qquad
     (d_1^\dagger B - \Delta_t E)_{xy}
     \;=\;
-    \phaseRingCount\,(d_1^\dagger n)_{xy} + \bigl(\Delta_t^2 A + d_0\,\Delta_t^2\varphi\bigr)_{xy}.
+    \phaseRingCount\,(d_1^\dagger n)_{xy} + (\Delta_t^2 A)_{xy}.
   \end{equation}
   Там, где топологических дефектов нет ($n_f=0$, занятость $b=0$), правая часть равна нулю и по решётке
   распространяются свободные фазовые волны; там, где $n_f=\pm 1$ ($b=1$, планкон), ненулевой ротор
@@ -513,7 +515,7 @@ $\phaseRingCount = 2^{\mathrm{mod\_bits}} = 2^{1+|\triangle|} = 512$ и $K_P = 2
   В частности, на пороге Гейзенберга $A = \Delta\varphi_{\mathrm{disc}} = 41$ при $Q_\square = 128$ ротатор~\eqref{eq:pythagorean-rotator-int}
   даёт точную пифагорову тройку Гейзенберга $(P_x, P_y, P_r) = (14703,\,10496,\,18065)$, где $14703^2 + 10496^2 = 18065^2$.
 \item \textbf{Выход к гармоническим $\cos$ и $\sin$ на~$\Tlayer$:}
-  при мягком чтении~$\mathcal{B}$ с отношением граней $\caKappaGeom = |\square|/|N_{12}| = 1/(d-1) = 1/2$
+  при мягком чтении~$\mathcal{B}$ с отношением граней $\caKappaGeom^2 = |\square|/|N_{12}| = 1/(d-1) = 1/2$ ($\caKappaGeom = 1/\sqrt{2}$)
   и $|\triangle|/|\square| = 2^{d-1}/d = 4/3$ многократная свёртка кусочно-линейных реберных проекций
   $(C,S)/Q_\square$ по шагам оболочки кубооктаэдра переводит $L^1$-ромб~\eqref{eq:l1-face-identity}
   в гладкую $L^2$-окружность $\cos^2\varphi + \sin^2\varphi = 1$ на~$\Tlayer$ (\cref{thm:t-cl}).
@@ -531,14 +533,14 @@ $(|A_{xy}| - Q_\square) + (2Q_\square - |A_{xy}|) = Q_\square$, что дока�
 Антисимметрия $S(A_{yx}) = S(-A_{xy}) = -S(A_{xy})$ влечёт $\sum_{x\in\carrierLattice}\sum_{y\in N_{12}(x)} S(A_{xy}) \equiv 0$.
 \end{proof}
 
-\begin{theorem}[Диофантова единственность $d=3$ (замок Каталана), единственность начального вектора $\mathrm{IV}(3)=263$ и полная замкнутость траектории $\symCapitalPsi^t = g^t(\mathrm{IV}(3))$]
+\begin{theorem}[Диофантова единственность $d=3$ ($1+2^d=d^2$), единственность начального вектора $\mathrm{IV}(3)=263$ и полная замкнутость траектории $\symCapitalPsi^t = g^t(\mathrm{IV}(3))$]
 \label{thm:catalan-uniqueness-d3}
 Пусть локальный обратимый клеточный автомат в пространственной размерности $d\in\mathbb{N}$ ($d\ge 1$)
 имеет оболочку ближайших соседей с $|N(d)| = 2d(d-1)$ вершинами, $|\triangle(d)| = 2^d$ октантными гранями,
 $|\square(d)| = 2d$ координатными гранями и $d_{\mathrm{in}}(\square) = |N(d)|/d = 2(d-1)$.
 Потребуем выполнения трёх арифметических условий замкнутости носителя:
 \begin{enumerate}[label=(\roman*)]
-\item \textbf{Замок битового регистра (уравнение Каталана):} число «центральный узел плюс октанты» совпадает с квадратом размерности:
+\item \textbf{Замок битового регистра:} число «центральный узел плюс октанты» совпадает с квадратом размерности:
   \begin{equation}
   \label{eq:catalan-lock}
     \mathrm{mod\_bits}(d) \;:=\; 1 + 2^d \;=\; d^2.
@@ -557,10 +559,10 @@ $|\square(d)| = 2d$ координатными гранями и $d_{\mathrm{in}
     \hat M(d) \;:=\; 1 + 2d(d-1)\cdot 2^d \;=\; \bigl(2(d-1)\bigr)^2 + \bigl(1 + 2^d\bigr)^2.
   \end{equation}
 \end{enumerate}
-Тогда каждое из уравнений~\eqref{eq:catalan-lock}--\eqref{eq:gaussian-coulomb-lock} во всём множестве натуральных чисел $d\in\mathbb{N}$
+Тогда каждое из диофантовых уравнений~\eqref{eq:catalan-lock} и~\eqref{eq:gaussian-coulomb-lock} в отдельности, как и вся система~\eqref{eq:catalan-lock}--\eqref{eq:gaussian-coulomb-lock}, во всём множестве натуральных чисел $d\in\mathbb{N}$
 имеет \textbf{одно и только одно решение $d = 3$}, из которого без единого свободного параметра однозначно следуют как все инварианты носителя и закона~$g$:
 \[
-  |N_{12}|=12,\quad |\triangle|=8,\quad |\square|=6,\quad d_{\mathrm{in}}(\square)=4,\quad \caKappaGeom=\frac{1}{2},\quad
+  |N_{12}|=12,\quad |\triangle|=8,\quad |\square|=6,\quad d_{\mathrm{in}}(\square)=4,\quad \caKappaGeom^2=\frac{1}{2}\ \Bigl(\caKappaGeom=\frac{1}{\sqrt{2}}\Bigr),\quad
   \mathrm{mod\_bits}=9,\quad \mathrm{frac\_bits}=6,
 \]
 \[
@@ -588,16 +590,54 @@ $|\square(d)| = 2d$ координатными гранями и $d_{\mathrm{in}
 \end{theorem}
 
 \begin{proof}
-\emph{(i)} При $d=1$ имеем $1+2^1 = 3 \ne 1^2$; при $d=2$ имеем $1+2^2 = 5 \ne 2^2$; при $d=3$ выполняется $1+2^3 = 9 = 3^2$.
-Для всех $d\ge 4$ по индукции $2^d + 1 > d^2$ (при $d=4$: $17>16$, и $2^{d+1}+1 = 2(2^d+1)-1 > 2d^2-1 > (d+1)^2$).
-По теореме Михайлеску (решение проблемы Каталана) $3^2 - 2^3 = 1$ есть единственная пара последовательных совершенных степеней в~$\mathbb{N}$.
+\emph{(i)} Проверим $d\in\{1,2,3\}$ прямой подстановкой в~\eqref{eq:catalan-lock}:
+при $d=1$ имеем $1+2^1 = 3 \ne 1^2 = 1$; при $d=2$ имеем $1+2^2 = 5 \ne 2^2 = 4$; при $d=3$ выполняется $1+2^3 = 9 = 3^2$.
+Докажем по индукции, что для всех целых $d\ge 4$ выполняется строгое неравенство $2^d + 1 > d^2$.
+База индукции ($d=4$): $2^4 + 1 = 17 > 16 = 4^2$.
+Индуктивный переход ($d\to d+1$ при $d\ge 4$): пусть $2^d + 1 > d^2$. Умножая обе части на $2$ и вычитая $1$, получаем
+\[
+  2^{d+1} + 1 \;=\; 2(2^d + 1) - 1 \;>\; 2d^2 - 1.
+\]
+Вычислим разность между $2d^2 - 1$ и $(d+1)^2 = d^2 + 2d + 1$:
+\[
+  (2d^2 - 1) - (d^2 + 2d + 1) \;=\; d^2 - 2d - 2 \;=\; (d-1)^2 - 3.
+\]
+Поскольку $d\ge 4$, имеем $d-1 \ge 3$, откуда $(d-1)^2 - 3 \ge 3^2 - 3 = 6 > 0$, то есть $2d^2 - 1 > (d+1)^2$,
+и по транзитивности $2^{d+1} + 1 > (d+1)^2$. Следовательно, при $d\ge 4$ уравнение~\eqref{eq:catalan-lock} решений не имеет,
+и $d=3$ есть единственное решение~\eqref{eq:catalan-lock} во всём~$\mathbb{N}$.
 
-\emph{(ii)} При $d=3$ имеем $N_\varphi(3)=13$ и $(512+13+8)/13 = 533/13 = 41\in\mathbb{Z}$ (при $d=2$: $41/5\notin\mathbb{Z}$; при $d=4$: $131113/25\notin\mathbb{Z}$).
+\emph{(iii)} Раскроем квадрат $(1+2^d)^2 = 1 + 2\cdot 2^d + 2^{2d}$ в правой части~\eqref{eq:gaussian-coulomb-lock} и вычтем $1$ из обеих частей:
+\[
+  2d(d-1)\cdot 2^d \;=\; 4(d-1)^2 + 2\cdot 2^d + 2^{2d}
+  \quad\Longleftrightarrow\quad
+  2^d\bigl(2d(d-1) - 2 - 2^d\bigr) \;=\; 4(d-1)^2.
+\]
+Проверим $d\in\{1,2,3,4,5\}$ прямой подстановкой:
+при $d=1$ левая часть равна $2^1(0-2-2) = -8 \ne 0 = 4(1-1)^2$;
+при $d=2$ левая часть равна $2^2(4-2-4) = -8 \ne 4 = 4(2-1)^2$;
+при $d=3$ левая часть равна $2^3(12-2-8) = 8\times 2 = 16 = 4(3-1)^2$ (равенство выполняется: $1+12\cdot 8 = 97 = 4^2+9^2$);
+при $d=4$ левая часть равна $2^4(24-2-16) = 16\times 6 = 96 \ne 36 = 4(4-1)^2$;
+при $d=5$ левая часть равна $2^5(40-2-32) = 32\times 6 = 192 \ne 64 = 4(5-1)^2$.
+Докажем по индукции, что для всех целых $d\ge 6$ выполняется строгое неравенство $2^d > 2d(d-1) - 2$.
+База индукции ($d=6$): $2^6 = 64 > 58 = 2\cdot 6\cdot 5 - 2$.
+Индуктивный переход ($d\to d+1$ при $d\ge 6$): пусть $2^d > 2d(d-1) - 2$. Умножая на $2$, получаем $2^{d+1} > 4d(d-1) - 4$.
+Разность между $4d(d-1) - 4$ и $2(d+1)d - 2 = 2d^2 + 2d - 2$ равна
+\[
+  (4d^2 - 4d - 4) - (2d^2 + 2d - 2) \;=\; 2d^2 - 6d - 2 \;=\; 2d(d-3) - 2 \;\ge\; 12\cdot 3 - 2 \;=\; 34 \;>\; 0,
+\]
+откуда $2^{d+1} > 2(d+1)d - 2$. Таким образом, для всех $d\ge 6$ левая часть $2^d(2d(d-1)-2-2^d) < 0$, тогда как правая часть $4(d-1)^2 > 0$.
+Следовательно, $d=3$ есть единственное решение~\eqref{eq:gaussian-coulomb-lock} во всём~$\mathbb{N}$.
 
-\emph{(iii)} Уравнение~\eqref{eq:gaussian-coulomb-lock} приводится к виду $2^d\bigl(2d(d-1) - 2 - 2^d\bigr) = 4(d-1)^2$.
-Величина $2d(d-1) - 2 - 2^d$ отрицательна при $d\in\{1,2\}$ ($-4$ и $-2$), равна $+2>0$ при $d=3$ (давая $8\times 2 = 16 = 4(3-1)^2$, откуда $1+12\cdot 8 = 97 = 4^2+9^2$)
-и вновь отрицательна при $d=5$ ($38-32=6$, но $32\times 6 = 192 \ne 64$) и всех $d\ge 6$, где $2^d > 2d(d-1)-2$.
-Таким образом, $d=3$ --- единственное решение.
+\emph{(ii)} Запишем отношение~\eqref{eq:heisenberg-divisibility-lock} в виде
+\[
+  \Delta\varphi_{\mathrm{disc}}(d) \;=\; 1 + \frac{2^d\bigl(2^{2^d - d + 1} + 1\bigr)}{1 + 2d(d-1)}.
+\]
+При единственном корне $d=3$ уравнений~\eqref{eq:catalan-lock} и~\eqref{eq:gaussian-coulomb-lock} имеем $2^d - d + 1 = 8 - 3 + 1 = 6$,
+$2^6 + 1 = 65 = 5\times 13$ и $N_\varphi(3) = 1 + 2\cdot 3\cdot 2 = 13$, откуда
+\[
+  \Delta\varphi_{\mathrm{disc}}(3) \;=\; 1 + \frac{8\times 65}{13} \;=\; 1 + 40 \;=\; 41 \;\in\; \mathbb{Z}.
+\]
+Таким образом, $d=3$ --- единственное решение системы~\eqref{eq:catalan-lock}--\eqref{eq:gaussian-coulomb-lock} в~$\mathbb{N}$.
 \end{proof}
 
 \begin{remark}[Откуда берётся $2\pi$ в $\planckHbar = h/(2\pi)$ и что такое само число $\pi$ на решётке]
@@ -614,9 +654,9 @@ $\planckHbar := h/(2\pi) = (512/(2\pi))\,s_0 \approx 81{,}487\,s_0$ (и $\planck
 к двум секторам Гейзенберга $2\Delta\varphi_{\mathrm{disc}}=82$ есть рациональная дробь $\pi_1 = Q_\square/\Delta\varphi_{\mathrm{disc}} = 128/41 \approx 3{,}122$).
 Трансцендентное число~$\pi$ рождается при подъёме $\Mlayer\to\Tlayer$ как \textbf{асимптотическая комбинаторная плотность
 возврата замкнутых путей} на дискретной решётке при числе шагов $N\to\infty$ (формула Валлиса--Стирлинга для числа
-возвращающихся петель $\binom{2N}{N}$ из $2^{2N}$ битовых маршрутов, \cref{thm:t-cl}):
+возвращающихся петель $\binom{2N}{N} \sim 2^{2N}/\sqrt{\pi N}$ из $2^{2N}$ битовых маршрутов, \cref{thm:t-cl}):
 \[
-  \pi \;=\; \lim_{N\to\infty} N\cdot\left(\frac{2^{2N}}{\dbinom{2N}{N}}\right)^{\!2}
+  \pi \;=\; \lim_{N\to\infty} \frac{1}{N}\left(\frac{2^{2N}}{\dbinom{2N}{N}}\right)^{\!2}
   \;=\; 2\prod_{k=1}^{\infty}\frac{4k^2}{4k^2-1}.
 \]
 Каждый следующий знак числа~$\pi$ кодирует следующий порядок комбинаторных корреляций многошаговых замкнутых
