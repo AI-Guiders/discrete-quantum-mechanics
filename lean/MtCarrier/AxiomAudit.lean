@@ -101,5 +101,6 @@ namespace MtCarrier.Audit
 #print axioms MtCarrier.inverse_phenotype_to_genome_compiler_operator
 #print axioms MtCarrier.planetogenesis_all_planetary_cores_and_mantle_invariants_operator
 #print axioms MtCarrier.cross_floor_shell_closure_isomorphism_operator
+#print axioms MtCarrier.generative_biometal_discovery_and_multi_regime_allometry_operator
 
 end MtCarrier.Audit

@@ -637,6 +637,31 @@ II (ядро $1$) & \texttt{Stop} & \texttt{UAA,UAG,UGA} (3) & --- & освоб�
   \end{aligned}
   \end{equation}
   а мутационный оператор $\mathrm{envDrivenBaseMutationOp}(d,\cdot,\Phi_{\mathrm{env}})$ в каждом режиме сатурации $\Phi_{\mathrm{env}}\in\{0,\Delta\varphi_{\mathrm{disc}}(d),Q_\square(d)\}$ и эпигенетический оператор дезаминирования $\mathrm{deaminateFirstBaseStemOp}$ являются собственными аналитическими обратными отображениями (точными инволюциями).
+\item \textbf{Генеративный вывод биометаллов дыхания, фотосинтеза и транскрипции самим носителем и многорежимный оператор аллометрии и долголетия по классам животных (\texttt{generative\_biometal\_discovery\_and\_multi\_regime\_allometry\_operator}):}
+  заряд тетрапиррольной клетки из $d_{\mathrm{in}}(\square)$ атомов азота совпадает с первым высшим ядерным магическим замыканием ($\mathrm{tetrapyrroleCageChargeOp}(d) = \mathrm{nuclearMagicHighOp}(d,d_{\mathrm{in}}(\square))$), а заряд гексагистидиновой клетки из $|\square(d)|$ атомов азота совпадает со второй координационной сферой кубооктаэдра ($\mathrm{hexahistidineCageChargeOp}(d) = \mathrm{cuboctShellSizeOp}(d,\mathrm{c0OverCSqOp}(d))$). При этом генеративный оператор $\mathrm{discoverBioMetalInCageOp}(\mathrm{maxZ},\mathrm{cage},\mathrm{ligand},\mathrm{targetShell})$, перебирающий элементы $Z_M\in [0,K_P(d))$ без внешней подсказки, однозначно выделяет шесть фундаментальных биометаллов по условию замыкания оболочек носителя:
+  \begin{equation}
+  \label{eq:generative-biometal-discovery}
+  \begin{aligned}
+    \mathrm{discoverBioMetalInCageOp}\bigl(K_P(d),\,\mathrm{tetrapyrroleCageChargeOp}(d),\,0,\,\Delta\varphi_{\mathrm{disc}}(d)-\mu_{\mathrm{vac}}(d)\bigr) &= \bigl[\mathrm{zMagnesiumOp}(d)\bigr],\\
+    \mathrm{discoverBioMetalInCageOp}\bigl(K_P(d),\,\mathrm{tetrapyrroleCageChargeOp}(d),\,0,\,\mathrm{cuboctBall2Op}(d)\bigr) &= \bigl[d^d\bigr],\\
+    \mathrm{discoverBioMetalInCageOp}\bigl(K_P(d),\,\mathrm{tetrapyrroleCageChargeOp}(d),\,0,\,\mathrm{c0OverCSqOp}(d)\cdot\mathrm{nuclearMagicHighOp}(d,d_{\mathrm{in}}(\square))\bigr) &= \bigl[\mathrm{zNickelOp}(d)\bigr],\\
+    \mathrm{discoverBioMetalInCageOp}\bigl(K_P(d),\,\mathrm{tetrapyrroleCageChargeOp}(d),\,\mathrm{c0OverCSqOp}(d)\cdot\mathrm{zOxygenOp}(d),\,K_P(d)+|\square(d)|\bigr) &= \bigl[\mathrm{zIronOp}(d)\bigr],\\
+    \mathrm{discoverBioMetalInCageOp}\bigl(K_P(d),\,\mathrm{zSulfurOp}(d),\,0,\,\mathrm{cuboctShellSizeOp}(d,\mathrm{c0OverCSqOp}(d))\bigr) &= \bigl[\mathrm{zIronOp}(d)\bigr],\\
+    \mathrm{discoverBioMetalInCageOp}\bigl(K_P(d),\,\mathrm{c0OverCSqOp}(d)\cdot\mathrm{zSulfurOp}(d),\,\mathrm{c0OverCSqOp}(d)\cdot\mathrm{zNitrogenOp}(d),\,K_P(d)+|N(d)|\bigr) &= \bigl[d\cdot\mathrm{zNeonOp}(d)\bigr],
+  \end{aligned}
+  \end{equation}
+  а оператор метаболической аллометрии $\mathrm{allometryExponentRatioOp}(d,k) = \mathrm{reducedRatio}(k-\mu_{\mathrm{vac}}(d),k)$ по рангу циркуляторного канала $k\in\{d,\,d_{\mathrm{in}}(\square),\,d_{\mathrm{out}}(E)(d)\}$ и оператор кортикально-репарационного ресурса жизненных циклов $\mathrm{corticalLongevityMultiplierOp}(d,\sigma_{\mathrm{axis}},\sigma_{\mathrm{Ig}},\Phi_{\mathrm{env}})$ дают точное разделение по классам животных:
+  \[
+    \mathrm{allometryExponentRatioOp}(d,d) = \bigl(\mathrm{c0OverCSqOp}(d),d\bigr),\qquad
+    \mathrm{allometryExponentRatioOp}\bigl(d,d_{\mathrm{in}}(\square)\bigr) = \bigl(d,d_{\mathrm{in}}(\square)\bigr),
+  \]
+  \[
+    \mathrm{allometryExponentRatioOp}\bigl(d,d_{\mathrm{out}}(E)(d)\bigr) = \bigl(d_{\mathrm{in}}(\square),d_{\mathrm{out}}(E)(d)\bigr),
+  \]
+  \[
+    \mathrm{corticalLongevityMultiplierOp}\bigl(d,\mu_{\mathrm{vac}}(d),0,0\bigr) = \mu_{\mathrm{vac}}(d),\qquad
+    \mathrm{corticalLongevityMultiplierOp}\bigl(d,\mu_{\mathrm{vac}}(d),\mu_{\mathrm{vac}}(d),0\bigr) = d.
+  \]
 \end{enumerate}
 \end{theorem}
 
