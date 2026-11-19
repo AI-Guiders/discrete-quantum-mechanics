@@ -2677,6 +2677,15 @@ theorem complete_quantization_of_phase_space_and_all_observables_operator
   refine ⟨by decide, by native_decide, by decide, ⟨hE.1, ?_⟩, by native_decide, by decide, ⟨hD, by decide⟩⟩
   have h0 := hE.2
   dsimp [muVac, ivSeed, phiPauli, nRing, modBits, nTriangles]
-  omega
+  constructor
+  · intro hne
+    generalize hk : energyQuantumOperator 3 (gatePhaseOp 3 mu sumMu zr zi) = k at h0
+    cases k with
+    | zero => exact False.elim (hne (h0.mp rfl))
+    | succ m => exact Nat.succ_le_succ (Nat.zero_le m)
+  · intro hge hzero
+    have hk0 : energyQuantumOperator 3 (gatePhaseOp 3 mu sumMu zr zi) = 0 := h0.mpr hzero
+    rw [hk0] at hge
+    exact Nat.not_succ_le_zero 0 hge
 
 end MtCarrier
