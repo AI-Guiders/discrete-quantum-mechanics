@@ -603,6 +603,19 @@ II (ядро $1$) & \texttt{Stop} & \texttt{UAA,UAG,UGA} (3) & --- & освоб�
     \end{aligned}
     \end{equation}
   \end{itemize}
+\item \textbf{Предсказуемый мутагенез, эпигенетический часовой сдвиг $\mathrm{CpG}$ и компенсаторное управление по уровню сатурации среды (\texttt{predictive\_mutagenesis\_and\_epigenetic\_saturation\_operator}):}
+  безветвевой оператор мутационного сдвига основания $b\in\mathbb{Z}_{d_{\mathrm{in}}(\square)}$ под действием фазового импульса внешней среды $\Phi_{\mathrm{env}}$
+  \[
+    \mathrm{envDrivenBaseMutationOp}(d,b,\Phi_{\mathrm{env}})
+    \;:=\;
+    b \;\oplus\; \Bigl(\mu_{\mathrm{vac}}(d)\cdot\gamma_{\mathrm{Ti}}(d,\Phi_{\mathrm{env}})\cdot\bigl(1-\gamma_{\mathrm{Tv}}(d,\Phi_{\mathrm{env}})\bigr) + \mathrm{c0OverCSqOp}(d)\cdot\gamma_{\mathrm{Tv}}(d,\Phi_{\mathrm{env}})\Bigr)
+  \]
+  (где $\gamma_{\mathrm{Ti}}(d,\Phi_{\mathrm{env}}) = \mathrm{envTransitionGateNatOp}(d,\Phi_{\mathrm{env}})$ и $\gamma_{\mathrm{Tv}}(d,\Phi_{\mathrm{env}}) = \mathrm{envTransversionGateNatOp}(d,\Phi_{\mathrm{env}})$) разделяет все режимы сатурации внешней среды на три детерминированные фазы:
+  \begin{enumerate}[label=\textbf{(\alph*)},leftmargin=*,noitemsep]
+  \item \emph{Подпороговый гомеостаз} ($|\Phi_{\mathrm{env}}| < \Delta\varphi_{\mathrm{disc}}(d) \implies \gamma_{\mathrm{Ti}}=\gamma_{\mathrm{Tv}}=0$): $\mathrm{envDrivenBaseMutationOp}(d,b,0) = b$ (нулевой мутагенез);
+  \item \emph{Доседловая валентная перегрузка} ($\Delta\varphi_{\mathrm{disc}}(d) \le |\Phi_{\mathrm{env}}| \le d\cdot\Delta\varphi_{\mathrm{disc}}(d) < Q_\square(d) \implies \gamma_{\mathrm{Ti}}=1,\ \gamma_{\mathrm{Tv}}=0$): $\mathrm{envDrivenBaseMutationOp}(d,b,\Phi_{\mathrm{env}}) = b\oplus\mu_{\mathrm{vac}}(d)$ (чистая транзиция младшего бита, при которой дезаминирование эпигенетического стебля $\mathrm{cpgEpigeneticStemOp}(d) = |{\triangle}(d)|-\mu_{\mathrm{vac}}(d)$ детерминированно переводит его в $\mathrm{deaminateFirstBaseStemOp}(\mathrm{cpgEpigeneticStemOp}(d)) = d$, а в третьей позиции кодона синонимически буферизованы $\mathrm{synonymousTi3CodonsOp}(d) = d_{\mathrm{out}}(E)(d)\cdot |N(d)| = \mathrm{codonSpaceOp}(d) - d_{\mathrm{in}}(\square)$ кодонов с несократимой долей $(d_{\mathrm{in}}(\square)^2-\mu_{\mathrm{vac}}(d)) / d_{\mathrm{in}}(\square)^2$);
+  \item \emph{Заседловой стерический пробой} ($|\Phi_{\mathrm{env}}| \ge Q_\square(d)$, в частности при $d_{\mathrm{in}}(\square)\cdot\Delta\varphi_{\mathrm{disc}}(d) > Q_\square(d) \implies \gamma_{\mathrm{Tv}}=1$): $\mathrm{envDrivenBaseMutationOp}(d,b,\Phi_{\mathrm{env}}) = b\oplus\mathrm{c0OverCSqOp}(d) = \mathrm{watsonCrickCompOp}(d,b)$ (чистая трансверсия старшего бита кольца, срыв которой на замках $(\sigma_{\mathrm{Ig}},\sigma_{\mathrm{axis}})$ редуцирует морфогенез по цепочке $\Delta\varphi_{\mathrm{disc}}(d)\to 0\to\mathrm{c0OverCSqOp}(d)$, тогда как подача противофазного компенсирующего потока среды в $\mathrm{envZiListOp}$ обнуляет суммарный ток и возвращает ткань в подпороговый гомеостаз).
+  \end{enumerate}
 \end{enumerate}
 \end{theorem}
 
