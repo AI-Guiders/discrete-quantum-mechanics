@@ -108,5 +108,6 @@ namespace MtCarrier.Audit
 #print axioms MtCarrier.generative_periodic_table_feynman_core_limits_and_end_to_end_dna_genesis
 #print axioms MtCarrier.encapsulated_automaton_input_output_theorem
 #print axioms MtCarrier.superheavy_synthesis_recipes_and_uranium_shell_transfer_to_island_184
+#print axioms MtCarrier.post_island_cavitated_hypernuclei_neutron_pasta_and_nonsingular_black_hole_core
 
 end MtCarrier.Audit
