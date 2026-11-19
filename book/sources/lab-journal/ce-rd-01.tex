@@ -1,0 +1,62 @@
+\label{exp:cerd01}
+
+\subsubsection*{Постановка}
+\textbf{Физический вопрос.}
+Во сколько раз когерентная противофазная накачка $12$ вершин кубооктаэдра~$O_2$ во втором квадранте фазового кольца ($139 \le |A_{xy}| \le 256$, $C(A_{xy}) \le -11$) снижает реактивный знаменатель барьера $D(x) = \zeta_{\mathrm{real}}(x) + 128\mu(x)^2 + \varepsilon$ по сравнению с некогерентным тепловым режимом ($|A_{xy}| \le 41$, $C(A_{xy}) \ge +87$), и разрушается ли рождение вихревой пары на такте $t=2$ при отключении защитного пола $D \le 0 \mapsto \varepsilon = 8\,192$?
+
+\textbf{Что проверяем.}
+\begin{enumerate}[label=\textbf{(\alph*)},leftmargin=*,itemsep=0.25em]
+\item Точные целочисленные значения импеданса $D_{\mathrm{thermal}}(13) = 206\,260$, $D_{\mathrm{thermal}}(64) = 4\,808\,704$ и $D_{\max}(64) = 6\,823\,936$ в первом квадранте (\texttt{coherent\_\allowbreak cuboctahedron\_\allowbreak barrier\_\allowbreak collapse\_\allowbreak 587x}).
+\item Схлопывание знаменателя $D_{\mathrm{coherent}}(64) = \varepsilon = 8\,192$ при $|A_{xy}| = 139$ ($C(139) = -11$, $D_{\mathrm{raw}} = -8\,192 \le 0$) и отношения барьеров $25\times$, $587\times$ и $833\times$.
+\item Реальное срабатывание порога $D_{\mathrm{raw}} = -113\,826 \le 0 \mapsto D = 8\,192$ в узле $(-2,-1,-1)$ на такте $t=1$ эволюции $\mathrm{IV}(3)=263$ (\texttt{ablation\_\allowbreak no\_\allowbreak denom\_\allowbreak guard\_\allowbreak corrupts\_\allowbreak t2\_\allowbreak vortex\_\allowbreak pair}).
+\end{enumerate}
+
+\textbf{Рабочая гипотеза.}
+Когерентная противофазная накачка по $12$ направлениям кубооктаэдра снижает знаменатель барьера ровно в $25$ раз при $\mu=13$ и в $587$ раз при $\mu=64$ ($833$ раза относительно синфазного потолка), а снятие защитного пола $D>0$ роняет число рождённых $xy$-вихрей на $t=2$ с $26$ до $24$.
+
+\textbf{Наблюдаемые.}
+Знаменатели $D_{\mathrm{thermal}}(\mu)$, $D_{\mathrm{coherent}}(\mu)$, коэффициенты редукции барьера $K_{13}, K_{64}, K_{\max}$ и число рождённых $xy$-вихрей $N_{xy}(t=2)$ (табл.~\ref{tab:exp-ce-rd-01}).
+
+\textbf{Критерий согласия с теорией.}
+Точные целочисленные равенства $K_{13} = 25$, $K_{64} = 587$, $K_{\max} = 833$ и $N_{xy}(t=2) = 26$ (тип~B, машинная верификация в Lean~4).
+
+\subsubsection*{Теоретическая часть}
+По теореме~\ref{thm:applied-barrier-collapse} при $|A_{xy}| = 139$ тиков проекция грани равна $C(139) = 128 - 139 = -11$, так что сумма по $12$ соседям кубооктаэдра $\zeta_{\mathrm{real}} = -132\mu^2$ компенсирует собственный барьер $+128\mu^2$, переводя знаменатель~$D$ на вакуумный пол $\varepsilon = 8\,192$.
+
+\textbf{Проверка размерностей.}
+В естественных единицах ядра~$\Mlayer$ амплитуда $\mu\in\{1,\dots,64\}$ измеряется в квантах, проекция грани $C(A)\in[-128,128]$ --- в долях $Q_\square=128$, а все слагаемые знаменателя~$D$ ($\zeta_{\mathrm{real}}$, $128\mu^2$ и $\varepsilon = 64\times 128 = 8\,192$) имеют единую размерность $\mathrm{кванты}^2\cdot Q_\square$, поэтому отношение $K = D_{\mathrm{thermal}}/D_{\mathrm{coherent}}$ строго безразмерно ($[K] = 1$).
+
+\subsubsection*{Ход эксперимента}
+{\sloppy Воспроизведение: \texttt{lake build} в \texttt{lean/} (\texttt{UnifiedOperators.lean}, \texttt{TrajectoryIV263.lean}) и \texttt{python verify\_principles.py --suite m\_axioms}.\par}
+
+\begin{enumerate}[label=\textbf{Шаг \arabic*:},leftmargin=*,itemsep=0.35em]
+\item Вычислить в целочисленной арифметике $D_{\mathrm{thermal}}(\mu)$ при $|A_{xy}|=41$ и $D_{\mathrm{coherent}}(\mu)$ при $|A_{xy}|=139$ для $\mu\in\{13, 64\}$.
+\item Проверить срабатывание условия $D_{\mathrm{raw}} \le 0 \mapsto \varepsilon = 8\,192$ на такте $t=1$ траектории $g^t(\mathrm{IV}(3)=263)$ в узле $(-2,-1,-1)$.
+\item Сравнить полный 3D-ценз вихревых плакетов при $t=2$ с защитным полом $D>0$ и при его отключении.
+\end{enumerate}
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\caption{Верификация когерентного схлопывания барьера кубооктаэдра (CE-RD-01)}
+\label{tab:exp-ce-rd-01}
+\begin{tabular}{@{}llrrr@{}}
+\toprule
+Гейт / Наблюдаемое & Теоретическая формула & Значение (Lean 4 / Python) & Допуск & Статус \\
+\midrule
+Тепловой барьер $D_{\mathrm{thermal}}(13)$ & $1172\cdot 13^2 + 8192$ & $206\,260$ & $0$ & PASS \\
+Тепловой барьер $D_{\mathrm{thermal}}(64)$ & $1172\cdot 64^2 + 8192$ & $4\,808\,704$ & $0$ & PASS \\
+Когерентный пол $D_{\mathrm{coherent}}(64)$ & $|A|=139 \implies \varepsilon$ & $8\,192$ & $0$ & PASS \\
+Выигрыш барьера $(K_{13}, K_{64}, K_{\max})$ & $\lfloor D / 8192\rfloor$ & $(25\times,\ 587\times,\ 833\times)$ & $0$ & PASS \\
+Абляция защиты $D>0$ на $t=1\to 2$ & $N_{xy}(2)\colon 26 \to 24$ & $D_{\mathrm{raw}}=-113\,826,\ 26\ne 24$ & $0$ & PASS \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection*{Анализ, расчёт погрешности и выводы}
+Все вычисления выполнены в точной целочисленной арифметике $\mathbb{Z}$ без погрешности округления ($\Delta = 0$, тип~B) и проверены ядром Lean~4 без использования аксиом (`does not depend on any axioms`).
+
+\textbf{Вывод.}
+Перевод $12$ лучей кубооктаэдра во второй квадрант фазового кольца ($|A_{xy}|\ge 139$ тиков) компенсирует собственный барьер узла $+128\mu^2$ отрицательной продольной голономией $\zeta_{\mathrm{real}}\le -132\mu^2$ и снижает порог топологического пробоя ветви Паули в $25\text{--}587$ раз без теплового разогрева числителя.
+\textbf{Статус записи:} опыт закрыт по табл.~\ref{tab:exp-ce-rd-01}.

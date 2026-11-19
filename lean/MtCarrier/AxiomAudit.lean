@@ -85,5 +85,6 @@ namespace MtCarrier.Audit
 #print axioms MtCarrier.energy_operator_spectrum_0_to_6_squares
 #print axioms MtCarrier.alpha_fs_exact_z_sqrt2_canonical_form_and_floor_137
 #print axioms MtCarrier.sm_and_cosmology_closed_rational_operators
+#print axioms MtCarrier.coherent_cuboctahedron_barrier_collapse_587x
 
 end MtCarrier.Audit

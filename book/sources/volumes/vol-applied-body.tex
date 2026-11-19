@@ -1,0 +1,256 @@
+% applied — том «Прикладная механика кубооктаэдра и фазовые технологии (R&D)» (book/SERIES.md)
+\part{Прикладная механика кубооктаэдра, фазовое согласование импеданса и голономные технологии}
+
+\chapter{Масштабная инвариантность кубооктаэдра \texorpdfstring{$O_2$}{O\_2}: что физически разрешено и что запрещено законами сохранения}
+\label{ch:applied-scale-invariance-and-bounds}
+
+В томе «Построение» (\bcref{thm:catalan-uniqueness-d3}) было строго установлено и машинно проверено в системе доказательства теорем \textbf{Lean~4} (\texttt{lean/MtCarrier/}, $65$ теорем с нулём аксиом \texttt{sorry}), что уравнение Каталана $1 + 2^d = d^2$ однозначно фиксирует размерность пространства $d = 3$, а три диофантовых замка (делимость Гейзенберга $(1+z)\mid(520+1+z)$, гауссова кулоновская норма $1+8z = 4^2+9^2 = 97$ и замок булеана звезды $2^z = K_P^2 = 4096$) среди всех семи непустых $O_h$-изотропных оболочек в элементарном кубе смещений $\{-1,0,+1\}^3\setminus\{0\}$ однозначно выбирают чистый \textbf{кубооктаэдр гранецентрированной кубической решётки} (\latGCKshort):
+\begin{equation}
+\label{eq:applied-cuboctahedron-shell}
+  O_2 \;=\; \bigl\{e = (e_z, e_y, e_x)\in\{-1,0,+1\}^3 : |e_z| + |e_y| + |e_x| = 2\bigr\},
+  \qquad |O_2| = 12,\quad -O_2 = O_2.
+\end{equation}
+
+Всякое прикладное и инженерное применение замкнутой теории обязано начинаться с двух вопросов:
+\begin{enumerate}[nosep,leftmargin=*]
+\item \emph{Почему геометрия кубооктаэдра~$O_2$, выведенная на планковском шаге~$dh$, воспроизводится на атомном, лабораторном и геофизическом масштабах $L = N\,dh$?}
+\item \emph{Где проходит точная математическая граница между запрещёнными процессами («вечными двигателями», нарушающими законы сохранения) и разрешёнными параметрическими режимами, недоступными в классических тепловых установках?}
+\end{enumerate}
+
+\section{Теорема масштабного самоподобия кубооктаэдра от планковской ячейки до макрорезонатора}
+\label{sec:applied-self-similarity}
+
+Ключевое свойство корневой решётки $D_3 = \{(z,y,x)\in\mathbb{Z}^3 : (z+y+x)\bmod 2 = 0\}$ и её первой координационной оболочки~$O_2$ состоит в том, что под действием биномиального оператора макроприбора~$\mathcal{B}_N$ (усреднения по путям длины $2N$ на~$O_2$) тензорная структура операторов переноса и волнового оператора остаётся инвариантной на любом масштабе $L = N\,dh$.
+
+\begin{theorem}[Масштабная инвариантность изотропного лапласиана $\Delta_{O_2(L)}$ и четырёхканального измерения $\mathcal{M}(x,t,N)$]
+\label{thm:applied-scale-invariance}
+Пусть $O_2(L) := L\cdot O_2 = \{L\,e : e\in O_2\}$ --- масштабированная кубооктаэдральная оболочка с шагом $L = N\,dh$ ($N\ge 1$). Тогда на любом масштабе~$L$ выполняются три точных операторных свойства (\texttt{UnifiedOperators.lean}):
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Инвариантность тензора второго момента и ППН-тензора (\texttt{cuboctahedron\_\allowbreak second\_\allowbreak moment\_\allowbreak isotropy\_\allowbreak tensor}):}
+  для всех $e\in O_2(L)$ квадрат длины ребра равен $\|e\|_2^2 = 2L^2$, матрица вторых моментов строго диагональна и изотропна:
+  \begin{equation}
+  \label{eq:applied-second-moment-L}
+    \sum_{e\in O_2(L)} e_i\,e_j \;=\; 8L^2\,\delta_{ij} \;=\; |\triangle(3)|\,L^2\,\delta_{ij},
+    \qquad
+    \sum_{e\in O_2(L)} \frac{e_i\,e_j}{\|e\|_2^2} \;=\; 4\,\delta_{ij} \;=\; d_{\mathrm{in}}(\square)\,\delta_{ij},
+  \end{equation}
+  а дискретный лапласиан $(\Delta_{O_2(L)} f)(x) = \sum_{e\in O_2(L)}(f(x+e)-f(x))$ на любом трёхмерном квадратичном поле $f(z,y,x) = ax^2+by^2+cz^2+dxy+exz+gyz+px+qy+rz+u$ тождественно аннулирует все перекрёстные члены $xy,xz,yz$ и возвращает $8L^2(a+b+c)$ (\texttt{laplacian\_\allowbreak O2\_\allowbreak exact\_\allowbreak on\_\allowbreak quadratic\_\allowbreak polynomial}).
+\item \textbf{Точное сохранение калибровочных и топологических законов на любом окне прибора $N\ge 1$ (\texttt{HolonomyMaxwell.lean}):}
+  под действием биномиального окна прибора $\mathcal{B}_N$ квантование плакетного потока $(d_1\mathcal{B}_N[A])_f = 512\,\mathcal{B}_N[n_f]$ (\texttt{instrument\_\allowbreak convolution\_\allowbreak plaquette\_\allowbreak flux\_\allowbreak exact}), закон отсутствия изолированных монополей $\operatorname{div}_{\mathrm{cube}}\mathcal{B}_N[n_f] \equiv 0$ (\texttt{instrument\_\allowbreak convolution\_\allowbreak gauss\_\allowbreak monopole\_\allowbreak free\_\allowbreak exact}) и закон индукции Фарадея $\Delta_t B_f^{(N)} + (d_1 E^{(N)})_f \equiv 0$ (\texttt{instrument\_\allowbreak convolution\_\allowbreak faraday\_\allowbreak law\_\allowbreak exact}) выполняются с нулевой погрешностью при любом конечном~$N\ge 1$.
+\item \textbf{Иерархия физических реализаций кубооктаэдра $O_2(L)$:}
+  поскольку свободная энергия Гинзбурга--Ландау--Бома достигает минимума на изотропной оболочке~\eqref{eq:applied-second-moment-L}, одна и та же $12$-вершинная геометрия~$O_2(L)$ реализуется на четырёх макроскопических этажах:
+  \begin{itemize}[nosep,leftmargin=*]
+  \item \emph{Кристаллический этаж ($L \sim 2{,}5\text{--}4\ \text{\AA}$, $N\sim 10^{25}$):} атомные ГЦК-решётки переходных и благородных металлов ($\mathrm{Ni},\ \mathrm{Pd},\ \mathrm{Pt},\ \mathrm{Cu},\ \mathrm{Ag},\ \mathrm{Au},\ \mathrm{Al},\ \gamma\text{-}\mathrm{Fe}$), в которых каждый узел окружён $12$ ближайшими соседями по вершинам кубооктаэдра;
+  \item \emph{Мезоскопический и кавитационный этаж ($L \sim 1\ \text{мкм}\text{--}1\ \text{мм}$, $N\sim 10^{29}\text{--}10^{32}$):} стоячие акустические и плазмонные моды в сферических и додекаэдральных микрополостях;
+  \item \emph{Лабораторный резонаторный этаж ($L \sim 1\ \text{см}\text{--}1\ \text{м}$, $N\sim 10^{33}\text{--}10^{35}$):} $12$-лучевые фазированные акустико-электромагнитные концентраторы с расположением излучателей в вершинах~$O_2(L)$;
+  \item \emph{Планетарный геофизический этаж ($L \sim 10^3\text{--}10^4\ \text{км}$, $N\sim 10^{41}\text{--}10^{42}$):} внутреннее $\mathrm{Fe}\text{-}\mathrm{Ni}$ ядро и мантия планет земной группы.
+  \end{itemize}
+\end{enumerate}
+\end{theorem}
+
+\section{Жёсткая демаркация: что запрещено законами сохранения, а что разрешено}
+\label{sec:applied-permitted-vs-forbidden}
+
+Всякая инженерная программа, опирающаяся на дискретную модель носителя, должна прежде всего провести строгую границу между невозможным и возможным:
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\caption{Демаркация запрещённых и разрешённых процессов в целочисленной механике кубооктаэдра}
+\label{tab:applied-demarcation}
+\begin{tabular}{@{}p{0.28\linewidth}p{0.33\linewidth}p{0.33\linewidth}@{}}
+\toprule
+Физический вопрос & Что строго запрещено (и почему) & Что строго разрешено (и какой теоремой доказано) \\
+\midrule
+Рождение энергии «из ничего» / нарушение нормы & Изменение полной квадратичной нормы ячейки $\mu_0^2+\mu_1^2$ при свободном шаге (\texttt{polar\_\allowbreak step\_\allowbreak uniqueness\_\allowbreak from\_\allowbreak a3\_\allowbreak a4\_\allowbreak a5}: $\mu_c'=\mu_c$) & Перевод запаса фазовой связности $B_f = 512\,n_f$ в излучение $A_e$ при парной перестройке или аннигиляции вихрей $(+1,-1)\to(0,0)$ (\texttt{shared\_\allowbreak edge\_\allowbreak charge\_\allowbreak conservation}) \\
+\addlinespace
+Рождение одиночного топологического/магнитного заряда & Появление изолированного монополя $\sum_{f\in\partial c} n_f \ne 0$ (\texttt{discrete\_\allowbreak gauss\_\allowbreak cube\_\allowbreak divergence\_\allowbreak zero}: $\operatorname{div}_{\mathrm{cube}} n_f \equiv 0$) & Рождение замкнутых нейтральных петель и диполей $(+1,-1)$ или трёхгранных узлов $K_3$ $(+1,+1,-2)$ при переходе ребра через $|A_e|=256$ \\
+\addlinespace
+Преодоление кулоновского/упругого барьера слияния вихрей & Беспороговое слияние при закрытом затворе Гейзенберга $|\Phi|<41$ (\texttt{a6\_\allowbreak a8\_\allowbreak gate\_\allowbreak pauli\_\allowbreak ceiling\_\allowbreak 256\_\allowbreak and\_\allowbreak heisenberg\_\allowbreak deadband\_\allowbreak 41}) & Когерентное снижение знаменателя барьера $D(x) = \zeta_{\mathrm{real}}+128\mu^2+8192$ в $25\text{--}587$ раз до пола $\varepsilon=8192$ при противофазной накачке $12$ лучей~$O_2$ (\texttt{coherent\_\allowbreak cuboctahedron\_\allowbreak barrier\_\allowbreak collapse\_\allowbreak 587x}) \\
+\addlinespace
+Предсказание локальной геологии без краевых замеров & Вычисление текущих координат залежей из одного $t=0$ без датчиков (неизвестен $60$-значный планковский адрес и пройдено дерево ветвей Паули) & Замкнутая $4$-канальная голономная томография профиля импеданса $D(y)$ внутри объёма по краевому отклику $\mathcal{M}(x,t,N)$ (\texttt{closed\_\allowbreak form\_\allowbreak unified\_\allowbreak 4channel\_\allowbreak measurement\_\allowbreak iv263\_\allowbreak t2}) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\chapter{Когерентное схлопывание импеданса барьера в 12-лучевом кубооктаэдре: решёточный синтез против теплового нагрева}
+\label{ch:applied-coherent-barrier-collapse}
+
+Рассмотрим фундаментальное уравнение фазовых ворот~\latGCKshort\ (\texttt{evalGateFromHolonomy} в \texttt{TrajectoryIV263.lean}):
+\begin{equation}
+\label{eq:applied-gate-law}
+  \Phi(x,t) \;=\; \mathrm{wrap}_{512}\!\left(\left\lfloor \frac{64\,\bigl(\zeta_{\mathrm{imag}}(x) + \operatorname{sgn}(\zeta_{\mathrm{imag}}(x))\,\delta\zeta_{\mathrm{real}}(x)\bigr)}{D(x)} \right\rfloor\right),
+\end{equation}
+где числитель управляется нечётным током переноса $\zeta_{\mathrm{imag}}(x) = \mu(x)\sum_{y\in N_{12}(x)}\mu(y)\,S(A_{xy})$ и чётным дефицитом Бома $\delta\zeta_{\mathrm{real}}(x) = \mu(x)\sum_{y\in N_{12}(x)}\mu(y)\,|A_{xy}| \ge 0$ (\texttt{even\_\allowbreak holonomy\_\allowbreak bohm\_\allowbreak deficit\_\allowbreak eq\_\allowbreak abs\_\allowbreak connection}), а знаменатель~$D(x)$ представляет собой реактивный импеданс (барьер жёсткости) узла:
+\begin{equation}
+\label{eq:applied-denominator-impedance}
+  D_{\mathrm{raw}}(x) \;=\; \zeta_{\mathrm{real}}(x) + 128\,\mu(x)^2 + \varepsilon,
+  \qquad
+  D(x) \;=\; \begin{cases}
+    D_{\mathrm{raw}}(x), & \text{если } D_{\mathrm{raw}}(x) > 0,\\
+    \varepsilon = 8\,192, & \text{если } D_{\mathrm{raw}}(x) \le 0,
+  \end{cases}
+\end{equation}
+где $\zeta_{\mathrm{real}}(x) = \mu(x)\sum_{y\in N_{12}(x)}\mu(y)\,C(A_{xy}) = \mu(x)\sum_{y\in N_{12}(x)}\mu(y)\,\bigl(128 - |A_{xy}|\bigr)$.
+
+Для того чтобы в узле~$x$ произошла топологическая перестройка (слияние двух вихревых ядер или рождение новой связанной пары через разрез ветви Паули $|A_{xy}| = 256$), фазовый удар ворот~$\Phi(x,t)$ должен преодолеть порог Гейзенберга $|\Phi| \ge 41$ и вывести разность фаз на ребре за предел полуоборота Паули $\Phi_{\mathrm{Pauli}} = 256$ тиков.
+
+Из структуры дроби~\eqref{eq:applied-gate-law} непосредственно видно, что существует \textbf{два физически противоположных способа} достичь $|\Phi| \sim 256$:
+
+\section{Тепловой (некогерентный) режим против когерентного противофазного режима второго квадранта}
+\label{sec:applied-thermal-vs-coherent}
+
+\begin{theorem}[Когерентное схлопывание барьера кубооктаэдра в $25\text{--}587$ раз]
+\label{thm:applied-barrier-collapse}
+Пусть центральный узел~$x$ и его $12$ соседей по кубооктаэдру~$O_2$ имеют амплитуду $\mu \in \{1,\dots,64\}$ ($\varepsilon = 64\times 128 = 8\,192$, \texttt{coherent\_\allowbreak cuboctahedron\_\allowbreak barrier\_\allowbreak collapse\_\allowbreak 587x}). Тогда:
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Некогерентный / тепловой режим первого квадранта ($|A_{xy}| \le 41$, $C(A_{xy}) \ge 87$):}
+  когда относительные фазы соседей лежат в первом квадранте на границе порога Гейзенберга ($|A_{xy}| = 41 \implies C(41) = 128 - 41 = +87 > 0$), продольная голономия положительна и складывается с собственным барьером узла $+128\,\mu^2$:
+  \begin{equation}
+  \label{eq:applied-d-thermal}
+    D_{\mathrm{thermal}}(\mu) \;=\; 12\cdot 87\,\mu^2 + 128\,\mu^2 + 8\,192 \;=\; 1\,172\,\mu^2 + 8\,192.
+  \end{equation}
+  При амплитуде нуклеации $\mu = 13$ импеданс барьера равен $D_{\mathrm{thermal}}(13) = 206\,260$, а на потолке плотности $\mu = 64$ достигает $D_{\mathrm{thermal}}(64) = 4\,808\,704$ (в полном синфазном пределе $A_{xy}=0,\ C(0)=128$: $D_{\max}(64) = 13\cdot 128\cdot 64^2 + 8\,192 = 6\,823\,936$). Преодоление такого знаменателя требует гигантской накачки числителя~$z_{\mathrm{drive}}$ (тепловой пробой / горячий термояд при $T \sim 10^8\ \text{К}$).
+\item \textbf{Когерентный противофазный режим второго квадранта ($139 \le |A_{xy}| \le 256$, $C(A_{xy}) \le -11$):}
+  если все $12$ направлений кубооктаэдра~$O_2$ вокруг узла~$x$ возбуждены когерентной стоячей волной во втором квадранте фазового кольца $|A_{xy}| \ge 139$ тиков ($\Delta\varphi \ge 97{,}7^\circ$), то каждая из $12$ граневых проекций становится отрицательной:
+  \[
+    C(A_{xy}) \;=\; 128 - |A_{xy}| \;\le\; 128 - 139 \;=\; -11 \;<\; 0.
+  \]
+  Тогда продольная голономия $\zeta_{\mathrm{real}}(x) \le 12\cdot(-11)\mu^2 = -132\,\mu^2$ \textbf{полностью компенсирует собственный барьер узла $+128\,\mu^2$}:
+  \begin{equation}
+  \label{eq:applied-d-coherent}
+    D_{\mathrm{raw,coh}}(\mu) \;\le\; -132\,\mu^2 + 128\,\mu^2 + 8\,192 \;=\; 8\,192 - 4\,\mu^2,
+  \end{equation}
+  и при $\mu = 64$ ($D_{\mathrm{raw,coh}}(64) = -8\,192 \le 0$) знаменатель ворот~\eqref{eq:applied-denominator-impedance} схлопывается до минимального вакуумного пола:
+  \[
+    D_{\mathrm{coherent}}(64) \;=\; \varepsilon \;=\; 8\,192.
+  \]
+\item \textbf{Коэффициент параметрического просветления барьера:}
+  отношение теплового импеданса барьера к когерентному импедансу в фокусе кубооктаэдра составляет:
+  \begin{equation}
+  \label{eq:applied-barrier-ratio}
+  \begin{aligned}
+    \left\lfloor\frac{D_{\mathrm{thermal}}(13)}{\varepsilon}\right\rfloor &= \left\lfloor\frac{206\,260}{8\,192}\right\rfloor = \mathbf{25}, \\
+    \frac{D_{\mathrm{thermal}}(64)}{\varepsilon} &= \frac{4\,808\,704}{8\,192} = \mathbf{587},
+    \qquad
+    \frac{D_{\max}(64)}{\varepsilon} = \frac{6\,823\,936}{8\,192} = \mathbf{833}.
+  \end{aligned}
+  \end{equation}
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Все равенства~\eqref{eq:applied-d-thermal}--\eqref{eq:applied-barrier-ratio} следуют из прямой целочисленной подстановки $C(41) = 128 - 41 = 87$, $C(0) = 128$ и $C(139) = 128 - 139 = -11$ в~\eqref{eq:applied-denominator-impedance}; машинное доказательство без аксиом содержится в теореме \texttt{coherent\_\allowbreak cuboctahedron\_\allowbreak barrier\_\allowbreak collapse\_\allowbreak 587x} (\texttt{UnifiedOperators.lean}), а необходимость самого защитного пола $D\le 0\mapsto\varepsilon=8\,192$ для рождения вихревой пары на такте $t=1\to 2$ доказана теоремой-абляцией \texttt{ablation\_\allowbreak no\_\allowbreak denom\_\allowbreak guard\_\allowbreak corrupts\_\allowbreak t2\_\allowbreak vortex\_\allowbreak pair} (\texttt{TrajectoryIV263.lean}).
+\end{proof}
+
+\section{Технический протокол 12-лучевого кубооктаэдрального фазового концентратора}
+\label{sec:applied-12beam-protocol}
+
+Теорема~\ref{thm:applied-barrier-collapse} объясняет, почему низкоэнергетические ядерные и вихревые реакции в ГЦК-кристаллах ($\mathrm{Pd},\ \mathrm{Ni},\ \mathrm{Cu}$), насыщенных дейтерием или водородом, случайно и нестабильно наблюдались в отдельных микротрещинах при электролизе или ударном нагреве, но не воспроизводились при стационарном однородном насыщении:
+в равновесной решётке $|A_{xy}| < 128$, проекции $C(A_{xy}) > 0$ и знаменатель барьера~$D$ остаётся высоким.
+
+Для детерминированного воспроизведения режима $D(x) \to \varepsilon = 8\,192$ установка должна иметь следующую архитектуру:
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Геометрия 12-лучевой камеры ($O_2(L)$):}
+  рабочая камера выполняется в форме сферы или кубооктаэдра, в $12$ вершинах которого $(\pm L, \pm L, 0),\ (\pm L, 0, \pm L),\ (0, \pm L, \pm L)$ ($6$ коллинеарных антиподальных пар $\pm e$) установлены $12$ идентичных фазовых излучателей (ультразвуковых/кавитационных пьезодрайверов и синхронных ВЧ/СВЧ-индукторов).
+\item \textbf{Ориентация мишени (\latGCKshort-кристалл):}
+  в геометрическом центре фокуса размещается монокристаллическая или текстурированная мишень из ГЦК-металла ($\mathrm{Ni}$ или $\mathrm{Pd}$), чьи кристаллографические оси $[100],[010],[001]$ совмещены с осями внешнего $12$-лучевого кубооктаэдра.
+\item \textbf{Девятибитный ($512$-шаговый) синтез фазы и маска $\mathrm{IV}(3) = 263$:}
+  многоканальный цифровой синтезатор (DDS/FPGA) квантует период несущей частоты на $\phaseRingCount = 512$ фазовых тиков и формирует сходящийся двухтактовый пакет:
+  \begin{itemize}[nosep,leftmargin=*]
+  \item на первом такте ($t=0\to 1$) на $12$ излучателей подаётся фазовая маска трёхгранного барионного угла~$K_3$ ($\mathrm{IV}(3) = 263 = \texttt{0b1\_00000111}$: сдвиг активных октантов на $3\times 41 = 123$ тика $\approx 86{,}48^\circ$), создающая на трёх координатных доменных стенках встречный фазовый удар $+76$ и $-77$ тиков (\texttt{iv263\_flat\_domain\_wall\_asymmetry\_t0});
+  \item к моменту фокусировки ($t=1$) суперпозиция прямой волны и инерции второго порядка $2\varphi(1)-\varphi(0)$ переводит разность фаз в центральной зоне во второй квадрант $|A_{xy}| \in [139, 256]$ тиков ($C(A_{xy}) < 0$), обнуляя эффективный знаменатель барьера до $D = \varepsilon = 8\,192$ и вызывая на такте $t=2$ когерентный переброс через разрез Паули $|A_e| = 256$.
+  \end{itemize}
+\end{enumerate}
+
+\chapter{Квантовый фазовый храповик на доменной стенке и топологический аккумулятор \texorpdfstring{$B_f = 512\,n_f$}{B\_f = 512 n\_f}}
+\label{ch:applied-phase-ratchet-and-vortex-battery}
+
+Помимо параметрического снижения барьера~$D(x)$, точная целочисленная механика ворот~\eqref{eq:applied-gate-law} и деления с остатком $(d_0\varphi)_e = 512\,k_e + A_e$ открывает два твердотельных энергетических механизма, которые тождественно исчезают в гладком континуальном приближении.
+
+\section{Киральный выпрямитель (храповик $-1$ тик) на целочисленном делении вниз \texttt{Int.fdiv}}
+\label{sec:applied-chiral-ratchet}
+
+В теореме \texttt{iv263\_flat\_domain\_wall\_asymmetry\_t0} и теореме-абляции \texttt{ablation\_\allowbreak tdiv\_\allowbreak destroys\_\allowbreak domain\_\allowbreak wall\_\allowbreak chiral\_\allowbreak asymmetry} (\texttt{TrajectoryIV263.lean}) доказано фундаментальное свойство целочисленного деления с остатком вниз $\lfloor u / D\rfloor$:
+для любого положительного числителя $u > 0$, не кратного знаменателю $D > 0$ ($u \bmod D \ne 0$), выполняется точное тождество
+\begin{equation}
+\label{eq:applied-floor-ratchet}
+  \left\lfloor \frac{+u}{D} \right\rfloor + \left\lfloor \frac{-u}{D} \right\rfloor \;=\; -1.
+\end{equation}
+На плоской доменной стенке кристалла $\mathrm{IV}(3)=263$ ($u = 64\times 195\,702 = 12\,524\,928$, $D = 164\,686$) положительный берег стенки получает импульс $\Phi_+ = \lfloor +12\,524\,928 / 164\,686\rfloor = +76$ тиков, а отрицательный берег --- импульс $\Phi_- = \lfloor -12\,524\,928 / 164\,686\rfloor = -77$ тиков, так что суммарный сдвиг через стенку равен $\Phi_+ + \Phi_- = -1$ тику за такт.
+
+\textbf{Техническая реализация (твердотельный фазовый выпрямитель):}
+если в гетероструктуре или многослойном ГЦК-переходе с закреплённой доменной стенкой ($\Delta\varphi_0 = 123$ тика) возбуждать чисто симметричные знакопеременные колебания тока $\pm\zeta_{\mathrm{imag}}$ с амплитудой выше порога Гейзенберга ($|\Phi| \ge 41$, так что $u \bmod D \ne 0$), то на каждом периоде качания асимметрия~\eqref{eq:applied-floor-ratchet} накапливает однонаправленный фазовый сдвиг $\Delta\varphi_{\mathrm{net}} = -1$ тик за цикл без внешнего постоянного смещения, преобразуя симметричный высокочастотный шум или акустическую накачку в направленную фазовую ЭДС $(d_0\Phi)_e$.
+
+\section{Топологический аккумулятор и квантованный сброс \texorpdfstring{$512$}{512} тиков при рекомбинации вихревых петель}
+\label{sec:applied-topological-battery}
+
+По теореме~\bcref{thm:discrete-maxwell-sourceless} (\texttt{plaquette\_\allowbreak flux\_\allowbreak eq\_\allowbreak 512\_\allowbreak mul\_\allowbreak winding} в \texttt{HolonomyMaxwell.lean}) каждый элементарный вихревой плакет $n_f = \pm 1$ удерживает в своей границе строго квантованную циркуляцию реберной связности:
+\begin{equation}
+\label{eq:applied-plaquette-512-storage}
+  B_f \;=\; (d_1 A)_f \;=\; A_{01} + A_{12} + A_{23} + A_{30} \;=\; 512\,n_f.
+\end{equation}
+Пока все четыре ребра плакета находятся вдали от разреза Паули $|A_e| = 256$, целочисленный заряд $n_f \in \mathbb{Z}$ топологически защищён: никакие малые возмущения $|A_e| < 256$ не могут изменить $n_f$ (\texttt{plaquette\_\allowbreak winding\_\allowbreak zero\_\allowbreak of\_\allowbreak principal}).
+При управляемом сведении двух противоположно ориентированных плакетов $(n_{f_+}=+1,\ n_{f_-}=-1)$ на общее ребро~$e_{\mathrm{shared}}$ и подаче импульса, переводящего $A_{e_{\mathrm{shared}}}$ обратно через порог $\pm 256$ ($\Delta k_{e_{\mathrm{shared}}} = \pm 1$), пара аннигилирует ($(+1,-1)\to(0,0)$ по теореме \texttt{shared\_edge\_charge\_conservation}), высвобождая запасённую фазовую циркуляцию $512$ тиков напрямую в направленный импульс электрического поля $E_e = -\Delta_t A_e - (d_0\Phi)_e$ (\texttt{instrument\_\allowbreak convolution\_\allowbreak faraday\_\allowbreak law\_\allowbreak exact}).
+
+\chapter{Четырёхканальная голономная томография сред и фазовое геодинамо ядер планет}
+\label{ch:applied-tomography-and-planetary-cores}
+
+Замкнутая формула измерения макроприбора~$\mathcal{B}_N$ (\bcref{thm:continuum-emergence-from-z}(iii), \texttt{closed\_\allowbreak form\_\allowbreak unified\_\allowbreak 4channel\_\allowbreak measurement\_\allowbreak iv263\_\allowbreak t2}) связывает все четыре физических канала в одной точке пространства-времени $(x,t)$ через одно и то же ядро путей кубооктаэдра $W_N(x-y)$ и один и тот же знаменатель импеданса $D(y,t) = \zeta_{\mathrm{real}}(y,t) + 128\mu(y)^2 + 8\,192$.
+
+\section{Безынтегральная голономная дефектоскопия и геофизическая томография}
+\label{sec:applied-holonomic-tomography}
+
+В классической геофизике и неразрушающем контроле акустическая сейсмика, электромагнитное зондирование и гравиметрия решаются как три несвязанные обратные задачи с эмпирическими подгоночными коэффициентами породы.
+В замкнутой механике кубооктаэдра все четыре отклика зондирующего пакета на неоднородность $\mu(y)$ определяются единой алгебраической матрицей:
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Нечётный акустический сдвиг тока:} $J_{xy} = \mu_x\mu_y S(A_{xy})$ (попарно консервативный на всех $512$ углах, \texttt{odd\_\allowbreak holonomy\_\allowbreak current\_\allowbreak pairwise\_\allowbreak conservation\_\allowbreak all\_\allowbreak 512});
+\item \textbf{Чётный фазовый дефицит Бома (дисперсионный скос пакета):}
+  \begin{equation}
+  \label{eq:applied-bohm-tomography}
+    \delta K_{xy} \;=\; 128\,\mu_x\mu_y - \mu_x\mu_y C(A_{xy}) \;=\; \mu_x\mu_y\,|A_{xy}| \;\ge\; 0
+  \end{equation}
+  (\texttt{even\_\allowbreak holonomy\_\allowbreak bohm\_\allowbreak deficit\_\allowbreak eq\_\allowbreak abs\_\allowbreak connection});
+\item \textbf{Задержка времени пробега (оптический показатель преломления):}
+  \begin{equation}
+  \label{eq:applied-refraction-tomography}
+    n_{\mathrm{opt}}^{(N)}(x,t) \;=\; \frac{1}{D_{\mathrm{vac}}}\sum_{y} W_N(x-y)\,\bigl(\zeta_{\mathrm{real}}(y,t) + 128\mu(y)^2 + 8\,192\bigr) \;>\; 0
+  \end{equation}
+  (\texttt{gravity\_\allowbreak denominator\_\allowbreak strictly\_\allowbreak positive\_\allowbreak floor\_\allowbreak 8192}).
+\end{enumerate}
+Поскольку для каждого ребра выполняется точное линейное соотношение $C(A_{xy}) + |A_{xy}| \equiv 128$, одновременное измерение на поверхности приёмной антенной решёткой (размещённой по узлам плоского гексагонального среза $\{111\}$ кубооктаэдра) времени задержки~\eqref{eq:applied-refraction-tomography} и дисперсионного дефицита Бома~\eqref{eq:applied-bohm-tomography} позволяет исключить неизвестную фазу $|A_{xy}|$ и напрямую восстановить карту квадрата плотности $\mu(y)^2$ внутри объёма без решения некорректных интегральных уравнений Фредгольма.
+
+\section{Строение ядер планет и механизм фазового геодинамо на пороге Паули \texorpdfstring{$A_{16}$}{A16}}
+\label{sec:applied-planetary-cores}
+
+Применим замкнутые операторы плотностного потолка~\Axref{ax:A7} ($\rho_q = \mu_0^2+\mu_1^2 \le 4096$), оптического преломления~\eqref{eq:applied-refraction-tomography} и спинорного исключения Паули~\Axref{ax:A16} (\texttt{pauliPredicate} в \texttt{TrajectoryIV263.lean}) к гравитационному сжатию вещества в центральном ядре планеты:
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Формирование ГЦК-ядра и гравитационная фокусировка:}
+  под действием реберного преломления $\Delta_t A_\perp = (d_0\Phi)_\perp < 0$ в сторону роста знаменателя~$D(x)$ тяжёлые элементы ($\mathrm{Fe},\ \mathrm{Ni}$) концентрируются к центру масс, где при высоком давлении кристаллизуются в плотнейшую гранецентрированную кубическую фазу ($\gamma\text{-}\mathrm{Fe}/\mathrm{Ni}$ с координационным кубооктаэдром~$O_2$, $|N_{12}|=12$).
+\item \textbf{Включение затвора Паули $A_{16}$ на половине потолка плотности ($\mu_c^2 > 2048$) и генерация магнитного поля:}
+  когда в сжатом внутреннем ядре квадраты спинорных амплитуд превышают половину планковского потолка ($\mu_0^2 > K_P^2/2 = 2048$ и $\mu_1^2 > 2048$, то есть $\mu_c \ge 46$ квантов из $64$) при сонаправленных фазах $|\varphi_1-\varphi_0| < 41$, срабатывает предикат Паули~\Axref{ax:A16}, вносящий полуоборот $\Phi_{\mathrm{Pauli}} = 256$ тиков ($\pi\ \text{рад}$).
+\item \textbf{Циклический сброс магнитного потока $B_f = 512\,n_f$ и инверсии геодинамо:}
+  скачок фазы на $256$ тиков на границе внутреннего и внешнего ядра перебрасывает реберные разности $(d_0\varphi)_e$ через разрез $\pm 256$, порождая по теореме~\bcref{thm:discrete-maxwell-sourceless} макроскопические вихревые кольца магнитного потока $B_f^{(N)} = 512\,\mathcal{B}_N[n_f]$ вдоль осей кубооктаэдра (при строго нулевой дивергенции $\operatorname{div}_{\mathrm{cube}} B^{(N)} \equiv 0$, то есть чисто дипольно-квадрупольной структуре без магнитных монополей) и одновременно меняя знак продольной голономии $C(256) = -128 < 0$, что ограничивает дальнейшее сжатие ядра и порождает квазипериодические циклы геомагнитных экскурсов и инверсий.
+\end{enumerate}
+
+\input{volumes/include-computational-laboratory.tex}
+
+\input{volumes/include-measurement-processing.tex}
+
+\chapter{Критические эксперименты и инженерные гейты верификации (серия CE-RD)}
+\label{ch:applied-critical-experiments}
+
+\begin{labseries}{Серия CE-RD: когерентное схлопывание барьера кубооктаэдра, фазовый храповик и 4-канальная голономная томография}{sec:lab-series-ce-rd}
+\begin{labrecord}{CE-RD-01 · Когерентное схлопывание импеданса барьера \texorpdfstring{$D(x)\to\varepsilon=8\,192$}{D(x)->8192} в 12-лучевом кубооктаэдре (\texorpdfstring{$25\times\text{--}587\times$}{25x-587x})}{lab:ce-rd-01}
+\input{lab-journal/ce-rd-01.tex}
+\end{labrecord}
+
+\begin{labrecord}{CE-RD-02 · Квантовый фазовый храповик \texorpdfstring{$-1$}{-1} тик на доменной стенке (\texttt{Int.fdiv}) и топологический сброс \texorpdfstring{$512\,n_f$}{512 n\_f}}{lab:ce-rd-02}
+\input{lab-journal/ce-rd-02.tex}
+\end{labrecord}
+
+\begin{labrecord}{CE-RD-03 · Четырёхканальная голономная томография \texorpdfstring{$\mathcal{M}(x,t,N)$}{M(x,t,N)} и устойчивость геодинамо при \texorpdfstring{$D(x)\ge 8\,192$}{D(x)>=8192}}{lab:ce-rd-03}
+\input{lab-journal/ce-rd-03.tex}
+\end{labrecord}
+\end{labseries}

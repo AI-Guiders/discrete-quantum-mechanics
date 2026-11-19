@@ -1,0 +1,62 @@
+\label{exp:cerd02}
+
+\subsubsection*{Постановка}
+\textbf{Физический вопрос.}
+Порождает ли целочисленное деление с остатком вниз $\lfloor u/D\rfloor$ (\texttt{Int.fdiv}) в законе ворот~$\Phi$ неустранимую киральную асимметрию $-1$ тик между противоположными берегами плоской доменной стенки при симметричном по модулю возбуждении $\pm u$, и сохраняется ли строго сумма топологических зарядов $\Delta n_{f_+} + \Delta n_{f_-} = 0$ при каждом сбросе $512$ тиков связности через общее ребро?
+
+\textbf{Что проверяем.}
+\begin{enumerate}[label=\textbf{(\alph*)},leftmargin=*,itemsep=0.25em]
+\item Асимметрию импульсов $\Phi_+ = +76$ и $\Phi_- = -77$ тиков ($\Phi_+ + \Phi_- = -1$ тик) на плоской доменной стенке $\mathrm{IV}(3)=263$ при $t=0$ (\texttt{iv263\_\allowbreak flat\_\allowbreak domain\_\allowbreak wall\_\allowbreak asymmetry\_\allowbreak t0}).
+\item Полное исчезновение кирального эффекта ($\Phi_+^{\mathrm{tdiv}} + \Phi_-^{\mathrm{tdiv}} = +76 + (-76) = 0$) при замене деления вниз \texttt{Int.fdiv} на усечение к нулю \texttt{Int.tdiv} (\texttt{ablation\_\allowbreak tdiv\_\allowbreak destroys\_\allowbreak domain\_\allowbreak wall\_\allowbreak chiral\_\allowbreak asymmetry}).
+\item Точное равенство $(d_1 A)_f = 512\,n_f$ и сохранение заряда $\Delta n_{f_+} + \Delta n_{f_-} = 0$ при перебросе общего ребра на $\Delta k_e = \pm 1$ (\texttt{plaquette\_\allowbreak flux\_\allowbreak eq\_\allowbreak 512\_\allowbreak mul\_\allowbreak winding}, \texttt{shared\_\allowbreak edge\_\allowbreak charge\_\allowbreak conservation}).
+\end{enumerate}
+
+\textbf{Рабочая гипотеза.}
+Деление с остатком вниз $\lfloor u/D\rfloor$ действует как точный квантовый храповик с шагом $-1$ тик за такт на любой доменной стенке с $u\bmod D\ne 0$, а каждый переход ребра через разрез Паули $\pm 256$ высвобождает или запасает ровно $512$ тиков фазовой связности при нулевом изменении суммарного топологического заряда.
+
+\textbf{Наблюдаемые.}
+Импульсы $\Phi_+, \Phi_-$, сумма храповика $\Delta\Phi_{\mathrm{ratchet}} = \Phi_+ + \Phi_-$, результат абляции $\Delta\Phi_{\mathrm{tdiv}}$ и квант сброса потока $\Delta B_f$ (табл.~\ref{tab:exp-ce-rd-02}).
+
+\textbf{Критерий согласия с теорией.}
+Точные целочисленные равенства $\Delta\Phi_{\mathrm{ratchet}} = -1$, $\Delta\Phi_{\mathrm{tdiv}} = 0$, $\Delta B_f = 512\,\Delta n_f$ и $\Delta n_{f_+} + \Delta n_{f_-} = 0$ (тип~B, нулевой допуск).
+
+\subsubsection*{Теоретическая часть}
+Для любого целого числителя $u = qD + r$ с остатком $0 < r < D$ имеем $\lfloor +u/D\rfloor = q$, тогда как $-u = -(q+1)D + (D-r)$ даёт $\lfloor -u/D\rfloor = -(q+1)$, откуда $\lfloor +u/D\rfloor + \lfloor -u/D\rfloor = -1$ независимо от величины~$q$.
+
+\textbf{Проверка размерностей.}
+Фазовые импульсы $\Phi_\pm$, реберная связность $A_e \in (-256,256]$ и плакетный поток $B_f = 512\,n_f$ измеряются в безразмерных тиках кольца $\mathbb{Z}_{512}$ ($[\Phi] = [B_f] = 1\ \text{тик}$), которым на макроуровне~$\Tlayer$ отвечает квант действия $s_0 = h / 512$.
+
+\subsubsection*{Ход эксперимента}
+{\sloppy Воспроизведение: \texttt{lake build} в \texttt{lean/} (\texttt{TrajectoryIV263.lean}, \texttt{HolonomyMaxwell.lean}) и \texttt{python verify\_principles.py --suite m\_axioms}.\par}
+
+\begin{enumerate}[label=\textbf{Шаг \arabic*:},leftmargin=*,itemsep=0.35em]
+\item Вычислить голономии $(\zeta_{\mathrm{real}},\zeta_{\mathrm{imag}}) = (134\,862,\ \pm 70\,980)$ на противоположных сторонах плоской стенки октантов $\mathrm{IV}(3)=263$.
+\item Сравнить выход ворот при делении вниз \texttt{Int.fdiv} ($+76$ и $-77$) и при усечении к нулю \texttt{Int.tdiv} ($+76$ и $-76$).
+\item Проверить рождение первого вихревого плакета $B_f(2) = 32 + 85 + 196 + 199 = 512$ ($n_f(2) = +1$) в центральном углу~$K_3$ на такте $t=2$.
+\end{enumerate}
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\caption{Верификация квантового фазового храповика и топологического сброса $512\,n_f$ (CE-RD-02)}
+\label{tab:exp-ce-rd-02}
+\begin{tabular}{@{}llrrr@{}}
+\toprule
+Гейт / Наблюдаемое & Теоретическая формула & Значение (Lean 4 / Python) & Допуск & Статус \\
+\midrule
+Импульсы стенки $(\Phi_+, \Phi_-)$ & $\lfloor\pm 12\,524\,928 / 164\,686\rfloor$ & $(+76,\ -77)$ тиков & $0$ & PASS \\
+Шаг фазового храповика $\Phi_+ + \Phi_-$ & $\lfloor +u/D\rfloor + \lfloor -u/D\rfloor$ & $-1$ тик & $0$ & PASS \\
+Абляция \texttt{Int.tdiv} ($\Phi_+^{\mathrm{tdiv}} + \Phi_-^{\mathrm{tdiv}}$) & $76 + (-76)$ & $0$ (эффект исчезает) & $0$ & PASS \\
+Квант плакетного потока $B_f(t=2)$ & $(d_1 A)_f = 512\,n_f$ & $32+85+196+199 = 512$ & $0$ & PASS \\
+Закон сохранения на общем ребре & $\Delta n_{f_+} + \Delta n_{f_-}$ & $0$ (тождественно) & $0$ & PASS \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection*{Анализ, расчёт погрешности и выводы}
+Арифметика целочисленного деления с остатком точна ($\Delta = 0$, тип~B); обе теоремы в \texttt{TrajectoryIV263.lean} не зависят ни от одной аксиомы Lean~4.
+
+\textbf{Вывод.}
+Сдвиг округления вниз $\lfloor u/D\rfloor$ на доменной стенке формирует точный однонаправленный фазовый храповик в $-1$ тик за такт, а переброс ребра через разрез Паули $\pm 256$ квантует запас и сброс вихревого потока порциями ровно по $512$ тиков.
+\textbf{Статус записи:} опыт закрыт по табл.~\ref{tab:exp-ce-rd-02}.
