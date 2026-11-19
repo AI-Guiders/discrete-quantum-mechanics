@@ -23,12 +23,12 @@ def intListToJson (xs : List Int) : String :=
   "[" ++ String.intercalate ", " (xs.map toString) ++ "]"
 
 def main : IO Unit := do
-  let cLut := (List.range 512).map (fun (n : Nat) => projC (Int.ofNat n))
-  let sLut := (List.range 512).map (fun (n : Nat) => projS (Int.ofNat n))
-  let pxLut := (List.range 512).map (fun (n : Nat) => pythPx (Int.ofNat n))
-  let pyLut := (List.range 512).map (fun (n : Nat) => pythPy (Int.ofNat n))
-  let prLut := (List.range 512).map (fun (n : Nat) => pythPr (Int.ofNat n))
-  let (act0, act1, nxy, nyz, nxz, maxDiv) := runFull3DCensusIV263
+  let cLut := (List.range (nRing 3)).map (fun (n : Nat) => projC 3 (Int.ofNat n))
+  let sLut := (List.range (nRing 3)).map (fun (n : Nat) => projS 3 (Int.ofNat n))
+  let pxLut := (List.range (nRing 3)).map (fun (n : Nat) => pythPx 3 (Int.ofNat n))
+  let pyLut := (List.range (nRing 3)).map (fun (n : Nat) => pythPy 3 (Int.ofNat n))
+  let prLut := (List.range (nRing 3)).map (fun (n : Nat) => pythPr 3 (Int.ofNat n))
+  let (act0, act1, nxy, nyz, nxz, maxDiv) := runFull3DCensusIV263 3
   let json :=
     "{\n" ++
     s!"  \"d\": 3,\n" ++

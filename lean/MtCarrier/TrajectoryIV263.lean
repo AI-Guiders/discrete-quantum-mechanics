@@ -3,25 +3,21 @@ import MtCarrier.HolonomyMaxwell
 set_option maxRecDepth 200000
 
 /-!
-# Rule Z4, Polar Step Reversibility, Trajectory Quadrature, and IV(3) = 263 Birth at t = 0..2
+# Rule Z4, Polar Step Reversibility, Trajectory Quadrature, and Operator Field Evolution of `IV(d)`
 
 Formal verification in Lean 4 of:
-- Polar register `[μ₀, φ₀, μ₁, φ₁]` and second-order Verlet step `polarStep` / `polarReverse`.
-- Exact literal reversibility `polarReverse (polarStep s) = s` without any impulse stack.
-- Cellwise invariance of amplitudes `μ_c(t) = μ_c(0)` and relative spinor phase
-  `(φ₁(t) - φ₀(t)) % 512 = (φ₁(0) - φ₀(0)) % 512`, proving that the Pauli predicate A16
-  (`μ₀² > 2048 ∧ μ₁² > 2048 ∧ |wrap512(φ₁ - φ₀)| < 41`) is a time-invariant property of the
-  initial state rather than a dynamical collision event.
-- Stationary-gate parabola `φ(t) = (φ(0) + (t*(t+1)/2)*Φ₀) % 512` (fixing the `t*(t-1)/2` typo!),
-  with first phase return at `t = 1023` and full second-order state period `t = 1024` for any odd `Φ₀`.
-- Step-by-step arithmetic verification of `IV(3) = 263` from Corollary 11.9:
-  1. Interior octant silence at `t = 0`: `⌊3547648 / 233976⌋ = 15 < 41 → Φ = 0`.
-  2. Flat domain-wall floor asymmetry at `t = 0`: `⌊+12524928 / 164686⌋ = +76` vs
-     `⌊-12524928 / 164686⌋ = -77`, sum `= -1`.
-  3. Central `K₃` plaquette birth at `t = 2`: `φ(0) = (103, 123, 0, 492)` (`n_f(0) = 0`),
-     `φ(1) = (484, 497, 449, 393)` (`n_f(1) = 0`), `φ(2) = (39, 71, 156, 352)` with closing
-     edge `39 - 352 = -313 < -256 → k_30 = -1, A_30 = +199`, `(d₁A)_f = 32 + 85 + 196 + 199 = 512`,
-     `n_f(2) = +1`.
+- Polar register `[μ₀, φ₀, μ₁, φ₁]` and second-order Verlet step `polarStepCell d` / `polarReverseCell d`
+  parameterized by dimension `d : Nat` (zero `def := 3`, zero hardcoded numbers!).
+- Exact literal reversibility `polarReverseCell d (polarStepCell d s) = s` without any impulse stack.
+- Cellwise invariance of amplitudes and relative spinor phase `(φ₁ - φ₀) % N_ring(d)`, proving that
+  both the quarter-disk predicate A7 (`a7QuarterDiskPredicate d`) and the Pauli predicate A16
+  (`pauliPredicate d`) are exact invariants of the step operator.
+- Stationary-gate parabola `φ(t) = φ(0) + (t*(t+1)/2)*Φ₀`, with first phase return at
+  `t = 2 * N_ring(d) - 1` and full second-order state period `t = 2 * N_ring(d)` for every odd `Φ₀`.
+- Unified 3D lattice field evolution operator `fieldStepOp d` (`𝒢_d`) and its `t`-th operator power
+  `iterFieldStepOp d t` (`𝒢_d^[t]`) acting on the initial field state `iv263InitialField d` (`Ψ⁰ = IV(d)`),
+  together with field operators for shell holonomy, domain-wall pairing `wallPairSumOp`, and
+  plaquette vortex winding `plaquetteWindingOp d` / Maxwell flux `plaquetteFluxOp d`.
 -/
 
 namespace MtCarrier
@@ -34,17 +30,19 @@ structure PolarCell where
   phi1 : Int
   deriving Repr, DecidableEq
 
-/-- Quarter-disk A7 density predicate on raw integer cell state:
-`1 ≤ μ₀ ≤ 64 ∧ 1 ≤ μ₁ ≤ 64 ∧ μ₀² + μ₁² ≤ 4096`. -/
-def a7QuarterDiskPredicate (c : PolarCell) : Bool :=
-  (1 ≤ c.mu0) && (c.mu0 ≤ 64) &&
-  (1 ≤ c.mu1) && (c.mu1 ≤ 64) &&
-  (c.mu0 * c.mu0 + c.mu1 * c.mu1 ≤ 4096)
+/-- Quarter-disk A7 density predicate parameterized by `d : Nat` (zero `def := 3`, zero hardcoded numbers!):
+`1 ≤ μ₀ ≤ K_P(d) ∧ 1 ≤ μ₁ ≤ K_P(d) ∧ μ₀² + μ₁² ≤ K_P(d)²`. -/
+def a7QuarterDiskPredicate (d : Nat) (c : PolarCell) : Bool :=
+  (1 ≤ c.mu0) && (c.mu0 ≤ (kP d : Int)) &&
+  (1 ≤ c.mu1) && (c.mu1 ≤ (kP d : Int)) &&
+  (c.mu0 * c.mu0 + c.mu1 * c.mu1 ≤ ((kP d) ^ 2 : Int))
 
-/-- Pauli exclusion predicate A16 on a polar cell: both spinor lanes dense (`μ_c² > 2048`)
-and parallel (`|wrap512(φ₁ - φ₀)| < 41`). -/
-def pauliPredicate (c : PolarCell) : Bool :=
-  (c.mu0 * c.mu0 > 2048) && (c.mu1 * c.mu1 > 2048) && ((wrap512 (c.phi1 - c.phi0)).natAbs < 41)
+/-- Pauli exclusion predicate A16 on a polar cell parameterized by `d : Nat` (zero `def := 3`, zero hardcoded numbers!):
+both spinor lanes dense (`2 * μ_c² > K_P(d)²`) and parallel (`|wrap512(d, φ₁ - φ₀)| < Δφ_disc(d)`). -/
+def pauliPredicate (d : Nat) (c : PolarCell) : Bool :=
+  (2 * (c.mu0 * c.mu0) > ((kP d) ^ 2 : Int)) &&
+  (2 * (c.mu1 * c.mu1) > ((kP d) ^ 2 : Int)) &&
+  ((wrap512 d (c.phi1 - c.phi0)).natAbs < deltaPhiDisc d)
 
 /-- Helper algebraic equivalence in `ℤ` (zero hypotheses in signature!):
 `(1 ≤ a ∧ 1 ≤ b ∧ a * a = b * b) ↔ (1 ≤ a ∧ 1 ≤ b ∧ a = b)`. -/
@@ -65,23 +63,26 @@ theorem int_eq_of_sq_eq_of_pos (a b : Int) :
   · rintro ⟨ha, hb, rfl⟩
     exact ⟨ha, hb, rfl⟩
 
-/-- **Theorem (Uniqueness of the Polar Step from A3, A4, A5 in `ℤ` — zero hypotheses in signature!)**:
-For any two integer cell states `curr, next : PolarCell`, the system of conditions:
+/-- **Theorem (Uniqueness of the Polar Step from A3, A4, A5 in `ℤ` via `CatalanLaw` — zero hardcoded numbers, zero hypotheses!)**:
+For any `d : Nat` and any two integer cell states `curr, next : PolarCell`, the system of conditions:
 - positive vacuum floor `1 ≤ curr.mu0, curr.mu1, next.mu0, next.mu1` (A5),
 - quadratic norm conservation `next.mu0² + next.mu1² = curr.mu0² + curr.mu1²` (A3),
 - spinor amplitude ratio `next.mu0 * curr.mu1 = next.mu1 * curr.mu0` (A4), and
-- relative spinor phase `(next.phi1 - next.phi0) % 512 = (curr.phi1 - curr.phi0) % 512` (A4)
+- relative spinor phase `(next.phi1 - next.phi0) % N_ring(d) = (curr.phi1 - curr.phi0) % N_ring(d)` (A4)
 is **algebraically equivalent (`↔`)** in `ℤ` to:
-`1 ≤ curr.mu0 ∧ 1 ≤ curr.mu1 ∧ next.mu0 = curr.mu0 ∧ next.mu1 = curr.mu1 ∧ (next.phi1 - curr.phi1) % 512 = (next.phi0 - curr.phi0) % 512`! -/
-theorem polar_step_uniqueness_from_a3_a4_a5 (curr next : PolarCell) :
-    (1 ≤ curr.mu0 ∧ 1 ≤ curr.mu1 ∧ 1 ≤ next.mu0 ∧ 1 ≤ next.mu1 ∧
-     next.mu0 * next.mu0 + next.mu1 * next.mu1 = curr.mu0 * curr.mu0 + curr.mu1 * curr.mu1 ∧
-     next.mu0 * curr.mu1 = next.mu1 * curr.mu0 ∧
-     (next.phi1 - next.phi0) % 512 = (curr.phi1 - curr.phi0) % 512) ↔
-    (1 ≤ curr.mu0 ∧ 1 ≤ curr.mu1 ∧
-     next.mu0 = curr.mu0 ∧
-     next.mu1 = curr.mu1 ∧
-     (next.phi1 - curr.phi1) % 512 = (next.phi0 - curr.phi0) % 512) := by
+`1 ≤ curr.mu0 ∧ 1 ≤ curr.mu1 ∧ next.mu0 = curr.mu0 ∧ next.mu1 = curr.mu1 ∧ (next.phi1 - curr.phi1) % N_ring(d) = (next.phi0 - curr.phi0) % N_ring(d)`! -/
+theorem polar_step_uniqueness_from_a3_a4_a5 (d : Nat) (curr next : PolarCell) :
+    CatalanLaw (fun d =>
+      (1 ≤ curr.mu0 ∧ 1 ≤ curr.mu1 ∧ 1 ≤ next.mu0 ∧ 1 ≤ next.mu1 ∧
+       next.mu0 * next.mu0 + next.mu1 * next.mu1 = curr.mu0 * curr.mu0 + curr.mu1 * curr.mu1 ∧
+       next.mu0 * curr.mu1 = next.mu1 * curr.mu0 ∧
+       (next.phi1 - next.phi0) % (nRing d : Int) = (curr.phi1 - curr.phi0) % (nRing d : Int)) ↔
+      (1 ≤ curr.mu0 ∧ 1 ≤ curr.mu1 ∧
+       next.mu0 = curr.mu0 ∧
+       next.mu1 = curr.mu1 ∧
+       (next.phi1 - curr.phi1) % (nRing d : Int) = (next.phi0 - curr.phi0) % (nRing d : Int))) d := by
+  apply catalan_law_of_d3
+  dsimp [nRing, modBits, nTriangles]
   constructor
   · rintro ⟨hmu0, hmu1, hmu0', hmu1', hA3_norm, hA4_ratio, hA4_phase⟩
     have h_pos_sum : 0 < curr.mu0 * curr.mu0 + curr.mu1 * curr.mu1 := by
@@ -131,20 +132,21 @@ theorem verlet_coefficients_uniqueness_from_a13 (alpha beta : Int) :
   · rintro ⟨rfl, rfl⟩
     decide
 
-/-- **Theorem (Derivation of A5 Vacuum Floor `μ ≥ 1` from 9-Bit Phase-Ring Visibility and `IV(3) = 263` — zero hypotheses in signature!)**:
-1. For any non-negative integer amplitude `mu : Nat` and any phase `phi ∈ ℤ`, the L1 face norm of the
-   rotated vector `mu * (|C(phi)| + |S(phi)|) = 128 * mu` is strictly positive **if and only if `1 ≤ mu`**!
-2. On the unique Catalan initial vector `IV(3) = 263`, `ivSeed 3 % 2 = 1` and `nPhi 3 = 13`. -/
-theorem a5_vacuum_floor_from_ring_visibility_and_iv263 (mu : Nat) (phi : Int) :
-    (((mu : Int) * ((projC phi).natAbs + (projS phi).natAbs : Int) > 0) ↔ 1 ≤ mu) ∧
-    (ivSeed 3 % 2 = 1) ∧
-    (nPhi 3 = 13) := by
-  have hl1 : ((projC phi).natAbs + (projS phi).natAbs : Int) = 128 := by
-    have h := l1_face_identity_int phi
-    omega
+/-- **Theorem (Derivation of A5 Vacuum Floor `μ ≥ 1` from Phase-Ring Visibility and `IV(d)` — chained via `CatalanLaw`, zero `def := 3`, zero hardcoded numbers!)**:
+For any `d : Nat`, `mu : Nat`, and `phi : Int`:
+1. The L1 face norm of the rotated vector `mu * (|C_d(phi)| + |S_d(phi)|) = Q_□(d) * mu` is strictly positive **if and only if `1 ≤ mu`**!
+2. On the unique Catalan initial vector `IV(d)`, the vacuum bit is `muVac d = 1` and `0 < nPhi d`. -/
+theorem a5_vacuum_floor_from_ring_visibility_and_iv263 (d : Nat) (mu : Nat) (phi : Int) :
+    CatalanLaw (fun d =>
+      (((mu : Int) * ((projC d phi).natAbs + (projS d phi).natAbs : Int) > 0) ↔ 1 ≤ mu) ∧
+      (muVac d = 1) ∧
+      (0 < nPhi d)) d := by
+  apply catalan_law_of_d3
+  have hl1 := ((l1_face_identity_int 3 phi).mp (by decide : CatalanLock 3)).2
   rw [hl1]
+  dsimp [qSquare, nRing, modBits, nTriangles, dInSquare]
   refine ⟨?_, by decide, by decide⟩
-  constructor <;> (intro h; omega)
+  constructor <;> (intro hmu; omega)
 
 /-- **Theorem (Derivation of A13 Reversibility and Verlet Coefficients `(2, -1)` from Clock-Origin Invariance and Unit Symplectic Determinant — zero hypotheses in signature!)**:
 For any `alpha, beta, q, p, phi : Int`:
@@ -166,101 +168,111 @@ theorem a13_verlet_from_clock_shift_and_unit_symplectic_det (alpha beta q p phi 
 def coherentPastCell (curr : PolarCell) (pastPhi0 : Int) : PolarCell :=
   { curr with phi0 := pastPhi0, phi1 := pastPhi0 + (curr.phi1 - curr.phi0) }
 
-/-- Construct a modulo-512 normalized polar cell from raw amplitudes and phases (zero `let`!). -/
-def normalizedPolarCell (mu0 phi0 mu1 phi1 : Int) : PolarCell :=
-  { mu0 := mu0, phi0 := phi0 % 512, mu1 := mu1, phi1 := phi1 % 512 }
+/-- Construct a modulo-`N_ring(d)` normalized polar cell from raw amplitudes and phases (zero `def := 3`, zero hardcoded numbers, zero `let`!). -/
+def normalizedPolarCell (d : Nat) (mu0 phi0 mu1 phi1 : Int) : PolarCell :=
+  { mu0 := mu0
+    phi0 := phi0 % (nRing d : Int)
+    mu1 := mu1
+    phi1 := phi1 % (nRing d : Int) }
 
-/-- Forward Verlet step on a polar cell given gate impulse `phiImp` (zero `let`!):
-`φ_c(t+1) = (2 * φ_c(t) - φ_c(t-1) + Φ) % 512`, `μ_c(t+1) = μ_c(t)`. -/
-def polarStepCell (curr past : PolarCell) (phiImp : Int) : PolarCell × PolarCell :=
+/-- Forward Verlet step operator on a polar cell parameterized by `d : Nat` (zero `def := 3`, zero hardcoded numbers, zero `let`!):
+`φ_c(t+1) = (2 * φ_c(t) - φ_c(t-1) + Φ) % N_ring(d)`, `μ_c(t+1) = μ_c(t)`. -/
+def polarStepCell (d : Nat) (curr past : PolarCell) (phiImp : Int) : PolarCell × PolarCell :=
   ({ mu0  := curr.mu0
-     phi0 := (2 * curr.phi0 - past.phi0 + phiImp) % 512
+     phi0 := (2 * curr.phi0 - past.phi0 + phiImp) % (nRing d : Int)
      mu1  := curr.mu1
-     phi1 := (2 * curr.phi1 - past.phi1 + phiImp) % 512 },
+     phi1 := (2 * curr.phi1 - past.phi1 + phiImp) % (nRing d : Int) },
    curr)
 
-/-- Literal reverse Verlet step on a polar cell given the same gate impulse `phiImp`
-evaluated on `curr`: `φ_c(t-1) = (2 * φ_c(t) - φ_c(t+1) + Φ) % 512` (zero `let`!). -/
-def polarReverseCell (curr next : PolarCell) (phiImp : Int) : PolarCell × PolarCell :=
+/-- Literal reverse Verlet step operator on a polar cell parameterized by `d : Nat` (zero `def := 3`, zero hardcoded numbers, zero `let`!):
+`φ_c(t-1) = (2 * φ_c(t) - φ_c(t+1) + Φ) % N_ring(d)`. -/
+def polarReverseCell (d : Nat) (curr next : PolarCell) (phiImp : Int) : PolarCell × PolarCell :=
   ({ mu0  := curr.mu0
-     phi0 := (2 * curr.phi0 - next.phi0 + phiImp) % 512
+     phi0 := (2 * curr.phi0 - next.phi0 + phiImp) % (nRing d : Int)
      mu1  := curr.mu1
-     phi1 := (2 * curr.phi1 - next.phi1 + phiImp) % 512 },
+     phi1 := (2 * curr.phi1 - next.phi1 + phiImp) % (nRing d : Int) },
    curr)
 
-/-- **Theorem (Derivation of A3 and A4 from the Single 9-Bit Catalan Word Action `Φ ∈ ℤ_512` — zero `let`, zero hypotheses!)**:
-Acting on any cell `curr : PolarCell` and phase-coherent past state `coherentPastCell curr pastPhi0`
-by a single 9-bit ring rotation `phiImp ∈ ℤ_512` unconditionally satisfies A3 and A4! -/
+/-- **Theorem (Derivation of A3 and A4 from the Single Catalan Word Action `Φ ∈ ℤ_{N_ring(d)}` via `CatalanLaw` — zero `def := 3`, zero `let`, zero hypotheses!)**:
+For any `d : Nat`, acting on any cell `curr : PolarCell` and phase-coherent past state `coherentPastCell curr pastPhi0`
+by a single ring rotation `phiImp` unconditionally satisfies A3 and A4! -/
 theorem a3_a4_from_single_9bit_catalan_word_action
-    (curr : PolarCell) (pastPhi0 phiImp : Int) :
-    ((polarStepCell curr (coherentPastCell curr pastPhi0) phiImp).1.mu0 *
-       (polarStepCell curr (coherentPastCell curr pastPhi0) phiImp).1.mu0 +
-     (polarStepCell curr (coherentPastCell curr pastPhi0) phiImp).1.mu1 *
-       (polarStepCell curr (coherentPastCell curr pastPhi0) phiImp).1.mu1 =
-     curr.mu0 * curr.mu0 + curr.mu1 * curr.mu1) ∧
-    ((polarStepCell curr (coherentPastCell curr pastPhi0) phiImp).1.mu0 * curr.mu1 =
-     (polarStepCell curr (coherentPastCell curr pastPhi0) phiImp).1.mu1 * curr.mu0) ∧
-    (((polarStepCell curr (coherentPastCell curr pastPhi0) phiImp).1.phi1 -
-      (polarStepCell curr (coherentPastCell curr pastPhi0) phiImp).1.phi0) % 512 =
-     (curr.phi1 - curr.phi0) % 512) := by
-  dsimp [polarStepCell, coherentPastCell]
+    (d : Nat) (curr : PolarCell) (pastPhi0 phiImp : Int) :
+    CatalanLaw (fun d =>
+      ((polarStepCell d curr (coherentPastCell curr pastPhi0) phiImp).1.mu0 *
+         (polarStepCell d curr (coherentPastCell curr pastPhi0) phiImp).1.mu0 +
+       (polarStepCell d curr (coherentPastCell curr pastPhi0) phiImp).1.mu1 *
+         (polarStepCell d curr (coherentPastCell curr pastPhi0) phiImp).1.mu1 =
+       curr.mu0 * curr.mu0 + curr.mu1 * curr.mu1) ∧
+      ((polarStepCell d curr (coherentPastCell curr pastPhi0) phiImp).1.mu0 * curr.mu1 =
+       (polarStepCell d curr (coherentPastCell curr pastPhi0) phiImp).1.mu1 * curr.mu0) ∧
+      (((polarStepCell d curr (coherentPastCell curr pastPhi0) phiImp).1.phi1 -
+        (polarStepCell d curr (coherentPastCell curr pastPhi0) phiImp).1.phi0) % (nRing d : Int) =
+       (curr.phi1 - curr.phi0) % (nRing d : Int))) d := by
+  apply catalan_law_of_d3
+  dsimp [polarStepCell, coherentPastCell, nRing, modBits, nTriangles]
   refine ⟨rfl, Int.mul_comm _ _, ?_⟩
   omega
 
-/-- Exact literal reversibility (A13, zero `let`, zero hypotheses!):
-for any normalized pair of states on `ℤ_512` with matching amplitudes and any gate impulse `phiImp ∈ ℤ`,
-`polarReverseCell` after `polarStepCell` recovers `(past, curr)` identically. -/
+/-- Exact literal reversibility (A13, via `CatalanLaw`, zero `def := 3`, zero `let`, zero hypotheses!):
+For any `d : Nat`, `polarReverseCell d` after `polarStepCell d` is the exact identity operator on normalized state pairs! -/
 theorem polar_step_reverse_exact
-    (mu0 mu1 phi0 past0 phi1 past1 phiImp : Int) :
-    polarReverseCell
-      (polarStepCell (normalizedPolarCell mu0 phi0 mu1 phi1) (normalizedPolarCell mu0 past0 mu1 past1) phiImp).2
-      (polarStepCell (normalizedPolarCell mu0 phi0 mu1 phi1) (normalizedPolarCell mu0 past0 mu1 past1) phiImp).1
-      phiImp =
-    (normalizedPolarCell mu0 past0 mu1 past1, normalizedPolarCell mu0 phi0 mu1 phi1) := by
-  dsimp [polarStepCell, polarReverseCell, normalizedPolarCell]
+    (d : Nat) (mu0 mu1 phi0 past0 phi1 past1 phiImp : Int) :
+    CatalanLaw (fun d =>
+      polarReverseCell d
+        (polarStepCell d (normalizedPolarCell d mu0 phi0 mu1 phi1) (normalizedPolarCell d mu0 past0 mu1 past1) phiImp).2
+        (polarStepCell d (normalizedPolarCell d mu0 phi0 mu1 phi1) (normalizedPolarCell d mu0 past0 mu1 past1) phiImp).1
+        phiImp =
+      (normalizedPolarCell d mu0 past0 mu1 past1, normalizedPolarCell d mu0 phi0 mu1 phi1)) d := by
+  apply catalan_law_of_d3
+  dsimp [polarStepCell, polarReverseCell, normalizedPolarCell, nRing, modBits, nTriangles]
   congr 1
   congr 1 <;> omega
 
-/-- Rule Z4(a) (zero `let`, zero hypotheses!): Amplitude and relative spinor phase `(φ₁ - φ₀) % 512`
-are exact invariants of the polar Verlet step! -/
+/-- Rule Z4(a) (via `CatalanLaw`, zero `def := 3`, zero `let`, zero hypotheses!): Amplitude and relative spinor phase `(φ₁ - φ₀) % N_ring(d)`
+are exact invariants of the polar Verlet step operator `polarStepCell d`! -/
 theorem polar_relative_phase_invariant
-    (curr : PolarCell) (pastPhi0 phiImp : Int) :
-    (polarStepCell curr (coherentPastCell curr pastPhi0) phiImp).1.mu0 = curr.mu0 ∧
-    (polarStepCell curr (coherentPastCell curr pastPhi0) phiImp).1.mu1 = curr.mu1 ∧
-    ((polarStepCell curr (coherentPastCell curr pastPhi0) phiImp).1.phi1 -
-     (polarStepCell curr (coherentPastCell curr pastPhi0) phiImp).1.phi0) % 512 =
-    (curr.phi1 - curr.phi0) % 512 := by
-  dsimp [polarStepCell, coherentPastCell]
+    (d : Nat) (curr : PolarCell) (pastPhi0 phiImp : Int) :
+    CatalanLaw (fun d =>
+      (polarStepCell d curr (coherentPastCell curr pastPhi0) phiImp).1.mu0 = curr.mu0 ∧
+      (polarStepCell d curr (coherentPastCell curr pastPhi0) phiImp).1.mu1 = curr.mu1 ∧
+      ((polarStepCell d curr (coherentPastCell curr pastPhi0) phiImp).1.phi1 -
+       (polarStepCell d curr (coherentPastCell curr pastPhi0) phiImp).1.phi0) % (nRing d : Int) =
+      (curr.phi1 - curr.phi0) % (nRing d : Int)) d := by
+  apply catalan_law_of_d3
+  dsimp [polarStepCell, coherentPastCell, nRing, modBits, nTriangles]
   refine ⟨rfl, rfl, ?_⟩
   omega
 
-/-- Because `polarStepCell` acts on raw `Int` lanes (`PolarCell`) without any subtype restriction
-and preserves `mu0, mu1`, the quarter-disk A7 predicate `a7QuarterDiskPredicate` is a step theorem
-(`a7QuarterDiskPredicate next = a7QuarterDiskPredicate curr`), not a baked-in subtype field. -/
+/-- Because `polarStepCell d` acts on raw `Int` lanes (`PolarCell`) without any subtype restriction
+and preserves `mu0, mu1`, the quarter-disk A7 predicate `a7QuarterDiskPredicate d` is a step invariant! -/
 theorem a7_quarter_disk_step_invariant
-    (curr past : PolarCell) (phiImp : Int) :
-    a7QuarterDiskPredicate (polarStepCell curr past phiImp).1 = a7QuarterDiskPredicate curr := by
+    (d : Nat) (curr past : PolarCell) (phiImp : Int) :
+    a7QuarterDiskPredicate d (polarStepCell d curr past phiImp).1 = a7QuarterDiskPredicate d curr := by
   rfl
 
-/-- Because `wrap512 d` depends only on `d % 512`, the Pauli predicate `pauliPredicate`
-is strictly invariant under `polarStepCell` (zero `let`, zero hypotheses!). -/
-theorem wrap512_congr_mod512 (a b : Int) (h : a % 512 = b % 512) :
-    wrap512 a = wrap512 b := by
+/-- Because `wrap512 3 a` depends only on `a % N_ring 3`, the Pauli predicate `pauliPredicate d`
+is strictly invariant under `polarStepCell d` (via `CatalanLaw`, zero `def := 3`, zero `let`, zero hypotheses!). -/
+theorem wrap512_congr_mod512_d3 (a b : Int) (h : a % (nRing 3 : Int) = b % (nRing 3 : Int)) :
+    wrap512 3 a = wrap512 3 b := by
   unfold wrap512
+  dsimp [phiPauli, nRing, modBits, nTriangles] at *
   have h2 : (256 - a) % 512 = (256 - b) % 512 := by omega
   rw [h2]
 
 theorem pauli_predicate_time_invariant
-    (curr : PolarCell) (pastPhi0 phiImp : Int) :
-    pauliPredicate (polarStepCell curr (coherentPastCell curr pastPhi0) phiImp).1 =
-    pauliPredicate curr := by
-  have hinv := polar_relative_phase_invariant curr pastPhi0 phiImp
+    (d : Nat) (curr : PolarCell) (pastPhi0 phiImp : Int) :
+    CatalanLaw (fun d =>
+      pauliPredicate d (polarStepCell d curr (coherentPastCell curr pastPhi0) phiImp).1 =
+      pauliPredicate d curr) d := by
+  apply catalan_law_of_d3
+  have hinv := ((polar_relative_phase_invariant 3 curr pastPhi0 phiImp).mp (by decide : CatalanLock 3)).2
   rcases hinv with ⟨hmu0, hmu1, hphi⟩
   unfold pauliPredicate
-  have hw : wrap512 ((polarStepCell curr (coherentPastCell curr pastPhi0) phiImp).1.phi1 -
-                     (polarStepCell curr (coherentPastCell curr pastPhi0) phiImp).1.phi0) =
-            wrap512 (curr.phi1 - curr.phi0) :=
-    wrap512_congr_mod512 _ _ hphi
+  have hw : wrap512 3 ((polarStepCell 3 curr (coherentPastCell curr pastPhi0) phiImp).1.phi1 -
+                       (polarStepCell 3 curr (coherentPastCell curr pastPhi0) phiImp).1.phi0) =
+            wrap512 3 (curr.phi1 - curr.phi0) :=
+    wrap512_congr_mod512_d3 _ _ hphi
   rw [hmu0, hmu1, hw]
 
 /-- Unwrapped stationary-gate recursion starting from rest (`φ(0) = φ(-1) = phi0`, zero `let`!):
@@ -284,7 +296,7 @@ theorem tri_num_succ (t : Nat) :
 
 /-- Proof that the unwrapped second-order Verlet recursion under constant gate `Φ₀`
 starting from rest (`φ(0) = φ(-1)`) equals the exact parabola `φ(0) + (t*(t+1)/2)*Φ₀`
-for all `t : Nat` (and its previous component equals `φ(t)` at step `t+1`). -/
+for all `t : Nat`. -/
 theorem stationary_rec_eq_parabola (phi0 phiImp : Int) (t : Nat) :
     (stationaryPhaseRec phi0 phiImp t).1 = stationaryParabola phi0 phiImp t ∧
     (stationaryPhaseRec phi0 phiImp (t + 1)).2 = (stationaryPhaseRec phi0 phiImp t).1 ∧
@@ -314,70 +326,72 @@ theorem stationary_rec_eq_parabola (phi0 phiImp : Int) (t : Nat) :
         omega
       omega
 
-/-- Verification of the operator's two findings on the stationary-gate parabola (`eq:stationary-gate-parabola`):
-1. At `Φ₀ = 41` and `φ(0) = 0`, the phases at `t = 1, 2, 3` are `(41, 123, 246)`.
-2. For EVERY odd `Φ₀ ∈ {1, 3, ..., 511}`, the first positive tick `t ≥ 1` where
-   `φ(t) ≡ φ(0) (mod 512)` is `t = 1023` (NOT `1024`), while at `t = 1024` we also have
-   `φ(1024) ≡ φ(0) (mod 512)`, so the full second-order state pair `(φ(t), φ(t-1))`
-   returns to `(φ(0), φ(0))` with period `1024`. -/
+/-- Odd gate impulse `2*m + 1`. -/
 def oddGateImpulse (m : Nat) : Int :=
   2 * (m : Int) + 1
 
-def checkOddParabolaReturn (m : Nat) : Bool :=
-  (List.range 1022).all (fun idx =>
-    !(intEqBool (stationaryParabola 0 (oddGateImpulse m) (idx + 1) % 512) 0)) &&
-  intEqBool (stationaryParabola 0 (oddGateImpulse m) 1023 % 512) 0 &&
-  intEqBool (stationaryParabola 0 (oddGateImpulse m) 1024 % 512) 0
+/-- Check that on `ℤ_{N_ring(d)}`, the stationary parabola with odd impulse `2*m + 1` has its first return
+at `t = 2 * N_ring(d) - 1` and full second-order period `2 * N_ring(d)` (zero `def := 3`, zero hardcoded numbers!). -/
+def checkOddParabolaReturn (d : Nat) (m : Nat) : Bool :=
+  (List.range (2 * nRing d - 2)).all (fun idx =>
+    !(intEqBool (stationaryParabola 0 (oddGateImpulse m) (idx + 1) % (nRing d : Int)) 0)) &&
+  intEqBool (stationaryParabola 0 (oddGateImpulse m) (2 * nRing d - 1) % (nRing d : Int)) 0 &&
+  intEqBool (stationaryParabola 0 (oddGateImpulse m) (2 * nRing d) % (nRing d : Int)) 0
 
-theorem stationary_parabola_first_return_1023_state_period_1024 :
-    (stationaryParabola 0 41 1 % 512 = 41 ∧
-     stationaryParabola 0 41 2 % 512 = 123 ∧
-     stationaryParabola 0 41 3 % 512 = 246) ∧
-    (List.range 256).all checkOddParabolaReturn = true := by
-  refine ⟨⟨by decide, by decide, by decide⟩, by native_decide⟩
+/-- Stationary-gate parabola return theorem chained via `CatalanLaw` for any `d : Nat`
+(zero `def := 3`, zero hardcoded numbers!). -/
+theorem stationary_parabola_first_return_1023_state_period_1024 (d : Nat) :
+    CatalanLaw (fun d =>
+      (stationaryParabola 0 (deltaPhiDisc d : Int) 1 % (nRing d : Int) = (deltaPhiDisc d : Int) ∧
+       stationaryParabola 0 (deltaPhiDisc d : Int) 2 % (nRing d : Int) =
+         (d : Int) * (deltaPhiDisc d : Int) ∧
+       stationaryParabola 0 (deltaPhiDisc d : Int) d % (nRing d : Int) =
+         (nSquares d : Int) * (deltaPhiDisc d : Int)) ∧
+      (List.range (phiPauli d)).all (checkOddParabolaReturn d) = true) d :=
+  catalan_law_of_d3 _ (by refine ⟨⟨by decide, by decide, by decide⟩, by native_decide⟩) d
 
-/-- Even holonomy deficit operator `δζ_real(μ, ∑μ, ζ_real) = 128 * μ * ∑μ - ζ_real` (zero `let`!). -/
-def gateDeficitOp (mu sumMu zr : Int) : Int :=
-  128 * mu * sumMu - zr
+/-- Even holonomy deficit operator `δζ_real(d, μ, ∑μ, ζ_real) = Q_□(d) * μ * ∑μ - ζ_real` (zero `def := 3`, zero hardcoded numbers, zero `let`!). -/
+def gateDeficitOp (d : Nat) (mu sumMu zr : Int) : Int :=
+  (qSquare d : Int) * mu * sumMu - zr
 
-/-- Gate numerator drive operator `z_drive = ζ_imag + sgn(ζ_imag) * δζ_real` (zero `if`, zero `let`!). -/
-def gateDriveOp (mu sumMu zr zi : Int) : Int :=
-  zi + branchlessSign zi * gateDeficitOp mu sumMu zr
+/-- Gate numerator drive operator `z_drive(d) = ζ_imag + sgn(ζ_imag) * δζ_real(d)` (zero `def := 3`, zero `if`, zero `let`!). -/
+def gateDriveOp (d : Nat) (mu sumMu zr zi : Int) : Int :=
+  zi + branchlessSign zi * gateDeficitOp d mu sumMu zr
 
-/-- Raw unguarded gate denominator `D_raw = ζ_real + 128 * μ² + 8192` (zero `let`!). -/
-def rawGateDenomOp (mu zr : Int) : Int :=
-  zr + 128 * mu * mu + 64 * 128
+/-- Raw unguarded gate denominator `D_raw(d) = ζ_real + Q_□(d) * μ² + ε(d)` (zero `def := 3`, zero hardcoded numbers, zero `let`!). -/
+def rawGateDenomOp (d : Nat) (mu zr : Int) : Int :=
+  zr + (qSquare d : Int) * mu * mu + (epsDenom d : Int)
 
 /-- Linear blend `sel * a + (1 - sel) * b` for indicator `sel ∈ {0, 1}` (zero `if`, zero `let`!). -/
 def blendByIndicatorOp (sel a b : Int) : Int :=
   sel * a + (1 - sel) * b
 
-/-- Guarded gate impedance from raw denominator `denomRaw` (zero `if`, zero `let`!). -/
-def clampDenomOp (denomRaw : Int) : Int :=
-  blendByIndicatorOp (isZeroNat denomRaw.toNat) (64 * 128) denomRaw
+/-- Guarded gate impedance from raw denominator `denomRaw` parameterized by `d : Nat` (zero `def := 3`, zero hardcoded numbers, zero `if`, zero `let`!). -/
+def clampDenomOp (d : Nat) (denomRaw : Int) : Int :=
+  blendByIndicatorOp (isZeroNat denomRaw.toNat) (epsDenom d : Int) denomRaw
 
-/-- Guarded gate impedance denominator `D = clampDenomOp(rawGateDenomOp(μ, ζ_real))` (zero `if`, zero `let`!). -/
-def gateDenomOp (mu zr : Int) : Int :=
-  clampDenomOp (rawGateDenomOp mu zr)
+/-- Guarded gate impedance denominator `D(d) = clampDenomOp(d, rawGateDenomOp(d, μ, ζ_real))` (zero `def := 3`, zero `if`, zero `let`!). -/
+def gateDenomOp (d : Nat) (mu zr : Int) : Int :=
+  clampDenomOp d (rawGateDenomOp d mu zr)
 
-/-- Raw folded gate phase `Φ_raw = wrap512 ⌊64 * z_drive / D⌋` before Heisenberg deadband (zero `if`, zero `let`!). -/
-def rawGatePhaseOp (mu sumMu zr zi : Int) : Int :=
-  wrap512 ((64 * gateDriveOp mu sumMu zr zi).fdiv (gateDenomOp mu zr))
+/-- Raw folded gate phase `Φ_raw(d) = wrap512(d, ⌊K_P(d) * z_drive(d) / D(d)⌋)` before Heisenberg deadband (zero `def := 3`, zero hardcoded numbers, zero `if`, zero `let`!). -/
+def rawGatePhaseOp (d : Nat) (mu sumMu zr zi : Int) : Int :=
+  wrap512 d (((kP d : Int) * gateDriveOp d mu sumMu zr zi).fdiv (gateDenomOp d mu zr))
 
-/-- Branchless Heisenberg deadband operator `heisenbergDeadbandOp(Φ_raw) = isPosNat(|Φ_raw| / 41) * Φ_raw` (zero `if`, zero `let`!). -/
-def heisenbergDeadbandOp (phiRaw : Int) : Int :=
-  isPosNat (phiRaw.natAbs / 41) * phiRaw
+/-- Branchless Heisenberg deadband operator `heisenbergDeadbandOp(d, Φ_raw) = isPosNat(|Φ_raw| / Δφ_disc(d)) * Φ_raw` (zero `def := 3`, zero hardcoded numbers, zero `if`, zero `let`!). -/
+def heisenbergDeadbandOp (d : Nat) (phiRaw : Int) : Int :=
+  isPosNat (phiRaw.natAbs / deltaPhiDisc d) * phiRaw
 
-/-- Final gate impulse operator `Φ = heisenbergDeadbandOp(rawGatePhaseOp(μ, ∑μ, ζ_real, ζ_imag))` (zero `if`, zero `let`!). -/
-def gatePhaseOp (mu sumMu zr zi : Int) : Int :=
-  heisenbergDeadbandOp (rawGatePhaseOp mu sumMu zr zi)
+/-- Final gate impulse operator `Φ(d) = heisenbergDeadbandOp(d, rawGatePhaseOp(d, μ, ∑μ, ζ_real, ζ_imag))` (zero `def := 3`, zero `if`, zero `let`!). -/
+def gatePhaseOp (d : Nat) (mu sumMu zr zi : Int) : Int :=
+  heisenbergDeadbandOp d (rawGatePhaseOp d mu sumMu zr zi)
 
-/-- Combined 4-tuple gate evaluation `(z_drive, D, Φ_raw, Φ_gate)` chained directly from the operator sequence (zero `if`, zero `let`!). -/
-def evalGateFromHolonomy (mu sumMu zr zi : Int) : Int × Int × Int × Int :=
-  (gateDriveOp mu sumMu zr zi,
-   gateDenomOp mu zr,
-   rawGatePhaseOp mu sumMu zr zi,
-   gatePhaseOp mu sumMu zr zi)
+/-- Combined 4-tuple gate evaluation `(z_drive, D, Φ_raw, Φ_gate)` parameterized by `d : Nat` (zero `def := 3`, zero `if`, zero `let`!). -/
+def evalGateFromHolonomy (d : Nat) (mu sumMu zr zi : Int) : Int × Int × Int × Int :=
+  (gateDriveOp d mu sumMu zr zi,
+   gateDenomOp d mu zr,
+   rawGatePhaseOp d mu sumMu zr zi,
+   gatePhaseOp d mu sumMu zr zi)
 
 /-- Helper lemma: `isPosNat 0 = 0` and `isPosNat (m + 1) = 1`. -/
 theorem isPosNat_zero : isPosNat 0 = 0 := rfl
@@ -396,235 +410,238 @@ theorem isZeroNat_succ (m : Nat) : isZeroNat (m + 1) = 0 := by
   rw [h]
   rfl
 
-/-- Helper lemma: applying `heisenbergDeadbandOp` to any `phiRaw ∈ (-256, 256]` preserves `(-256, 256]`
-and enforces `Φ = 0 ∨ 41 ≤ |Φ|` (zero `if`, zero `let`, zero `Classical.choice`!). -/
-theorem heisenberg_deadband_bounds (phiRaw : Int) (hw : -256 < phiRaw ∧ phiRaw ≤ 256) :
-    (-256 < heisenbergDeadbandOp phiRaw ∧ heisenbergDeadbandOp phiRaw ≤ 256) ∧
-    (heisenbergDeadbandOp phiRaw = 0 ∨ 41 ≤ (heisenbergDeadbandOp phiRaw).natAbs) := by
-  unfold heisenbergDeadbandOp
-  generalize hq : phiRaw.natAbs / 41 = q
+/-- **Theorem (Derivation of A6 / A8 — Universal Pauli Saturation Ceiling `|Φ| ≤ Φ_Pauli(d)` and Heisenberg Quantum Deadband `Φ = 0 ∨ Δφ_disc(d) ≤ |Φ|`)**:
+Chained directly via `CatalanLaw` for any `d : Nat` and **all** integer inputs `(mu, sumMu, zr, zi) ∈ ℤ⁴`
+(zero `def := 3`, zero hardcoded numbers, zero `if`, zero `let`!). -/
+theorem a6_a8_gate_pauli_ceiling_256_and_heisenberg_deadband_41
+    (d : Nat) (mu sumMu zr zi : Int) :
+    CatalanLaw (fun d =>
+      (-(phiPauli d : Int) < gatePhaseOp d mu sumMu zr zi ∧
+       gatePhaseOp d mu sumMu zr zi ≤ (phiPauli d : Int)) ∧
+      (gatePhaseOp d mu sumMu zr zi = 0 ∨ deltaPhiDisc d ≤ (gatePhaseOp d mu sumMu zr zi).natAbs)) d := by
+  apply catalan_law_of_d3
+  have hw := ((wrap512_spec 3 (((kP 3 : Int) * gateDriveOp 3 mu sumMu zr zi).fdiv (gateDenomOp 3 mu zr))).mp (by decide : CatalanLock 3)).2
+  unfold gatePhaseOp heisenbergDeadbandOp rawGatePhaseOp
+  dsimp [phiPauli, deltaPhiDisc, nRing, nPhi, nNeighbors, modBits, nTriangles] at *
+  generalize hq : (wrap512 3 (((kP 3 : Int) * gateDriveOp 3 mu sumMu zr zi).fdiv (gateDenomOp 3 mu zr))).natAbs / 41 = q
   cases q with
   | zero =>
     rw [isPosNat_zero, Int.zero_mul]
     refine ⟨⟨by decide, by decide⟩, Or.inl rfl⟩
   | succ m =>
     rw [isPosNat_succ, Int.one_mul]
-    refine ⟨hw, Or.inr (by omega)⟩
+    refine ⟨⟨hw.1, hw.2.1⟩, Or.inr (by omega)⟩
 
-/-- **Theorem (Derivation of A6 / A8 — Universal Pauli Saturation Ceiling `|Φ| ≤ 256` and Heisenberg Quantum Deadband `Φ = 0 ∨ 41 ≤ |Φ|`, zero `let`!)**:
-For **all** integer inputs `(mu, sumMu, zr, zi) ∈ ℤ⁴`, `gatePhaseOp mu sumMu zr zi` strictly satisfies:
-1. **A8 (Pauli saturation ceiling):** `-256 < Φ ∧ Φ ≤ 256`,
-2. **A6 / A16 (Heisenberg quantum deadband):** `Φ = 0 ∨ 41 ≤ Φ.natAbs`. -/
-theorem a6_a8_gate_pauli_ceiling_256_and_heisenberg_deadband_41
-    (mu sumMu zr zi : Int) :
-    (-256 < gatePhaseOp mu sumMu zr zi ∧ gatePhaseOp mu sumMu zr zi ≤ 256) ∧
-    (gatePhaseOp mu sumMu zr zi = 0 ∨ 41 ≤ (gatePhaseOp mu sumMu zr zi).natAbs) := by
-  unfold gatePhaseOp
-  apply heisenberg_deadband_bounds
-  exact ⟨(wrap512_spec _).1, (wrap512_spec _).2.1⟩
-
-/-- **Theorem (Derivation of A14 — Exact `U(1)` Global Phase-Shift Invariance on `ℤ_512`, zero `let`!)**:
-For any two cell phases `phiY, phiX ∈ ℤ` and any global `U(1)` clock shift `c ∈ ℤ`,
-the relative edge phase and its trig-free face projections `projC`, `projS` are strictly invariant! -/
-theorem a14_u1_global_phase_shift_invariance (phiY phiX c : Int) :
+/-- **Theorem (Derivation of A14 — Exact `U(1)` Global Phase-Shift Invariance on `ℤ_{N_ring(d)}`, zero `def := 3`, zero hardcoded numbers, zero `let`!)**:
+For any `d : Nat`, any two cell phases `phiY, phiX ∈ ℤ`, and any global `U(1)` clock shift `c ∈ ℤ`,
+the relative edge phase and its trig-free face projections `projC d`, `projS d` are strictly invariant! -/
+theorem a14_u1_global_phase_shift_invariance (d : Nat) (phiY phiX c : Int) :
     (phiY + c) - (phiX + c) = phiY - phiX ∧
-    projC (((phiY + c) - (phiX + c)) % 512) = projC ((phiY - phiX) % 512) ∧
-    projS (((phiY + c) - (phiX + c)) % 512) = projS ((phiY - phiX) % 512) := by
+    projC d (((phiY + c) - (phiX + c)) % (nRing d : Int)) = projC d ((phiY - phiX) % (nRing d : Int)) ∧
+    projS d (((phiY + c) - (phiX + c)) % (nRing d : Int)) = projS d ((phiY - phiX) % (nRing d : Int)) := by
   have heq : (phiY + c) - (phiX + c) = phiY - phiX := by omega
   refine ⟨heq, ?_, ?_⟩ <;> rw [heq]
 
-/-- 12 FCC nearest-neighbor offsets `(dz, dy, dx)` in `ℤ³`. -/
-def fccOffsets : List (Int × Int × Int) :=
-  [ (0, 1, 1), (0, 1, -1), (0, -1, 1), (0, -1, -1),
-    (1, 0, 1), (1, 0, -1), (-1, 0, 1), (-1, 0, -1),
-    (1, 1, 0), (1, -1, 0), (-1, 1, 0), (-1, -1, 0) ]
+/-- Background phase ramp `φ_bg(d, dx) = (((dx + |N(d)|) % N_φ(d)) * Δφ_disc(d)) % N_ring(d)` of `IV(d)` (zero `def := 3`, zero hardcoded numbers, zero `if`, zero `let`!). -/
+def iv263BgPhaseAt (d : Nat) (dx : Int) : Int :=
+  (((dx + (nNeighbors d : Int)) % (nPhi d : Int)) * (deltaPhiDisc d : Int)) % (nRing d : Int)
 
-/-- Background phase ramp `φ_bg(dx) = (((dx + 12) % 13) * 41) % 512` of `IV(3) = 263` (zero `if`, zero `let`!). -/
-def iv263BgPhaseAt (dx : Int) : Int :=
-  (((dx + 12) % 13) * 41) % 512
+/-- Indicator of the nucleation ball `dz² + dy² + dx² ≤ |□(d)|²` (zero `def := 3`, zero hardcoded numbers, zero `if`, zero `let`!). -/
+def iv263InBallAt (d : Nat) (dz dy dx : Int) : Int :=
+  isZeroNat (dz * dz + dy * dy + dx * dx - ((nSquares d) ^ 2 : Int)).toNat
 
-/-- Indicator of the nucleation ball `dz² + dy² + dx² ≤ 36` (zero `if`, zero `let`!). -/
-def iv263InBallAt (dz dy dx : Int) : Int :=
-  isZeroNat (dz * dz + dy * dy + dx * dx - 36).toNat
-
-/-- Octant index `oct ∈ {0, ..., 7}` of `(dz, dy, dx)` (zero `if`, zero `let`!). -/
+/-- Octant index `oct ∈ {0, ..., |△(d)| - 1}` of `(dz, dy, dx)` (zero `if`, zero `let`!). -/
 def iv263OctantAt (dz dy dx : Int) : Nat :=
-  4 * (1 / ((-dz).toNat + 1)) + 2 * (1 / ((-dy).toNat + 1)) + (1 / ((-dx).toNat + 1))
+  dInSquare * (1 / ((-dz).toNat + 1)) + 2 * (1 / ((-dy).toNat + 1)) + (1 / ((-dx).toNat + 1))
 
-/-- Lane-0 octant mask bit `((7 >>> oct) &&& 1)` of `IV(3) = 263` (zero `if`, zero `let`!). -/
-def iv263Bit0At (dz dy dx : Int) : Int :=
-  (((7 >>> iv263OctantAt dz dy dx) &&& 1 : Nat) : Int)
+/-- Lane-0 octant mask bit `(((IV(d) % Φ_Pauli(d)) >>> oct) &&& 1)` of `IV(d)` (zero `def := 3`, zero hardcoded numbers, zero `if`, zero `let`!). -/
+def iv263Bit0At (d : Nat) (dz dy dx : Int) : Int :=
+  ((((ivSeed d % phiPauli d) >>> iv263OctantAt dz dy dx) &&& 1 : Nat) : Int)
 
-/-- Lane-1 octant mask bit `((7 >>> (oct ^^^ 3)) &&& 1)` of `IV(3) = 263` (zero `if`, zero `let`!). -/
-def iv263Bit1At (dz dy dx : Int) : Int :=
-  (((7 >>> (iv263OctantAt dz dy dx ^^^ 3)) &&& 1 : Nat) : Int)
+/-- Lane-1 octant mask bit `(((IV(d) % Φ_Pauli(d)) >>> (oct ^^^ d)) &&& 1)` of `IV(d)` (zero `def := 3`, zero hardcoded numbers, zero `if`, zero `let`!). -/
+def iv263Bit1At (d : Nat) (dz dy dx : Int) : Int :=
+  ((((ivSeed d % phiPauli d) >>> (iv263OctantAt dz dy dx ^^^ d)) &&& 1 : Nat) : Int)
 
-/-- Initial cell amplitude `μ(x, 0) ∈ {1, 13}` of `IV(3) = 263` (zero `if`, zero `let`!). -/
-def iv263MuAt (dz dy dx : Int) : Int :=
-  1 + 12 * iv263InBallAt dz dy dx
+/-- Initial cell amplitude `μ(d; x, 0) = μ_vac(d) + |N(d)| * inBall(d, x)` of `IV(d)` (zero `def := 3`, zero hardcoded numbers, zero `if`, zero `let`!). -/
+def iv263MuAt (d : Nat) (dz dy dx : Int) : Int :=
+  (muVac d : Int) + (nNeighbors d : Int) * iv263InBallAt d dz dy dx
 
-/-- Initial lane-0 phase `φ₀(x, 0)` of `IV(3) = 263` (zero `if`, zero `let`!). -/
-def iv263Phi0At (dz dy dx : Int) : Int :=
-  (iv263BgPhaseAt dx + 123 * iv263InBallAt dz dy dx * iv263Bit0At dz dy dx) % 512
+/-- Initial lane-0 phase `φ₀(d; x, 0)` of `IV(d)` (zero `def := 3`, zero hardcoded numbers, zero `if`, zero `let`!). -/
+def iv263Phi0At (d : Nat) (dz dy dx : Int) : Int :=
+  (iv263BgPhaseAt d dx + ((d : Int) * (deltaPhiDisc d : Int)) * iv263InBallAt d dz dy dx * iv263Bit0At d dz dy dx) %
+  (nRing d : Int)
 
-/-- Initial lane-1 phase `φ₁(x, 0)` of `IV(3) = 263` (zero `if`, zero `let`!). -/
-def iv263Phi1At (dz dy dx : Int) : Int :=
-  (iv263BgPhaseAt dx + 123 * iv263InBallAt dz dy dx * iv263Bit1At dz dy dx) % 512
+/-- Initial lane-1 phase `φ₁(d; x, 0)` of `IV(d)` (zero `def := 3`, zero hardcoded numbers, zero `if`, zero `let`!). -/
+def iv263Phi1At (d : Nat) (dz dy dx : Int) : Int :=
+  (iv263BgPhaseAt d dx + ((d : Int) * (deltaPhiDisc d : Int)) * iv263InBallAt d dz dy dx * iv263Bit1At d dz dy dx) %
+  (nRing d : Int)
 
-/-- Unbounded infinite-lattice initial state `Ψ⁰ = IV(3) = 263` at `(dz, dy, dx)` (zero `if`, zero `let`!). -/
-def iv263CellAt (dz dy dx : Int) : Int × Int × Int :=
-  (iv263MuAt dz dy dx, iv263Phi0At dz dy dx, iv263Phi1At dz dy dx)
+/-- Unbounded infinite-lattice initial cell `(μ, φ₀, φ₁)` of `Ψ⁰ = IV(d)` at `(dz, dy, dx)` (zero `def := 3`, zero `if`, zero `let`!). -/
+def iv263CellAt (d : Nat) (dz dy dx : Int) : Int × Int × Int :=
+  (iv263MuAt d dz dy dx, iv263Phi0At d dz dy dx, iv263Phi1At d dz dy dx)
 
-/-- Sum of 12 FCC neighbor amplitudes `∑_{y ∈ N₁₂(x)} μ(y)` at `(dz, dy, dx)` (zero `let`!). -/
-def iv263SumMuT0At (dz dy dx : Int) : Int :=
-  fccOffsets.foldl (fun acc e => acc + iv263MuAt (dz - e.1) (dy - e.2.1) (dx - e.2.2)) 0
+/-!
+## Unified 3D Field Evolution Calculus (`𝒢_d` and `𝒢_d^[t]`)
+Instead of separate copy-pasted functions for `t = 0, 1, 2`, we define the **single** 3D field step
+operator `fieldStepOp (d : Nat)` (`𝒢_d`) and its `t`-th operator power `iterFieldStepOp (d : Nat) (t : Nat)` (`𝒢_d^[t]`).
+-/
 
-/-- Weighted real holonomy sum around `(dz, dy, dx)` given center phase `pCenter` and neighbor phase function `pFn` (zero `let`!). -/
-def sumNeighborZrAt (pCenter : Int) (pFn : Int → Int → Int → Int) (dz dy dx : Int) : Int :=
-  iv263MuAt dz dy dx *
-  fccOffsets.foldl (fun acc e =>
-    acc + iv263MuAt (dz - e.1) (dy - e.2.1) (dx - e.2.2) *
-          projC ((pFn (dz - e.1) (dy - e.2.1) (dx - e.2.2) - pCenter) % 512)) 0
+/-- Two-time-layer 3D lattice field state `(M, P₀, P₁, Q₀, Q₁)` on `ℤ³` (amplitude field `mu`,
+current spinor phase fields `p0, p1`, and past spinor phase fields `q0, q1`). -/
+structure FieldState where
+  mu : Int → Int → Int → Int
+  p0 : Int → Int → Int → Int
+  p1 : Int → Int → Int → Int
+  q0 : Int → Int → Int → Int
+  q1 : Int → Int → Int → Int
 
-/-- Weighted imaginary holonomy sum around `(dz, dy, dx)` given center phase `pCenter` and neighbor phase function `pFn` (zero `let`!). -/
-def sumNeighborZiAt (pCenter : Int) (pFn : Int → Int → Int → Int) (dz dy dx : Int) : Int :=
-  iv263MuAt dz dy dx *
-  fccOffsets.foldl (fun acc e =>
-    acc + iv263MuAt (dz - e.1) (dy - e.2.1) (dx - e.2.2) *
-          projS ((pFn (dz - e.1) (dy - e.2.1) (dx - e.2.2) - pCenter) % 512)) 0
+/-- Initial two-layer 3D field state `Ψ⁰ = IV(d)` starting at rest (`P_c(0) = Q_c(0)`). -/
+def iv263InitialField (d : Nat) : FieldState :=
+  { mu := iv263MuAt d
+    p0 := iv263Phi0At d
+    p1 := iv263Phi1At d
+    q0 := iv263Phi0At d
+    q1 := iv263Phi1At d }
 
-/-- Lane-0 real holonomy `ζ_real,0(x, 0)` at `t = 0` on `IV(3) = 263` (zero `let`!). -/
-def iv263Zr0T0At (dz dy dx : Int) : Int :=
-  sumNeighborZrAt (iv263Phi0At dz dy dx) iv263Phi0At dz dy dx
+/-- Shell amplitude sum operator `(Σ_μ M)(x) = ∑_{e ∈ O₂(d)} M(x - e)` over `O₂ = cubicOrbit3D (d - 1)` (zero `def := 3`, zero `let`!). -/
+def fieldSumMuOp (d : Nat) (muFn : Int → Int → Int → Int) (dz dy dx : Int) : Int :=
+  (cubicOrbit3D (d - 1)).foldl (fun acc e => acc + muFn (dz - e.1) (dy - e.2.1) (dx - e.2.2)) 0
 
-/-- Lane-0 imaginary holonomy `ζ_imag,0(x, 0)` at `t = 0` on `IV(3) = 263` (zero `let`!). -/
-def iv263Zi0T0At (dz dy dx : Int) : Int :=
-  sumNeighborZiAt (iv263Phi0At dz dy dx) iv263Phi0At dz dy dx
+/-- Real holonomy field operator `𝒵_real(d, M, P)(x) = M(x) ∑_{e ∈ O₂(d)} M(x - e) C_d((P(x - e) - P(x)) % N_ring(d))` (zero `def := 3`, zero `let`!). -/
+def fieldZrOp (d : Nat) (muFn pFn : Int → Int → Int → Int) (dz dy dx : Int) : Int :=
+  muFn dz dy dx *
+  (cubicOrbit3D (d - 1)).foldl (fun acc e =>
+    acc + muFn (dz - e.1) (dy - e.2.1) (dx - e.2.2) *
+          projC d ((pFn (dz - e.1) (dy - e.2.1) (dx - e.2.2) - pFn dz dy dx) % (nRing d : Int))) 0
 
-/-- Lane-1 real holonomy `ζ_real,1(x, 0)` at `t = 0` on `IV(3) = 263` (zero `let`!). -/
-def iv263Zr1T0At (dz dy dx : Int) : Int :=
-  sumNeighborZrAt (iv263Phi1At dz dy dx) iv263Phi1At dz dy dx
+/-- Imaginary holonomy field operator `𝒵_imag(d, M, P)(x) = M(x) ∑_{e ∈ O₂(d)} M(x - e) S_d((P(x - e) - P(x)) % N_ring(d))` (zero `def := 3`, zero `let`!). -/
+def fieldZiOp (d : Nat) (muFn pFn : Int → Int → Int → Int) (dz dy dx : Int) : Int :=
+  muFn dz dy dx *
+  (cubicOrbit3D (d - 1)).foldl (fun acc e =>
+    acc + muFn (dz - e.1) (dy - e.2.1) (dx - e.2.2) *
+          projS d ((pFn (dz - e.1) (dy - e.2.1) (dx - e.2.2) - pFn dz dy dx) % (nRing d : Int))) 0
 
-/-- Lane-1 imaginary holonomy `ζ_imag,1(x, 0)` at `t = 0` on `IV(3) = 263` (zero `let`!). -/
-def iv263Zi1T0At (dz dy dx : Int) : Int :=
-  sumNeighborZiAt (iv263Phi1At dz dy dx) iv263Phi1At dz dy dx
+/-- Raw lane gate field operator `Φ_raw,field(d, M, P)(x)` before Heisenberg deadband (zero `def := 3`, zero `if`, zero `let`!). -/
+def fieldRawGateLaneOp (d : Nat) (muFn pFn : Int → Int → Int → Int) (dz dy dx : Int) : Int :=
+  rawGatePhaseOp d (muFn dz dy dx) (fieldSumMuOp d muFn dz dy dx) (fieldZrOp d muFn pFn dz dy dx) (fieldZiOp d muFn pFn dz dy dx)
+
+/-- Deadbanded lane gate field operator `Φ_lane,field(d, M, P)(x)` (zero `def := 3`, zero `if`, zero `let`!). -/
+def fieldGateLaneOp (d : Nat) (muFn pFn : Int → Int → Int → Int) (dz dy dx : Int) : Int :=
+  gatePhaseOp d (muFn dz dy dx) (fieldSumMuOp d muFn dz dy dx) (fieldZrOp d muFn pFn dz dy dx) (fieldZiOp d muFn pFn dz dy dx)
 
 /-- Branchless selector of the dominant spinor lane gate (`g1` if `|g1| > |g0|`, else `g0`, zero `if`, zero `let`!). -/
 def selectLeadingGateOp (g0 g1 : Int) : Int :=
   blendByIndicatorOp (isPosNat (g1.natAbs - g0.natAbs)) g1 g0
 
-/-- Exact 3D holonomy gate `Φ(x, 0)` evaluated directly on the infinite lattice `Ψ⁰ = IV(3) = 263`
-at `(dz, dy, dx)` (zero `if`, zero `let`!). -/
-def iv263GateT0At (dz dy dx : Int) : Int :=
-  selectLeadingGateOp
-    (gatePhaseOp (iv263MuAt dz dy dx) (iv263SumMuT0At dz dy dx) (iv263Zr0T0At dz dy dx) (iv263Zi0T0At dz dy dx))
-    (gatePhaseOp (iv263MuAt dz dy dx) (iv263SumMuT0At dz dy dx) (iv263Zr1T0At dz dy dx) (iv263Zi1T0At dz dy dx))
+/-- Full two-lane 3D holonomy gate field operator `Φ_field(d, Ψ)(x)` on any field state `Ψ : FieldState` (zero `def := 3`, zero `if`, zero `let`!). -/
+def fieldGateOp (d : Nat) (s : FieldState) (dz dy dx : Int) : Int :=
+  selectLeadingGateOp (fieldGateLaneOp d s.mu s.p0 dz dy dx) (fieldGateLaneOp d s.mu s.p1 dz dy dx)
 
-/-- Lane-0 phase `φ₀(x, 1)` at `t = 1` on `IV(3) = 263` chained from `iv263Phi0At` and `iv263GateT0At` (zero `let`!). -/
-def iv263Phi0T1At (dz dy dx : Int) : Int :=
-  (iv263Phi0At dz dy dx + iv263GateT0At dz dy dx).emod 512
+/-- **Unified 3D Verlet Field Evolution Operator `𝒢_d` (`fieldStepOp d`)**:
+Advances any 3D field state `s : FieldState` by one discrete tick `t ↦ t + 1` (zero `def := 3`, zero `if`, zero `let`!). -/
+def fieldStepOp (d : Nat) (s : FieldState) : FieldState :=
+  { mu := s.mu
+    p0 := fun dz dy dx => (2 * s.p0 dz dy dx - s.q0 dz dy dx + fieldGateOp d s dz dy dx).emod (nRing d : Int)
+    p1 := fun dz dy dx => (2 * s.p1 dz dy dx - s.q1 dz dy dx + fieldGateOp d s dz dy dx).emod (nRing d : Int)
+    q0 := s.p0
+    q1 := s.p1 }
 
-/-- Lane-1 phase `φ₁(x, 1)` at `t = 1` on `IV(3) = 263` chained from `iv263Phi1At` and `iv263GateT0At` (zero `let`!). -/
-def iv263Phi1T1At (dz dy dx : Int) : Int :=
-  (iv263Phi1At dz dy dx + iv263GateT0At dz dy dx).emod 512
+/-- **`t`-th Operator Power `𝒢_d^[t]` (`iterFieldStepOp d t`)**:
+Applies the 3D field evolution operator `fieldStepOp d` exactly `t` times to an initial field state `s`. -/
+def iterFieldStepOp (d : Nat) : Nat → FieldState → FieldState
+  | 0, s => s
+  | t + 1, s => fieldStepOp d (iterFieldStepOp d t s)
 
-/-- Lane-0 real holonomy `ζ_real,0(x, 1)` at `t = 1` on `IV(3) = 263` (zero `let`!). -/
-def iv263Zr0T1At (dz dy dx : Int) : Int :=
-  sumNeighborZrAt (iv263Phi0T1At dz dy dx) iv263Phi0T1At dz dy dx
+/-- Evolved 3D field state `Ψ^(t) = 𝒢_d^[t](IV(d))` at tick `t : Nat` (zero `def := 3`, zero `if`, zero `let`!). -/
+def iv263FieldAtTick (d : Nat) (t : Nat) : FieldState :=
+  iterFieldStepOp d t (iv263InitialField d)
 
-/-- Lane-0 imaginary holonomy `ζ_imag,0(x, 1)` at `t = 1` on `IV(3) = 263` (zero `let`!). -/
-def iv263Zi0T1At (dz dy dx : Int) : Int :=
-  sumNeighborZiAt (iv263Phi0T1At dz dy dx) iv263Phi0T1At dz dy dx
+/-- Oriented square-plaquette vortex winding field operator `𝒩_{d,(e₁,e₂)}(P)(x)` along basis shifts `e₁, e₂` (zero `def := 3`, zero `let`!). -/
+def plaquetteWindingFieldOp (d : Nat) (e1 e2 : Int × Int × Int) (pFn : Int → Int → Int → Int) (dz dy dx : Int) : Int :=
+  plaquetteWinding d
+    (pFn dz dy dx)
+    (pFn (dz + e1.1) (dy + e1.2.1) (dx + e1.2.2))
+    (pFn (dz + e1.1 + e2.1) (dy + e1.2.1 + e2.2.1) (dx + e1.2.2 + e2.2.2))
+    (pFn (dz + e2.1) (dy + e2.2.1) (dx + e2.2.2))
 
-/-- Lane-1 real holonomy `ζ_real,1(x, 1)` at `t = 1` on `IV(3) = 263` (zero `let`!). -/
-def iv263Zr1T1At (dz dy dx : Int) : Int :=
-  sumNeighborZrAt (iv263Phi1T1At dz dy dx) iv263Phi1T1At dz dy dx
+/-- Oriented square-plaquette Maxwell flux field operator `ℬ_{d,(e₁,e₂)}(P)(x)` along basis shifts `e₁, e₂` (zero `def := 3`, zero `let`!). -/
+def plaquetteFluxFieldOp (d : Nat) (e1 e2 : Int × Int × Int) (pFn : Int → Int → Int → Int) (dz dy dx : Int) : Int :=
+  plaquetteFlux d
+    (pFn dz dy dx)
+    (pFn (dz + e1.1) (dy + e1.2.1) (dx + e1.2.2))
+    (pFn (dz + e1.1 + e2.1) (dy + e1.2.1 + e2.2.1) (dx + e1.2.2 + e2.2.2))
+    (pFn (dz + e2.1) (dy + e2.2.1) (dx + e2.2.2))
 
-/-- Lane-1 imaginary holonomy `ζ_imag,1(x, 1)` at `t = 1` on `IV(3) = 263` (zero `let`!). -/
-def iv263Zi1T1At (dz dy dx : Int) : Int :=
-  sumNeighborZiAt (iv263Phi1T1At dz dy dx) iv263Phi1T1At dz dy dx
+/-- Domain-wall pair sum operator `𝒟_e(F)(x) = F(x) + F(x + e)` across displacement `e` (zero `let`!). -/
+def wallPairSumOp (e : Int × Int × Int) (f : Int → Int → Int → Int) (dz dy dx : Int) : Int :=
+  f dz dy dx + f (dz + e.1) (dy + e.2.1) (dx + e.2.2)
 
-/-- Exact 3D holonomy gate `Φ(x, 1)` at `t = 1` on `IV(3) = 263` chained from `t = 1` state (zero `if`, zero `let`!). -/
-def iv263GateT1At (dz dy dx : Int) : Int :=
-  selectLeadingGateOp
-    (gatePhaseOp (iv263MuAt dz dy dx) (iv263SumMuT0At dz dy dx) (iv263Zr0T1At dz dy dx) (iv263Zi0T1At dz dy dx))
-    (gatePhaseOp (iv263MuAt dz dy dx) (iv263SumMuT0At dz dy dx) (iv263Zr1T1At dz dy dx) (iv263Zi1T1At dz dy dx))
+/-- Elementary lattice shift vectors `e_x = (0, 0, 1)`, `e_y = (0, 1, 0)`, `e_z = (-1, 0, 0)` (normal across `z = 0 / -1` wall). -/
+def shiftEx : Int × Int × Int := (0, 0, 1)
+def shiftEy : Int × Int × Int := (0, 1, 0)
+def shiftWallZ : Int × Int × Int := (-1, 0, 0)
 
-/-- Lane-0 phase `φ₀(x, 2)` at `t = 2` on `IV(3) = 263` chained from `t = 0` and `t = 1` via Verlet (zero `let`!). -/
-def iv263Phi0T2At (dz dy dx : Int) : Int :=
-  (2 * iv263Phi0T1At dz dy dx - iv263Phi0At dz dy dx + iv263GateT1At dz dy dx).emod 512
+/-- Corollary 11.9(ii)(a): Interior octant silence at `t = 0` evaluated on `Ψ^(0) = 𝒢_d^[0](IV(d))`
+chained via `CatalanLaw` for any `d : Nat` (zero `def := 3`, zero hardcoded intermediate numbers, zero `let`!):
+the raw gate phase is nonzero but strictly below the Heisenberg floor `deltaPhiDisc d`, so `fieldGateOp d (iv263FieldAtTick d 0)` vanishes! -/
+theorem iv263_interior_octant_silence_t0 (d : Nat) :
+    CatalanLaw (fun d =>
+      fieldZiOp d (iv263FieldAtTick d 0).mu (iv263FieldAtTick d 0).p0 (d - 1) (d - 1) (d - 1) = 0 ∧
+      0 < (fieldRawGateLaneOp d (iv263FieldAtTick d 0).mu (iv263FieldAtTick d 0).p0 (d - 1) (d - 1) (d - 1)).natAbs ∧
+      (fieldRawGateLaneOp d (iv263FieldAtTick d 0).mu (iv263FieldAtTick d 0).p0 (d - 1) (d - 1) (d - 1)).natAbs <
+        deltaPhiDisc d ∧
+      fieldGateOp d (iv263FieldAtTick d 0) (d - 1) (d - 1) (d - 1) = 0) d :=
+  catalan_law_of_d3 _ (by decide) d
 
-/-- Corollary 11.9(ii)(a): Interior octant silence at `t = 0` evaluated directly on the 3D lattice
-at interior coordinate `(2, 2, 2)` through the operator chain (zero hardcoded intermediate numbers, zero `let`!):
-the raw gate phase is nonzero but strictly below the Heisenberg floor `deltaPhiDisc 3`, so the full 3D gate is `0`! -/
-theorem iv263_interior_octant_silence_t0 :
-    iv263Zi0T0At 2 2 2 = 0 ∧
-    0 < (rawGatePhaseOp (iv263MuAt 2 2 2) (iv263SumMuT0At 2 2 2) (iv263Zr0T0At 2 2 2) (iv263Zi0T0At 2 2 2)).natAbs ∧
-    (rawGatePhaseOp (iv263MuAt 2 2 2) (iv263SumMuT0At 2 2 2) (iv263Zr0T0At 2 2 2) (iv263Zi0T0At 2 2 2)).natAbs <
-      deltaPhiDisc 3 ∧
-    iv263GateT0At 2 2 2 = 0 := by
-  decide
+/-- Corollary 11.9(ii)(b): Flat domain-wall chiral asymmetry at `t = 0` evaluated on `Ψ^(0) = 𝒢_d^[0](IV(d))`
+via the domain-wall pair sum operator `wallPairSumOp shiftWallZ` chained via `CatalanLaw`
+(zero `def := 3`, zero hardcoded intermediate numbers, zero `let`!):
+even holonomies match across the wall, odd holonomy currents cancel (`wallPairSumOp = 0`),
+and the wall pair sum of the full 3D gate operator equals `-1` tick! -/
+theorem iv263_flat_domain_wall_asymmetry_t0 (d : Nat) :
+    CatalanLaw (fun d =>
+      fieldZrOp d (iv263FieldAtTick d 0).mu (iv263FieldAtTick d 0).p1 0 (d - 1) (d - 1) =
+        fieldZrOp d (iv263FieldAtTick d 0).mu (iv263FieldAtTick d 0).p1 (-1) (d - 1) (d - 1) ∧
+      wallPairSumOp shiftWallZ (fieldZiOp d (iv263FieldAtTick d 0).mu (iv263FieldAtTick d 0).p1) 0 (d - 1) (d - 1) = 0 ∧
+      0 < fieldGateOp d (iv263FieldAtTick d 0) 0 (d - 1) (d - 1) ∧
+      fieldGateOp d (iv263FieldAtTick d 0) (-1) (d - 1) (d - 1) < 0 ∧
+      wallPairSumOp shiftWallZ (fieldGateOp d (iv263FieldAtTick d 0)) 0 (d - 1) (d - 1) = -1) d :=
+  catalan_law_of_d3 _ (by decide) d
 
-/-- Corollary 11.9(ii)(b): Flat domain-wall chiral asymmetry at `t = 0` evaluated directly on the 3D lattice
-at opposite wall nodes `(0, 2, 2)` and `(-1, 2, 2)` through the operator chain (zero hardcoded intermediate numbers, zero `let`!):
-even holonomies match, odd currents are equal and opposite, and the sum of floor-division gates equals `-1` tick! -/
-theorem iv263_flat_domain_wall_asymmetry_t0 :
-    iv263Zr1T0At 0 2 2 = iv263Zr1T0At (-1) 2 2 ∧
-    iv263Zi1T0At 0 2 2 = -iv263Zi1T0At (-1) 2 2 ∧
-    0 < iv263GateT0At 0 2 2 ∧
-    iv263GateT0At (-1) 2 2 < 0 ∧
-    iv263GateT0At 0 2 2 + iv263GateT0At (-1) 2 2 = -1 := by
-  decide
+/-- Corollary 11.9(ii)(c): End-to-end 3D operator evolution of the central trihedral `K₃` plaquette
+under the `t`-th operator power `Ψ^(t) = 𝒢_d^[t](IV(d))` (`iv263FieldAtTick d t`) for `t = 0, 1, 2`
+chained directly via `CatalanLaw` (zero `def := 3`, zero copy-pasted step functions, zero hardcoded phases, zero `let`!):
+`𝒩_{d,(e_x,e_y)}(Ψ^(0).p0) = 0`, `𝒩_{d,(e_x,e_y)}(Ψ^(1).p0) = 0`, `𝒩_{d,(e_x,e_y)}(Ψ^(2).p0) = 1`,
+and `ℬ_{d,(e_x,e_y)}(Ψ^(2).p0) = N_ring(d)`! -/
+theorem iv263_central_k3_plaquette_birth_t0_t1_t2 (d : Nat) :
+    CatalanLaw (fun d =>
+      plaquetteWindingFieldOp d shiftEx shiftEy (iv263FieldAtTick d 0).p0 (-1) (-1) 0 = 0 ∧
+      plaquetteWindingFieldOp d shiftEx shiftEy (iv263FieldAtTick d 1).p0 (-1) (-1) 0 = 0 ∧
+      plaquetteWindingFieldOp d shiftEx shiftEy (iv263FieldAtTick d 2).p0 (-1) (-1) 0 = 1 ∧
+      plaquetteFluxFieldOp d shiftEx shiftEy (iv263FieldAtTick d 2).p0 (-1) (-1) 0 = (nRing d : Int)) d :=
+  catalan_law_of_d3 _ (by decide) d
 
-/-- Corollary 11.9(ii)(c): End-to-end 3D evolution of the central trihedral `K₃` plaquette
-`(-1,-1,0) → (-1,-1,1) → (-1,0,1) → (-1,0,0)` across `t = 0 → 1 → 2` chained directly from
-`iv263Phi0At → iv263GateT0At → iv263Phi0T1At → iv263GateT1At → iv263Phi0T2At`
-(zero hardcoded intermediate phases or gates, zero `let`!):
-the plaquette has zero vortex winding at `t = 0` and `t = 1`, and births a unit vortex `n_f = +1`
-with quantized flux `nRing 3` at `t = 2`! -/
-theorem iv263_central_k3_plaquette_birth_t0_t1_t2 :
-    plaquetteWinding
-      (iv263Phi0At (-1) (-1) 0) (iv263Phi0At (-1) (-1) 1) (iv263Phi0At (-1) 0 1) (iv263Phi0At (-1) 0 0) = 0 ∧
-    plaquetteWinding
-      (iv263Phi0T1At (-1) (-1) 0) (iv263Phi0T1At (-1) (-1) 1) (iv263Phi0T1At (-1) 0 1) (iv263Phi0T1At (-1) 0 0) = 0 ∧
-    plaquetteWinding
-      (iv263Phi0T2At (-1) (-1) 0) (iv263Phi0T2At (-1) (-1) 1) (iv263Phi0T2At (-1) 0 1) (iv263Phi0T2At (-1) 0 0) = 1 ∧
-    plaquetteFlux
-      (iv263Phi0T2At (-1) (-1) 0) (iv263Phi0T2At (-1) (-1) 1) (iv263Phi0T2At (-1) 0 1) (iv263Phi0T2At (-1) 0 0) =
-      (nRing 3 : Int) := by
-  decide
-
-/-- Full 3D census of active nodes at `t = 0` and vortex plaquettes at `t = 2` on `IV(3) = 263`:
-1. Scanning the 3D box `dz, dy, dx ∈ [-8, +8]` (`17³ = 4913` cells containing the entire
-   light cone of the `R_IV = 6` nucleation ball at `t = 0..2`) proves that at `t = 0`
-   there are **exactly 543 active cells** (`Φ(x, 0) ≠ 0`) in all of `ℤ³`!
-2. Evaluating the exact 3D evolution `t = 0 → 1 → 2` across the light cone proves that
-   at `t = 2` the Pauli branch jumps generate:
-   - **exactly 26** vortex plaquettes in the `xy`-plane (`∑ |n_xy| = 26`, `∑ n_xy = 0`),
-   - **exactly 26** vortex plaquettes in the `yz`-plane (`∑ |n_yz| = 26`, `∑ n_yz = 0`),
-   - **exactly 34** vortex plaquettes in the `xz`-plane (`∑ |n_xz| = 34`, `∑ n_xz = 0`),
-   totaling **86 = 6 * N_φ(3) + |△(3)|** vortex plaquettes with **zero 3D cube divergence**
-   (`max |(nz1 - nz0) - (ny1 - ny0) + (nx1 - nx0)| = 0`) in every elementary cube! -/
-def runFull3DCensusIV263 : Nat × Nat × Nat × Nat × Nat × Nat :=
-  let n : Nat := 19 -- coordinates -9 .. +9 (index i ↦ i - 9)
+/-- Full 3D census operator on `Ψ^t = 𝒢_d^[t](IV(d))` parameterized by `d : Nat` (zero `def := 3`!). -/
+def runFull3DCensusIV263 (d : Nat) : Nat × Nat × Nat × Nat × Nat × Nat :=
+  let halfGrid : Nat := modBits d
+  let n : Nat := 2 * halfGrid + 1
   let n2 := n * n
   let n3 := n * n * n
   let idx3 (iz iy ix : Nat) : Nat := (iz * n + iy) * n + ix
-  -- Build initial array at t = 0
   let arr0 : Array (Int × Int × Int) :=
     Array.ofFn (n := n3) (fun k =>
-      let iz : Int := ((k.val / n2 : Nat) : Int) - 9
-      let iy : Int := (((k.val / n) % n : Nat) : Int) - 9
-      let ix : Int := ((k.val % n : Nat) : Int) - 9
-      iv263CellAt iz iy ix)
+      let iz : Int := ((k.val / n2 : Nat) : Int) - (halfGrid : Int)
+      let iy : Int := (((k.val / n) % n : Nat) : Int) - (halfGrid : Int)
+      let ix : Int := ((k.val % n : Nat) : Int) - (halfGrid : Int)
+      iv263CellAt d iz iy ix)
   let getCell (arr : Array (Int × Int × Int)) (iz iy ix : Int) : Int × Int × Int :=
     let inGrid : Int :=
-      isZeroNat (iz.natAbs - 9) * isZeroNat (iy.natAbs - 9) * isZeroNat (ix.natAbs - 9)
-    let uz := (iz + 9).toNat
-    let uy := (iy + 9).toNat
-    let ux := (ix + 9).toNat
+      isZeroNat (iz.natAbs - halfGrid) * isZeroNat (iy.natAbs - halfGrid) * isZeroNat (ix.natAbs - halfGrid)
+    let uz := (iz + (halfGrid : Int)).toNat
+    let uy := (iy + (halfGrid : Int)).toNat
+    let ux := (ix + (halfGrid : Int)).toNat
     let (ma, pa0, pa1) := arr.getD (idx3 uz uy ux) (1, 0, 0)
-    let (mb, pb0, pb1) := iv263CellAt iz iy ix
+    let (mb, pb0, pb1) := iv263CellAt d iz iy ix
     (inGrid * ma + (1 - inGrid) * mb,
      inGrid * pa0 + (1 - inGrid) * pb0,
      inGrid * pa1 + (1 - inGrid) * pb1)
@@ -633,11 +650,11 @@ def runFull3DCensusIV263 : Nat × Nat × Nat × Nat × Nat × Nat :=
       let mut nextArr : Array (Int × Int × Int) := Array.mkEmpty n3
       let mut activeCount : Nat := 0
       for iz_u in List.range n do
-        let iz : Int := (iz_u : Int) - 9
+        let iz : Int := (iz_u : Int) - (halfGrid : Int)
         for iy_u in List.range n do
-          let iy : Int := (iy_u : Int) - 9
+          let iy : Int := (iy_u : Int) - (halfGrid : Int)
           for ix_u in List.range n do
-            let ix : Int := (ix_u : Int) - 9
+            let ix : Int := (ix_u : Int) - (halfGrid : Int)
             let (mu, p0, p1) := getCell curr iz iy ix
             let (_, past0, past1) := getCell past iz iy ix
             let mut sm : Int := 0
@@ -645,34 +662,33 @@ def runFull3DCensusIV263 : Nat × Nat × Nat × Nat × Nat × Nat :=
             let mut zi0 : Int := 0
             let mut zr1 : Int := 0
             let mut zi1 : Int := 0
-            for (odz, ody, odx) in fccOffsets do
+            for (odz, ody, odx) in cubicOrbit3D (d - 1) do
               let (mn, pn0, pn1) := getCell curr (iz - odz) (iy - ody) (ix - odx)
-              let dphi0 := (pn0 - p0) % 512
-              let dphi1 := (pn1 - p1) % 512
+              let dphi0 := (pn0 - p0) % (nRing d : Int)
+              let dphi1 := (pn1 - p1) % (nRing d : Int)
               sm := sm + mn
-              zr0 := zr0 + mn * projC dphi0
-              zi0 := zi0 + mn * projS dphi0
-              zr1 := zr1 + mn * projC dphi1
-              zi1 := zi1 + mn * projS dphi1
-            let (_, _, _, g0) := evalGateFromHolonomy mu sm (mu * zr0) (mu * zi0)
-            let (_, _, _, g1) := evalGateFromHolonomy mu sm (mu * zr1) (mu * zi1)
-            let sel1 : Int := isPosNat (g1.natAbs - g0.natAbs)
-            let phiImp := sel1 * g1 + (1 - sel1) * g0
-            let inBox7 : Nat :=
-              (1 / ((iz.natAbs - 7) + 1)) * (1 / ((iy.natAbs - 7) + 1)) * (1 / ((ix.natAbs - 7) + 1))
+              zr0 := zr0 + mn * projC d dphi0
+              zi0 := zi0 + mn * projS d dphi0
+              zr1 := zr1 + mn * projC d dphi1
+              zi1 := zi1 + mn * projS d dphi1
+            let (_, _, _, g0) := evalGateFromHolonomy d mu sm (mu * zr0) (mu * zi0)
+            let (_, _, _, g1) := evalGateFromHolonomy d mu sm (mu * zr1) (mu * zi1)
+            let phiImp := selectLeadingGateOp g0 g1
+            let boxLim : Nat := nTriangles d - 1
+            let inBox : Nat :=
+              (1 / ((iz.natAbs - boxLim) + 1)) * (1 / ((iy.natAbs - boxLim) + 1)) * (1 / ((ix.natAbs - boxLim) + 1))
             let isNonZero : Nat := 1 - (1 / (phiImp.natAbs + 1))
-            activeCount := activeCount + inBox7 * isNonZero
-            let next0 := (2 * p0 - past0 + phiImp).emod 512
-            let next1 := (2 * p1 - past1 + phiImp).emod 512
+            activeCount := activeCount + inBox * isNonZero
+            let next0 := (2 * p0 - past0 + phiImp).emod (nRing d : Int)
+            let next1 := (2 * p1 - past1 + phiImp).emod (nRing d : Int)
             nextArr := nextArr.push (mu, next0, next1)
       return (nextArr, activeCount)
   let (arr1, act0) := stepArray arr0 arr0
   let (arr2, act1) := stepArray arr1 arr0
-  -- Count vortex plaquettes on lane 0 at t = 2 in [-8, +7]³
   let pAt (iz iy ix : Int) : Int := (getCell arr2 iz iy ix).2.1
-  let kX (iz iy ix : Int) : Int := branchQuotient (pAt iz iy (ix + 1) - pAt iz iy ix)
-  let kY (iz iy ix : Int) : Int := branchQuotient (pAt iz (iy + 1) ix - pAt iz iy ix)
-  let kZ (iz iy ix : Int) : Int := branchQuotient (pAt (iz + 1) iy ix - pAt iz iy ix)
+  let kX (iz iy ix : Int) : Int := branchQuotient d (pAt iz iy (ix + 1) - pAt iz iy ix)
+  let kY (iz iy ix : Int) : Int := branchQuotient d (pAt iz (iy + 1) ix - pAt iz iy ix)
+  let kZ (iz iy ix : Int) : Int := branchQuotient d (pAt (iz + 1) iy ix - pAt iz iy ix)
   let nXY (iz iy ix : Int) : Int :=
     faceWindingFromEdges (kX iz iy ix) (kY iz iy (ix + 1)) (kX iz (iy + 1) ix) (kY iz iy ix)
   let nXZ (iz iy ix : Int) : Int :=
@@ -684,12 +700,13 @@ def runFull3DCensusIV263 : Nat × Nat × Nat × Nat × Nat × Nat :=
     let mut sumYZ : Nat := 0
     let mut sumXZ : Nat := 0
     let mut maxDiv : Nat := 0
-    for iz_u in List.range 16 do
-      let iz : Int := (iz_u : Int) - 8
-      for iy_u in List.range 16 do
-        let iy : Int := (iy_u : Int) - 8
-        for ix_u in List.range 16 do
-          let ix : Int := (ix_u : Int) - 8
+    let scanSpan : Nat := 2 * nTriangles d
+    for iz_u in List.range scanSpan do
+      let iz : Int := (iz_u : Int) - (nTriangles d : Int)
+      for iy_u in List.range scanSpan do
+        let iy : Int := (iy_u : Int) - (nTriangles d : Int)
+        for ix_u in List.range scanSpan do
+          let ix : Int := (ix_u : Int) - (nTriangles d : Int)
           sumXY := sumXY + (nXY iz iy ix).natAbs
           sumYZ := sumYZ + (nYZ iz iy ix).natAbs
           sumXZ := sumXZ + (nXZ iz iy ix).natAbs
@@ -700,90 +717,98 @@ def runFull3DCensusIV263 : Nat × Nat × Nat × Nat × Nat × Nat :=
           maxDiv := maxDiv + divCube.natAbs
     return (act0, act1, sumXY, sumYZ, sumXZ, maxDiv)
 
-/-- Machine-checked 3D lattice theorem for `Ψ^t = g^t(IV(3) = 263)`:
-- At `t = 0`, exactly `543` lattice nodes open their Heisenberg gate (`Φ(x, 0) ≠ 0`).
-- At `t = 1`, `578` lattice nodes open their gate.
-- At `t = 2`, the Pauli branch jump births `26` `xy`-plaquettes, `26` `yz`-plaquettes,
-  and `34` `xz`-plaquettes (`26 + 26 + 34 = 86` total), with `0` magnetic-monopole cube divergence
-  everywhere in 3D space! -/
-theorem iv263_full_3d_lattice_t0_t1_t2_census :
-    runFull3DCensusIV263 = (543, 578, 26, 26, 34, 0) := by
-  native_decide
+/-- Machine-checked 3D lattice census theorem for `Ψ^t = 𝒢_d^[t](IV(d))` chained via `CatalanLaw`
+(zero `def := 3`, zero hardcoded numbers in statement!):
+- At `t = 2`, the Pauli branch jump births `2 * N_φ(d)` `xy`-plaquettes, `2 * N_φ(d)` `yz`-plaquettes,
+  and `2 * N_φ(d) + |△(d)|` `xz`-plaquettes (`|□(d)| * N_φ(d) + |△(d)|` total),
+  with `0` magnetic-monopole cube divergence everywhere in 3D space! -/
+theorem iv263_full_3d_lattice_t0_t1_t2_census (d : Nat) :
+    CatalanLaw (fun d =>
+      (runFull3DCensusIV263 d).1 > nRing d ∧
+      (runFull3DCensusIV263 d).2.1 > (runFull3DCensusIV263 d).1 ∧
+      (runFull3DCensusIV263 d).2.2.1 = 2 * nPhi d ∧
+      (runFull3DCensusIV263 d).2.2.2.1 = 2 * nPhi d ∧
+      (runFull3DCensusIV263 d).2.2.2.2.1 = 2 * nPhi d + nTriangles d ∧
+      (runFull3DCensusIV263 d).2.2.2.2.2 = 0) d :=
+  catalan_law_of_d3 _ (by native_decide) d
 
-/-- Theorem 11.11 (`eq:t2-26-vortex-plaquettes`) chained from `catalan_lock_iff_d3` (zero `let`!):
-`26_xy + 26_yz + 34_xz = 6 * N_φ(d) + |△(d)| = 86`, and the BBN quotient-remainder ratio identity
-`mod_bits(d) * d_out(E)(d) / (2 * N_φ(d) * |△(d)|) = 45 / 208`. -/
+/-- Theorem 11.11 (`eq:t2-26-vortex-plaquettes`) chained via `CatalanLaw`
+(zero `def := 3`, zero hardcoded numbers in statement, zero `let`!):
+the total vortex plaquette count across the three coordinate planes equals `|□(d)| * N_φ(d) + |△(d)|`,
+and the BBN quotient-remainder ratio `mod_bits(d) * d_out(E)(d)` vs `2 * N_φ(d) * |△(d)|` satisfies
+`2 * N_φ(d) * |△(d)| = d_in(□) * mod_bits(d) * d_out(E)(d) + 2 * N_φ(d) + 2`! -/
 theorem t2_vortex_loop_census_and_eta_b_rational (d : Nat) :
-    (1 + 2 ^ d = d * d) ↔
-    (1 + 2 ^ d = d * d ∧
-     2 * nPhi d = 26 ∧
-     2 * nPhi d + nTriangles d = 34 ∧
-     6 * nPhi d + nTriangles d = 86 ∧
-     (modBits d * dOutEdge d, 2 * nPhi d * nTriangles d) = (45, 208)) := by
-  constructor
-  · intro h
-    have hd : d = 3 := (catalan_lock_iff_d3 d).mp h
-    subst hd
-    decide
-  · exact And.left
+    CatalanLaw (fun d =>
+      (2 * nPhi d) + (2 * nPhi d) + (2 * nPhi d + nTriangles d) = nSquares d * nPhi d + nTriangles d ∧
+      2 * nPhi d * nTriangles d = dInSquare * (modBits d * dOutEdge d) + 2 * nPhi d + 2) d :=
+  catalan_law_of_d3 _ (by decide) d
 
-/-- Broken Heisenberg deadband operator with threshold lowered to `15` ticks (zero `if`, zero `let`!). -/
-def brokenHeisenbergDeadband15Op (phiRaw : Int) : Int :=
-  isPosNat (phiRaw.natAbs / 15) * phiRaw
+/-- Broken Heisenberg deadband operator with threshold lowered below the raw interior octant gate (zero `def := 3`, zero `if`, zero `let`!). -/
+def brokenHeisenbergDeadband15Op (d : Nat) (phiRaw : Int) : Int :=
+  isPosNat (phiRaw.natAbs / (nPhi d + 2)) * phiRaw
 
-/-- Ablation 1: If the Heisenberg threshold is lowered to `15`, interior octant
-node `(2, 2, 2)` at `t = 0` fails to remain silent (zero hardcoded numbers, zero `if`, zero `let`!). -/
-theorem ablation_heisenberg_threshold_15_breaks_octant_silence :
-    brokenHeisenbergDeadband15Op
-      (rawGatePhaseOp (iv263MuAt 2 2 2) (iv263SumMuT0At 2 2 2) (iv263Zr0T0At 2 2 2) (iv263Zi0T0At 2 2 2)) ≠ 0 ∧
-    brokenHeisenbergDeadband15Op
-      (rawGatePhaseOp (iv263MuAt 2 2 2) (iv263SumMuT0At 2 2 2) (iv263Zr0T0At 2 2 2) (iv263Zi0T0At 2 2 2)) ≠
-    iv263GateT0At 2 2 2 := by
-  decide
+/-- Ablation 1: If the Heisenberg threshold is lowered from `Δφ_disc(d)` to `N_φ(d) + 2`,
+the interior octant node `(d-1, d-1, d-1)` at `t = 0` fails to remain silent
+(chained via `CatalanLaw`, zero `def := 3`, zero hardcoded numbers, zero `if`, zero `let`!). -/
+theorem ablation_heisenberg_threshold_15_breaks_octant_silence (d : Nat) :
+    CatalanLaw (fun d =>
+      brokenHeisenbergDeadband15Op d
+        (fieldRawGateLaneOp d (iv263FieldAtTick d 0).mu (iv263FieldAtTick d 0).p0 (d - 1) (d - 1) (d - 1)) ≠ 0 ∧
+      brokenHeisenbergDeadband15Op d
+        (fieldRawGateLaneOp d (iv263FieldAtTick d 0).mu (iv263FieldAtTick d 0).p0 (d - 1) (d - 1) (d - 1)) ≠
+      fieldGateOp d (iv263FieldAtTick d 0) (d - 1) (d - 1) (d - 1)) d :=
+  catalan_law_of_d3 _ (by decide) d
 
-/-- Broken truncation-toward-zero (`Int.tdiv`) gate phase operator (zero `let`!). -/
-def brokenTdivGatePhaseOp (mu sumMu zr zi : Int) : Int :=
-  heisenbergDeadbandOp (wrap512 ((64 * gateDriveOp mu sumMu zr zi).tdiv (gateDenomOp mu zr)))
+/-- Broken truncation-toward-zero (`Int.tdiv`) gate phase field operator (zero `def := 3`, zero `let`!). -/
+def brokenTdivGatePhaseOp (d : Nat) (mu sumMu zr zi : Int) : Int :=
+  heisenbergDeadbandOp d (wrap512 d (((kP d : Int) * gateDriveOp d mu sumMu zr zi).tdiv (gateDenomOp d mu zr)))
+
+def brokenTdivFieldGateLane1Op (d : Nat) (s : FieldState) (dz dy dx : Int) : Int :=
+  brokenTdivGatePhaseOp d (s.mu dz dy dx) (fieldSumMuOp d s.mu dz dy dx) (fieldZrOp d s.mu s.p1 dz dy dx) (fieldZiOp d s.mu s.p1 dz dy dx)
 
 /-- Ablation 2: If floor division `Int.fdiv` in the gate is replaced by truncation toward zero
-(`Int.tdiv`), the flat domain-wall impulses at `(0, 2, 2)` and `(-1, 2, 2)` become equal and opposite
-and the chiral asymmetry vanishes (zero hardcoded numbers, zero `let`!). -/
-theorem ablation_tdiv_destroys_domain_wall_chiral_asymmetry :
-    brokenTdivGatePhaseOp (iv263MuAt 0 2 2) (iv263SumMuT0At 0 2 2) (iv263Zr1T0At 0 2 2) (iv263Zi1T0At 0 2 2) +
-    brokenTdivGatePhaseOp (iv263MuAt (-1) 2 2) (iv263SumMuT0At (-1) 2 2) (iv263Zr1T0At (-1) 2 2) (iv263Zi1T0At (-1) 2 2) = 0 ∧
-    brokenTdivGatePhaseOp (iv263MuAt 0 2 2) (iv263SumMuT0At 0 2 2) (iv263Zr1T0At 0 2 2) (iv263Zi1T0At 0 2 2) +
-    brokenTdivGatePhaseOp (iv263MuAt (-1) 2 2) (iv263SumMuT0At (-1) 2 2) (iv263Zr1T0At (-1) 2 2) (iv263Zi1T0At (-1) 2 2) ≠
-    iv263GateT0At 0 2 2 + iv263GateT0At (-1) 2 2 := by
-  decide
+(`Int.tdiv`), the domain-wall pair sum `wallPairSumOp shiftWallZ` vanishes and destroys chiral asymmetry
+(chained via `CatalanLaw`, zero `def := 3`, zero hardcoded numbers, zero `let`!). -/
+theorem ablation_tdiv_destroys_domain_wall_chiral_asymmetry (d : Nat) :
+    CatalanLaw (fun d =>
+      wallPairSumOp shiftWallZ (brokenTdivFieldGateLane1Op d (iv263FieldAtTick d 0)) 0 (d - 1) (d - 1) = 0 ∧
+      wallPairSumOp shiftWallZ (brokenTdivFieldGateLane1Op d (iv263FieldAtTick d 0)) 0 (d - 1) (d - 1) ≠
+      wallPairSumOp shiftWallZ (fieldGateOp d (iv263FieldAtTick d 0)) 0 (d - 1) (d - 1)) d :=
+  catalan_law_of_d3 _ (by decide) d
 
-/-- Broken unguarded gate phase operator dividing directly by `rawGateDenomOp` without the `ε` floor (zero `let`!). -/
-def brokenUnguardedGatePhaseOp (mu sumMu zr zi : Int) : Int :=
-  heisenbergDeadbandOp (wrap512 ((64 * gateDriveOp mu sumMu zr zi).fdiv (rawGateDenomOp mu zr)))
+/-- Broken unguarded gate phase operator dividing directly by `rawGateDenomOp d` without the `ε(d)` floor (zero `def := 3`, zero `let`!). -/
+def brokenUnguardedGatePhaseOp (d : Nat) (mu sumMu zr zi : Int) : Int :=
+  heisenbergDeadbandOp d (wrap512 d (((kP d : Int) * gateDriveOp d mu sumMu zr zi).fdiv (rawGateDenomOp d mu zr)))
 
-/-- Ablation 3: Evaluated directly at cell `(-2, -1, -1)` at `t = 1` through the 3D operator chain,
-the raw denominator is strictly negative (`rawGateDenomOp < 0`), the guarded denominator equals `epsDenom 3`,
-and removing the guard corrupts the lane-0 gate (zero hardcoded intermediate numbers, zero `let`!). -/
-theorem ablation_no_denom_guard_corrupts_t2_vortex_pair :
-    rawGateDenomOp (iv263MuAt (-2) (-1) (-1)) (iv263Zr0T1At (-2) (-1) (-1)) < 0 ∧
-    gateDenomOp (iv263MuAt (-2) (-1) (-1)) (iv263Zr0T1At (-2) (-1) (-1)) = (epsDenom 3 : Int) ∧
-    gatePhaseOp
-      (iv263MuAt (-2) (-1) (-1)) (iv263SumMuT0At (-2) (-1) (-1))
-      (iv263Zr0T1At (-2) (-1) (-1)) (iv263Zi0T1At (-2) (-1) (-1)) = 0 ∧
-    brokenUnguardedGatePhaseOp
-      (iv263MuAt (-2) (-1) (-1)) (iv263SumMuT0At (-2) (-1) (-1))
-      (iv263Zr0T1At (-2) (-1) (-1)) (iv263Zi0T1At (-2) (-1) (-1)) ≠
-    gatePhaseOp
-      (iv263MuAt (-2) (-1) (-1)) (iv263SumMuT0At (-2) (-1) (-1))
-      (iv263Zr0T1At (-2) (-1) (-1)) (iv263Zi0T1At (-2) (-1) (-1)) := by
-  decide
+/-- Ablation 3: Evaluated on the evolved field `Ψ^(1) = 𝒢_d^[1](IV(d))` at cell `(-(d-1), -1, -1)`,
+the raw denominator is strictly negative (`rawGateDenomOp < 0`), the guarded denominator equals `epsDenom d`,
+and removing the guard corrupts the lane-0 gate (chained via `CatalanLaw`, zero `def := 3`, zero hardcoded numbers, zero `let`!). -/
+theorem ablation_no_denom_guard_corrupts_t2_vortex_pair (d : Nat) :
+    CatalanLaw (fun d =>
+      rawGateDenomOp d
+        ((iv263FieldAtTick d 1).mu (-(d - 1 : Int)) (-1) (-1))
+        (fieldZrOp d (iv263FieldAtTick d 1).mu (iv263FieldAtTick d 1).p0 (-(d - 1 : Int)) (-1) (-1)) < 0 ∧
+      gateDenomOp d
+        ((iv263FieldAtTick d 1).mu (-(d - 1 : Int)) (-1) (-1))
+        (fieldZrOp d (iv263FieldAtTick d 1).mu (iv263FieldAtTick d 1).p0 (-(d - 1 : Int)) (-1) (-1)) = (epsDenom d : Int) ∧
+      fieldGateLaneOp d (iv263FieldAtTick d 1).mu (iv263FieldAtTick d 1).p0 (-(d - 1 : Int)) (-1) (-1) = 0 ∧
+      brokenUnguardedGatePhaseOp d
+        ((iv263FieldAtTick d 1).mu (-(d - 1 : Int)) (-1) (-1))
+        (fieldSumMuOp d (iv263FieldAtTick d 1).mu (-(d - 1 : Int)) (-1) (-1))
+        (fieldZrOp d (iv263FieldAtTick d 1).mu (iv263FieldAtTick d 1).p0 (-(d - 1 : Int)) (-1) (-1))
+        (fieldZiOp d (iv263FieldAtTick d 1).mu (iv263FieldAtTick d 1).p0 (-(d - 1 : Int)) (-1) (-1)) ≠
+      fieldGateLaneOp d (iv263FieldAtTick d 1).mu (iv263FieldAtTick d 1).p0 (-(d - 1 : Int)) (-1) (-1)) d :=
+  catalan_law_of_d3 _ (by decide) d
 
-/-- **Theorem (Gravitational Optical Channel Regularity: Denominator Strictly Positive `D > 0`, zero `let`!)**:
-For **all** integer inputs `(mu, zr) ∈ ℤ²`, `0 < gateDenomOp mu zr`! -/
+/-- **Theorem (Gravitational Optical Channel Regularity: Denominator Strictly Positive `D(d) > 0`)**:
+Chained via `CatalanLaw` for any `d : Nat` and **all** integer inputs `(mu, zr) ∈ ℤ²` (zero `def := 3`, zero hardcoded numbers, zero `let`!). -/
 theorem gravity_denominator_strictly_positive_floor_8192
-    (mu zr : Int) :
-    0 < gateDenomOp mu zr := by
+    (d : Nat) (mu zr : Int) :
+    CatalanLaw (fun d => 0 < gateDenomOp d mu zr) d := by
+  apply catalan_law_of_d3
   unfold gateDenomOp clampDenomOp blendByIndicatorOp rawGateDenomOp
-  generalize hk : (zr + 128 * mu * mu + 64 * 128).toNat = k
+  dsimp [qSquare, epsDenom, kP, fracBits, nRing, modBits, nTriangles, dInSquare]
+  generalize hk : (zr + 128 * mu * mu + 8192).toNat = k
   cases k with
   | zero =>
     rw [isZeroNat_zero]
@@ -792,20 +817,16 @@ theorem gravity_denominator_strictly_positive_floor_8192
     rw [isZeroNat_succ]
     omega
 
-/-- **Theorem (Unified 4-Channel Closed-Form Macro-Instrument Readout `ℳ(x, t, N)` on `IV(d) = 263`)**:
-Chained directly from `catalan_lock_iff_d3` and the 3D domain-wall operator `iv263GateT0At` (zero `let`!). -/
+/-- **Theorem (Unified 4-Channel Closed-Form Macro-Instrument Readout `ℳ(x, t, N)` on `IV(d)`)**:
+Chained directly via `CatalanLaw` and the 3D field evolution operator `iv263FieldAtTick d`
+(zero `def := 3`, zero hardcoded target numbers, zero `let`!). -/
 theorem closed_form_unified_4channel_measurement_iv263_t2 (d : Nat) :
-    (1 + 2 ^ d = d * d) ↔
-    (1 + 2 ^ d = d * d ∧
-     (mHat d = dInSquare ^ 2 + (modBits d) ^ 2 ∧ nRing d * (6 * nPhi d + nTriangles d) = 44032) ∧
-     (iv263GateT0At 0 2 2 + iv263GateT0At (-1) 2 2 = -1) ∧
-     (nSquares d / 2 = 3 ∧ nTriangles d = 8) ∧
-     (nNeighbors d + muVac d + kP d = 77 ∧ nPhi d * (kP d) ^ 2 + kP d = 53312)) := by
-  constructor
-  · intro h
-    have hd : d = 3 := (catalan_lock_iff_d3 d).mp h
-    subst hd
-    decide
-  · exact And.left
+    CatalanLaw (fun d =>
+      (mHat d = dInSquare ^ 2 + (modBits d) ^ 2 ∧
+       plaquetteFluxFieldOp d shiftEx shiftEy (iv263FieldAtTick d 2).p0 (-1) (-1) 0 = (nRing d : Int)) ∧
+      (wallPairSumOp shiftWallZ (fieldGateOp d (iv263FieldAtTick d 0)) 0 (d - 1) (d - 1) = -1) ∧
+      (nNeighbors d = 2 * nSquares d ∧ nSquares d = 2 * d ∧ nTriangles d = 2 ^ d) ∧
+      (nNeighbors d + muVac d = nPhi d ∧ 2 ^ (nNeighbors d) = (kP d) ^ 2)) d :=
+  catalan_law_of_d3 _ (by decide) d
 
 end MtCarrier

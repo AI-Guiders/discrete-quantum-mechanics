@@ -68,6 +68,52 @@ $\speedC$ --- к изотропному макро-якорю $\caKappaGeom\,\ca
 с конусом $\speedC$; кинематика $\caSignalSpeed$ --- свойство обновления на $\carrierLattice\times\mathbb{Z}$.
 \end{corollary}
 
+\begin{theorem}[Операторный закон квантовой запутанности через отношение скоростей $\caSignalSpeed/\speedC$ и геометрическую лестницу Белла--Цирельсона]
+\label{thm:entanglement-c0-tsirelson}
+Для любого $d\in\mathbb{N}$ операторный закон Каталана $\mathrm{CatalanLaw}(P,d)$ (\texttt{quantum\_entanglement\_c0\_causal\_holonomy\_and\_tsirelson\_bound} в \texttt{lean/MtCarrier/UnifiedOperators.lean}) эквивалентен системе следующих точных операторных соотношений на оболочке кубооктаэдра $O_2(d)=\mathrm{cubicOrbit3D}(d-1)$:
+\begin{enumerate}[label=\textbf{(\roman*)},leftmargin=*]
+\item \textbf{Оператор квадрата отношения тактовой скорости звена $\caSignalSpeed$ к скорости света $\speedC$:}
+  для каждого вектора смещения $e=(dz,dy,dx)\in O_2(d)$ квадрат евклидовой нормы ребра совпадает с оператором квадрата отношения скоростей $\mathrm{c0OverCSqOp}(d)$ и с отношением числа треугольных граней к числу вершин квадратной грани:
+  \begin{equation}
+  \label{eq:c0-over-c-sq-operator}
+    \forall e\in O_2(d),\qquad
+    \|e\|_2^2 \;=\; \mathrm{c0OverCSqOp}(d) \;=\; \caKappaGeom(d)^{-2} \;=\; \left(\frac{\caSignalSpeed}{\speedC}\right)^{\!2} \;=\; \frac{|{\triangle}(d)|}{d_{\mathrm{in}}(\square)}.
+  \end{equation}
+  Следовательно, фазовая связность вдоль звена кубооктаэдра на микроскопическом $\Mlayer$-слое распространяется со строго конечной тактовой скоростью $\caSignalSpeed = \caKappaGeom(d)^{-1}\speedC$, превышающей макроскопическую скорость электромагнитного фронта $\speedC = \caKappaGeom(d)\caSignalSpeed$ на $\Tlayer$-слое ровно в $\caKappaGeom(d)^{-1}$ раз --- без «мгновенного дальнодействия».
+\item \textbf{Операторная геометрическая прогрессия границ Белла--Цирельсона со знаменателем $(\caSignalSpeed/\speedC)^2 = \mathrm{c0OverCSqOp}(d)$:}
+  операторы квадратов максимальных корреляторов CHSH для сепарабельной пары $\mathrm{bellSeparableSqOp}(d)$, классического предела локальных скрытых параметров $\mathrm{bellLhvSqOp}(d)$ (ограниченного макроскопическим конусом скорости света $\speedC$ на $\Tlayer$) и квантового предела Цирельсона $\mathrm{tsirelsonQmSqOp}(d)$ (связанного тактовой голономией со скоростью $\caSignalSpeed$ на $\Mlayer$) связаны точными операторными тождествами:
+  \begin{equation}
+  \label{eq:bell-tsirelson-c0-ladder}
+    \mathrm{bellLhvSqOp}(d) \;=\; \mathrm{c0OverCSqOp}(d)\cdot\mathrm{bellSeparableSqOp}(d) \;=\; d_{\mathrm{in}}(\square),
+    \qquad
+    \mathrm{tsirelsonQmSqOp}(d) \;=\; \mathrm{c0OverCSqOp}(d)\cdot\mathrm{bellLhvSqOp}(d) \;=\; |{\triangle}(d)|.
+  \end{equation}
+  Тем самым отношение квантового оператора Цирельсона к классическому оператору Белла тождественно равно отношению тактовой скорости звена $\caSignalSpeed$ к скорости света $\speedC$:
+  \[
+    \frac{\mathrm{tsirelsonQmSqOp}(d)}{\mathrm{bellLhvSqOp}(d)}
+    \;=\; \frac{\mathrm{bellLhvSqOp}(d)}{\mathrm{bellSeparableSqOp}(d)}
+    \;=\; \frac{|{\triangle}(d)|}{d_{\mathrm{in}}(\square)}
+    \;=\; \mathrm{c0OverCSqOp}(d)
+    \;=\; \left(\frac{\caSignalSpeed}{\speedC}\right)^{\!2}.
+  \]
+\item \textbf{Антисимметричная синглетная корреляция Паули при строгом операторном запрете сверхсветовой сигнализации (\emph{no-signaling}):}
+  на операторе фазового полупериода Паули $\Phi_{\mathrm{Pauli}}(d)$ чётный оператор голономии антисимметричен относительно вакуумного максимума, а нечётный оператор тока переноса энергии и подпороговый оператор ворот Гейзенберга обращаются в нуль:
+  \[
+    \mathcal{C}_d\bigl(\Phi_{\mathrm{Pauli}}(d)\bigr) \;=\; -\mathcal{C}_d(0) \;=\; -Q_\square(d),
+    \qquad
+    \mathcal{S}_d\bigl(\Phi_{\mathrm{Pauli}}(d)\bigr) \;=\; 0,
+  \]
+  \[
+    |\Phi_{\mathrm{raw}}| < \Delta\varphi_{\mathrm{disc}}(d)
+    \;\Longrightarrow\;
+    \mathrm{heisenbergDeadbandOp}(d,\Phi_{\mathrm{raw}}) = 0
+    \;\wedge\;
+    \mathrm{energyQuantumOperator}(d,0) = 0.
+  \]
+  Поэтому по тактовому каналу со скоростью $\caSignalSpeed$ передаётся исключительно безэнергетическая спинорная голономия синглета (защищённая от вакуумной декогеренции мёртвой зоной Гейзенберга), тогда как любой перенос кванта энергии или сигнала ($\mathrm{energyQuantumOperator}(d,\Phi) \ge \mu_{\mathrm{vac}}(d)$) требует надпорогового пробоя $|\Phi|\ge\Delta\varphi_{\mathrm{disc}}(d)$ и ограничен на $\Tlayer$-слое скоростью света~$\speedC$.
+\end{enumerate}
+\end{theorem}
+
 \begin{remark}[Сверка]
 \label{rem:two-c-burden}
 \cref{prop:c0-over-c} --- CE-M-00 (\texttt{Kappa\_bottom\_up});

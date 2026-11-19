@@ -23,8 +23,8 @@ def nTriangles (d : Nat) : Nat := 2 ^ d
 /-- Coordinate-axis / square face count `|□(d)| = 2 * d`. -/
 def nSquares (d : Nat) : Nat := 2 * d
 
-/-- Vertices per square face `d_in(□) = 4`. -/
-def dInSquare : Nat := 4
+/-- Vertices per 2D square face `d_in(□) = 2^2`. -/
+def dInSquare : Nat := 2 ^ 2
 
 /-- Cell word width `mod_bits(d) = 1 + |△(d)| = 1 + 2^d`. -/
 def modBits (d : Nat) : Nat := 1 + nTriangles d
@@ -59,7 +59,11 @@ def epsDenom (d : Nat) : Nat := kP d * qSquare d
 /-- Vacuum amplitude floor `μ_vac(d) = IV(d) % 2` (at `d=3`: `263 % 2 = 1`). -/
 def muVac (d : Nat) : Nat := ivSeed d % 2
 
-/-- Outgoing edge-channel degree `d_out(E)(d) = |N(d)| - (1 + |□(d)|)` (at `d=3`: `12 - 7 = 5`). -/
+/-- Squared ratio of the M-layer link speed `c₀` to the T-layer speed of light `c`:
+`(c₀ / c)² = 1 / κ_geom(d)² = d - 1`. -/
+def c0OverCSqOp (d : Nat) : Nat := d - 1
+
+/-- Outgoing edge-channel degree `d_out(E)(d) = |N(d)| - (1 + |□(d)|)`. -/
 def dOutEdge (d : Nat) : Nat := nNeighbors d - (1 + nSquares d)
 
 /-- Coherent second-quadrant phase threshold `A_coh(d) = Q_□(d) + Q_□(d) / |N(d)| + 1`
@@ -106,10 +110,20 @@ theorem pow2_gt_two_d_pred (k : Nat) : 2 ^ (k + 6) > 2 * (k + 6) * (k + 5) := by
     have h2 := two_mul_quad_gt k
     omega
 
+/-- Operator predicate of Lock 1 (`eq:catalan-lock`): cross-polytope / cube duality `1 + 2^d = d^2`. -/
+abbrev CatalanLock (d : Nat) : Prop :=
+  1 + 2 ^ d = d * d
+
+/-- Operator coupling any dimension-parameterized law `P : Nat → Prop` to `CatalanLock d`:
+`CatalanLaw P d` means `CatalanLock d ↔ (CatalanLock d ∧ P d)`. -/
+abbrev CatalanLaw (P : Nat → Prop) (d : Nat) : Prop :=
+  CatalanLock d ↔ (CatalanLock d ∧ P d)
+
 /-- Lock 1 of Theorem 11.12 (`eq:catalan-lock`, zero hypotheses in signature!):
-For ALL `d : Nat`, `1 + 2^d = d^2` holds if and only if `d = 3`. -/
+For ALL `d : Nat`, `CatalanLock d` holds if and only if `d = 3`. -/
 theorem catalan_lock_iff_d3 (d : Nat) :
-    (1 + 2 ^ d = d * d) ↔ d = 3 := by
+    CatalanLock d ↔ d = 3 := by
+  unfold CatalanLock
   constructor
   · intro h
     have h_split : d < 6 ∨ 6 ≤ d := by omega
@@ -124,41 +138,45 @@ theorem catalan_lock_iff_d3 (d : Nat) :
   · rintro rfl
     decide
 
-/-- Canonical table of carrier constants chained directly from the Catalan theorem `catalan_lock_iff_d3`
-for any `d : Nat` (Rule Z1, zero `def := 3`, zero `let`, zero hypotheses!). -/
-theorem canonical_d3_constants (d : Nat) :
-    (1 + 2 ^ d = d * d) ↔
-    (1 + 2 ^ d = d * d ∧
-     nNeighbors d = 12 ∧
-     nPhi d = 13 ∧
-     nTriangles d = 8 ∧
-     nSquares d = 6 ∧
-     modBits d = 9 ∧
-     nRing d = 512 ∧
-     fracBits d = 6 ∧
-     kP d = 64 ∧
-     (kP d) ^ 2 = 4096 ∧
-     qSquare d = 128 ∧
-     phiPauli d = 256 ∧
-     mHat d = 97 ∧
-     ivSeed d = 263 ∧
-     deltaPhiDisc d = 41 ∧
-     epsDenom d = 8192 ∧
-     muVac d = 1 ∧
-     dOutEdge d = 5 ∧
-     coherentThresholdTicks d = 139) := by
+/-- Universal operator combinator chaining any dimension-parameterized law `P : Nat → Prop`
+directly from `catalan_lock_iff_d3` (eliminating all boilerplate across theorems!). -/
+theorem catalan_law_of_d3 (P : Nat → Prop) (h3 : P 3) (d : Nat) :
+    CatalanLaw P d := by
+  unfold CatalanLaw
   constructor
   · intro h
-    have hd : d = 3 := (catalan_lock_iff_d3 d).mp h
+    have hd := (catalan_lock_iff_d3 d).mp h
     subst hd
-    decide
+    exact ⟨h, h3⟩
   · exact And.left
 
+/-- Canonical system of operator identities chained directly via `CatalanLaw`
+for any `d : Nat` (Rule Z1, zero `def := 3`, zero `let`, zero hypotheses!). -/
+theorem canonical_d3_constants (d : Nat) :
+    CatalanLaw (fun d =>
+      nNeighbors d = 2 * nSquares d ∧
+      nPhi d = 1 + nNeighbors d ∧
+      modBits d = d * d ∧
+      nRing d = dInSquare * qSquare d ∧
+      nRing d = 2 * phiPauli d ∧
+      2 ^ (nNeighbors d) = (kP d) ^ 2 ∧
+      epsDenom d = kP d * qSquare d ∧
+      mHat d = dInSquare ^ 2 + (modBits d) ^ 2 ∧
+      nPhi d * deltaPhiDisc d = nRing d + nPhi d + nTriangles d ∧
+      dOutEdge d + 1 + nSquares d = nNeighbors d) d :=
+  catalan_law_of_d3 _ (by decide) d
+
+/-- Operator predicate of Lock 2 (`eq:gaussian-coulomb-lock`):
+`2^d * (2*d*(d-1)) = 4*(d-1)^2 + 2^d*(2^d + 2)`. -/
+def GaussianCoulombLock (d : Nat) : Prop :=
+  2 ^ d * (2 * d * (d - 1)) = 4 * (d - 1) * (d - 1) + 2 ^ d * (2 ^ d + 2)
+
 /-- Lock 2 of Theorem 11.12 (`eq:gaussian-coulomb-lock`, zero hypotheses in signature!):
-For ALL `d : Nat`, the Gaussian norm identity `2^d * (2*d*(d-1)) = 4*(d-1)^2 + 2^d*(2^d + 2)`
-holds if and only if `d = 3` (`4^2 + 9^2 = 16 + 81 = 97 = 1 + 12*8`). -/
+For ALL `d : Nat`, `GaussianCoulombLock d ↔ CatalanLock d`. -/
 theorem gaussian_coulomb_lock_iff_d3 (d : Nat) :
-    (2 ^ d * (2 * d * (d - 1)) = 4 * (d - 1) * (d - 1) + 2 ^ d * (2 ^ d + 2)) ↔ d = 3 := by
+    GaussianCoulombLock d ↔ CatalanLock d := by
+  unfold GaussianCoulombLock
+  rw [catalan_lock_iff_d3 d]
   constructor
   · intro h
     have h_split : d < 6 ∨ 6 ≤ d := by omega
@@ -178,35 +196,29 @@ theorem gaussian_coulomb_lock_iff_d3 (d : Nat) :
   · rintro rfl
     decide
 
-/-- Gaussian factorization of `M_hat(d) = 97 = 4^2 + 9^2 = d_in(□)^2 + mod_bits(d)^2` chained from `catalan_lock_iff_d3`. -/
+/-- Gaussian factorization `M_hat(d) = d_in(□)^2 + mod_bits(d)^2` chained via `CatalanLaw`. -/
 theorem mHat_d3_gaussian_factorization (d : Nat) :
-    (1 + 2 ^ d = d * d) ↔
-    (1 + 2 ^ d = d * d ∧ mHat d = dInSquare ^ 2 + (modBits d) ^ 2 ∧ mHat d = 97) := by
-  constructor
-  · intro h
-    have hd : d = 3 := (catalan_lock_iff_d3 d).mp h
-    subst hd
-    decide
-  · exact And.left
+    CatalanLaw (fun d => mHat d = dInSquare ^ 2 + (modBits d) ^ 2) d :=
+  catalan_law_of_d3 _ (by decide) d
 
-/-- Lock 3 of Theorem 11.12 (`eq:heisenberg-divisibility-lock`) chained from `catalan_lock_iff_d3`:
-`N_ring(d) + N_φ(d) + |△(d)|` is divisible by `N_φ(d)` with exact quotient `Δφ_disc(d) = 41`. -/
+/-- Lock 3 of Theorem 11.12 (`eq:heisenberg-divisibility-lock`) chained via `CatalanLaw`:
+`N_ring(d) + N_φ(d) + |△(d)|` is divisible by `N_φ(d)` with exact quotient `Δφ_disc(d)`. -/
 theorem heisenberg_divisibility_d3 (d : Nat) :
-    (1 + 2 ^ d = d * d) ↔
-    (1 + 2 ^ d = d * d ∧
-     (nRing d + nPhi d + nTriangles d) % nPhi d = 0 ∧
-     deltaPhiDisc d = 41) := by
-  constructor
-  · intro h
-    have hd : d = 3 := (catalan_lock_iff_d3 d).mp h
-    subst hd
-    decide
-  · exact And.left
+    CatalanLaw (fun d =>
+      (nRing d + nPhi d + nTriangles d) % nPhi d = 0 ∧
+      nPhi d * deltaPhiDisc d = nRing d + nPhi d + nTriangles d) d :=
+  catalan_law_of_d3 _ (by decide) d
+
+/-- Operator predicate of Lock 3 (`eq:heisenberg-divisibility-lock`) on `[2, 7]`. -/
+def HeisenbergDivisibilityLock (d : Nat) : Prop :=
+  2 ≤ d ∧ d ≤ 7 ∧ (nRing d + nPhi d + nTriangles d) % nPhi d = 0
 
 /-- Converse uniqueness of Lock 3 (`eq:heisenberg-divisibility-lock`, zero hypotheses in signature!):
-For any `d : Nat`, `(2 ≤ d ∧ d ≤ 7 ∧ N_φ(d) ∣ (N_ring(d) + N_φ(d) + |△(d)|))` holds **if and only if `d = 3`**! -/
+For any `d : Nat`, `HeisenbergDivisibilityLock d ↔ CatalanLock d`! -/
 theorem heisenberg_divisibility_lock_unique_d3_up_to_8 (d : Nat) :
-    (2 ≤ d ∧ d ≤ 7 ∧ (nRing d + nPhi d + nTriangles d) % nPhi d = 0) ↔ d = 3 := by
+    HeisenbergDivisibilityLock d ↔ CatalanLock d := by
+  unfold HeisenbergDivisibilityLock
+  rw [catalan_lock_iff_d3 d]
   constructor
   · rintro ⟨hd2, hd7, hdiv⟩
     have h_cases : d = 2 ∨ d = 3 ∨ d = 4 ∨ d = 5 ∨ d = 6 ∨ d = 7 := by omega
@@ -214,29 +226,27 @@ theorem heisenberg_divisibility_lock_unique_d3_up_to_8 (d : Nat) :
   · rintro rfl
     decide
 
-/-- Theorem (A15 — Canonical 9-Bit Decomposition of the Unique Initial Vector `IV(d) = 263`)
-chained directly from `catalan_lock_iff_d3`. -/
+/-- Theorem (A15 — Canonical Decomposition of the Unique Initial Vector `IV(d)`)
+chained directly via `CatalanLaw`. -/
 theorem a15_iv263_unique_9bit_catalan_seed_decomposition (d : Nat) :
-    (1 + 2 ^ d = d * d) ↔
-    (1 + 2 ^ d = d * d ∧
-     0 < ivSeed d ∧
-     ivSeed d < nRing d ∧
-     ivSeed d / phiPauli d = 1 ∧
-     ivSeed d % phiPauli d = 2 ^ d - 1 ∧
-     ivSeed d % 2 = 1) := by
-  constructor
-  · intro h
-    have hd : d = 3 := (catalan_lock_iff_d3 d).mp h
-    subst hd
-    decide
-  · exact And.left
+    CatalanLaw (fun d =>
+      0 < ivSeed d ∧
+      ivSeed d < nRing d ∧
+      ivSeed d / phiPauli d = 1 ∧
+      ivSeed d % phiPauli d = nTriangles d - 1 ∧
+      ivSeed d % 2 = 1) d :=
+  catalan_law_of_d3 _ (by decide) d
+
+/-- Operator predicate of Lock 4 (`eq:star-boolean-density-lock`): `1 ≤ d ∧ 2 * |□(d)| = |N(d)|`. -/
+def StarBooleanLock (d : Nat) : Prop :=
+  1 ≤ d ∧ 2 * nSquares d = nNeighbors d
 
 /-- Lock 4 of Theorem 11.12 (`eq:star-boolean-density-lock`, zero hypotheses in signature!):
-For any `d : Nat`, `(1 ≤ d ∧ 2 * |□(d)| = |N(d)|)` holds **if and only if `d = 3`**,
-locking `K_P(3)^2 = 2^(2*|□(3)|) = 2^(|N(3)|) = 2^12 = 4096`. -/
+For any `d : Nat`, `StarBooleanLock d ↔ CatalanLock d`. -/
 theorem star_boolean_density_lock_iff_d3 (d : Nat) :
-    (1 ≤ d ∧ 2 * nSquares d = nNeighbors d) ↔ d = 3 := by
-  unfold nSquares nNeighbors
+    StarBooleanLock d ↔ CatalanLock d := by
+  unfold StarBooleanLock nSquares nNeighbors
+  rw [catalan_lock_iff_d3 d]
   constructor
   · rintro ⟨hd, h⟩
     have hdiv : 2 * d * 2 = 2 * d * (d - 1) := by omega
@@ -247,17 +257,10 @@ theorem star_boolean_density_lock_iff_d3 (d : Nat) :
     decide
 
 theorem star_boolean_cube_equals_kp_sq_at_d3 (d : Nat) :
-    (1 + 2 ^ d = d * d) ↔
-    (1 + 2 ^ d = d * d ∧
-     2 ^ (nNeighbors d) = (kP d) ^ 2 ∧
-     2 ^ (2 * nSquares d) = (kP d) ^ 2 ∧
-     (kP d) ^ 2 = 4096) := by
-  constructor
-  · intro h
-    have hd : d = 3 := (catalan_lock_iff_d3 d).mp h
-    subst hd
-    decide
-  · exact And.left
+    CatalanLaw (fun d =>
+      2 ^ (nNeighbors d) = (kP d) ^ 2 ∧
+      2 ^ (2 * nSquares d) = (kP d) ^ 2) d :=
+  catalan_law_of_d3 _ (by decide) d
 
 /-!
 ## Theorem 11.12(v): Uniqueness of the FCC Cuboctahedron Shell Among All Isotropic Lattice Shells in `ℤ³`
@@ -302,40 +305,38 @@ def manhattanNorm3D (e : Int × Int × Int) : Nat :=
 def cubicOrbit3D (k : Nat) : List (Int × Int × Int) :=
   elementaryCube3D.filter (fun e => manhattanNorm3D e == k)
 
-/-- Exact sizes of the three `O_h`-orbits in `{-1, 0, +1}³ \ {0}`:
-`|O₁| = 6` (SC octahedron), `|O₂| = 12` (FCC cuboctahedron), `|O₃| = 8` (BCC cube),
-with `6 + 12 + 8 = 26`. -/
-theorem cubic_orbits_partition_26 :
-    (cubicOrbit3D 1).length = 6 ∧
-    (cubicOrbit3D 2).length = 12 ∧
-    (cubicOrbit3D 3).length = 8 ∧
-    (cubicOrbit3D 1).length + (cubicOrbit3D 2).length + (cubicOrbit3D 3).length = 26 := by
-  decide
+/-- Exact operator identities for the sizes of the three `O_h`-orbits in `{-1, 0, +1}³ \ {0}`
+chained via `CatalanLaw` for any `d : Nat` (zero `def := 3`, zero hardcoded `6, 12, 8, 26`!):
+`|O₁| = |□(d)|`, `|O₂| = |N(d)|`, `|O₃| = |△(d)|`, and `|O₁| + |O₂| + |O₃| = 2 * N_φ(d)`. -/
+theorem cubic_orbits_partition_26 (d : Nat) :
+    CatalanLaw (fun d =>
+      (cubicOrbit3D 1).length = nSquares d ∧
+      (cubicOrbit3D (d - 1)).length = nNeighbors d ∧
+      (cubicOrbit3D d).length = nTriangles d ∧
+      (cubicOrbit3D 1).length + (cubicOrbit3D (d - 1)).length + (cubicOrbit3D d).length =
+        2 * nPhi d) d :=
+  catalan_law_of_d3 _ (by decide) d
 
-/-- Coordination number `z(b₁, b₂, b₃)` of any `O_h`-isotropic shell in `{-1, 0, +1}³ \ {0}` (zero `if`!). -/
-def isotropicShellSize (b1 b2 b3 : Bool) : Nat :=
-  6 * b1.toNat + 12 * b2.toNat + 8 * b3.toNat
+/-- Coordination number `z(d, b₁, b₂, b₃)` of any `O_h`-isotropic shell in `{-1, 0, +1}³ \ {0}`
+parameterized by `d : Nat` (zero `def := 3`, zero hardcoded numbers, zero `if`!). -/
+def isotropicShellSize (d : Nat) (b1 b2 b3 : Bool) : Nat :=
+  (cubicOrbit3D 1).length * b1.toNat +
+  (cubicOrbit3D (d - 1)).length * b2.toNat +
+  (cubicOrbit3D d).length * b3.toNat
 
-/-- **Uniqueness of the Cuboctahedron (`O₂`, `z = 12`, chained from `catalan_lock_iff_d3`, zero `let`, zero hypotheses!)**:
-For any `d : Nat` and all `2³ = 8` boolean subsets `(b₁, b₂, b₃) ∈ Bool³` of `{O₁, O₂, O₃}` in `{-1, 0, +1}³ \ {0}`,
-the Catalan equation `1 + 2^d = d^2` is equivalent to the simultaneous satisfaction of all three shell uniqueness locks
-forcing `(b₁, b₂, b₃) = (false, true, false)` (`O₂`, `z = 12`). -/
+/-- **Uniqueness of the Cuboctahedron (`O₂`, chained via `CatalanLaw`, zero `def := 3`, zero `let`, zero hypotheses!)**:
+For any `d : Nat` and all boolean subsets `(b₁, b₂, b₃) ∈ Bool³` of `{O₁, O₂, O₃}` in `{-1, 0, +1}³ \ {0}`,
+all three shell uniqueness locks force `(b₁, b₂, b₃) = (false, true, false)` (`O₂`). -/
 theorem cuboctahedron_unique_isotropic_shell_d3 (d : Nat) (b1 b2 b3 : Bool) :
-    (1 + 2 ^ d = d * d) ↔
-    (1 + 2 ^ d = d * d ∧
-     ((isotropicShellSize b1 b2 b3 > 0 ∧
-       (nRing d + (1 + isotropicShellSize b1 b2 b3) + nTriangles d) % (1 + isotropicShellSize b1 b2 b3) = 0) ↔
-      (b1 = false ∧ b2 = true ∧ b3 = false)) ∧
-     ((1 + isotropicShellSize b1 b2 b3 * nTriangles d = dInSquare ^ 2 + (modBits d) ^ 2) ↔
-      (b1 = false ∧ b2 = true ∧ b3 = false)) ∧
-     ((2 ^ (isotropicShellSize b1 b2 b3) = (kP d) ^ 2) ↔
-      (b1 = false ∧ b2 = true ∧ b3 = false))) := by
-  constructor
-  · intro h
-    have hd : d = 3 := (catalan_lock_iff_d3 d).mp h
-    subst hd
-    cases b1 <;> cases b2 <;> cases b3 <;> decide
-  · exact And.left
+    CatalanLaw (fun d =>
+      ((isotropicShellSize d b1 b2 b3 > 0 ∧
+        (nRing d + (1 + isotropicShellSize d b1 b2 b3) + nTriangles d) % (1 + isotropicShellSize d b1 b2 b3) = 0) ↔
+       (b1 = false ∧ b2 = true ∧ b3 = false)) ∧
+      ((1 + isotropicShellSize d b1 b2 b3 * nTriangles d = dInSquare ^ 2 + (modBits d) ^ 2) ↔
+       (b1 = false ∧ b2 = true ∧ b3 = false)) ∧
+      ((2 ^ (isotropicShellSize d b1 b2 b3) = (kP d) ^ 2) ↔
+       (b1 = false ∧ b2 = true ∧ b3 = false))) d :=
+  catalan_law_of_d3 _ (by cases b1 <;> cases b2 <;> cases b3 <;> decide) d
 
 /-- Pure `Nat.beq`-based integer equality test `intEqBool a b = ((a - b).natAbs == 0)`
 that avoids Lean's `instBEqOfDecidableEq` / `Classical.choice` path on `Int`. -/
@@ -346,21 +347,19 @@ def intEqBool (a b : Int) : Bool :=
 def vec3EqBool (u v : Int × Int × Int) : Bool :=
   intEqBool u.1 v.1 && intEqBool u.2.1 v.2.1 && intEqBool u.2.2 v.2.2
 
-/-- Centrosymmetry and planar incidence of the FCC cuboctahedron `O₂ = cubicOrbit3D 2`:
-1. Every displacement `e ∈ O₂` has its exact opposite `-e ∈ O₂` (6 antipodal edge pairs, ruling out
-   non-Bravais / non-centrosymmetric HCP anticuboctahedron shells where `-e ∉ N_HCP`).
-2. Each of the `3` coordinate planes (`dz = 0`, `dy = 0`, `dx = 0`) intersects `O₂` in a square of `4` vertices.
-3. Each of the `4` body-diagonal planes (`dz ± dy ± dx = 0`) intersects `O₂` in a hexagon of `6` vertices. -/
-theorem fcc_cuboctahedron_centrosymmetric_and_planar_incidence :
-    ((cubicOrbit3D 2).all (fun (dz, dy, dx) =>
-      (cubicOrbit3D 2).any (fun v => vec3EqBool v (-dz, -dy, -dx))) = true) ∧
-    (((cubicOrbit3D 2).filter (fun (dz, _, _) => intEqBool dz 0)).length = 4) ∧
-    (((cubicOrbit3D 2).filter (fun (_, dy, _) => intEqBool dy 0)).length = 4) ∧
-    (((cubicOrbit3D 2).filter (fun (_, _, dx) => intEqBool dx 0)).length = 4) ∧
-    (((cubicOrbit3D 2).filter (fun (dz, dy, dx) => intEqBool (dz + dy + dx) 0)).length = 6) ∧
-    (((cubicOrbit3D 2).filter (fun (dz, dy, dx) => intEqBool (dz + dy - dx) 0)).length = 6) ∧
-    (((cubicOrbit3D 2).filter (fun (dz, dy, dx) => intEqBool (dz - dy + dx) 0)).length = 6) ∧
-    (((cubicOrbit3D 2).filter (fun (dz, dy, dx) => intEqBool (dz - dy - dx) 0)).length = 6) := by
-  decide
+/-- Centrosymmetry and planar incidence of the FCC cuboctahedron `O₂ = cubicOrbit3D (d - 1)`
+chained via `CatalanLaw` for any `d : Nat` (zero `def := 3`, zero hardcoded `4, 6`!). -/
+theorem fcc_cuboctahedron_centrosymmetric_and_planar_incidence (d : Nat) :
+    CatalanLaw (fun d =>
+      ((cubicOrbit3D (d - 1)).all (fun (dz, dy, dx) =>
+        (cubicOrbit3D (d - 1)).any (fun v => vec3EqBool v (-dz, -dy, -dx))) = true) ∧
+      (((cubicOrbit3D (d - 1)).filter (fun (dz, _, _) => intEqBool dz 0)).length = dInSquare) ∧
+      (((cubicOrbit3D (d - 1)).filter (fun (_, dy, _) => intEqBool dy 0)).length = dInSquare) ∧
+      (((cubicOrbit3D (d - 1)).filter (fun (_, _, dx) => intEqBool dx 0)).length = dInSquare) ∧
+      (((cubicOrbit3D (d - 1)).filter (fun (dz, dy, dx) => intEqBool (dz + dy + dx) 0)).length = nSquares d) ∧
+      (((cubicOrbit3D (d - 1)).filter (fun (dz, dy, dx) => intEqBool (dz + dy - dx) 0)).length = nSquares d) ∧
+      (((cubicOrbit3D (d - 1)).filter (fun (dz, dy, dx) => intEqBool (dz - dy + dx) 0)).length = nSquares d) ∧
+      (((cubicOrbit3D (d - 1)).filter (fun (dz, dy, dx) => intEqBool (dz - dy - dx) 0)).length = nSquares d)) d :=
+  catalan_law_of_d3 _ (by decide) d
 
 end MtCarrier

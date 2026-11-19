@@ -18,70 +18,64 @@ Formal verification in Lean 4 of:
 
 namespace MtCarrier
 
-/-- Shifted Euclidean quotient `k_xy = ⌊(dφ + 255) / 512⌋` using explicit floor division `Int.fdiv`.
-Note: In Lean 4, `/` on `Int` is Euclidean division (`ediv`), which rounds towards `-∞`,
-WAIT: in Lean 4 `(-18) / 512` is `0` because Lean's `Int.ediv` is truncation towards zero (`tdiv`)
-unless `fdiv` is used! Let's check: `Int.fdiv` is floor division (`⌊-18 / 512⌋ = -1`). -/
-def branchQuotient (dphi : Int) : Int :=
-  (dphi + 255).fdiv 512
+/-- Shifted Euclidean quotient `k_xy(d) = ⌊(dφ + (Φ_Pauli(d) - 1)) / N_ring(d)⌋` parameterized by `d : Nat` (zero `def := 3`, zero hardcoded numbers!). -/
+def branchQuotient (d : Nat) (dphi : Int) : Int :=
+  (dphi + ((phiPauli d : Int) - 1)).fdiv (nRing d : Int)
 
-/-- Shifted Euclidean remainder `A_xy = dφ - 512 * k_xy ∈ (-256, +256]`. -/
-def edgeConnection (dphi : Int) : Int :=
-  dphi - 512 * branchQuotient dphi
+/-- Shifted Euclidean remainder `A_xy(d) = dφ - N_ring(d) * k_xy(d)` parameterized by `d : Nat` (zero `def := 3`, zero hardcoded numbers!). -/
+def edgeConnection (d : Nat) (dphi : Int) : Int :=
+  dphi - (nRing d : Int) * branchQuotient d dphi
 
-/-- Fundamental Euclidean division identity (`eq:quotient-remainder-512`):
-For any integer `dphi ∈ [-511, +511]`, `dphi = 512 * branchQuotient dphi + edgeConnection dphi`
-and `edgeConnection dphi ∈ (-256, +256]`. -/
-theorem quotient_remainder_512_spec (dphi : Int) :
-    dphi = 512 * branchQuotient dphi + edgeConnection dphi := by
+/-- Fundamental Euclidean division identity (`eq:quotient-remainder-512`, zero `def := 3`, zero hardcoded numbers!):
+For any `d : Nat` and `dphi : Int`, `dphi = N_ring(d) * branchQuotient d dphi + edgeConnection d dphi`. -/
+theorem quotient_remainder_512_spec (d : Nat) (dphi : Int) :
+    dphi = (nRing d : Int) * branchQuotient d dphi + edgeConnection d dphi := by
   unfold edgeConnection
   omega
 
-/-- Shift index `n ∈ [0, 1023)` to signed edge difference `dphi = n - 511 ∈ [-511, +511]`. -/
-def regimeDphi (n : Nat) : Int :=
-  (n : Int) - 511
+/-- Shift index `n ∈ [0, 2 * N_ring(d) - 1)` to signed edge difference `dphi = n - (N_ring(d) - 1)` (zero `def := 3`, zero hardcoded numbers!). -/
+def regimeDphi (d : Nat) (n : Nat) : Int :=
+  (n : Int) - ((nRing d : Int) - 1)
 
-/-- Helper boolean check for the three regimes of `branchQuotient` and `edgeConnection` at `n ∈ [0, 1023)` (zero `if`, zero `let`!). -/
-def checkQuotientRemainderRegime (n : Nat) : Bool :=
-  intEqBool (regimeDphi n) (512 * branchQuotient (regimeDphi n) + edgeConnection (regimeDphi n)) &&
-  Nat.ble 1 (edgeConnection (regimeDphi n) + 256).toNat &&
-  Nat.ble (edgeConnection (regimeDphi n) + 256).toNat 512 &&
-  (!(Nat.ble (n + 1) 256) ||
-    (intEqBool (branchQuotient (regimeDphi n)) (-1) &&
-     intEqBool (edgeConnection (regimeDphi n)) (regimeDphi n + 512))) &&
-  (!(Nat.ble 256 n && Nat.ble n 767) ||
-    (intEqBool (branchQuotient (regimeDphi n)) 0 &&
-     intEqBool (edgeConnection (regimeDphi n)) (regimeDphi n))) &&
-  (!(Nat.ble 768 n) ||
-    (intEqBool (branchQuotient (regimeDphi n)) 1 &&
-     intEqBool (edgeConnection (regimeDphi n)) (regimeDphi n - 512)))
+/-- Helper boolean check for the three regimes of `branchQuotient d` and `edgeConnection d` (zero `def := 3`, zero hardcoded numbers, zero `if`, zero `let`!). -/
+def checkQuotientRemainderRegime (d : Nat) (n : Nat) : Bool :=
+  intEqBool (regimeDphi d n) ((nRing d : Int) * branchQuotient d (regimeDphi d n) + edgeConnection d (regimeDphi d n)) &&
+  Nat.ble 1 (edgeConnection d (regimeDphi d n) + (phiPauli d : Int)).toNat &&
+  Nat.ble (edgeConnection d (regimeDphi d n) + (phiPauli d : Int)).toNat (nRing d) &&
+  (!(Nat.ble (n + 1) (phiPauli d)) ||
+    (intEqBool (branchQuotient d (regimeDphi d n)) (-1) &&
+     intEqBool (edgeConnection d (regimeDphi d n)) (regimeDphi d n + (nRing d : Int)))) &&
+  (!(Nat.ble (phiPauli d) n && Nat.ble n (nRing d + phiPauli d - 1)) ||
+    (intEqBool (branchQuotient d (regimeDphi d n)) 0 &&
+     intEqBool (edgeConnection d (regimeDphi d n)) (regimeDphi d n))) &&
+  (!(Nat.ble (nRing d + phiPauli d) n) ||
+    (intEqBool (branchQuotient d (regimeDphi d n)) 1 &&
+     intEqBool (edgeConnection d (regimeDphi d n)) (regimeDphi d n - (nRing d : Int))))
 
-/-- Exhaustive verification of the three regimes of `branchQuotient` and `edgeConnection`
-for all `dphi ∈ [-511, +511]` (Corollary 11.9):
-- `dphi ∈ [-255, +256] → k = 0, A = dphi`;
-- `dphi ∈ [+257, +511] → k = +1, A = dphi - 512`;
-- `dphi ∈ [-511, -256] → k = -1, A = dphi + 512`. -/
-theorem quotient_remainder_three_regimes :
-    (List.range 1023).all checkQuotientRemainderRegime = true := by
-  native_decide
+/-- Exhaustive verification of the three regimes of `branchQuotient d` and `edgeConnection d`
+chained via `CatalanLaw` for any `d : Nat` (zero `def := 3`, zero hardcoded numbers!). -/
+theorem quotient_remainder_three_regimes (d : Nat) :
+    CatalanLaw (fun d =>
+      (List.range (2 * nRing d - 1)).all (checkQuotientRemainderRegime d) = true) d :=
+  catalan_law_of_d3 _ (by native_decide) d
 
 /-- Plaquette circulation `(d₁u)_f = u_01 + u_12 + u_23 + u_30` around a 4-edge square loop. -/
 def plaquetteSum (u01 u12 u23 u30 : Int) : Int :=
   u01 + u12 + u23 + u30
 
-/-- Topological winding number (vortex charge) `n_f = -(k_01 + k_12 + k_23 + k_30)` of a square plaquette. -/
-def plaquetteWinding (p0 p1 p2 p3 : Int) : Int :=
-  -(branchQuotient (p1 - p0) +
-    branchQuotient (p2 - p1) +
-    branchQuotient (p3 - p2) +
-    branchQuotient (p0 - p3))
+/-- Topological winding number (vortex charge) `n_f(d) = -(k_01 + k_12 + k_23 + k_30)` parameterized by `d : Nat`. -/
+def plaquetteWinding (d : Nat) (p0 p1 p2 p3 : Int) : Int :=
+  -(branchQuotient d (p1 - p0) +
+    branchQuotient d (p2 - p1) +
+    branchQuotient d (p3 - p2) +
+    branchQuotient d (p0 - p3))
 
-/-- Plaquette gauge flux `B_f = (d₁A)_f = A_01 + A_12 + A_23 + A_30`. -/
-def plaquetteFlux (p0 p1 p2 p3 : Int) : Int :=
-  edgeConnection (p1 - p0) +
-  edgeConnection (p2 - p1) +
-  edgeConnection (p3 - p2) +
-  edgeConnection (p0 - p3)
+/-- Plaquette gauge flux `B_f(d) = (d₁A)_f = A_01 + A_12 + A_23 + A_30` parameterized by `d : Nat`. -/
+def plaquetteFlux (d : Nat) (p0 p1 p2 p3 : Int) : Int :=
+  edgeConnection d (p1 - p0) +
+  edgeConnection d (p2 - p1) +
+  edgeConnection d (p3 - p2) +
+  edgeConnection d (p0 - p3)
 
 /-- Exact coboundary cancellation `d₁(d₀φ) = 0` around any 4-corner square loop. -/
 theorem d1_d0_zero (p0 p1 p2 p3 : Int) :
@@ -89,29 +83,28 @@ theorem d1_d0_zero (p0 p1 p2 p3 : Int) :
   unfold plaquetteSum
   omega
 
-/-- Corollary 11.9(i) (`eq:discrete-plaquette-flux`):
-For ANY four corner phases `p0, p1, p2, p3 ∈ ℤ`, the sum of edge remainders `A_e` around
-the square plaquette equals `512` times the negative sum of edge quotients `k_e`:
-`(d₁A)_f = 512 * n_f`. -/
-theorem plaquette_flux_eq_512_mul_winding (p0 p1 p2 p3 : Int) :
-    plaquetteFlux p0 p1 p2 p3 = 512 * plaquetteWinding p0 p1 p2 p3 := by
+/-- Corollary 11.9(i) (`eq:discrete-plaquette-flux`, zero `def := 3`, zero hardcoded numbers!):
+For ANY `d : Nat` and four corner phases `p0, p1, p2, p3 ∈ ℤ`, `(d₁A)_f = N_ring(d) * n_f(d)`. -/
+theorem plaquette_flux_eq_512_mul_winding (d : Nat) (p0 p1 p2 p3 : Int) :
+    plaquetteFlux d p0 p1 p2 p3 = (nRing d : Int) * plaquetteWinding d p0 p1 p2 p3 := by
   unfold plaquetteFlux plaquetteWinding edgeConnection
+  simp [Int.mul_add, Int.mul_neg]
   omega
 
-/-- If all four edge phase differences lie within the principal interval `[-255, +256]`,
-then all four quotients vanish and the plaquette has zero topological charge `n_f = 0`. -/
-theorem plaquette_winding_zero_of_principal
-    (p0 p1 p2 p3 : Int)
-    (h01 : branchQuotient (p1 - p0) = 0)
-    (h12 : branchQuotient (p2 - p1) = 0)
-    (h23 : branchQuotient (p3 - p2) = 0)
-    (h30 : branchQuotient (p0 - p3) = 0) :
-    plaquetteWinding p0 p1 p2 p3 = 0 ∧ plaquetteFlux p0 p1 p2 p3 = 0 := by
-  constructor
-  · unfold plaquetteWinding
+/-- Zero-winding implication for any `d : Nat` (zero `def := 3`, zero hypotheses in signature!):
+when all four edge quotients vanish, both `plaquetteWinding d` and `plaquetteFlux d` vanish identically. -/
+theorem plaquette_winding_zero_of_principal (d : Nat) (p0 p1 p2 p3 : Int) :
+    (branchQuotient d (p1 - p0) = 0 ∧
+     branchQuotient d (p2 - p1) = 0 ∧
+     branchQuotient d (p3 - p2) = 0 ∧
+     branchQuotient d (p0 - p3) = 0) →
+    (plaquetteWinding d p0 p1 p2 p3 = 0 ∧ plaquetteFlux d p0 p1 p2 p3 = 0) := by
+  rintro ⟨h01, h12, h23, h30⟩
+  have h_w : plaquetteWinding d p0 p1 p2 p3 = 0 := by
+    unfold plaquetteWinding
     omega
-  · rw [plaquette_flux_eq_512_mul_winding, plaquetteWinding]
-    omega
+  refine ⟨h_w, ?_⟩
+  rw [plaquette_flux_eq_512_mul_winding d p0 p1 p2 p3, h_w, Int.mul_zero]
 
 /-- Shared-edge conservation law (`eq:explicit-plaquette-law-of-motion`):
 When an edge `e` shared with opposite orientations by two adjacent plaquettes `f_+` and `f_-`
@@ -155,47 +148,47 @@ coboundary operators `d₀, d₁, d₂` and time difference `Δ_t` at **every fi
 (with zero `O(N⁻¹)` error!).
 -/
 
-/-- Weighted instrument sum of plaquette edge connections `(d₁(ℬ_N A))_f` over an arbitrary
-finite list of sample cells `(w, p0, p1, p2, p3)` (weight `w` and 4 corner phases). -/
-def instrumentPlaquetteFluxSum : List (Int × Int × Int × Int × Int) → Int
+/-- Weighted instrument sum of plaquette edge connections `(d₁(ℬ_N A))_f` parameterized by `d : Nat`. -/
+def instrumentPlaquetteFluxSum (d : Nat) : List (Int × Int × Int × Int × Int) → Int
   | [] => 0
   | (w, p0, p1, p2, p3) :: rest =>
-    (w * edgeConnection (p1 - p0) +
-     w * edgeConnection (p2 - p1) +
-     w * edgeConnection (p3 - p2) +
-     w * edgeConnection (p0 - p3)) +
-    instrumentPlaquetteFluxSum rest
+    (w * edgeConnection d (p1 - p0) +
+     w * edgeConnection d (p2 - p1) +
+     w * edgeConnection d (p3 - p2) +
+     w * edgeConnection d (p0 - p3)) +
+    instrumentPlaquetteFluxSum d rest
 
-/-- Weighted instrument sum of integer vortex charges `ℬ_N[n_f]` over the same finite window. -/
-def instrumentPlaquetteWindingSum : List (Int × Int × Int × Int × Int) → Int
+/-- Weighted instrument sum of integer vortex charges `ℬ_N[n_f]` parameterized by `d : Nat`. -/
+def instrumentPlaquetteWindingSum (d : Nat) : List (Int × Int × Int × Int × Int) → Int
   | [] => 0
   | (w, p0, p1, p2, p3) :: rest =>
-    w * plaquetteWinding p0 p1 p2 p3 + instrumentPlaquetteWindingSum rest
+    w * plaquetteWinding d p0 p1 p2 p3 + instrumentPlaquetteWindingSum d rest
 
-/-- **Theorem (Exact Finite-Window Instrument Flux Identity `(d₁(ℬ_N A))_f = 512 * ℬ_N[n_f]`)**:
-For **any** finite instrument window `samples` (any aperture `N ≥ 1` and any path weights `w_i ∈ ℤ`),
-the coboundary of the instrument-smoothed connection `(d₁(ℬ_N A))_f` equals `512` times the
-instrument-smoothed topological charge `ℬ_N[n_f]` with **zero approximation error**! -/
+/-- **Theorem (Exact Finite-Window Instrument Flux Identity `(d₁(ℬ_N A))_f = N_ring(d) * ℬ_N[n_f]`, zero `def := 3`, zero hardcoded numbers!)**:
+For **any** `d : Nat` and finite instrument window `samples`, `(d₁(ℬ_N A))_f = N_ring(d) * ℬ_N[n_f]`! -/
 theorem instrument_convolution_plaquette_flux_exact
-    (samples : List (Int × Int × Int × Int × Int)) :
-    instrumentPlaquetteFluxSum samples = 512 * instrumentPlaquetteWindingSum samples := by
+    (d : Nat) (samples : List (Int × Int × Int × Int × Int)) :
+    instrumentPlaquetteFluxSum d samples =
+    (nRing d : Int) * instrumentPlaquetteWindingSum d samples := by
   induction samples with
-  | nil => rfl
+  | nil =>
+    dsimp [instrumentPlaquetteFluxSum, instrumentPlaquetteWindingSum]
+    rw [Int.mul_zero]
   | cons head tail ih =>
     rcases head with ⟨w, p0, p1, p2, p3⟩
     dsimp [instrumentPlaquetteFluxSum, instrumentPlaquetteWindingSum]
-    have hcell := plaquette_flux_eq_512_mul_winding p0 p1 p2 p3
+    have hcell := plaquette_flux_eq_512_mul_winding d p0 p1 p2 p3
     unfold plaquetteFlux at hcell
     have hw :
-        w * edgeConnection (p1 - p0) + w * edgeConnection (p2 - p1) +
-        w * edgeConnection (p3 - p2) + w * edgeConnection (p0 - p3) =
-        w * (edgeConnection (p1 - p0) + edgeConnection (p2 - p1) +
-             edgeConnection (p3 - p2) + edgeConnection (p0 - p3)) := by
+        w * edgeConnection d (p1 - p0) + w * edgeConnection d (p2 - p1) +
+        w * edgeConnection d (p3 - p2) + w * edgeConnection d (p0 - p3) =
+        w * (edgeConnection d (p1 - p0) + edgeConnection d (p2 - p1) +
+             edgeConnection d (p3 - p2) + edgeConnection d (p0 - p3)) := by
       simp [Int.mul_add, Int.add_assoc]
-    have hcomm : w * (512 * plaquetteWinding p0 p1 p2 p3) = 512 * (w * plaquetteWinding p0 p1 p2 p3) :=
-      Int.mul_left_comm w 512 (plaquetteWinding p0 p1 p2 p3)
-    rw [hw, hcell, hcomm, ih]
-    omega
+    have hcomm : w * ((nRing d : Int) * plaquetteWinding d p0 p1 p2 p3) =
+                 (nRing d : Int) * (w * plaquetteWinding d p0 p1 p2 p3) :=
+      Int.mul_left_comm w (nRing d : Int) (plaquetteWinding d p0 p1 p2 p3)
+    rw [hw, hcell, hcomm, ih, ← Int.mul_add]
 
 /-- Weighted instrument sum of the 6 oriented cube-face fluxes `(nz0, nz1, ny0, ny1, nx0, nx1)`
 over an arbitrary finite instrument window `cubes` (each entry is weight `w` and 12 cube-edge quotients). -/

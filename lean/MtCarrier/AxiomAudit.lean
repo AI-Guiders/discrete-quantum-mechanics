@@ -13,8 +13,9 @@ Per our epistemic contract:
 namespace MtCarrier.Audit
 
 -- 1. Spec.lean (Rule Z1 & Theorem 11.12)
-#print axioms MtCarrier.canonical_d3_constants
 #print axioms MtCarrier.catalan_lock_iff_d3
+#print axioms MtCarrier.catalan_law_of_d3
+#print axioms MtCarrier.canonical_d3_constants
 #print axioms MtCarrier.gaussian_coulomb_lock_iff_d3
 #print axioms MtCarrier.mHat_d3_gaussian_factorization
 #print axioms MtCarrier.heisenberg_divisibility_d3
@@ -92,5 +93,6 @@ namespace MtCarrier.Audit
 #print axioms MtCarrier.hess_law_and_catalytic_cycle_zero_enthalpy
 #print axioms MtCarrier.woodward_hoffmann_and_valence_123_stability_from_d3
 #print axioms MtCarrier.catalytic_reaction_gate_opening_on_cuboctahedron
+#print axioms MtCarrier.quantum_entanglement_c0_causal_holonomy_and_tsirelson_bound
 
 end MtCarrier.Audit
