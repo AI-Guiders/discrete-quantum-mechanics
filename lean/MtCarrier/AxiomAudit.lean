@@ -88,5 +88,9 @@ namespace MtCarrier.Audit
 #print axioms MtCarrier.coherent_cuboctahedron_barrier_collapse_587x
 #print axioms MtCarrier.zero_dark_residual_identity
 #print axioms MtCarrier.no_dark_matter_and_vacuum_holonomy_halo
+#print axioms MtCarrier.chemical_bond_holonomy_conservation_and_saddle_128
+#print axioms MtCarrier.hess_law_and_catalytic_cycle_zero_enthalpy
+#print axioms MtCarrier.woodward_hoffmann_and_valence_123_stability_from_d3
+#print axioms MtCarrier.catalytic_reaction_gate_opening_on_cuboctahedron
 
 end MtCarrier.Audit

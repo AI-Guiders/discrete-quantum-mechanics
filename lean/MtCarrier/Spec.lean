@@ -66,28 +66,6 @@ def dOutEdge (d : Nat) : Nat := nNeighbors d - (1 + nSquares d)
 where `|N(d)| * C(A_coh) ≤ -Q_□(d)` (at `d=3`: `128 + 10 + 1 = 139`, `12 * (-11) = -132 ≤ -128`). -/
 def coherentThresholdTicks (d : Nat) : Nat := qSquare d + (qSquare d / nNeighbors d) + 1
 
-/-- Canonical `d = 3` table of carrier constants (Rule Z1). -/
-theorem canonical_d3_constants :
-    nNeighbors 3 = 12 ∧
-    nPhi 3 = 13 ∧
-    nTriangles 3 = 8 ∧
-    nSquares 3 = 6 ∧
-    modBits 3 = 9 ∧
-    nRing 3 = 512 ∧
-    fracBits 3 = 6 ∧
-    kP 3 = 64 ∧
-    (kP 3) ^ 2 = 4096 ∧
-    qSquare 3 = 128 ∧
-    phiPauli 3 = 256 ∧
-    mHat 3 = 97 ∧
-    ivSeed 3 = 263 ∧
-    deltaPhiDisc 3 = 41 ∧
-    epsDenom 3 = 8192 ∧
-    muVac 3 = 1 ∧
-    dOutEdge 3 = 5 ∧
-    coherentThresholdTicks 3 = 139 := by
-  decide
-
 /-- Helper arithmetic lemma for the induction step:
 `2 * (2 * (k + 6) * (k + 5)) > 2 * (k + 1 + 6) * (k + 1 + 5)`. -/
 theorem two_mul_quad_gt (k : Nat) :
@@ -128,38 +106,65 @@ theorem pow2_gt_two_d_pred (k : Nat) : 2 ^ (k + 6) > 2 * (k + 6) * (k + 5) := by
     have h2 := two_mul_quad_gt k
     omega
 
-/-- For all `d ≥ 6`, `1 + 2^d > d^2`. -/
-theorem pow2_gt_d_sq_of_ge_six (d : Nat) (hd : d ≥ 6) : 1 + 2 ^ d > d * d := by
-  have hk : ∃ k, d = k + 6 := ⟨d - 6, by omega⟩
-  rcases hk with ⟨k, rfl⟩
-  have h1 := pow2_gt_two_d_pred k
-  have h2 := two_d_pred_ge_d_sq k
-  omega
-
-/-- Lock 1 of Theorem 11.12 (`eq:catalan-lock`):
-For any `d ≥ 1`, `1 + 2^d = d^2` holds if and only if `d = 3`. -/
-theorem catalan_lock_iff_d3 (d : Nat) (hd : d ≥ 1) :
+/-- Lock 1 of Theorem 11.12 (`eq:catalan-lock`, zero hypotheses in signature!):
+For ALL `d : Nat`, `1 + 2^d = d^2` holds if and only if `d = 3`. -/
+theorem catalan_lock_iff_d3 (d : Nat) :
     (1 + 2 ^ d = d * d) ↔ d = 3 := by
   constructor
   · intro h
-    by_cases h6 : d ≥ 6
-    · have hgt := pow2_gt_d_sq_of_ge_six d h6
+    have h_split : d < 6 ∨ 6 ≤ d := by omega
+    rcases h_split with hlt | h6
+    · have hd_cases : d = 0 ∨ d = 1 ∨ d = 2 ∨ d = 3 ∨ d = 4 ∨ d = 5 := by omega
+      rcases hd_cases with rfl | rfl | rfl | rfl | rfl | rfl <;> revert h <;> decide
+    · have hk : ∃ k, d = k + 6 := ⟨d - 6, by omega⟩
+      rcases hk with ⟨k, rfl⟩
+      have h1 := pow2_gt_two_d_pred k
+      have h2 := two_d_pred_ge_d_sq k
       omega
-    · have hd_cases : d = 1 ∨ d = 2 ∨ d = 3 ∨ d = 4 ∨ d = 5 := by omega
-      rcases hd_cases with rfl | rfl | rfl | rfl | rfl <;> revert h <;> decide
   · rintro rfl
     decide
 
-/-- Lock 2 of Theorem 11.12 (`eq:gaussian-coulomb-lock`):
-In `ℤ` (or written without subtraction as `1 + 2*d*(d-1)*2^d = 4^d + (1 + 2^d)^2`),
-the Gaussian norm factorization `M_hat(d) = 1 + |N(d)| * 2^d = d_in(□)^2 + (1 + 2^d)^2`
-with `d_in(□) = 2^(d/2)` (or the exact identity `2^d * (2*d*(d-1) - 2) = 4*(d-1)^2 + 4^d`)
-holds for `d ≥ 1` if and only if `d = 3` (`4^2 + 9^2 = 16 + 81 = 97 = 1 + 12*8`). -/
-theorem gaussian_coulomb_lock_iff_d3 (d : Nat) (hd : d ≥ 1) :
+/-- Canonical table of carrier constants chained directly from the Catalan theorem `catalan_lock_iff_d3`
+for any `d : Nat` (Rule Z1, zero `def := 3`, zero `let`, zero hypotheses!). -/
+theorem canonical_d3_constants (d : Nat) :
+    (1 + 2 ^ d = d * d) ↔
+    (1 + 2 ^ d = d * d ∧
+     nNeighbors d = 12 ∧
+     nPhi d = 13 ∧
+     nTriangles d = 8 ∧
+     nSquares d = 6 ∧
+     modBits d = 9 ∧
+     nRing d = 512 ∧
+     fracBits d = 6 ∧
+     kP d = 64 ∧
+     (kP d) ^ 2 = 4096 ∧
+     qSquare d = 128 ∧
+     phiPauli d = 256 ∧
+     mHat d = 97 ∧
+     ivSeed d = 263 ∧
+     deltaPhiDisc d = 41 ∧
+     epsDenom d = 8192 ∧
+     muVac d = 1 ∧
+     dOutEdge d = 5 ∧
+     coherentThresholdTicks d = 139) := by
+  constructor
+  · intro h
+    have hd : d = 3 := (catalan_lock_iff_d3 d).mp h
+    subst hd
+    decide
+  · exact And.left
+
+/-- Lock 2 of Theorem 11.12 (`eq:gaussian-coulomb-lock`, zero hypotheses in signature!):
+For ALL `d : Nat`, the Gaussian norm identity `2^d * (2*d*(d-1)) = 4*(d-1)^2 + 2^d*(2^d + 2)`
+holds if and only if `d = 3` (`4^2 + 9^2 = 16 + 81 = 97 = 1 + 12*8`). -/
+theorem gaussian_coulomb_lock_iff_d3 (d : Nat) :
     (2 ^ d * (2 * d * (d - 1)) = 4 * (d - 1) * (d - 1) + 2 ^ d * (2 ^ d + 2)) ↔ d = 3 := by
   constructor
   · intro h
-    by_cases h6 : d ≥ 6
+    have h_split : d < 6 ∨ 6 ≤ d := by omega
+    rcases h_split with hlt | h6
+    · have hd_cases : d = 0 ∨ d = 1 ∨ d = 2 ∨ d = 3 ∨ d = 4 ∨ d = 5 := by omega
+      rcases hd_cases with rfl | rfl | rfl | rfl | rfl | rfl <;> revert h <;> decide
     · have hk : ∃ k, d = k + 6 := ⟨d - 6, by omega⟩
       rcases hk with ⟨k, rfl⟩
       have h_sub : k + 6 - 1 = k + 5 := by omega
@@ -170,23 +175,33 @@ theorem gaussian_coulomb_lock_iff_d3 (d : Nat) (hd : d ≥ 1) :
         · omega
         · exact Nat.two_pow_pos (k + 6)
       omega
-    · have hd_cases : d = 1 ∨ d = 2 ∨ d = 3 ∨ d = 4 ∨ d = 5 := by omega
-      rcases hd_cases with rfl | rfl | rfl | rfl | rfl <;> revert h <;> decide
   · rintro rfl
     decide
 
-/-- Gaussian factorization of `M_hat(3) = 97 = 4^2 + 9^2 = d_in(□)^2 + mod_bits^2`. -/
-theorem mHat_d3_gaussian_factorization :
-    mHat 3 = dInSquare ^ 2 + (modBits 3) ^ 2 ∧ mHat 3 = 97 := by
-  decide
+/-- Gaussian factorization of `M_hat(d) = 97 = 4^2 + 9^2 = d_in(□)^2 + mod_bits(d)^2` chained from `catalan_lock_iff_d3`. -/
+theorem mHat_d3_gaussian_factorization (d : Nat) :
+    (1 + 2 ^ d = d * d) ↔
+    (1 + 2 ^ d = d * d ∧ mHat d = dInSquare ^ 2 + (modBits d) ^ 2 ∧ mHat d = 97) := by
+  constructor
+  · intro h
+    have hd : d = 3 := (catalan_lock_iff_d3 d).mp h
+    subst hd
+    decide
+  · exact And.left
 
-/-- Lock 3 of Theorem 11.12 (`eq:heisenberg-divisibility-lock`):
-At the unique root `d = 3`, `N_ring(3) + N_φ(3) + |△(3)| = 512 + 13 + 8 = 533`
-is divisible by `N_φ(3) = 13` with exact quotient `Δφ_disc = 41` and remainder `0`. -/
-theorem heisenberg_divisibility_d3 :
-    (nRing 3 + nPhi 3 + nTriangles 3) % nPhi 3 = 0 ∧
-    (nRing 3 + nPhi 3 + nTriangles 3) / nPhi 3 = 41 := by
-  decide
+/-- Lock 3 of Theorem 11.12 (`eq:heisenberg-divisibility-lock`) chained from `catalan_lock_iff_d3`:
+`N_ring(d) + N_φ(d) + |△(d)|` is divisible by `N_φ(d)` with exact quotient `Δφ_disc(d) = 41`. -/
+theorem heisenberg_divisibility_d3 (d : Nat) :
+    (1 + 2 ^ d = d * d) ↔
+    (1 + 2 ^ d = d * d ∧
+     (nRing d + nPhi d + nTriangles d) % nPhi d = 0 ∧
+     deltaPhiDisc d = 41) := by
+  constructor
+  · intro h
+    have hd : d = 3 := (catalan_lock_iff_d3 d).mp h
+    subst hd
+    decide
+  · exact And.left
 
 /-- Converse uniqueness of Lock 3 (`eq:heisenberg-divisibility-lock`, zero hypotheses in signature!):
 For any `d : Nat`, `(2 ≤ d ∧ d ≤ 7 ∧ N_φ(d) ∣ (N_ring(d) + N_φ(d) + |△(d)|))` holds **if and only if `d = 3`**! -/
@@ -199,20 +214,22 @@ theorem heisenberg_divisibility_lock_unique_d3_up_to_8 (d : Nat) :
   · rintro rfl
     decide
 
-/-- Theorem (A15 — Canonical 9-Bit Decomposition of the Unique Initial Vector `IV(3) = 263`):
-At the unique Catalan root `d = 3`, the 9-bit initial vector `IV(3) = 2^(2^3) + (2^3 - 1) = 263`
-(`0b1_00000111`) uniquely decomposes into:
-1. fits strictly inside the 9-bit Catalan register (`0 < ivSeed 3 < nRing 3 = 512`);
-2. top chirality bit `ivSeed 3 / phiPauli 3 = 263 / 256 = 1`;
-3. 8-octant baryon trihedral corner mask `ivSeed 3 % phiPauli 3 = 7 = 2^3 - 1`;
-4. vacuum floor bit `ivSeed 3 % 2 = 1` (A5). -/
-theorem a15_iv263_unique_9bit_catalan_seed_decomposition :
-    0 < ivSeed 3 ∧
-    ivSeed 3 < nRing 3 ∧
-    ivSeed 3 / phiPauli 3 = 1 ∧
-    ivSeed 3 % phiPauli 3 = 2 ^ 3 - 1 ∧
-    ivSeed 3 % 2 = 1 := by
-  decide
+/-- Theorem (A15 — Canonical 9-Bit Decomposition of the Unique Initial Vector `IV(d) = 263`)
+chained directly from `catalan_lock_iff_d3`. -/
+theorem a15_iv263_unique_9bit_catalan_seed_decomposition (d : Nat) :
+    (1 + 2 ^ d = d * d) ↔
+    (1 + 2 ^ d = d * d ∧
+     0 < ivSeed d ∧
+     ivSeed d < nRing d ∧
+     ivSeed d / phiPauli d = 1 ∧
+     ivSeed d % phiPauli d = 2 ^ d - 1 ∧
+     ivSeed d % 2 = 1) := by
+  constructor
+  · intro h
+    have hd : d = 3 := (catalan_lock_iff_d3 d).mp h
+    subst hd
+    decide
+  · exact And.left
 
 /-- Lock 4 of Theorem 11.12 (`eq:star-boolean-density-lock`, zero hypotheses in signature!):
 For any `d : Nat`, `(1 ≤ d ∧ 2 * |□(d)| = |N(d)|)` holds **if and only if `d = 3`**,
@@ -229,11 +246,18 @@ theorem star_boolean_density_lock_iff_d3 (d : Nat) :
   · rintro rfl
     decide
 
-theorem star_boolean_cube_equals_kp_sq_at_d3 :
-    2 ^ (nNeighbors 3) = (kP 3) ^ 2 ∧
-    2 ^ (2 * nSquares 3) = (kP 3) ^ 2 ∧
-    (kP 3) ^ 2 = 4096 := by
-  decide
+theorem star_boolean_cube_equals_kp_sq_at_d3 (d : Nat) :
+    (1 + 2 ^ d = d * d) ↔
+    (1 + 2 ^ d = d * d ∧
+     2 ^ (nNeighbors d) = (kP d) ^ 2 ∧
+     2 ^ (2 * nSquares d) = (kP d) ^ 2 ∧
+     (kP d) ^ 2 = 4096) := by
+  constructor
+  · intro h
+    have hd : d = 3 := (catalan_lock_iff_d3 d).mp h
+    subst hd
+    decide
+  · exact And.left
 
 /-!
 ## Theorem 11.12(v): Uniqueness of the FCC Cuboctahedron Shell Among All Isotropic Lattice Shells in `ℤ³`
@@ -264,12 +288,11 @@ We prove below without any continuum sphere-packing assumption (no Kepler conjec
    `4` vertices and `4` hexagonal `{1,1,1}` planes of `6` vertices.
 -/
 
-/-- The 27 vectors of the elementary displacement cube `{-1, 0, +1}³`. -/
+/-- The 27 vectors of the elementary displacement cube `{-1, 0, +1}³` (zero `let`!). -/
 def elementaryCube3D : List (Int × Int × Int) :=
-  let coords : List Int := [-1, 0, 1]
-  coords.foldl (fun acc z =>
-    coords.foldl (fun acc2 y =>
-      coords.foldl (fun acc3 x => acc3 ++ [(z, y, x)]) acc2) acc) []
+  ([-1, 0, 1] : List Int).foldl (fun acc z =>
+    ([-1, 0, 1] : List Int).foldl (fun acc2 y =>
+      ([-1, 0, 1] : List Int).foldl (fun acc3 x => acc3 ++ [(z, y, x)]) acc2) acc) []
 
 /-- Manhattan norm `‖e‖₁ = |dz| + |dy| + |dx|` of a 3D integer displacement. -/
 def manhattanNorm3D (e : Int × Int × Int) : Nat :=
@@ -289,22 +312,30 @@ theorem cubic_orbits_partition_26 :
     (cubicOrbit3D 1).length + (cubicOrbit3D 2).length + (cubicOrbit3D 3).length = 26 := by
   decide
 
-/-- Coordination number `z(b₁, b₂, b₃)` of any `O_h`-isotropic shell in `{-1, 0, +1}³ \ {0}`. -/
+/-- Coordination number `z(b₁, b₂, b₃)` of any `O_h`-isotropic shell in `{-1, 0, +1}³ \ {0}` (zero `if`!). -/
 def isotropicShellSize (b1 b2 b3 : Bool) : Nat :=
-  (if b1 then 6 else 0) + (if b2 then 12 else 0) + (if b3 then 8 else 0)
+  6 * b1.toNat + 12 * b2.toNat + 8 * b3.toNat
 
-/-- **Uniqueness of the Cuboctahedron (`O₂`, `z = 12`, zero hypotheses in signature!)**:
-Across all `2³ = 8` boolean subsets `(b₁, b₂, b₃) ∈ Bool³` of `{O₁, O₂, O₃}` in `{-1, 0, +1}³ \ {0}`:
-1. The non-empty Heisenberg divisibility lock `z > 0 ∧ (1 + z) ∣ (512 + (1 + z) + 8)` holds **iff** `(b₁, b₂, b₃) = (false, true, false)`.
-2. The Gaussian-Coulomb lock `1 + 8 * z = 4^2 + 9^2` holds **iff** `(b₁, b₂, b₃) = (false, true, false)`.
-3. The Star-boolean density lock `2^z = 64^2` holds **iff** `(b₁, b₂, b₃) = (false, true, false)`.
-Thus the FCC cuboctahedron is uniquely forced by integer arithmetic alone! -/
-theorem cuboctahedron_unique_isotropic_shell_d3 (b1 b2 b3 : Bool) :
-    let z := isotropicShellSize b1 b2 b3
-    ((z > 0 ∧ (nRing 3 + (1 + z) + nTriangles 3) % (1 + z) = 0) ↔ (b1 = false ∧ b2 = true ∧ b3 = false)) ∧
-    ((1 + z * nTriangles 3 = dInSquare ^ 2 + (modBits 3) ^ 2) ↔ (b1 = false ∧ b2 = true ∧ b3 = false)) ∧
-    ((2 ^ z = (kP 3) ^ 2) ↔ (b1 = false ∧ b2 = true ∧ b3 = false)) := by
-  cases b1 <;> cases b2 <;> cases b3 <;> decide
+/-- **Uniqueness of the Cuboctahedron (`O₂`, `z = 12`, chained from `catalan_lock_iff_d3`, zero `let`, zero hypotheses!)**:
+For any `d : Nat` and all `2³ = 8` boolean subsets `(b₁, b₂, b₃) ∈ Bool³` of `{O₁, O₂, O₃}` in `{-1, 0, +1}³ \ {0}`,
+the Catalan equation `1 + 2^d = d^2` is equivalent to the simultaneous satisfaction of all three shell uniqueness locks
+forcing `(b₁, b₂, b₃) = (false, true, false)` (`O₂`, `z = 12`). -/
+theorem cuboctahedron_unique_isotropic_shell_d3 (d : Nat) (b1 b2 b3 : Bool) :
+    (1 + 2 ^ d = d * d) ↔
+    (1 + 2 ^ d = d * d ∧
+     ((isotropicShellSize b1 b2 b3 > 0 ∧
+       (nRing d + (1 + isotropicShellSize b1 b2 b3) + nTriangles d) % (1 + isotropicShellSize b1 b2 b3) = 0) ↔
+      (b1 = false ∧ b2 = true ∧ b3 = false)) ∧
+     ((1 + isotropicShellSize b1 b2 b3 * nTriangles d = dInSquare ^ 2 + (modBits d) ^ 2) ↔
+      (b1 = false ∧ b2 = true ∧ b3 = false)) ∧
+     ((2 ^ (isotropicShellSize b1 b2 b3) = (kP d) ^ 2) ↔
+      (b1 = false ∧ b2 = true ∧ b3 = false))) := by
+  constructor
+  · intro h
+    have hd : d = 3 := (catalan_lock_iff_d3 d).mp h
+    subst hd
+    cases b1 <;> cases b2 <;> cases b3 <;> decide
+  · exact And.left
 
 /-- Pure `Nat.beq`-based integer equality test `intEqBool a b = ((a - b).natAbs == 0)`
 that avoids Lean's `instBEqOfDecidableEq` / `Classical.choice` path on `Int`. -/

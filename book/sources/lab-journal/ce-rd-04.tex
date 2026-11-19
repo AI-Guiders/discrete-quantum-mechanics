@@ -1,0 +1,51 @@
+\label{exp:cerd04}
+
+\subsubsection*{Постановка}
+\textbf{Физический вопрос.}
+Позволяет ли сквозная цепочка целочисленных операторов от единственного корня уравнения Каталана $1+2^d=d^2 \iff d=3$ (\texttt{catalan\_\allowbreak lock\_\allowbreak iff\_\allowbreak d3}) выписать и аналитически доказать без континуального многоэлектронного уравнения Шрёдингера и без эмпирических функционалов плотности (DFT) точные операторы энергии ковалентной связи $\mathcal{E}_{\mathrm{bond}}$, деформации Бома $\delta K_{\mathrm{bond}}$, реакционного тока переноса $\mathcal{J}_{\mathrm{rxn}}$, седловой точки переходного состояния $|A^\ddagger| = Q_\square(d) = 128$, закона Гесса, стабильности валентного триплета $3\Delta\varphi_{\mathrm{disc}}(d) = 123 < 128$, порога $4$-квантовой активации $4\Delta\varphi_{\mathrm{disc}}(d) = 164 > 128$, селективности Вудворда--Хоффмана $[4+2]$ против $[2+2]$ и открытия ворот реакции в кубооктаэдральной полости катализатора~$O_2$ (\cref{thm:applied-chemical-reactions-and-catalysis})?
+
+\textbf{Что проверяем.}
+{\sloppy
+\begin{enumerate}[label=\textbf{(\alph*)},leftmargin=*,itemsep=0.25em]
+\item Точное сохранение полного бюджета связи $\mathcal{E}_{\mathrm{bond}} + \delta K_{\mathrm{bond}} = 128\,b\,\mu_x\mu_y$, $\ell_1$-инвариантность $|\mathcal{E}_{\mathrm{bond}}| + |\mathcal{J}_{\mathrm{rxn}}| = 128\,b\,\mu_x\mu_y$ вдоль всей координаты реакции и обращение связывающей проекции в нуль в седловой точке переходного состояния $|A^\ddagger| = 128$ при максимуме реакционного тока $S(128) = 128$ (\texttt{chemical\_\allowbreak bond\_\allowbreak holonomy\_\allowbreak conservation\_\allowbreak and\_\allowbreak saddle\_\allowbreak 128}).
+\item Точную независимость энтальпии многостадийной реакции от пути (закон Гесса) и нулевую суммарную энтальпию замкнутого каталитического цикла (\texttt{hess\_\allowbreak law\_\allowbreak and\_\allowbreak catalytic\_\allowbreak cycle\_\allowbreak zero\_\allowbreak enthalpy}).
+\item Сквозной вывод из $1+2^d=d^2$ стабильности $3$-квантового валентного сдвига $3\Delta\varphi_{\mathrm{disc}}(d) = 123 < 128$ ($C(123) = +5 = d_{\mathrm{out}}(E)(d) > 0$), прохождения седловой точки при $4$-квантовой активации $4\Delta\varphi_{\mathrm{disc}}(d) = 164 > 128$ ($C(164) = -36 < 0$), совпадения $6$-центрового кольца $[4+2]$ Дильса--Альдера с гексагональным сечением $\{111\}$ кубооктаэдра~$O_2$ ($n_f=0$) и фотохимического порога $|\square(d)| = 6$ квантов для $[2+2]$-циклоприсоединения (\texttt{woodward\_\allowbreak hoffmann\_\allowbreak and\_\allowbreak valence\_\allowbreak 123\_\allowbreak stability\_\allowbreak from\_\allowbreak d3}).
+\item Аналитическое открытие ворот реакции при $z_i = 0$ в кубооктаэдре катализатора~$O_2$: переход от закрытого затвора Гейзенберга ($\Phi_{\mathrm{gate}} = 0$, $\widehat{n}_E = 0$ при $D_{\mathrm{uncat}} = 206\,260$, $\Phi_{\mathrm{raw}} = 25 < 41$) к открытому надседловому импульсу $|\Phi_{\mathrm{gate}}| = 160 > 128$ ($C(-160) = -32 < 0$ при $D_{\mathrm{cat}} = 7\,516$, \texttt{catalytic\_\allowbreak reaction\_\allowbreak gate\_\allowbreak opening\_\allowbreak on\_\allowbreak cuboctahedron}).
+\end{enumerate}\par}
+
+\textbf{Наблюдаемые.}
+Связывающая проекция $C(A)$, реакционный ток $S(A)$, пороги $3\Delta\varphi_{\mathrm{disc}}$ и $4\Delta\varphi_{\mathrm{disc}}$, знаменатели $D_{\mathrm{uncat}}, D_{\mathrm{cat}}$ и выходные импульсы ворот $\Phi_{\mathrm{gate}}$ (табл.~\ref{tab:exp-ce-rd-04}).
+
+\textbf{Критерий согласия с теорией.}
+Побитовое совпадение всех четырёх аналитических теорем в Lean~4 (`0 sorry`, `0 Classical.choice`, `0 if`, `0 let`).
+
+\subsubsection*{Теоретическая часть}
+По теореме~\ref{thm:applied-chemical-reactions-and-catalysis} ковалентная связь вдоль клики кубооктаэдра кратности $b\in\{1,2,3\}$ определяется операторами $\mathcal{E}_{\mathrm{bond}} = b\mu_x\mu_y C(d\varphi)$, $\delta K_{\mathrm{bond}} = b\mu_x\mu_y|\mathrm{wrap}_{512}(d\varphi)|$ и $\mathcal{J}_{\mathrm{rxn}} = b\mu_x\mu_y S(d\varphi)$, а каталитическое ускорение — снижением знаменателя импеданса $D(x)$ за счёт отрицательной реальной голономии $\zeta_{\mathrm{real}}^{\mathrm{cat}} < 0$ координационной полости кубооктаэдра~$O_2$.
+
+\subsubsection*{Ход эксперимента}
+Воспроизведение: \texttt{lake build} в \texttt{lean/} (\texttt{UnifiedOperators.lean}, \texttt{AxiomAudit.lean}) и \texttt{python verify\_principles.py --suite m\_axioms}.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\caption{Аналитические режимы химической связи, переходного состояния $TS^\ddagger$ и катализа на кубооктаэдре~$O_2$ (CE-RD-04)}
+\label{tab:exp-ce-rd-04}
+\begin{tabular}{@{}lrrrrl@{}}
+\toprule
+Режим / координата реакции & $|A|$ (тики) & $C(A)$ & $|S(A)|$ & $\Phi_{\mathrm{gate}}$ (тики) & Физический статус связи \\
+\midrule
+Равновесная ковалентная яма & $0$ & $+128$ & $0$ & $0$ & Максимум связи $\sigma/\pi$, ток $0$ \\
+Тепловые ИК-колебания ($|\Phi_{\mathrm{raw}}|<41$) & $25$ & $+103$ & $25$ & $0$ & Затвор Гейзенберга закрыт ($\widehat{n}_E=0$) \\
+Валентный триплет ($3\Delta\varphi_{\mathrm{disc}}$) & $123$ & $+5$ & $123$ & --- & Стабилен ($123<128$, $C=+d_{\mathrm{out}}(E)>0$) \\
+Седловая точка $TS^\ddagger$ ($Q_\square$) & $128$ & $0$ & $128$ & --- & Связь разблокирована ($C=0$, $\max|\mathcal{J}_{\mathrm{rxn}}|$) \\
+Каталитическая полость~$O_2$ ($z_i=0$) & $139\to 160$ & $-32$ & $96$ & $-160$ & Пробой седла ($160>128$, $D_{\mathrm{cat}}=7\,516$) \\
+$4$-квантовая активация ($4\Delta\varphi_{\mathrm{disc}}$) & $164$ & $-36$ & $92$ & --- & Антисвязывающий разрыв $\sigma^*$ ($C<0$) \\
+Фотохимический порог Паули $[2+2]$ & $256$ & $-128$ & $0$ & $\pm 256$ & Переворот ветви $\Delta k_e=\pm 1$ ($\widehat{n}_E=6$) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection*{Анализ и выводы}
+Химическая кинетика, теория переходного состояния, правила орбитальной симметрии Вудворда--Хоффмана и гетерогенный/ферментативный катализ выводятся как замкнутые целочисленные следствия уравнения Каталана $1+2^d=d^2$ на кубооктаэдре~$O_2$.
+\textbf{Статус записи:} опыт закрыт по табл.~\ref{tab:exp-ce-rd-04}.

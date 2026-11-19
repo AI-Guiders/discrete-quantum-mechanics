@@ -43,20 +43,17 @@ def isPosNat (k : Nat) : Int :=
 def branchlessSign (x : Int) : Int :=
   2 * isZeroNat (-x).toNat - 1
 
-/-- Pythagorean rotator horizontal leg `P_x(A) = isPosNat(|C(A)|) * sgn(C(A)) * (128^2 - S(A)^2)` (zero `if`!). -/
+/-- Pythagorean rotator horizontal leg `P_x(A) = isPosNat(|C(A)|) * sgn(C(A)) * (128^2 - S(A)^2)` (zero `if`, zero `let`!). -/
 def pythPx (a : Int) : Int :=
-  let c := projC a
-  let s := projS a
-  isPosNat c.natAbs * branchlessSign c * (128 * 128 - s * s)
+  isPosNat (projC a).natAbs * branchlessSign (projC a) * (128 * 128 - projS a * projS a)
 
 /-- Pythagorean rotator vertical leg `P_y(A) = 2 * 128 * S(A)`. -/
 def pythPy (a : Int) : Int :=
   2 * 128 * projS a
 
-/-- Pythagorean rotator hypotenuse `P_r(A) = 128^2 + S(A)^2`. -/
+/-- Pythagorean rotator hypotenuse `P_r(A) = 128^2 + S(A)^2` (zero `let`!). -/
 def pythPr (a : Int) : Int :=
-  let s := projS a
-  128 * 128 + s * s
+  128 * 128 + projS a * projS a
 
 /-- `wrap512` always lands in `(-256, +256]` and is congruent to `x` modulo `512` (zero `if`, zero `Classical.choice`!). -/
 theorem wrap512_spec (x : Int) :
@@ -75,11 +72,10 @@ theorem step0_face_projection_table :
 
 /-- Theorem 11.11 (`eq:l1-face-identity`):
 On the entire phase ring `a ∈ [0, 512)`, the `L¹` square-face identity
-`|C(a)| + |S(a)| = Q_□ = 128` holds identically. -/
+`|C(a)| + |S(a)| = Q_□ = 128` holds identically (zero `let`!). -/
 theorem l1_face_identity_all_512 :
     (List.range 512).all (fun n =>
-      let a : Int := n
-      (projC a).natAbs + (projS a).natAbs == 128) = true := by
+      (projC (n : Int)).natAbs + (projS (n : Int)).natAbs == 128) = true := by
   native_decide
 
 /-- General algebraic proof of the `L¹` square-face identity `|C(a)| + |S(a)| = 128`

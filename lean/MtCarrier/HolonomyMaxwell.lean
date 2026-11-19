@@ -37,17 +37,24 @@ theorem quotient_remainder_512_spec (dphi : Int) :
   unfold edgeConnection
   omega
 
-/-- Helper boolean check for the three regimes of `branchQuotient` and `edgeConnection` at `n ∈ [0, 1023)` (zero `if`!). -/
+/-- Shift index `n ∈ [0, 1023)` to signed edge difference `dphi = n - 511 ∈ [-511, +511]`. -/
+def regimeDphi (n : Nat) : Int :=
+  (n : Int) - 511
+
+/-- Helper boolean check for the three regimes of `branchQuotient` and `edgeConnection` at `n ∈ [0, 1023)` (zero `if`, zero `let`!). -/
 def checkQuotientRemainderRegime (n : Nat) : Bool :=
-  let dphi : Int := (n : Int) - 511
-  let k := branchQuotient dphi
-  let a := edgeConnection dphi
-  intEqBool dphi (512 * k + a) &&
-  Nat.ble 1 (a + 256).toNat &&
-  Nat.ble (a + 256).toNat 512 &&
-  (!(Nat.ble (n + 1) 256) || (intEqBool k (-1) && intEqBool a (dphi + 512))) &&
-  (!(Nat.ble 256 n && Nat.ble n 767) || (intEqBool k 0 && intEqBool a dphi)) &&
-  (!(Nat.ble 768 n) || (intEqBool k 1 && intEqBool a (dphi - 512)))
+  intEqBool (regimeDphi n) (512 * branchQuotient (regimeDphi n) + edgeConnection (regimeDphi n)) &&
+  Nat.ble 1 (edgeConnection (regimeDphi n) + 256).toNat &&
+  Nat.ble (edgeConnection (regimeDphi n) + 256).toNat 512 &&
+  (!(Nat.ble (n + 1) 256) ||
+    (intEqBool (branchQuotient (regimeDphi n)) (-1) &&
+     intEqBool (edgeConnection (regimeDphi n)) (regimeDphi n + 512))) &&
+  (!(Nat.ble 256 n && Nat.ble n 767) ||
+    (intEqBool (branchQuotient (regimeDphi n)) 0 &&
+     intEqBool (edgeConnection (regimeDphi n)) (regimeDphi n))) &&
+  (!(Nat.ble 768 n) ||
+    (intEqBool (branchQuotient (regimeDphi n)) 1 &&
+     intEqBool (edgeConnection (regimeDphi n)) (regimeDphi n - 512)))
 
 /-- Exhaustive verification of the three regimes of `branchQuotient` and `edgeConnection`
 for all `dphi ∈ [-511, +511]` (Corollary 11.9):
@@ -124,16 +131,18 @@ cube vanishes identically (`div_cube n_f = (nz1 - nz0) - (ny1 - ny0) + (nx1 - nx
 def faceWindingFromEdges (k_bottom k_right k_top k_left : Int) : Int :=
   -(k_bottom + k_right - k_top - k_left)
 
+/-- Oriented 3D cube divergence operator `div_cube n_f = (nz1 - nz0) - (ny1 - ny0) + (nx1 - nx0)`
+constructed from the 12 cube-edge winding quotients (zero `let`!). -/
+def cubeDivergenceOp
+    (kx00 kx01 kx10 kx11 ky00 ky01 ky10 ky11 kz00 kz01 kz10 kz11 : Int) : Int :=
+  (faceWindingFromEdges kx10 ky11 kx11 ky10 - faceWindingFromEdges kx00 ky01 kx01 ky00) -
+  (faceWindingFromEdges kx01 kz11 kx11 kz10 - faceWindingFromEdges kx00 kz01 kx10 kz00) +
+  (faceWindingFromEdges ky01 kz11 ky11 kz01 - faceWindingFromEdges ky00 kz10 ky10 kz00)
+
 theorem discrete_gauss_cube_divergence_zero
     (kx00 kx01 kx10 kx11 ky00 ky01 ky10 ky11 kz00 kz01 kz10 kz11 : Int) :
-    let nz0 := faceWindingFromEdges kx00 ky01 kx01 ky00
-    let nz1 := faceWindingFromEdges kx10 ky11 kx11 ky10
-    let ny0 := faceWindingFromEdges kx00 kz01 kx10 kz00
-    let ny1 := faceWindingFromEdges kx01 kz11 kx11 kz10
-    let nx0 := faceWindingFromEdges ky00 kz10 ky10 kz00
-    let nx1 := faceWindingFromEdges ky01 kz11 ky11 kz01
-    (nz1 - nz0) - (ny1 - ny0) + (nx1 - nx0) = 0 := by
-  dsimp [faceWindingFromEdges]
+    cubeDivergenceOp kx00 kx01 kx10 kx11 ky00 ky01 ky10 ky11 kz00 kz01 kz10 kz11 = 0 := by
+  unfold cubeDivergenceOp faceWindingFromEdges
   omega
 
 /-!
@@ -194,13 +203,8 @@ def instrumentCubeDivergenceSum :
     List (Int × Int × Int × Int × Int × Int × Int × Int × Int × Int × Int × Int × Int) → Int
   | [] => 0
   | (w, kx00, kx01, kx10, kx11, ky00, ky01, ky10, ky11, kz00, kz01, kz10, kz11) :: rest =>
-    let nz0 := w * faceWindingFromEdges kx00 ky01 kx01 ky00
-    let nz1 := w * faceWindingFromEdges kx10 ky11 kx11 ky10
-    let ny0 := w * faceWindingFromEdges kx00 kz01 kx10 kz00
-    let ny1 := w * faceWindingFromEdges kx01 kz11 kx11 kz10
-    let nx0 := w * faceWindingFromEdges ky00 kz10 ky10 kz00
-    let nx1 := w * faceWindingFromEdges ky01 kz11 ky11 kz01
-    ((nz1 - nz0) - (ny1 - ny0) + (nx1 - nx0)) + instrumentCubeDivergenceSum rest
+    w * cubeDivergenceOp kx00 kx01 kx10 kx11 ky00 ky01 ky10 ky11 kz00 kz01 kz10 kz11 +
+    instrumentCubeDivergenceSum rest
 
 /-- **Theorem (Exact Finite-Window Gauss / Confinement Law `div_cube (ℬ_N[n_f]) = 0`)**:
 For **any** finite instrument window `cubes` (any resolution `N ≥ 1`), the divergence of the
@@ -213,34 +217,24 @@ theorem instrument_convolution_gauss_monopole_free_exact
   | cons head tail ih =>
     rcases head with ⟨w, kx00, kx01, kx10, kx11, ky00, ky01, ky10, ky11, kz00, kz01, kz10, kz11⟩
     dsimp [instrumentCubeDivergenceSum]
-    have hcube := discrete_gauss_cube_divergence_zero kx00 kx01 kx10 kx11 ky00 ky01 ky10 ky11 kz00 kz01 kz10 kz11
-    dsimp at hcube
-    have hw :
-        (w * faceWindingFromEdges kx10 ky11 kx11 ky10 - w * faceWindingFromEdges kx00 ky01 kx01 ky00) -
-        (w * faceWindingFromEdges kx01 kz11 kx11 kz10 - w * faceWindingFromEdges kx00 kz01 kx10 kz00) +
-        (w * faceWindingFromEdges ky01 kz11 ky11 kz01 - w * faceWindingFromEdges ky00 kz10 ky10 kz00) =
-        w * ((faceWindingFromEdges kx10 ky11 kx11 ky10 - faceWindingFromEdges kx00 ky01 kx01 ky00) -
-             (faceWindingFromEdges kx01 kz11 kx11 kz10 - faceWindingFromEdges kx00 kz01 kx10 kz00) +
-             (faceWindingFromEdges ky01 kz11 ky11 kz01 - faceWindingFromEdges ky00 kz10 ky10 kz00)) := by
-      simp [Int.mul_add, Int.mul_sub]
-    rw [hw, hcube, ih]
+    rw [discrete_gauss_cube_divergence_zero, ih]
     omega
 
+/-- Discrete electric edge field operator `E_e = -(A_e(t+1) - A_e(t)) - (φ_y - φ_x)` (zero `let`!). -/
+def faradayEdgeFieldOp (a_t a_next phiX phiY : Int) : Int :=
+  -(a_next - a_t) - (phiY - phiX)
+
 /-- **Theorem (Exact Discrete Faraday Law Under Any Instrument Window `ℬ_N`)**:
-Define the instrument-smoothed electric edge field on the 4 edges of a square plaquette between
-ticks `t` and `t+1` as `E_e^(N) = -(A_e^(N)(t+1) - A_e^(N)(t)) - (d₀ Φ^(N))_e`, where `Φ₀, Φ₁, Φ₂, Φ₃`
-are the instrument-smoothed scalar potentials/gates at the 4 corners. Then around the plaquette,
-`Δ_t B_f^(N) + (d₁ E^(N))_f = 0` holds **identically** at every finite `N ≥ 1`! -/
+Around any square plaquette, `Δ_t B_f^(N) + (d₁ E^(N))_f = 0` holds **identically** at every finite `N ≥ 1`! -/
 theorem instrument_convolution_faraday_law_exact
     (a01_t a12_t a23_t a30_t a01_next a12_next a23_next a30_next phi0 phi1 phi2 phi3 : Int) :
-    let b_t := plaquetteSum a01_t a12_t a23_t a30_t
-    let b_next := plaquetteSum a01_next a12_next a23_next a30_next
-    let e01 := -(a01_next - a01_t) - (phi1 - phi0)
-    let e12 := -(a12_next - a12_t) - (phi2 - phi1)
-    let e23 := -(a23_next - a23_t) - (phi3 - phi2)
-    let e30 := -(a30_next - a30_t) - (phi0 - phi3)
-    (b_next - b_t) + plaquetteSum e01 e12 e23 e30 = 0 := by
-  dsimp [plaquetteSum]
+    (plaquetteSum a01_next a12_next a23_next a30_next - plaquetteSum a01_t a12_t a23_t a30_t) +
+    plaquetteSum
+      (faradayEdgeFieldOp a01_t a01_next phi0 phi1)
+      (faradayEdgeFieldOp a12_t a12_next phi1 phi2)
+      (faradayEdgeFieldOp a23_t a23_next phi2 phi3)
+      (faradayEdgeFieldOp a30_t a30_next phi3 phi0) = 0 := by
+  unfold plaquetteSum faradayEdgeFieldOp
   omega
 
 end MtCarrier
