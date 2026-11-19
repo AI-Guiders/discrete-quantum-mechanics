@@ -103,5 +103,7 @@ namespace MtCarrier.Audit
 #print axioms MtCarrier.cross_floor_shell_closure_isomorphism_operator
 #print axioms MtCarrier.generative_biometal_discovery_and_multi_regime_allometry_operator
 #print axioms MtCarrier.universal_cosmobiology_three_planetary_windows_operator
+#print axioms MtCarrier.universal_operator_linearity_and_multilinearity
+#print axioms MtCarrier.scale_invariance_of_holonomy_and_gate_operators
 
 end MtCarrier.Audit

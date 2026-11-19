@@ -4,8 +4,7 @@ import MtCarrier.TrajectoryIV263
 # Closed-Form Unified Operators Across All Layers and Interactions (`UnifiedOperators.lean`)
 
 Formal verification in Lean 4 of the unified closed-form operators of the M/T model
-parameterized by dimension `d : Nat` and chained through `CatalanLaw` (`CatalanLock d ↔ CatalanLock d ∧ P d`)
-with zero `def := 3`, zero precomputed numerical literals, zero `if`, zero `let`, zero `Classical.choice`, and zero `sorry`:
+parameterized by dimension `d : Nat` and chained through `CatalanLaw` (`CatalanLock d ↔ CatalanLock d ∧ P d`):
 
 1. **Spatial Laplacian & Second-Moment Isotropy Operator `Δ_{O₂}` on `O₂ = cubicOrbit3D (d - 1)` (Chapters 4, 6, 7)**
 2. **Fifth Diophantine Lock (`GravitationalStrainLock d ↔ CatalanLock d`, Proposition 10.8)**
@@ -38,7 +37,7 @@ def shellSecondMomentTensor (shell : List (Int × Int × Int)) :
      myx + dy * dx)) (0, 0, 0, 0, 0, 0)
 
 /-- **Theorem (Cuboctahedron Second-Moment Isotropy & PPN Light-Deflection Tensor `d_in(□) * δ_{ij}`)**:
-Chained via `CatalanLaw` for any `d : Nat` on `O₂ = cubicOrbit3D (d - 1)` (zero `def := 3`, zero hardcoded numbers!):
+Chained via `CatalanLaw` for any `d : Nat` on `O₂ = cubicOrbit3D (d - 1)`:
 1. Every edge has Euclidean squared length `dz² + dy² + dx² = c0OverCSqOp d` (`(c₀ / c)² = 1 / κ_geom(d)²`).
 2. The unnormalized second-moment tensor is strictly isotropic:
    `M_zz = M_yy = M_xx = |△(d)|` and `M_zy = M_zx = M_yx = 0`.
@@ -59,12 +58,12 @@ def evalQuadPoly3D (a b c d e g p q r u z y x : Int) : Int :=
   d * (x * y) + e * (x * z) + g * (y * z) +
   p * x + q * y + r * z + u
 
-/-- General 2D quadratic polynomial over `ℤ` (zero `let`!):
+/-- General 2D quadratic polynomial over `ℤ`:
 `q(u, v) = a*(u*u) + b*(v*v) + d*(u*v) + p*u + r*v + c0`. -/
 def evalQuadPoly2D (a b d p r c0 u v : Int) : Int :=
   a * (u * u) + b * (v * v) + d * (u * v) + p * u + r * v + c0
 
-/-- 4-vertex coordinate-plane square Laplacian `(±1, ±1)` on `evalQuadPoly2D` (zero `let`!). -/
+/-- 4-vertex coordinate-plane square Laplacian `(±1, ±1)` on `evalQuadPoly2D`. -/
 def square4Laplacian2DOp (a b d p r c0 u v : Int) : Int :=
   (evalQuadPoly2D a b d p r c0 (u + 1) (v + 1) - evalQuadPoly2D a b d p r c0 u v) +
   (evalQuadPoly2D a b d p r c0 (u + 1) (v - 1) - evalQuadPoly2D a b d p r c0 u v) +
@@ -73,7 +72,7 @@ def square4Laplacian2DOp (a b d p r c0 u v : Int) : Int :=
 
 /-- Helper lemma: on any 4-vertex coordinate-plane square `(±1, ±1)` around `(u, v)`,
 `square4Laplacian2DOp` equals `dInSquare * (a + b)`, annihilating linear terms `p, r`, constant `c0`,
-and the cross term `d*(u*v)` (zero hardcoded `4`, zero `let`!). -/
+and the cross term `d*(u*v)`. -/
 theorem square4_laplacian_quad2d (a b d p r c0 u v : Int) :
     square4Laplacian2DOp a b d p r c0 u v = (dInSquare : Int) * (a + b) := by
   unfold square4Laplacian2DOp evalQuadPoly2D dInSquare
@@ -89,14 +88,14 @@ theorem square4_laplacian_quad2d (a b d p r c0 u v : Int) :
   simp [Int.mul_add, Int.mul_sub]
   omega
 
-/-- 4-vertex `xy`-plane square Laplacian on a 3D quadratic polynomial `evalQuadPoly3D` (zero `let`!). -/
+/-- 4-vertex `xy`-plane square Laplacian on a 3D quadratic polynomial `evalQuadPoly3D`. -/
 def square4LaplacianXY3DOp (a b c d e g p q r u z y x : Int) : Int :=
   (evalQuadPoly3D a b c d e g p q r u z (y + 1) (x + 1) - evalQuadPoly3D a b c d e g p q r u z y x) +
   (evalQuadPoly3D a b c d e g p q r u z (y - 1) (x + 1) - evalQuadPoly3D a b c d e g p q r u z y x) +
   (evalQuadPoly3D a b c d e g p q r u z (y + 1) (x - 1) - evalQuadPoly3D a b c d e g p q r u z y x) +
   (evalQuadPoly3D a b c d e g p q r u z (y - 1) (x - 1) - evalQuadPoly3D a b c d e g p q r u z y x)
 
-/-- **Theorem (Exact Rotational Isotropy of the Cuboctahedron Laplacian `Δ_{O₂}` on All 3D Quadratic Polynomials, zero hardcoded `4, 8`, zero `let`!)**:
+/-- **Theorem**:
 Each 4-vertex coordinate-plane square contributes `dInSquare * (a + b)`, and summing across the three coordinate planes
 yields `2 * dInSquare * (a + b + c)` for all `(a, b, c, d, e, g, p, q, r, u) ∈ ℤ¹⁰`! -/
 theorem laplacian_O2_exact_on_quadratic_polynomial
@@ -155,7 +154,7 @@ theorem gravitational_strain_tensor_lock_iff_d3 (d : Nat) :
 -/
 
 /-- Exhaustive verification over all `N_ring(d)` ring residues `r ∈ [0, N_ring(d))` that `projC d` is globally even
-and `projS d` is globally odd, chained via `CatalanLaw` (zero `def := 3`, zero hardcoded numbers!). -/
+and `projS d` is globally odd, chained via `CatalanLaw`. -/
 theorem projC_even_projS_odd_all_512 (d : Nat) :
     CatalanLaw (fun d =>
       (List.range (nRing d)).all (fun n =>
@@ -163,7 +162,7 @@ theorem projC_even_projS_odd_all_512 (d : Nat) :
         intEqBool (projS d (((nRing d - n) % nRing d : Nat) : Int)) (-projS d (n : Int))) = true) d :=
   catalan_law_of_d3 _ (by native_decide) d
 
-/-- Helper lemma: `wrap512 d (a % N_ring(d)) = wrap512 d a` chained via `CatalanLaw` (zero `def := 3`, zero hardcoded numbers!). -/
+/-- Helper lemma: `wrap512 d (a % N_ring(d)) = wrap512 d a` chained via `CatalanLaw`. -/
 theorem wrap512_mod512 (d : Nat) (a : Int) :
     CatalanLaw (fun d => wrap512 d (a % (nRing d : Int)) = wrap512 d a) d := by
   apply catalan_law_of_d3
@@ -174,7 +173,7 @@ theorem wrap512_mod512 (d : Nat) (a : Int) :
 
 /-- **Theorem (Closed Linear Formula for the Even Holonomy / Bohm Quantum Potential Operator `δK_{xy}` for any `d : Nat`)**:
 For **all** `d : Nat`, cell amplitudes `muX, muY ∈ ℤ`, and phase differences `dphi ∈ ℤ`
-(zero `def := 3`, zero hardcoded numbers!):
+:
 `Q_□(d) * (muX * muY) - (muX * muY) * projC d dphi = (muX * muY) * |wrap512 d dphi|`! -/
 theorem even_holonomy_bohm_deficit_eq_abs_connection (d : Nat) (muX muY dphi : Int) :
     (qSquare d : Int) * (muX * muY) - (muX * muY) * projC d dphi =
@@ -187,7 +186,7 @@ theorem even_holonomy_bohm_deficit_eq_abs_connection (d : Nat) (muX muY dphi : I
   exact h
 
 /-- **Theorem (Exact Pairwise Conservation of the Odd Holonomy Transport Current `J_{xy} + J_{yx} = 0`)**:
-Chained via `CatalanLaw` across all `N_ring(d)` relative angles on `ℤ_{N_ring(d)}` (zero `def := 3`, zero hardcoded numbers!). -/
+Chained via `CatalanLaw` across all `N_ring(d)` relative angles on `ℤ_{N_ring(d)}`. -/
 theorem odd_holonomy_current_pairwise_conservation_all_512 (d : Nat) :
     CatalanLaw (fun d =>
       (List.range (nRing d)).all (fun n =>
@@ -198,7 +197,7 @@ theorem odd_holonomy_current_pairwise_conservation_all_512 (d : Nat) :
 ## 4. Clifford–Pauli Spinor Operators `(Σ₁, Σ₂, Σ₃, 𝒫_π)` on `PolarCell` Parameterized by `d : Nat`
 -/
 
-/-- Pauli half-turn operator `𝒫_π(d)` (`-I`, rotation by `Φ_Pauli(d)` ticks modulo `N_ring(d)`, zero `def := 3`, zero hardcoded numbers!). -/
+/-- Pauli half-turn operator `𝒫_π(d)` (`-I`, rotation by `Φ_Pauli(d)` ticks modulo `N_ring(d)`). -/
 def pauliHalfTurnOp (d : Nat) (c : PolarCell) : PolarCell :=
   { mu0  := c.mu0
     phi0 := (c.phi0 + (phiPauli d : Int)) % (nRing d : Int)
@@ -212,14 +211,14 @@ def pauliSigma1Op (c : PolarCell) : PolarCell :=
     mu1  := c.mu0
     phi1 := c.phi0 }
 
-/-- Pauli operator `Σ₃(d)` (relative half-turn `+Φ_Pauli(d)` ticks on lane 1 modulo `N_ring(d)`, zero `def := 3`, zero hardcoded numbers!). -/
+/-- Pauli operator `Σ₃(d)` (relative half-turn `+Φ_Pauli(d)` ticks on lane 1 modulo `N_ring(d)`). -/
 def pauliSigma3Op (d : Nat) (c : PolarCell) : PolarCell :=
   { mu0  := c.mu0
     phi0 := c.phi0
     mu1  := c.mu1
     phi1 := (c.phi1 + (phiPauli d : Int)) % (nRing d : Int) }
 
-/-- Pauli operator `Σ₂(d)` (lane swap with `+(Φ_Pauli(d) + Q_□(d))` / `+Q_□(d)` quarter-turn modulo `N_ring(d)`, zero `def := 3`, zero hardcoded numbers!). -/
+/-- Pauli operator `Σ₂(d)` (lane swap with `+(Φ_Pauli(d) + Q_□(d))` / `+Q_□(d)` quarter-turn modulo `N_ring(d)`). -/
 def pauliSigma2Op (d : Nat) (c : PolarCell) : PolarCell :=
   { mu0  := c.mu1
     phi0 := (c.phi1 + ((phiPauli d + qSquare d : Nat) : Int)) % (nRing d : Int)
@@ -227,7 +226,7 @@ def pauliSigma2Op (d : Nat) (c : PolarCell) : PolarCell :=
     phi1 := (c.phi0 + (qSquare d : Int)) % (nRing d : Int) }
 
 /-- **Theorem (Clifford–Pauli Operator Involution, Anticommutation `Σ₁ Σ₃ = 𝒫_π Σ₃ Σ₁`, and `A3/A7` Invariance)**:
-Chained via `CatalanLaw` for any `d : Nat` and any `mu0, phi0, mu1, phi1 : Int` (zero `def := 3`, zero hardcoded numbers, zero `let`!). -/
+Chained via `CatalanLaw` for any `d : Nat` and any `mu0, phi0, mu1, phi1 : Int`. -/
 theorem pauli_clifford_algebra_on_polar_cell (d : Nat) (mu0 phi0 mu1 phi1 : Int) :
     CatalanLaw (fun d =>
       pauliSigma1Op (pauliSigma1Op (normalizedPolarCell d mu0 phi0 mu1 phi1)) =
@@ -265,12 +264,12 @@ theorem pauli_clifford_algebra_on_polar_cell (d : Nat) (mu0 phi0 mu1 phi1 : Int)
 -/
 
 /-- Internal sector operator `k_φ(d, φ) = φ / Δφ_disc(d)` and fine phase `φ_f(d, φ) = φ % Δφ_disc(d)`
-parameterized by `d : Nat` (zero `def := 3`, zero hardcoded numbers!). -/
+parameterized by `d : Nat`. -/
 def internalPhaseFibration (d : Nat) (phi : Nat) : Nat × Nat :=
   (phi / deltaPhiDisc d, phi % deltaPhiDisc d)
 
 /-- **Theorem (Internal Phase Fibration Bijection `(k_φ, φ_f) ↔ φ ∈ ℤ_{N_ring(d)}`)**:
-Chained via `CatalanLaw` for any `d : Nat` (zero `def := 3`, zero hardcoded numbers, zero `let`!). -/
+Chained via `CatalanLaw` for any `d : Nat`. -/
 theorem internal_phase_fibration_bijection_512 (d : Nat) :
     CatalanLaw (fun d =>
       (List.range (nRing d)).all (fun phi =>
@@ -279,13 +278,13 @@ theorem internal_phase_fibration_bijection_512 (d : Nat) :
         (deltaPhiDisc d * (internalPhaseFibration d phi).1 + (internalPhaseFibration d phi).2 == phi)) = true) d :=
   catalan_law_of_d3 _ (by native_decide) d
 
-/-- Quantum energy operator `n̂_E(d, Φ) = |Φ| / Δφ_disc(d)` parameterized by `d : Nat` (zero `def := 3`, zero hardcoded numbers!). -/
+/-- Quantum energy operator `n̂_E(d, Φ) = |Φ| / Δφ_disc(d)` parameterized by `d : Nat`. -/
 def energyQuantumOperator (d : Nat) (phiGate : Int) : Nat :=
   phiGate.natAbs / deltaPhiDisc d
 
 /-- **Theorem (Discrete Spectrum of the Energy Operator `n̂_E(d, Φ) ≤ |□(d)|`)**:
 Chained via `CatalanLaw` for any `d : Nat` and **all** integer holonomy inputs `(mu, sumMu, zr, zi) ∈ ℤ⁴`
-(zero `def := 3`, zero hardcoded numbers, zero `let`!):
+:
 the energy quantum number `energyQuantumOperator d (gatePhaseOp d mu sumMu zr zi)` is bounded above by `nSquares d`
 and vanishes if and only if `gatePhaseOp d mu sumMu zr zi = 0`! -/
 theorem energy_operator_spectrum_0_to_6_squares (d : Nat) (mu sumMu zr zi : Int) :
@@ -310,51 +309,51 @@ theorem energy_operator_spectrum_0_to_6_squares (d : Nat) (mu sumMu zr zi : Int)
 ## 6. Exact Algebraic Fine-Structure Operator `α_fs⁻¹(d) ∈ ℚ(√2)` (Theorem 9.2) & SM/Cosmology Operators
 -/
 
-/-- `ℤ[√2]` numerator coefficient `A_num(d) = (d_in(□)/2) * (|△(d)| - 1) * M_hat(d)²` (zero `let`!). -/
+/-- `ℤ[√2]` numerator coefficient `A_num(d) = (d_in(□)/2) * (|△(d)| - 1) * M_hat(d)²`. -/
 def alphaNumA (d : Nat) : Int :=
   ((dInSquare / 2 : Nat) : Int) * ((nTriangles d : Int) - 1) * (mHat d : Int) * (mHat d : Int)
 
-/-- `ℤ[√2]` numerator coefficient `B_num(d) = (d_in(□)/2) * (|△(d)| - 1)² * M_hat(d)³` (zero `let`!). -/
+/-- `ℤ[√2]` numerator coefficient `B_num(d) = (d_in(□)/2) * (|△(d)| - 1)² * M_hat(d)³`. -/
 def alphaNumB (d : Nat) : Int :=
   ((dInSquare / 2 : Nat) : Int) * ((nTriangles d : Int) - 1) * ((nTriangles d : Int) - 1) *
   (mHat d : Int) * (mHat d : Int) * (mHat d : Int)
 
-/-- `ℤ[√2]` denominator coefficient `A_den(d) = d_in(□) * ((|△(d)| - 1)² * M_hat(d)⁴ - |△(d)|)` (zero `let`!). -/
+/-- `ℤ[√2]` denominator coefficient `A_den(d) = d_in(□) * ((|△(d)| - 1)² * M_hat(d)⁴ - |△(d)|)`. -/
 def alphaDenA (d : Nat) : Int :=
   (dInSquare : Int) *
   (((nTriangles d : Int) - 1) * ((nTriangles d : Int) - 1) *
    (mHat d : Int) * (mHat d : Int) * (mHat d : Int) * (mHat d : Int) - (nTriangles d : Int))
 
-/-- `ℤ[√2]` denominator coefficient `B_den(d) = -(|△(d)| - 1) * M_hat(d)` (zero `let`!). -/
+/-- `ℤ[√2]` denominator coefficient `B_den(d) = -(|△(d)| - 1) * M_hat(d)`. -/
 def alphaDenB (d : Nat) : Int :=
   -((nTriangles d : Int) - 1) * (mHat d : Int)
 
-/-- Rationalized `ℤ[√2]` norm denominator `D_rat(d) = 2 * B_num(d)² - A_num(d)²` of `α_fs⁻¹(d)` (zero `let`!). -/
+/-- Rationalized `ℤ[√2]` norm denominator `D_rat(d) = 2 * B_num(d)² - A_num(d)²` of `α_fs⁻¹(d)`. -/
 def alphaRatDen (d : Nat) : Int :=
   2 * alphaNumB d * alphaNumB d - alphaNumA d * alphaNumA d
 
-/-- Rationalized `ℤ[√2]` integer part `P_rat(d) = 2 * B_den(d) * B_num(d) - A_den(d) * A_num(d)` (zero `let`!). -/
+/-- Rationalized `ℤ[√2]` integer part `P_rat(d) = 2 * B_den(d) * B_num(d) - A_den(d) * A_num(d)`. -/
 def alphaRatP (d : Nat) : Int :=
   2 * alphaDenB d * alphaNumB d - alphaDenA d * alphaNumA d
 
-/-- Rationalized `ℤ[√2]` radical coefficient `Q_rat(d) = A_den(d) * B_num(d) - B_den(d) * A_num(d)` (zero `let`!). -/
+/-- Rationalized `ℤ[√2]` radical coefficient `Q_rat(d) = A_den(d) * B_num(d) - B_den(d) * A_num(d)`. -/
 def alphaRatQ (d : Nat) : Int :=
   alphaDenA d * alphaNumB d - alphaDenB d * alphaNumA d
 
-/-- Structural integer floor `⌊α_fs⁻¹(d)⌋ = M_hat(d) + d_out(E)(d) * |△(d)|` (zero `let`!). -/
+/-- Structural integer floor `⌊α_fs⁻¹(d)⌋ = M_hat(d) + d_out(E)(d) * |△(d)|`. -/
 def alphaFloorInt (d : Nat) : Int :=
   (mHat d : Int) + (dOutEdge d : Int) * (nTriangles d : Int)
 
-/-- Shifted rationalized comparison LHS `(⌊α_fs⁻¹(d)⌋ + k) * D_rat(d) - P_rat(d)` (zero `let`!). -/
+/-- Shifted rationalized comparison LHS `(⌊α_fs⁻¹(d)⌋ + k) * D_rat(d) - P_rat(d)`. -/
 def alphaFloorLhs (d : Nat) (k : Int) : Int :=
   (alphaFloorInt d + k) * alphaRatDen d - alphaRatP d
 
-/-- Squared radical comparison RHS `2 * Q_rat(d)²` (zero `let`!). -/
+/-- Squared radical comparison RHS `2 * Q_rat(d)²`. -/
 def alphaFloorRhsSq (d : Nat) : Int :=
   2 * alphaRatQ d * alphaRatQ d
 
 /-- **Theorem (Canonical `ℚ(√2)` Form of the Fine-Structure Operator `α_fs⁻¹(d)` and Exact Integer Floor `alphaFloorInt d`)**:
-Chained directly via `CatalanLaw` for any `d : Nat` (zero `def := 3`, zero hardcoded target numbers, zero `let`, zero hypotheses!). -/
+Chained directly via `CatalanLaw` for any `d : Nat`. -/
 theorem alpha_fs_exact_z_sqrt2_canonical_form_and_floor_137 (d : Nat) :
     CatalanLaw (fun d =>
       alphaFloorInt d = ((nPhi d - 2 : Nat) : Int) ^ 2 + (dInSquare : Int) ^ 2 ∧
@@ -370,7 +369,7 @@ theorem alpha_fs_exact_z_sqrt2_canonical_form_and_floor_137 (d : Nat) :
   catalan_law_of_d3 _ (by decide) d
 
 /-- **Theorem (Closed Operator Identities of the Three Gauge Sectors, BBN, and CMB Thermodynamics)**:
-Chained directly via `CatalanLaw` for any `d : Nat` (zero `def := 3`, zero hardcoded target numbers, zero `let`, zero hypotheses!). -/
+Chained directly via `CatalanLaw` for any `d : Nat`. -/
 theorem sm_and_cosmology_closed_rational_operators (d : Nat) :
     CatalanLaw (fun d =>
       (1 + nSquares d / 2 + nTriangles d = nNeighbors d) ∧
@@ -385,36 +384,36 @@ theorem sm_and_cosmology_closed_rational_operators (d : Nat) :
 ## 7. Applied R&D Theorem: Coherent 12-Beam Cuboctahedron Barrier Collapse
 -/
 
-/-- Uniform `|N(d)|`-neighbor shell real holonomy `ζ_real(d, μ, a) = |N(d)| * C_d(a) * μ²` (zero `let`!). -/
+/-- Uniform `|N(d)|`-neighbor shell real holonomy `ζ_real(d, μ, a) = |N(d)| * C_d(a) * μ²`. -/
 def shellRealHolonomyOp (d : Nat) (mu a : Int) : Int :=
   (nNeighbors d : Int) * projC d a * mu * mu
 
-/-- Uniform `|N(d)|`-neighbor shell raw unguarded denominator `D_raw(d, μ_x, μ_y, a)` (zero `let`!). -/
+/-- Uniform `|N(d)|`-neighbor shell raw unguarded denominator `D_raw(d, μ_x, μ_y, a)`. -/
 def shellRawImpedanceOp (d : Nat) (muX muY a : Int) : Int :=
   (nNeighbors d : Int) * (muX * muY) * projC d a + (qSquare d : Int) * (muX * muX) + (epsDenom d : Int)
 
-/-- Purely baryonic `|N(d)|`-neighbor shell impedance `D_baryon(d, μ_x, μ_y)` at `a = 0` (zero `let`!). -/
+/-- Purely baryonic `|N(d)|`-neighbor shell impedance `D_baryon(d, μ_x, μ_y)` at `a = 0`. -/
 def shellBaryonImpedanceOp (d : Nat) (muX muY : Int) : Int :=
   (epsDenom d : Int) + (qSquare d : Int) * (muX * muX) + (nNeighbors d : Int) * (muX * muY) * (qSquare d : Int)
 
-/-- Gauge-visible Bohm phase deficit `|N(d)| * δK_{xy}` summed over the `|N(d)|`-neighbor shell (zero `let`!). -/
+/-- Gauge-visible Bohm phase deficit `|N(d)| * δK_{xy}` summed over the `|N(d)|`-neighbor shell. -/
 def shellBohmDeficitOp (d : Nat) (muX muY a : Int) : Int :=
   (nNeighbors d : Int) * (muX * muY) * ((wrap512 d a).natAbs : Int)
 
-/-- Guarded gate impedance denominator `D(d, μ, a)` evaluated via `gateDenomOp d` on a uniform shell (zero `let`!). -/
+/-- Guarded gate impedance denominator `D(d, μ, a)` evaluated via `gateDenomOp d` on a uniform shell. -/
 def shellGateDenomOp (d : Nat) (mu a : Int) : Int :=
   gateDenomOp d mu (shellRealHolonomyOp d mu a)
 
-/-- Raw folded gate phase `Φ_raw(d, μ, a, zi)` evaluated via `rawGatePhaseOp d` on a uniform shell (zero `let`!). -/
+/-- Raw folded gate phase `Φ_raw(d, μ, a, zi)` evaluated via `rawGatePhaseOp d` on a uniform shell. -/
 def shellRawGatePhaseOp (d : Nat) (mu a zi : Int) : Int :=
   rawGatePhaseOp d mu ((nNeighbors d : Int) * mu) (shellRealHolonomyOp d mu a) zi
 
-/-- Final gate impulse `Φ_gate(d, μ, a, zi)` evaluated via `gatePhaseOp d` on a uniform shell (zero `let`!). -/
+/-- Final gate impulse `Φ_gate(d, μ, a, zi)` evaluated via `gatePhaseOp d` on a uniform shell. -/
 def shellGatePhaseOp (d : Nat) (mu a zi : Int) : Int :=
   gatePhaseOp d mu ((nNeighbors d : Int) * mu) (shellRealHolonomyOp d mu a) zi
 
 /-- **Theorem (Coherent 12-Beam Cuboctahedron Barrier Collapse)**:
-Chained directly via `CatalanLaw` and `shellGateDenomOp d` for any `d : Nat` (zero `def := 3`, zero hardcoded numbers, zero `let`, zero hypotheses!). -/
+Chained directly via `CatalanLaw` and `shellGateDenomOp d` for any `d : Nat`. -/
 theorem coherent_cuboctahedron_barrier_collapse_587x (d : Nat) :
     CatalanLaw (fun d =>
       0 < projC d (deltaPhiDisc d : Int) ∧
@@ -433,20 +432,20 @@ theorem coherent_cuboctahedron_barrier_collapse_587x (d : Nat) :
 ## 8. No-Go Theorem for Dark Matter & Vacuum Holonomy Halo (`Ω_halo / Ω_b = 16/3`)
 -/
 
-/-- Cuboctahedron strain-halo holonomy capacity `W_halo(d) = 2 * |△(d)| * Q_□(d)` (zero `let`!). -/
+/-- Cuboctahedron strain-halo holonomy capacity `W_halo(d) = 2 * |△(d)| * Q_□(d)`. -/
 def haloCapacity (d : Nat) : Nat :=
   2 * nTriangles d * qSquare d
 
-/-- 3D Voronoi baryon core holonomy capacity `W_core(d) = d * Q_□(d)` (zero `let`!). -/
+/-- 3D Voronoi baryon core holonomy capacity `W_core(d) = d * Q_□(d)`. -/
 def coreCapacity (d : Nat) : Nat :=
   d * qSquare d
 
-/-- Irreducible fraction `(a / gcd(a, b), b / gcd(a, b))` (zero `let`!). -/
+/-- Irreducible fraction `(a / gcd(a, b), b / gcd(a, b))`. -/
 def reducedRatio (a b : Nat) : Nat × Nat :=
   (a / Nat.gcd a b, b / Nat.gcd a b)
 
 /-- Algebraic theorem for **any** `d : Nat` and **all** integer states `muX, muY, dphi : Int`
-(zero `def := 3`, zero hardcoded numbers, zero `let`, zero hypotheses!):
+:
 the dark residual `shellRawImpedanceOp d muX muY dphi - (shellBaryonImpedanceOp d muX muY - shellBohmDeficitOp d muX muY dphi)`
 vanishes identically (`D_dark ≡ 0`)! -/
 theorem zero_dark_residual_identity (d : Nat) (muX muY dphi : Int) :
@@ -460,7 +459,7 @@ theorem zero_dark_residual_identity (d : Nat) (muX muY dphi : Int) :
   omega
 
 /-- **Theorem (No-Go Theorem for Dark Matter & Vacuum Holonomy Halo)**:
-Chained directly via `CatalanLaw` and `shellGateDenomOp d` for any `d : Nat` (zero `def := 3`, zero hardcoded numbers, zero `let`, zero hypotheses!). -/
+Chained directly via `CatalanLaw` and `shellGateDenomOp d` for any `d : Nat`. -/
 theorem no_dark_matter_and_vacuum_holonomy_halo (d : Nat) :
     CatalanLaw (fun d =>
       isotropicShellSize d false true false = nNeighbors d ∧
@@ -499,29 +498,29 @@ theorem no_dark_matter_and_vacuum_holonomy_halo (d : Nat) :
 ## 9. Analytical Operators of Chemical Bonding, Reaction Kinetics, Woodward–Hoffmann Selectivity, and Catalysis on `O₂(d)`
 -/
 
-/-- Covalent bond binding energy operator `ℰ_bond(d, b, μ_x, μ_y, dφ) = b * (μ_x * μ_y) * C_d(dφ)` (zero `def := 3`, zero `let`!). -/
+/-- Covalent bond binding energy operator `ℰ_bond(d, b, μ_x, μ_y, dφ) = b * (μ_x * μ_y) * C_d(dφ)`. -/
 def bondEnergyOp (d : Nat) (b muX muY dphi : Int) : Int :=
   b * (muX * muY) * projC d dphi
 
-/-- Covalent bond Bohm stretching/bending strain operator `δK_bond(d, b, μ_x, μ_y, dφ) = b * (μ_x * μ_y) * |wrap512(d, dφ)|` (zero `def := 3`, zero `let`!). -/
+/-- Covalent bond Bohm stretching/bending strain operator `δK_bond(d, b, μ_x, μ_y, dφ) = b * (μ_x * μ_y) * |wrap512(d, dφ)|`. -/
 def bondStrainOp (d : Nat) (b muX muY dphi : Int) : Int :=
   b * (muX * muY) * ((wrap512 d dphi).natAbs : Int)
 
-/-- Chemical reaction electron-transfer current operator `𝒥_rxn(d, b, μ_x, μ_y, dφ) = b * (μ_x * μ_y) * S_d(dφ)` (zero `def := 3`, zero `let`!). -/
+/-- Chemical reaction electron-transfer current operator `𝒥_rxn(d, b, μ_x, μ_y, dφ) = b * (μ_x * μ_y) * S_d(dφ)`. -/
 def reactionCurrentOp (d : Nat) (b muX muY dphi : Int) : Int :=
   b * (muX * muY) * projS d dphi
 
-/-- Reaction enthalpy operator `ΔH_rxn(H_reactants, H_products) = H_reactants - H_products` (zero `let`!). -/
+/-- Reaction enthalpy operator `ΔH_rxn(H_reactants, H_products) = H_reactants - H_products`. -/
 def reactionEnthalpyOp (hReactants hProducts : Int) : Int :=
   hReactants - hProducts
 
-/-- Number of vertices of the FCC cuboctahedron `O₂(d) = cubicOrbit3D (d - 1)` in the `{111}` hexagonal plane `dz + dy + dx = 0` (zero `def := 3`, zero `let`!). -/
+/-- Number of vertices of the FCC cuboctahedron `O₂(d) = cubicOrbit3D (d - 1)` in the `{111}` hexagonal plane `dz + dy + dx = 0`. -/
 def hex111RingSize (d : Nat) : Nat :=
   ((cubicOrbit3D (d - 1)).filter (fun (dz, dy, dx) => intEqBool (dz + dy + dx) 0)).length
 
 /-- **Theorem (Analytical Algebra of Covalent Bonding, Reaction Current, and Transition-State Saddle `|A‡| = Q_□(d)`)**:
 Chained directly via `CatalanLaw` for any `d : Nat` and all integer `b, muX, muY, dphi : Int`
-(zero `def := 3`, zero hardcoded numbers, zero `let`!). -/
+. -/
 theorem chemical_bond_holonomy_conservation_and_saddle_128 (d : Nat) (b muX muY dphi : Int) :
     CatalanLaw (fun d =>
       (bondEnergyOp d b muX muY dphi + bondStrainOp d b muX muY dphi =
@@ -546,7 +545,7 @@ theorem chemical_bond_holonomy_conservation_and_saddle_128 (d : Nat) (b muX muY 
     rw [Int.one_mul, Int.one_mul, Int.one_mul, Int.one_mul]
     exact hl1
 
-/-- **Theorem (Analytical Integer Hess's Law and Zero-Enthalpy Catalytic Cycle, zero `let`!)**:
+/-- **Theorem**:
 For any four molecular state binding totals `h0, h1, h2, h3 ∈ ℤ` along `M₀ → M₁ → M₂ → M₃`:
 1. `ΔH(h0, h1) + ΔH(h1, h2) + ΔH(h2, h3) = ΔH(h0, h3)` (path independence);
 2. `ΔH(h0, h1) + ΔH(h1, h2) + ΔH(h2, h0) = 0` (closed catalytic cycle has zero net enthalpy). -/
@@ -558,7 +557,7 @@ theorem hess_law_and_catalytic_cycle_zero_enthalpy (h0 h1 h2 h3 : Int) :
   refine ⟨by omega, by omega⟩
 
 /-- **Theorem (Valence Triplet Stability `d * Δφ_disc(d) < Q_□(d)`, `d_in(□)`-Quantum Activation, and Woodward–Hoffmann `[4+2]` vs `[2+2]` Selection Rule)**:
-Chained directly via `CatalanLaw` for any `d : Nat` (zero `def := 3`, zero hardcoded numbers, zero `let`, zero hypotheses!). -/
+Chained directly via `CatalanLaw` for any `d : Nat`. -/
 theorem woodward_hoffmann_and_valence_123_stability_from_d3 (d : Nat) :
     CatalanLaw (fun d =>
       ((d : Int) * (deltaPhiDisc d : Int) < (qSquare d : Int) ∧
@@ -574,7 +573,7 @@ theorem woodward_hoffmann_and_valence_123_stability_from_d3 (d : Nat) :
 
 /-- **Theorem (Analytical Proof of Heterogeneous & Enzymatic Catalytic Gate Opening on the Cuboctahedron `O₂(d)`)**:
 Chained directly via `CatalanLaw`, `shellGateDenomOp d`, `shellRawGatePhaseOp d`, and `shellGatePhaseOp d`
-for any `d : Nat` (zero hardcoded intermediate numbers, zero `def := 3`, zero `let`, zero hypotheses!). -/
+for any `d : Nat`. -/
 theorem catalytic_reaction_gate_opening_on_cuboctahedron (d : Nat) :
     CatalanLaw (fun d =>
       (0 < (shellRawGatePhaseOp d (nPhi d : Int) (deltaPhiDisc d : Int) 0).natAbs ∧
@@ -607,7 +606,7 @@ def tsirelsonQmSqOp (d : Nat) : Nat :=
   c0OverCSqOp d * bellLhvSqOp d
 
 /-- **Theorem (Causal Resolution of Quantum Entanglement via `c₀ / c = √(d - 1) = √2` and the Bell–Tsirelson Ladder)**:
-Chained directly via `CatalanLaw` for any `d : Nat` (zero `def := 3`, zero hardcoded numbers, zero `let`, zero hypotheses!):
+Chained directly via `CatalanLaw` for any `d : Nat`:
 1. **Link-speed ratio `(c₀ / c)² = d - 1` on `O₂(d)`:** Every edge `e ∈ O₂(d) = cubicOrbit3D (d - 1)` of the
    FCC cuboctahedron has squared Euclidean length `‖e‖₂² = dz² + dy² + dx² = c0OverCSqOp d` (`(c₀ / c)² = 1 / κ_geom²`),
    so the M-layer link speed `c₀` exceeds the macroscopic T-layer speed of light `c = κ_geom * c₀` by the exact geometric
@@ -645,41 +644,41 @@ theorem quantum_entanglement_c0_causal_holonomy_and_tsirelson_bound (d : Nat) :
 ## 11. Universal Multi-Component Environment Coupling Operator (Markov Blanket Homomorphism) Across Quantum, Cosmology, Chemistry, and Organism Ontogeny
 -/
 
-/-- Total amplitude weight `Σ_μ(ℰ) = ∑_{(μ_e, dφ_e) ∈ ℰ} μ_e` of an arbitrary multi-component environment or subsystem list `ℰ : List (Int × Int)` (zero `let`!). -/
+/-- Total amplitude weight `Σ_μ(ℰ) = ∑_{(μ_e, dφ_e) ∈ ℰ} μ_e` of an arbitrary multi-component environment or subsystem list `ℰ : List (Int × Int)`. -/
 def envSumMuListOp : List (Int × Int) → Int
   | [] => 0
   | (muE, _) :: rest => muE + envSumMuListOp rest
 
-/-- Unscaled even holonomy sum `∑_{(μ_e, dφ_e) ∈ ℰ} μ_e * C_d(dφ_e)` of an arbitrary multi-component list `ℰ` (zero `def := 3`, zero `let`!). -/
+/-- Unscaled even holonomy sum `∑_{(μ_e, dφ_e) ∈ ℰ} μ_e * C_d(dφ_e)` of an arbitrary multi-component list `ℰ`. -/
 def envRawZrListOp (d : Nat) : List (Int × Int) → Int
   | [] => 0
   | (muE, dphiE) :: rest => muE * projC d dphiE + envRawZrListOp d rest
 
-/-- Unscaled odd holonomy current sum `∑_{(μ_e, dφ_e) ∈ ℰ} μ_e * S_d(dφ_e)` of an arbitrary multi-component list `ℰ` (zero `def := 3`, zero `let`!). -/
+/-- Unscaled odd holonomy current sum `∑_{(μ_e, dφ_e) ∈ ℰ} μ_e * S_d(dφ_e)` of an arbitrary multi-component list `ℰ`. -/
 def envRawZiListOp (d : Nat) : List (Int × Int) → Int
   | [] => 0
   | (muE, dphiE) :: rest => muE * projS d dphiE + envRawZiListOp d rest
 
-/-- Weighted even holonomy operator `𝒵_real(d, μ_x, ℰ) = μ_x * envRawZrListOp(d, ℰ)` (zero `let`!). -/
+/-- Weighted even holonomy operator `𝒵_real(d, μ_x, ℰ) = μ_x * envRawZrListOp(d, ℰ)`. -/
 def envZrListOp (d : Nat) (muX : Int) (env : List (Int × Int)) : Int :=
   muX * envRawZrListOp d env
 
-/-- Weighted odd holonomy operator `𝒵_imag(d, μ_x, ℰ) = μ_x * envRawZiListOp(d, ℰ)` (zero `let`!). -/
+/-- Weighted odd holonomy operator `𝒵_imag(d, μ_x, ℰ) = μ_x * envRawZiListOp(d, ℰ)`. -/
 def envZiListOp (d : Nat) (muX : Int) (env : List (Int × Int)) : Int :=
   muX * envRawZiListOp d env
 
-/-- Open-system guarded gate denominator `D_open(d, μ_x, ℰ_sys, ℰ_env)` for a subsystem `ℰ_sys` coupled to an arbitrary multi-component external environment `ℰ_env` (zero `if`, zero `let`!). -/
+/-- Open-system guarded gate denominator `D_open(d, μ_x, ℰ_sys, ℰ_env)` for a subsystem `ℰ_sys` coupled to an arbitrary multi-component external environment `ℰ_env`. -/
 def openMultiEnvDenomOp (d : Nat) (muX : Int) (sys env : List (Int × Int)) : Int :=
   gateDenomOp d muX (envZrListOp d muX sys + envZrListOp d muX env)
 
-/-- Open-system raw gate phase `Φ_raw,open(d, μ_x, ℰ_sys, ℰ_env)` before Heisenberg deadband (zero `if`, zero `let`!). -/
+/-- Open-system raw gate phase `Φ_raw,open(d, μ_x, ℰ_sys, ℰ_env)` before Heisenberg deadband. -/
 def openMultiEnvRawGateOp (d : Nat) (muX : Int) (sys env : List (Int × Int)) : Int :=
   rawGatePhaseOp d muX
     (envSumMuListOp sys + envSumMuListOp env)
     (envZrListOp d muX sys + envZrListOp d muX env)
     (envZiListOp d muX sys + envZiListOp d muX env)
 
-/-- Open-system full gate impulse `Φ_open(d, μ_x, ℰ_sys, ℰ_env)` for a subsystem `ℰ_sys` coupled to an arbitrary multi-component external environment `ℰ_env` (zero `if`, zero `let`!). -/
+/-- Open-system full gate impulse `Φ_open(d, μ_x, ℰ_sys, ℰ_env)` for a subsystem `ℰ_sys` coupled to an arbitrary multi-component external environment `ℰ_env`. -/
 def openMultiEnvGateOp (d : Nat) (muX : Int) (sys env : List (Int × Int)) : Int :=
   gatePhaseOp d muX
     (envSumMuListOp sys + envSumMuListOp env)
@@ -728,7 +727,7 @@ theorem envRawZiListOp_append (d : Nat) (e1 e2 : List (Int × Int)) :
 /-- **Theorem (Multi-Component Environment Superposition Homomorphism & Holographic Markov Blanket Equivalence)**:
 For **any** dimension `d : Nat`, center amplitude `muX : Int`, internal subsystem `sys : List (Int × Int)`,
 and arbitrary heterogeneous external environments `env1, env2 : List (Int × Int)` (composed of any number of
-vacuum, solvent, ion, photon, or neighbor channels, zero `def := 3`, zero hardcoded numbers, zero `let`!):
+vacuum, solvent, ion, photon, or neighbor channels):
 1. **Exact Additive Superposition Homomorphism:** Combining two external environments `env1 ++ env2` maps
    to the exact sum of their amplitude weights, even holonomies, and odd currents:
    `envSumMuListOp (env1 ++ env2) = envSumMuListOp env1 + envSumMuListOp env2`,
@@ -757,7 +756,7 @@ theorem multi_component_environment_homomorphism_and_markov_blanket
     rw [hSum, hZr, hZi]
     exact ⟨rfl, rfl⟩
 
-/-- Environment-coupled CHSH squared correlation operator `envCoupledChshSqOp(d, phiEnv)` (zero `if`, zero `let`!):
+/-- Environment-coupled CHSH squared correlation operator `envCoupledChshSqOp(d, phiEnv)`:
 when the external environment excitation `phiEnv` lies in the Heisenberg deadband (`n̂_E(d, Φ_env) = 0`),
 the singlet retains the full quantum Tsirelson bound `tsirelsonQmSqOp d = |△(d)|`;
 when the external environment opens the Heisenberg gate (`n̂_E(d, Φ_env) ≥ 1`), environmental decoherence
@@ -770,7 +769,7 @@ def envCoupledChshSqOp (d : Nat) (phiEnv : Int) : Int :=
 
 /-- Split-shell open-system impedance denominator `splitShellDenomOp(d, μ_x, z_sys, μ_sys, a_sys, μ_env, a_env)`
 where `z_sys` cuboctahedron channels belong to the internal system and `|N(d)| - z_sys` channels belong to
-the external environment (zero `if`, zero `let`!). -/
+the external environment. -/
 def splitShellZrOp (d : Nat) (muX : Int) (zSys : Nat) (muSys aSys muEnv aEnv : Int) : Int :=
   muX * ((zSys : Int) * muSys * projC d aSys + ((nNeighbors d - zSys : Nat) : Int) * muEnv * projC d aEnv)
 
@@ -784,7 +783,7 @@ def splitShellGateOp (d : Nat) (muX : Int) (zSys : Nat) (muSys aSys muEnv aEnv z
   gatePhaseOp d muX (splitShellSumMuOp d zSys muSys muEnv) (splitShellZrOp d muX zSys muSys aSys muEnv aEnv) ziTotal
 
 /-- **Theorem (Universal Role of the External Environment Across Quantum Entanglement, Cosmology, and Chemical Catalysis)**:
-Chained directly via `CatalanLaw` for any `d : Nat` (zero `def := 3`, zero hardcoded numbers, zero `if`, zero `let`!):
+Chained directly via `CatalanLaw` for any `d : Nat`:
 1. **Quantum Entanglement vs Environmental Decoherence:**
    In a sub-threshold environment (`|Φ_env| < Δφ_disc(d)`), `envCoupledChshSqOp d 0 = |△(d)|` (Tsirelson quantum regime);
    in a supra-threshold environment (`Φ_env = Δφ_disc(d)`), `envCoupledChshSqOp d (deltaPhiDisc d) = d_in(□)` (classical Bell limit)!
@@ -825,94 +824,94 @@ theorem universal_environment_coupling_across_quantum_chemistry_cosmology (d : N
 ## 12. Closed-Form Operator of Organism Genesis Coupled to the External Environment (`ontogenyGenesisInEnvOp`)
 -/
 
-/-- Coordination shell size operator `N_shell(d, k) = (|N(d)| - (c₀/c)²) * k² + (c₀/c)²` for shell `k ≥ 1` (zero `def := 3`, zero hardcoded numbers!). -/
+/-- Coordination shell size operator `N_shell(d, k) = (|N(d)| - (c₀/c)²) * k² + (c₀/c)²` for shell `k ≥ 1`. -/
 def cuboctShellSizeOp (d k : Nat) : Nat :=
   (nNeighbors d - c0OverCSqOp d) * k * k + c0OverCSqOp d
 
 /-- Cumulative `d`-shell cuboctahedron ball operator `N_ball(d) = μ_vac(d) + N_shell(d,1) + N_shell(d, (c₀/c)²) + N_shell(d, d)`
-(chromatin nucleosome spool capacity & cortical column synaptic contact count, zero `def := 3`, zero hardcoded numbers!). -/
+. -/
 def cuboctBallOp (d : Nat) : Nat :=
   muVac d + cuboctShellSizeOp d 1 + cuboctShellSizeOp d (c0OverCSqOp d) + cuboctShellSizeOp d d
 
-/-- Hydrogen-bond divisor and immunoglobulin disulfide loop operator `N_HB(d) = K_P(d) - μ_vac(d)` (zero `def := 3`, zero hardcoded numbers!). -/
+/-- Hydrogen-bond divisor and immunoglobulin disulfide loop operator `N_HB(d) = K_P(d) - μ_vac(d)`. -/
 def hBondDivisorOp (d : Nat) : Nat :=
   kP d - muVac d
 
-/-- Triplet codon space operator `Ω_codon(d) = d_in(□)^d` (zero `def := 3`, zero hardcoded numbers!). -/
+/-- Triplet codon space operator `Ω_codon(d) = d_in(□)^d`. -/
 def codonSpaceOp (d : Nat) : Nat :=
   dInSquare ^ d
 
 /-- Rumer Octet I unsplit family count `|△(d)|` and Rumer Octet II split class count `N_φ(d)`,
-summing to total semantic classes `aminoAcidClassesOp(d) = |△(d)| + N_φ(d)` (zero `def := 3`, zero hardcoded numbers!). -/
+summing to total semantic classes `aminoAcidClassesOp(d) = |△(d)| + N_φ(d)`. -/
 def aminoAcidClassesOp (d : Nat) : Nat :=
   nTriangles d + nPhi d
 
-/-- Bitwise Watson–Crick base complement operator `comp_d(b) = b ^^^ (c₀/c)²` on `b ∈ ℤ_{d_in(□)}` (zero `def := 3`, zero hardcoded numbers!). -/
+/-- Bitwise Watson–Crick base complement operator `comp_d(b) = b ^^^ (c₀/c)²` on `b ∈ ℤ_{d_in(□)}`. -/
 def watsonCrickCompOp (d b : Nat) : Nat :=
   b ^^^ c0OverCSqOp d
 
-/-- Bitwise Rumer dinucleotide stem involution `ℛ_d(s) = s ^^^ (d_in(□)² - μ_vac(d))` on `s ∈ ℤ_{d_in(□)²}` (zero `def := 3`, zero hardcoded numbers!). -/
+/-- Bitwise Rumer dinucleotide stem involution `ℛ_d(s) = s ^^^ (d_in(□)² - μ_vac(d))` on `s ∈ ℤ_{d_in(□)²}`. -/
 def rumerStemInvolutionOp (d s : Nat) : Nat :=
   s ^^^ (dInSquare * dInSquare - muVac d)
 
 /-- Planetary solvent environment window scale operator `Λ_env(d, m_env) = |□(d)| + m_env ∈ {d_out(E)(d), |□(d)|, d_out(V)(d)}`
-for `m_env ∈ {-1, 0, +1}` (Theorem `thm:bio-frustration-and-three-life-types`, law `5 : 6 : 7`, zero `def := 3`, zero hardcoded numbers!). -/
+for `m_env ∈ {-1, 0, +1}`. -/
 def planetaryEnvWindowOp (d : Nat) (mEnv : Int) : Int :=
   (nSquares d : Int) + mEnv
 
-/-- Transmembrane rod thickness operator `L_TM(d, m) = (|□(d)| + m) * |N(d)|` (zero `def := 3`, zero hardcoded numbers!). -/
+/-- Transmembrane rod thickness operator `L_TM(d, m) = (|□(d)| + m) * |N(d)|`. -/
 def transmembraneThicknessOp (d : Nat) (m : Int) : Int :=
   planetaryEnvWindowOp d m * (nNeighbors d : Int)
 
 /-- Environmental solvent-membrane compatibility gate `envSolventMatchGateOp(d, m_genome, m_env) ∈ {0, 1}`:
 equals `1` if and only if the genome's transmembrane rod matches the planetary solvent bilayer window (`m_genome = m_env`),
-and `0` under thermal/solvent denaturation (zero `if`, zero `let`!). -/
+and `0` under thermal/solvent denaturation. -/
 def envSolventMatchGateOp (d : Nat) (mGenome mEnv : Int) : Int :=
   isZeroNat (transmembraneThicknessOp d mGenome - transmembraneThicknessOp d mEnv).natAbs
 
 /-- Environmental metabolic energy gate `envMetabolicGateOp(d, Φ_env) ∈ {0, 1}`:
 equals `1` when the external environment supplies a supra-threshold metabolic flux `|Φ_env| ≥ Δφ_disc(d)` (`n̂_E ≥ 1`),
-and `0` in a starved/frozen sub-threshold environment (zero `if`, zero `let`!). -/
+and `0` in a starved/frozen sub-threshold environment. -/
 def envMetabolicGateOp (d : Nat) (phiEnv : Int) : Int :=
   isPosNat (energyQuantumOperator d (heisenbergDeadbandOp d phiEnv))
 
 /-- Environmental free-boundary contact gate `envFreeSurfaceGateOp(d, z_int) ∈ {0, 1}`:
 equals `1` when a cell has open contact channels with the external environment (`z_int < |N(d)|`),
-and `0` when completely enclosed by internal neighbors (`z_int = |N(d)|`, triggering lumen cavitation/apoptosis, zero `if`, zero `let`!). -/
+and `0` when completely enclosed by internal neighbors (`z_int = |N(d)|`, triggering lumen cavitation/apoptosis). -/
 def envFreeSurfaceGateOp (d zInt : Nat) : Int :=
   isPosNat (nNeighbors d - zInt)
 
-/-- 2D simplicial-cellular Euler characteristic operator `χ_2D(V, E, F_2D, N_K4) = V - E + F_2D` on tissue complex tuples `(V, E, F_2D, N_K4)` (zero `let`!). -/
+/-- 2D simplicial-cellular Euler characteristic operator `χ_2D(V, E, F_2D, N_K4) = V - E + F_2D` on tissue complex tuples `(V, E, F_2D, N_K4)`. -/
 def tissueEuler2DOp (complex : Int × Int × Int × Int) : Int :=
   complex.1 - complex.2.1 + complex.2.2.1
 
-/-- Dormant zygote / spore tissue complex `(V, E, F_2D, N_K4) = (μ_vac(d), 0, 0, 0)` when environmental gates are closed (zero `let`!). -/
+/-- Dormant zygote / spore tissue complex `(V, E, F_2D, N_K4) = (μ_vac(d), 0, 0, 0)` when environmental gates are closed. -/
 def zygoteDormantComplexOp (d : Nat) : Int × Int × Int × Int :=
   ((muVac d : Int), 0, 0, 0)
 
-/-- Stage 1: Solid morula complex before central cavitation `(V, E, F_2D, N_K4) = (N_φ(d), d * |N(d)|, |△(d)| + |□(d)|, |△(d)|)` (zero `let`!). -/
+/-- Stage 1: Solid morula complex before central cavitation `(V, E, F_2D, N_K4) = (N_φ(d), d * |N(d)|, |△(d)| + |□(d)|, |△(d)|)`. -/
 def morulaComplexOp (d : Nat) : Int × Int × Int × Int :=
   ((nPhi d : Int), (d : Int) * (nNeighbors d : Int), (nTriangles d : Int) + (nSquares d : Int), (nTriangles d : Int))
 
-/-- Stage 2: Hollow alveolar vesicle complex after lumen cavitation `(V, E, F_2D, N_K4) = (|N(d)|, (c₀/c)² * |N(d)|, |△(d)| + |□(d)|, 0)` (zero `let`!). -/
+/-- Stage 2: Hollow alveolar vesicle complex after lumen cavitation `(V, E, F_2D, N_K4) = (|N(d)|, (c₀/c)² * |N(d)|, |△(d)| + |□(d)|, 0)`. -/
 def vesicleComplexOp (d : Nat) : Int × Int × Int × Int :=
   ((nNeighbors d : Int), (c0OverCSqOp d : Int) * (nNeighbors d : Int), (nTriangles d : Int) + (nSquares d : Int), 0)
 
-/-- Stage 3: Hollow hexagonal epithelial/vascular tube complex of `r ≥ 1` rings `(V, E, F_2D, N_K4)` (zero `def := 3`, zero hardcoded numbers, zero `let`!). -/
+/-- Stage 3: Hollow hexagonal epithelial/vascular tube complex of `r ≥ 1` rings `(V, E, F_2D, N_K4)`. -/
 def tubeComplexOp (d : Nat) (r : Int) : Int × Int × Int × Int :=
   ((nSquares d : Int) * r,
    2 * (nTriangles d : Int) * r - ((nNeighbors d - c0OverCSqOp d : Nat) : Int),
    ((nNeighbors d - c0OverCSqOp d : Nat) : Int) * (r - 1),
    0)
 
-/-- Stage 4: Laminar cortical column complex of `L` layers stabilized by synaptic locks `Ig_donor ↔ Ig_acceptor` (zero `def := 3`, zero hardcoded numbers, zero `let`!). -/
+/-- Stage 4: Laminar cortical column complex of `L` layers stabilized by synaptic locks `Ig_donor ↔ Ig_acceptor`. -/
 def corticalColumnComplexOp (d : Nat) (layers : Int) : Int × Int × Int × Int :=
   (((nSquares d + muVac d : Nat) : Int) * layers,
    (nNeighbors d : Int) * layers + (d : Int) * (dOutEdge d : Int) * (layers - 1),
    (nSquares d : Int) * layers + ((nNeighbors d + 2 * dOutEdge d : Nat) : Int) * (layers - 1),
    (nSquares d : Int) * (layers - 1))
 
-/-- Blend two 4-tuples `(V, E, F_2D, N_K4)` by an indicator `sel ∈ {0, 1}` (zero `if`, zero `let`!). -/
+/-- Blend two 4-tuples `(V, E, F_2D, N_K4)` by an indicator `sel ∈ {0, 1}`. -/
 def blendComplexOp (sel : Int) (cTrue cFalse : Int × Int × Int × Int) : Int × Int × Int × Int :=
   (blendByIndicatorOp sel cTrue.1 cFalse.1,
    blendByIndicatorOp sel cTrue.2.1 cFalse.2.1,
@@ -928,8 +927,7 @@ def blendComplexOp (sel : Int) (cTrue cFalse : Int × Int × Int × Int) : Int �
    coupled with boundary cavitation (`envFreeSurfaceGateOp`) deterministically fold the tissue into:
    - `(σ_axis = 0, σ_Ig = 0)` → hollow alveolar vesicle `vesicleComplexOp d` (`χ_2D = (c₀/c)²`),
    - `(σ_axis = 1, σ_Ig = 0)` → hollow vascular/neural tube `tubeComplexOp d R` (`χ_2D = 0`),
-   - `(σ_axis = 1, σ_Ig = 1)` → `|□(d)|`-layer cortical column `corticalColumnComplexOp d |□(d)|` (`χ_2D = Δφ_disc(d)`),
-with zero `if`, zero `let`, and zero hardcoded constants! -/
+   - `(σ_axis = 1, σ_Ig = 1)` → `|□(d)|`-layer cortical column `corticalColumnComplexOp d |□(d)|` (`χ_2D = Δφ_disc(d)`). -/
 def ontogenyGenesisInEnvOp
     (d : Nat) (mGenome sigmaAxis sigmaIg mEnv phiEnv rRings : Int) : Int × Int × Int × Int :=
   blendComplexOp
@@ -943,7 +941,7 @@ def ontogenyGenesisInEnvOp
 
 /-- **Theorem (Closed-Form Organism Genesis Operator in an External Environment)**:
 Chained directly via `CatalanLaw` for any `d : Nat` and any tube length `rRings : Int`
-(zero `def := 3`, zero hardcoded target numbers, zero `if`, zero `let`, zero hypotheses!):
+:
 1. **Genetic Code & Rumer Involution Operators:**
    - `codonSpaceOp d = kP d` (`d_in(□)^d = K_P(d)`),
    - `c0OverCSqOp d * aminoAcidClassesOp d = cuboctShellSizeOp d (c0OverCSqOp d)` (`2 * (|△(d)| + N_φ(d)) = N_shell(d, 2)`),
@@ -1006,11 +1004,11 @@ theorem closed_form_organism_genesis_in_environment_operator (d : Nat) (rRings :
 ## 13. Predictive Saturation-Driven Mutagenesis, Epigenetic `CpG` Clock, Synonymous Buffering, and Compensatory Environment Control
 -/
 
-/-- Heisenberg transition gate indicator `γ_Ti(d, Φ_env) ∈ {0, 1}`: opens (`= 1`) when `|Φ_env| ≥ Δφ_disc(d)` (`n̂_E ≥ 1`, zero `if`, zero `let`!). -/
+/-- Heisenberg transition gate indicator `γ_Ti(d, Φ_env) ∈ {0, 1}`: opens (`= 1`) when `|Φ_env| ≥ Δφ_disc(d)`. -/
 def envTransitionGateNatOp (d : Nat) (phiEnv : Int) : Nat :=
   (envMetabolicGateOp d phiEnv).toNat
 
-/-- Steric saddle transversion gate indicator `γ_Tv(d, Φ_env) ∈ {0, 1}`: opens (`= 1`) only when `|Φ_env| ≥ Q_□(d)` (`n̂_E ≥ d_in(□)`, zero `if`, zero `let`!). -/
+/-- Steric saddle transversion gate indicator `γ_Tv(d, Φ_env) ∈ {0, 1}`: opens (`= 1`) only when `|Φ_env| ≥ Q_□(d)` (`n̂_E ≥ d_in(□)`). -/
 def envTransversionGateNatOp (d : Nat) (phiEnv : Int) : Nat :=
   (isPosNat (phiEnv.natAbs / qSquare d)).toNat
 
@@ -1019,26 +1017,25 @@ def envTransversionGateNatOp (d : Nat) (phiEnv : Int) : Nat :=
 - Intermediate saturation below the transition-state saddle (`Δφ_disc(d) ≤ |Φ_env| < Q_□(d)`, `1 ≤ n̂_E ≤ d`):
   `b ↦ b ^^^ μ_vac(d)` (pure keto/amino **transition**, preserving heterocyclic ring count `b_ring`);
 - Supra-saddle saturation (`|Φ_env| ≥ Q_□(d)`, `n̂_E ≥ d_in(□)`):
-  `b ↦ b ^^^ c0OverCSqOp(d)` (steric ring-flipping **transversion** `b_ring ↦ 1 - b_ring`),
-with zero `if`, zero `let`, and zero hardcoded constants! -/
+  `b ↦ b ^^^ c0OverCSqOp(d)` (steric ring-flipping **transversion** `b_ring ↦ 1 - b_ring`). -/
 def envDrivenBaseMutationOp (d b : Nat) (phiEnv : Int) : Nat :=
   b ^^^ (muVac d * envTransitionGateNatOp d phiEnv * (1 - envTransversionGateNatOp d phiEnv) +
          c0OverCSqOp d * envTransversionGateNatOp d phiEnv)
 
-/-- Epigenetic `CpG` stem operator `s_CpG(d) = |△(d)| - μ_vac(d) ∈ ℤ_{d_in(□)²}` (Octet I `Arg` reader stem, zero `def := 3`, zero hardcoded numbers!). -/
+/-- Epigenetic `CpG` stem operator `s_CpG(d) = |△(d)| - μ_vac(d) ∈ ℤ_{d_in(□)²}`. -/
 def cpgEpigeneticStemOp (d : Nat) : Nat :=
   nTriangles d - muVac d
 
-/-- Epigenetic `5mC → T` deamination operator on a dinucleotide stem `s ↦ s ^^^ d_in(□)` (first-base transition `(b₁ ≪ 2) | b₂ ↦ ((b₁ ^^^ 1) ≪ 2) | b₂`, zero `let`!). -/
+/-- Epigenetic `5mC → T` deamination operator on a dinucleotide stem `s ↦ s ^^^ d_in(□)` (first-base transition `(b₁ ≪ 2) | b₂ ↦ ((b₁ ^^^ 1) ≪ 2) | b₂`). -/
 def deaminateFirstBaseStemOp (s : Nat) : Nat :=
   s ^^^ dInSquare
 
-/-- Number of third-position transition-buffered synonymous codons `synonymousTi3CodonsOp(d) = d_out(E)(d) * |N(d)|` out of `codonSpaceOp(d) = K_P(d)` (zero `def := 3`, zero hardcoded numbers!). -/
+/-- Number of third-position transition-buffered synonymous codons `synonymousTi3CodonsOp(d) = d_out(E)(d) * |N(d)|` out of `codonSpaceOp(d) = K_P(d)`. -/
 def synonymousTi3CodonsOp (d : Nat) : Nat :=
   dOutEdge d * nNeighbors d
 
 /-- **Theorem (Predictive Saturation-Driven Mutagenesis, Epigenetic `CpG` Shift, Synonymous Buffering, and Morphogenetic Collapse / Control)**:
-Chained directly via `CatalanLaw` for any `d : Nat` (zero `def := 3`, zero hardcoded numbers, zero `if`, zero `let`, zero hypotheses!):
+Chained directly via `CatalanLaw` for any `d : Nat`:
 1. **Three Deterministic Mutation Regimes Controlled by Environmental Saturation `Φ_env`:**
    - For every base `b ∈ ℤ_{d_in(□)}`, in the sub-threshold Heisenberg deadband (`Φ_env = 0` or `|Φ_env| < Δφ_disc(d)`),
      `envDrivenBaseMutationOp d b 0 = b` (exact replication stability);
@@ -1089,21 +1086,21 @@ theorem predictive_mutagenesis_and_epigenetic_saturation_operator (d : Nat) :
 ## 14. Analytical Inverse Phenotype-to-Genome Compiler Operator (`compilePhenotypeInEnvOp`) & Exact Groove/Mutation Invertibility
 -/
 
-/-- Exact indicator `eqIntIndicatorOp(a, b) ∈ {0, 1}` testing `a = b` in `ℤ` without `if` (`isZeroNat (a - b).natAbs`, zero `if`, zero `let`!). -/
+/-- Exact indicator `eqIntIndicatorOp(a, b) ∈ {0, 1}` testing `a = b` in `ℤ` without `if` (`isZeroNat (a - b).natAbs`). -/
 def eqIntIndicatorOp (a b : Int) : Int :=
   isZeroNat (a - b).natAbs
 
-/-- Exact indicator `eqNatIndicatorOp(a, b) ∈ {0, 1}` testing `a = b` in `ℕ` without `if` (zero `if`, zero `let`!). -/
+/-- Exact indicator `eqNatIndicatorOp(a, b) ∈ {0, 1}` testing `a = b` in `ℕ` without `if`. -/
 def eqNatIndicatorOp (a b : Nat) : Nat :=
   (isZeroNat ((a - b) + (b - a))).toNat
 
 /-- Inverse morphogenetic lock compiler: recovers the axial lock flag `σ_axis ∈ {0, 1}` directly from the target
-2D Euler characteristic `χ_target ∈ {c0OverCSqOp(d), 0, Δφ_disc(d)}` (zero `if`, zero `let`!). -/
+2D Euler characteristic `χ_target ∈ {c0OverCSqOp(d), 0, Δφ_disc(d)}`. -/
 def inverseTargetSigmaAxisOp (d : Nat) (chiTarget : Int) : Int :=
   1 - eqIntIndicatorOp chiTarget (c0OverCSqOp d : Int)
 
 /-- Inverse morphogenetic lock compiler: recovers the synaptic immunoglobulin lock flag `σ_Ig ∈ {0, 1}` directly from
-the target 2D Euler characteristic `χ_target ∈ {c0OverCSqOp(d), 0, Δφ_disc(d)}` (zero `if`, zero `let`!). -/
+the target 2D Euler characteristic `χ_target ∈ {c0OverCSqOp(d), 0, Δφ_disc(d)}`. -/
 def inverseTargetSigmaIgOp (d : Nat) (chiTarget : Int) : Int :=
   eqIntIndicatorOp chiTarget (deltaPhiDisc d : Int)
 
@@ -1111,7 +1108,7 @@ def inverseTargetSigmaIgOp (d : Nat) (chiTarget : Int) : Int :=
 `compilePhenotypeInEnvOp(d, χ_target, m_env, Φ_env, R)`:
 Given a target 3D organ topology `χ_target` and a target planetary environment `(m_env, Φ_env)`,
 analytically synthesizes the genome/proteome lock specification `(m_genome := m_env, σ_axis, σ_Ig)`
-and executes `ontogenyGenesisInEnvOp` in that environment (zero `if`, zero `let`, zero hardcoded numbers!). -/
+and executes `ontogenyGenesisInEnvOp` in that environment. -/
 def compilePhenotypeInEnvOp (d : Nat) (chiTarget mEnv phiEnv rRings : Int) : Int × Int × Int × Int :=
   ontogenyGenesisInEnvOp d
     mEnv
@@ -1122,7 +1119,7 @@ def compilePhenotypeInEnvOp (d : Nat) (chiTarget mEnv phiEnv rRings : Int) : Int
     rRings
 
 /-- Branchless major-groove reader synthesis operator `grooveSynthOp(d, b) ∈ ℤ_{aminoAcidClassesOp(d)}`
-(`thm:bio-constructive-inverse-folding`, eq. `eq:bio-inverse-groove-reader`, zero `def := 3`, zero hardcoded numbers, zero `if`, zero `let`!):
+:
 maps each target DNA base `b ∈ ℤ_{d_in(□)}` to its complementary amino-acid hydrogen-bond fork class:
 - `b = 0 ↦ d` (`Ala`),
 - `b = μ_vac(d) ↦ aminoAcidClassesOp(d) - c0OverCSqOp(d)` (`Glu`),
@@ -1134,7 +1131,7 @@ def grooveSynthOp (d b : Nat) : Nat :=
   eqNatIndicatorOp b (c0OverCSqOp d) * (d * dOutEdge d) +
   eqNatIndicatorOp b d * c0OverCSqOp d
 
-/-- Branchless major-groove recognition operator `grooveReadOp(d, a) ∈ ℤ_{d_in(□)}` (zero `def := 3`, zero hardcoded numbers, zero `if`, zero `let`!):
+/-- Branchless major-groove recognition operator `grooveReadOp(d, a) ∈ ℤ_{d_in(□)}`:
 reads the DNA base recognized by amino-acid fork class `a ∈ ℤ_{aminoAcidClassesOp(d)}`. -/
 def grooveReadOp (d a : Nat) : Nat :=
   eqNatIndicatorOp a d * 0 +
@@ -1144,17 +1141,17 @@ def grooveReadOp (d a : Nat) : Nat :=
 
 /-- Canonical frame-protected inverse codon encoder `encodeFrameProtectedCodonOp(d, b) ∈ ℤ_{codonSpaceOp(d)}`
 for a major-groove reader class `grooveSynthOp(d, b)`: packs the reader stem with a mandatory 3-hydrogen-bond
-third base (`b₃ % c0OverCSqOp(d) = μ_vac(d)`), preventing out-of-frame initiation (`thm:bio-constructive-inverse-folding`(iii), zero `if`, zero `let`!). -/
+third base (`b₃ % c0OverCSqOp(d) = μ_vac(d)`), preventing out-of-frame initiation (`thm:bio-constructive-inverse-folding`(iii)). -/
 def encodeFrameProtectedCodonOp (d b : Nat) : Nat :=
   dInSquare * b + muVac d
 
-/-- Canonical codon decoder recovering the target base `b ∈ ℤ_{d_in(□)}` from `encodeFrameProtectedCodonOp(d, b)` (zero `let`!). -/
+/-- Canonical codon decoder recovering the target base `b ∈ ℤ_{d_in(□)}` from `encodeFrameProtectedCodonOp(d, b)`. -/
 def decodeFrameProtectedCodonOp (_ cod : Nat) : Nat :=
   cod / dInSquare
 
 /-- **Theorem (Analytical Inverse Phenotype-to-Genome Compiler Across All Planetary Environments & Exact Mutation/Groove Invertibility)**:
 Chained directly via `CatalanLaw` for any `d : Nat` and any tube ring count `rRings : Int`
-(zero `def := 3`, zero hardcoded numbers, zero `if`, zero `let`, zero hypotheses!):
+:
 1. **Exact Right-Inverse of Organism Genesis Across All Three Planetary Environments `m_env ∈ {-μ_vac(d), 0, +μ_vac(d)}`:**
    For every planetary environment window `m_env ∈ {-μ_vac(d), 0, +μ_vac(d)}` and every target 3D organ topology
    `χ_target ∈ {c0OverCSqOp(d), 0, Δφ_disc(d)}` (hollow vesicle, vascular tube of any length `rRings`, or `|□(d)|`-layer cortical column),
@@ -1214,16 +1211,16 @@ theorem inverse_phenotype_to_genome_compiler_operator (d : Nat) (rRings : Int) :
 -/
 
 /-- Low-branch tetrahedral nuclear magic shell operator `M_magic^(low)(d, m) = m * (m + μ_vac(d)) * (m + (c₀/c)²) / d`
-for `m ∈ {μ_vac(d), (c₀/c)², d}` (`He`, `O`, `Ca` closures, zero `def := 3`, zero hardcoded numbers!). -/
+for `m ∈ {μ_vac(d), (c₀/c)², d}`. -/
 def nuclearMagicLowOp (d m : Nat) : Nat :=
   (m * (m + muVac d) * (m + c0OverCSqOp d)) / d
 
 /-- High-branch spin-orbit cuboctahedron nuclear magic shell operator `M_magic^(high)(d, k) = k * (k² + d_out(E)(d)) / d`
-for `k ∈ {d_in(□), d_out(E)(d), |□(d)|, |△(d)| - μ_vac(d)}` (`Ni`, `Sn`, `Z(Pb)`, `N(Pb)` closures, zero `def := 3`, zero hardcoded numbers!). -/
+for `k ∈ {d_in(□), d_out(E)(d), |□(d)|, |△(d)| - μ_vac(d)}` (`Ni`, `Sn`, `Z(Pb)`, `N(Pb)` closures). -/
 def nuclearMagicHighOp (d k : Nat) : Nat :=
   (k * (k * k + dOutEdge d)) / d
 
-/-- Atomic number operators of the primary planet-building elements derived purely from carrier operators (zero hardcoded numbers!):
+/-- Atomic number operators of the primary planet-building elements derived purely from carrier operators:
 - `H`: `μ_vac(d)`
 - `He`: `nuclearMagicLowOp(d, μ_vac(d))`
 - `Li`: `d`
@@ -1264,13 +1261,13 @@ def nLeadTerminalOp (d : Nat) : Nat := nuclearMagicHighOp d (nTriangles d - muVa
 def aLeadTerminalOp (d : Nat) : Nat := zLeadTerminalOp d + nLeadTerminalOp d
 
 /-- Formula-unit nuclear charge operator `clusterChargeSumOp` of ANY multi-element cluster or mineral phase
-`[(n₁, Z₁), (n₂, Z₂), ...]` (zero `let`!): computes `∑ n_i * Z_i`. -/
+`[(n₁, Z₁), (n₂, Z₂), ...]`: computes `∑ n_i * Z_i`. -/
 def clusterChargeSumOp : List (Nat × Nat) → Nat
   | [] => 0
   | (mult, zElem) :: rest => mult * zElem + clusterChargeSumOp rest
 
 /-- Predicate operator `isClosedPlanetaryShellOp(d, Z) : Bool` testing whether a total cluster charge `Z`
-lands on one of the canonical closed shells of the cuboctahedron carrier (zero `def := 3`, zero hardcoded numbers, zero `if`!):
+lands on one of the canonical closed shells of the cuboctahedron carrier:
 - `c0OverCSqOp d` (`He` low magic shell `m = 1`),
 - `d` (`H + He` / `Li`),
 - `nTriangles d` (`O` low magic shell `m = 2`),
@@ -1311,12 +1308,12 @@ def isClosedDifferentiationReactionOp (d : Nat) (reactants products : List (Nat 
   isClosedPlanetaryShellOp d (clusterChargeSumOp products)
 
 /-- Generative operator `discoverBinaryShellPairsOp(targetZ)` that automatically enumerates all ordered pairs
-`(z1, z2)` with `1 ≤ z1 ≤ z2` whose binary fusion/condensation reaction `[(1, z1), (1, z2)]` closes the shell `targetZ` (zero `let`!). -/
+`(z1, z2)` with `1 ≤ z1 ≤ z2` whose binary fusion/condensation reaction `[(1, z1), (1, z2)]` closes the shell `targetZ`. -/
 def discoverBinaryShellPairsOp (targetZ : Nat) : List (Nat × Nat) :=
   (List.range (targetZ / 2)).map (fun k => (k + 1, targetZ - (k + 1)))
 
 /-- Formula-unit nuclear charge operators of the fundamental planetary core & mantle phases
-expressed directly as evaluations of the universal cluster operator `clusterChargeSumOp` (zero hardcoded numbers!): -/
+expressed directly as evaluations of the universal cluster operator `clusterChargeSumOp`: -/
 def zMethaneIceOp (d : Nat) : Nat := clusterChargeSumOp [(1, zCarbonOp d), (dInSquare, zHydrogenOp d)]
 def zAmmoniaIceOp (d : Nat) : Nat := clusterChargeSumOp [(1, zNitrogenOp d), (d, zHydrogenOp d)]
 def zWaterIceOp (d : Nat) : Nat := clusterChargeSumOp [(1, zOxygenOp d), (c0OverCSqOp d, zHydrogenOp d)]
@@ -1332,7 +1329,7 @@ def zMagnesiteCarbonateMantleOp (d : Nat) : Nat := clusterChargeSumOp [(1, zMagn
 
 /-- **Branchless Planetogenesis Core Classifier Operator** `planetaryCoreChargeByZoneOp(d, isCrich, zoneIdx)`:
 Maps the protoplanetary disk environment `(isCrich ∈ {0, 1}, zoneIdx ∈ {0..5})` to the characteristic
-formula-unit nuclear charge of the condensing planetary core without a single `if` (zero `if`, zero `let`!):
+formula-unit nuclear charge of the condensing planetary core without a single `if`:
 - `zoneIdx = 0` (ultra-hot refractory zone): Corundum `Al₂O₃` (`isCrich = 0`) vs Silicon Carbide `SiC` (`isCrich = 1`),
 - `zoneIdx = 1` (siderophile terrestrial zone): Metallic Iron `Fe` core (`zIronOp d`),
 - `zoneIdx = 2` (chalcophile eutectic zone): Iron-Sulfide `FeS` core (`zIronSulfideCoreOp d`),
@@ -1348,7 +1345,7 @@ def planetaryCoreChargeByZoneOp (d isCrich zoneIdx : Nat) : Nat :=
   eqNatIndicatorOp zoneIdx 5 * (zHydrogenOp d + zHeliumOp d)
 
 /-- **Theorem (Complete Operator Law of Planetogenesis, Planetary Core Classification, and Core–Mantle Differentiation)**:
-Chained directly via `CatalanLaw` for any `d : Nat` (zero `def := 3`, zero hardcoded numbers, zero `if`, zero `let`, zero hypotheses!):
+Chained directly via `CatalanLaw` for any `d : Nat`:
 1. **Gas-Giant (`H/He`) & Brown-Dwarf (`D/Li/B`) Substellar Core Invariants:**
    - `zHeliumOp d = c0OverCSqOp d`, `zHydrogenOp d + zHeliumOp d = d`,
    - `zLithiumOp d + zBoronOp d = zOxygenOp d` (`d + d_out(E)(d) = |△(d)|`).
@@ -1441,7 +1438,7 @@ theorem planetogenesis_all_planetary_cores_and_mantle_invariants_operator (d : N
   catalan_law_of_d3 _ (by decide) d
 
 /-- **Theorem (Universal Cross-Floor Shell-Closure Isomorphism Across Quantum, Nuclear, Planetary, and Biological Floors)**:
-Chained directly via `CatalanLaw` for any `d : Nat` (zero `def := 3`, zero hardcoded numbers, zero `if`, zero `let`, zero hypotheses!):
+Chained directly via `CatalanLaw` for any `d : Nat`:
 Every canonical shell of the FCC cuboctahedron `O₂(d)` governs a unified invariant across all floors simultaneously:
 1. **Shell `c0OverCSqOp(d)`:**
    link-speed ratio `(c₀/c)²` = Bell–Tsirelson ladder ratio `tsirelsonQmSqOp(d) / bellLhvSqOp(d)` = gravitational wave polarizations `|□(d)| - d - μ_vac(d)` = 1st nuclear magic shell `Z(He)` = alveolar vesicle Euler characteristic `χ_2D(S₁)`!
@@ -1488,21 +1485,21 @@ theorem cross_floor_shell_closure_isomorphism_operator (d : Nat) :
 ## 16. Generative Carrier Discovery of Bio-Metalloenzyme Cofactors (`Mg`, `Co`, `Ni`, `Fe`, `Zn`) and Multi-Regime Animal Allometry & Cortical Longevity Operator
 -/
 
-/-- Cumulative 2-shell cuboctahedron ball operator `B₂(d) = μ_vac(d) + N_shell(d, 1) + N_shell(d, (c₀/c)²)` (zero `def := 3`, zero hardcoded numbers!). -/
+/-- Cumulative 2-shell cuboctahedron ball operator `B₂(d) = μ_vac(d) + N_shell(d, 1) + N_shell(d, (c₀/c)²)`. -/
 def cuboctBall2Op (d : Nat) : Nat :=
   muVac d + cuboctShellSizeOp d 1 + cuboctShellSizeOp d (c0OverCSqOp d)
 
-/-- Tetrapyrrole / corrin 4-nitrogen coordination cage charge operator `Z(N₄) = d_in(□) * Z(N)` (porphyrin/chlorophyll/heme/cobalamin/F430 ring, zero `let`!). -/
+/-- Tetrapyrrole / corrin 4-nitrogen coordination cage charge operator `Z(N₄) = d_in(□) * Z(N)`. -/
 def tetrapyrroleCageChargeOp (d : Nat) : Nat :=
   clusterChargeSumOp [(dInSquare, zNitrogenOp d)]
 
-/-- Hexahistidine 6-nitrogen coordination cage charge operator `Z(N₆) = |□(d)| * Z(N)` (hemocyanin respiratory cage, zero `let`!). -/
+/-- Hexahistidine 6-nitrogen coordination cage charge operator `Z(N₆) = |□(d)| * Z(N)`. -/
 def hexahistidineCageChargeOp (d : Nat) : Nat :=
   clusterChargeSumOp [(nSquares d, zNitrogenOp d)]
 
 /-- **Generative Carrier Bio-Metal Discovery Operator** `discoverBioMetalInCageOp(maxZ, cageCharge, ligandCharge, targetShell)`:
 Without any human-supplied metal identity, scans all atomic numbers `zM ∈ [0, maxZ)` and selects those metals
-whose coordination complex `[(1, zM), (1, cageCharge), (1, ligandCharge)]` closes `targetShell` (zero `if`, zero `let`!). -/
+whose coordination complex `[(1, zM), (1, cageCharge), (1, ligandCharge)]` closes `targetShell`. -/
 def discoverBioMetalInCageOp (maxZ cageCharge ligandCharge targetShell : Nat) : List Nat :=
   (List.range maxZ).filter (fun zM =>
     clusterChargeSumOp [(1, zM), (1, cageCharge), (1, ligandCharge)] == targetShell)
@@ -1511,7 +1508,7 @@ def discoverBioMetalInCageOp (maxZ cageCharge ligandCharge targetShell : Nat) : 
 `k ∈ {d, d_in(□), d_out(E)(d)}`:
 - `k = d` (2/3-chamber ectothermic / surface-diffusion Rubner regime): `(c0OverCSqOp(d), d)`,
 - `k = d_in(□)` (4-chamber endothermic fractal vascular Kleiber regime): `(d, d_in(□))`,
-- `k = d_out(E)(d)` (active locomotor / avian high-capacity regime): `(d_in(□), d_out(E)(d))` (zero `if`, zero `let`!). -/
+- `k = d_out(E)(d)` (active locomotor / avian high-capacity regime): `(d_in(□), d_out(E)(d))`. -/
 def allometryExponentRatioOp (d k : Nat) : Nat × Nat :=
   reducedRatio (k - muVac d) k
 
@@ -1520,12 +1517,12 @@ In a homeostatic environment (`|Φ_env| < Δφ_disc(d)`), a baseline vascular ma
 has multiplier `μ_vac(d)`, whereas activating the full `|□(d)|`-layer cortical column (`σ_axis = 1, σ_Ig = 1`, whose synaptic
 network closes the full nucleosome chromatin ball `cuboctBallOp d`) multiplies the lifetime heartbeat/metabolic cycle budget
 by `μ_vac(d) + c0OverCSqOp(d) = d`, while supra-threshold environmental stress (`|Φ_env| ≥ Δφ_disc(d)`) collapses the protected
-homeostatic multiplier to `0` (zero `if`, zero `let`!). -/
+homeostatic multiplier to `0`. -/
 def corticalLongevityMultiplierOp (d sigmaAxis sigmaIg : Nat) (phiEnv : Int) : Nat :=
   (muVac d + sigmaAxis * sigmaIg * c0OverCSqOp d) * (1 - envTransitionGateNatOp d phiEnv)
 
 /-- **Theorem (Generative Carrier Discovery of Bio-Metals & Multi-Regime Animal Allometry and Cortical Longevity)**:
-Chained directly via `CatalanLaw` for any `d : Nat` (zero `def := 3`, zero hardcoded numbers, zero `if`, zero `let`, zero hypotheses!):
+Chained directly via `CatalanLaw` for any `d : Nat`:
 1. **Coordination Cage Shell Identities:**
    - The 4-nitrogen tetrapyrrole cage `tetrapyrroleCageChargeOp d` closes the 1st high nuclear magic shell `nuclearMagicHighOp d dInSquare` (`Z(Ni)`),
    - The 6-nitrogen hexahistidine cage `hexahistidineCageChargeOp d` closes the 2nd cuboctahedron coordination sphere `cuboctShellSizeOp d (c0OverCSqOp d)` (`S₂`)!
@@ -1574,35 +1571,35 @@ theorem generative_biometal_discovery_and_multi_regime_allometry_operator (d : N
 ## 17. Universal Cosmobiology Operator Across All Three Planetary Life Windows `m_env ∈ {-μ_vac(d), 0, +μ_vac(d)}`
 -/
 
-/-- Carbon–Nitrogen peptide/imine backbone link charge `Z(CN) = Z(C) + Z(N)` (windows `m_env ∈ {-1, 0}`, zero `let`!). -/
+/-- Carbon–Nitrogen peptide/imine backbone link charge `Z(CN) = Z(C) + Z(N)`. -/
 def zPeptideBackboneLinkOp (d : Nat) : Nat :=
   clusterChargeSumOp [(1, zCarbonOp d), (1, zNitrogenOp d)]
 
-/-- Silicon–Nitrogen silazane backbone link charge `Z(SiN) = Z(Si) + Z(N)` (thermophilic window `m_env = +1`, zero `let`!). -/
+/-- Silicon–Nitrogen silazane backbone link charge `Z(SiN) = Z(Si) + Z(N)`. -/
 def zSilazaneBackboneLinkOp (d : Nat) : Nat :=
   clusterChargeSumOp [(1, zSiliconOp d), (1, zNitrogenOp d)]
 
-/-- Aromatic benzene ring charge `Z(C₆H₆) = |□(d)| * Z(C) + |□(d)| * Z(H)` in the `{111}` hexagonal slice (zero `let`!). -/
+/-- Aromatic benzene ring charge `Z(C₆H₆) = |□(d)| * Z(C) + |□(d)| * Z(H)` in the `{111}` hexagonal slice. -/
 def zBenzeneRingOp (d : Nat) : Nat :=
   clusterChargeSumOp [(nSquares d, zCarbonOp d), (nSquares d, zHydrogenOp d)]
 
-/-- Inorganic aromatic borazine ring charge `Z(B₃N₃H₆) = d * Z(B) + d * Z(N) + |□(d)| * Z(H)` (thermophilic `{111}` aromatic ring, zero `let`!). -/
+/-- Inorganic aromatic borazine ring charge `Z(B₃N₃H₆) = d * Z(B) + d * Z(N) + |□(d)| * Z(H)`. -/
 def zBorazineRingOp (d : Nat) : Nat :=
   clusterChargeSumOp [(d, zBoronOp d), (d, zNitrogenOp d), (nSquares d, zHydrogenOp d)]
 
-/-- Cryogenic metabolic fuel charge operators: acetylene `Z(C₂H₂)` and hydrogen cyanide `Z(HCN)` (window `m_env = -1`, zero `let`!). -/
+/-- Cryogenic metabolic fuel charge operators: acetylene `Z(C₂H₂)` and hydrogen cyanide `Z(HCN)`. -/
 def zAcetyleneFuelOp (d : Nat) : Nat :=
   clusterChargeSumOp [(c0OverCSqOp d, zCarbonOp d), (c0OverCSqOp d, zHydrogenOp d)]
 
 def zHydrogenCyanideFuelOp (d : Nat) : Nat :=
   clusterChargeSumOp [(1, zHydrogenOp d), (1, zCarbonOp d), (1, zNitrogenOp d)]
 
-/-- Thermophilic tetrathiolate 4-sulfur coordination cage charge `Z(S₄) = d_in(□) * Z(S)` (window `m_env = +1`, zero `let`!). -/
+/-- Thermophilic tetrathiolate 4-sulfur coordination cage charge `Z(S₄) = d_in(□) * Z(S)`. -/
 def tetrathiolateCageChargeOp (d : Nat) : Nat :=
   clusterChargeSumOp [(dInSquare, zSulfurOp d)]
 
 /-- Universal stellar photon step multiplier `Λ_γ(d, m_env)` for the three planetary life windows `m_env ∈ {-1, 0, +1}`
-(`vol-biology-body.tex` eq. `eq:bio-three-life-5-6-7-law`, zero `if`, zero `let`!):
+:
 - `m_env = +1`: `N_HB(d) = K_P(d) - μ_vac(d)`,
 - `m_env =  0`: `(c₀/c)² * N_HB(d) = N_max^stable(d)`,
 - `m_env = -1`: `(|△(d)| - μ_vac(d)) * N_HB(d) = d * N_ball(d)`. -/
@@ -1612,7 +1609,7 @@ def universalPhotonStepOp (d : Nat) (mEnv : Int) : Nat :=
   (eqIntIndicatorOp mEnv (muVac d : Int)).toNat * hBondDivisorOp d
 
 /-- **Theorem (Universal Cosmobiology Operator Across All Three Planetary Windows `m_env ∈ {-μ_vac(d), 0, +μ_vac(d)}`)**:
-Chained directly via `CatalanLaw` for any `d : Nat` (zero `def := 3`, zero hardcoded numbers, zero `if`, zero `let`, zero hypotheses!):
+Chained directly via `CatalanLaw` for any `d : Nat`:
 1. **Universal Polymer Backbones & `{111}` Aromatic Rings:**
    - The `C–N` peptide/imine backbone unit closes the dressed cluster `zPeptideBackboneLinkOp d = nPhi d` (`B₁(d)`),
    - The `Si–N` thermophilic silazane backbone unit closes the Rumer semantic half-sphere `zSilazaneBackboneLinkOp d = aminoAcidClassesOp d` (`S₂(d) / 2`),
@@ -1656,5 +1653,208 @@ theorem universal_cosmobiology_three_planetary_windows_operator (d : Nat) :
        discoverBioMetalInCageOp (kP d) (tetrathiolateCageChargeOp d) 0 (kP d + cuboctShellSizeOp d (c0OverCSqOp d)) =
          [cuboctShellSizeOp d (c0OverCSqOp d)])) d :=
   catalan_law_of_d3 _ (by decide) d
+
+/-!
+## 18. Universal Operator Linearity, Multilinearity, and Scale-Floor `K²` Factorization
+-/
+
+/-- Scale every sample weight `w` in an instrument window `samples` by `alpha : Int`. -/
+def scaleInstrumentSamplesOp (alpha : Int) : List (Int × Int × Int × Int × Int) → List (Int × Int × Int × Int × Int)
+  | [] => []
+  | (w, p0, p1, p2, p3) :: rest => (alpha * w, p0, p1, p2, p3) :: scaleInstrumentSamplesOp alpha rest
+
+/-- Scale every channel amplitude `muE` in an environment stream `env` by `alpha : Int`. -/
+def scaleEnvListOp (alpha : Int) : List (Int × Int) → List (Int × Int)
+  | [] => []
+  | (muE, dphiE) :: rest => (alpha * muE, dphiE) :: scaleEnvListOp alpha rest
+
+/-- Scale every element multiplicity `mult` in a cluster `cl` by `alpha : Nat`. -/
+def scaleClusterListOp (alpha : Nat) : List (Nat × Nat) → List (Nat × Nat)
+  | [] => []
+  | (mult, zElem) :: rest => (alpha * mult, zElem) :: scaleClusterListOp alpha rest
+
+/-- Linear combination of two 4-component tissue complexes `alpha * C₁ + beta * C₂`. -/
+def linearCombComplexOp (alpha beta : Int) (c1 c2 : Int × Int × Int × Int) : Int × Int × Int × Int :=
+  (alpha * c1.1 + beta * c2.1,
+   alpha * c1.2.1 + beta * c2.2.1,
+   alpha * c1.2.2.1 + beta * c2.2.2.1,
+   alpha * c1.2.2.2 + beta * c2.2.2.2)
+
+theorem envSumMuListOp_scale (alpha : Int) (env : List (Int × Int)) :
+    envSumMuListOp (scaleEnvListOp alpha env) = alpha * envSumMuListOp env := by
+  induction env with
+  | nil =>
+    dsimp [scaleEnvListOp, envSumMuListOp]
+    rw [Int.mul_zero]
+  | cons head tail ih =>
+    rcases head with ⟨muE, dphiE⟩
+    dsimp [scaleEnvListOp, envSumMuListOp]
+    rw [ih, Int.mul_add]
+
+theorem envRawZrListOp_scale (d : Nat) (alpha : Int) (env : List (Int × Int)) :
+    envRawZrListOp d (scaleEnvListOp alpha env) = alpha * envRawZrListOp d env := by
+  induction env with
+  | nil =>
+    dsimp [scaleEnvListOp, envRawZrListOp]
+    rw [Int.mul_zero]
+  | cons head tail ih =>
+    rcases head with ⟨muE, dphiE⟩
+    dsimp [scaleEnvListOp, envRawZrListOp]
+    rw [ih, Int.mul_assoc, ← Int.mul_add]
+
+theorem envRawZiListOp_scale (d : Nat) (alpha : Int) (env : List (Int × Int)) :
+    envRawZiListOp d (scaleEnvListOp alpha env) = alpha * envRawZiListOp d env := by
+  induction env with
+  | nil =>
+    dsimp [scaleEnvListOp, envRawZiListOp]
+    rw [Int.mul_zero]
+  | cons head tail ih =>
+    rcases head with ⟨muE, dphiE⟩
+    dsimp [scaleEnvListOp, envRawZiListOp]
+    rw [ih, Int.mul_assoc, ← Int.mul_add]
+
+theorem clusterChargeSumOp_append (c1 c2 : List (Nat × Nat)) :
+    clusterChargeSumOp (c1 ++ c2) = clusterChargeSumOp c1 + clusterChargeSumOp c2 := by
+  induction c1 with
+  | nil =>
+    dsimp [clusterChargeSumOp]
+    omega
+  | cons head tail ih =>
+    rcases head with ⟨mult, zElem⟩
+    dsimp [clusterChargeSumOp]
+    rw [ih]
+    omega
+
+theorem clusterChargeSumOp_scale (alpha : Nat) (cl : List (Nat × Nat)) :
+    clusterChargeSumOp (scaleClusterListOp alpha cl) = alpha * clusterChargeSumOp cl := by
+  induction cl with
+  | nil =>
+    dsimp [scaleClusterListOp, clusterChargeSumOp]
+  | cons head tail ih =>
+    rcases head with ⟨mult, zElem⟩
+    dsimp [scaleClusterListOp, clusterChargeSumOp]
+    rw [ih, Nat.mul_assoc, ← Nat.mul_add]
+
+/-- **Theorem (Universal Linearity and Multilinearity of All Carrier, Environment, Chemical, and Morphogenetic Operators)**:
+For any dimension `d : Nat`, scalars `alpha, beta : Int`, amplitudes `muX, muX1, muX2, muY, muY1, muY2 : Int`,
+bond orders `b, b1, b2 : Int`, phase `dphi : Int`, enthalpies `h1, h2, p1, p2 : Int`,
+tissue complexes `c1, c2`, environment streams `env1, env2`, and clusters `cl1, cl2`:
+1. **Trilinearity of `bondEnergyOp`, `bondStrainOp`, and `reactionCurrentOp`** in `(b, muX, muY)`;
+2. **Bilinearity of `envZrListOp` and `envZiListOp`** in center amplitude `muX` and environment stream `scaleEnvListOp alpha env1 ++ scaleEnvListOp beta env2`;
+3. **Linearity of `plaquetteSum`, `reactionEnthalpyOp`, `tissueEuler2DOp`, and `clusterChargeSumOp`**. -/
+theorem universal_operator_linearity_and_multilinearity
+    (d : Nat) (alpha beta b b1 b2 muX muX1 muX2 muY muY1 muY2 dphi h1 h2 p1 p2 : Int)
+    (c1 c2 : Int × Int × Int × Int) (env1 env2 : List (Int × Int))
+    (alphaNat betaNat : Nat) (cl1 cl2 : List (Nat × Nat)) :
+    -- 1. Trilinearity of bondEnergyOp, bondStrainOp, reactionCurrentOp in (b, muX, muY)
+    (bondEnergyOp d (alpha * b1 + beta * b2) muX muY dphi =
+       alpha * bondEnergyOp d b1 muX muY dphi + beta * bondEnergyOp d b2 muX muY dphi ∧
+     bondEnergyOp d b (alpha * muX1 + beta * muX2) muY dphi =
+       alpha * bondEnergyOp d b muX1 muY dphi + beta * bondEnergyOp d b muX2 muY dphi ∧
+     bondEnergyOp d b muX (alpha * muY1 + beta * muY2) dphi =
+       alpha * bondEnergyOp d b muX muY1 dphi + beta * bondEnergyOp d b muX muY2 dphi ∧
+     bondStrainOp d b (alpha * muX1 + beta * muX2) muY dphi =
+       alpha * bondStrainOp d b muX1 muY dphi + beta * bondStrainOp d b muX2 muY dphi ∧
+     bondStrainOp d b muX (alpha * muY1 + beta * muY2) dphi =
+       alpha * bondStrainOp d b muX muY1 dphi + beta * bondStrainOp d b muX muY2 dphi ∧
+     reactionCurrentOp d b (alpha * muX1 + beta * muX2) muY dphi =
+       alpha * reactionCurrentOp d b muX1 muY dphi + beta * reactionCurrentOp d b muX2 muY dphi ∧
+     reactionCurrentOp d b muX (alpha * muY1 + beta * muY2) dphi =
+       alpha * reactionCurrentOp d b muX muY1 dphi + beta * reactionCurrentOp d b muX muY2 dphi) ∧
+    -- 2. Linearity & Bilinearity of environment holonomy operators under linear combinations of environments
+    (envSumMuListOp (scaleEnvListOp alpha env1 ++ scaleEnvListOp beta env2) =
+       alpha * envSumMuListOp env1 + beta * envSumMuListOp env2 ∧
+     envZrListOp d (alpha * muX1 + beta * muX2) env1 =
+       alpha * envZrListOp d muX1 env1 + beta * envZrListOp d muX2 env1 ∧
+     envZrListOp d muX (scaleEnvListOp alpha env1 ++ scaleEnvListOp beta env2) =
+       alpha * envZrListOp d muX env1 + beta * envZrListOp d muX env2 ∧
+     envZiListOp d (alpha * muX1 + beta * muX2) env1 =
+       alpha * envZiListOp d muX1 env1 + beta * envZiListOp d muX2 env1 ∧
+     envZiListOp d muX (scaleEnvListOp alpha env1 ++ scaleEnvListOp beta env2) =
+       alpha * envZiListOp d muX env1 + beta * envZiListOp d muX env2) ∧
+    -- 3. Linearity of reaction enthalpy, 2D Euler characteristic, and multi-element cluster charge
+    (reactionEnthalpyOp (alpha * h1 + beta * h2) (alpha * p1 + beta * p2) =
+       alpha * reactionEnthalpyOp h1 p1 + beta * reactionEnthalpyOp h2 p2 ∧
+     tissueEuler2DOp (linearCombComplexOp alpha beta c1 c2) =
+       alpha * tissueEuler2DOp c1 + beta * tissueEuler2DOp c2 ∧
+     clusterChargeSumOp (scaleClusterListOp alphaNat cl1 ++ scaleClusterListOp betaNat cl2) =
+       alphaNat * clusterChargeSumOp cl1 + betaNat * clusterChargeSumOp cl2) := by
+  refine ⟨⟨?_, ?_, ?_, ?_, ?_, ?_, ?_⟩, ⟨?_, ?_, ?_, ?_, ?_⟩, ⟨?_, ?_, ?_⟩⟩
+  · unfold bondEnergyOp; simp [Int.add_mul, Int.mul_add, Int.mul_assoc, Int.mul_left_comm, Int.mul_comm]
+  · unfold bondEnergyOp; simp [Int.add_mul, Int.mul_add, Int.mul_assoc, Int.mul_left_comm, Int.mul_comm]
+  · unfold bondEnergyOp; simp [Int.add_mul, Int.mul_add, Int.mul_assoc, Int.mul_left_comm, Int.mul_comm]
+  · unfold bondStrainOp; simp [Int.add_mul, Int.mul_add, Int.mul_assoc, Int.mul_left_comm, Int.mul_comm]
+  · unfold bondStrainOp; simp [Int.add_mul, Int.mul_add, Int.mul_assoc, Int.mul_left_comm, Int.mul_comm]
+  · unfold reactionCurrentOp; simp [Int.add_mul, Int.mul_add, Int.mul_assoc, Int.mul_left_comm, Int.mul_comm]
+  · unfold reactionCurrentOp; simp [Int.add_mul, Int.mul_add, Int.mul_assoc, Int.mul_left_comm, Int.mul_comm]
+  · rw [envSumMuListOp_append, envSumMuListOp_scale, envSumMuListOp_scale]
+  · unfold envZrListOp; simp [Int.add_mul, Int.mul_assoc]
+  · unfold envZrListOp
+    rw [envRawZrListOp_append, envRawZrListOp_scale, envRawZrListOp_scale]
+    simp [Int.mul_add, Int.mul_assoc, Int.mul_left_comm]
+  · unfold envZiListOp; simp [Int.add_mul, Int.mul_assoc]
+  · unfold envZiListOp
+    rw [envRawZiListOp_append, envRawZiListOp_scale, envRawZiListOp_scale]
+    simp [Int.mul_add, Int.mul_assoc, Int.mul_left_comm]
+  · unfold reactionEnthalpyOp; omega
+  · unfold tissueEuler2DOp linearCombComplexOp; omega
+  · rw [clusterChargeSumOp_append, clusterChargeSumOp_scale, clusterChargeSumOp_scale]
+
+/-- Scale-floor raw denominator operator `D_raw^(K)(d, K, μ, ζ_real) = ζ_real + Q_□(d) * μ² + K² * ε(d)` on floor `K`. -/
+def scaleFloorRawDenomOp (d : Nat) (kScale mu zr : Int) : Int :=
+  zr + (qSquare d : Int) * mu * mu + kScale * kScale * (epsDenom d : Int)
+
+/-- Scale-floor bilinear drive operator `z_drive(d, s, μ, ∑μ, ζ_real, ζ_imag) = ζ_imag + s * δζ_real(d, μ, ∑μ, ζ_real)` for orientation sign `s ∈ {-1, +1}`. -/
+def signedGateDriveOp (d : Nat) (s mu sumMu zr zi : Int) : Int :=
+  zi + s * gateDeficitOp d mu sumMu zr
+
+/-- **Theorem (Homogeneous Degree-2 Scaling of Holonomy/Bond Operators & Exact `K²` Factorization in the Gate Operator)**:
+For any dimension `d : Nat`, scale factor `kScale : Int`, orientation sign `s : Int`, amplitudes `mu, sumMu, muX, muY : Int`,
+holonomies `zr, zi : Int`, bond order `b : Int`, and phase difference `dphi : Int`:
+Under floor rescaling `(mu, sumMu) ↦ (K * mu, K * sumMu)` and `(zr, zi) ↦ (K² * zr, K² * zi)`,
+`shellRealHolonomyOp`, `shellBohmDeficitOp`, `bondEnergyOp`, `bondStrainOp`, `reactionCurrentOp`,
+`gateDeficitOp`, `signedGateDriveOp`, and `scaleFloorRawDenomOp` are all homogeneous of degree 2 (`K * K`),
+so the quadratic scale factor `K * K` factors identically out of both the gate numerator and denominator across all scale floors `h_L(K) = K * ℓ_P`. -/
+theorem scale_invariance_of_holonomy_and_gate_operators
+    (d : Nat) (kScale s mu sumMu muX muY zr zi b dphi : Int) :
+    shellRealHolonomyOp d (kScale * mu) dphi =
+      (kScale * kScale) * shellRealHolonomyOp d mu dphi ∧
+    shellBohmDeficitOp d (kScale * muX) (kScale * muY) dphi =
+      (kScale * kScale) * shellBohmDeficitOp d muX muY dphi ∧
+    bondEnergyOp d b (kScale * muX) (kScale * muY) dphi =
+      (kScale * kScale) * bondEnergyOp d b muX muY dphi ∧
+    bondStrainOp d b (kScale * muX) (kScale * muY) dphi =
+      (kScale * kScale) * bondStrainOp d b muX muY dphi ∧
+    reactionCurrentOp d b (kScale * muX) (kScale * muY) dphi =
+      (kScale * kScale) * reactionCurrentOp d b muX muY dphi ∧
+    gateDeficitOp d (kScale * mu) (kScale * sumMu) ((kScale * kScale) * zr) =
+      (kScale * kScale) * gateDeficitOp d mu sumMu zr ∧
+    signedGateDriveOp d s (kScale * mu) (kScale * sumMu) ((kScale * kScale) * zr) ((kScale * kScale) * zi) =
+      (kScale * kScale) * signedGateDriveOp d s mu sumMu zr zi ∧
+    scaleFloorRawDenomOp d kScale (kScale * mu) ((kScale * kScale) * zr) =
+      (kScale * kScale) * rawGateDenomOp d mu zr := by
+  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
+  · unfold shellRealHolonomyOp
+    simp [Int.mul_assoc, Int.mul_left_comm, Int.mul_comm]
+  · unfold shellBohmDeficitOp
+    simp [Int.mul_assoc, Int.mul_left_comm, Int.mul_comm]
+  · unfold bondEnergyOp
+    simp [Int.mul_assoc, Int.mul_left_comm, Int.mul_comm]
+  · unfold bondStrainOp
+    simp [Int.mul_assoc, Int.mul_left_comm, Int.mul_comm]
+  · unfold reactionCurrentOp
+    simp [Int.mul_assoc, Int.mul_left_comm, Int.mul_comm]
+  · unfold gateDeficitOp
+    have h1 : (qSquare d : Int) * (kScale * mu) * (kScale * sumMu) =
+              (kScale * kScale) * ((qSquare d : Int) * mu * sumMu) := by
+      simp [Int.mul_assoc, Int.mul_left_comm, Int.mul_comm]
+    rw [h1, ← Int.mul_sub]
+  · unfold signedGateDriveOp gateDeficitOp
+    have h1 : (qSquare d : Int) * (kScale * mu) * (kScale * sumMu) =
+              (kScale * kScale) * ((qSquare d : Int) * mu * sumMu) := by
+      simp [Int.mul_assoc, Int.mul_left_comm, Int.mul_comm]
+    rw [h1, ← Int.mul_sub, Int.mul_left_comm s (kScale * kScale), ← Int.mul_add]
+  · unfold scaleFloorRawDenomOp rawGateDenomOp
+    simp [Int.mul_add, Int.mul_assoc, Int.mul_left_comm, Int.mul_comm]
 
 end MtCarrier

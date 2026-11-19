@@ -18,26 +18,26 @@ Formal verification in Lean 4 of:
 
 namespace MtCarrier
 
-/-- Shifted Euclidean quotient `k_xy(d) = ⌊(dφ + (Φ_Pauli(d) - 1)) / N_ring(d)⌋` parameterized by `d : Nat` (zero `def := 3`, zero hardcoded numbers!). -/
+/-- Shifted Euclidean quotient `k_xy(d) = ⌊(dφ + (Φ_Pauli(d) - 1)) / N_ring(d)⌋` parameterized by `d : Nat`. -/
 def branchQuotient (d : Nat) (dphi : Int) : Int :=
   (dphi + ((phiPauli d : Int) - 1)).fdiv (nRing d : Int)
 
-/-- Shifted Euclidean remainder `A_xy(d) = dφ - N_ring(d) * k_xy(d)` parameterized by `d : Nat` (zero `def := 3`, zero hardcoded numbers!). -/
+/-- Shifted Euclidean remainder `A_xy(d) = dφ - N_ring(d) * k_xy(d)` parameterized by `d : Nat`. -/
 def edgeConnection (d : Nat) (dphi : Int) : Int :=
   dphi - (nRing d : Int) * branchQuotient d dphi
 
-/-- Fundamental Euclidean division identity (`eq:quotient-remainder-512`, zero `def := 3`, zero hardcoded numbers!):
+/-- Fundamental Euclidean division identity (`eq:quotient-remainder-512`):
 For any `d : Nat` and `dphi : Int`, `dphi = N_ring(d) * branchQuotient d dphi + edgeConnection d dphi`. -/
 theorem quotient_remainder_512_spec (d : Nat) (dphi : Int) :
     dphi = (nRing d : Int) * branchQuotient d dphi + edgeConnection d dphi := by
   unfold edgeConnection
   omega
 
-/-- Shift index `n ∈ [0, 2 * N_ring(d) - 1)` to signed edge difference `dphi = n - (N_ring(d) - 1)` (zero `def := 3`, zero hardcoded numbers!). -/
+/-- Shift index `n ∈ [0, 2 * N_ring(d) - 1)` to signed edge difference `dphi = n - (N_ring(d) - 1)`. -/
 def regimeDphi (d : Nat) (n : Nat) : Int :=
   (n : Int) - ((nRing d : Int) - 1)
 
-/-- Helper boolean check for the three regimes of `branchQuotient d` and `edgeConnection d` (zero `def := 3`, zero hardcoded numbers, zero `if`, zero `let`!). -/
+/-- Helper boolean check for the three regimes of `branchQuotient d` and `edgeConnection d`. -/
 def checkQuotientRemainderRegime (d : Nat) (n : Nat) : Bool :=
   intEqBool (regimeDphi d n) ((nRing d : Int) * branchQuotient d (regimeDphi d n) + edgeConnection d (regimeDphi d n)) &&
   Nat.ble 1 (edgeConnection d (regimeDphi d n) + (phiPauli d : Int)).toNat &&
@@ -53,7 +53,7 @@ def checkQuotientRemainderRegime (d : Nat) (n : Nat) : Bool :=
      intEqBool (edgeConnection d (regimeDphi d n)) (regimeDphi d n - (nRing d : Int))))
 
 /-- Exhaustive verification of the three regimes of `branchQuotient d` and `edgeConnection d`
-chained via `CatalanLaw` for any `d : Nat` (zero `def := 3`, zero hardcoded numbers!). -/
+chained via `CatalanLaw` for any `d : Nat`. -/
 theorem quotient_remainder_three_regimes (d : Nat) :
     CatalanLaw (fun d =>
       (List.range (2 * nRing d - 1)).all (checkQuotientRemainderRegime d) = true) d :=
@@ -83,15 +83,15 @@ theorem d1_d0_zero (p0 p1 p2 p3 : Int) :
   unfold plaquetteSum
   omega
 
-/-- Corollary 11.9(i) (`eq:discrete-plaquette-flux`, zero `def := 3`, zero hardcoded numbers!):
-For ANY `d : Nat` and four corner phases `p0, p1, p2, p3 ∈ ℤ`, `(d₁A)_f = N_ring(d) * n_f(d)`. -/
+/-- Corollary 11.9(i) (`eq:discrete-plaquette-flux`):
+For any `d : Nat` and four corner phases `p0, p1, p2, p3 ∈ ℤ`, `(d₁A)_f = N_ring(d) * n_f(d)`. -/
 theorem plaquette_flux_eq_512_mul_winding (d : Nat) (p0 p1 p2 p3 : Int) :
     plaquetteFlux d p0 p1 p2 p3 = (nRing d : Int) * plaquetteWinding d p0 p1 p2 p3 := by
   unfold plaquetteFlux plaquetteWinding edgeConnection
   simp [Int.mul_add, Int.mul_neg]
   omega
 
-/-- Zero-winding implication for any `d : Nat` (zero `def := 3`, zero hypotheses in signature!):
+/-- Zero-winding implication for any `d : Nat`:
 when all four edge quotients vanish, both `plaquetteWinding d` and `plaquetteFlux d` vanish identically. -/
 theorem plaquette_winding_zero_of_principal (d : Nat) (p0 p1 p2 p3 : Int) :
     (branchQuotient d (p1 - p0) = 0 ∧
@@ -125,7 +125,7 @@ def faceWindingFromEdges (k_bottom k_right k_top k_left : Int) : Int :=
   -(k_bottom + k_right - k_top - k_left)
 
 /-- Oriented 3D cube divergence operator `div_cube n_f = (nz1 - nz0) - (ny1 - ny0) + (nx1 - nx0)`
-constructed from the 12 cube-edge winding quotients (zero `let`!). -/
+constructed from the 12 cube-edge winding quotients. -/
 def cubeDivergenceOp
     (kx00 kx01 kx10 kx11 ky00 ky01 ky10 ky11 kz00 kz01 kz10 kz11 : Int) : Int :=
   (faceWindingFromEdges kx10 ky11 kx11 ky10 - faceWindingFromEdges kx00 ky01 kx01 ky00) -
@@ -141,11 +141,10 @@ theorem discrete_gauss_cube_divergence_zero
 /-!
 ## Closed-Form Macro-Instrument Readout `ℬ_N` and Exact Finite-Window Maxwell–Gauss Commutation
 
-For ANY finite macro-instrument aperture `N ≥ 1` with integer path-count weights `w_i ∈ ℤ`
+For any finite macro-instrument aperture `N ≥ 1` with integer path-count weights `w_i ∈ ℤ`
 (where `ℬ_N[F](x) = 12^(-2N) * ∑_i w_i * F(x + y_i)`), linearity and translation invariance
-of `ℬ_N` on the Bravais lattice `D₃` imply that `ℬ_N` commutes **identically** with the
-coboundary operators `d₀, d₁, d₂` and time difference `Δ_t` at **every finite `N ≥ 1`**
-(with zero `O(N⁻¹)` error!).
+of `ℬ_N` on the Bravais lattice `D₃` imply that `ℬ_N` commutes identically with the
+coboundary operators `d₀, d₁, d₂` and time difference `Δ_t` at every finite `N ≥ 1`.
 -/
 
 /-- Weighted instrument sum of plaquette edge connections `(d₁(ℬ_N A))_f` parameterized by `d : Nat`. -/
@@ -164,8 +163,8 @@ def instrumentPlaquetteWindingSum (d : Nat) : List (Int × Int × Int × Int × 
   | (w, p0, p1, p2, p3) :: rest =>
     w * plaquetteWinding d p0 p1 p2 p3 + instrumentPlaquetteWindingSum d rest
 
-/-- **Theorem (Exact Finite-Window Instrument Flux Identity `(d₁(ℬ_N A))_f = N_ring(d) * ℬ_N[n_f]`, zero `def := 3`, zero hardcoded numbers!)**:
-For **any** `d : Nat` and finite instrument window `samples`, `(d₁(ℬ_N A))_f = N_ring(d) * ℬ_N[n_f]`! -/
+/-- **Theorem (Exact Finite-Window Instrument Flux Identity `(d₁(ℬ_N A))_f = N_ring(d) * ℬ_N[n_f]`)**:
+For any `d : Nat` and finite instrument window `samples`, `(d₁(ℬ_N A))_f = N_ring(d) * ℬ_N[n_f]`. -/
 theorem instrument_convolution_plaquette_flux_exact
     (d : Nat) (samples : List (Int × Int × Int × Int × Int)) :
     instrumentPlaquetteFluxSum d samples =
@@ -213,7 +212,7 @@ theorem instrument_convolution_gauss_monopole_free_exact
     rw [discrete_gauss_cube_divergence_zero, ih]
     omega
 
-/-- Discrete electric edge field operator `E_e = -(A_e(t+1) - A_e(t)) - (φ_y - φ_x)` (zero `let`!). -/
+/-- Discrete electric edge field operator `E_e = -(A_e(t+1) - A_e(t)) - (φ_y - φ_x)`. -/
 def faradayEdgeFieldOp (a_t a_next phiX phiY : Int) : Int :=
   -(a_next - a_t) - (phiY - phiX)
 

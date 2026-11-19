@@ -119,8 +119,8 @@ abbrev CatalanLock (d : Nat) : Prop :=
 abbrev CatalanLaw (P : Nat → Prop) (d : Nat) : Prop :=
   CatalanLock d ↔ (CatalanLock d ∧ P d)
 
-/-- Lock 1 of Theorem 11.12 (`eq:catalan-lock`, zero hypotheses in signature!):
-For ALL `d : Nat`, `CatalanLock d` holds if and only if `d = 3`. -/
+/-- Lock 1 of Theorem 11.12 (`eq:catalan-lock`):
+For all `d : Nat`, `CatalanLock d` holds if and only if `d = 3`. -/
 theorem catalan_lock_iff_d3 (d : Nat) :
     CatalanLock d ↔ d = 3 := by
   unfold CatalanLock
@@ -139,7 +139,7 @@ theorem catalan_lock_iff_d3 (d : Nat) :
     decide
 
 /-- Universal operator combinator chaining any dimension-parameterized law `P : Nat → Prop`
-directly from `catalan_lock_iff_d3` (eliminating all boilerplate across theorems!). -/
+directly from `catalan_lock_iff_d3`. -/
 theorem catalan_law_of_d3 (P : Nat → Prop) (h3 : P 3) (d : Nat) :
     CatalanLaw P d := by
   unfold CatalanLaw
@@ -151,7 +151,7 @@ theorem catalan_law_of_d3 (P : Nat → Prop) (h3 : P 3) (d : Nat) :
   · exact And.left
 
 /-- Canonical system of operator identities chained directly via `CatalanLaw`
-for any `d : Nat` (Rule Z1, zero `def := 3`, zero `let`, zero hypotheses!). -/
+for any `d : Nat`. -/
 theorem canonical_d3_constants (d : Nat) :
     CatalanLaw (fun d =>
       nNeighbors d = 2 * nSquares d ∧
@@ -171,8 +171,8 @@ theorem canonical_d3_constants (d : Nat) :
 def GaussianCoulombLock (d : Nat) : Prop :=
   2 ^ d * (2 * d * (d - 1)) = 4 * (d - 1) * (d - 1) + 2 ^ d * (2 ^ d + 2)
 
-/-- Lock 2 of Theorem 11.12 (`eq:gaussian-coulomb-lock`, zero hypotheses in signature!):
-For ALL `d : Nat`, `GaussianCoulombLock d ↔ CatalanLock d`. -/
+/-- Lock 2 of Theorem 11.12 (`eq:gaussian-coulomb-lock`):
+For all `d : Nat`, `GaussianCoulombLock d ↔ CatalanLock d`. -/
 theorem gaussian_coulomb_lock_iff_d3 (d : Nat) :
     GaussianCoulombLock d ↔ CatalanLock d := by
   unfold GaussianCoulombLock
@@ -213,8 +213,8 @@ theorem heisenberg_divisibility_d3 (d : Nat) :
 def HeisenbergDivisibilityLock (d : Nat) : Prop :=
   2 ≤ d ∧ d ≤ 7 ∧ (nRing d + nPhi d + nTriangles d) % nPhi d = 0
 
-/-- Converse uniqueness of Lock 3 (`eq:heisenberg-divisibility-lock`, zero hypotheses in signature!):
-For any `d : Nat`, `HeisenbergDivisibilityLock d ↔ CatalanLock d`! -/
+/-- Converse uniqueness of Lock 3 (`eq:heisenberg-divisibility-lock`):
+For any `d : Nat`, `HeisenbergDivisibilityLock d ↔ CatalanLock d`. -/
 theorem heisenberg_divisibility_lock_unique_d3_up_to_8 (d : Nat) :
     HeisenbergDivisibilityLock d ↔ CatalanLock d := by
   unfold HeisenbergDivisibilityLock
@@ -241,7 +241,7 @@ theorem a15_iv263_unique_9bit_catalan_seed_decomposition (d : Nat) :
 def StarBooleanLock (d : Nat) : Prop :=
   1 ≤ d ∧ 2 * nSquares d = nNeighbors d
 
-/-- Lock 4 of Theorem 11.12 (`eq:star-boolean-density-lock`, zero hypotheses in signature!):
+/-- Lock 4 of Theorem 11.12 (`eq:star-boolean-density-lock`):
 For any `d : Nat`, `StarBooleanLock d ↔ CatalanLock d`. -/
 theorem star_boolean_density_lock_iff_d3 (d : Nat) :
     StarBooleanLock d ↔ CatalanLock d := by
@@ -291,7 +291,7 @@ We prove below without any continuum sphere-packing assumption (no Kepler conjec
    `4` vertices and `4` hexagonal `{1,1,1}` planes of `6` vertices.
 -/
 
-/-- The 27 vectors of the elementary displacement cube `{-1, 0, +1}³` (zero `let`!). -/
+/-- The 27 vectors of the elementary displacement cube `{-1, 0, +1}³`. -/
 def elementaryCube3D : List (Int × Int × Int) :=
   ([-1, 0, 1] : List Int).foldl (fun acc z =>
     ([-1, 0, 1] : List Int).foldl (fun acc2 y =>
@@ -306,7 +306,7 @@ def cubicOrbit3D (k : Nat) : List (Int × Int × Int) :=
   elementaryCube3D.filter (fun e => manhattanNorm3D e == k)
 
 /-- Exact operator identities for the sizes of the three `O_h`-orbits in `{-1, 0, +1}³ \ {0}`
-chained via `CatalanLaw` for any `d : Nat` (zero `def := 3`, zero hardcoded `6, 12, 8, 26`!):
+chained via `CatalanLaw` for any `d : Nat`:
 `|O₁| = |□(d)|`, `|O₂| = |N(d)|`, `|O₃| = |△(d)|`, and `|O₁| + |O₂| + |O₃| = 2 * N_φ(d)`. -/
 theorem cubic_orbits_partition_26 (d : Nat) :
     CatalanLaw (fun d =>
@@ -318,13 +318,13 @@ theorem cubic_orbits_partition_26 (d : Nat) :
   catalan_law_of_d3 _ (by decide) d
 
 /-- Coordination number `z(d, b₁, b₂, b₃)` of any `O_h`-isotropic shell in `{-1, 0, +1}³ \ {0}`
-parameterized by `d : Nat` (zero `def := 3`, zero hardcoded numbers, zero `if`!). -/
+parameterized by `d : Nat`. -/
 def isotropicShellSize (d : Nat) (b1 b2 b3 : Bool) : Nat :=
   (cubicOrbit3D 1).length * b1.toNat +
   (cubicOrbit3D (d - 1)).length * b2.toNat +
   (cubicOrbit3D d).length * b3.toNat
 
-/-- **Uniqueness of the Cuboctahedron (`O₂`, chained via `CatalanLaw`, zero `def := 3`, zero `let`, zero hypotheses!)**:
+/-- **Uniqueness of the Cuboctahedron (`O₂`, chained via `CatalanLaw`)**:
 For any `d : Nat` and all boolean subsets `(b₁, b₂, b₃) ∈ Bool³` of `{O₁, O₂, O₃}` in `{-1, 0, +1}³ \ {0}`,
 all three shell uniqueness locks force `(b₁, b₂, b₃) = (false, true, false)` (`O₂`). -/
 theorem cuboctahedron_unique_isotropic_shell_d3 (d : Nat) (b1 b2 b3 : Bool) :
@@ -338,8 +338,7 @@ theorem cuboctahedron_unique_isotropic_shell_d3 (d : Nat) (b1 b2 b3 : Bool) :
        (b1 = false ∧ b2 = true ∧ b3 = false))) d :=
   catalan_law_of_d3 _ (by cases b1 <;> cases b2 <;> cases b3 <;> decide) d
 
-/-- Pure `Nat.beq`-based integer equality test `intEqBool a b = ((a - b).natAbs == 0)`
-that avoids Lean's `instBEqOfDecidableEq` / `Classical.choice` path on `Int`. -/
+/-- Pure `Nat.beq`-based integer equality test `intEqBool a b = ((a - b).natAbs == 0)`. -/
 def intEqBool (a b : Int) : Bool :=
   Nat.beq (a - b).natAbs 0
 
@@ -348,7 +347,7 @@ def vec3EqBool (u v : Int × Int × Int) : Bool :=
   intEqBool u.1 v.1 && intEqBool u.2.1 v.2.1 && intEqBool u.2.2 v.2.2
 
 /-- Centrosymmetry and planar incidence of the FCC cuboctahedron `O₂ = cubicOrbit3D (d - 1)`
-chained via `CatalanLaw` for any `d : Nat` (zero `def := 3`, zero hardcoded `4, 6`!). -/
+chained via `CatalanLaw` for any `d : Nat`. -/
 theorem fcc_cuboctahedron_centrosymmetric_and_planar_incidence (d : Nat) :
     CatalanLaw (fun d =>
       ((cubicOrbit3D (d - 1)).all (fun (dz, dy, dx) =>

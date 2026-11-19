@@ -15,49 +15,49 @@ on the phase ring `ℤ_512` without `π`, `cos`, `sin`, or floating-point arithm
 
 namespace MtCarrier
 
-/-- Unsigned representative in `[0, N_ring(d))` parameterized by dimension `d : Nat` (zero `def := 3`, zero hardcoded numbers!). -/
+/-- Unsigned representative in `[0, N_ring(d))` parameterized by dimension `d : Nat`. -/
 def mod512 (d : Nat) (x : Int) : Int := x % (nRing d : Int)
 
 /-- Fold any integer tick `x ∈ ℤ` into the canonical signed interval `(-Φ_Pauli(d), +Φ_Pauli(d)]`
-via `Φ_Pauli(d) - ((Φ_Pauli(d) - x) % N_ring(d))` (zero `def := 3`, zero hardcoded numbers, zero `if`!). -/
+via `Φ_Pauli(d) - ((Φ_Pauli(d) - x) % N_ring(d))`. -/
 def wrap512 (d : Nat) (x : Int) : Int :=
   (phiPauli d : Int) - ((phiPauli d : Int) - x) % (nRing d : Int)
 
-/-- Closed even square-face projection `C_d(A) = Q_□(d) - |wrap512(d, A)|` (zero `def := 3`, zero hardcoded numbers!). -/
+/-- Closed even square-face projection `C_d(A) = Q_□(d) - |wrap512(d, A)|`. -/
 def projC (d : Nat) (a : Int) : Int :=
   (qSquare d : Int) - (wrap512 d a).natAbs
 
-/-- Closed odd square-face projection `S_d(A) = C_d(A - Q_□(d))` (zero `def := 3`, zero hardcoded numbers!). -/
+/-- Closed odd square-face projection `S_d(A) = C_d(A - Q_□(d))`. -/
 def projS (d : Nat) (a : Int) : Int :=
   projC d (a - (qSquare d : Int))
 
-/-- Pure arithmetic zero indicator `isZeroNat(k) = 1 / (k + 1) ∈ {0, 1}` (`1` if `k = 0`, `0` if `k ≥ 1`, zero `if`!). -/
+/-- Pure arithmetic zero indicator `isZeroNat(k) = 1 / (k + 1) ∈ {0, 1}` (`1` if `k = 0`, `0` if `k ≥ 1`). -/
 def isZeroNat (k : Nat) : Int :=
   ((1 / (k + 1) : Nat) : Int)
 
-/-- Pure arithmetic positivity indicator `isPosNat(k) = 1 - 1 / (k + 1) ∈ {0, 1}` (`0` if `k = 0`, `1` if `k ≥ 1`, zero `if`!). -/
+/-- Pure arithmetic positivity indicator `isPosNat(k) = 1 - 1 / (k + 1) ∈ {0, 1}` (`0` if `k = 0`, `1` if `k ≥ 1`). -/
 def isPosNat (k : Nat) : Int :=
   1 - isZeroNat k
 
-/-- Pure arithmetic sign `sgn(x) = 2 * isZeroNat((-x).toNat) - 1 ∈ {-1, +1}` (`+1` for `x ≥ 0`, `-1` for `x < 0`, zero `if`!). -/
+/-- Pure arithmetic sign `sgn(x) = 2 * isZeroNat((-x).toNat) - 1 ∈ {-1, +1}` (`+1` for `x ≥ 0`, `-1` for `x < 0`). -/
 def branchlessSign (x : Int) : Int :=
   2 * isZeroNat (-x).toNat - 1
 
-/-- Pythagorean rotator horizontal leg `P_{x,d}(A) = isPosNat(|C_d(A)|) * sgn(C_d(A)) * (Q_□(d)^2 - S_d(A)^2)` (zero `def := 3`, zero hardcoded numbers, zero `if`, zero `let`!). -/
+/-- Pythagorean rotator horizontal leg `P_{x,d}(A) = isPosNat(|C_d(A)|) * sgn(C_d(A)) * (Q_□(d)^2 - S_d(A)^2)`. -/
 def pythPx (d : Nat) (a : Int) : Int :=
   isPosNat (projC d a).natAbs * branchlessSign (projC d a) *
   ((qSquare d : Int) * (qSquare d : Int) - projS d a * projS d a)
 
-/-- Pythagorean rotator vertical leg `P_{y,d}(A) = 2 * Q_□(d) * S_d(A)` (zero `def := 3`, zero hardcoded numbers!). -/
+/-- Pythagorean rotator vertical leg `P_{y,d}(A) = 2 * Q_□(d) * S_d(A)`. -/
 def pythPy (d : Nat) (a : Int) : Int :=
   2 * (qSquare d : Int) * projS d a
 
-/-- Pythagorean rotator hypotenuse `P_{r,d}(A) = Q_□(d)^2 + S_d(A)^2` (zero `def := 3`, zero hardcoded numbers, zero `let`!). -/
+/-- Pythagorean rotator hypotenuse `P_{r,d}(A) = Q_□(d)^2 + S_d(A)^2`. -/
 def pythPr (d : Nat) (a : Int) : Int :=
   (qSquare d : Int) * (qSquare d : Int) + projS d a * projS d a
 
 /-- `wrap512 d` lands in `(-Φ_Pauli(d), +Φ_Pauli(d)]` and is congruent to `x` modulo `N_ring(d)`
-chained directly via `CatalanLaw` (zero `def := 3`, zero `if`, zero `Classical.choice`!). -/
+chained directly via `CatalanLaw`. -/
 theorem wrap512_spec (d : Nat) (x : Int) :
     CatalanLaw (fun d =>
       -(phiPauli d : Int) < wrap512 d x ∧
@@ -69,7 +69,7 @@ theorem wrap512_spec (d : Nat) (x : Int) :
   refine ⟨by omega, by omega, by omega⟩
 
 /-- Exact structural properties of `C_d(k * Δφ_disc(d))` and `S_d(k * Δφ_disc(d))`
-chained directly via `CatalanLaw` for any `d : Nat` (zero `def := 3`, zero hardcoded numbers!). -/
+chained directly via `CatalanLaw` for any `d : Nat`. -/
 theorem step0_face_projection_table (d : Nat) :
     CatalanLaw (fun d =>
       (projC d 0 = (qSquare d : Int) ∧ projS d 0 = 0) ∧
@@ -91,7 +91,7 @@ theorem step0_face_projection_table (d : Nat) :
   catalan_law_of_d3 _ (by decide) d
 
 /-- Theorem 11.11 (`eq:l1-face-identity`) chained via `CatalanLaw` for any `d : Nat`:
-On the entire phase ring `a ∈ [0, N_ring(d))`, `|C_d(a)| + |S_d(a)| = Q_□(d)` (zero `def := 3`, zero hardcoded numbers, zero `let`!). -/
+On the entire phase ring `a ∈ [0, N_ring(d))`, `|C_d(a)| + |S_d(a)| = Q_□(d)`. -/
 theorem l1_face_identity_all_512 (d : Nat) :
     CatalanLaw (fun d =>
       (List.range (nRing d)).all (fun n =>
@@ -99,7 +99,7 @@ theorem l1_face_identity_all_512 (d : Nat) :
   catalan_law_of_d3 _ (by native_decide) d
 
 /-- General algebraic proof of the `L¹` square-face identity `|C_d(a)| + |S_d(a)| = Q_□(d)`
-for every integer `a ∈ ℤ` chained via `CatalanLaw` (zero `def := 3`, zero hardcoded numbers in statement!). -/
+for every integer `a ∈ ℤ` chained via `CatalanLaw`. -/
 theorem l1_face_identity_int (d : Nat) (a : Int) :
     CatalanLaw (fun d =>
       ((projC d a).natAbs : Int) + ((projS d a).natAbs : Int) = (qSquare d : Int)) d := by
@@ -112,7 +112,7 @@ theorem l1_face_identity_int (d : Nat) (a : Int) :
   omega
 
 /-- Theorem 11.11 (`eq:pythagorean-rotator-int`) chained via `CatalanLaw` for any `d : Nat`:
-Across all `n ∈ [0, N_ring(d))`, `P_{x,d}(n)^2 + P_{y,d}(n)^2 = P_{r,d}(n)^2` (zero `def := 3`, zero hardcoded numbers!). -/
+Across all `n ∈ [0, N_ring(d))`, `P_{x,d}(n)^2 + P_{y,d}(n)^2 = P_{r,d}(n)^2`. -/
 theorem pythagorean_rotator_identity_all_512 (d : Nat) :
     CatalanLaw (fun d =>
       (List.range (nRing d)).all (fun n =>
@@ -123,7 +123,7 @@ theorem pythagorean_rotator_identity_all_512 (d : Nat) :
 
 /-- At the Heisenberg threshold `A = Δφ_disc(d)`, the integer Pythagorean legs are strictly positive
 and satisfy `P_{x,d}(Δφ_disc(d))^2 + P_{y,d}(Δφ_disc(d))^2 = P_{r,d}(Δφ_disc(d))^2`
-chained via `CatalanLaw` (zero `def := 3`, zero hardcoded numbers!). -/
+chained via `CatalanLaw`. -/
 theorem heisenberg_pythagorean_triple (d : Nat) :
     CatalanLaw (fun d =>
       0 < pythPx d (deltaPhiDisc d : Int) ∧
@@ -135,7 +135,7 @@ theorem heisenberg_pythagorean_triple (d : Nat) :
   catalan_law_of_d3 _ (by decide) d
 
 /-- Evenness of `C_d` and oddness of `S_d` across all interior edge differences `a ∈ (-Φ_Pauli(d), Φ_Pauli(d))`
-chained via `CatalanLaw` (zero `def := 3`, zero hardcoded numbers!). -/
+chained via `CatalanLaw`. -/
 theorem projC_even_projS_odd_interior (d : Nat) :
     CatalanLaw (fun d =>
       (List.range (nRing d - 1)).all (fun n =>
