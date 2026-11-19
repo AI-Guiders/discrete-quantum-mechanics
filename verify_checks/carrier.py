@@ -820,3 +820,134 @@ def check_ladder_conservation(size: int = 64, device: str = "cpu") -> dict:
 
     return ladder_conservation_report(size, device=device)
 
+
+def check_lean4_carrier_bridge(device: str = "cpu") -> dict:
+    """Formal Lean 4 ↔ Python (`mt_ca/carrier_core.py`) JSON diff and `#print axioms` audit."""
+    import json
+    from mt_ca.carrier_core import (
+        CARRIER,
+        pythagorean_rotator_int,
+        ring_face_lut_core,
+        universe_iv_carrier_3d,
+        polar_step_core,
+        wrap_ring_signed,
+    )
+
+    repo_root = Path(__file__).resolve().parents[1]
+    lean_dir = repo_root / "lean"
+    dump_path = lean_dir / "mt_carrier_lean_dump.json"
+    audit_path = lean_dir / "MtCarrier" / "AxiomAudit.lean"
+
+    # 1. Verify zero `sorry` across all Lean files (stripping block and line comments) and `#print axioms` audit presence
+    lean_files = sorted((lean_dir / "MtCarrier").glob("*.lean"))
+    sorry_hits: list[str] = []
+    for lf in lean_files:
+        text = lf.read_text(encoding="utf-8")
+        no_block = re.sub(r"/-.*?-/", "", text, flags=re.DOTALL)
+        for line_no, line in enumerate(no_block.splitlines(), 1):
+            code_part = line.split("--")[0]
+            if re.search(r"\bsorry\b|\bsorryAx\b", code_part):
+                sorry_hits.append(f"{lf.name}:{line_no}")
+    audit_text = audit_path.read_text(encoding="utf-8") if audit_path.exists() else ""
+    n_audited_theorems = len(re.findall(r"^#print\s+axioms\s+", audit_text, flags=re.MULTILINE))
+
+    # 2. Load Lean-generated JSON dump and diff bit-for-bit against Python `carrier_core.py`
+    lean_data = json.loads(dump_path.read_text(encoding="utf-8"))
+    c = CARRIER
+    spec_diffs: dict[str, tuple[object, object]] = {}
+    spec_pairs = {
+        "d": (lean_data["d"], c.d),
+        "n_neighbors": (lean_data["n_neighbors"], c.n_links),
+        "n_phi": (lean_data["n_phi"], c.n_phi),
+        "n_triangles": (lean_data["n_triangles"], c.n_tri),
+        "n_squares": (lean_data["n_squares"], c.n_sq),
+        "d_in_square": (lean_data["d_in_square"], c.d_in_square),
+        "mod_bits": (lean_data["mod_bits"], c.mod_bits),
+        "n_ring": (lean_data["n_ring"], c.n_ring),
+        "frac_bits": (lean_data["frac_bits"], c.frac_bits),
+        "k_p": (lean_data["k_p"], c.k_p),
+        "k_p_sq": (lean_data["k_p_sq"], c.k_p * c.k_p),
+        "q_square": (lean_data["q_square"], c.q_square),
+        "phi_pauli": (lean_data["phi_pauli"], c.pauli_ticks),
+        "dphi_min_ticks": (lean_data["dphi_min_ticks"], c.dphi_min_ticks),
+        "m_hat": (lean_data["m_hat"], c.m_hat_coulomb),
+        "iv_9bit": (lean_data["iv_9bit"], c.iv_9bit),
+    }
+    for k, (lv, pv) in spec_pairs.items():
+        if lv != pv:
+            spec_diffs[k] = (lv, pv)
+
+    dev = torch.device(device)
+    cu, sv = ring_face_lut_core(c.n_ring, dev)
+    idx = torch.arange(c.n_ring, device=dev, dtype=torch.int64)
+    px, py, pr = pythagorean_rotator_int(idx, c.mod_bits)
+
+    c_lut_match = lean_data["c_lut"] == [int(x) for x in cu.tolist()]
+    s_lut_match = lean_data["s_lut"] == [int(x) for x in sv.tolist()]
+    px_lut_match = lean_data["px_lut"] == [int(x) for x in px.tolist()]
+    py_lut_match = lean_data["py_lut"] == [int(x) for x in py.tolist()]
+    pr_lut_match = lean_data["pr_lut"] == [int(x) for x in pr.tolist()]
+
+    # 3. Compare 3D IV(3)=263 t=0..2 census between Lean 4 and Python `carrier_core.py`
+    st0 = universe_iv_carrier_3d(24, 24, 24, device=dev)
+    st1, past1, phi0 = polar_step_core(st0, st0)
+    st2, _, phi1 = polar_step_core(st1, past1)
+    act0_py = int((wrap_ring_signed(phi0) != 0).sum().item())
+    act1_py = int((wrap_ring_signed(phi1) != 0).sum().item())
+    p2 = st2[..., 1].to(torch.int64)
+    ex = torch.div(torch.roll(p2, -1, dims=2) - p2 + 255, 512, rounding_mode="floor")
+    ey = torch.div(torch.roll(p2, -1, dims=1) - p2 + 255, 512, rounding_mode="floor")
+    ez = torch.div(torch.roll(p2, -1, dims=0) - p2 + 255, 512, rounding_mode="floor")
+    n_xy = -(ex + torch.roll(ey, -1, dims=2) - torch.roll(ex, -1, dims=1) - ey)
+    n_xz = -(ex + torch.roll(ez, -1, dims=2) - torch.roll(ex, -1, dims=0) - ez)
+    n_yz = -(ey + torch.roll(ez, -1, dims=1) - torch.roll(ey, -1, dims=0) - ez)
+    div_cube = (torch.roll(n_xy, -1, dims=0) - n_xy) - (torch.roll(n_xz, -1, dims=1) - n_xz) + (torch.roll(n_yz, -1, dims=2) - n_yz)
+
+    nxy_py = int(n_xy.abs().sum().item())
+    nyz_py = int(n_yz.abs().sum().item())
+    nxz_py = int(n_xz.abs().sum().item())
+    max_div_py = int(div_cube.abs().max().item())
+
+    iv263_match = (
+        lean_data["iv263_active_t0"] == act0_py == 543
+        and lean_data["iv263_active_t1"] == act1_py == 578
+        and lean_data["iv263_vortex_xy_t2"] == nxy_py == 26
+        and lean_data["iv263_vortex_yz_t2"] == nyz_py == 26
+        and lean_data["iv263_vortex_xz_t2"] == nxz_py == 34
+        and lean_data["iv263_vortex_total_t2"] == (nxy_py + nyz_py + nxz_py) == 86
+        and lean_data["iv263_max_cube_div_t2"] == max_div_py == 0
+    )
+
+    ok = (
+        len(sorry_hits) == 0
+        and n_audited_theorems >= 30
+        and len(spec_diffs) == 0
+        and c_lut_match
+        and s_lut_match
+        and px_lut_match
+        and py_lut_match
+        and pr_lut_match
+        and iv263_match
+    )
+    return {
+        "id": "Lean4_carrier_bridge",
+        "ok": ok,
+        "sorry_count": len(sorry_hits),
+        "audited_theorems": n_audited_theorems,
+        "spec_diffs": spec_diffs,
+        "c_s_lut_512_match": c_lut_match and s_lut_match,
+        "pythagorean_512_match": px_lut_match and py_lut_match and pr_lut_match,
+        "iv263_3d_census_match": iv263_match,
+        "iv263_census": {
+            "active_t0": act0_py,
+            "active_t1": act1_py,
+            "vortex_xy_t2": nxy_py,
+            "vortex_yz_t2": nyz_py,
+            "vortex_xz_t2": nxz_py,
+            "vortex_total_t2": nxy_py + nyz_py + nxz_py,
+            "max_cube_div_t2": max_div_py,
+        },
+        "note": "Lean 4 (lean/MtCarrier/) ↔ Python (mt_ca/carrier_core.py) bit-exact JSON bridge + 0 sorry audit",
+    }
+
+

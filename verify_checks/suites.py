@@ -77,6 +77,7 @@ VERIFY_SUITES: dict[str, VerifySuiteSpec] = {
             check_theorem_2_3_8,
             check_planck_vacuum_floor,
             check_ladder_conservation,
+            check_lean4_carrier_bridge,
             check_a14_symmetry,
             check_spinor_360_sign,
             check_su2_720_sign,
