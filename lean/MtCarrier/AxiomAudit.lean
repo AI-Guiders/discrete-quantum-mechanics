@@ -1,4 +1,4 @@
-import MtCarrier.TrajectoryIV263
+import MtCarrier.UnifiedOperators
 
 /-!
 # Axiom Audit (`#print axioms`) for Every Theorem in `MtCarrier`
@@ -72,5 +72,18 @@ namespace MtCarrier.Audit
 #print axioms MtCarrier.ablation_no_denom_guard_corrupts_t2_vortex_pair
 #print axioms MtCarrier.gravity_denominator_strictly_positive_floor_8192
 #print axioms MtCarrier.closed_form_unified_4channel_measurement_iv263_t2
+
+-- 5. UnifiedOperators.lean (Laplacian Δ_{O₂}, Strain-Tensor d=3 Lock, Bohm Deficit, Pauli Algebra, Landau Operators, α_fs ∈ ℤ[√2] & SM/Cosmology)
+#print axioms MtCarrier.cuboctahedron_second_moment_isotropy_tensor
+#print axioms MtCarrier.laplacian_O2_exact_on_quadratic_polynomial
+#print axioms MtCarrier.gravitational_strain_tensor_lock_iff_d3
+#print axioms MtCarrier.projC_even_projS_odd_all_512
+#print axioms MtCarrier.even_holonomy_bohm_deficit_eq_abs_connection
+#print axioms MtCarrier.odd_holonomy_current_pairwise_conservation_all_512
+#print axioms MtCarrier.pauli_clifford_algebra_on_polar_cell
+#print axioms MtCarrier.internal_phase_fibration_bijection_512
+#print axioms MtCarrier.energy_operator_spectrum_0_to_6_squares
+#print axioms MtCarrier.alpha_fs_exact_z_sqrt2_canonical_form_and_floor_137
+#print axioms MtCarrier.sm_and_cosmology_closed_rational_operators
 
 end MtCarrier.Audit
