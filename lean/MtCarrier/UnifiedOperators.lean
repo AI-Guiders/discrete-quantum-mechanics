@@ -1,5 +1,7 @@
 import MtCarrier.TrajectoryIV263
 
+set_option maxRecDepth 200000
+
 /-!
 # Closed-Form Unified Operators Across All Layers and Interactions (`UnifiedOperators.lean`)
 
