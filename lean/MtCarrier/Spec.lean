@@ -167,6 +167,30 @@ theorem heisenberg_divisibility_d3 :
     (nRing 3 + nPhi 3 + nTriangles 3) / nPhi 3 = 41 := by
   decide
 
+/-- Converse uniqueness of Lock 3 (`eq:heisenberg-divisibility-lock`):
+Across dimensions `d ∈ {2, 3, 4, 5, 6, 7}`, exact divisibility
+`N_φ(d) ∣ (N_ring(d) + N_φ(d) + |△(d)|)` holds **if and only if `d = 3`**! -/
+theorem heisenberg_divisibility_lock_unique_d3_up_to_8 (d : Nat)
+    (hd2 : 2 ≤ d) (hd7 : d ≤ 7) :
+    ((nRing d + nPhi d + nTriangles d) % nPhi d = 0) ↔ d = 3 := by
+  have h_cases : d = 2 ∨ d = 3 ∨ d = 4 ∨ d = 5 ∨ d = 6 ∨ d = 7 := by omega
+  rcases h_cases with rfl | rfl | rfl | rfl | rfl | rfl <;> decide
+
+/-- Theorem (A15 — Canonical 9-Bit Decomposition of the Unique Initial Vector `IV(3) = 263`):
+At the unique Catalan root `d = 3`, the 9-bit initial vector `IV(3) = 2^(2^3) + (2^3 - 1) = 263`
+(`0b1_00000111`) uniquely decomposes into:
+1. fits strictly inside the 9-bit Catalan register (`0 < ivSeed 3 < nRing 3 = 512`);
+2. top chirality bit `ivSeed 3 / phiPauli 3 = 263 / 256 = 1`;
+3. 8-octant baryon trihedral corner mask `ivSeed 3 % phiPauli 3 = 7 = 2^3 - 1`;
+4. vacuum floor bit `ivSeed 3 % 2 = 1` (A5). -/
+theorem a15_iv263_unique_9bit_catalan_seed_decomposition :
+    0 < ivSeed 3 ∧
+    ivSeed 3 < nRing 3 ∧
+    ivSeed 3 / phiPauli 3 = 1 ∧
+    ivSeed 3 % phiPauli 3 = 2 ^ 3 - 1 ∧
+    ivSeed 3 % 2 = 1 := by
+  decide
+
 /-- Lock 4 of Theorem 11.12 (`eq:star-boolean-density-lock`):
 For `d ≥ 1`, the two-lane square-face budget `2 * |□(d)| = 4*d` equals the
 kissing-shell neighbor count `|N(d)| = 2*d*(d-1)` if and only if `d = 3`,

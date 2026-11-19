@@ -18,6 +18,8 @@ namespace MtCarrier.Audit
 #print axioms MtCarrier.gaussian_coulomb_lock_iff_d3
 #print axioms MtCarrier.mHat_d3_gaussian_factorization
 #print axioms MtCarrier.heisenberg_divisibility_d3
+#print axioms MtCarrier.heisenberg_divisibility_lock_unique_d3_up_to_8
+#print axioms MtCarrier.a15_iv263_unique_9bit_catalan_seed_decomposition
 #print axioms MtCarrier.star_boolean_density_lock_iff_d3
 #print axioms MtCarrier.star_boolean_cube_equals_kp_sq_at_d3
 #print axioms MtCarrier.cubic_orbits_partition_26
@@ -42,16 +44,21 @@ namespace MtCarrier.Audit
 #print axioms MtCarrier.shared_edge_charge_conservation
 #print axioms MtCarrier.discrete_gauss_cube_divergence_zero
 
--- 4. TrajectoryIV263.lean (Rule Z4, Uniqueness of Polar Verlet Step, A7/A16 Theorems & IV(3)=263 3D Census)
+-- 4. TrajectoryIV263.lean (Rule Z4, Uniqueness of Polar Verlet Step, A3/A4/A5/A7/A13/A16 Theorems & IV(3)=263 3D Census)
 #print axioms MtCarrier.int_eq_of_sq_eq_of_pos
 #print axioms MtCarrier.polar_step_uniqueness_from_a3_a4_a5
 #print axioms MtCarrier.verlet_coefficients_uniqueness_from_a13
+#print axioms MtCarrier.a5_vacuum_floor_from_ring_visibility_and_iv263
+#print axioms MtCarrier.a13_verlet_from_clock_shift_and_unit_symplectic_det
+#print axioms MtCarrier.a3_a4_from_single_9bit_catalan_word_action
 #print axioms MtCarrier.polar_step_reverse_exact
 #print axioms MtCarrier.polar_relative_phase_invariant
 #print axioms MtCarrier.a7_quarter_disk_step_invariant
 #print axioms MtCarrier.pauli_predicate_time_invariant
 #print axioms MtCarrier.stationary_rec_eq_parabola
 #print axioms MtCarrier.stationary_parabola_first_return_1023_state_period_1024
+#print axioms MtCarrier.a6_a8_gate_pauli_ceiling_256_and_heisenberg_deadband_41
+#print axioms MtCarrier.a14_u1_global_phase_shift_invariance
 #print axioms MtCarrier.iv263_interior_octant_silence_t0
 #print axioms MtCarrier.iv263_flat_domain_wall_asymmetry_t0
 #print axioms MtCarrier.iv263_central_k3_plaquette_birth_t0_t1_t2
