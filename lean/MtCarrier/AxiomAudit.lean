@@ -20,6 +20,9 @@ namespace MtCarrier.Audit
 #print axioms MtCarrier.heisenberg_divisibility_d3
 #print axioms MtCarrier.star_boolean_density_lock_iff_d3
 #print axioms MtCarrier.star_boolean_cube_equals_kp_sq_at_d3
+#print axioms MtCarrier.cubic_orbits_partition_26
+#print axioms MtCarrier.cuboctahedron_unique_isotropic_shell_d3
+#print axioms MtCarrier.fcc_cuboctahedron_centrosymmetric_and_planar_incidence
 
 -- 2. FaceAlgebra.lean (Rule Z2 & Theorem 11.11)
 #print axioms MtCarrier.wrap512_spec

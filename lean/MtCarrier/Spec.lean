@@ -189,4 +189,93 @@ theorem star_boolean_cube_equals_kp_sq_at_d3 :
     (kP 3) ^ 2 = 4096 := by
   decide
 
+/-!
+## Theorem 11.12(v): Uniqueness of the FCC Cuboctahedron Shell Among All Isotropic Lattice Shells in `ℤ³`
+
+In `ℤ³`, the elementary displacement cube `{-1, 0, +1}³ \ {(0,0,0)}` (`3³ - 1 = 26` nonzero vectors)
+decomposes under the cubic symmetry group `O_h` (permutations and sign flips of axes) into
+exactly three orbits by Manhattan norm `‖e‖₁ = |dx| + |dy| + |dz| ∈ {1, 2, 3}`:
+- Orbit `O₁` (`‖e‖₁ = 1`, Simple Cubic / **octahedron**): `6` vertices;
+- Orbit `O₂` (`‖e‖₁ = 2`, Face-Centered Cubic / **cuboctahedron**): `12` vertices;
+- Orbit `O₃` (`‖e‖₁ = 3`, Body-Centered Cubic / **cube**): `8` vertices.
+
+Any `O_h`-isotropic single-step neighborhood `S ⊆ {-1, 0, +1}³ \ {0}` is a union of a nonempty
+subset of `{O₁, O₂, O₃}`, parameterized by `(b₁, b₂, b₃) ∈ Bool³ \ {(false, false, false)}`,
+with coordination number `z(b₁, b₂, b₃) = (if b₁ then 6 else 0) + (if b₂ then 12 else 0) + (if b₃ then 8 else 0)`.
+
+We prove below without any continuum sphere-packing assumption (no Kepler conjecture needed!) that:
+1. Enumeration of `{-1, 0, +1}³ \ {0}` gives exact orbit sizes `(6, 12, 8)`.
+2. Among all `2³ - 1 = 7` nonempty isotropic shells in `{-1, 0, +1}³`, **each** of the three
+   arithmetic locks at `d = 3`:
+   - Heisenberg divisibility `(1 + z) ∣ (nRing 3 + (1 + z) + nTriangles 3)` (`(1 + z) ∣ (521 + z)`),
+   - Gaussian-Coulomb norm `1 + z * nTriangles 3 = dInSquare^2 + (modBits 3)^2` (`1 + 8*z = 97`),
+   - Star-boolean ceiling `2^z = (kP 3)^2` (`2^z = 4096`),
+   is satisfied **if and only if** `(b₁, b₂, b₃) = (false, true, false)`, i.e. the pure
+   **FCC cuboctahedron** (`O₂`, `‖e‖₁ = 2`, `z = 12`)!
+3. Every vector `e ∈ O₂` satisfies `-e ∈ O₂` (central inversion symmetry required for edge
+   orientation `k_{-e} = -k_e` and flux conservation), which eliminates the twisted HCP
+   anticuboctahedron (`-N_HCP ≠ N_HCP`), and `O₂` contains exactly `3` coordinate squares of
+   `4` vertices and `4` hexagonal `{1,1,1}` planes of `6` vertices.
+-/
+
+/-- The 27 vectors of the elementary displacement cube `{-1, 0, +1}³`. -/
+def elementaryCube3D : List (Int × Int × Int) :=
+  let coords : List Int := [-1, 0, 1]
+  coords.foldl (fun acc z =>
+    coords.foldl (fun acc2 y =>
+      coords.foldl (fun acc3 x => acc3 ++ [(z, y, x)]) acc2) acc) []
+
+/-- Manhattan norm `‖e‖₁ = |dz| + |dy| + |dx|` of a 3D integer displacement. -/
+def manhattanNorm3D (e : Int × Int × Int) : Nat :=
+  e.1.natAbs + e.2.1.natAbs + e.2.2.natAbs
+
+/-- Orbit `O_k = {e ∈ {-1,0,+1}³ : ‖e‖₁ = k}` for `k ∈ {1, 2, 3}`. -/
+def cubicOrbit3D (k : Nat) : List (Int × Int × Int) :=
+  elementaryCube3D.filter (fun e => manhattanNorm3D e == k)
+
+/-- Exact sizes of the three `O_h`-orbits in `{-1, 0, +1}³ \ {0}`:
+`|O₁| = 6` (SC octahedron), `|O₂| = 12` (FCC cuboctahedron), `|O₃| = 8` (BCC cube),
+with `6 + 12 + 8 = 26`. -/
+theorem cubic_orbits_partition_26 :
+    (cubicOrbit3D 1).length = 6 ∧
+    (cubicOrbit3D 2).length = 12 ∧
+    (cubicOrbit3D 3).length = 8 ∧
+    (cubicOrbit3D 1).length + (cubicOrbit3D 2).length + (cubicOrbit3D 3).length = 26 := by
+  decide
+
+/-- Coordination number `z(b₁, b₂, b₃)` of any `O_h`-isotropic shell in `{-1, 0, +1}³ \ {0}`. -/
+def isotropicShellSize (b1 b2 b3 : Bool) : Nat :=
+  (if b1 then 6 else 0) + (if b2 then 12 else 0) + (if b3 then 8 else 0)
+
+/-- **Uniqueness of the Cuboctahedron (`O₂`, `z = 12`)**:
+Among all `O_h`-isotropic shells `(b₁, b₂, b₃)` in `{-1, 0, +1}³ \ {0}`:
+1. The Heisenberg divisibility lock `(1 + z) ∣ (512 + (1 + z) + 8)` holds **iff** `(b₁, b₂, b₃) = (false, true, false)`.
+2. The Gaussian-Coulomb lock `1 + 8 * z = 4^2 + 9^2` holds **iff** `(b₁, b₂, b₃) = (false, true, false)`.
+3. The Star-boolean density lock `2^z = 64^2` holds **iff** `(b₁, b₂, b₃) = (false, true, false)`.
+Thus the FCC cuboctahedron is uniquely forced by integer arithmetic alone! -/
+theorem cuboctahedron_unique_isotropic_shell_d3 (b1 b2 b3 : Bool)
+    (h_nonempty : (b1 || b2 || b3) = true) :
+    let z := isotropicShellSize b1 b2 b3
+    (((nRing 3 + (1 + z) + nTriangles 3) % (1 + z) = 0) ↔ (b1 = false ∧ b2 = true ∧ b3 = false)) ∧
+    ((1 + z * nTriangles 3 = dInSquare ^ 2 + (modBits 3) ^ 2) ↔ (b1 = false ∧ b2 = true ∧ b3 = false)) ∧
+    ((2 ^ z = (kP 3) ^ 2) ↔ (b1 = false ∧ b2 = true ∧ b3 = false)) := by
+  cases b1 <;> cases b2 <;> cases b3 <;> revert h_nonempty <;> decide
+
+/-- Centrosymmetry and planar incidence of the FCC cuboctahedron `O₂ = cubicOrbit3D 2`:
+1. Every displacement `e ∈ O₂` has its exact opposite `-e ∈ O₂` (6 antipodal edge pairs, ruling out
+   non-Bravais / non-centrosymmetric HCP anticuboctahedron shells where `-e ∉ N_HCP`).
+2. Each of the `3` coordinate planes (`dz = 0`, `dy = 0`, `dx = 0`) intersects `O₂` in a square of `4` vertices.
+3. Each of the `4` body-diagonal planes (`dz ± dy ± dx = 0`) intersects `O₂` in a hexagon of `6` vertices. -/
+theorem fcc_cuboctahedron_centrosymmetric_and_planar_incidence :
+    let o2 := cubicOrbit3D 2
+    (o2.all (fun (dz, dy, dx) => o2.contains (-dz, -dy, -dx)) = true) ∧
+    ((o2.filter (fun (dz, _, _) => dz == 0)).length = 4) ∧
+    ((o2.filter (fun (_, dy, _) => dy == 0)).length = 4) ∧
+    ((o2.filter (fun (_, _, dx) => dx == 0)).length = 4) ∧
+    ((o2.filter (fun (dz, dy, dx) => dz + dy + dx == 0)).length = 6) ∧
+    ((o2.filter (fun (dz, dy, dx) => dz + dy - dx == 0)).length = 6) ∧
+    ((o2.filter (fun (dz, dy, dx) => dz - dy + dx == 0)).length = 6) ∧
+    ((o2.filter (fun (dz, dy, dx) => dz - dy - dx == 0)).length = 6) := by
+  decide
+
 end MtCarrier
