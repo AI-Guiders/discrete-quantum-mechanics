@@ -3227,6 +3227,23 @@ def teleportTwoChamberNormSqOp (muA muB : Int) : Int :=
 def stasisToWriteImpedanceContrastOp (d : Nat) : Int :=
   (shellGateDenomOp d (kP d : Int) 0).tdiv (shellGateDenomOp d (kP d : Int) (phiPauli d : Int))
 
+/-- **Aneutronic Proton-Boron-11 (`p + ¹¹₅B → 3 ⁴₂He`) 3-Euler-Plane Fusion & Gravitational-Impedance Dipole Operators:**
+- `zBoronOp(d) = d_out(E)(d)` (`Z(B) = 5`), `nBoron11NeutronsOp(d) = |□(d)|` (`N(¹¹B) = 6`), `aBoron11MassOp(d) = 11 = |N(d)| - μ_vac(d)`,
+- `zHeliumAlphaOp(d) = (c₀/c)²` (`Z(α) = 2`), `aHeliumAlphaMassOp(d) = d_in(□)` (`A(α) = 4`),
+- exact conservation `1 + 5 = 3 * 2 = 6` protons and `1 + 11 = 3 * 4 = 12` nucleons across the `eulerPlaneCountOp(d) = 3` Euler planes `(XY, XZ, YZ)` with **zero free neutrons** (`ΔN_free = 0`),
+- `gravImpedanceDipoleDiffOp(d) = shellGateDenomOp(d, K_P(d), 0) - shellGateDenomOp(d, K_P(d), Φ_Pauli(d)) = N_φ(d) * K_P(d) * ε(d) = 832 * 8192`. -/
+def zBoronOp (d : Nat) : Nat := dOutEdge d
+def nBoron11NeutronsOp (d : Nat) : Nat := nSquares d
+def aBoron11MassOp (d : Nat) : Nat := zBoronOp d + nBoron11NeutronsOp d
+def zHeliumAlphaOp (d : Nat) : Nat := c0OverCSqOp d
+def aHeliumAlphaMassOp (_d : Nat) : Nat := dInSquare
+
+def eulerPlaneCountOp (d : Nat) : Nat :=
+  d * (d - 1) / c0OverCSqOp d
+
+def gravImpedanceDipoleDiffOp (d : Nat) : Int :=
+  shellGateDenomOp d (kP d : Int) 0 - shellGateDenomOp d (kP d : Int) (phiPauli d : Int)
+
 def checkExactRingTeleportationBool (d : Nat) (aAnchor : Int) : Bool :=
   (List.range (nRing d)).all (fun psi =>
     let psiInt := (psi : Int)
@@ -3319,6 +3336,14 @@ theorem reversible_computing_zero_landauer_heat_and_paradox_resolutions_operator
          teleportTwoChamberNormSqOp (muVac d : Int) (kP d : Int) ∧
        stasisToWriteImpedanceContrastOp d = (maxGravitationalCompressionRatioOp d : Int) ∧
        waveguideNoiseScatterGateOp d (epsDenom d : Int) = 0 ∧
+       -- 8. Aneutronic proton-Boron-11 fusion (p + ¹¹₅B -> 3 ⁴₂He across the 3 Euler planes with zero neutron radiation),
+       -- gravitational-impedance dipole drive (ΔD = 832 * ε = N_φ * K_P * ε), and non-invasive cortical column lock (42 / 147 / 41)
+       aBoron11MassOp d = nNeighbors d - muVac d ∧
+       muVac d + zBoronOp d = eulerPlaneCountOp d * zHeliumAlphaOp d ∧
+       muVac d + aBoron11MassOp d = eulerPlaneCountOp d * aHeliumAlphaMassOp d ∧
+       nBoron11NeutronsOp d = eulerPlaneCountOp d * (aHeliumAlphaMassOp d - zHeliumAlphaOp d) ∧
+       gravImpedanceDipoleDiffOp d = ((nPhi d * kP d * epsDenom d : Nat) : Int) ∧
+       (corticalColumnComplexOp d (nSquares d : Int)).1 - (muVac d : Int) = (deltaPhiDisc d : Int) ∧
        gateDenomOp d (nPhi d : Int) (-((qSquare d * nPhi d * nPhi d : Nat) : Int)) <
          gateDenomOp d (nPhi d : Int) ((qSquare d * nPhi d * nPhi d : Nat) : Int))) d :=
   catalan_chain d (applied_bio_cad_therapeutic_redifferentiation_and_epigenetic_reset_operator d 1)
@@ -3584,9 +3609,6 @@ def verletParabolaSineRatOp (d p q : Nat) : Nat × Nat :=
   reducedRatio
     (dInSquare * p * (c0OverCSqOp d * q - p))
     (dOutEdge d * q * q - p * (c0OverCSqOp d * q - p))
-
-def eulerPlaneCountOp (d : Nat) : Nat :=
-  d * (d - 1) / c0OverCSqOp d
 
 def euler3DRotateVecOp (d : Nat) (phi1 phi2 phi3 x y z : Int) : Int × Int × Int :=
   let x1 := pythCircleCosNumOp d phi1 * x - pythCircleSinNumOp d phi1 * y
