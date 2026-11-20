@@ -3142,10 +3142,15 @@ def check3SatOctantTruthTableBool (d : Nat) : Bool :=
     poles.all (fun p2 =>
       poles.all (fun p3 =>
         let q := clause3SatVortexQuantumOp d p1 p2 p3
-        if intEqBool p1 (phiPauli d : Int) && intEqBool p2 (phiPauli d : Int) && intEqBool p3 (phiPauli d : Int) then
-          intEqBool q (muVac d : Int)
-        else
-          intEqBool q 0)))
+        let xor_ok :=
+          intEqBool (projC d (p1 + p2 + p3) * ((qSquare d * qSquare d : Nat) : Int))
+            (projC d p1 * projC d p2 * projC d p3)
+        let or_ok :=
+          if intEqBool p1 (phiPauli d : Int) && intEqBool p2 (phiPauli d : Int) && intEqBool p3 (phiPauli d : Int) then
+            intEqBool q (muVac d : Int)
+          else
+            intEqBool q 0
+        xor_ok && or_ok)))
 
 theorem reversible_computing_zero_landauer_heat_and_paradox_resolutions_operator (d : Nat) :
     CatalanLaw (fun d =>
