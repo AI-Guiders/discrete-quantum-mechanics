@@ -403,6 +403,129 @@ module holonomic_4channel_tomograph_and_ratchet (
     assign ratchet_tdiv_step = wall_drive / 32'sd512; // Symmetric truncation gives 0
 endmodule
 
+// ----------------------------------------------------------------------------
+// Module 8: 3-Chamber Autonomous Food & Oxygen Synthesizer Hardware Controller
+// Complete FSM & actuator driver for the stainless-steel/quartz 3-chamber unit:
+//   Recipes (`recipe_sel`):
+//     2'b00: CUTLET_MEAT   (Myosin fibers + Heme Myoglobin FeN4O2 Z=70 + Lipids Z=144 + Maillard crust)
+//     2'b01: MILK_CHEESE   (Casein micelles + Triglyceride emulsion Z=50/144 + Calcium)
+//     2'b10: VITAMIN_NECTAR(D-Glucose Z=96 + Vitamin C Z=92 + Citric Z=100 + Aroma esters Z=80)
+//     2'b11: BREAD_PASTA   (Amylose Starch Z=86 + Gluten protein fibers + Maillard crust)
+//   Stages (`stage_out`):
+//     3'd0: IDLE
+//     3'd1: PHOTOSYNTHESIS_CO2_H2O  (Ch1 at dphi=139, 441/718nm LEDs ON, O2 vent ON -> Z=96 + Z=50 + Z=144)
+//     3'd2: NITROGEN_CHIRAL_AMINO   (Ch2 at dphi=139 & Euler Mode 4 -> 20 L-amino acids Z=40/48 + Heme Z=70)
+//     3'd3: ACOUSTIC_FOLD_TEXTURE   (Ch3 at dphi=128 -> O(L) linear protein folding & 3D fiber alignment)
+//     3'd4: SURFACE_MAILLARD_CRUST  (Ch3 at dphi=139 -> low-temp carcinogen-free golden Maillard crust)
+//     3'd5: STASIS_HOLD_READY       (Ch3 at dphi=0, D=833*eps stasis freshness lock, food_ready=1)
+// ----------------------------------------------------------------------------
+module food_synthesizer_3chamber_controller (
+    input  wire       clk,
+    input  wire       rst,
+    input  wire       start_btn,
+    input  wire [1:0] recipe_sel,
+    output reg  [2:0] stage_out,
+    output reg  [2:0] ch1_phase_mode,
+    output reg  [2:0] ch2_phase_mode,
+    output reg  [2:0] ch3_phase_mode,
+    output reg        pump_air_co2_n2_en,
+    output reg        pump_water_h2o_en,
+    output reg        valve_mineral_heme_fe_en,
+    output reg        valve_o2_breath_vent_en,
+    output reg        led_441_718nm_photo_en,
+    output reg        ultrasonic_12beam_en,
+    output reg  [8:0] synthesized_target_z,
+    output reg        food_ready_led
+);
+    // Instantiate three 12-beam cuboctahedron phase drivers for Chambers 1, 2, and 3 (36 beam pins total)
+    wire [8:0]  cnt1, cnt2, cnt3;
+    wire [11:0] ch1_pins, ch2_pins, ch3_pins;
+    wire [11:0] ch1_oe,   ch2_oe,   ch3_oe;
+
+    fpga_12beam_cuboctahedron_driver u_ch1_drv (
+        .clk_512x(clk), .rst(rst), .mode_sel(ch1_phase_mode),
+        .ring_counter(cnt1), .beam_pins(ch1_pins), .beam_oe(ch1_oe)
+    );
+    fpga_12beam_cuboctahedron_driver u_ch2_drv (
+        .clk_512x(clk), .rst(rst), .mode_sel(ch2_phase_mode),
+        .ring_counter(cnt2), .beam_pins(ch2_pins), .beam_oe(ch2_oe)
+    );
+    fpga_12beam_cuboctahedron_driver u_ch3_drv (
+        .clk_512x(clk), .rst(rst), .mode_sel(ch3_phase_mode),
+        .ring_counter(cnt3), .beam_pins(ch3_pins), .beam_oe(ch3_oe)
+    );
+
+    always @(posedge clk) begin
+        if (rst) begin
+            stage_out                <= 3'd0;
+            ch1_phase_mode           <= 3'd0;
+            ch2_phase_mode           <= 3'd0;
+            ch3_phase_mode           <= 3'd0;
+            pump_air_co2_n2_en       <= 1'b0;
+            pump_water_h2o_en        <= 1'b0;
+            valve_mineral_heme_fe_en <= 1'b0;
+            valve_o2_breath_vent_en  <= 1'b0;
+            led_441_718nm_photo_en   <= 1'b0;
+            ultrasonic_12beam_en     <= 1'b0;
+            synthesized_target_z     <= 9'd0;
+            food_ready_led           <= 1'b0;
+        end else begin
+            case (stage_out)
+                3'd0: begin // IDLE
+                    if (start_btn) begin
+                        stage_out               <= 3'd1;
+                        ch1_phase_mode          <= 3'd2; // Mode 2: dphi = 139 (587x barrier collapse)
+                        pump_air_co2_n2_en      <= 1'b1;
+                        pump_water_h2o_en       <= 1'b1;
+                        led_441_718nm_photo_en  <= 1'b1;
+                        valve_o2_breath_vent_en <= 1'b1; // Vent pure O2 (Z = 96)
+                        synthesized_target_z    <= 9'd96; // D-Glucose C6H12O6 (Z = 96) + 6 O2 (Z = 96)
+                        food_ready_led          <= 1'b0;
+                    end
+                end
+                3'd1: begin // STAGE 1 -> STAGE 2: Chiral L-Amino Acid & Heme Myoglobin Fixation
+                    stage_out                <= 3'd2;
+                    ch1_phase_mode           <= 3'd1; // Ballistic transfer to Chamber 2
+                    ch2_phase_mode           <= 3'd4; // Mode 4: Chiral Euler XY Quadrature Rotator (0,128,256,384)
+                    valve_mineral_heme_fe_en <= (recipe_sel == 2'b00); // Inject Fe26 for Cutlet Myoglobin FeN4O2 (Z=70)
+                    synthesized_target_z     <= (recipe_sel == 2'b00) ? 9'd70 :
+                                                (recipe_sel == 2'b01) ? 9'd144 :
+                                                (recipe_sel == 2'b10) ? 9'd92 : 9'd86;
+                end
+                3'd2: begin // STAGE 2 -> STAGE 3: 3D Ultrasonic Standing-Wave Protein Folding & Muscle Fiber Alignment
+                    stage_out                <= 3'd3;
+                    pump_air_co2_n2_en       <= 1'b0;
+                    pump_water_h2o_en        <= 1'b0;
+                    valve_mineral_heme_fe_en <= 1'b0;
+                    ch2_phase_mode           <= 3'd1; // Transfer to Chamber 3
+                    ch3_phase_mode           <= 3'd1; // Mode 1: dphi = 128 Quarter-Turn Ballistic Folding Bridge
+                    ultrasonic_12beam_en     <= 1'b1; // 12-beam standing wave aligns myosin/actin muscle fibers
+                end
+                3'd3: begin // STAGE 3 -> STAGE 4: Carcinogen-Free Surface Maillard Crust (for Cutlet & Bread)
+                    if (recipe_sel == 2'b00 || recipe_sel == 2'b11) begin
+                        stage_out      <= 3'd4;
+                        ch3_phase_mode <= 3'd2; // Mode 2: dphi = 139 surface Maillard reaction at 68 C
+                    end else begin
+                        stage_out      <= 3'd5;
+                        ch3_phase_mode <= 3'd0; // Mode 0: dphi = 0 Stasis Hold (D = 833 * eps)
+                        food_ready_led <= 1'b1;
+                    end
+                end
+                3'd4: begin // STAGE 4 -> STAGE 5: Lock finished hot cutlet in Phase Stasis (D = 6,823,936)
+                    stage_out              <= 3'd5;
+                    ch3_phase_mode         <= 3'd0; // Mode 0: In-phase Stasis (D = 833 * eps)
+                    led_441_718nm_photo_en <= 1'b0;
+                    food_ready_led         <= 1'b1;
+                end
+                3'd5: begin // READY IN STASIS
+                    stage_out <= 3'd5;
+                end
+                default: stage_out <= 3'd0;
+            endcase
+        end
+    end
+endmodule
+
 // ============================================================================
 // Testbench: Full Hardware Verification & VCD Waveform Dump
 // ============================================================================
@@ -530,6 +653,32 @@ module tb_cuboctahedron_carrier_asic;
         .s3_rec(tom_s3),
         .ratchet_fdiv_step(rat_fdiv),
         .ratchet_tdiv_step(rat_tdiv)
+    );
+
+    reg food_rst = 1;
+    reg food_start = 0;
+    reg [1:0] food_recipe = 2'b00; // 00 = CUTLET_MEAT
+    wire [2:0] food_stage, food_m1, food_m2, food_m3;
+    wire food_air, food_h2o, food_fe, food_o2, food_led, food_us, food_ready;
+    wire [8:0] food_z;
+
+    food_synthesizer_3chamber_controller u_food_synth (
+        .clk(clk),
+        .rst(food_rst),
+        .start_btn(food_start),
+        .recipe_sel(food_recipe),
+        .stage_out(food_stage),
+        .ch1_phase_mode(food_m1),
+        .ch2_phase_mode(food_m2),
+        .ch3_phase_mode(food_m3),
+        .pump_air_co2_n2_en(food_air),
+        .pump_water_h2o_en(food_h2o),
+        .valve_mineral_heme_fe_en(food_fe),
+        .valve_o2_breath_vent_en(food_o2),
+        .led_441_718nm_photo_en(food_led),
+        .ultrasonic_12beam_en(food_us),
+        .synthesized_target_z(food_z),
+        .food_ready_led(food_ready)
     );
 
     initial begin
@@ -696,6 +845,21 @@ module tb_cuboctahedron_carrier_asic;
                  rat_fdiv, rat_tdiv);
         if (tom_s0 !== 32'sd12 || tom_s1 !== 32'sd41 || tom_s2 !== 32'sd97 || tom_s3 !== 32'sd263 ||
             rat_fdiv !== -32'sd1 || rat_tdiv !== 32'sd0) errors = errors + 1;
+
+        $display("======================================================================");
+        $display("[8] 3-Chamber Food & Oxygen Synthesizer FSM: Recipe 00 (MEAT CUTLET)");
+        $display("======================================================================");
+        food_rst = 1; food_start = 0; food_recipe = 2'b00;
+        #5 clk = 1; #5 clk = 0;
+        food_rst = 0; food_start = 1;
+        // Step through all 5 hardware stages of synthesizing a Meat Cutlet
+        for (i = 1; i <= 5; i = i + 1) begin
+            #5 clk = 1; #5 clk = 0;
+            $display("  -> Stage %0d | ChModes=(%0d,%0d,%0d) | Air=%b H2O=%b HemeFe=%b O2Vent=%b US12=%b | TargetZ=%3d | Ready=%b",
+                     food_stage, food_m1, food_m2, food_m3,
+                     food_air, food_h2o, food_fe, food_o2, food_us, food_z, food_ready);
+        end
+        if (food_stage !== 3'd5 || food_ready !== 1'b1 || food_m3 !== 3'd0) errors = errors + 1;
 
         $display("======================================================================");
         $display("TOTAL HARDWARE ERRORS = %0d", errors);

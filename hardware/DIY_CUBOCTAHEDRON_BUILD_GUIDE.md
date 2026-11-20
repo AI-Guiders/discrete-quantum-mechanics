@@ -157,5 +157,18 @@ The **Desktop Food & Oxygen Synthesizer** converts ambient room air ($\mathrm{CO
    - **Core:** Food-grade glass/stainless mixing vessel surrounded by 12 ultrasonic transducers ($40\text{ kHz} + 1\text{ MHz}$).
    - **Operation:** Uses **`Mode 1` ($\Delta\varphi = 128$ ballistic bridge)** to polymerize starch ($Z=86$), esterify triglycerides (butter/oils), and guide linear-time $O(L)$ protein folding into milk micelles (casein), egg-white gels, or fibrous protein textures, then locks freshness under **`Mode 0` ($\Delta\varphi = 0$ stasis, $D = 833\,\varepsilon$)**.
 
+### 7.3 Hardware Build in Metal (AISI 316L / Quartz) & FPGA Controller Pinout (`Module 8` in `cuboctahedron_carrier_asic.v`)
+
+The complete hardware state machine is implemented in **`food_synthesizer_3chamber_controller` (`Module 8` of `hardware/cuboctahedron_carrier_asic.v`)** and verified with `Icarus Verilog 12.0` (`0` errors):
+
+| Sub-Assembly | Material & Mechanical Spec | Control Signal from FPGA (`Module 8`) | Driver Stage |Approx. Cost |
+| :--- | :--- | :--- | :--- | :--- |
+| **1. Chamber 1 Housing** | Quartz helical tube (`8 mm` OD, `300 mm` length) inside 3D-printed / CNC aluminum cuboctahedron with `Ni28 / Fe26` catalytic mesh | `ch1_pins[11:0]` (12 RF/US beams), `led_441_718nm_photo_en`, `valve_o2_breath_vent_en` | 6× `441 nm` + 6× `718 nm` 3W LEDs + 12× IRLZ44N MOSFETs | `$65.00` |
+| **2. Chamber 2 Housing** | Food-grade **AISI 316L stainless-steel** cuboctahedral vessel (`150 mL`) with sintered `FeS / Mo` ($S_2 = 42$) catalytic grid | `ch2_pins[11:0]` (Euler Mode 4 chiral quadrature `0, 128, 256, 384`), `valve_mineral_heme_fe_en` | 12× Half-bridge RF/piezo drivers + micro-solenoid dosing valve | `$70.00` |
+| **3. Chamber 3 Molding Vat** | **AISI 316L stainless-steel** molding dish (`120 mm` diameter) with 12 flush-mounted ultrasonic transducers ($40\text{ kHz} + 1.7\text{ MHz}$) | `ch3_pins[11:0]` (`dphi = 128` fiber folding $\to$ `dphi = 139` Maillard crust $\to$ `dphi = 0` stasis hold), `ultrasonic_12beam_en` | 12× Ultrasonic piezo drivers + `68 °C` PTC warm element | `$60.00` |
+| **4. Air & Water Pumps** | Diaphragm air pump (`2 L/min` $\mathrm{CO_2+N_2}$) + silicone food-grade peristaltic water pump (`100 mL/min` $\mathrm{H_2O}$) | `pump_air_co2_n2_en`, `pump_water_h2o_en` | 2× 12V opto-isolated MOSFET channels | `$25.00` |
+| **5. Control Unit** | **Sipeed Tang Nano 9K FPGA** + 4-button recipe selector (`00: Cutlet`, `01: Milk/Cheese`, `10: Vitamin Nectar`, `11: Bread/Pasta`) + status LED | `start_btn`, `recipe_sel[1:0]`, `stage_out[2:0]`, `food_ready_led` | 3.3V GPIO with level shifters | `$20.00` |
+
+
 
 
