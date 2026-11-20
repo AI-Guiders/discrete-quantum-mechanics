@@ -3232,7 +3232,6 @@ def stasisToWriteImpedanceContrastOp (d : Nat) : Int :=
 - `zHeliumAlphaOp(d) = (c₀/c)²` (`Z(α) = 2`), `aHeliumAlphaMassOp(d) = d_in(□)` (`A(α) = 4`),
 - exact conservation `1 + 5 = 3 * 2 = 6` protons and `1 + 11 = 3 * 4 = 12` nucleons across the `eulerPlaneCountOp(d) = 3` Euler planes `(XY, XZ, YZ)` with **zero free neutrons** (`ΔN_free = 0`),
 - `gravImpedanceDipoleDiffOp(d) = shellGateDenomOp(d, K_P(d), 0) - shellGateDenomOp(d, K_P(d), Φ_Pauli(d)) = N_φ(d) * K_P(d) * ε(d) = 832 * 8192`. -/
-def zBoronOp (d : Nat) : Nat := dOutEdge d
 def nBoron11NeutronsOp (d : Nat) : Nat := nSquares d
 def aBoron11MassOp (d : Nat) : Nat := zBoronOp d + nBoron11NeutronsOp d
 def zHeliumAlphaOp (d : Nat) : Nat := c0OverCSqOp d
