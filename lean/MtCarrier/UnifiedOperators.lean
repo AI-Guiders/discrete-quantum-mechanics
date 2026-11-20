@@ -3274,6 +3274,16 @@ def zPalmiticLipidOp (d : Nat) : Nat :=
 def zAtpBioEnergyOp (d : Nat) : Nat :=
   zNeonOp d * zCarbonOp d + c0OverCSqOp d * nTriangles d * muVac d +
   dOutEdge d * zNitrogenOp d + nPhi d * zOxygenOp d + d * (d * dOutEdge d)
+def zStarchMonomerOp (d : Nat) : Nat :=
+  nSquares d * zCarbonOp d + zNeonOp d * muVac d + dOutEdge d * zOxygenOp d
+def zGlycerolOp (d : Nat) : Nat :=
+  d * zCarbonOp d + nTriangles d * muVac d + d * zOxygenOp d
+def zVitaminB3NiacinOp (d : Nat) : Nat :=
+  nSquares d * zCarbonOp d + dOutEdge d * muVac d + zNitrogenOp d + c0OverCSqOp d * zOxygenOp d
+def zCitricAcidKrebsOp (d : Nat) : Nat :=
+  nSquares d * zCarbonOp d + nTriangles d * muVac d + (nTriangles d - muVac d) * zOxygenOp d
+def zVanillinAromaOp (d : Nat) : Nat :=
+  nTriangles d * zCarbonOp d + nTriangles d * muVac d + d * zOxygenOp d
 
 def checkAutonomousFoodWaterSynthesisBool (d : Nat) : Bool :=
   (zWaterOp d == zNeonOp d) &&
@@ -3292,7 +3302,12 @@ def checkAutonomousFoodWaterSynthesisBool (d : Nat) : Bool :=
     zGlucoseOp d + nSquares d * (c0OverCSqOp d * zOxygenOp d)) &&
   (zGlucoseOp d == nSquares d * (c0OverCSqOp d * zOxygenOp d)) &&
   (zPalmiticLipidOp d == nNeighbors d * nNeighbors d) &&
-  (zAtpBioEnergyOp d == dInSquare * dOutEdge d * nPhi d)
+  (zAtpBioEnergyOp d == dInSquare * dOutEdge d * nPhi d) &&
+  (zStarchMonomerOp d + zWaterOp d == zGlucoseOp d) &&
+  (zGlycerolOp d == c0OverCSqOp d * dOutEdge d * dOutEdge d) &&
+  (zVitaminB3NiacinOp d == kP d) &&
+  (zCitricAcidKrebsOp d == zNeonOp d * zNeonOp d) &&
+  (zVanillinAromaOp d == c0OverCSqOp d * nTriangles d * dOutEdge d)
 
 def checkExactRingTeleportationBool (d : Nat) (aAnchor : Int) : Bool :=
   (List.range (nRing d)).all (fun psi =>
