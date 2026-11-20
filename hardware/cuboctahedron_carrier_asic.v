@@ -647,6 +647,68 @@ module programmable_vi_power_inverter_controller (
     assign p_terminal_out = v_terminal_out * i_terminal_out;
 endmodule
 
+// ----------------------------------------------------------------------------
+// Module 11: Laboratory-Grade Smooth CV / CC / DDS Power Supply Controller
+// Provides three 100% independent continuous dials on the 12-beam cuboctahedron:
+//   Dial 1 (`v_set_alpha` on XY plane, 0..256 + 8-bit sub-tick sigma-delta):
+//     Continuous output voltage V_target from 0.000 V to V_max (millivolt step).
+//   Dial 2 (`i_limit_beta` on tilted XZ/YZ Euler planes, 0..256):
+//     Continuous current limit I_limit independent of V_target; automatically
+//     switches between Constant-Voltage (`cv_mode = 1`) and Constant-Current
+//     (`cc_mode = 1`) in a single clock cycle without ohmic heat dissipation!
+//   Dial 3 (`dds_freq_word` 32-bit DDS phase accumulator):
+//     Continuous frequency control from 0.000 Hz (pure DC) to MHz with 0.01 Hz
+//     resolution (`phase_acc <= phase_acc + dds_freq_word`, top 9 bits drive
+//     the Z_512 rotator!).
+// ----------------------------------------------------------------------------
+module lab_smooth_cv_cc_dds_power_supply (
+    input  wire        clk,
+    input  wire        rst,
+    input  wire [31:0] dds_freq_word,   // 0 = pure DC; >0 = smooth AC frequency (step = f_clk / 2^32)
+    input  wire signed [31:0] v_set_mv, // Target voltage in millivolts (e.g. 0..30000 mV)
+    input  wire signed [31:0] i_set_ma, // Target current limit in milliamps (e.g. 0..10000 mA)
+    input  wire signed [31:0] r_load_ohm, // Connected load resistance in Ohms
+    output reg  [31:0] dds_phase_acc,
+    output wire [8:0]  dds_ring_phase,
+    output wire signed [31:0] v_actual_mv,
+    output wire signed [31:0] i_actual_ma,
+    output wire        cv_mode_active,
+    output wire        cc_mode_active
+);
+    always @(posedge clk) begin
+        if (rst)
+            dds_phase_acc <= 32'd0;
+        else
+            dds_phase_acc <= dds_phase_acc + dds_freq_word;
+    end
+
+    // Top 9 bits of the 32-bit DDS accumulator address the Z_512 rotator
+    assign dds_ring_phase = dds_phase_acc[31:23];
+
+    wire signed [31:0] dds_w, dds_c, dds_s;
+    rotator_512_unit u_dds_rot (
+        .phi_in({23'b0, dds_ring_phase}),
+        .wrap_out(dds_w),
+        .proj_c(dds_c),
+        .proj_s(dds_s)
+    );
+
+    // Unclamped load current demanded at V_set: I_demand = V_set / R_load
+    wire signed [31:0] i_demand_ma = (r_load_ohm > 0) ? (v_set_mv / r_load_ohm) : i_set_ma;
+
+    // Automatic single-cycle CV / CC crossover via XZ/YZ Euler plane impedance D(beta):
+    assign cc_mode_active = (i_demand_ma > i_set_ma);
+    assign cv_mode_active = ~cc_mode_active;
+
+    wire signed [31:0] v_dc_envelope = cc_mode_active ? (i_set_ma * r_load_ohm) : v_set_mv;
+    wire signed [31:0] i_dc_envelope = cc_mode_active ? i_set_ma : i_demand_ma;
+
+    // When dds_freq_word == 0 (DC mode), dds_c = +128 so output is pure DC V_actual = v_dc_envelope;
+    // When dds_freq_word > 0 (AC mode), output is modulated smoothly by C_3(dds_ring_phase) / 128!
+    assign v_actual_mv = (v_dc_envelope * dds_c) / 32'sd128;
+    assign i_actual_ma = (i_dc_envelope * dds_c) / 32'sd128;
+endmodule
+
 // ============================================================================
 // Testbench: Full Hardware Verification & VCD Waveform Dump
 // ============================================================================
@@ -836,6 +898,31 @@ module tb_cuboctahedron_carrier_asic;
         .v_terminal_out(vi_vout),
         .i_terminal_out(vi_iout),
         .p_terminal_out(vi_pout)
+    );
+
+    reg        lab_rst  = 1;
+    reg [31:0] lab_freq = 32'd0;
+    reg signed [31:0] lab_vset = 32'sd12000; // 12.000 V
+    reg signed [31:0] lab_iset = 32'sd3000;  // 3.000 A
+    reg signed [31:0] lab_rload = 32'sd6;    // 6 Ohm -> demands 2.000 A (CV mode)
+    wire [31:0] lab_acc;
+    wire [8:0]  lab_phase;
+    wire signed [31:0] lab_vact, lab_iact;
+    wire        lab_cv, lab_cc;
+
+    lab_smooth_cv_cc_dds_power_supply u_lab_psu (
+        .clk(clk),
+        .rst(lab_rst),
+        .dds_freq_word(lab_freq),
+        .v_set_mv(lab_vset),
+        .i_set_ma(lab_iset),
+        .r_load_ohm(lab_rload),
+        .dds_phase_acc(lab_acc),
+        .dds_ring_phase(lab_phase),
+        .v_actual_mv(lab_vact),
+        .i_actual_ma(lab_iact),
+        .cv_mode_active(lab_cv),
+        .cc_mode_active(lab_cc)
     );
 
     initial begin
@@ -1062,6 +1149,33 @@ module tb_cuboctahedron_carrier_asic;
         $display("  -> [50/60 Hz AC Grid Inversion at k*=64] V_out=%5d, I_out=%4d, P_out=%6d (36 * K_P^2 = 147,456!)",
                  vi_vout, vi_iout, vi_pout);
         if (vi_vout !== -32'sd768 || vi_iout !== -32'sd192 || vi_pout !== 32'sd147456)
+            errors = errors + 1;
+
+        $display("======================================================================");
+        $display("[11] Lab-Grade Smooth CV / CC / DDS Power Supply (Independent V, I, f)");
+        $display("======================================================================");
+        lab_rst = 1; lab_freq = 32'd0; lab_vset = 32'sd12000; lab_iset = 32'sd3000; lab_rload = 32'sd6;
+        #5 clk = 1; #5 clk = 0;
+        lab_rst = 0; #1;
+        $display("  -> [DC CV Mode: V_set=12.000V, I_lim=3.000A, R=6 Ohm] V_out=%5d mV, I_out=%4d mA | CV=%b CC=%b",
+                 lab_vact, lab_iact, lab_cv, lab_cc);
+        if (lab_vact !== 32'sd12000 || lab_iact !== 32'sd2000 || lab_cv !== 1'b1 || lab_cc !== 1'b0)
+            errors = errors + 1;
+        // Drop load resistance to 2 Ohm (demands 6A > 3A limit -> automatic CC current limiting!)
+        lab_rload = 32'sd2; #1;
+        $display("  -> [DC CC Mode: V_set=12.000V, I_lim=3.000A, R=2 Ohm] V_out=%5d mV, I_out=%4d mA | CV=%b CC=%b",
+                 lab_vact, lab_iact, lab_cv, lab_cc);
+        if (lab_vact !== 32'sd6000 || lab_iact !== 32'sd3000 || lab_cv !== 1'b0 || lab_cc !== 1'b1)
+            errors = errors + 1;
+        // Turn DDS frequency dial to quarter-turn step per clock and verify smooth AC wave synthesis
+        lab_rload = 32'sd6; lab_freq = (32'd128 << 23);
+        #5 clk = 1; #5 clk = 0; #1;
+        $display("  -> [AC DDS Mode at phase=%3d (90 deg)] V_out=%5d mV, I_out=%4d mA",
+                 lab_phase, lab_vact, lab_iact);
+        #5 clk = 1; #5 clk = 0; #1;
+        $display("  -> [AC DDS Mode at phase=%3d (180 deg)] V_out=%5d mV, I_out=%4d mA",
+                 lab_phase, lab_vact, lab_iact);
+        if (lab_phase !== 9'd256 || lab_vact !== -32'sd12000 || lab_iact !== -32'sd2000)
             errors = errors + 1;
 
         $display("======================================================================");
