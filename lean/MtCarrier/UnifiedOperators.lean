@@ -3099,11 +3099,10 @@ Chained directly via `CatalanLaw` for any `d : Nat`:
    - Co-translational folding on `d` tetrahedral `K₄` grooves and inverse compilation `compilePhenotypeToDnaSequenceOp` run in `O(L) ∈ P`,
      while planetary biospheres are quantized into the three stellar photon resonance windows `universalPhotonStepOp` with exact ratio
      `universalPhotonStepOp d (-1) / hBondDivisorOp d = zNitrogenOp d` (`7`), `universalPhotonStepOp d 0 / hBondDivisorOp d = c0OverCSqOp d` (`2`),
-     and `universalPhotonStepOp d 1 / hBondDivisorOp d = muVac d` (`1`)! -/
-/-- Integer Dirac bra-ket inner product `⟨ψ₁ | ψ₂⟩_d = (μ₁ μ₂ C_d(φ₂ - φ₁), μ₁ μ₂ S_d(φ₂ - φ₁)) ∈ ℤ²`
-on the discrete Euler exponential `(C_d, S_d)`:
-- real part `μ₁ μ₂ C_d(Δφ)` is the quantum interference amplitude (`+Q_□ μ₁ μ₂` in phase `Δφ = 0`, `0` at orthogonal quarter-turn `Δφ = Q_□`, `-Q_□ μ₁ μ₂` at destructive half-turn `Δφ = Φ_Pauli`),
-- imaginary part `μ₁ μ₂ S_d(Δφ)` is the odd holonomy probability current. -/
+     and `universalPhotonStepOp d 1 / hBondDivisorOp d = muVac d` (`1`)!
+8. **Wave-Particle Duality, Dirac Bra-Ket Inner Product `⟨ψ₁ | ψ₂⟩_d`, and Deterministic Born Rule `P(μ) = μ² / N_ring(d)`:**
+   - real part `μ₁ μ₂ C_d(Δφ)` is the quantum interference amplitude (`+Q_□ μ₁ μ₂` in phase `Δφ = 0`, `0` at orthogonal quarter-turn `Δφ = Q_□`, `-Q_□ μ₁ μ₂` at destructive half-turn `Δφ = Φ_Pauli`),
+   - imaginary part `μ₁ μ₂ S_d(Δφ)` is the odd holonomy probability current. -/
 def diracBraKetOp (d : Nat) (mu1 phi1 mu2 phi2 : Int) : Int × Int :=
   (mu1 * mu2 * projC d (phi2 - phi1), mu1 * mu2 * projS d (phi2 - phi1))
 
