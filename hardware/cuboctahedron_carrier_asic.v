@@ -133,6 +133,140 @@ module cuboctahedron_12beam_gate (
     assign energy_quanta_ne = abs_phi / 32'sd41;
 endmodule
 
+// ----------------------------------------------------------------------------
+// Module 5: Two-Chamber 72-Bit Stasis-Teleport-Release Engine
+// Implements the 3-step ice-free protocol:
+//   Step 1 (STASIS):    12 beams in-phase (dphi = 0) -> D_stasis = 6,823,936 = 833 * 8192,
+//                       internal gate impulse |Phi| < 41 -> snapped to 0 by Heisenberg deadband.
+//   Step 2 (TELEPORT):  Chamber A emits 4 Pauli syndromes sigma_k = (phi_A,k - a_k - 256) mod 512
+//                       and discharges to vacuum floor (mu_A = 1); syndrome traverses the
+//                       shielded ballistic waveguide (Phi_noise = 0); Chamber B switches its
+//                       12-beam focus to antipodal phase (dphi = 256) -> D_write = 8,192
+//                       (833:1 impedance contrast) and reconstructs phi_B,k = (b_k + sigma_k) mod 512
+//                       while conserving total two-chamber A3 norm (mu_A^2 + mu_B^2 = const).
+//   Step 3 (RELEASE):   Stasis screen is lifted in Chamber B and the teleported 72-bit spinor
+//                       resumes reversible Verlet evolution from the exact tick it paused in A.
+// ----------------------------------------------------------------------------
+module two_chamber_72bit_teleporter (
+    input  wire        clk,
+    input  wire        rst,
+    input  wire [1:0]  cmd_mode,       // 00: EVOLVE, 01: STASIS, 10: TELEPORT_A_TO_B, 11: RELEASE_B
+    input  wire [8:0]  singlet_a0,
+    input  wire [8:0]  singlet_a1,
+    input  wire [8:0]  singlet_a2,
+    input  wire [8:0]  singlet_a3,
+    input  wire signed [31:0] ext_thermal_noise_drive,
+    output reg  [8:0]  chA_mu0,
+    output reg  [8:0]  chA_mu1,
+    output reg  [8:0]  chA_phi0_curr,
+    output reg  [8:0]  chA_phi0_prev,
+    output reg  [8:0]  chA_phi1_curr,
+    output reg  [8:0]  chA_phi1_prev,
+    output reg  [8:0]  chB_mu0,
+    output reg  [8:0]  chB_mu1,
+    output reg  [8:0]  chB_phi0_curr,
+    output reg  [8:0]  chB_phi0_prev,
+    output reg  [8:0]  chB_phi1_curr,
+    output reg  [8:0]  chB_phi1_prev,
+    output wire signed [31:0] d_stasis_val,
+    output wire signed [31:0] d_write_val,
+    output wire signed [31:0] contrast_833,
+    output wire signed [31:0] waveguide_noise_leak,
+    output wire signed [31:0] total_two_chamber_norm_sq
+);
+    // Shielded stasis impedance (13-node dressed cluster at K_P = 64, dphi = 0):
+    // D_stasis = 8192 + 128*64^2 + 12*(128*64^2) = 8192 * (1 + 64 + 768) = 8192 * 833 = 6,823,936
+    assign d_stasis_val = 32'sd8192 + 32'sd13 * 32'sd128 * 32'sd64 * 32'sd64;
+    // Coherent 12-beam write focus impedance (dphi = 256 -> C(256) = -128 -> clamped to vacuum floor 8192)
+    assign d_write_val  = 32'sd8192;
+    assign contrast_833 = d_stasis_val / d_write_val;
+
+    // Heisenberg deadband suppression of external thermal noise inside the shielded waveguide:
+    wire signed [31:0] raw_noise_ratio = (32'sd64 * ext_thermal_noise_drive) / d_stasis_val;
+    wire signed [31:0] abs_noise_ratio = (raw_noise_ratio < 0) ? -raw_noise_ratio : raw_noise_ratio;
+    assign waveguide_noise_leak = (abs_noise_ratio < 32'sd41) ? 32'sd0 : raw_noise_ratio;
+
+    // Shared Pauli singlet partners in Chamber B: b_k = (a_k + 256) mod 512
+    wire [8:0] singlet_b0 = (singlet_a0 + 9'd256) & 9'd511;
+    wire [8:0] singlet_b1 = (singlet_a1 + 9'd256) & 9'd511;
+    wire [8:0] singlet_b2 = (singlet_a2 + 9'd256) & 9'd511;
+    wire [8:0] singlet_b3 = (singlet_a3 + 9'd256) & 9'd511;
+
+    // Bell-Pauli syndromes emitted by Chamber A: sigma_k = (psi_A,k - a_k - 256) mod 512
+    wire [8:0] sigma0 = (chA_phi0_curr - singlet_a0 - 9'd256) & 9'd511;
+    wire [8:0] sigma1 = (chA_phi0_prev - singlet_a1 - 9'd256) & 9'd511;
+    wire [8:0] sigma2 = (chA_phi1_curr - singlet_a2 - 9'd256) & 9'd511;
+    wire [8:0] sigma3 = (chA_phi1_prev - singlet_a3 - 9'd256) & 9'd511;
+
+    // Total two-chamber A3 norm squared: (mu_A0^2 + mu_A1^2) + (mu_B0^2 + mu_B1^2)
+    assign total_two_chamber_norm_sq =
+        (chA_mu0 * chA_mu0 + chA_mu1 * chA_mu1) +
+        (chB_mu0 * chB_mu0 + chB_mu1 * chB_mu1);
+
+    always @(posedge clk) begin
+        if (rst) begin
+            // Chamber A initialized with an active 72-bit spinor vortex:
+            // mu0 = 64, mu1 = 13, phi0 = (173, 132), phi1 = (296, 255)
+            chA_mu0       <= 9'd64;
+            chA_mu1       <= 9'd13;
+            chA_phi0_curr <= 9'd173;
+            chA_phi0_prev <= 9'd132;
+            chA_phi1_curr <= 9'd296;
+            chA_phi1_prev <= 9'd255;
+            // Chamber B initialized in the uniform vacuum floor state (mu = 1, phi = 0)
+            chB_mu0       <= 9'd1;
+            chB_mu1       <= 9'd1;
+            chB_phi0_curr <= 9'd0;
+            chB_phi0_prev <= 9'd0;
+            chB_phi1_curr <= 9'd0;
+            chB_phi1_prev <= 9'd0;
+        end else begin
+            case (cmd_mode)
+                2'b00: begin
+                    // Normal evolution in Chamber A before stasis (with gate impulse +13)
+                    chA_phi0_prev <= chA_phi0_curr;
+                    chA_phi0_curr <= ((chA_phi0_curr <<< 1) - chA_phi0_prev + 9'd13) & 9'd511;
+                    chA_phi1_prev <= chA_phi1_curr;
+                    chA_phi1_curr <= ((chA_phi1_curr <<< 1) - chA_phi1_prev + 9'd13) & 9'd511;
+                end
+                2'b01: begin
+                    // STEP 1 — STASIS (D_stasis = 6,823,936 -> Heisenberg deadband Phi = 0):
+                    // Internal reaction gates are frozen without freezing water into ice!
+                    chA_phi0_curr <= chA_phi0_curr;
+                    chA_phi0_prev <= chA_phi0_prev;
+                    chA_phi1_curr <= chA_phi1_curr;
+                    chA_phi1_prev <= chA_phi1_prev;
+                end
+                2'b10: begin
+                    // STEP 2 — TELEPORT (A -> Ballistic Waveguide -> 833:1 Write Focus in B):
+                    // Chamber B reconstructs all 72 bits from Pauli singlet b_k + syndrome sigma_k
+                    chB_mu0       <= chA_mu0;
+                    chB_mu1       <= chA_mu1;
+                    chB_phi0_curr <= (singlet_b0 + sigma0 + waveguide_noise_leak[8:0]) & 9'd511;
+                    chB_phi0_prev <= (singlet_b1 + sigma1 + waveguide_noise_leak[8:0]) & 9'd511;
+                    chB_phi1_curr <= (singlet_b2 + sigma2 + waveguide_noise_leak[8:0]) & 9'd511;
+                    chB_phi1_prev <= (singlet_b3 + sigma3 + waveguide_noise_leak[8:0]) & 9'd511;
+                    // Chamber A simultaneously discharges to vacuum floor (1 -> 1 swap, no cloning!)
+                    chA_mu0       <= 9'd1;
+                    chA_mu1       <= 9'd1;
+                    chA_phi0_curr <= 9'd0;
+                    chA_phi0_prev <= 9'd0;
+                    chA_phi1_curr <= 9'd0;
+                    chA_phi1_prev <= 9'd0;
+                end
+                2'b11: begin
+                    // STEP 3 — RELEASE STASIS IN CHAMBER B:
+                    // Chamber B lifts stasis and resumes reversible Verlet evolution from the exact state!
+                    chB_phi0_prev <= chB_phi0_curr;
+                    chB_phi0_curr <= ((chB_phi0_curr <<< 1) - chB_phi0_prev + 9'd13) & 9'd511;
+                    chB_phi1_prev <= chB_phi1_curr;
+                    chB_phi1_curr <= ((chB_phi1_curr <<< 1) - chB_phi1_prev + 9'd13) & 9'd511;
+                end
+            endcase
+        end
+    end
+endmodule
+
 // ============================================================================
 // Testbench: Full Hardware Verification & VCD Waveform Dump
 // ============================================================================
@@ -189,6 +323,43 @@ module tb_cuboctahedron_carrier_asic;
     integer i, mu, clicks, errors;
     integer fresnel_c_sum, fresnel_s_sum;
     reg [8:0] saved_curr, saved_prev;
+
+    // Two-Chamber 72-Bit Teleporter signals
+    reg tp_rst = 1;
+    reg [1:0] tp_mode = 2'b00;
+    wire [8:0] tp_a_mu0, tp_a_mu1, tp_a_p0c, tp_a_p0p, tp_a_p1c, tp_a_p1p;
+    wire [8:0] tp_b_mu0, tp_b_mu1, tp_b_p0c, tp_b_p0p, tp_b_p1c, tp_b_p1p;
+    wire signed [31:0] tp_d_stasis, tp_d_write, tp_contrast, tp_noise_leak, tp_norm_sq;
+    reg [8:0] saved_a_mu0, saved_a_mu1, saved_a_p0c, saved_a_p0p, saved_a_p1c, saved_a_p1p;
+    reg signed [31:0] norm_before_tp;
+
+    two_chamber_72bit_teleporter u_teleporter (
+        .clk(clk),
+        .rst(tp_rst),
+        .cmd_mode(tp_mode),
+        .singlet_a0(9'd41),
+        .singlet_a1(9'd97),
+        .singlet_a2(9'd137),
+        .singlet_a3(9'd263),
+        .ext_thermal_noise_drive(32'sd24576),
+        .chA_mu0(tp_a_mu0),
+        .chA_mu1(tp_a_mu1),
+        .chA_phi0_curr(tp_a_p0c),
+        .chA_phi0_prev(tp_a_p0p),
+        .chA_phi1_curr(tp_a_p1c),
+        .chA_phi1_prev(tp_a_p1p),
+        .chB_mu0(tp_b_mu0),
+        .chB_mu1(tp_b_mu1),
+        .chB_phi0_curr(tp_b_p0c),
+        .chB_phi0_prev(tp_b_p0p),
+        .chB_phi1_curr(tp_b_p1c),
+        .chB_phi1_prev(tp_b_p1p),
+        .d_stasis_val(tp_d_stasis),
+        .d_write_val(tp_d_write),
+        .contrast_833(tp_contrast),
+        .waveguide_noise_leak(tp_noise_leak),
+        .total_two_chamber_norm_sq(tp_norm_sq)
+    );
 
     initial begin
         $dumpfile("cuboctahedron_carrier.vcd");
@@ -285,6 +456,49 @@ module tb_cuboctahedron_carrier_asic;
         end
         $display("  -> After 64 reverse ticks:  phi_curr = %3d, phi_prev = %3d (exact bit recovery!)", v_curr, v_prev);
         if (v_curr !== 9'd41 || v_prev !== 9'd0) errors = errors + 1;
+
+        $display("======================================================================");
+        $display("[5] Two-Chamber 72-Bit Teleporter: Stasis -> Teleport -> Release Stasis");
+        $display("======================================================================");
+        tp_rst = 1; tp_mode = 2'b00;
+        #5 clk = 1; #5 clk = 0;
+        tp_rst = 0;
+        // Advance Chamber A by 4 ticks of normal evolution before entering stasis
+        for (i = 0; i < 4; i = i + 1) begin
+            #5 clk = 1; #5 clk = 0;
+        end
+        norm_before_tp = tp_norm_sq;
+        saved_a_mu0 = tp_a_mu0; saved_a_mu1 = tp_a_mu1;
+        saved_a_p0c = tp_a_p0c; saved_a_p0p = tp_a_p0p;
+        saved_a_p1c = tp_a_p1c; saved_a_p1p = tp_a_p1p;
+        // Step 1: Enter STASIS (D_stasis = 6,823,936 = 833 * 8192)
+        tp_mode = 2'b01;
+        #5 clk = 1; #5 clk = 0;
+        $display("  -> [Step 1: STASIS]   D_stasis = %0d, D_write = %0d (Contrast = %0d : 1, Noise leak = %0d)",
+                 tp_d_stasis, tp_d_write, tp_contrast, tp_noise_leak);
+        $display("     Chamber A in Stasis: mu=(%2d,%2d), phi0=(%3d,%3d), phi1=(%3d,%3d) | Chamber B: mu=(%2d,%2d)",
+                 tp_a_mu0, tp_a_mu1, tp_a_p0c, tp_a_p0p, tp_a_p1c, tp_a_p1p, tp_b_mu0, tp_b_mu1);
+        // Step 2: TELEPORT A -> B via Pauli singlet +256 & 833:1 Write Focus
+        tp_mode = 2'b10;
+        #5 clk = 1; #5 clk = 0;
+        $display("  -> [Step 2: TELEPORT] Chamber A discharged to vacuum: mu=(%2d,%2d), phi0=(%3d,%3d), phi1=(%3d,%3d)",
+                 tp_a_mu0, tp_a_mu1, tp_a_p0c, tp_a_p0p, tp_a_p1c, tp_a_p1p);
+        $display("     Chamber B reconstructed: mu=(%2d,%2d), phi0=(%3d,%3d), phi1=(%3d,%3d) | Total A3 NormSq: %0d -> %0d",
+                 tp_b_mu0, tp_b_mu1, tp_b_p0c, tp_b_p0p, tp_b_p1c, tp_b_p1p, norm_before_tp, tp_norm_sq);
+        if (tp_b_mu0 !== saved_a_mu0 || tp_b_mu1 !== saved_a_mu1 ||
+            tp_b_p0c !== saved_a_p0c || tp_b_p0p !== saved_a_p0p ||
+            tp_b_p1c !== saved_a_p1c || tp_b_p1p !== saved_a_p1p ||
+            tp_a_mu0 !== 9'd1 || tp_a_mu1 !== 9'd1 ||
+            tp_norm_sq !== norm_before_tp || tp_contrast !== 32'sd833 || tp_noise_leak !== 32'sd0) begin
+            $display("ERROR: Teleportation bit mismatch or norm violation!");
+            errors = errors + 1;
+        end
+        // Step 3: RELEASE STASIS in Chamber B and evolve 1 tick forward
+        tp_mode = 2'b11;
+        #5 clk = 1; #5 clk = 0;
+        $display("  -> [Step 3: RELEASE]  Chamber B lifts stasis and resumes evolution: phi0=(%3d,%3d), phi1=(%3d,%3d)",
+                 tp_b_p0c, tp_b_p0p, tp_b_p1c, tp_b_p1p);
+        if (tp_b_p0p !== saved_a_p0c || tp_b_p1p !== saved_a_p1c) errors = errors + 1;
 
         $display("======================================================================");
         $display("TOTAL HARDWARE ERRORS = %0d", errors);

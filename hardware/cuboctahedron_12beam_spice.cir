@@ -238,6 +238,84 @@ Le22_E V4_EN  V7_EN  {L_surf}
 Le23_E V7_EN  V10_EN {L_surf}
 Le24_E V10_EN V4_EN  {L_surf}
 
+* ============================================================================
+* PART 4: TWO-CHAMBER 12-BEAM CUBOCTAHEDRON BALLISTIC TELEPORTATION LINK
+* Chamber A (12-beam transmitter resonator) -> Matched Ballistic LC Waveguide
+* -> Chamber B (12-beam receiver resonator focus N0_TP_B)
+* ============================================================================
+V1_TPA  S1_TPA  0 SIN(0 1 {f0} 0 0 0)
+V2_TPA  S2_TPA  0 SIN(0 1 {f0} 0 0 0)
+V3_TPA  S3_TPA  0 SIN(0 1 {f0} 0 0 0)
+V4_TPA  S4_TPA  0 SIN(0 1 {f0} 0 0 0)
+V5_TPA  S5_TPA  0 SIN(0 1 {f0} 0 0 0)
+V6_TPA  S6_TPA  0 SIN(0 1 {f0} 0 0 0)
+V7_TPA  S7_TPA  0 SIN(0 1 {f0} 0 0 0)
+V8_TPA  S8_TPA  0 SIN(0 1 {f0} 0 0 0)
+V9_TPA  S9_TPA  0 SIN(0 1 {f0} 0 0 0)
+V10_TPA S10_TPA 0 SIN(0 1 {f0} 0 0 0)
+V11_TPA S11_TPA 0 SIN(0 1 {f0} 0 0 0)
+V12_TPA S12_TPA 0 SIN(0 1 {f0} 0 0 0)
+
+R1_TPA  S1_TPA  V1_TPAN  {R_src}
+R2_TPA  S2_TPA  V2_TPAN  {R_src}
+R3_TPA  S3_TPA  V3_TPAN  {R_src}
+R4_TPA  S4_TPA  V4_TPAN  {R_src}
+R5_TPA  S5_TPA  V5_TPAN  {R_src}
+R6_TPA  S6_TPA  V6_TPAN  {R_src}
+R7_TPA  S7_TPA  V7_TPAN  {R_src}
+R8_TPA  S8_TPA  V8_TPAN  {R_src}
+R9_TPA  S9_TPA  V9_TPAN  {R_src}
+R10_TPA S10_TPA V10_TPAN {R_src}
+R11_TPA S11_TPA V11_TPAN {R_src}
+R12_TPA S12_TPA V12_TPAN {R_src}
+
+Lsp1_TPA  V1_TPAN  N0_TP_A {L_spoke}
+Lsp2_TPA  V2_TPAN  N0_TP_A {L_spoke}
+Lsp3_TPA  V3_TPAN  N0_TP_A {L_spoke}
+Lsp4_TPA  V4_TPAN  N0_TP_A {L_spoke}
+Lsp5_TPA  V5_TPAN  N0_TP_A {L_spoke}
+Lsp6_TPA  V6_TPAN  N0_TP_A {L_spoke}
+Lsp7_TPA  V7_TPAN  N0_TP_A {L_spoke}
+Lsp8_TPA  V8_TPAN  N0_TP_A {L_spoke}
+Lsp9_TPA  V9_TPAN  N0_TP_A {L_spoke}
+Lsp10_TPA V10_TPAN N0_TP_A {L_spoke}
+Lsp11_TPA V11_TPAN N0_TP_A {L_spoke}
+Lsp12_TPA V12_TPAN N0_TP_A {L_spoke}
+C0_TPA N0_TP_A 0 {C_node}
+
+* Shielded Ballistic Waveguide connecting Chamber A center (N0_TP_A) to Chamber B center (N0_TP_B)
+L_WG1 N0_TP_A N_WG_MID {L_spoke}
+C_WG1 N_WG_MID 0 {C_node}
+L_WG2 N_WG_MID N0_TP_B {L_spoke}
+
+* Chamber B 12-beam receiving focus (N0_TP_B) and 12 radial spokes
+C0_TPB N0_TP_B 0 {C_node}
+R0_TPB N0_TP_B 0 {R_load}
+Lsp1_TPB  N0_TP_B V1_TPBN  {L_spoke}
+Lsp2_TPB  N0_TP_B V2_TPBN  {L_spoke}
+Lsp3_TPB  N0_TP_B V3_TPBN  {L_spoke}
+Lsp4_TPB  N0_TP_B V4_TPBN  {L_spoke}
+Lsp5_TPB  N0_TP_B V5_TPBN  {L_spoke}
+Lsp6_TPB  N0_TP_B V6_TPBN  {L_spoke}
+Lsp7_TPB  N0_TP_B V7_TPBN  {L_spoke}
+Lsp8_TPB  N0_TP_B V8_TPBN  {L_spoke}
+Lsp9_TPB  N0_TP_B V9_TPBN  {L_spoke}
+Lsp10_TPB N0_TP_B V10_TPBN {L_spoke}
+Lsp11_TPB N0_TP_B V11_TPBN {L_spoke}
+Lsp12_TPB N0_TP_B V12_TPBN {L_spoke}
+R1_TPB  V1_TPBN  0 500
+R2_TPB  V2_TPBN  0 500
+R3_TPB  V3_TPBN  0 500
+R4_TPB  V4_TPBN  0 500
+R5_TPB  V5_TPBN  0 500
+R6_TPB  V6_TPBN  0 500
+R7_TPB  V7_TPBN  0 500
+R8_TPB  V8_TPBN  0 500
+R9_TPB  V9_TPBN  0 500
+R10_TPB V10_TPBN 0 500
+R11_TPB V11_TPBN 0 500
+R12_TPB V12_TPBN 0 500
+
 .tran 0 2u 1u 1n
 
 .meas TRAN V_coh_pp    PP V(N0_COH)
@@ -248,6 +326,9 @@ Le24_E V10_EN V4_EN  {L_surf}
 .meas TRAN I_vortex_loop_pp   PP I(Le1_V)
 .meas TRAN V_euler_xy_drive_pp PP V(V1_EN)
 .meas TRAN V_euler_xz_tilt_pp  PP V(V5_EN)
+.meas TRAN V_tp_chamberA_pp    PP V(N0_TP_A)
+.meas TRAN V_tp_chamberB_pp    PP V(N0_TP_B)
+.meas TRAN V_tp_spokeB_pp      PP V(V1_TPBN)
 .meas TRAN V_euler_yz_tilt_pp  PP V(V9_EN)
 
 .end
