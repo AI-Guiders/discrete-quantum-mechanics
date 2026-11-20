@@ -110,7 +110,10 @@ theorem pow2_gt_two_d_pred (k : Nat) : 2 ^ (k + 6) > 2 * (k + 6) * (k + 5) := by
     have h2 := two_mul_quad_gt k
     omega
 
-/-- Operator predicate of Lock 1 (`eq:catalan-lock`): cross-polytope / cube duality `1 + 2^d = d^2`. -/
+/-- Operator predicate of Lock 1 (`eq:catalan-lock`):
+self-duality between the `1 + 2^d` basis-vector choice states of a node (`1` rest state outside axes + `2^d` subset/sign combinations of the `d` unit vectors `e_1, ..., e_d`)
+and the `d * d = d^2` elementary transition pairs `(e_i → e_j)` between unit basis vectors
+(decomposing into `d` longitudinal pairs `e_i → e_i` and `d * (d - 1) = |N(d)| / 2` off-diagonal rotation pairs `e_i → e_j`, `i ≠ j`, which with signs generate the `2 * d * (d - 1) = 12` cuboctahedron vertices `±e_i ± e_j`). -/
 abbrev CatalanLock (d : Nat) : Prop :=
   1 + 2 ^ d = d * d
 
@@ -163,7 +166,8 @@ theorem canonical_d3_constants (d : Nat) :
       epsDenom d = kP d * qSquare d ∧
       mHat d = dInSquare ^ 2 + (modBits d) ^ 2 ∧
       nPhi d * deltaPhiDisc d = nRing d + nPhi d + nTriangles d ∧
-      dOutEdge d + 1 + nSquares d = nNeighbors d) d :=
+      dOutEdge d + 1 + nSquares d = nNeighbors d ∧
+      d * d = d + nNeighbors d / c0OverCSqOp d) d :=
   catalan_law_of_d3 _ (by decide) d
 
 /-- Extract `d = 3` from `CatalanLock d` via `canonical_d3_constants` (`0` extra callers of `catalan_law_of_d3`). -/

@@ -44,7 +44,10 @@ theorem pow2_gt_two_d_pred (k : Nat) : 2 ^ (k + 6) > 2 * (k + 6) * (k + 5) := by
     have h2 := two_mul_quad_gt k
     omega
 
-/-- The Catalan exponential-quadratic Diophantine lock `1 + 2^d = d^2`. -/
+/-- The Catalan exponential-quadratic Diophantine lock `1 + 2^d = d^2`:
+exact equality between the `1 + 2^d` unit-vector choice states of a cell (`1` rest state + `2^d` combinations of the `d` unit basis vectors `e_1, ..., e_d`)
+and the `d × d = d^2` elementary transition pairs `(e_i → e_j)` between unit basis vectors
+(`d` longitudinal transitions `e_i → e_i` plus `d(d-1)` off-diagonal rotations `e_i → e_j`, `i ≠ j`, whose signed sums `±e_i ± e_j` form the `2d(d-1) = 12` vertices of the cuboctahedron `O_2(d)`). -/
 abbrev CatalanLock (d : Nat) : Prop :=
   1 + 2 ^ d = d * d
 

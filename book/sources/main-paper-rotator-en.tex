@@ -109,12 +109,13 @@ Piecewise-linear trigonometry in the $L^1$ metric (``taxicab trigonometry'' on t
 \item integral calculus, the lift to the Euclidean ($L^2$) circle, and the evaluation of classical non-elementary integrals (Fresnel, Jacobi elliptic, Bessel, Dirichlet) were left open.
 \end{enumerate}
 
-In this paper, we resolve these obstacles by formulating the rotator over the modular integer ring $\mathbb{Z}_{N_{\mathrm{ring}}(d)}$ whose spatial dimension $d\in\mathbb{N}$ is governed by the Catalan exponential-quadratic Diophantine lock~\cite{Catalan1844,Mihailescu2004}
+In this paper, we resolve these obstacles by formulating the rotator over the modular integer ring $\mathbb{Z}_{N_{\mathrm{ring}}(d)}$ whose spatial dimension $d\in\mathbb{N}$ is determined by an elementary geometric self-duality condition in the basis of $d$ unit vectors $\mathbf{e}_1,\dots,\mathbf{e}_d$: the number $1+2^d$ of intrinsic choice states of a node ($1$ rest state outside the axes plus $2^d$ participation combinations of the $d$ unit basis vectors) equals the number $d\times d = d^2$ of elementary transition pairs $(\mathbf{e}_i\to\mathbf{e}_j)$ from one unit basis vector to another, yielding the Catalan exponential-quadratic Diophantine lock~\cite{Catalan1844,Mihailescu2004}
 \begin{equation}
   \label{eq:catalan-lock}
   \mathrm{CatalanLock}(d) \;\equiv\; \bigl(1 + 2^d = d^2\bigr).
 \end{equation}
-The unique solution of~\eqref{eq:catalan-lock} in $\mathbb{N}$ ($d=3$, since $1+2^3=9=3^2$, while for $d\ge 5$ induction gives $2^d > 2d(d-1)\ge d^2$) fixes a parameter-free alphabet of ring and lattice invariants:
+Simultaneously, the $d^2$ unit-vector pairs $(\mathbf{e}_i,\mathbf{e}_j)$ decompose into $d$ longitudinal pairs $(\mathbf{e}_i,\mathbf{e}_i)$ and $d(d-1)$ off-diagonal rotation pairs $(\mathbf{e}_i,\mathbf{e}_j)$ ($i\ne j$), whose signed combinations $\pm\mathbf{e}_i\pm\mathbf{e}_j$ form the $2d(d-1)$ vertices of the cuboctahedron $O_2(d)$ of squared Euclidean norm $\|\mathbf{e}_i\pm\mathbf{e}_j\|_2^2 = 2 = d-1$.
+The unique solution of~\eqref{eq:catalan-lock} in $\mathbb{N}$ ($d=3$, since $1+2^3=9=3^2=3+6$, while for $d\ge 5$ induction gives $2^d > 2d(d-1)\ge d^2$) fixes a parameter-free alphabet of ring and lattice invariants:
 \[
   |{\triangle}(d)| = 2^d = 8,\qquad
   \mathrm{modBits}(d) = 1 + 2^d = d^2 = 9,\qquad
