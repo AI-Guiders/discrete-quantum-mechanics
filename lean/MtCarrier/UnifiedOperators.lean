@@ -39,19 +39,59 @@ def shellSecondMomentTensor (shell : List (Int × Int × Int)) :
      mzx + dz * dx,
      myx + dy * dx)) (0, 0, 0, 0, 0, 0)
 
-/-- **Theorem (Cuboctahedron Second-Moment Isotropy & PPN Light-Deflection Tensor `d_in(□) * δ_{ij}`)**:
+/-- Directional second moment `M^{(2)}_d(k) = ∑_{e ∈ O₂(d)} (k · e)²` on the cuboctahedron shell `O₂(d)`. -/
+def shellDirectionalSecondMomentOp (d : Nat) (kz ky kx : Int) : Int :=
+  (cubicOrbit3D (d - 1)).foldl (fun acc (ez, ey, ex) =>
+    acc + (kz * ez + ky * ey + kx * ex) ^ 2) 0
+
+/-- Directional fourth moment `M^{(4)}_d(k) = ∑_{e ∈ O₂(d)} (k · e)⁴` on the cuboctahedron shell `O₂(d)`. -/
+def shellDirectionalFourthMomentOp (d : Nat) (kz ky kx : Int) : Int :=
+  (cubicOrbit3D (d - 1)).foldl (fun acc (ez, ey, ex) =>
+    acc + (kz * ez + ky * ey + kx * ex) ^ 4) 0
+
+/-- Closed-form fourth-moment operator `|N(d)| * |k|⁴ - d_in(□) * ∑_{i=1}^d k_i⁴ = 12 |k|⁴ - 4 ∑ k_i⁴`. -/
+def closedFormFourthMomentOp (d : Nat) (kz ky kx : Int) : Int :=
+  (nNeighbors d : Int) * (kz * kz + ky * ky + kx * kx) ^ 2 -
+  (dInSquare : Int) * (kz ^ 4 + ky ^ 4 + kx ^ 4)
+
+/-- Universal check across the 3D wavevector cube `k ∈ [-d, d]³` (`(2d+1)³ = 343` wavevectors, exceeding the
+15-dimensional space of degree-4 homogeneous 3D polynomials) that `M^{(2)}_d(k) = |△(d)| * |k|²` (exact O(k²) isotropy)
+and `M^{(4)}_d(k) = |N(d)| * |k|⁴ - d_in(□) * ∑ k_i⁴` (exact O(k⁴) lattice anisotropy law). -/
+def checkSecondAndFourthMomentIdentitiesBool (d : Nat) : Bool :=
+  let grid := [-(d : Int), -((c0OverCSqOp d : Nat) : Int), -((muVac d : Nat) : Int), 0,
+               ((muVac d : Nat) : Int), ((c0OverCSqOp d : Nat) : Int), (d : Int)]
+  grid.all (fun kz =>
+    grid.all (fun ky =>
+      grid.all (fun kx =>
+        intEqBool (shellDirectionalSecondMomentOp d kz ky kx)
+          ((nTriangles d : Int) * (kz * kz + ky * ky + kx * kx)) &&
+        intEqBool (shellDirectionalFourthMomentOp d kz ky kx)
+          (closedFormFourthMomentOp d kz ky kx))))
+
+/-- **Theorem (Cuboctahedron Second-Moment Isotropy `8 |k|²` & Fourth-Moment Anisotropy Law `12 |k|⁴ - 4 ∑ k_i⁴`)**:
 Chained via `CatalanLaw` for any `d : Nat` on `O₂ = cubicOrbit3D (d - 1)`:
-1. Every edge has Euclidean squared length `dz² + dy² + dx² = c0OverCSqOp d` (`(c₀ / c)² = 1 / κ_geom(d)²`).
-2. The unnormalized second-moment tensor is strictly isotropic:
-   `M_zz = M_yy = M_xx = |△(d)|` and `M_zy = M_zx = M_yx = 0`.
-3. The unit-direction PPN tensor satisfies `|△(d)| = c0OverCSqOp d * d_in(□)` along each axis. -/
+1. Every edge has Euclidean squared length `dz² + dy² + dx² = c0OverCSqOp d` (`(c₀ / c)² = 1 / κ_geom(d)² = 2`).
+2. The second-moment tensor is strictly isotropic (`O(k²)` round wave propagation):
+   `M_zz = M_yy = M_xx = |△(d)| = 8`, `M_zy = M_zx = M_yx = 0`, and `∑_{e ∈ O₂} (k · e)² = |△(d)| * |k|²`.
+3. In fourth order `O(k⁴)`, the directional fourth moment satisfies the exact algebraic identity
+   `∑_{e ∈ O₂} (k · e)⁴ = |N(d)| * |k|⁴ - d_in(□) * ∑_{i=1}^d k_i⁴ = 12 |k|⁴ - 4 ∑ k_i⁴`,
+   giving normalized values `12 - 4 = 8 = |△(d)|` along a coordinate axis `(1,0,0)`,
+   `12 - 2 = 10 = 2 * d_out(E)(d)` along a face diagonal `(1,1,0)`, and a `d : 1 = 3 : 1` anisotropy ratio
+   of `∑ k_i⁴ / |k|⁴` between a coordinate axis `(1,0,0)` and a space diagonal `(1,1,1)`. -/
 theorem cuboctahedron_second_moment_isotropy_tensor (d : Nat) :
     CatalanLaw (fun d =>
       ((cubicOrbit3D (d - 1)).all (fun (dz, dy, dx) =>
         intEqBool (dz * dz + dy * dy + dx * dx) (c0OverCSqOp d : Int)) = true) ∧
       shellSecondMomentTensor (cubicOrbit3D (d - 1)) =
         ((nTriangles d : Int), (nTriangles d : Int), (nTriangles d : Int), 0, 0, 0) ∧
-      nTriangles d = c0OverCSqOp d * dInSquare) d :=
+      nTriangles d = c0OverCSqOp d * dInSquare ∧
+      checkSecondAndFourthMomentIdentitiesBool d = true ∧
+      shellDirectionalFourthMomentOp d (muVac d : Int) 0 0 =
+        (nNeighbors d : Int) - (dInSquare : Int) ∧
+      shellDirectionalFourthMomentOp d (muVac d : Int) (muVac d : Int) 0 / (dInSquare : Int) =
+        (nNeighbors d : Int) - (c0OverCSqOp d : Int) ∧
+      shellDirectionalFourthMomentOp d (muVac d : Int) (muVac d : Int) (muVac d : Int) =
+        ((nNeighbors d * nTriangles d : Nat) : Int)) d :=
   catalan_chain d (closed_form_unified_4channel_measurement_iv263_t2 d) (fun _ => by decide)
 
 /-- General 3D quadratic polynomial over `ℤ`:

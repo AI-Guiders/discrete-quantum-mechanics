@@ -347,7 +347,7 @@ def piHuygensSnelliusRat (d nSides : Nat) : Nat × Nat :=
     ((addRat (piInscribedRat d nSides) (normSqEdge d * (piCircumscribedRat d nSides).1, (piCircumscribedRat d nSides).2)).1,
      d * (addRat (piInscribedRat d nSides) (normSqEdge d * (piCircumscribedRat d nSides).1, (piCircumscribedRat d nSides).2)).2)
 
-/-- **Calculator-Free Rational Sine Operator `verletParabolaSineRat(d, p, q)` on Fractions `(p / q) * Q_□(d)` of a Right Angle:**
+/-- Calculator-Free Rational Sine Operator `verletParabolaSineRat(d, p, q)` on Fractions `(p / q) * Q_□(d)` of a Right Angle:
 Evaluates the Verlet half-turn parabola `P(p, q) = p * (2 * q - p)` weighted by the cuboctahedron square-face degree `d_in(□) = 4`
 and outer edge degree `d_out(E)(d) = 5`:
 `sin_rat(d; p, q) = reduceRat(d_in(□) * p * (2 * q - p), d_out(E)(d) * q² - p * (2 * q - p))`.
@@ -357,6 +357,34 @@ def verletParabolaSineRat (d p q : Nat) : Nat × Nat :=
   reduceRat
     (dInSquare * p * (normSqEdge d * q - p),
      dOutEdge d * q * q - p * (normSqEdge d * q - p))
+
+/-- Directional second moment `M^{(2)}_d(k) = ∑_{e ∈ O₂(d)} (k · e)²` on the cuboctahedron shell `O₂(d)`. -/
+def cuboctSecondMoment (d : Nat) (kz ky kx : Int) : Int :=
+  (cubicOrbit3D (d - 1)).foldl (fun acc (ez, ey, ex) =>
+    acc + (kz * ez + ky * ey + kx * ex) ^ 2) 0
+
+/-- Directional fourth moment `M^{(4)}_d(k) = ∑_{e ∈ O₂(d)} (k · e)⁴` on the cuboctahedron shell `O₂(d)`. -/
+def cuboctFourthMoment (d : Nat) (kz ky kx : Int) : Int :=
+  (cubicOrbit3D (d - 1)).foldl (fun acc (ez, ey, ex) =>
+    acc + (kz * ez + ky * ey + kx * ex) ^ 4) 0
+
+/-- Closed-form fourth-moment operator `|V_{O₂}(d)| * |k|⁴ - d_in(□) * ∑_{i=1}^d k_i⁴ = 12 |k|⁴ - 4 ∑ k_i⁴`. -/
+def cuboctFourthMomentClosedForm (d : Nat) (kz ky kx : Int) : Int :=
+  (nVertices d : Int) * (kz * kz + ky * ky + kx * kx) ^ 2 -
+  (dInSquare : Int) * (kz ^ 4 + ky ^ 4 + kx ^ 4)
+
+/-- Universal verification across the 3D wavevector grid `k ∈ [-d, d]³` (`343` wavevectors) of exact `O(k²)` isotropy
+`M^{(2)}_d(k) = |△(d)| * |k|² = 8 |k|²` and exact `O(k⁴)` lattice anisotropy `M^{(4)}_d(k) = 12 |k|⁴ - 4 ∑ k_i⁴`. -/
+def checkCuboctMomentIdentitiesBool (d : Nat) : Bool :=
+  let grid := [-(d : Int), -((normSqEdge d : Nat) : Int), -((unitStep d : Nat) : Int), 0,
+               ((unitStep d : Nat) : Int), ((normSqEdge d : Nat) : Int), (d : Int)]
+  grid.all (fun kz =>
+    grid.all (fun ky =>
+      grid.all (fun kx =>
+        eqIntBool (cuboctSecondMoment d kz ky kx)
+          ((nTriangles d : Int) * (kz * kz + ky * ky + kx * kx)) &&
+        eqIntBool (cuboctFourthMoment d kz ky kx)
+          (cuboctFourthMomentClosedForm d kz ky kx))))
 
 /-!
 ## 5. Main Theorems of the Paper
@@ -481,11 +509,19 @@ theorem thm3_continuum_integration_from_cuboctahedron_archimedes_layers (d : Nat
          (nVertices d, nVertices d + unitStep d + dInSquare) ∧
        verletParabolaSineRat d (normSqEdge d) d =
          (octantStep d / normSqEdge d, dInSquare ^ d - d ^ d) ∧
-       verletParabolaSineRat d (unitStep d) (unitStep d) = (unitStep d, unitStep d))) d :=
+       verletParabolaSineRat d (unitStep d) (unitStep d) = (unitStep d, unitStep d)) ∧
+      -- (vi) Exact O(k²) isotropy `∑ (k·e)² = 8 |k|²` and O(k⁴) fourth-moment identity `∑ (k·e)⁴ = 12 |k|⁴ - 4 ∑ k_i⁴`
+      (checkCuboctMomentIdentitiesBool d = true ∧
+       cuboctFourthMoment d (unitStep d : Int) 0 0 =
+         (nVertices d : Int) - (dInSquare : Int) ∧
+       cuboctFourthMoment d (unitStep d : Int) (unitStep d : Int) 0 / (dInSquare : Int) =
+         (nVertices d : Int) - (normSqEdge d : Int) ∧
+       cuboctFourthMoment d (unitStep d : Int) (unitStep d : Int) (unitStep d : Int) =
+         ((nVertices d * nTriangles d : Nat) : Int))) d :=
   catalan_chain d (thm2_closed_form_fresnel_jacobi_dirichlet_parseval_bessel_integrals 3)
     (fun _ => ⟨⟨rfl, rfl, rfl, rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl⟩,
                ⟨rfl, rfl, rfl, rfl, rfl, rfl, by decide, by decide, by decide, by decide, by decide⟩,
-               ⟨rfl, rfl, rfl, rfl, rfl⟩⟩)
+               ⟨rfl, rfl, rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl, rfl⟩⟩)
 
 #print axioms catalan_lock_iff_d3
 #print axioms thm1_constant_wronskian_weierstrass_lift_and_newton_leibniz
