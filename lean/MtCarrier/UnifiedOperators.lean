@@ -3235,7 +3235,7 @@ theorem reversible_computing_zero_landauer_heat_and_paradox_resolutions_operator
        count3SatZeroQuotientOctantsOp d = nTriangles d - muVac d ∧
        clause3SatDefectOp d (phiPauli d : Int) (phiPauli d : Int) (phiPauli d : Int) = (nRing d : Int) ∧
        projC d (0 + 0) ≠ projC d 0 + projC d 0 ∧
-       catalanDefect d = muVac d ∧
+       modBits d - nTriangles d = muVac d ∧
        cuboctCausalConeVolumeOp d 1 = muVac d + nNeighbors d ∧
        cuboctCausalConeVolumeOp d d = cuboctBallOp d ∧
        d * cuboctCausalConeVolumeOp d d = cuboctCausalConeCubicPolyOp d d ∧
