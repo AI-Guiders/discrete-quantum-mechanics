@@ -267,6 +267,88 @@ module two_chamber_72bit_teleporter (
     end
 endmodule
 
+// ----------------------------------------------------------------------------
+// Module 6: Synthesizable Low-Cost FPGA 12-Pin Cuboctahedron Phase Driver
+// Drives the 12 physical vertices V1..V12 of the 3-PCB (XY, XZ, YZ) crossed
+// cuboctahedron resonator with exact 1/512-period digital phase resolution.
+// Modes (`mode_sel`):
+//   3'd0: STASIS_INPHASE    — all 12 beams at phase 0 (D_stasis = 833 * eps)
+//   3'd1: BALLISTIC_BRIDGE  — 6 beams at 0, 6 beams at +128 (quarter-turn saddle)
+//   3'd2: BARRIER_COLLAPSE  — 6 beams at 0, 6 beams at +139 (587x collapse to eps=8192)
+//   3'd3: PAULI_VORTEX_LOCK — 6 beams at 0, 6 beams at +256 (singlet lock S=0, C=-128)
+//   3'd4: EULER_XY_ROTATOR  — XY square driven at (0, 128, 256, 384), XZ & YZ passive (Hi-Z)
+// ----------------------------------------------------------------------------
+module fpga_12beam_cuboctahedron_driver (
+    input  wire        clk_512x,      // Master clock at 512 * f_0
+    input  wire        rst,
+    input  wire [2:0]  mode_sel,
+    output reg  [8:0]  ring_counter,  // Current tick in Z_512 (0..511)
+    output wire [11:0] beam_pins,     // 12 physical output pins to V1..V12
+    output wire [11:0] beam_oe        // Output enable (1 = active drive, 0 = passive detector)
+);
+    always @(posedge clk_512x) begin
+        if (rst)
+            ring_counter <= 9'd0;
+        else
+            ring_counter <= (ring_counter + 9'd1) & 9'd511;
+    end
+
+    // Phase offsets for the 12 vertices:
+    // V1..V4 (XY plane), V5..V8 (XZ plane), V9..V12 (YZ plane)
+    reg [8:0] phase_off [0:11];
+    reg [11:0] oe_reg;
+    integer k;
+
+    always @(*) begin
+        oe_reg = 12'hFFF;
+        for (k = 0; k < 12; k = k + 1) phase_off[k] = 9'd0;
+        case (mode_sel)
+            3'd0: begin
+                // STASIS_INPHASE: all 12 vertices at 0 ticks
+                for (k = 0; k < 12; k = k + 1) phase_off[k] = 9'd0;
+            end
+            3'd1: begin
+                // BALLISTIC_BRIDGE: odd vertices at +128 ticks (90 deg)
+                for (k = 0; k < 12; k = k + 1)
+                    phase_off[k] = (k & 1) ? 9'd128 : 9'd0;
+            end
+            3'd2: begin
+                // BARRIER_COLLAPSE: odd vertices at +139 ticks (97.73 deg)
+                for (k = 0; k < 12; k = k + 1)
+                    phase_off[k] = (k & 1) ? 9'd139 : 9'd0;
+            end
+            3'd3: begin
+                // PAULI_VORTEX_LOCK: odd vertices at +256 ticks (180 deg)
+                for (k = 0; k < 12; k = k + 1)
+                    phase_off[k] = (k & 1) ? 9'd256 : 9'd0;
+            end
+            3'd4: begin
+                // EULER_XY_ROTATOR: XY square (V1..V4) at 0, 128, 256, 384; XZ & YZ passive
+                phase_off[0] = 9'd0;
+                phase_off[1] = 9'd128;
+                phase_off[2] = 9'd256;
+                phase_off[3] = 9'd384;
+                oe_reg = 12'b0000_0000_1111;
+            end
+            default: begin
+                for (k = 0; k < 12; k = k + 1) phase_off[k] = 9'd0;
+            end
+        endcase
+    end
+
+    assign beam_oe = oe_reg;
+
+    // Each output pin generates a 50%-duty square wave shifted by phase_off[k] in Z_512
+    // (bit 8 of `(ring_counter + phase_off[k]) & 511` is 0 for 0..255 and 1 for 256..511!)
+    genvar g;
+    generate
+        for (g = 0; g < 12; g = g + 1) begin : gen_pins
+            wire [8:0] shifted_tick = (ring_counter + phase_off[g]) & 9'd511;
+            assign beam_pins[g] = oe_reg[g] ? ~shifted_tick[8] : 1'b0;
+        end
+    endgenerate
+endmodule
+
 // ============================================================================
 // Testbench: Full Hardware Verification & VCD Waveform Dump
 // ============================================================================
@@ -359,6 +441,20 @@ module tb_cuboctahedron_carrier_asic;
         .contrast_833(tp_contrast),
         .waveguide_noise_leak(tp_noise_leak),
         .total_two_chamber_norm_sq(tp_norm_sq)
+    );
+
+    reg drv_rst = 1;
+    reg [2:0] drv_mode = 3'd0;
+    wire [8:0] drv_cnt;
+    wire [11:0] drv_pins, drv_oe;
+
+    fpga_12beam_cuboctahedron_driver u_fpga_drv (
+        .clk_512x(clk),
+        .rst(drv_rst),
+        .mode_sel(drv_mode),
+        .ring_counter(drv_cnt),
+        .beam_pins(drv_pins),
+        .beam_oe(drv_oe)
     );
 
     initial begin
@@ -499,6 +595,22 @@ module tb_cuboctahedron_carrier_asic;
         $display("  -> [Step 3: RELEASE]  Chamber B lifts stasis and resumes evolution: phi0=(%3d,%3d), phi1=(%3d,%3d)",
                  tp_b_p0c, tp_b_p0p, tp_b_p1c, tp_b_p1p);
         if (tp_b_p0p !== saved_a_p0c || tp_b_p1p !== saved_a_p1c) errors = errors + 1;
+
+        $display("======================================================================");
+        $display("[6] Low-Cost FPGA 12-Pin Cuboctahedron Driver Verification");
+        $display("======================================================================");
+        drv_rst = 1; drv_mode = 3'd3; // Pauli Vortex Lock (0 / 256)
+        #5 clk = 1; #5 clk = 0;
+        drv_rst = 0;
+        #1;
+        $display("  -> Mode 3 (Pauli Lock 0/256) at tick %3d: beam_pins = %12b (antipodal pair V1=%b, V2=%b)",
+                 drv_cnt, drv_pins, drv_pins[0], drv_pins[1]);
+        if (drv_pins !== 12'b0101_0101_0101) errors = errors + 1;
+        drv_mode = 3'd4; // Euler XY Rotator
+        #1;
+        $display("  -> Mode 4 (Euler XY Rotator) at tick %3d: beam_oe   = %12b (XY active, XZ/YZ passive)",
+                 drv_cnt, drv_oe);
+        if (drv_oe !== 12'b0000_0000_1111) errors = errors + 1;
 
         $display("======================================================================");
         $display("TOTAL HARDWARE ERRORS = %0d", errors);
