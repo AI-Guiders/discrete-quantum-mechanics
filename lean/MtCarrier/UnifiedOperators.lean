@@ -3117,7 +3117,15 @@ theorem reversible_computing_zero_landauer_heat_and_paradox_resolutions_operator
       -- 4. Fermi paradox stellar photon window quantization ratio (441 : 126 : 63 = 7 : 2 : 1)
       (universalPhotonStepOp d (-(muVac d : Int)) = zNitrogenOp d * hBondDivisorOp d ∧
        universalPhotonStepOp d 0 = c0OverCSqOp d * hBondDivisorOp d ∧
-       universalPhotonStepOp d (muVac d : Int) = muVac d * hBondDivisorOp d)) d :=
+       universalPhotonStepOp d (muVac d : Int) = muVac d * hBondDivisorOp d) ∧
+      -- 5. Wave-particle duality as Euclidean quotient-remainder decomposition Δφ = N_ring(d) * q + r:
+      -- remainder r = edgeConnection (wave propagation across 12 cuboctahedron edges with q = 0 below Pauli half-turn)
+      -- vs integer quotient q = branchQuotient (indivisible corpuscular quantum jumping by ±1 across Φ_Pauli)
+      ((nRing d : Int) * branchQuotient d ((phiPauli d + muVac d : Nat) : Int) +
+         edgeConnection d ((phiPauli d + muVac d : Nat) : Int) = ((phiPauli d + muVac d : Nat) : Int) ∧
+       branchQuotient d (deltaPhiDisc d : Int) = 0 ∧
+       edgeConnection d (deltaPhiDisc d : Int) = (deltaPhiDisc d : Int) ∧
+       branchQuotient d ((phiPauli d + muVac d : Nat) : Int) = (muVac d : Int))) d :=
   catalan_chain d (applied_bio_cad_therapeutic_redifferentiation_and_epigenetic_reset_operator d 1)
     (fun _ => by decide)
 
