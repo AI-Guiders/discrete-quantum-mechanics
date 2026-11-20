@@ -153,6 +153,22 @@ def projC (d : Nat) (phi : Int) : Int :=
 def projS (d : Nat) (phi : Int) : Int :=
   projC d (phi - (quarterPeriod d : Int))
 
+/-- **Discrete Euler Exponential `eulerExp(d, φ) = (C_d(φ), S_d(φ))` (`e^{iφ}` on `ℤ_{N_ring(d)}`):**
+- At `φ = 0`: `eulerExp(d, 0) = (Q_□(d), 0)` (`1`),
+- Quarter-turn shift `+Q_□(d)` acts as exact multiplication by the imaginary unit `i`:
+  `eulerExp(d, φ + Q_□(d)) = (-S_d(φ), C_d(φ)) = i * eulerExp(d, φ)` for all `φ ∈ ℤ_{N_ring(d)}`,
+- Half-turn shift `+Φ_Pauli(d)` (`π`) satisfies **Euler's Identity `e^{iπ} + 1 = 0`** across the entire ring:
+  `eulerExp(d, φ + halfPeriod(d)) + eulerExp(d, φ) = (0, 0)`,
+- And the inner product of `i * eulerExp(d, φ) = eulerExp(d, φ + Q_□(d))` with the finite difference
+  `Δ eulerExp(d, φ) = eulerExp(d, φ + 1) - eulerExp(d, φ)` is identically the constant Wronskian `W_d(φ) ≡ Q_□(d)`
+  (the exact discrete differential equation of Euler's exponential `⟨i e^{iφ}, d/dφ e^{iφ}⟩ ≡ 1`)! -/
+def eulerExp (d : Nat) (phi : Int) : Int × Int :=
+  (projC d phi, projS d phi)
+
+def eulerImagDotDiff (d : Nat) (phi : Int) : Int :=
+  (eulerExp d (phi + (quarterPeriod d : Int))).1 * (projC d (phi + 1) - projC d phi) +
+  (eulerExp d (phi + (quarterPeriod d : Int))).2 * (projS d (phi + 1) - projS d phi)
+
 /-- **One-Step Difference Wronskian `rotatorWronskian(d, φ)`:**
 `W_d(φ) = C_d(φ) * S_d(φ + 1) - S_d(φ) * C_d(φ + 1) = C_d(φ) * ΔS_d(φ) - S_d(φ) * ΔC_d(φ)`.
 Unlike the piecewise derivatives `ΔC_d` and `ΔS_d` considered separately in Thompson (`arXiv:1205.3814`),
@@ -285,12 +301,17 @@ def exactContinuum1DUnitIntegralNum (pDeg : Nat) : Int :=
 ## 5. Main Theorems of the Paper
 -/
 
-/-- **Theorem 1 (Universal Constant Difference Wronskian, Brahmagupta–Weierstrass Euclidean Lift, and Fundamental Theorem of Discrete Calculus)**: -/
+/-- **Theorem 1 (Discrete Euler Exponential `e^{iφ}`, Euler's Identity `e^{iπ} + 1 = 0`, Universal Constant Difference Wronskian `⟨i e^{iφ}, Δ e^{iφ}⟩ ≡ Q_□(d)`, Brahmagupta–Weierstrass Euclidean Lift, and Fundamental Theorem of Discrete Calculus)**: -/
 theorem thm1_constant_wronskian_weierstrass_lift_and_newton_leibniz (d : Nat) :
     CatalanLaw (fun d =>
-      -- (i) L¹ diamond identity |C_d(φ)| + |S_d(φ)| = Q_□(d) and constant difference Wronskian W_d(φ) ≡ Q_□(d) across all 512 points
+      -- (i) Discrete Euler exponential e^{iφ}, multiplication by i via +Q_□(d), Euler's identity e^{iπ} + 1 = 0, and ⟨i e^{iφ}, Δ e^{iφ}⟩ = W_d(φ) ≡ Q_□(d)
       (allUpTo (nRing d) (fun phi =>
          eqNatBool (Int.natAbs (projC d (phi : Int)) + Int.natAbs (projS d (phi : Int))) (quarterPeriod d) &&
+         eqIntBool (eulerExp d ((phi : Int) + (quarterPeriod d : Int))).1 (-projS d (phi : Int)) &&
+         eqIntBool (eulerExp d ((phi : Int) + (quarterPeriod d : Int))).2 (projC d (phi : Int)) &&
+         eqIntBool ((eulerExp d ((phi : Int) + (halfPeriod d : Int))).1 + (eulerExp d (phi : Int)).1) 0 &&
+         eqIntBool ((eulerExp d ((phi : Int) + (halfPeriod d : Int))).2 + (eulerExp d (phi : Int)).2) 0 &&
+         eqIntBool (eulerImagDotDiff d (phi : Int)) (rotatorWronskian d (phi : Int)) &&
          eqIntBool (rotatorWronskian d (phi : Int)) (quarterPeriod d : Int)) = true ∧
        discreteIntegral (nRing d) (fun phi => rotatorWronskian d phi) =
          ((nRing d * quarterPeriod d : Nat) : Int)) ∧
