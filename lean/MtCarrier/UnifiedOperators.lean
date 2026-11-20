@@ -3331,7 +3331,16 @@ def checkAutonomousFoodWaterSynthesisBool (d : Nat) : Bool :=
   (zCarbonOp d + c0OverCSqOp d * zNitrogenOp d == zCalciumOp d) &&
   (aCalcium40MassOp d == deltaPhiDisc d - muVac d) &&
   (c0OverCSqOp d * zCarbonOp d + c0OverCSqOp d * zNitrogenOp d == zIronOp d) &&
-  (c0OverCSqOp d * (c0OverCSqOp d * zNitrogenOp d) == zSodiumChlorideOp d)
+  (c0OverCSqOp d * (c0OverCSqOp d * zNitrogenOp d) == zSodiumChlorideOp d) &&
+  -- Carnot-Heisenberg 12-Beam Sub-Threshold Entropy Sink Theorem:
+  -- Because `|N(d)| * Δφ_disc(d) = 12 * 41 = 492 > 256 = Φ_Pauli(d)`, even the maximum
+  -- 6-quantum thermal impulse `Φ_Pauli = 256` (`n̂_E(256) = 6`), when distributed across the
+  -- 12 cuboctahedron rays (`256 / 12 = 21 < 41`), produces ZERO thermal phonon quanta (`n̂_E(21) = 0`)
+  -- on every ray (an effective `T_phonon = 0 K` sub-threshold Carnot sink conserving total phase sum!):
+  (phiPauli d < nNeighbors d * deltaPhiDisc d) &&
+  (energyQuantumOperator d (phiPauli d : Int) == nSquares d) &&
+  (energyQuantumOperator d ((phiPauli d : Int) / (nNeighbors d : Int)) == 0) &&
+  (energyQuantumOperator d ((kP d : Int) / (nNeighbors d : Int)) == 0)
 
 def checkExactRingTeleportationBool (d : Nat) (aAnchor : Int) : Bool :=
   (List.range (nRing d)).all (fun psi =>
