@@ -41,8 +41,9 @@
 % Riemann integral from pure 3D geometry.
 %
 % Every definition, lemma, and theorem is formally verified in the Lean 4 theorem
-% prover in a self-contained 397-line module (`RotatorCalculusPaper.lean`, zero
-% `sorry`, zero `Classical.choice`).
+% prover in a self-contained 572-line module (`RotatorCalculusPaper.lean`, zero
+% `sorry`, zero `Classical.choice`) available at:
+% https://github.com/KarataevDmitry/cuboctahedral-rotator-calculus
 %
 % The manuscript is original, has not been published previously, and is not under
 % consideration elsewhere.
@@ -368,7 +369,7 @@ Chained directly from Theorem~\ref{thm:main-2} via \texttt{catalan\_chain}, for 
 \section{Formal Verification in Lean~4}
 \label{sec:lean4}
 
-The complete self-contained formalization ($397$ lines, zero external library dependencies beyond the standard Lean~4 core) resides in \texttt{lean/MtCarrier/RotatorCalculusPaper.lean} and builds via \texttt{lake build}. Axiom audit (\texttt{\#print axioms}) of all four theorems (\texttt{catalan\_lock\_iff\_d3}, \texttt{thm1\_constant\_wronskian\_weierstrass\_lift\_and\_newton\_leibniz}, \texttt{thm2\_closed\_form\_fresnel\_jacobi\_dirichlet\_parseval\_bessel\_integrals}, and \texttt{thm3\_continuum\_integration\_from\_cuboctahedron\_archimedes\_layers}) confirms dependence solely on \texttt{[propext, Quot.sound]} (\texttt{0 sorryAx}, \texttt{0 Classical.choice}).
+The complete self-contained formalization ($572$ lines, zero external library dependencies beyond the standard Lean~4 core) resides in \texttt{RotatorCalculusPaper.lean} in the standalone open repository \url{https://github.com/KarataevDmitry/cuboctahedral-rotator-calculus} and builds via \texttt{lake build}. Axiom audit (\texttt{\#print axioms}) of all four theorems (\texttt{catalan\_lock\_iff\_d3}, \texttt{thm1\_constant\_wronskian\_weierstrass\_lift\_and\_newton\_leibniz}, \texttt{thm2\_closed\_form\_fresnel\_jacobi\_dirichlet\_parseval\_bessel\_integrals}, and \texttt{thm3\_continuum\_integration\_from\_cuboctahedron\_archimedes\_layers}) confirms dependence solely on \texttt{[propext, Quot.sound]} (\texttt{0 sorryAx}, \texttt{0 Classical.choice}).
 
 \section*{Acknowledgments and Declaration}
 The author acknowledges formal verification partner \emph{Luch} for collaboration on structuring the recursive operator proof chain. Large language model tools were used for assistance with \LaTeX{} formatting, English copy-editing, and translating mathematical proofs into Lean~4 tactic syntax; all mathematical definitions, theorem formulations, and proofs are verified by the Lean~4 formal proof kernel and are the full responsibility of the author.
