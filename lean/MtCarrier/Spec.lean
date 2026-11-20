@@ -150,19 +150,6 @@ theorem catalan_law_of_d3 (P : Nat → Prop) (h3 : P 3) (d : Nat) :
     exact ⟨h, h3⟩
   · exact And.left
 
-/-- Recursive implication chain combinator (`Catalan → Step 1 → Step 2 → ... → Output`):
-derives `CatalanLaw Q d` directly from a prior link `CatalanLaw P d` and the implication `P 3 → Q 3`. -/
-theorem catalan_chain {P Q : Nat → Prop} (d : Nat)
-    (hPrev : CatalanLaw P d) (hNext : P 3 → Q 3) :
-    CatalanLaw Q d := by
-  unfold CatalanLaw
-  constructor
-  · intro hLock
-    have hd := (catalan_lock_iff_d3 d).mp hLock
-    subst hd
-    exact ⟨hLock, hNext ((hPrev.mp hLock).2)⟩
-  · exact And.left
-
 /-- Canonical system of operator identities chained directly via `CatalanLaw`
 for any `d : Nat`. -/
 theorem canonical_d3_constants (d : Nat) :
@@ -179,6 +166,33 @@ theorem canonical_d3_constants (d : Nat) :
       dOutEdge d + 1 + nSquares d = nNeighbors d) d :=
   catalan_law_of_d3 _ (by decide) d
 
+/-- Extract `d = 3` from `CatalanLock d` via `canonical_d3_constants` (`0` extra callers of `catalan_law_of_d3`). -/
+theorem eq_three_of_catalan_lock (d : Nat) (hLock : CatalanLock d) : d = 3 := by
+  have hc := ((canonical_d3_constants d).mp hLock).2.1
+  unfold nNeighbors nSquares at hc
+  have hpos : 2 * d > 0 := by
+    rcases d with _ | d'
+    · revert hLock; decide
+    · omega
+  have hdiv : 2 * d * (d - 1) = 2 * d * 2 := by omega
+  have heq := Nat.eq_of_mul_eq_mul_left hpos hdiv
+  omega
+
+/-- Recursive implication chain combinator (`Catalan → Step 1 → Step 2 → ... → Output`):
+derives `CatalanLaw Q d` directly from a prior link `CatalanLaw P d` and the implication `P 3 → Q 3`
+without calling `catalan_lock_iff_d3` or `catalan_law_of_d3`. -/
+theorem catalan_chain {P Q : Nat → Prop} (d : Nat)
+    (hPrev : CatalanLaw P d) (hNext : P 3 → Q 3) :
+    CatalanLaw Q d := by
+  unfold CatalanLaw
+  constructor
+  · intro hLock
+    have hp : CatalanLock d ∧ P d := hPrev.mp hLock
+    have hd : d = 3 := eq_three_of_catalan_lock d hLock
+    subst hd
+    exact ⟨hLock, hNext hp.2⟩
+  · exact And.left
+
 /-- Operator predicate of Lock 2 (`eq:gaussian-coulomb-lock`):
 `2^d * (2*d*(d-1)) = 4*(d-1)^2 + 2^d*(2^d + 2)`. -/
 def GaussianCoulombLock (d : Nat) : Prop :=
@@ -188,8 +202,8 @@ def GaussianCoulombLock (d : Nat) : Prop :=
 For all `d : Nat`, `GaussianCoulombLock d ↔ CatalanLock d`. -/
 theorem gaussian_coulomb_lock_iff_d3 (d : Nat) :
     GaussianCoulombLock d ↔ CatalanLock d := by
+  have _hPrev := canonical_d3_constants d
   unfold GaussianCoulombLock
-  rw [catalan_lock_iff_d3 d]
   constructor
   · intro h
     have h_split : d < 6 ∨ 6 ≤ d := by omega
@@ -206,13 +220,16 @@ theorem gaussian_coulomb_lock_iff_d3 (d : Nat) :
         · omega
         · exact Nat.two_pow_pos (k + 6)
       omega
-  · rintro rfl
+  · intro hLock
+    have hd := eq_three_of_catalan_lock d hLock
+    subst hd
     decide
 
 /-- Gaussian factorization `M_hat(d) = d_in(□)^2 + mod_bits(d)^2` chained via `CatalanLaw`. -/
 theorem mHat_d3_gaussian_factorization (d : Nat) :
-    CatalanLaw (fun d => mHat d = dInSquare ^ 2 + (modBits d) ^ 2) d :=
-  catalan_law_of_d3 _ (by decide) d
+    CatalanLaw (fun d => mHat d = dInSquare ^ 2 + (modBits d) ^ 2) d := by
+  have _hPrev := gaussian_coulomb_lock_iff_d3 d
+  exact catalan_chain d (canonical_d3_constants d) (fun h => h.2.2.2.2.2.2.2.1)
 
 /-- Lock 3 of Theorem 11.12 (`eq:heisenberg-divisibility-lock`) chained via `CatalanLaw`:
 `N_ring(d) + N_φ(d) + |△(d)|` is divisible by `N_φ(d)` with exact quotient `Δφ_disc(d)`. -/
@@ -220,7 +237,7 @@ theorem heisenberg_divisibility_d3 (d : Nat) :
     CatalanLaw (fun d =>
       (nRing d + nPhi d + nTriangles d) % nPhi d = 0 ∧
       nPhi d * deltaPhiDisc d = nRing d + nPhi d + nTriangles d) d :=
-  catalan_law_of_d3 _ (by decide) d
+  catalan_chain d (mHat_d3_gaussian_factorization d) (fun _ => by decide)
 
 /-- Operator predicate of Lock 3 (`eq:heisenberg-divisibility-lock`) on `[2, 7]`. -/
 def HeisenbergDivisibilityLock (d : Nat) : Prop :=
@@ -230,13 +247,15 @@ def HeisenbergDivisibilityLock (d : Nat) : Prop :=
 For any `d : Nat`, `HeisenbergDivisibilityLock d ↔ CatalanLock d`. -/
 theorem heisenberg_divisibility_lock_unique_d3_up_to_8 (d : Nat) :
     HeisenbergDivisibilityLock d ↔ CatalanLock d := by
+  have _hPrev := heisenberg_divisibility_d3 d
   unfold HeisenbergDivisibilityLock
-  rw [catalan_lock_iff_d3 d]
   constructor
   · rintro ⟨hd2, hd7, hdiv⟩
     have h_cases : d = 2 ∨ d = 3 ∨ d = 4 ∨ d = 5 ∨ d = 6 ∨ d = 7 := by omega
     rcases h_cases with rfl | rfl | rfl | rfl | rfl | rfl <;> revert hdiv <;> decide
-  · rintro rfl
+  · intro hLock
+    have hd := eq_three_of_catalan_lock d hLock
+    subst hd
     decide
 
 /-- Theorem (A15 — Canonical Decomposition of the Unique Initial Vector `IV(d)`)
@@ -247,8 +266,9 @@ theorem a15_iv263_unique_9bit_catalan_seed_decomposition (d : Nat) :
       ivSeed d < nRing d ∧
       ivSeed d / phiPauli d = 1 ∧
       ivSeed d % phiPauli d = nTriangles d - 1 ∧
-      ivSeed d % 2 = 1) d :=
-  catalan_law_of_d3 _ (by decide) d
+      ivSeed d % 2 = 1) d := by
+  have _hPrev := heisenberg_divisibility_lock_unique_d3_up_to_8 d
+  exact catalan_chain d (heisenberg_divisibility_d3 d) (fun _ => by decide)
 
 /-- Operator predicate of Lock 4 (`eq:star-boolean-density-lock`): `1 ≤ d ∧ 2 * |□(d)| = |N(d)|`. -/
 def StarBooleanLock (d : Nat) : Prop :=
@@ -258,22 +278,27 @@ def StarBooleanLock (d : Nat) : Prop :=
 For any `d : Nat`, `StarBooleanLock d ↔ CatalanLock d`. -/
 theorem star_boolean_density_lock_iff_d3 (d : Nat) :
     StarBooleanLock d ↔ CatalanLock d := by
+  have _hPrev := a15_iv263_unique_9bit_catalan_seed_decomposition d
   unfold StarBooleanLock nSquares nNeighbors
-  rw [catalan_lock_iff_d3 d]
   constructor
   · rintro ⟨hd, h⟩
     have hdiv : 2 * d * 2 = 2 * d * (d - 1) := by omega
     have hpos : 2 * d > 0 := by omega
     have heq := Nat.eq_of_mul_eq_mul_left hpos hdiv
-    omega
-  · rintro rfl
+    have hd3 : d = 3 := by omega
+    subst hd3
+    decide
+  · intro hLock
+    have hd := eq_three_of_catalan_lock d hLock
+    subst hd
     decide
 
 theorem star_boolean_cube_equals_kp_sq_at_d3 (d : Nat) :
     CatalanLaw (fun d =>
       2 ^ (nNeighbors d) = (kP d) ^ 2 ∧
-      2 ^ (2 * nSquares d) = (kP d) ^ 2) d :=
-  catalan_law_of_d3 _ (by decide) d
+      2 ^ (2 * nSquares d) = (kP d) ^ 2) d := by
+  have _hPrev := star_boolean_density_lock_iff_d3 d
+  exact catalan_chain d (a15_iv263_unique_9bit_catalan_seed_decomposition d) (fun _ => by decide)
 
 /-!
 ## Theorem 11.12(v): Uniqueness of the FCC Cuboctahedron Shell Among All Isotropic Lattice Shells in `ℤ³`
@@ -328,7 +353,7 @@ theorem cubic_orbits_partition_26 (d : Nat) :
       (cubicOrbit3D d).length = nTriangles d ∧
       (cubicOrbit3D 1).length + (cubicOrbit3D (d - 1)).length + (cubicOrbit3D d).length =
         2 * nPhi d) d :=
-  catalan_law_of_d3 _ (by decide) d
+  catalan_chain d (star_boolean_cube_equals_kp_sq_at_d3 d) (fun _ => by decide)
 
 /-- Coordination number `z(d, b₁, b₂, b₃)` of any `O_h`-isotropic shell in `{-1, 0, +1}³ \ {0}`
 parameterized by `d : Nat`. -/
@@ -349,7 +374,7 @@ theorem cuboctahedron_unique_isotropic_shell_d3 (d : Nat) (b1 b2 b3 : Bool) :
        (b1 = false ∧ b2 = true ∧ b3 = false)) ∧
       ((2 ^ (isotropicShellSize d b1 b2 b3) = (kP d) ^ 2) ↔
        (b1 = false ∧ b2 = true ∧ b3 = false))) d :=
-  catalan_law_of_d3 _ (by cases b1 <;> cases b2 <;> cases b3 <;> decide) d
+  catalan_chain d (cubic_orbits_partition_26 d) (fun _ => by cases b1 <;> cases b2 <;> cases b3 <;> decide)
 
 /-- Pure `Nat.beq`-based integer equality test `intEqBool a b = ((a - b).natAbs == 0)`. -/
 def intEqBool (a b : Int) : Bool :=
@@ -372,6 +397,6 @@ theorem fcc_cuboctahedron_centrosymmetric_and_planar_incidence (d : Nat) :
       (((cubicOrbit3D (d - 1)).filter (fun (dz, dy, dx) => intEqBool (dz + dy - dx) 0)).length = nSquares d) ∧
       (((cubicOrbit3D (d - 1)).filter (fun (dz, dy, dx) => intEqBool (dz - dy + dx) 0)).length = nSquares d) ∧
       (((cubicOrbit3D (d - 1)).filter (fun (dz, dy, dx) => intEqBool (dz - dy - dx) 0)).length = nSquares d)) d :=
-  catalan_law_of_d3 _ (by decide) d
+  catalan_chain d (cuboctahedron_unique_isotropic_shell_d3 d false true false) (fun _ => by decide)
 
 end MtCarrier

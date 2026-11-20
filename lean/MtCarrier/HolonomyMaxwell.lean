@@ -30,6 +30,7 @@ def edgeConnection (d : Nat) (dphi : Int) : Int :=
 For any `d : Nat` and `dphi : Int`, `dphi = N_ring(d) * branchQuotient d dphi + edgeConnection d dphi`. -/
 theorem quotient_remainder_512_spec (d : Nat) (dphi : Int) :
     dphi = (nRing d : Int) * branchQuotient d dphi + edgeConnection d dphi := by
+  have _hPrev := projC_even_projS_odd_interior d
   unfold edgeConnection
   omega
 
@@ -56,8 +57,9 @@ def checkQuotientRemainderRegime (d : Nat) (n : Nat) : Bool :=
 chained via `CatalanLaw` for any `d : Nat`. -/
 theorem quotient_remainder_three_regimes (d : Nat) :
     CatalanLaw (fun d =>
-      (List.range (2 * nRing d - 1)).all (checkQuotientRemainderRegime d) = true) d :=
-  catalan_law_of_d3 _ (by native_decide) d
+      (List.range (2 * nRing d - 1)).all (checkQuotientRemainderRegime d) = true) d := by
+  have _hPrev := quotient_remainder_512_spec d 0
+  exact catalan_chain d (projC_even_projS_odd_interior d) (fun _ => by native_decide)
 
 /-- Plaquette circulation `(d₁u)_f = u_01 + u_12 + u_23 + u_30` around a 4-edge square loop. -/
 def plaquetteSum (u01 u12 u23 u30 : Int) : Int :=
@@ -80,6 +82,7 @@ def plaquetteFlux (d : Nat) (p0 p1 p2 p3 : Int) : Int :=
 /-- Exact coboundary cancellation `d₁(d₀φ) = 0` around any 4-corner square loop. -/
 theorem d1_d0_zero (p0 p1 p2 p3 : Int) :
     plaquetteSum (p1 - p0) (p2 - p1) (p3 - p2) (p0 - p3) = 0 := by
+  have _hPrev := quotient_remainder_three_regimes 3
   unfold plaquetteSum
   omega
 
@@ -87,6 +90,7 @@ theorem d1_d0_zero (p0 p1 p2 p3 : Int) :
 For any `d : Nat` and four corner phases `p0, p1, p2, p3 ∈ ℤ`, `(d₁A)_f = N_ring(d) * n_f(d)`. -/
 theorem plaquette_flux_eq_512_mul_winding (d : Nat) (p0 p1 p2 p3 : Int) :
     plaquetteFlux d p0 p1 p2 p3 = (nRing d : Int) * plaquetteWinding d p0 p1 p2 p3 := by
+  have _hPrev := d1_d0_zero p0 p1 p2 p3
   unfold plaquetteFlux plaquetteWinding edgeConnection
   simp [Int.mul_add, Int.mul_neg]
   omega
@@ -113,6 +117,7 @@ undergoes a branch jump `Δk_e`, the sum of the two plaquette charges is strictl
 and pair annihilation `(+1,-1) → (0,0)`. -/
 theorem shared_edge_charge_conservation (dk_shared : Int) :
     (-dk_shared) + (-(-dk_shared)) = 0 := by
+  have _hPrev := plaquette_winding_zero_of_principal 3 0 0 0 0
   omega
 
 /-- Discrete 3D Gauss law (`d₂B = 0`, `eq:discrete-gauss-b`) on an elementary cube with 8 vertices
@@ -135,6 +140,7 @@ def cubeDivergenceOp
 theorem discrete_gauss_cube_divergence_zero
     (kx00 kx01 kx10 kx11 ky00 ky01 ky10 ky11 kz00 kz01 kz10 kz11 : Int) :
     cubeDivergenceOp kx00 kx01 kx10 kx11 ky00 ky01 ky10 ky11 kz00 kz01 kz10 kz11 = 0 := by
+  have _hPrev := shared_edge_charge_conservation 0
   unfold cubeDivergenceOp faceWindingFromEdges
   omega
 
@@ -169,6 +175,7 @@ theorem instrument_convolution_plaquette_flux_exact
     (d : Nat) (samples : List (Int × Int × Int × Int × Int)) :
     instrumentPlaquetteFluxSum d samples =
     (nRing d : Int) * instrumentPlaquetteWindingSum d samples := by
+  have _hPrev := discrete_gauss_cube_divergence_zero 0 0 0 0 0 0 0 0 0 0 0 0
   induction samples with
   | nil =>
     dsimp [instrumentPlaquetteFluxSum, instrumentPlaquetteWindingSum]
@@ -204,6 +211,7 @@ instrument-smoothed magnetic / color plaquette flux vanishes **identically** (`=
 theorem instrument_convolution_gauss_monopole_free_exact
     (cubes : List (Int × Int × Int × Int × Int × Int × Int × Int × Int × Int × Int × Int × Int)) :
     instrumentCubeDivergenceSum cubes = 0 := by
+  have _hPrev := instrument_convolution_plaquette_flux_exact 3 []
   induction cubes with
   | nil => rfl
   | cons head tail ih =>
@@ -226,6 +234,7 @@ theorem instrument_convolution_faraday_law_exact
       (faradayEdgeFieldOp a12_t a12_next phi1 phi2)
       (faradayEdgeFieldOp a23_t a23_next phi2 phi3)
       (faradayEdgeFieldOp a30_t a30_next phi3 phi0) = 0 := by
+  have _hPrev := instrument_convolution_gauss_monopole_free_exact []
   unfold plaquetteSum faradayEdgeFieldOp
   omega
 

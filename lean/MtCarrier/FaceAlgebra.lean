@@ -63,7 +63,8 @@ theorem wrap512_spec (d : Nat) (x : Int) :
       -(phiPauli d : Int) < wrap512 d x ∧
       wrap512 d x ≤ (phiPauli d : Int) ∧
       (x - wrap512 d x) % (nRing d : Int) = 0) d := by
-  apply catalan_law_of_d3
+  apply catalan_chain d (fcc_cuboctahedron_centrosymmetric_and_planar_incidence d)
+  intro _
   unfold wrap512
   dsimp [phiPauli, nRing, modBits, nTriangles]
   refine ⟨by omega, by omega, by omega⟩
@@ -88,7 +89,7 @@ theorem step0_face_projection_table (d : Nat) :
        projS d ((dInSquare : Int) * (deltaPhiDisc d : Int)) > 0 ∧
        projC d (-((dInSquare : Int) * (deltaPhiDisc d : Int))) = projC d ((dInSquare : Int) * (deltaPhiDisc d : Int)) ∧
        projS d (-((dInSquare : Int) * (deltaPhiDisc d : Int))) = -projS d ((dInSquare : Int) * (deltaPhiDisc d : Int)))) d :=
-  catalan_law_of_d3 _ (by decide) d
+  catalan_chain d (wrap512_spec d 0) (fun _ => by decide)
 
 /-- Theorem 11.11 (`eq:l1-face-identity`) chained via `CatalanLaw` for any `d : Nat`:
 On the entire phase ring `a ∈ [0, N_ring(d))`, `|C_d(a)| + |S_d(a)| = Q_□(d)`. -/
@@ -96,14 +97,15 @@ theorem l1_face_identity_all_512 (d : Nat) :
     CatalanLaw (fun d =>
       (List.range (nRing d)).all (fun n =>
         (projC d (n : Int)).natAbs + (projS d (n : Int)).natAbs == qSquare d) = true) d :=
-  catalan_law_of_d3 _ (by native_decide) d
+  catalan_chain d (step0_face_projection_table d) (fun _ => by native_decide)
 
 /-- General algebraic proof of the `L¹` square-face identity `|C_d(a)| + |S_d(a)| = Q_□(d)`
 for every integer `a ∈ ℤ` chained via `CatalanLaw`. -/
 theorem l1_face_identity_int (d : Nat) (a : Int) :
     CatalanLaw (fun d =>
       ((projC d a).natAbs : Int) + ((projS d a).natAbs : Int) = (qSquare d : Int)) d := by
-  apply catalan_law_of_d3
+  apply catalan_chain d (l1_face_identity_all_512 d)
+  intro _
   unfold projS projC wrap512
   dsimp [qSquare, phiPauli, nRing, modBits, nTriangles, dInSquare]
   have h1 : (256 - (a - 128)) % 512 = (384 - a % 512) % 512 := by omega
@@ -119,7 +121,7 @@ theorem pythagorean_rotator_identity_all_512 (d : Nat) :
         intEqBool
           (pythPx d (n : Int) * pythPx d (n : Int) + pythPy d (n : Int) * pythPy d (n : Int))
           (pythPr d (n : Int) * pythPr d (n : Int))) = true) d :=
-  catalan_law_of_d3 _ (by native_decide) d
+  catalan_chain d (l1_face_identity_int d 0) (fun _ => by native_decide)
 
 /-- At the Heisenberg threshold `A = Δφ_disc(d)`, the integer Pythagorean legs are strictly positive
 and satisfy `P_{x,d}(Δφ_disc(d))^2 + P_{y,d}(Δφ_disc(d))^2 = P_{r,d}(Δφ_disc(d))^2`
@@ -132,7 +134,7 @@ theorem heisenberg_pythagorean_triple (d : Nat) :
       pythPx d (deltaPhiDisc d : Int) * pythPx d (deltaPhiDisc d : Int) +
       pythPy d (deltaPhiDisc d : Int) * pythPy d (deltaPhiDisc d : Int) =
       pythPr d (deltaPhiDisc d : Int) * pythPr d (deltaPhiDisc d : Int)) d :=
-  catalan_law_of_d3 _ (by decide) d
+  catalan_chain d (pythagorean_rotator_identity_all_512 d) (fun _ => by decide)
 
 /-- Evenness of `C_d` and oddness of `S_d` across all interior edge differences `a ∈ (-Φ_Pauli(d), Φ_Pauli(d))`
 chained via `CatalanLaw`. -/
@@ -145,6 +147,6 @@ theorem projC_even_projS_odd_interior (d : Nat) :
         intEqBool
           (projS d (-((n : Int) - ((phiPauli d : Int) - 1))))
           (-projS d ((n : Int) - ((phiPauli d : Int) - 1)))) = true) d :=
-  catalan_law_of_d3 _ (by native_decide) d
+  catalan_chain d (heisenberg_pythagorean_triple d) (fun _ => by native_decide)
 
 end MtCarrier

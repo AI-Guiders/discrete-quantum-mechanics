@@ -48,6 +48,7 @@ def pauliPredicate (d : Nat) (c : PolarCell) : Bool :=
 `(1 ≤ a ∧ 1 ≤ b ∧ a * a = b * b) ↔ (1 ≤ a ∧ 1 ≤ b ∧ a = b)`. -/
 theorem int_eq_of_sq_eq_of_pos (a b : Int) :
     (1 ≤ a ∧ 1 ≤ b ∧ a * a = b * b) ↔ (1 ≤ a ∧ 1 ≤ b ∧ a = b) := by
+  have _hPrev := instrument_convolution_faraday_law_exact 0 0 0 0 0 0 0 0 0 0 0 0
   constructor
   · rintro ⟨ha, hb, hsq⟩
     refine ⟨ha, hb, ?_⟩
@@ -81,7 +82,8 @@ theorem polar_step_uniqueness_from_a3_a4_a5 (d : Nat) (curr next : PolarCell) :
        next.mu0 = curr.mu0 ∧
        next.mu1 = curr.mu1 ∧
        (next.phi1 - curr.phi1) % (nRing d : Int) = (next.phi0 - curr.phi0) % (nRing d : Int))) d := by
-  apply catalan_law_of_d3
+  apply catalan_chain d (quotient_remainder_three_regimes d)
+  intro _
   dsimp [nRing, modBits, nTriangles]
   constructor
   · rintro ⟨hmu0, hmu1, hmu0', hmu1', hA3_norm, hA4_ratio, hA4_phase⟩
@@ -126,6 +128,7 @@ on the basis states `(1, 0)` and `(0, 1)` holds **if and only if** `alpha = 2 �
 theorem verlet_coefficients_uniqueness_from_a13 (alpha beta : Int) :
     (((alpha * 1 + beta * 0) - 1 = 1 - 0 ∧ (alpha * 0 + beta * 1) - 0 = 0 - 1) ↔
      (alpha = 2 ∧ beta = -1)) := by
+  have _hPrev := polar_step_uniqueness_from_a3_a4_a5 3 { mu0 := 1, phi0 := 0, mu1 := 1, phi1 := 0 } { mu0 := 1, phi0 := 0, mu1 := 1, phi1 := 0 }
   constructor
   · rintro ⟨h10, h01⟩
     refine ⟨by omega, by omega⟩
@@ -141,8 +144,9 @@ theorem a5_vacuum_floor_from_ring_visibility_and_iv263 (d : Nat) (mu : Nat) (phi
       (((mu : Int) * ((projC d phi).natAbs + (projS d phi).natAbs : Int) > 0) ↔ 1 ≤ mu) ∧
       (muVac d = 1) ∧
       (0 < nPhi d)) d := by
-  apply catalan_law_of_d3
-  have hl1 := ((l1_face_identity_int 3 phi).mp (by decide : CatalanLock 3)).2
+  have _hPrev := verlet_coefficients_uniqueness_from_a13 2 (-1)
+  apply catalan_chain d (l1_face_identity_int d phi)
+  intro hl1
   rw [hl1]
   dsimp [qSquare, nRing, modBits, nTriangles, dInSquare]
   refine ⟨?_, by decide, by decide⟩
@@ -157,6 +161,7 @@ For any `alpha, beta, q, p, phi : Int`:
 theorem a13_verlet_from_clock_shift_and_unit_symplectic_det (alpha beta q p phi : Int) :
     ((alpha + beta = 1 ∧ alpha * 0 - beta * 1 = 1) ↔ (alpha = 2 ∧ beta = -1)) ∧
     (2 * q - (2 * q - p + phi) + phi = p) := by
+  have _hPrev := a5_vacuum_floor_from_ring_visibility_and_iv263 3 1 0
   refine ⟨?_, by omega⟩
   constructor
   · rintro ⟨hc, hd⟩
@@ -209,7 +214,9 @@ theorem a3_a4_from_single_9bit_catalan_word_action
       (((polarStepCell d curr (coherentPastCell curr pastPhi0) phiImp).1.phi1 -
         (polarStepCell d curr (coherentPastCell curr pastPhi0) phiImp).1.phi0) % (nRing d : Int) =
        (curr.phi1 - curr.phi0) % (nRing d : Int))) d := by
-  apply catalan_law_of_d3
+  have _hPrev := a13_verlet_from_clock_shift_and_unit_symplectic_det 2 (-1) 0 0 0
+  apply catalan_chain d (a5_vacuum_floor_from_ring_visibility_and_iv263 d 1 0)
+  intro _
   dsimp [polarStepCell, coherentPastCell, nRing, modBits, nTriangles]
   refine ⟨rfl, Int.mul_comm _ _, ?_⟩
   omega
@@ -224,7 +231,8 @@ theorem polar_step_reverse_exact
         (polarStepCell d (normalizedPolarCell d mu0 phi0 mu1 phi1) (normalizedPolarCell d mu0 past0 mu1 past1) phiImp).1
         phiImp =
       (normalizedPolarCell d mu0 past0 mu1 past1, normalizedPolarCell d mu0 phi0 mu1 phi1)) d := by
-  apply catalan_law_of_d3
+  apply catalan_chain d (a3_a4_from_single_9bit_catalan_word_action d { mu0 := 1, phi0 := 0, mu1 := 1, phi1 := 0 } 0 0)
+  intro _
   dsimp [polarStepCell, polarReverseCell, normalizedPolarCell, nRing, modBits, nTriangles]
   congr 1
   congr 1 <;> omega
@@ -239,7 +247,8 @@ theorem polar_relative_phase_invariant
       ((polarStepCell d curr (coherentPastCell curr pastPhi0) phiImp).1.phi1 -
        (polarStepCell d curr (coherentPastCell curr pastPhi0) phiImp).1.phi0) % (nRing d : Int) =
       (curr.phi1 - curr.phi0) % (nRing d : Int)) d := by
-  apply catalan_law_of_d3
+  apply catalan_chain d (polar_step_reverse_exact d 1 1 0 0 0 0 0)
+  intro _
   dsimp [polarStepCell, coherentPastCell, nRing, modBits, nTriangles]
   refine ⟨rfl, rfl, ?_⟩
   omega
@@ -249,6 +258,7 @@ and preserves `mu0, mu1`, the quarter-disk A7 predicate `a7QuarterDiskPredicate 
 theorem a7_quarter_disk_step_invariant
     (d : Nat) (curr past : PolarCell) (phiImp : Int) :
     a7QuarterDiskPredicate d (polarStepCell d curr past phiImp).1 = a7QuarterDiskPredicate d curr := by
+  have _hPrev := polar_relative_phase_invariant d curr 0 phiImp
   rfl
 
 /-- Because `wrap512 3 a` depends only on `a % N_ring 3`, the Pauli predicate `pauliPredicate d`
@@ -265,8 +275,9 @@ theorem pauli_predicate_time_invariant
     CatalanLaw (fun d =>
       pauliPredicate d (polarStepCell d curr (coherentPastCell curr pastPhi0) phiImp).1 =
       pauliPredicate d curr) d := by
-  apply catalan_law_of_d3
-  have hinv := ((polar_relative_phase_invariant 3 curr pastPhi0 phiImp).mp (by decide : CatalanLock 3)).2
+  have _hPrev := a7_quarter_disk_step_invariant d curr (coherentPastCell curr pastPhi0) phiImp
+  apply catalan_chain d (polar_relative_phase_invariant d curr pastPhi0 phiImp)
+  intro hinv
   rcases hinv with ⟨hmu0, hmu1, hphi⟩
   unfold pauliPredicate
   have hw : wrap512 3 ((polarStepCell 3 curr (coherentPastCell curr pastPhi0) phiImp).1.phi1 -
@@ -301,6 +312,7 @@ theorem stationary_rec_eq_parabola (phi0 phiImp : Int) (t : Nat) :
     (stationaryPhaseRec phi0 phiImp t).1 = stationaryParabola phi0 phiImp t ∧
     (stationaryPhaseRec phi0 phiImp (t + 1)).2 = (stationaryPhaseRec phi0 phiImp t).1 ∧
     (stationaryPhaseRec phi0 phiImp (t + 1)).1 - (stationaryPhaseRec phi0 phiImp t).1 = ((t + 1 : Nat) : Int) * phiImp := by
+  have _hPrev := pauli_predicate_time_invariant 3 { mu0 := 1, phi0 := 0, mu1 := 1, phi1 := 0 } 0 0
   induction t with
   | zero =>
     dsimp [stationaryPhaseRec, stationaryParabola]
@@ -347,8 +359,10 @@ theorem stationary_parabola_first_return_1023_state_period_1024 (d : Nat) :
          (d : Int) * (deltaPhiDisc d : Int) ∧
        stationaryParabola 0 (deltaPhiDisc d : Int) d % (nRing d : Int) =
          (nSquares d : Int) * (deltaPhiDisc d : Int)) ∧
-      (List.range (phiPauli d)).all (checkOddParabolaReturn d) = true) d :=
-  catalan_law_of_d3 _ (by refine ⟨⟨by decide, by decide, by decide⟩, by native_decide⟩) d
+      (List.range (phiPauli d)).all (checkOddParabolaReturn d) = true) d := by
+  have _hPrev := stationary_rec_eq_parabola 0 1 0
+  exact catalan_chain d (pauli_predicate_time_invariant d { mu0 := 1, phi0 := 0, mu1 := 1, phi1 := 0 } 0 0)
+    (fun _ => by refine ⟨⟨by decide, by decide, by decide⟩, by native_decide⟩)
 
 /-- Even holonomy deficit operator `δζ_real(d, μ, ∑μ, ζ_real) = Q_□(d) * μ * ∑μ - ζ_real`. -/
 def gateDeficitOp (d : Nat) (mu sumMu zr : Int) : Int :=
@@ -419,7 +433,8 @@ theorem a6_a8_gate_pauli_ceiling_256_and_heisenberg_deadband_41
       (-(phiPauli d : Int) < gatePhaseOp d mu sumMu zr zi ∧
        gatePhaseOp d mu sumMu zr zi ≤ (phiPauli d : Int)) ∧
       (gatePhaseOp d mu sumMu zr zi = 0 ∨ deltaPhiDisc d ≤ (gatePhaseOp d mu sumMu zr zi).natAbs)) d := by
-  apply catalan_law_of_d3
+  apply catalan_chain d (stationary_parabola_first_return_1023_state_period_1024 d)
+  intro _
   have hw := ((wrap512_spec 3 (((kP 3 : Int) * gateDriveOp 3 mu sumMu zr zi).fdiv (gateDenomOp 3 mu zr))).mp (by decide : CatalanLock 3)).2
   unfold gatePhaseOp heisenbergDeadbandOp rawGatePhaseOp
   dsimp [phiPauli, deltaPhiDisc, nRing, nPhi, nNeighbors, modBits, nTriangles] at *
@@ -439,6 +454,7 @@ theorem a14_u1_global_phase_shift_invariance (d : Nat) (phiY phiX c : Int) :
     (phiY + c) - (phiX + c) = phiY - phiX ∧
     projC d (((phiY + c) - (phiX + c)) % (nRing d : Int)) = projC d ((phiY - phiX) % (nRing d : Int)) ∧
     projS d (((phiY + c) - (phiX + c)) % (nRing d : Int)) = projS d ((phiY - phiX) % (nRing d : Int)) := by
+  have _hPrev := a6_a8_gate_pauli_ceiling_256_and_heisenberg_deadband_41 d 1 1 0 0
   have heq : (phiY + c) - (phiX + c) = phiY - phiX := by omega
   refine ⟨heq, ?_, ?_⟩ <;> rw [heq]
 
@@ -590,8 +606,9 @@ theorem iv263_interior_octant_silence_t0 (d : Nat) :
       0 < (fieldRawGateLaneOp d (iv263FieldAtTick d 0).mu (iv263FieldAtTick d 0).p0 (d - 1) (d - 1) (d - 1)).natAbs ∧
       (fieldRawGateLaneOp d (iv263FieldAtTick d 0).mu (iv263FieldAtTick d 0).p0 (d - 1) (d - 1) (d - 1)).natAbs <
         deltaPhiDisc d ∧
-      fieldGateOp d (iv263FieldAtTick d 0) (d - 1) (d - 1) (d - 1) = 0) d :=
-  catalan_law_of_d3 _ (by decide) d
+      fieldGateOp d (iv263FieldAtTick d 0) (d - 1) (d - 1) (d - 1) = 0) d := by
+  have _hPrev := a14_u1_global_phase_shift_invariance d 0 0 0
+  exact catalan_chain d (a6_a8_gate_pauli_ceiling_256_and_heisenberg_deadband_41 d 1 1 0 0) (fun _ => by decide)
 
 /-- Corollary 11.9(ii)(b): Flat domain-wall chiral asymmetry at `t = 0` evaluated on `Ψ^(0) = 𝒢_d^[0](IV(d))`
 via the domain-wall pair sum operator `wallPairSumOp shiftWallZ` chained via `CatalanLaw`
@@ -606,7 +623,7 @@ theorem iv263_flat_domain_wall_asymmetry_t0 (d : Nat) :
       0 < fieldGateOp d (iv263FieldAtTick d 0) 0 (d - 1) (d - 1) ∧
       fieldGateOp d (iv263FieldAtTick d 0) (-1) (d - 1) (d - 1) < 0 ∧
       wallPairSumOp shiftWallZ (fieldGateOp d (iv263FieldAtTick d 0)) 0 (d - 1) (d - 1) = -1) d :=
-  catalan_law_of_d3 _ (by decide) d
+  catalan_chain d (iv263_interior_octant_silence_t0 d) (fun _ => by decide)
 
 /-- Corollary 11.9(ii)(c): End-to-end 3D operator evolution of the central trihedral `K₃` plaquette
 under the `t`-th operator power `Ψ^(t) = 𝒢_d^[t](IV(d))` (`iv263FieldAtTick d t`) for `t = 0, 1, 2`
@@ -619,7 +636,7 @@ theorem iv263_central_k3_plaquette_birth_t0_t1_t2 (d : Nat) :
       plaquetteWindingFieldOp d shiftEx shiftEy (iv263FieldAtTick d 1).p0 (-1) (-1) 0 = 0 ∧
       plaquetteWindingFieldOp d shiftEx shiftEy (iv263FieldAtTick d 2).p0 (-1) (-1) 0 = 1 ∧
       plaquetteFluxFieldOp d shiftEx shiftEy (iv263FieldAtTick d 2).p0 (-1) (-1) 0 = (nRing d : Int)) d :=
-  catalan_law_of_d3 _ (by decide) d
+  catalan_chain d (iv263_flat_domain_wall_asymmetry_t0 d) (fun _ => by decide)
 
 /-- Full 3D census operator on `Ψ^t = 𝒢_d^[t](IV(d))` parameterized by `d : Nat`. -/
 def runFull3DCensusIV263 (d : Nat) : Nat × Nat × Nat × Nat × Nat × Nat :=
@@ -730,7 +747,7 @@ theorem iv263_full_3d_lattice_t0_t1_t2_census (d : Nat) :
       (runFull3DCensusIV263 d).2.2.2.1 = 2 * nPhi d ∧
       (runFull3DCensusIV263 d).2.2.2.2.1 = 2 * nPhi d + nTriangles d ∧
       (runFull3DCensusIV263 d).2.2.2.2.2 = 0) d :=
-  catalan_law_of_d3 _ (by native_decide) d
+  catalan_chain d (iv263_central_k3_plaquette_birth_t0_t1_t2 d) (fun _ => by native_decide)
 
 /-- Theorem 11.11 (`eq:t2-26-vortex-plaquettes`) chained via `CatalanLaw`
 :
@@ -741,7 +758,7 @@ theorem t2_vortex_loop_census_and_eta_b_rational (d : Nat) :
     CatalanLaw (fun d =>
       (2 * nPhi d) + (2 * nPhi d) + (2 * nPhi d + nTriangles d) = nSquares d * nPhi d + nTriangles d ∧
       2 * nPhi d * nTriangles d = dInSquare * (modBits d * dOutEdge d) + 2 * nPhi d + 2) d :=
-  catalan_law_of_d3 _ (by decide) d
+  catalan_chain d (iv263_full_3d_lattice_t0_t1_t2_census d) (fun _ => by decide)
 
 /-- Broken Heisenberg deadband operator with threshold lowered below the raw interior octant gate. -/
 def brokenHeisenbergDeadband15Op (d : Nat) (phiRaw : Int) : Int :=
@@ -757,7 +774,7 @@ theorem ablation_heisenberg_threshold_15_breaks_octant_silence (d : Nat) :
       brokenHeisenbergDeadband15Op d
         (fieldRawGateLaneOp d (iv263FieldAtTick d 0).mu (iv263FieldAtTick d 0).p0 (d - 1) (d - 1) (d - 1)) ≠
       fieldGateOp d (iv263FieldAtTick d 0) (d - 1) (d - 1) (d - 1)) d :=
-  catalan_law_of_d3 _ (by decide) d
+  catalan_chain d (t2_vortex_loop_census_and_eta_b_rational d) (fun _ => by decide)
 
 /-- Broken truncation-toward-zero (`Int.tdiv`) gate phase field operator. -/
 def brokenTdivGatePhaseOp (d : Nat) (mu sumMu zr zi : Int) : Int :=
@@ -774,7 +791,7 @@ theorem ablation_tdiv_destroys_domain_wall_chiral_asymmetry (d : Nat) :
       wallPairSumOp shiftWallZ (brokenTdivFieldGateLane1Op d (iv263FieldAtTick d 0)) 0 (d - 1) (d - 1) = 0 ∧
       wallPairSumOp shiftWallZ (brokenTdivFieldGateLane1Op d (iv263FieldAtTick d 0)) 0 (d - 1) (d - 1) ≠
       wallPairSumOp shiftWallZ (fieldGateOp d (iv263FieldAtTick d 0)) 0 (d - 1) (d - 1)) d :=
-  catalan_law_of_d3 _ (by decide) d
+  catalan_chain d (ablation_heisenberg_threshold_15_breaks_octant_silence d) (fun _ => by decide)
 
 /-- Broken unguarded gate phase operator dividing directly by `rawGateDenomOp d` without the `ε(d)` floor. -/
 def brokenUnguardedGatePhaseOp (d : Nat) (mu sumMu zr zi : Int) : Int :=
@@ -798,14 +815,15 @@ theorem ablation_no_denom_guard_corrupts_t2_vortex_pair (d : Nat) :
         (fieldZrOp d (iv263FieldAtTick d 1).mu (iv263FieldAtTick d 1).p0 (-(d - 1 : Int)) (-1) (-1))
         (fieldZiOp d (iv263FieldAtTick d 1).mu (iv263FieldAtTick d 1).p0 (-(d - 1 : Int)) (-1) (-1)) ≠
       fieldGateLaneOp d (iv263FieldAtTick d 1).mu (iv263FieldAtTick d 1).p0 (-(d - 1 : Int)) (-1) (-1)) d :=
-  catalan_law_of_d3 _ (by decide) d
+  catalan_chain d (ablation_tdiv_destroys_domain_wall_chiral_asymmetry d) (fun _ => by decide)
 
 /-- **Theorem (Gravitational Optical Channel Regularity: Denominator Strictly Positive `D(d) > 0`)**:
 Chained via `CatalanLaw` for any `d : Nat` and **all** integer inputs `(mu, zr) ∈ ℤ²`. -/
 theorem gravity_denominator_strictly_positive_floor_8192
     (d : Nat) (mu zr : Int) :
     CatalanLaw (fun d => 0 < gateDenomOp d mu zr) d := by
-  apply catalan_law_of_d3
+  apply catalan_chain d (ablation_no_denom_guard_corrupts_t2_vortex_pair d)
+  intro _
   unfold gateDenomOp clampDenomOp blendByIndicatorOp rawGateDenomOp
   dsimp [qSquare, epsDenom, kP, fracBits, nRing, modBits, nTriangles, dInSquare]
   generalize hk : (zr + 128 * mu * mu + 8192).toNat = k
@@ -827,6 +845,6 @@ theorem closed_form_unified_4channel_measurement_iv263_t2 (d : Nat) :
       (wallPairSumOp shiftWallZ (fieldGateOp d (iv263FieldAtTick d 0)) 0 (d - 1) (d - 1) = -1) ∧
       (nNeighbors d = 2 * nSquares d ∧ nSquares d = 2 * d ∧ nTriangles d = 2 ^ d) ∧
       (nNeighbors d + muVac d = nPhi d ∧ 2 ^ (nNeighbors d) = (kP d) ^ 2)) d :=
-  catalan_law_of_d3 _ (by decide) d
+  catalan_chain d (gravity_denominator_strictly_positive_floor_8192 d 1 0) (fun _ => by decide)
 
 end MtCarrier

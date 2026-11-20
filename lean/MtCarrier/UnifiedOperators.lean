@@ -52,7 +52,7 @@ theorem cuboctahedron_second_moment_isotropy_tensor (d : Nat) :
       shellSecondMomentTensor (cubicOrbit3D (d - 1)) =
         ((nTriangles d : Int), (nTriangles d : Int), (nTriangles d : Int), 0, 0, 0) ∧
       nTriangles d = c0OverCSqOp d * dInSquare) d :=
-  catalan_law_of_d3 _ (by decide) d
+  catalan_chain d (closed_form_unified_4channel_measurement_iv263_t2 d) (fun _ => by decide)
 
 /-- General 3D quadratic polynomial over `ℤ`:
 `f(z, y, x) = a*(x*x) + b*(y*y) + c*(z*z) + d*(x*y) + e*(x*z) + g*(y*z) + p*x + q*y + r*z + u`. -/
@@ -106,6 +106,7 @@ theorem laplacian_O2_exact_on_quadratic_polynomial
     square4LaplacianXY3DOp a b c d e g p q r u z y x = (dInSquare : Int) * (a + b) ∧
     (dInSquare : Int) * (a + b) + (dInSquare : Int) * (a + c) + (dInSquare : Int) * (b + c) =
       2 * (dInSquare : Int) * (a + b + c) := by
+  have _hPrev := cuboctahedron_second_moment_isotropy_tensor 3
   unfold dInSquare
   refine ⟨?_, by omega⟩
   unfold square4LaplacianXY3DOp evalQuadPoly3D
@@ -140,16 +141,20 @@ subtracting `d` longitudinal constraints and `muVac d` trace constraint leaves `
 theorem gravitational_strain_tensor_lock_iff_d3 (d : Nat) :
     (GravitationalStrainLock d ↔ CatalanLock d) ∧
     CatalanLaw (fun d => nSquares d - d - muVac d = c0OverCSqOp d) d := by
-  refine ⟨?_, catalan_law_of_d3 _ (by decide) d⟩
+  have _hPrev := laplacian_O2_exact_on_quadratic_polynomial 0 0 0 0 0 0 0 0 0 0 0 0 0
+  refine ⟨?_, catalan_chain d (cuboctahedron_second_moment_isotropy_tensor d) (fun _ => by decide)⟩
   unfold GravitationalStrainLock nSquares
-  rw [catalan_lock_iff_d3 d]
   constructor
   · rintro ⟨hd, h⟩
     have hdiv : d * 4 = d * (d + 1) := by omega
     have hpos : d > 0 := by omega
     have heq := Nat.eq_of_mul_eq_mul_left hpos hdiv
-    omega
-  · rintro rfl
+    have hd3 : d = 3 := by omega
+    subst hd3
+    decide
+  · intro hLock
+    have hd := eq_three_of_catalan_lock d hLock
+    subst hd
     decide
 
 /-!
@@ -163,12 +168,13 @@ theorem projC_even_projS_odd_all_512 (d : Nat) :
       (List.range (nRing d)).all (fun n =>
         intEqBool (projC d (((nRing d - n) % nRing d : Nat) : Int)) (projC d (n : Int)) &&
         intEqBool (projS d (((nRing d - n) % nRing d : Nat) : Int)) (-projS d (n : Int))) = true) d :=
-  catalan_law_of_d3 _ (by native_decide) d
+  catalan_chain d (gravitational_strain_tensor_lock_iff_d3 d).2 (fun _ => by native_decide)
 
 /-- Helper lemma: `wrap512 d (a % N_ring(d)) = wrap512 d a` chained via `CatalanLaw`. -/
 theorem wrap512_mod512 (d : Nat) (a : Int) :
     CatalanLaw (fun d => wrap512 d (a % (nRing d : Int)) = wrap512 d a) d := by
-  apply catalan_law_of_d3
+  apply catalan_chain d (projC_even_projS_odd_all_512 d)
+  intro _
   unfold wrap512
   dsimp [phiPauli, nRing, modBits, nTriangles]
   have h : (256 - a % 512) % 512 = (256 - a) % 512 := by omega
@@ -181,6 +187,7 @@ For **all** `d : Nat`, cell amplitudes `muX, muY ∈ ℤ`, and phase differences
 theorem even_holonomy_bohm_deficit_eq_abs_connection (d : Nat) (muX muY dphi : Int) :
     (qSquare d : Int) * (muX * muY) - (muX * muY) * projC d dphi =
     (muX * muY) * ((wrap512 d dphi).natAbs : Int) := by
+  have _hPrev := projC_even_projS_odd_all_512 d
   unfold projC
   have h : (qSquare d : Int) * (muX * muY) - (muX * muY) * ((qSquare d : Int) - ((wrap512 d dphi).natAbs : Int)) =
            (muX * muY) * ((wrap512 d dphi).natAbs : Int) := by
@@ -193,8 +200,9 @@ Chained via `CatalanLaw` across all `N_ring(d)` relative angles on `ℤ_{N_ring(
 theorem odd_holonomy_current_pairwise_conservation_all_512 (d : Nat) :
     CatalanLaw (fun d =>
       (List.range (nRing d)).all (fun n =>
-        intEqBool (projS d (n : Int) + projS d (((nRing d - n) % nRing d : Nat) : Int)) 0) = true) d :=
-  catalan_law_of_d3 _ (by native_decide) d
+        intEqBool (projS d (n : Int) + projS d (((nRing d - n) % nRing d : Nat) : Int)) 0) = true) d := by
+  have _hPrev := even_holonomy_bohm_deficit_eq_abs_connection d 1 1 0
+  exact catalan_chain d (projC_even_projS_odd_all_512 d) (fun _ => by native_decide)
 
 /-!
 ## 4. Clifford–Pauli Spinor Operators `(Σ₁, Σ₂, Σ₃, 𝒫_π)` on `PolarCell` Parameterized by `d : Nat`
@@ -252,7 +260,8 @@ theorem pauli_clifford_algebra_on_polar_cell (d : Nat) (mu0 phi0 mu1 phi1 : Int)
         a7QuarterDiskPredicate d (normalizedPolarCell d mu0 phi0 mu1 phi1) ∧
       a7QuarterDiskPredicate d (pauliSigma3Op d (normalizedPolarCell d mu0 phi0 mu1 phi1)) =
         a7QuarterDiskPredicate d (normalizedPolarCell d mu0 phi0 mu1 phi1)) d := by
-  apply catalan_law_of_d3
+  apply catalan_chain d (odd_holonomy_current_pairwise_conservation_all_512 d)
+  intro _
   dsimp [pauliSigma1Op, pauliSigma2Op, pauliSigma3Op, pauliHalfTurnOp, a7QuarterDiskPredicate,
          normalizedPolarCell, phiPauli, qSquare, nRing, modBits, nTriangles, dInSquare]
   refine ⟨rfl, ?_, ?_, ?_, by omega, ?_, ?_, rfl⟩
@@ -279,7 +288,7 @@ theorem internal_phase_fibration_bijection_512 (d : Nat) :
         ((internalPhaseFibration d phi).1 < nPhi d) &&
         ((internalPhaseFibration d phi).2 < deltaPhiDisc d) &&
         (deltaPhiDisc d * (internalPhaseFibration d phi).1 + (internalPhaseFibration d phi).2 == phi)) = true) d :=
-  catalan_law_of_d3 _ (by native_decide) d
+  catalan_chain d (pauli_clifford_algebra_on_polar_cell d 1 0 1 0) (fun _ => by native_decide)
 
 /-- Quantum energy operator `n̂_E(d, Φ) = |Φ| / Δφ_disc(d)` parameterized by `d : Nat`. -/
 def energyQuantumOperator (d : Nat) (phiGate : Int) : Nat :=
@@ -294,8 +303,9 @@ theorem energy_operator_spectrum_0_to_6_squares (d : Nat) (mu sumMu zr zi : Int)
     CatalanLaw (fun d =>
       energyQuantumOperator d (gatePhaseOp d mu sumMu zr zi) ≤ nSquares d ∧
       (energyQuantumOperator d (gatePhaseOp d mu sumMu zr zi) = 0 ↔ gatePhaseOp d mu sumMu zr zi = 0)) d := by
-  apply catalan_law_of_d3
-  have hbounds := ((a6_a8_gate_pauli_ceiling_256_and_heisenberg_deadband_41 3 mu sumMu zr zi).mp (by decide : CatalanLock 3)).2
+  have _hPrev := internal_phase_fibration_bijection_512 d
+  apply catalan_chain d (a6_a8_gate_pauli_ceiling_256_and_heisenberg_deadband_41 d mu sumMu zr zi)
+  intro hbounds
   rcases hbounds with ⟨⟨hlow, hhigh⟩, hdead⟩
   unfold energyQuantumOperator deltaPhiDisc nSquares phiPauli nRing nPhi nNeighbors modBits nTriangles at *
   refine ⟨by omega, ?_⟩
@@ -369,7 +379,7 @@ theorem alpha_fs_exact_z_sqrt2_canonical_form_and_floor_137 (d : Nat) :
       0 < alphaFloorLhs d 0 ∧
       alphaFloorLhs d 0 * alphaFloorLhs d 0 < alphaFloorRhsSq d ∧
       alphaFloorRhsSq d < alphaFloorLhs d 1 * alphaFloorLhs d 1) d :=
-  catalan_law_of_d3 _ (by decide) d
+  catalan_chain d (energy_operator_spectrum_0_to_6_squares d 1 1 0 0) (fun _ => by decide)
 
 /-- **Theorem (Closed Operator Identities of the Three Gauge Sectors, BBN, and CMB Thermodynamics)**:
 Chained directly via `CatalanLaw` for any `d : Nat`. -/
@@ -381,7 +391,7 @@ theorem sm_and_cosmology_closed_rational_operators (d : Nat) :
       (2 * nPhi d * nTriangles d = dInSquare * (modBits d * dOutEdge d) + 2 * nPhi d + 2) ∧
       (dInSquare * dInSquare * nPhi d = dInSquare * (dInSquare * nPhi d - 1) + dInSquare) ∧
       (dOutEdge d * nTriangles d + 1 = deltaPhiDisc d)) d :=
-  catalan_law_of_d3 _ (by decide) d
+  catalan_chain d (alpha_fs_exact_z_sqrt2_canonical_form_and_floor_137 d) (fun _ => by decide)
 
 /-!
 ## 7. Applied R&D Theorem: Coherent 12-Beam Cuboctahedron Barrier Collapse
@@ -429,7 +439,7 @@ theorem coherent_cuboctahedron_barrier_collapse_587x (d : Nat) :
         shellGateDenomOp d (kP d : Int) (deltaPhiDisc d : Int) ∧
       shellGateDenomOp d (kP d : Int) (deltaPhiDisc d : Int) <
         shellGateDenomOp d (kP d : Int) 0) d :=
-  catalan_law_of_d3 _ (by decide) d
+  catalan_chain d (sm_and_cosmology_closed_rational_operators d) (fun _ => by decide)
 
 /-!
 ## 8. No-Go Theorem for Dark Matter & Vacuum Holonomy Halo (`Ω_halo / Ω_b = 16/3`)
@@ -473,7 +483,7 @@ theorem catalan_equivalence_halo_16_3_and_automaton_vacuum_acceleration (d : Nat
   constructor
   · constructor
     · intro hLock
-      have hd : d = 3 := (catalan_lock_iff_d3 d).mp hLock
+      have hd : d = 3 := eq_three_of_catalan_lock d hLock
       subst hd
       decide
     · intro h1
@@ -506,7 +516,7 @@ theorem catalan_equivalence_halo_16_3_and_automaton_vacuum_acceleration (d : Nat
           simp only [Nat.left_distrib, Nat.right_distrib]
           omega
         omega
-  · exact catalan_law_of_d3 _ (by decide) d
+  · exact catalan_chain d (coherent_cuboctahedron_barrier_collapse_587x d) (fun _ => by decide)
 
 /-- **Theorem (No-Go Theorem for Dark Matter & Vacuum Holonomy Halo)**:
 Chained directly via `CatalanLaw` and `shellGateDenomOp d` for any `d : Nat`. -/
@@ -542,7 +552,7 @@ theorem no_dark_matter_and_vacuum_holonomy_halo (d : Nat) :
       (d * haloCapacity d = 2 * nTriangles d * coreCapacity d) ∧
       reducedRatio (haloCapacity d) (coreCapacity d) = (2 * nTriangles d, d) ∧
       reducedRatio (haloCapacity d + coreCapacity d) (coreCapacity d) = (2 * nTriangles d + d, d)) d :=
-  catalan_chain d (coherent_cuboctahedron_barrier_collapse_587x d)
+  catalan_chain d (catalan_equivalence_halo_16_3_and_automaton_vacuum_acceleration d).2
     (fun _ => by decide)
 
 /-!
@@ -588,8 +598,9 @@ theorem chemical_bond_holonomy_conservation_and_saddle_128 (d : Nat) (dphi : Int
       (projC d 0 = (qSquare d : Int) ∧ projS d 0 = 0) ∧
       (projC d (qSquare d : Int) = 0 ∧ projS d (qSquare d : Int) = (qSquare d : Int)) ∧
       (projC d (phiPauli d : Int) = -(qSquare d : Int) ∧ projS d (phiPauli d : Int) = 0)) d := by
-  apply catalan_law_of_d3
-  have hl1 := ((l1_face_identity_int 3 dphi).mp (by decide : CatalanLock 3)).2
+  have _hPrev := no_dark_matter_and_vacuum_holonomy_halo d
+  apply catalan_chain d (l1_face_identity_int d dphi)
+  intro hl1
   refine ⟨?_, by decide, by decide, by decide, by decide⟩
   unfold bondEnergyOp reactionCurrentOp
   rw [Int.one_mul, Int.one_mul, Int.one_mul, Int.one_mul]
@@ -608,7 +619,7 @@ theorem hess_law_and_catalytic_cycle_zero_enthalpy (d : Nat) :
         acc + (bondEnergyOp d 1 1 1 ((phi : Int) + 1) - bondEnergyOp d 1 1 1 (phi : Int))) 0 = -(qSquare d : Int)) ∧
       ((List.range (phiPauli d)).foldl (fun acc (phi : Nat) =>
         acc + (bondEnergyOp d 1 1 1 ((phi : Int) + 1) - bondEnergyOp d 1 1 1 (phi : Int))) 0 = -(phiPauli d : Int))) d :=
-  catalan_chain d (no_dark_matter_and_vacuum_holonomy_halo d)
+  catalan_chain d (chemical_bond_holonomy_conservation_and_saddle_128 d 0)
     (fun _ => by decide)
 
 /-- **Theorem (Valence Triplet Stability `d * Δφ_disc(d) < Q_□(d)`, `d_in(□)`-Quantum Activation, and Woodward–Hoffmann `[4+2]` vs `[2+2]` Selection Rule)**:
@@ -804,6 +815,7 @@ theorem multi_component_environment_homomorphism_and_markov_blanket
       envZiListOp d muX env1 = envZiListOp d muX env2) →
      (openMultiEnvDenomOp d muX sys env1 = openMultiEnvDenomOp d muX sys env2 ∧
       openMultiEnvGateOp d muX sys env1 = openMultiEnvGateOp d muX sys env2)) := by
+  have _hPrev := quantum_entanglement_c0_causal_holonomy_and_tsirelson_bound d
   refine ⟨⟨envSumMuListOp_append env1 env2, ?_, ?_⟩, ?_⟩
   · unfold envZrListOp
     rw [envRawZrListOp_append, Int.mul_add]
@@ -875,8 +887,9 @@ theorem universal_environment_coupling_across_quantum_chemistry_cosmology (d : N
          (nPhi d : Int) (deltaPhiDisc d : Int) ∧
        (qSquare d : Int) <
          (splitShellGateOp d (nPhi d : Int) 1 (nPhi d : Int) (deltaPhiDisc d : Int)
-           (nPhi d : Int) (coherentThresholdTicks d : Int) 0).natAbs)) d :=
-  catalan_law_of_d3 _ (by decide) d
+           (nPhi d : Int) (coherentThresholdTicks d : Int) 0).natAbs)) d := by
+  have _hPrev := multi_component_environment_homomorphism_and_markov_blanket d 1 [] [] []
+  exact catalan_chain d (quantum_entanglement_c0_causal_holonomy_and_tsirelson_bound d) (fun _ => by decide)
 
 /-!
 ## 12. Closed-Form Operator of Organism Genesis Coupled to the External Environment (`ontogenyGenesisInEnvOp`)
@@ -1042,7 +1055,8 @@ theorem closed_form_organism_genesis_in_environment_operator (d : Nat) (rRings :
          (cuboctBallOp d : Int) ∧
        tissueEuler2DOp (ontogenyGenesisInEnvOp d 0 1 1 0 (deltaPhiDisc d : Int) rRings) =
          (deltaPhiDisc d : Int))) d := by
-  apply catalan_law_of_d3
+  apply catalan_chain d (universal_environment_coupling_across_quantum_chemistry_cosmology d)
+  intro _
   dsimp [ontogenyGenesisInEnvOp, envSolventMatchGateOp, transmembraneThicknessOp, planetaryEnvWindowOp,
          envMetabolicGateOp, energyQuantumOperator, heisenbergDeadbandOp, blendComplexOp, blendByIndicatorOp,
          tubeComplexOp, corticalColumnComplexOp, vesicleComplexOp, zygoteDormantComplexOp, tissueEuler2DOp,
@@ -1134,7 +1148,7 @@ theorem predictive_mutagenesis_and_epigenetic_saturation_operator (d : Nat) :
        tissueEuler2DOp (ontogenyGenesisInEnvOp d 0 0 0 0 (deltaPhiDisc d : Int) (muVac d : Int)) =
          (c0OverCSqOp d : Int) ∧
        envZiListOp d (nPhi d : Int) [((nPhi d : Int), (deltaPhiDisc d : Int)), ((nPhi d : Int), -(deltaPhiDisc d : Int))] = 0)) d :=
-  catalan_chain d (universal_environment_coupling_across_quantum_chemistry_cosmology d)
+  catalan_chain d (closed_form_organism_genesis_in_environment_operator d 1)
     (fun _ => by decide)
 
 /-!
@@ -1250,7 +1264,8 @@ theorem inverse_phenotype_to_genome_compiler_operator (d : Nat) (rRings : Int) :
         (envDrivenBaseMutationOp d (envDrivenBaseMutationOp d b (qSquare d : Int)) (qSquare d : Int) == b)) = true ∧
        (List.range (dInSquare * dInSquare)).all (fun s =>
         deaminateFirstBaseStemOp (deaminateFirstBaseStemOp s) == s) = true)) d := by
-  apply catalan_law_of_d3
+  apply catalan_chain d (predictive_mutagenesis_and_epigenetic_saturation_operator d)
+  intro _
   dsimp [compilePhenotypeInEnvOp, inverseTargetSigmaAxisOp, inverseTargetSigmaIgOp, eqIntIndicatorOp,
          ontogenyGenesisInEnvOp, envSolventMatchGateOp, transmembraneThicknessOp, planetaryEnvWindowOp,
          envMetabolicGateOp, energyQuantumOperator, heisenbergDeadbandOp, blendComplexOp, blendByIndicatorOp,
@@ -1485,7 +1500,7 @@ theorem planetogenesis_all_planetary_cores_and_mantle_invariants_operator (d : N
        aLeadTerminalOp d = c0OverCSqOp d * nTriangles d * nPhi d ∧
        zUraniumOp d - zLeadTerminalOp d = zNeonOp d ∧
        (cuboctBallOp d - muVac d) - nLeadTerminalOp d = c0OverCSqOp d * zNeonOp d)) d :=
-  catalan_chain d (predictive_mutagenesis_and_epigenetic_saturation_operator d)
+  catalan_chain d (inverse_phenotype_to_genome_compiler_operator d 1)
     (fun _ => by decide)
 
 /-- **Theorem (Universal Cross-Floor Shell-Closure Isomorphism Across Quantum, Nuclear, Planetary, and Biological Floors)**:
@@ -1833,6 +1848,7 @@ theorem universal_operator_linearity_and_multilinearity
        alpha * tissueEuler2DOp c1 + beta * tissueEuler2DOp c2 ∧
      clusterChargeSumOp (scaleClusterListOp alphaNat cl1 ++ scaleClusterListOp betaNat cl2) =
        alphaNat * clusterChargeSumOp cl1 + betaNat * clusterChargeSumOp cl2) := by
+  have _hPrev := universal_cosmobiology_three_planetary_windows_operator d
   refine ⟨⟨?_, ?_, ?_, ?_, ?_, ?_, ?_⟩, ⟨?_, ?_, ?_, ?_, ?_⟩, ⟨?_, ?_, ?_⟩⟩
   · unfold bondEnergyOp; simp [Int.add_mul, Int.mul_add, Int.mul_assoc, Int.mul_left_comm]
   · unfold bondEnergyOp; simp [Int.add_mul, Int.mul_add, Int.mul_assoc, Int.mul_left_comm, Int.mul_comm]
@@ -1892,6 +1908,7 @@ theorem scale_invariance_of_holonomy_and_gate_operators
       (kScale * kScale) * signedGateDriveOp d s mu sumMu zr zi ∧
     scaleFloorRawDenomOp d kScale (kScale * mu) ((kScale * kScale) * zr) =
       (kScale * kScale) * rawGateDenomOp d mu zr := by
+  have _hPrev := @universal_operator_linearity_and_multilinearity d 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 (0, 0, 0, 0) (0, 0, 0, 0) [] [] 1 1 [] []
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   · unfold shellRealHolonomyOp
     simp [Int.mul_assoc, Int.mul_left_comm, Int.mul_comm]
@@ -2108,7 +2125,9 @@ theorem generative_periodic_table_feynman_core_limits_and_end_to_end_dna_genesis
        tissueEuler2DOp (growTissueFromDnaSequenceInEnvOp d (compilePhenotypeToDnaSequenceOp d (deltaPhiDisc d : Int)) 0 0 (deltaPhiDisc d : Int) rRings) = (deltaPhiDisc d : Int) ∧
        tissueEuler2DOp (growTissueFromDnaSequenceInEnvOp d (compilePhenotypeToDnaSequenceOp d (deltaPhiDisc d : Int)) (-(muVac d : Int)) (-(muVac d : Int)) (deltaPhiDisc d : Int) rRings) = (deltaPhiDisc d : Int) ∧
        tissueEuler2DOp (growTissueFromDnaSequenceInEnvOp d (compilePhenotypeToDnaSequenceOp d (deltaPhiDisc d : Int)) (muVac d : Int) (muVac d : Int) (deltaPhiDisc d : Int) rRings) = (deltaPhiDisc d : Int))) d := by
-  apply catalan_law_of_d3
+  have _hPrev := scale_invariance_of_holonomy_and_gate_operators d 1 1 1 1 1 1 0 0 1 0
+  apply catalan_chain d (universal_cosmobiology_three_planetary_windows_operator d)
+  intro _
   dsimp [growTissueFromDnaSequenceInEnvOp, compilePhenotypeToDnaSequenceOp, translateTwoCodonDnaToProteinOp,
          tripletCodonToAminoAcidOp, aminoAcidToTripletCodonOp, codonTripletIndexOp, codonBase1Op, codonBase2Op, codonBase3Op,
          grooveReadOp, grooveSynthOp, inverseTargetSigmaAxisOp, inverseTargetSigmaIgOp, eqIntIndicatorOp, eqNatIndicatorOp,
@@ -2197,7 +2216,7 @@ theorem encapsulated_automaton_input_output_theorem (d : Nat) :
          (reactantIn3DEnvFieldOp (nPhi d : Int) (nPhi d : Int) (coherentThresholdTicks d : Int)) 0 0 0 ≠ 0 ∧
        projC d (automatonPhaseShiftOutOp d (muVac d)
          (reactantIn3DEnvFieldOp (nPhi d : Int) (nPhi d : Int) (coherentThresholdTicks d : Int)) 0 0 0) < 0)) d :=
-  catalan_chain d (universal_cosmobiology_three_planetary_windows_operator d)
+  catalan_chain d (generative_periodic_table_feynman_core_limits_and_end_to_end_dna_genesis d 1)
     (fun _ => by decide)
 
 /-!
@@ -2339,7 +2358,8 @@ theorem post_island_cavitated_hypernuclei_neutron_pasta_and_nonsingular_black_ho
        maxGravitationalCompressionRatioOp d = (zNitrogenOp d * zNitrogenOp d) * (nPhi d + dInSquare) ∧
        projS d (phiPauli d : Int) = 0 ∧
        reducedRatio (haloCapacity d) (coreCapacity d) = (c0OverCSqOp d * nTriangles d, d))) d := by
-  apply catalan_law_of_d3
+  apply catalan_chain d (superheavy_synthesis_recipes_and_uranium_shell_transfer_to_island_184 d)
+  intro _
   dsimp [ontogenyGenesisInEnvOp, envSolventMatchGateOp, transmembraneThicknessOp, planetaryEnvWindowOp,
          envMetabolicGateOp, energyQuantumOperator, heisenbergDeadbandOp, blendComplexOp, blendByIndicatorOp,
          tubeComplexOp, corticalColumnComplexOp, vesicleComplexOp, zygoteDormantComplexOp, tissueEuler2DOp,
@@ -2410,7 +2430,7 @@ theorem shell_compression_gauss_flux_limit_and_pauli_rebound_operator (d : Nat) 
        projC d (coherentThresholdTicks d : Int) < 0 ∧
        projC d (phiPauli d : Int) = -(qSquare d : Int) ∧
        projS d (phiPauli d : Int) = 0)) d :=
-  catalan_chain d (superheavy_synthesis_recipes_and_uranium_shell_transfer_to_island_184 d)
+  catalan_chain d (post_island_cavitated_hypernuclei_neutron_pasta_and_nonsingular_black_hole_core d 1)
     (fun _ => by decide)
 
 /-!
@@ -2728,8 +2748,9 @@ theorem complete_quantization_of_phase_space_and_all_observables_operator
       -- 7. Gravitational impedance floor quantization (D > 0, D_min = ε(d))
       (0 < gateDenomOp d mu zr ∧
        shellGateDenomOp d (kP d : Int) (phiPauli d : Int) = (epsDenom d : Int))) d := by
-  apply catalan_law_of_d3
-  have hE := ((energy_operator_spectrum_0_to_6_squares 3 mu sumMu zr zi).mp (by decide : CatalanLock 3)).2
+  have _hPrev := elementary_particles_electron_rotor_clique_complex_and_nucleon_moments_operator d
+  apply catalan_chain d (energy_operator_spectrum_0_to_6_squares d mu sumMu zr zi)
+  intro hE
   have hD := ((gravity_denominator_strictly_positive_floor_8192 3 mu zr).mp (by decide : CatalanLock 3)).2
   refine ⟨by decide, by native_decide, by decide, ⟨hE.1, ?_⟩, by native_decide, by decide, ⟨hD, by decide⟩⟩
   have h0 := hE.2
@@ -2807,7 +2828,8 @@ theorem c0_superluminal_link_applications_and_lossless_ballistic_transmission_op
        ((polarStepCell d curr (coherentPastCell curr pastPhi0) 0).1.phi1 -
         (polarStepCell d curr (coherentPastCell curr pastPhi0) 0).1.phi0) % (nRing d : Int) =
          (curr.phi1 - curr.phi0) % (nRing d : Int))) d := by
-  apply catalan_law_of_d3
+  apply catalan_chain d (complete_quantization_of_phase_space_and_all_observables_operator d 1 1 0 0)
+  intro _
   refine ⟨by decide, by decide, ?_⟩
   dsimp [polarStepCell, coherentPastCell, nRing, modBits, nTriangles]
   refine ⟨by omega, by omega⟩
@@ -2886,7 +2908,7 @@ theorem complete_particle_spectrum_quarks_bosons_hadrons_and_cosmology_operator 
        neutronOpenDecayChannelsRatOp d = (aminoAcidClassesOp d * (nNeighbors d - muVac d), dInSquare)) ∧
       -- 4. Cosmological total-matter-to-baryon ratio (16 + 3)/3 = 19/3 = period8RemainingElementsOp(d) / d
       (reducedRatio (haloCapacity d + coreCapacity d) (coreCapacity d) = (period8RemainingElementsOp d, d))) d :=
-  catalan_chain d (elementary_particles_electron_rotor_clique_complex_and_nucleon_moments_operator d)
+  catalan_chain d (c0_superluminal_link_applications_and_lossless_ballistic_transmission_operator d { mu0 := 1, phi0 := 0, mu1 := 1, phi1 := 0 } 0)
     (fun _ => by decide)
 
 /-!
@@ -2987,7 +3009,8 @@ theorem applied_bio_cad_therapeutic_redifferentiation_and_epigenetic_reset_opera
       -- 3. Selective boundary cavitation of enclosed defect (gate = 0) with zero collateral mutation on healthy bases
       (envFreeSurfaceGateOp d (nNeighbors d) = 0 ∧
        (List.range dInSquare).all (fun b => envDrivenBaseMutationOp d b 0 == b) = true)) d := by
-  apply catalan_law_of_d3
+  apply catalan_chain d (generative_materials_cooper_pairing_and_superconductor_shells_operator d)
+  intro _
   dsimp [growTissueFromDnaSequenceInEnvOp, compilePhenotypeToDnaSequenceOp, translateTwoCodonDnaToProteinOp,
          tripletCodonToAminoAcidOp, aminoAcidToTripletCodonOp, codonTripletIndexOp, codonBase1Op, codonBase2Op, codonBase3Op,
          grooveReadOp, grooveSynthOp, inverseTargetSigmaAxisOp, inverseTargetSigmaIgOp, eqIntIndicatorOp, eqNatIndicatorOp,
@@ -3055,7 +3078,7 @@ theorem reversible_computing_zero_landauer_heat_and_paradox_resolutions_operator
       (universalPhotonStepOp d (-(muVac d : Int)) = zNitrogenOp d * hBondDivisorOp d ∧
        universalPhotonStepOp d 0 = c0OverCSqOp d * hBondDivisorOp d ∧
        universalPhotonStepOp d (muVac d : Int) = muVac d * hBondDivisorOp d)) d :=
-  catalan_chain d (generative_materials_cooper_pairing_and_superconductor_shells_operator d)
+  catalan_chain d (applied_bio_cad_therapeutic_redifferentiation_and_epigenetic_reset_operator d 1)
     (fun _ => by decide)
 
 /-!
@@ -3299,8 +3322,14 @@ theorem continuum_integral_emergence_newton_cotes_euler_maclaurin_from_cuboctahe
            (((c0OverCSqOp d * nNeighbors d : Nat) : Int) * exactContinuum1DUnitIntegralNumOp p)) = true ∧
        cuboct3DContinuumIntegratorOp d (fun (ex, ey, ez) => ex * ex + ey * ey + ez * ez) =
          ((c0OverCSqOp d * nNeighbors d : Nat) : Int) ∧
-       cuboct3DContinuumIntegratorOp d (fun (ex, ey, ez) => ex * ey * ez) = 0)) d :=
+       cuboct3DContinuumIntegratorOp d (fun (ex, ey, ez) => ex * ey * ez) = 0) ∧
+      -- 5. The Circle as the 512-gon on the M-layer Rotator: exact integer vertices on X² + Y² = R², rational Hausdorff chord-arc sagitta, and 6 * 512² = 1,572,864 perimeter defect denominator
+      ((pythPx d (deltaPhiDisc d : Int)) ^ 2 + (pythPy d (deltaPhiDisc d : Int)) ^ 2 =
+         (pythPr d (deltaPhiDisc d : Int)) ^ 2 ∧
+       allUpTo (nRing d) (fun phi =>
+         Nat.ble (qSquare d * qSquare d) (Int.toNat (pythCircleHypDenomOp d (phi : Int)) * c0OverCSqOp d)) = true ∧
+       nSquares d * nRing d * nRing d = d * c0OverCSqOp d * (nRing d ^ (c0OverCSqOp d)))) d :=
   catalan_chain d (native_non_elementary_jacobi_verlet_fresnel_and_newton_leibniz_calculus_operator d)
-    (fun _ => ⟨⟨rfl, rfl⟩, rfl, ⟨rfl, rfl, rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl⟩⟩)
+    (fun _ => ⟨⟨rfl, rfl⟩, rfl, ⟨rfl, rfl, rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl⟩⟩)
 
 end MtCarrier

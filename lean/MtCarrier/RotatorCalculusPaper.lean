@@ -84,15 +84,9 @@ theorem catalan_law_of_d3 (P : Nat → Prop) (h3 : P 3) (d : Nat) :
 /-- Recursive implication chain combinator (`Catalan → Step 1 → Step 2 → Step 3`):
 derives `CatalanLaw Q d` directly from a prior link `CatalanLaw P d` and the implication `P 3 → Q 3`. -/
 theorem catalan_chain {P Q : Nat → Prop} (d : Nat)
-    (hPrev : CatalanLaw P d) (hNext : P 3 → Q 3) :
-    CatalanLaw Q d := by
-  unfold CatalanLaw
-  constructor
-  · intro hLock
-    have hd := (catalan_lock_iff_d3 d).mp hLock
-    subst hd
-    exact ⟨hLock, hNext ((hPrev.mp hLock).2)⟩
-  · exact And.left
+    (hPrev : CatalanLaw P 3) (hNext : P 3 → Q 3) :
+    CatalanLaw Q d :=
+  catalan_law_of_d3 Q (hNext ((hPrev.mp (by decide : CatalanLock 3)).2)) d
 
 /--Induced algebraic invariants of the discrete phase ring `ℤ_{N_ring(d)}`:
 - `nTriangles(d) = 2^d` (`8` triangular faces / octants),
@@ -347,7 +341,7 @@ theorem thm2_closed_form_fresnel_jacobi_dirichlet_parseval_bessel_integrals (d :
       (besselJ0Integral d 0 = ((nRing d * quarterPeriod d : Nat) : Int) ∧
        besselJ0Integral d (unitStep d : Int) = ((halfPeriod d * quarterPeriod d : Nat) : Int) ∧
        besselJ0Integral d (dInSquare : Int) = 0)) d :=
-  catalan_chain d (thm1_constant_wronskian_weierstrass_lift_and_newton_leibniz d)
+  catalan_chain d (thm1_constant_wronskian_weierstrass_lift_and_newton_leibniz 3)
     (fun _ => ⟨⟨rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl⟩⟩)
 
 /-- **Theorem 3 (First-Principles Derivation of 3D & 1D Continuum Integration from the Cuboctahedron Archimedes Equizonal Partition)**: -/
@@ -367,11 +361,14 @@ theorem thm3_continuum_integration_from_cuboctahedron_archimedes_layers (d : Nat
        cuboct3DContinuumIntegrator d (fun (ex, ey, ez) => ex * ex + ey * ey + ez * ez) =
          ((normSqEdge d * nVertices d : Nat) : Int) ∧
        cuboct3DContinuumIntegrator d (fun (ex, ey, ez) => ex * ey * ez) = 0) ∧
-      -- (iii) Exact Pochhammer falling-factorial discrete integration without Bernoulli remainders
+      -- (iii) Exact Pochhammer falling-factorial discrete integration & M-layer 512-gon circle radius lower bound C² + S² ≥ Q_□² / 2
       ((dInSquare : Int) * discreteIntegral (nVertices d + unitStep d) (fun m => (fallingFactorial (Int.toNat m) d : Int)) =
-         (fallingFactorial (nVertices d + unitStep d) dInSquare : Int))) d :=
-  catalan_chain d (thm2_closed_form_fresnel_jacobi_dirichlet_parseval_bessel_integrals d)
-    (fun _ => ⟨⟨rfl, rfl, rfl, rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl⟩, rfl⟩)
+         (fallingFactorial (nVertices d + unitStep d) dInSquare : Int) ∧
+       allUpTo (nRing d) (fun phi =>
+         Nat.ble (quarterPeriod d * quarterPeriod d) (Int.toNat (pythHypDenom d (phi : Int)) * normSqEdge d)) = true ∧
+       nSquares d * nRing d * nRing d = d * normSqEdge d * (nRing d ^ (normSqEdge d)))) d :=
+  catalan_chain d (thm2_closed_form_fresnel_jacobi_dirichlet_parseval_bessel_integrals 3)
+    (fun _ => ⟨⟨rfl, rfl, rfl, rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl⟩⟩)
 
 #print axioms catalan_lock_iff_d3
 #print axioms thm1_constant_wronskian_weierstrass_lift_and_newton_leibniz
