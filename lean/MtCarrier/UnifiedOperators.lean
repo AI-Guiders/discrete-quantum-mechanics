@@ -3275,6 +3275,25 @@ def zAtpBioEnergyOp (d : Nat) : Nat :=
   zNeonOp d * zCarbonOp d + c0OverCSqOp d * nTriangles d * muVac d +
   dOutEdge d * zNitrogenOp d + nPhi d * zOxygenOp d + d * (d * dOutEdge d)
 
+def checkAutonomousFoodWaterSynthesisBool (d : Nat) : Bool :=
+  (zWaterOp d == zNeonOp d) &&
+  (zAmmoniaOp d == zNeonOp d) &&
+  (zMethaneOp d == zNeonOp d) &&
+  (zSodiumChlorideOp d == nuclearMagicHighOp d dInSquare) &&
+  (c0OverCSqOp d * zUreaOp d == kP d) &&
+  (zGlycineOp d == deltaPhiDisc d - muVac d) &&
+  (zGlycineOp d == dOutEdge d * nTriangles d) &&
+  (zAlanineOp d == dInSquare * nNeighbors d) &&
+  (zVitaminCOp d == cuboctShellSizeOp d d) &&
+  (zGlucoseOp d == nNeighbors d * nTriangles d) &&
+  (zGlucoseOp d == mHat d - muVac d) &&
+  (glucoseAtomCountOp d == c0OverCSqOp d * nNeighbors d) &&
+  (nSquares d * zCarbonDioxideOp d + nSquares d * zWaterOp d ==
+    zGlucoseOp d + nSquares d * (c0OverCSqOp d * zOxygenOp d)) &&
+  (zGlucoseOp d == nSquares d * (c0OverCSqOp d * zOxygenOp d)) &&
+  (zPalmiticLipidOp d == nNeighbors d * nNeighbors d) &&
+  (zAtpBioEnergyOp d == dInSquare * dOutEdge d * nPhi d)
+
 def checkExactRingTeleportationBool (d : Nat) (aAnchor : Int) : Bool :=
   (List.range (nRing d)).all (fun psi =>
     let psiInt := (psi : Int)
@@ -3379,21 +3398,9 @@ theorem reversible_computing_zero_landauer_heat_and_paradox_resolutions_operator
        -- H₂O = NH₃ = CH₄ = Z(Ne) = 10; NaCl = 28 (magic shell); Urea = 32 = K_P/2; Glycine = 40 = Δφ_disc - 1;
        -- Alanine = 48 = 4*|N|; Vitamin C = 92 = S₃; Glucose = 96 = |N|*|△| = M̂ - 1 (50/50 split with 6 O₂ = 96);
        -- Palmitic lipid = 144 = |N|²; ATP = 260 = 4 * 5 * N_φ
-       zWaterOp d = zNeonOp d ∧
-       zAmmoniaOp d = zNeonOp d ∧
-       zMethaneOp d = zNeonOp d ∧
-       zSodiumChlorideOp d = nuclearMagicHighOp d dInSquare ∧
-       c0OverCSqOp d * zUreaOp d = kP d ∧
-       zGlycineOp d = deltaPhiDisc d - muVac d ∧
-       zGlycineOp d = dOutEdge d * nTriangles d ∧
-       zAlanineOp d = dInSquare * nNeighbors d ∧
-       zVitaminCOp d = cuboctShellSizeOp d d ∧
+       checkAutonomousFoodWaterSynthesisBool d = true ∧
        zGlucoseOp d = nNeighbors d * nTriangles d ∧
-       zGlucoseOp d = mHat d - muVac d ∧
-       glucoseAtomCountOp d = c0OverCSqOp d * nNeighbors d ∧
-       nSquares d * zCarbonDioxideOp d + nSquares d * zWaterOp d =
-         zGlucoseOp d + nSquares d * (c0OverCSqOp d * zOxygenOp d) ∧
-       zGlucoseOp d = nSquares d * (c0OverCSqOp d * zOxygenOp d) ∧
+       zVitaminCOp d = cuboctShellSizeOp d d ∧
        zPalmiticLipidOp d = nNeighbors d * nNeighbors d ∧
        zAtpBioEnergyOp d = dInSquare * dOutEdge d * nPhi d ∧
        gateDenomOp d (nPhi d : Int) (-((qSquare d * nPhi d * nPhi d : Nat) : Int)) <
