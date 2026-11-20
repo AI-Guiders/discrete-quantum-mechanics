@@ -3182,7 +3182,7 @@ def localInversionPreimageBranchingOp (d t : Nat) : Nat :=
 - `carrierSecondRingExponentOp(d) = d_in(□)² = 2 * |△(d)|` (`16`, so `N_ring(d)^16 = 512^16 = 2^144 = 2^(|N(d)|²)`),
 - `carrierSecondRationalFactorOp(d) = (d_in(□) * d_out(E)(d), |N(d)| + d_out(E)(d))` (`(20, 17)`, giving `N_sec(3) = (20/17) * 512^16 ≈ 2.623617 × 10^43` ticks/s, matching `1 / h_T` to `0.017%` without `¹³³Cs` or `G`),
 - `cosmoClockPrefactorRatOp(d) = (|N(d)| - μ_vac(d), d_out(E)(d) * |△(d)|)` (`(11, 40)`, giving `N_CMB^alg = (11/40)*(E₀/Θ_rec)²` and `N_today^alg = (11/40)*(E₀/Θ_CMB)²*√(α_fs/8)` matching Planck 2018 `13.787 ± 0.020 Gyr` within `0.132% = 0.91σ`). -/
-def carrierSecondRingExponentOp (d : Nat) : Nat :=
+def carrierSecondRingExponentOp (_d : Nat) : Nat :=
   dInSquare * dInSquare
 
 def carrierSecondRationalFactorOp (d : Nat) : Nat × Nat :=
@@ -3277,7 +3277,7 @@ theorem reversible_computing_zero_landauer_heat_and_paradox_resolutions_operator
        zPlatinumOp d + muVac d = zGoldOp d ∧
        zMercuryOp d = zGoldOp d + muVac d ∧
        zThalliumOp d = zGoldOp d + c0OverCSqOp d ∧
-       zLeadOp d = zGoldOp d + d ∧
+       zLeadTerminalOp d = zGoldOp d + d ∧
        aGold197MassOp d = c0OverCSqOp d * mHat d + d ∧
        aGold197MassOp d = cuboctBallOp d + c0OverCSqOp d * dOutEdge d * dOutEdge d ∧
        gateDenomOp d (kP d : Int) (-((d * qSquare d * kP d * kP d : Nat) : Int)) = (epsDenom d : Int) ∧
