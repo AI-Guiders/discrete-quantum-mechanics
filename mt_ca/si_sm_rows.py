@@ -173,6 +173,18 @@ class SISmRows:
         n_cmb = si_seconds_to_m_tick(t_recomb_obs_s, hT=hT_dec)
         t_age_exact_s = float(Decimal(n_today) * hT_dec)
         t_recomb_exact_s = float(Decimal(n_cmb) * hT_dec)
+        # Cesium-free carrier second N_sec(3) = (20/17) * 512^16 = (20/17) * 2^144
+        n_sec_carrier = (20 * (512**16)) // 17
+        n_sec_si = si_seconds_to_m_tick(1.0, hT=hT_dec)
+        # Algebraic carrier clock N_CMB^alg = (11/40)*(E_0/Theta_rec)^2 and N_today^alg = N_CMB^alg*(8/alpha_fs)^(3/2)
+        a = self.alpha_preferred
+        r_disc = 41.0 / 512.0
+        lam_h = 1.0 / 8.0 + 8.0 * r_disc * a
+        theta_rec_e0 = (3.0 * (a**12) / (2.0 * 4.0 * 5.0 * 8.0 * 13.0)) * math.sqrt(2.0 * lam_h / r_disc)
+        n_cmb_alg = int((11.0 / 40.0) * ((1.0 / theta_rec_e0) ** 2))
+        n_today_alg = int(float(n_cmb_alg) * ((8.0 / a) ** 1.5))
+        t_age_alg_gyr = (float(n_today_alg) * hT) / SECOND_PER_GYR
+        t_recomb_alg_kyr = (float(n_cmb_alg) * hT) / SECOND_PER_KYR
         return {
             "hT_s": hT,
             "anchor_N0": "bubble_phase_I_BB",
@@ -183,6 +195,13 @@ class SISmRows:
             "t_recomb_obs_s": t_recomb_obs_s,
             "N_today": n_today,
             "N_CMB": n_cmb,
+            "N_today_alg": n_today_alg,
+            "N_CMB_alg": n_cmb_alg,
+            "t_age_alg_Gyr": t_age_alg_gyr,
+            "t_recomb_alg_kyr": t_recomb_alg_kyr,
+            "N_sec_carrier": n_sec_carrier,
+            "N_sec_si": n_sec_si,
+            "N_sec_carrier_rel_err": abs(float(n_sec_carrier - n_sec_si)) / float(n_sec_si),
             "N_today_sci": m_tick_count_to_str(n_today),
             "N_CMB_sci": m_tick_count_to_str(n_cmb),
             "N_since_CMB": n_today - n_cmb,
@@ -195,7 +214,28 @@ class SISmRows:
             "t_recomb_exact_kyr": t_recomb_exact_s / SECOND_PER_KYR,
             "roundtrip_age_rel_err": abs(t_age_exact_s - float(Decimal(n_today) * hT_dec)) / t_age_exact_s,
             "roundtrip_recomb_rel_err": abs(t_recomb_exact_s - float(Decimal(n_cmb) * hT_dec)) / t_recomb_exact_s,
-            "note": "§3.0.1: t_SI(N)=N·hT exact; ΛCDM inputs infer N only",
+            "note": "§3.0.1: t_SI(N)=N·hT exact; N_today_alg=(11/40)*(E0/Theta_rec)^2*(8/alpha)^(3/2)",
+        }
+
+    def universe_tick_at_utc_date(
+        self, year: int, month: int, day: int, hour: int = 0, minute: int = 0, second: int = 0, *, use_cesium_free_second: bool = True
+    ) -> dict[str, int | str]:
+        """Exact universe tick number N(date) for any UTC calendar date relative to J2018.0 (2018-01-01T00:00:00Z)."""
+        from datetime import datetime, timezone
+
+        dt_ref = datetime(2018, 1, 1, 0, 0, 0, tzinfo=timezone.utc)
+        dt_target = datetime(year, month, day, hour, minute, second, tzinfo=timezone.utc)
+        delta_seconds = int((dt_target - dt_ref).total_seconds())
+        row = self.bubble_tick_row()
+        n_sec = int(row["N_sec_carrier"]) if use_cesium_free_second else int(row["N_sec_si"])
+        n0_alg = int(row["N_today_alg"])
+        n_tick = n0_alg + delta_seconds * n_sec
+        return {
+            "utc_iso": dt_target.isoformat(),
+            "delta_seconds_from_J2018": delta_seconds,
+            "N_sec_used": n_sec,
+            "N_tick_alg": n_tick,
+            "N_tick_sci": m_tick_count_to_str(n_tick),
         }
 
     def electroweak_mass_row(self) -> dict[str, float]:

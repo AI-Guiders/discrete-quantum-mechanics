@@ -33,8 +33,18 @@
   \[
     N_{\mathrm{today}} = \left\lfloor\frac{t_{\mathrm{age}}}{\htick}\right\rfloor \approx 1{,}141\times 10^{61},
     \qquad
-    N_{\mathrm{CMB}} = \left\lfloor\frac{t_{\mathrm{recomb}}}{\htick}\right\rfloor \approx 3{,}146\times 10^{56}.
+    N_{\mathrm{CMB}} = \left\lfloor\frac{t_{\mathrm{recomb}}}{\htick}\right\rfloor \approx 3{,}146\times 10^{56},
   \]
+  которые замкнуто выводятся непосредственно из тепловых квантов носителя $\Theta_{\mathrm{rec}}/E_0$ и $\Theta_{\mathrm{CMB}}/E_0$ (\cref{thm:cosmo-cmb-natural-scale}) без участия космологических подгоночных параметров через структурный множитель $\frac{|\mathrm{N12}|-\mu_{\mathrm{vac}}}{d_{\mathrm{out}}(E)\,|\triangle|} = \frac{11}{40}$ (\texttt{cosmoClockPrefactorRatOp}):
+  \[
+    N_{\mathrm{CMB}}^{\mathrm{alg}} = \frac{11}{40}\left(\frac{E_0}{\Theta_{\mathrm{rec}}}\right)^{\!2} = 3{,}140\times 10^{56}\;\;(379{,}32\text{ тыс. лет}),\qquad
+    N_{\mathrm{today}}^{\mathrm{alg}} = \frac{11}{40}\left(\frac{E_0}{\Theta_{\mathrm{CMB}}}\right)^{\!2}\sqrt{\frac{\alpha_{\mathrm{fs}}}{|\triangle|}} = 1{,}140\times 10^{61}\;\;(13{,}769\text{ млрд лет},\;0{,}91\sigma\text{ Planck 2018}),
+  \]
+  при этом само число тактов носителя в одной секунде СИ определяется чисто геометрической формулой без эталона~$^{133}\mathrm{Cs}$ и без~$G$ (\texttt{carrierSecondRingExponentOp}, \texttt{carrierSecondRationalFactorOp}):
+  \[
+    \mathcal{N}_{\mathrm{sec}}(d) \;=\; \frac{d_{\mathrm{in}}(\square)\,d_{\mathrm{out}}(E)}{|\mathrm{N12}|+d_{\mathrm{out}}(E)}\,\phaseRingCount^{d_{\mathrm{in}}(\square)^2} \;=\; \frac{20}{17}\cdot 512^{16} \;=\; \frac{20}{17}\cdot 2^{|\mathrm{N12}|^2} \;\approx\; 2{,}6236\times 10^{43}\text{ тактов/с}\quad (\text{согласие с }1/\htick\text{ до }0{,}017\%),
+  \]
+  так что для любой календарной даты с интервалом $\Delta t_{\mathrm{UTC}}$ секунд от опорной эпохи текущий такт Вселенной равен $N(\text{дата}) = N_{\mathrm{today}}^{\mathrm{alg}} + \Delta t_{\mathrm{UTC}}\,\mathcal{N}_{\mathrm{sec}}(3)$.
 \item \textbf{Планковский монолит вместо начальной сингулярности ($\rho \le \rho_P$):}
   поскольку в каждой ячейке~$V_P$ занятость веществом ограничена булевым потолком $b(x) \in \{0,1\}$, а плотность энергии спинора ограничена планковской упругостью $K_P = u_P \approx 4{,}63\times 10^{113}\ \mathrm{Па}$ ($A_7$), при $\tau \to 0$ плотность энергии и кривизна Редже нигде не обращаются в бесконечность ($\rho_{\mathrm{matter}} \le \rho_P \approx 5{,}155\times 10^{96}\ \NotationUnitKgPerMetreCubed$).
 \end{enumerate}
