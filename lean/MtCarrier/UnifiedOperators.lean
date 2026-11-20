@@ -3124,6 +3124,29 @@ def checkBornRuleAllAmplitudesBool (d : Nat) : Bool :=
   (List.range (c0OverCSqOp d * nTriangles d + 1)).all (fun mu =>
     bornClickCountOp d mu == mu * mu)
 
+/-- **Triangle-Face 3-SAT Phase Defect Operator `clause3SatDefectOp(d, ψ₁, ψ₂, ψ₃)` on `ℤ_{N_ring(d)}`:**
+For three literal phases `ψ₁, ψ₂, ψ₃ ∈ {0 (True, C = +Q_□), Φ_Pauli(d) (False, C = -Q_□)}` on a triangular face of the cuboctahedron:
+`Δ_3SAT(d; ψ₁, ψ₂, ψ₃) = Q_□(d) - (C_d(ψ₁) + C_d(ψ₂) + C_d(ψ₃))`.
+Since `(1 + d) * Q_□(d) = d_in(□) * Q_□(d) = N_ring(d) = 512` uniquely at `d = 3`:
+- across all `2^d - 1 = 7` satisfying octants of a 3-SAT clause (`IV(d) % Φ_Pauli(d) = 7`), `Δ_3SAT ∈ {-256, 0, +256}` lies inside the wave remainder (`tdiv(Δ_3SAT, N_ring(d)) = 0` vortex quanta),
+- on the unique falsifying octant `(Φ_Pauli, Φ_Pauli, Φ_Pauli)` (`(False, False, False)`), `Δ_3SAT = Q_□(d) - d * (-Q_□(d)) = N_ring(d) = 512`, producing the exact unit corpuscular vortex quantum `tdiv(Δ_3SAT, N_ring(d)) = 1`! -/
+def clause3SatDefectOp (d : Nat) (psi1 psi2 psi3 : Int) : Int :=
+  (qSquare d : Int) - (projC d psi1 + projC d psi2 + projC d psi3)
+
+def clause3SatVortexQuantumOp (d : Nat) (psi1 psi2 psi3 : Int) : Int :=
+  (clause3SatDefectOp d psi1 psi2 psi3).tdiv (nRing d : Int)
+
+def check3SatOctantTruthTableBool (d : Nat) : Bool :=
+  let poles := [(0 : Int), (phiPauli d : Int)]
+  poles.all (fun p1 =>
+    poles.all (fun p2 =>
+      poles.all (fun p3 =>
+        let q := clause3SatVortexQuantumOp d p1 p2 p3
+        if intEqBool p1 (phiPauli d : Int) && intEqBool p2 (phiPauli d : Int) && intEqBool p3 (phiPauli d : Int) then
+          intEqBool q (muVac d : Int)
+        else
+          intEqBool q 0)))
+
 theorem reversible_computing_zero_landauer_heat_and_paradox_resolutions_operator (d : Nat) :
     CatalanLaw (fun d =>
       -- 1. Zero Landauer heat in ballistic reversible step & two-tick phase-space ratio B₂ / B₁ = (c₀/c)² (Zeno arrow resolution)
@@ -3142,8 +3165,8 @@ theorem reversible_computing_zero_landauer_heat_and_paradox_resolutions_operator
       (universalPhotonStepOp d (-(muVac d : Int)) = zNitrogenOp d * hBondDivisorOp d ∧
        universalPhotonStepOp d 0 = c0OverCSqOp d * hBondDivisorOp d ∧
        universalPhotonStepOp d (muVac d : Int) = muVac d * hBondDivisorOp d) ∧
-      -- 5. Wave-particle duality, Dirac bra-ket inner product, and deterministic derivation of Born's rule P(μ) = μ² / N_ring(d)
-      -- from Euclidean quotient-remainder decomposition Δφ = N_ring(d) * q + r
+      -- 5. Wave-particle duality, Dirac bra-ket inner product, deterministic Born rule P(μ) = μ² / N_ring(d),
+      -- and branchless 3-SAT reduction to zero triangle-face vortex quanta on Z_{N_ring(d)}
       ((nRing d : Int) * branchQuotient d ((phiPauli d + muVac d : Nat) : Int) +
          edgeConnection d ((phiPauli d + muVac d : Nat) : Int) = ((phiPauli d + muVac d : Nat) : Int) ∧
        branchQuotient d (deltaPhiDisc d : Int) = 0 ∧
@@ -3152,7 +3175,11 @@ theorem reversible_computing_zero_landauer_heat_and_paradox_resolutions_operator
        diracBraKetOp d (muVac d : Int) 0 (muVac d : Int) 0 = ((qSquare d : Int), 0) ∧
        diracBraKetOp d (muVac d : Int) 0 (muVac d : Int) (qSquare d : Int) = (0, (qSquare d : Int)) ∧
        diracBraKetOp d (muVac d : Int) 0 (muVac d : Int) (phiPauli d : Int) = (-(qSquare d : Int), 0) ∧
-       checkBornRuleAllAmplitudesBool d = true)) d :=
+       checkBornRuleAllAmplitudesBool d = true ∧
+       check3SatOctantTruthTableBool d = true ∧
+       clause3SatDefectOp d (phiPauli d : Int) (phiPauli d : Int) (phiPauli d : Int) = (nRing d : Int) ∧
+       gateDenomOp d (nPhi d : Int) (-((qSquare d * nPhi d * nPhi d : Nat) : Int)) <
+         gateDenomOp d (nPhi d : Int) ((qSquare d * nPhi d * nPhi d : Nat) : Int))) d :=
   catalan_chain d (applied_bio_cad_therapeutic_redifferentiation_and_epigenetic_reset_operator d 1)
     (fun _ => by decide)
 
