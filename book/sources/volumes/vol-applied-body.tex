@@ -412,13 +412,28 @@
   на потолке Паули $\mu=K_P(d),\ \Delta\varphi=\Phi_{\mathrm{Pauli}}(d)$ знаменатель импеданса строго положителен ($\mathrm{shellGateDenomOp}(d,K_P(d),\Phi_{\mathrm{Pauli}}(d)) = \varepsilon(d) > 0$), тёмный остаток тождественно равен нулю ($D_{\mathrm{dark}}\equiv 0$), а биективность $\mathrm{polarReverseCell}$ сохраняет информацию побитово.
 \item \textbf{Парадокс фолдинга Левинталя и космобиологический парадокс Ферми:}
   ко-трансляционная укладка на $d$ пазах тетраэдра~$K_4$ и обратный компилятор ДНК работают за линейное время $O(L)\in\mathrm{P}$, а фотонные резонансы трёх планетарных окон жизни $m_{\mathrm{env}}\in\{-\mu_{\mathrm{vac}}(d),0,+\mu_{\mathrm{vac}}(d)\}$ квантованы в точном отношении $\mathrm{universalPhotonStepOp}(d,m_{\mathrm{env}}) = \{\mathrm{zNitrogenOp}(d),\,\mathrm{c0OverCSqOp}(d),\,\mu_{\mathrm{vac}}(d)\}\cdot\mathrm{hBondDivisorOp}(d)$.
-\item \textbf{Корпускулярно-волновой дуализм и проблема «коллапса волновой функции»:}
+\item \textbf{Корпускулярно-волновой дуализм, аппарат Дирака--Гейзенберга--Фейнмана и детерминированный вывод правила Борна $P(\mu)=\mu^2/\phaseRingCount(d)$:}
   в евклидовом делении разности фаз с остатком на кольце $\mathbb{Z}_{\phaseRingCount(d)}$,
   \[
     (d_0\varphi)_{xy} \;=\; \phaseRingCount(d)\,k_{xy} + A_{xy},\qquad
     k_{xy}\in\{-1,0,+1\},\quad A_{xy}\in\bigl(-\Phi_{\mathrm{Pauli}}(d),\,\Phi_{\mathrm{Pauli}}(d)\bigr],
   \]
-  \textbf{волна} есть остаток $A_{xy} = \mathrm{edgeConnection}(d,\Delta\varphi)$, который при $|\Delta\varphi|\le\Phi_{\mathrm{Pauli}}(d)$ ($k_{xy}=0$) свободно распределяется и интерферирует по $12$~поворотным рёбрам кубооктаэдра со сферически изотропным фронтом второго порядка $\sum_{j=1}^{12}(\mathbf{k}\cdot e_j)^2 = 8\,|\mathbf{k}|^2$, тогда как \textbf{корпускула} есть неполное частное $k_{xy} = \mathrm{branchQuotient}(d,\Delta\varphi)\in\mathbb{Z}$ (и целочисленная намотка плакеты $n_f = -\sum_{e\in\partial f} k_e\in\mathbb{Z}$), которое по правилам целочисленной арифметики не может разделиться на дробные части и срабатывает при переходе через порог $\Phi_{\mathrm{Pauli}}(d)$ (или $\Delta\varphi_{\mathrm{disc}}(d)$) исключительно как неделимый целый квант $\pm\mu_{\mathrm{vac}}(d) = \pm 1$.
+  \textbf{волна} есть остаток $A_{xy} = \mathrm{edgeConnection}(d,\Delta\varphi)$, который при $|\Delta\varphi|\le\Phi_{\mathrm{Pauli}}(d)$ ($k_{xy}=0$) свободно распределяется и интерферирует по $12$~поворотным рёбрам кубооктаэдра со сферическим фронтом второго порядка $\sum_{j=1}^{12}(\mathbf{k}\cdot e_j)^2 = 8\,|\mathbf{k}|^2$, тогда как \textbf{корпускула} есть неполное частное $k_{xy} = \mathrm{branchQuotient}(d,\Delta\varphi)\in\mathbb{Z}$ (и целочисленная намотка плакеты $n_f = -\sum_{e\in\partial f} k_e\in\mathbb{Z}$), которое по правилам целочисленной арифметики не может разделиться на дробные части и срабатывает исключительно как неделимый целый квант $\pm\mu_{\mathrm{vac}}(d) = \pm 1$. При этом весь операторный аппарат квантовой механики реализуется в точных целых числах:
+  \begin{itemize}[noitemsep,leftmargin=*]
+  \item \emph{Бра-кет скалярное произведение Дирака} (\texttt{diracBraKetOp}):
+    $\langle\psi_1|\psi_2\rangle_d = \mu_1\mu_2\bigl(\mathcal{C}_d(\varphi_2-\varphi_1),\,\mathcal{S}_d(\varphi_2-\varphi_1)\bigr)\in\mathbb{Z}^2$, где чётная компонента $\mathcal{C}_d(\Delta\varphi)$ задаёт амплитуду интерференции ($+Q_\square(d)$ в фазе $\Delta\varphi=0$, $0$ при ортогональном четверть-обороте $\Delta\varphi=Q_\square(d)$, $-Q_\square(d)$ при противофазном гашении $\Delta\varphi=\Phi_{\mathrm{Pauli}}(d)$ по тождеству Эйлера $e^{i\pi}+1=0$), а нечётная компонента $\mathcal{S}_d(\Delta\varphi)$ --- ток вероятности;
+  \item \emph{Канонический коммутатор Гейзенберга} $[\hat{\varphi},\hat{p}_\varphi]=i\hbar$:
+    тождественное постоянство разностного вронскиана $\langle i\mathcal{E}_d(\varphi),\Delta\mathcal{E}_d(\varphi)\rangle = \mathcal{W}_d(\varphi)\equiv Q_\square(d)=128$ во всех $512$~точках кольца;
+  \item \emph{Интеграл по траекториям Фейнмана} $\sum_\gamma \mathcal{E}_d(\Phi[\gamma])$:
+    конечная сумма по путям из $12$~рёбер кубооктаэдра, в которой $480$ осциллирующих вычетов взаимно аннигилируют за счёт полупериода $+\Phi_{\mathrm{Pauli}}(d)$, а $32$ траектории стационарной фазы ($\varphi^2\equiv K_P(d)=64\pmod{512}$) дают точный конечный интеграл Френеля $2048$;
+  \item \emph{Детерминированный вывод правила Борна $P(\mu) = |\psi|^2/\phaseRingCount(d)$ без вероятностного постулата коллапса} (\texttt{bornClickCountOp}, \texttt{checkBornRuleAllAmplitudesBool}):
+    при приходе волны амплитуды $\mu\in[0,2|{\triangle}(d)|]$ с квадратичным фазовым импульсом $\Phi_{\mathrm{wave}}=\mu^2\le\Phi_{\mathrm{Pauli}}(d)$ на узел детектора с неизвестной макронаблюдателю внутренней фазой фона $\varphi_{\mathrm{bg}}\in\mathbb{Z}_{\phaseRingCount(d)}$ число фаз фона из $\phaseRingCount(d)=512$, при которых детерминированное деление с остатком перебрасывает единицу в целое частное ($\mathrm{branchQuotient}(d,\mathrm{wrap}_d(\varphi_{\mathrm{bg}})+\mu^2)=1$, щелчок детектора), \textbf{тождественно равно квадрату амплитуды $\mu^2 = |\psi|^2$}:
+    \[
+      \mathrm{bornClickCountOp}(d,\mu)
+      \;:=\; \#\bigl\{\varphi_{\mathrm{bg}}\in\mathbb{Z}_{\phaseRingCount(d)} \;\big|\; \mathrm{branchQuotient}\bigl(d,\,\mathrm{wrap}_d(\varphi_{\mathrm{bg}})+\mu^2\bigr)=1\bigr\}
+      \;\equiv\; \mu^2 \qquad \bigl(0\le\mu\le 16\bigr).
+    \]
+  \end{itemize}
 \end{enumerate}
 \end{theorem}
 

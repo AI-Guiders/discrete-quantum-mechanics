@@ -3100,6 +3100,31 @@ Chained directly via `CatalanLaw` for any `d : Nat`:
      while planetary biospheres are quantized into the three stellar photon resonance windows `universalPhotonStepOp` with exact ratio
      `universalPhotonStepOp d (-1) / hBondDivisorOp d = zNitrogenOp d` (`7`), `universalPhotonStepOp d 0 / hBondDivisorOp d = c0OverCSqOp d` (`2`),
      and `universalPhotonStepOp d 1 / hBondDivisorOp d = muVac d` (`1`)! -/
+/-- Integer Dirac bra-ket inner product `⟨ψ₁ | ψ₂⟩_d = (μ₁ μ₂ C_d(φ₂ - φ₁), μ₁ μ₂ S_d(φ₂ - φ₁)) ∈ ℤ²`
+on the discrete Euler exponential `(C_d, S_d)`:
+- real part `μ₁ μ₂ C_d(Δφ)` is the quantum interference amplitude (`+Q_□ μ₁ μ₂` in phase `Δφ = 0`, `0` at orthogonal quarter-turn `Δφ = Q_□`, `-Q_□ μ₁ μ₂` at destructive half-turn `Δφ = Φ_Pauli`),
+- imaginary part `μ₁ μ₂ S_d(Δφ)` is the odd holonomy probability current. -/
+def diracBraKetOp (d : Nat) (mu1 phi1 mu2 phi2 : Int) : Int × Int :=
+  (mu1 * mu2 * projC d (phi2 - phi1), mu1 * mu2 * projS d (phi2 - phi1))
+
+/-- Recursive counter over `φ_bg ∈ [0, n)` of deterministic corpuscular detector clicks `branchQuotient(d, wrap512(d, φ_bg) + Φ_wave) = 1`. -/
+def countBornClicksRec (d : Nat) (phiWave : Int) : Nat → Nat
+  | 0 => 0
+  | n + 1 =>
+    countBornClicksRec d phiWave n +
+    (if intEqBool (branchQuotient d (wrap512 d (n : Int) + phiWave)) (muVac d : Int) then 1 else 0)
+
+/-- **Deterministic Born-Rule Operator `bornClickCountOp(d, μ)`:**
+Counts how many background detector phases `φ_bg ∈ {0, ..., N_ring(d) - 1}` produce a corpuscular quotient click
+`q = branchQuotient(d, wrap512(d, φ_bg) + μ²) = 1` when an incoming wave of amplitude `μ` deposits quadratic phase energy `Φ_wave = μ²`.
+Across all amplitudes `0 ≤ μ ≤ 2 * |△(d)| = 16` (`μ² ≤ Φ_Pauli(d) = 256`), `bornClickCountOp(d, μ)` is identically equal to `μ² = |ψ|²`! -/
+def bornClickCountOp (d mu : Nat) : Nat :=
+  countBornClicksRec d ((mu * mu : Nat) : Int) (nRing d)
+
+def checkBornRuleAllAmplitudesBool (d : Nat) : Bool :=
+  (List.range (c0OverCSqOp d * nTriangles d + 1)).all (fun mu =>
+    bornClickCountOp d mu == mu * mu)
+
 theorem reversible_computing_zero_landauer_heat_and_paradox_resolutions_operator (d : Nat) :
     CatalanLaw (fun d =>
       -- 1. Zero Landauer heat in ballistic reversible step & two-tick phase-space ratio B₂ / B₁ = (c₀/c)² (Zeno arrow resolution)
@@ -3118,14 +3143,17 @@ theorem reversible_computing_zero_landauer_heat_and_paradox_resolutions_operator
       (universalPhotonStepOp d (-(muVac d : Int)) = zNitrogenOp d * hBondDivisorOp d ∧
        universalPhotonStepOp d 0 = c0OverCSqOp d * hBondDivisorOp d ∧
        universalPhotonStepOp d (muVac d : Int) = muVac d * hBondDivisorOp d) ∧
-      -- 5. Wave-particle duality as Euclidean quotient-remainder decomposition Δφ = N_ring(d) * q + r:
-      -- remainder r = edgeConnection (wave propagation across 12 cuboctahedron edges with q = 0 below Pauli half-turn)
-      -- vs integer quotient q = branchQuotient (indivisible corpuscular quantum jumping by ±1 across Φ_Pauli)
+      -- 5. Wave-particle duality, Dirac bra-ket inner product, and deterministic derivation of Born's rule P(μ) = μ² / N_ring(d)
+      -- from Euclidean quotient-remainder decomposition Δφ = N_ring(d) * q + r
       ((nRing d : Int) * branchQuotient d ((phiPauli d + muVac d : Nat) : Int) +
          edgeConnection d ((phiPauli d + muVac d : Nat) : Int) = ((phiPauli d + muVac d : Nat) : Int) ∧
        branchQuotient d (deltaPhiDisc d : Int) = 0 ∧
        edgeConnection d (deltaPhiDisc d : Int) = (deltaPhiDisc d : Int) ∧
-       branchQuotient d ((phiPauli d + muVac d : Nat) : Int) = (muVac d : Int))) d :=
+       branchQuotient d ((phiPauli d + muVac d : Nat) : Int) = (muVac d : Int) ∧
+       diracBraKetOp d (muVac d : Int) 0 (muVac d : Int) 0 = ((qSquare d : Int), 0) ∧
+       diracBraKetOp d (muVac d : Int) 0 (muVac d : Int) (qSquare d : Int) = (0, (qSquare d : Int)) ∧
+       diracBraKetOp d (muVac d : Int) 0 (muVac d : Int) (phiPauli d : Int) = (-(qSquare d : Int), 0) ∧
+       checkBornRuleAllAmplitudesBool d = true)) d :=
   catalan_chain d (applied_bio_cad_therapeutic_redifferentiation_and_epigenetic_reset_operator d 1)
     (fun _ => by decide)
 
