@@ -3159,6 +3159,25 @@ def count3SatZeroQuotientOctantsOp (d : Nat) : Nat :=
       poles.foldl (fun acc3 p3 =>
         acc3 + (if intEqBool (clause3SatVortexQuantumOp d p1 p2 p3) 0 then 1 else 0)) acc2) acc1) 0
 
+/-- Cumulative number of lattice nodes inside the backward causal cone / subsurface scattering ball of depth `T ≥ 0` steps
+on the 12-beam cuboctahedron `O₂(d)`:
+`V_{O₂}(d, 0) = μ_vac(d) = 1`, `V_{O₂}(d, T+1) = V_{O₂}(d, T) + cuboctShellSizeOp(d, T+1)`,
+satisfying `d * V_{O₂}(d, T) = (|N(d)| - (c₀/c)²) * T³ + d * d_out(E)(d) * T² + (|N(d)| - μ_vac(d)) * T + d * μ_vac(d)`
+(`3 * V_{O₂}(3, T) = 10 T³ + 15 T² + 11 T + 3`). -/
+def cuboctCausalConeVolumeOp (d : Nat) : Nat → Nat
+  | 0 => muVac d
+  | k + 1 => cuboctCausalConeVolumeOp d k + cuboctShellSizeOp d (k + 1)
+
+def cuboctCausalConeCubicPolyOp (d t : Nat) : Nat :=
+  (nNeighbors d - c0OverCSqOp d) * t * t * t +
+  d * dOutEdge d * t * t +
+  (nNeighbors d - muVac d) * t +
+  d * muVac d
+
+/-- Preimage branching factor `(2^d - 1)^T = 7^T` along a single depth-`T` inversion ray under Channel 2 `7 -> 1` remainder gluing. -/
+def localInversionPreimageBranchingOp (d t : Nat) : Nat :=
+  (count3SatZeroQuotientOctantsOp d) ^ t
+
 def check3SatOctantTruthTableBool (d : Nat) : Bool :=
   let poles := [(0 : Int), (phiPauli d : Int)]
   poles.all (fun p1 =>
@@ -3216,6 +3235,11 @@ theorem reversible_computing_zero_landauer_heat_and_paradox_resolutions_operator
        count3SatZeroQuotientOctantsOp d = nTriangles d - muVac d ∧
        clause3SatDefectOp d (phiPauli d : Int) (phiPauli d : Int) (phiPauli d : Int) = (nRing d : Int) ∧
        projC d (0 + 0) ≠ projC d 0 + projC d 0 ∧
+       catalanDefect d = muVac d ∧
+       cuboctCausalConeVolumeOp d 1 = muVac d + nNeighbors d ∧
+       cuboctCausalConeVolumeOp d d = cuboctBallOp d ∧
+       d * cuboctCausalConeVolumeOp d d = cuboctCausalConeCubicPolyOp d d ∧
+       localInversionPreimageBranchingOp d d = (nTriangles d - muVac d) ^ d ∧
        gateDenomOp d (nPhi d : Int) (-((qSquare d * nPhi d * nPhi d : Nat) : Int)) <
          gateDenomOp d (nPhi d : Int) ((qSquare d * nPhi d * nPhi d : Nat) : Int))) d :=
   catalan_chain d (applied_bio_cad_therapeutic_redifferentiation_and_epigenetic_reset_operator d 1)
