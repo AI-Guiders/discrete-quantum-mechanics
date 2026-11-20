@@ -709,6 +709,127 @@ module lab_smooth_cv_cc_dds_power_supply (
     assign i_actual_ma = (i_dc_envelope * dds_c) / 32'sd128;
 endmodule
 
+// ----------------------------------------------------------------------------
+// Module 12: Universal Host-Controlled SoC Top (`cuboctahedron_uart_cmd_soc_top`)
+// Unified command decoder & telemetry router for Laptop / AI MCP control over
+// USB-UART or ESP32 Wi-Fi bridge (zero physical buttons required!).
+// Command Opcodes (`host_opcode`):
+//   4'h1: CMD_SET_12BEAM_MODE   (arg0[2:0] = mode 0..4 -> Stasis, Ballistic, Collapse, Pauli, Euler)
+//   4'h2: CMD_SYNTHESIZE_FOOD   (arg0[1:0] = recipe 00:Cutlet, 01:Milk, 10:Nectar, 11:Bread)
+//   4'h3: CMD_SET_LAB_PSU_VIF   (arg0 = V_set_mV, arg1 = I_set_mA, arg2 = DDS_freq_word)
+//   4'h4: CMD_STASIS_PANTRY_MODE(arg0[1:0] = 00:Cool&Harvest, 01:EternalStasis, 10:BattHold, 11:BattDischarge)
+//   4'h5: CMD_TELEPORT_72BIT    (arg0[1:0] = 01:Stasis, 10:Teleport_A_to_B, 11:Release_B)
+// ----------------------------------------------------------------------------
+module cuboctahedron_uart_cmd_soc_top (
+    input  wire        clk,
+    input  wire        rst,
+    input  wire        host_cmd_valid,
+    input  wire [3:0]  host_opcode,
+    input  wire signed [31:0] host_arg0,
+    input  wire signed [31:0] host_arg1,
+    input  wire signed [31:0] host_arg2,
+    output wire [11:0] phys_beam_pins,
+    output wire [11:0] phys_beam_oe,
+    output wire [2:0]  soc_food_stage,
+    output wire        soc_food_ready,
+    output wire [8:0]  soc_food_target_z,
+    output wire signed [31:0] soc_psu_v_mv,
+    output wire signed [31:0] soc_psu_i_ma,
+    output wire        soc_psu_cv,
+    output wire        soc_psu_cc,
+    output wire signed [31:0] soc_stasis_decay_phi,
+    output wire signed [31:0] soc_vortex_batt_charge,
+    output wire [8:0]  soc_tp_chB_mu0,
+    output wire [8:0]  soc_tp_chB_phi0_curr
+);
+    reg [2:0]  reg_beam_mode;
+    reg        reg_food_start;
+    reg [1:0]  reg_food_recipe;
+    reg signed [31:0] reg_psu_v_mv;
+    reg signed [31:0] reg_psu_i_ma;
+    reg [31:0] reg_psu_dds_freq;
+    reg [1:0]  reg_pantry_mode;
+    reg [1:0]  reg_tp_mode;
+
+    always @(posedge clk) begin
+        if (rst) begin
+            reg_beam_mode    <= 3'd0;
+            reg_food_start   <= 1'b0;
+            reg_food_recipe  <= 2'b00;
+            reg_psu_v_mv     <= 32'sd12000;
+            reg_psu_i_ma     <= 32'sd3000;
+            reg_psu_dds_freq <= 32'd0;
+            reg_pantry_mode  <= 2'b01; // Default: Eternal Stasis Pantry active
+            reg_tp_mode      <= 2'b01;
+        end else if (host_cmd_valid) begin
+            case (host_opcode)
+                4'h1: reg_beam_mode <= host_arg0[2:0];
+                4'h2: begin
+                    reg_food_recipe <= host_arg0[1:0];
+                    reg_food_start  <= 1'b1;
+                end
+                4'h3: begin
+                    reg_psu_v_mv     <= host_arg0;
+                    reg_psu_i_ma     <= host_arg1;
+                    reg_psu_dds_freq <= host_arg2[31:0];
+                end
+                4'h4: reg_pantry_mode <= host_arg0[1:0];
+                4'h5: reg_tp_mode     <= host_arg0[1:0];
+                default: ;
+            endcase
+        end
+    end
+
+    wire [8:0] drv_ring_cnt;
+    fpga_12beam_cuboctahedron_driver u_soc_beam12 (
+        .clk_512x(clk), .rst(rst), .mode_sel(reg_beam_mode),
+        .ring_counter(drv_ring_cnt), .beam_pins(phys_beam_pins), .beam_oe(phys_beam_oe)
+    );
+
+    wire [2:0] f_m1, f_m2, f_m3;
+    wire f_air, f_h2o, f_fe, f_o2, f_led, f_us;
+    food_synthesizer_3chamber_controller u_soc_food (
+        .clk(clk), .rst(rst), .start_btn(reg_food_start), .recipe_sel(reg_food_recipe),
+        .stage_out(soc_food_stage), .ch1_phase_mode(f_m1), .ch2_phase_mode(f_m2), .ch3_phase_mode(f_m3),
+        .pump_air_co2_n2_en(f_air), .pump_water_h2o_en(f_h2o), .valve_mineral_heme_fe_en(f_fe),
+        .valve_o2_breath_vent_en(f_o2), .led_441_718nm_photo_en(f_led), .ultrasonic_12beam_en(f_us),
+        .synthesized_target_z(soc_food_target_z), .food_ready_led(soc_food_ready)
+    );
+
+    wire [31:0] psu_acc;
+    wire [8:0]  psu_phase;
+    lab_smooth_cv_cc_dds_power_supply u_soc_psu (
+        .clk(clk), .rst(rst), .dds_freq_word(reg_psu_dds_freq),
+        .v_set_mv(reg_psu_v_mv), .i_set_ma(reg_psu_i_ma), .r_load_ohm(32'sd6),
+        .dds_phase_acc(psu_acc), .dds_ring_phase(psu_phase),
+        .v_actual_mv(soc_psu_v_mv), .i_actual_ma(soc_psu_i_ma),
+        .cv_mode_active(soc_psu_cv), .cc_mode_active(soc_psu_cc)
+    );
+
+    wire signed [31:0] p_back, p_joule, p_pwr;
+    phase_peltier_stasis_pantry_and_vortex_battery u_soc_pantry (
+        .clk(clk), .rst(rst), .op_mode(reg_pantry_mode), .ambient_heat_flux(32'sd16384),
+        .reverse_heat_leak_phi(p_back), .joule_self_heat_quanta(p_joule),
+        .food_decay_rate_phi(soc_stasis_decay_phi),
+        .vortex_battery_charge(soc_vortex_batt_charge), .delivered_power_out(p_pwr)
+    );
+
+    wire [8:0] ta_m0, ta_m1, ta_p0c, ta_p0p, ta_p1c, ta_p1p;
+    wire [8:0] tb_m1, tb_p0p, tb_p1c, tb_p1p;
+    wire signed [31:0] td_s, td_w, td_c, td_n, td_norm;
+    two_chamber_72bit_teleporter u_soc_tp (
+        .clk(clk), .rst(rst), .cmd_mode(reg_tp_mode),
+        .singlet_a0(9'd41), .singlet_a1(9'd97), .singlet_a2(9'd137), .singlet_a3(9'd263),
+        .ext_thermal_noise_drive(32'sd24576),
+        .chA_mu0(ta_m0), .chA_mu1(ta_m1), .chA_phi0_curr(ta_p0c), .chA_phi0_prev(ta_p0p),
+        .chA_phi1_curr(ta_p1c), .chA_phi1_prev(ta_p1p),
+        .chB_mu0(soc_tp_chB_mu0), .chB_mu1(tb_m1), .chB_phi0_curr(soc_tp_chB_phi0_curr),
+        .chB_phi0_prev(tb_p0p), .chB_phi1_curr(tb_p1c), .chB_phi1_prev(tb_p1p),
+        .d_stasis_val(td_s), .d_write_val(td_w), .contrast_833(td_c),
+        .waveguide_noise_leak(td_n), .total_two_chamber_norm_sq(td_norm)
+    );
+endmodule
+
 // ============================================================================
 // Testbench: Full Hardware Verification & VCD Waveform Dump
 // ============================================================================
@@ -923,6 +1044,26 @@ module tb_cuboctahedron_carrier_asic;
         .i_actual_ma(lab_iact),
         .cv_mode_active(lab_cv),
         .cc_mode_active(lab_cc)
+    );
+
+    reg        soc_rst = 1;
+    reg        soc_valid = 0;
+    reg [3:0]  soc_op = 4'h0;
+    reg signed [31:0] soc_a0 = 0, soc_a1 = 0, soc_a2 = 0;
+    wire [11:0] soc_pins, soc_oe;
+    wire [2:0]  soc_fstage;
+    wire        soc_fready, soc_cv_w, soc_cc_w;
+    wire [8:0]  soc_fz, soc_tpm0, soc_tpp0;
+    wire signed [31:0] soc_vmv, soc_ima, soc_decay, soc_batt;
+
+    cuboctahedron_uart_cmd_soc_top u_soc_top (
+        .clk(clk), .rst(soc_rst), .host_cmd_valid(soc_valid),
+        .host_opcode(soc_op), .host_arg0(soc_a0), .host_arg1(soc_a1), .host_arg2(soc_a2),
+        .phys_beam_pins(soc_pins), .phys_beam_oe(soc_oe),
+        .soc_food_stage(soc_fstage), .soc_food_ready(soc_fready), .soc_food_target_z(soc_fz),
+        .soc_psu_v_mv(soc_vmv), .soc_psu_i_ma(soc_ima), .soc_psu_cv(soc_cv_w), .soc_psu_cc(soc_cc_w),
+        .soc_stasis_decay_phi(soc_decay), .soc_vortex_batt_charge(soc_batt),
+        .soc_tp_chB_mu0(soc_tpm0), .soc_tp_chB_phi0_curr(soc_tpp0)
     );
 
     initial begin
@@ -1176,6 +1317,27 @@ module tb_cuboctahedron_carrier_asic;
         $display("  -> [AC DDS Mode at phase=%3d (180 deg)] V_out=%5d mV, I_out=%4d mA",
                  lab_phase, lab_vact, lab_iact);
         if (lab_phase !== 9'd256 || lab_vact !== -32'sd12000 || lab_iact !== -32'sd2000)
+            errors = errors + 1;
+
+        $display("======================================================================");
+        $display("[12] Host Laptop / AI MCP Command Decoder SoC Top Verification");
+        $display("======================================================================");
+        soc_rst = 1; soc_valid = 0;
+        #5 clk = 1; #5 clk = 0;
+        soc_rst = 0;
+        // Send AI Host Command 4'h3: Set PSU to 24.000 V, 5.000 A, DC (0 Hz)
+        soc_valid = 1; soc_op = 4'h3; soc_a0 = 32'sd24000; soc_a1 = 32'sd5000; soc_a2 = 32'sd0;
+        #5 clk = 1; #5 clk = 0;
+        // Send AI Host Command 4'h2: Synthesize Recipe 00 (Cutlet)
+        soc_op = 4'h2; soc_a0 = 32'sd0;
+        #5 clk = 1; #5 clk = 0;
+        soc_valid = 0;
+        for (i = 0; i < 5; i = i + 1) begin
+            #5 clk = 1; #5 clk = 0;
+        end
+        $display("  -> [AI Host SoC] PSU V=%5d mV, I=%4d mA (CV=%b) | Food Stage=%0d, Ready=%b | Stasis Decay=%0d",
+                 soc_vmv, soc_ima, soc_cv_w, soc_fstage, soc_fready, soc_decay);
+        if (soc_vmv !== 32'sd24000 || soc_ima !== 32'sd4000 || soc_fready !== 1'b1 || soc_decay !== 32'sd0)
             errors = errors + 1;
 
         $display("======================================================================");
