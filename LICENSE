@@ -1,0 +1,54 @@
+Strong Reciprocal Copyleft License: CC-BY-SA-4.0 & GPL-3.0-or-later & CERN-OHL-S-2.0
+====================================================================================
+
+Copyright (c) 2026 Dmitrii A. Karataev
+
+To ensure that these scientific discoveries, mathematical formalizations, software
+compilers, and hardware architectures remain permanently open and accessible to all
+humanity—and can never be enclosed into proprietary monopolies or patent tollbooths—
+this repository is licensed under the following reciprocal ShareAlike / Copyleft terms:
+
+------------------------------------------------------------------------------------
+1. Monographs, Papers, PDFs, Documentation, and Blueprints (`book/**`, `paper/**`, `*.md`)
+   — Creative Commons Attribution-ShareAlike 4.0 International (CC-BY-SA-4.0)
+------------------------------------------------------------------------------------
+You are free to:
+- Share: copy and redistribute the material in any medium or format for any purpose.
+- Adapt: remix, transform, and build upon the material for any purpose.
+
+Under the following terms:
+- Attribution (BY): You must give appropriate credit, provide a link to the license,
+  and indicate if changes were made.
+- ShareAlike (SA): If you remix, transform, or build upon the material, you must
+  distribute your contributions under the same license (CC-BY-SA-4.0) as the original.
+- No additional restrictions: You may not apply legal terms or technological measures
+  (such as paywalls or DRM) that legally restrict others from doing anything the
+  license permits.
+
+Full license text: https://creativecommons.org/licenses/by-sa/4.0/legalcode
+
+------------------------------------------------------------------------------------
+2. Formal Proofs, Compilers, and RTL Code (`lean/**`, `mt_ca/**`, `*.lean`, `*.py`, `*.v`)
+   — GNU General Public License v3.0 or later (GPL-3.0-or-later)
+------------------------------------------------------------------------------------
+This program is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software Foundation,
+either version 3 of the License, or (at your option) any later version (including
+Section 11 explicit patent license and patent-retaliation termination clauses).
+
+Any derivative software, modified formalization, or firmware distributed in source
+or binary/bitstream form must be released in full source form under GPL-3.0-or-later.
+
+Full license text: https://www.gnu.org/licenses/gpl-3.0.txt
+
+------------------------------------------------------------------------------------
+3. Physical Hardware Schematics, SPICE Netlists, and PCB Layouts (`hardware/**`)
+   — CERN Open Hardware Licence Version 2 - Strongly Reciprocal (CERN-OHL-S-2.0)
+     and CC-BY-SA-4.0
+------------------------------------------------------------------------------------
+You may copy, modify, and manufacture hardware based on these designs provided that
+any modified hardware design or product distributed to third parties is published
+with its complete design source (schematics, netlists, PCB layouts, and HDL firmware)
+under CERN-OHL-S-2.0 / CC-BY-SA-4.0.
+
+Full license text: https://ohwr.org/project/cernohl/wikis/Documents/CERN-OHL-version-2

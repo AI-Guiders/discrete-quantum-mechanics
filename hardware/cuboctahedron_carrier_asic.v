@@ -349,6 +349,60 @@ module fpga_12beam_cuboctahedron_driver (
     endgenerate
 endmodule
 
+// ----------------------------------------------------------------------------
+// Module 7: 4-Channel Nilpotent Holonomic Tomograph (CE-RD-03) & Domain-Wall
+// Quantum Ratchet (CE-RD-02)
+// Exact integer hardware implementation of the 4-channel cascade matrix
+// `2 * M_chan = 2 * I_4 + 2 * N_nil` (`N_nil^3 = 0`, det = 24 = 2 * |N_12|)
+// and its division-free 3-term nilpotent inverse `24 * M_chan^-1`:
+//    Forward (`2 * y = (2*I + 2*N) * s`):
+//     y0_2 = 2*s0 + s1
+//     y1_2 = 2*s1 + 2*s2
+//     y2_2 = 2*s2
+//     y3_2 = 2*s3
+//   Exact division-free inverse (`24 * s_rec`):
+//     s0_rec = (12 * y0_2 - 6 * y1_2 + 6 * y2_2) / 24 === s0
+//     s1_rec = (12 * y1_2 - 12 * y2_2) / 24           === s1
+//     s2_rec = (12 * y2_2) / 24                       === s2
+//     s3_rec = (12 * y3_2) / 24                       === s3
+// Plus the asymmetric Heisenberg domain-wall ratchet (`Int.fdiv` vs `Int.tdiv`):
+//   At negative wall drive `-1`, floor division `(-1) >>> 9` yields `-1` tick
+//   ratchet rectification, whereas symmetric truncation `tdiv(-1, 512)` yields `0`!
+// ----------------------------------------------------------------------------
+module holonomic_4channel_tomograph_and_ratchet (
+    input  wire signed [31:0] s0_in,
+    input  wire signed [31:0] s1_in,
+    input  wire signed [31:0] s2_in,
+    input  wire signed [31:0] s3_in,
+    output wire signed [31:0] y0_2x,
+    output wire signed [31:0] y1_2x,
+    output wire signed [31:0] y2_2x,
+    output wire signed [31:0] y3_2x,
+    output wire signed [31:0] s0_rec,
+    output wire signed [31:0] s1_rec,
+    output wire signed [31:0] s2_rec,
+    output wire signed [31:0] s3_rec,
+    output wire signed [31:0] ratchet_fdiv_step,
+    output wire signed [31:0] ratchet_tdiv_step
+);
+    // Forward 4-channel mixing (scaled by 2 for pure integer arithmetic)
+    assign y0_2x = (s0_in <<< 1) + s1_in;
+    assign y1_2x = (s1_in <<< 1) + (s2_in <<< 1);
+    assign y2_2x = (s2_in <<< 1);
+    assign y3_2x = (s3_in <<< 1);
+
+    // Exact 3-term nilpotent inverse (I - N + N^2) recovering (s0, s1, s2, s3) with zero loss
+    assign s0_rec = (32'sd12 * y0_2x - 32'sd6 * y1_2x + 32'sd6 * y2_2x) / 32'sd24;
+    assign s1_rec = (32'sd12 * y1_2x - 32'sd12 * y2_2x) / 32'sd24;
+    assign s2_rec = (32'sd12 * y2_2x) / 32'sd24;
+    assign s3_rec = (32'sd12 * y3_2x) / 32'sd24;
+
+    // CE-RD-02 Domain-wall quantum ratchet: floor division `>>> 9` on negative sub-period drive `-1`
+    wire signed [31:0] wall_drive = -32'sd1;
+    assign ratchet_fdiv_step = wall_drive >>> 9; // Exact -1 tick rectification!
+    assign ratchet_tdiv_step = wall_drive / 32'sd512; // Symmetric truncation gives 0
+endmodule
+
 // ============================================================================
 // Testbench: Full Hardware Verification & VCD Waveform Dump
 // ============================================================================
@@ -455,6 +509,27 @@ module tb_cuboctahedron_carrier_asic;
         .ring_counter(drv_cnt),
         .beam_pins(drv_pins),
         .beam_oe(drv_oe)
+    );
+
+    wire signed [31:0] tom_y0, tom_y1, tom_y2, tom_y3;
+    wire signed [31:0] tom_s0, tom_s1, tom_s2, tom_s3;
+    wire signed [31:0] rat_fdiv, rat_tdiv;
+
+    holonomic_4channel_tomograph_and_ratchet u_tom_rat (
+        .s0_in(32'sd12),
+        .s1_in(32'sd41),
+        .s2_in(32'sd97),
+        .s3_in(32'sd263),
+        .y0_2x(tom_y0),
+        .y1_2x(tom_y1),
+        .y2_2x(tom_y2),
+        .y3_2x(tom_y3),
+        .s0_rec(tom_s0),
+        .s1_rec(tom_s1),
+        .s2_rec(tom_s2),
+        .s3_rec(tom_s3),
+        .ratchet_fdiv_step(rat_fdiv),
+        .ratchet_tdiv_step(rat_tdiv)
     );
 
     initial begin
@@ -611,6 +686,16 @@ module tb_cuboctahedron_carrier_asic;
         $display("  -> Mode 4 (Euler XY Rotator) at tick %3d: beam_oe   = %12b (XY active, XZ/YZ passive)",
                  drv_cnt, drv_oe);
         if (drv_oe !== 12'b0000_0000_1111) errors = errors + 1;
+
+        $display("======================================================================");
+        $display("[7] 4-Channel Nilpotent Tomograph (CE-RD-03) & Domain-Wall Quantum Ratchet (CE-RD-02)");
+        $display("======================================================================");
+        $display("  -> Tomograph input (12, 41, 97, 263) -> mixed 2y=(%0d,%0d,%0d,%0d) -> inverted (%0d, %0d, %0d, %0d)",
+                 tom_y0, tom_y1, tom_y2, tom_y3, tom_s0, tom_s1, tom_s2, tom_s3);
+        $display("  -> Domain-wall ratchet: fdiv(-1, 512) = %0d tick (active ratchet!) vs tdiv(-1, 512) = %0d",
+                 rat_fdiv, rat_tdiv);
+        if (tom_s0 !== 32'sd12 || tom_s1 !== 32'sd41 || tom_s2 !== 32'sd97 || tom_s3 !== 32'sd263 ||
+            rat_fdiv !== -32'sd1 || rat_tdiv !== 32'sd0) errors = errors + 1;
 
         $display("======================================================================");
         $display("TOTAL HARDWARE ERRORS = %0d", errors);
