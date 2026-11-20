@@ -3136,21 +3136,52 @@ def clause3SatDefectOp (d : Nat) (psi1 psi2 psi3 : Int) : Int :=
 def clause3SatVortexQuantumOp (d : Nat) (psi1 psi2 psi3 : Int) : Int :=
   (clause3SatDefectOp d psi1 psi2 psi3).tdiv (nRing d : Int)
 
+/-- Post-rotator 3-input `AND` quantum operator `tdiv(Q_□(d) + (C_d(ψ₁) + C_d(ψ₂) + C_d(ψ₃)), N_ring(d)) ∈ {0, 1}`:
+equals `1` uniquely on `(0, 0, 0)` (`(True, True, True)`) and `0` on all other `7` octants. -/
+def clause3AndQuantumOp (d : Nat) (psi1 psi2 psi3 : Int) : Int :=
+  ((qSquare d : Int) + (projC d psi1 + projC d psi2 + projC d psi3)).tdiv (nRing d : Int)
+
+/-- Sum of linear rotator projections across the 4 clauses encoding a 3-XOR parity constraint `x₁ ⊕ x₂ ⊕ x₃ = 0`:
+forbidding the 4 odd-parity octants `(256,0,0), (0,256,0), (0,0,256), (256,256,256)`.
+Because `C_d(ψ) + C_d(ψ + Φ_Pauli) = 0`, the single-vertex linear amplitude gradient vanishes identically across all 8 octants! -/
+def xor4ClausesLinearGradientSumOp (d : Nat) (psi1 psi2 psi3 : Int) : Int :=
+  let P := (phiPauli d : Int)
+  (projC d (psi1 + P) + projC d psi2 + projC d psi3) +
+  (projC d psi1 + projC d (psi2 + P) + projC d psi3) +
+  (projC d psi1 + projC d psi2 + projC d (psi3 + P)) +
+  (projC d (psi1 + P) + projC d (psi2 + P) + projC d (psi3 + P))
+
+/-- Count of octants in `{0, Φ_Pauli(d)}³` mapped to `q = 0` (`7` octants glued into `1` output, erasing remainder `r ∈ {-256, 0, +256}`). -/
+def count3SatZeroQuotientOctantsOp (d : Nat) : Nat :=
+  let poles := [(0 : Int), (phiPauli d : Int)]
+  poles.foldl (fun acc1 p1 =>
+    poles.foldl (fun acc2 p2 =>
+      poles.foldl (fun acc3 p3 =>
+        acc3 + (if intEqBool (clause3SatVortexQuantumOp d p1 p2 p3) 0 then 1 else 0)) acc2) acc1) 0
+
 def check3SatOctantTruthTableBool (d : Nat) : Bool :=
   let poles := [(0 : Int), (phiPauli d : Int)]
   poles.all (fun p1 =>
     poles.all (fun p2 =>
       poles.all (fun p3 =>
-        let q := clause3SatVortexQuantumOp d p1 p2 p3
+        let q_or  := clause3SatVortexQuantumOp d p1 p2 p3
+        let q_and := clause3AndQuantumOp d p1 p2 p3
         let xor_ok :=
           intEqBool (projC d (p1 + p2 + p3) * ((qSquare d * qSquare d : Nat) : Int))
             (projC d p1 * projC d p2 * projC d p3)
+        let grad_zero_ok :=
+          intEqBool (xor4ClausesLinearGradientSumOp d p1 p2 p3) 0
         let or_ok :=
           if intEqBool p1 (phiPauli d : Int) && intEqBool p2 (phiPauli d : Int) && intEqBool p3 (phiPauli d : Int) then
-            intEqBool q (muVac d : Int)
+            intEqBool q_or (muVac d : Int)
           else
-            intEqBool q 0
-        xor_ok && or_ok)))
+            intEqBool q_or 0
+        let and_ok :=
+          if intEqBool p1 0 && intEqBool p2 0 && intEqBool p3 0 then
+            intEqBool q_and (muVac d : Int)
+          else
+            intEqBool q_and 0
+        xor_ok && grad_zero_ok && or_ok && and_ok)))
 
 theorem reversible_computing_zero_landauer_heat_and_paradox_resolutions_operator (d : Nat) :
     CatalanLaw (fun d =>
@@ -3182,7 +3213,9 @@ theorem reversible_computing_zero_landauer_heat_and_paradox_resolutions_operator
        diracBraKetOp d (muVac d : Int) 0 (muVac d : Int) (phiPauli d : Int) = (-(qSquare d : Int), 0) ∧
        checkBornRuleAllAmplitudesBool d = true ∧
        check3SatOctantTruthTableBool d = true ∧
+       count3SatZeroQuotientOctantsOp d = nTriangles d - muVac d ∧
        clause3SatDefectOp d (phiPauli d : Int) (phiPauli d : Int) (phiPauli d : Int) = (nRing d : Int) ∧
+       projC d (0 + 0) ≠ projC d 0 + projC d 0 ∧
        gateDenomOp d (nPhi d : Int) (-((qSquare d * nPhi d * nPhi d : Nat) : Int)) <
          gateDenomOp d (nPhi d : Int) ((qSquare d * nPhi d * nPhi d : Nat) : Int))) d :=
   catalan_chain d (applied_bio_cad_therapeutic_redifferentiation_and_epigenetic_reset_operator d 1)
