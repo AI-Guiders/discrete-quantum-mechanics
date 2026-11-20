@@ -1,0 +1,253 @@
+* ============================================================================
+* cuboctahedron_12beam_spice.cir
+* Full 3D 13-Node Cuboctahedron (1 Center + 12 Vertices, 12 Radial Spokes +
+* 24 Surface Edges across 6 Square and 8 Triangular Faces) LC/RF Resonator
+* simulated in Analog Devices LTspice.
+* ============================================================================
+
+.param f0 = 10Meg
+.param L_spoke = 2.533u
+.param L_surf  = 2.533u
+.param C_node  = 100p
+.param R_src   = 50
+.param R_load  = 5000
+
+* ============================================================================
+* PART 1: COHERENT 12-BEAM CUBOCTAHEDRON RESONATOR (ALL 12 BEAMS IN PHASE)
+* vs SINGLE-BEAM REFERENCE
+* ============================================================================
+* Central Node N0_COH
+C0_COH N0_COH 0 {C_node}
+R0_COH N0_COH 0 {R_load}
+
+* 12 Cuboctahedron Vertex Sources & Radial Spokes to Center N0_COH:
+* Plane XY (4 vertices: N1..N4)
+V1_C  S1_C  0 SIN(0 1 {f0} 0 0 0)
+V2_C  S2_C  0 SIN(0 1 {f0} 0 0 0)
+V3_C  S3_C  0 SIN(0 1 {f0} 0 0 0)
+V4_C  S4_C  0 SIN(0 1 {f0} 0 0 0)
+* Plane XZ (4 vertices: N5..N8)
+V5_C  S5_C  0 SIN(0 1 {f0} 0 0 0)
+V6_C  S6_C  0 SIN(0 1 {f0} 0 0 0)
+V7_C  S7_C  0 SIN(0 1 {f0} 0 0 0)
+V8_C  S8_C  0 SIN(0 1 {f0} 0 0 0)
+* Plane YZ (4 vertices: N9..N12)
+V9_C  S9_C  0 SIN(0 1 {f0} 0 0 0)
+V10_C S10_C 0 SIN(0 1 {f0} 0 0 0)
+V11_C S11_C 0 SIN(0 1 {f0} 0 0 0)
+V12_C S12_C 0 SIN(0 1 {f0} 0 0 0)
+
+R1_C  S1_C  V1_N  {R_src}
+R2_C  S2_C  V2_N  {R_src}
+R3_C  S3_C  V3_N  {R_src}
+R4_C  S4_C  V4_N  {R_src}
+R5_C  S5_C  V5_N  {R_src}
+R6_C  S6_C  V6_N  {R_src}
+R7_C  S7_C  V7_N  {R_src}
+R8_C  S8_C  V8_N  {R_src}
+R9_C  S9_C  V9_N  {R_src}
+R10_C S10_C V10_N {R_src}
+R11_C S11_C V11_N {R_src}
+R12_C S12_C V12_N {R_src}
+
+* 12 Radial Spokes from the 12 Cuboctahedron Vertices to Central Node N0_COH
+Lsp1_C  V1_N  N0_COH {L_spoke}
+Lsp2_C  V2_N  N0_COH {L_spoke}
+Lsp3_C  V3_N  N0_COH {L_spoke}
+Lsp4_C  V4_N  N0_COH {L_spoke}
+Lsp5_C  V5_N  N0_COH {L_spoke}
+Lsp6_C  V6_N  N0_COH {L_spoke}
+Lsp7_C  V7_N  N0_COH {L_spoke}
+Lsp8_C  V8_N  N0_COH {L_spoke}
+Lsp9_C  V9_N  N0_COH {L_spoke}
+Lsp10_C V10_N N0_COH {L_spoke}
+Lsp11_C V11_N N0_COH {L_spoke}
+Lsp12_C V12_N N0_COH {L_spoke}
+
+* 24 Surface Edges of the Cuboctahedron (connecting the 8 triangular faces
+* across the XY, XZ, YZ Euler planes):
+* Octant 1 (+X,+Y,+Z): triangle (V1_N in XY, V5_N in XZ, V9_N in YZ)
+Le1_C  V1_N  V5_N  {L_surf}
+Le2_C  V5_N  V9_N  {L_surf}
+Le3_C  V9_N  V1_N  {L_surf}
+* Octant 2 (+X,-Y,+Z): triangle (V2_N in XY, V5_N in XZ, V11_N in YZ)
+Le4_C  V2_N  V5_N  {L_surf}
+Le5_C  V5_N  V11_N {L_surf}
+Le6_C  V11_N V2_N  {L_surf}
+* Octant 3 (-X,-Y,+Z): triangle (V3_N in XY, V8_N in XZ, V11_N in YZ)
+Le7_C  V3_N  V8_N  {L_surf}
+Le8_C  V8_N  V11_N {L_surf}
+Le9_C  V11_N V3_N  {L_surf}
+* Octant 4 (-X,+Y,+Z): triangle (V4_N in XY, V8_N in XZ, V9_N in YZ)
+Le10_C V4_N  V8_N  {L_surf}
+Le11_C V8_N  V9_N  {L_surf}
+Le12_C V9_N  V4_N  {L_surf}
+* Octant 5 (+X,+Y,-Z): triangle (V1_N in XY, V6_N in XZ, V10_N in YZ)
+Le13_C V1_N  V6_N  {L_surf}
+Le14_C V6_N  V10_N {L_surf}
+Le15_C V10_N V1_N  {L_surf}
+* Octant 6 (+X,-Y,-Z): triangle (V2_N in XY, V6_N in XZ, V12_N in YZ)
+Le16_C V2_N  V6_N  {L_surf}
+Le17_C V6_N  V12_N {L_surf}
+Le18_C V12_N V2_N  {L_surf}
+* Octant 7 (-X,-Y,-Z): triangle (V3_N in XY, V7_N in XZ, V12_N in YZ)
+Le19_C V3_N  V7_N  {L_surf}
+Le20_C V7_N  V12_N {L_surf}
+Le21_C V12_N V3_N  {L_surf}
+* Octant 8 (-X,+Y,-Z): triangle (V4_N in XY, V7_N in XZ, V10_N in YZ)
+Le22_C V4_N  V7_N  {L_surf}
+Le23_C V7_N  V10_N {L_surf}
+Le24_C V10_N V4_N  {L_surf}
+
+* Single-Beam Reference Node N0_SINGLE (only 1 beam active, 11 passive)
+C0_S N0_SINGLE 0 {C_node}
+R0_S N0_SINGLE 0 {R_load}
+V1_S S1_S 0 SIN(0 1 {f0} 0 0 0)
+R1_S S1_S V1_SN {R_src}
+Lsp1_S V1_SN N0_SINGLE {L_spoke}
+* Other 11 spokes terminated passively to 50 Ohm
+R2_S  0 V2_SN  {R_src}
+R3_S  0 V3_SN  {R_src}
+R4_S  0 V4_SN  {R_src}
+R5_S  0 V5_SN  {R_src}
+R6_S  0 V6_SN  {R_src}
+R7_S  0 V7_SN  {R_src}
+R8_S  0 V8_SN  {R_src}
+R9_S  0 V9_SN  {R_src}
+R10_S 0 V10_SN {R_src}
+R11_S 0 V11_SN {R_src}
+R12_S 0 V12_SN {R_src}
+Lsp2_S  V2_SN  N0_SINGLE {L_spoke}
+Lsp3_S  V3_SN  N0_SINGLE {L_spoke}
+Lsp4_S  V4_SN  N0_SINGLE {L_spoke}
+Lsp5_S  V5_SN  N0_SINGLE {L_spoke}
+Lsp6_S  V6_SN  N0_SINGLE {L_spoke}
+Lsp7_S  V7_SN  N0_SINGLE {L_spoke}
+Lsp8_S  V8_SN  N0_SINGLE {L_spoke}
+Lsp9_S  V9_SN  N0_SINGLE {L_spoke}
+Lsp10_S V10_SN N0_SINGLE {L_spoke}
+Lsp11_S V11_SN N0_SINGLE {L_spoke}
+Lsp12_S V12_SN N0_SINGLE {L_spoke}
+
+* ============================================================================
+* PART 2: PAULI SINGLET VORTEX LOCK (6 BEAMS AT 0 DEG, 6 BEAMS AT 180 DEG)
+* Central node net current cancels to 0 while surface plaquette vortex current
+* circulates around the cuboctahedron edges!
+* ============================================================================
+C0_V N0_VORTEX 0 {C_node}
+R0_V N0_VORTEX 0 {R_load}
+
+V1_V  S1_V  0 SIN(0 1 {f0} 0 0 0)
+V2_V  S2_V  0 SIN(0 1 {f0} 0 0 180)
+V3_V  S3_V  0 SIN(0 1 {f0} 0 0 0)
+V4_V  S4_V  0 SIN(0 1 {f0} 0 0 180)
+V5_V  S5_V  0 SIN(0 1 {f0} 0 0 0)
+V6_V  S6_V  0 SIN(0 1 {f0} 0 0 180)
+V7_V  S7_V  0 SIN(0 1 {f0} 0 0 0)
+V8_V  S8_V  0 SIN(0 1 {f0} 0 0 180)
+V9_V  S9_V  0 SIN(0 1 {f0} 0 0 0)
+V10_V S10_V 0 SIN(0 1 {f0} 0 0 180)
+V11_V S11_V 0 SIN(0 1 {f0} 0 0 0)
+V12_V S12_V 0 SIN(0 1 {f0} 0 0 180)
+
+R1_V  S1_V  V1_VN  {R_src}
+R2_V  S2_V  V2_VN  {R_src}
+R3_V  S3_V  V3_VN  {R_src}
+R4_V  S4_V  V4_VN  {R_src}
+R5_V  S5_V  V5_VN  {R_src}
+R6_V  S6_V  V6_VN  {R_src}
+R7_V  S7_V  V7_VN  {R_src}
+R8_V  S8_V  V8_VN  {R_src}
+R9_V  S9_V  V9_VN  {R_src}
+R10_V S10_V V10_VN {R_src}
+R11_V S11_V V11_VN {R_src}
+R12_V S12_V V12_VN {R_src}
+
+Lsp1_V  V1_VN  N0_VORTEX {L_spoke}
+Lsp2_V  V2_VN  N0_VORTEX {L_spoke}
+Lsp3_V  V3_VN  N0_VORTEX {L_spoke}
+Lsp4_V  V4_VN  N0_VORTEX {L_spoke}
+Lsp5_V  V5_VN  N0_VORTEX {L_spoke}
+Lsp6_V  V6_VN  N0_VORTEX {L_spoke}
+Lsp7_V  V7_VN  N0_VORTEX {L_spoke}
+Lsp8_V  V8_VN  N0_VORTEX {L_spoke}
+Lsp9_V  V9_VN  N0_VORTEX {L_spoke}
+Lsp10_V V10_VN N0_VORTEX {L_spoke}
+Lsp11_V V11_VN N0_VORTEX {L_spoke}
+Lsp12_V V12_VN N0_VORTEX {L_spoke}
+
+* Surface edges on the vortex cuboctahedron carrying the circulating current
+Le1_V  V1_VN  V2_VN  {L_surf}
+Le2_V  V2_VN  V3_VN  {L_surf}
+Le3_V  V3_VN  V4_VN  {L_surf}
+Le4_V  V4_VN  V1_VN  {L_surf}
+
+* ============================================================================
+* PART 3: EULER-ANGLE TILT TRANSFER ACROSS THE 8 TRIANGULAR FACES (XY -> XZ, YZ)
+* Only the 4 vertices of the horizontal XY plane are driven in quadrature
+* (0 deg, 90 deg, 180 deg, 270 deg). The 8 vertices of the tilted XZ and YZ
+* Euler planes have NO active generators and receive rotating wave energy
+* purely through the 24 surface edges of the 8 triangular faces!
+* ============================================================================
+C0_E N0_EULER 0 {C_node}
+R0_E N0_EULER 0 {R_load}
+
+* Driven XY equatorial square (quadrature rotator: 0, 90, 180, 270 deg)
+V1_E S1_E 0 SIN(0 1 {f0} 0 0 0)
+V2_E S2_E 0 SIN(0 1 {f0} 0 0 90)
+V3_E S3_E 0 SIN(0 1 {f0} 0 0 180)
+V4_E S4_E 0 SIN(0 1 {f0} 0 0 270)
+R1_E S1_E V1_EN {R_src}
+R2_E S2_E V2_EN {R_src}
+R3_E S3_E V3_EN {R_src}
+R4_E S4_E V4_EN {R_src}
+
+* Passive tilted XZ and YZ Euler squares (loaded by 500 Ohm detectors)
+R5_E  0 V5_EN  500
+R6_E  0 V6_EN  500
+R7_E  0 V7_EN  500
+R8_E  0 V8_EN  500
+R9_E  0 V9_EN  500
+R10_E 0 V10_EN 500
+R11_E 0 V11_EN 500
+R12_E 0 V12_EN 500
+
+* 24 Surface Edges of the 8 Triangular Faces coupling XY -> XZ and YZ
+Le1_E  V1_EN  V5_EN  {L_surf}
+Le2_E  V5_EN  V9_EN  {L_surf}
+Le3_E  V9_EN  V1_EN  {L_surf}
+Le4_E  V2_EN  V5_EN  {L_surf}
+Le5_E  V5_EN  V11_EN {L_surf}
+Le6_E  V11_EN V2_EN  {L_surf}
+Le7_E  V3_EN  V8_EN  {L_surf}
+Le8_E  V8_EN  V11_EN {L_surf}
+Le9_E  V11_EN V3_EN  {L_surf}
+Le10_E V4_EN  V8_EN  {L_surf}
+Le11_E V8_EN  V9_EN  {L_surf}
+Le12_E V9_EN  V4_EN  {L_surf}
+Le13_E V1_EN  V6_EN  {L_surf}
+Le14_E V6_EN  V10_EN {L_surf}
+Le15_E V10_EN V1_EN  {L_surf}
+Le16_E V2_EN  V6_EN  {L_surf}
+Le17_E V6_EN  V12_EN {L_surf}
+Le18_E V12_EN V2_EN  {L_surf}
+Le19_E V3_EN  V7_EN  {L_surf}
+Le20_E V7_EN  V12_EN {L_surf}
+Le21_E V12_EN V3_EN  {L_surf}
+Le22_E V4_EN  V7_EN  {L_surf}
+Le23_E V7_EN  V10_EN {L_surf}
+Le24_E V10_EN V4_EN  {L_surf}
+
+.tran 0 2u 1u 1n
+
+.meas TRAN V_coh_pp    PP V(N0_COH)
+.meas TRAN V_single_pp PP V(N0_SINGLE)
+.meas TRAN Gain_amp    PARAM V_coh_pp/V_single_pp
+.meas TRAN Gain_power  PARAM (V_coh_pp/V_single_pp)*(V_coh_pp/V_single_pp)
+.meas TRAN V_vortex_center_pp PP V(N0_VORTEX)
+.meas TRAN I_vortex_loop_pp   PP I(Le1_V)
+.meas TRAN V_euler_xy_drive_pp PP V(V1_EN)
+.meas TRAN V_euler_xz_tilt_pp  PP V(V5_EN)
+.meas TRAN V_euler_yz_tilt_pp  PP V(V9_EN)
+
+.end
