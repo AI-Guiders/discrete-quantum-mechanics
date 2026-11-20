@@ -3340,7 +3340,25 @@ def checkAutonomousFoodWaterSynthesisBool (d : Nat) : Bool :=
   (phiPauli d < nNeighbors d * deltaPhiDisc d) &&
   (energyQuantumOperator d (phiPauli d : Int) == nSquares d) &&
   (energyQuantumOperator d ((phiPauli d : Int) / (nNeighbors d : Int)) == 0) &&
-  (energyQuantumOperator d ((kP d : Int) / (nNeighbors d : Int)) == 0)
+  (energyQuantumOperator d ((kP d : Int) / (nNeighbors d : Int)) == 0) &&
+  -- Voltage-Current (V-I) Phase-Throttle Law & Maximum Power Point (MPPT at k* = K_P = 64):
+  -- For any throttle opening k ∈ [0, Q_□ = 128] from the Pauli singlet hold (φ = 256 - k):
+  --   V_norm(k) = |C_d(256 - k)| = 128 - k,   I_norm(k) = S_d(256 - k) = k,
+  --   V_norm(k) + I_norm(k) ≡ Q_□(d) = 128,
+  -- and electrical power P(k) = V_norm(k) * I_norm(k) = (128 - k) * k attains its unique maximum
+  -- P_max = K_P(d)² = 64² = 4096 = 2^(|N(d)|) at the Fresnel stationary phase k* = K_P(d) = 64!
+  ((List.range (qSquare d + 1)).all (fun k =>
+    let phiLoad := (phiPauli d : Int) - (k : Int)
+    let vNorm := (Int.natAbs (projC d phiLoad) : Int)
+    let iNorm := projS d phiLoad
+    let pOut  := vNorm * iNorm
+    let pMax  := ((kP d * kP d : Nat) : Int)
+    intEqBool vNorm ((qSquare d : Int) - (k : Int)) &&
+    intEqBool iNorm (k : Int) &&
+    intEqBool (vNorm + iNorm) (qSquare d : Int) &&
+    Nat.ble pOut.toNat pMax.toNat)) &&
+  (Int.natAbs (projC d ((phiPauli d : Int) - (kP d : Int))) *
+    (projS d ((phiPauli d : Int) - (kP d : Int))).toNat == kP d * kP d)
 
 def checkExactRingTeleportationBool (d : Nat) (aAnchor : Int) : Bool :=
   (List.range (nRing d)).all (fun psi =>

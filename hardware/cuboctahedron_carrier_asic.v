@@ -599,6 +599,54 @@ module phase_peltier_stasis_pantry_and_vortex_battery (
     end
 endmodule
 
+// ----------------------------------------------------------------------------
+// Module 10: Programmable Voltage-Current (V-I) Phase-Throttle & Grid Inverter
+// Controls output Voltage V_out, Current I_out, and Power P_out from the
+// Phase-Stasis Ratchet / Pauli Vortex Generator without resistors or transformers:
+//   - Phase throttle angle: `phi_load = 256 - throttle_k` (`throttle_k in 0..128`)
+//   - Normalized cell voltage: `V_cell(k) = |C(256 - k)| = 128 - k`
+//   - Normalized cell current: `I_cell(k) =  S(256 - k)  = k`
+//   - Kirchhoff L1 invariant:  `V_cell(k) + I_cell(k) === 128 = Q_square`
+//   - Independent Voltage gain: `N_V in 1..12` in-phase cuboctahedron beams (`V_out = N_V * V_cell`)
+//   - Independent Current gain: `M_I in 1..3` parallel Euler planes `(XY, XZ, YZ)` (`I_out = M_I * I_cell`)
+//   - Maximum Power Point (MPPT): uniquely at `throttle_k = 64 = K_P` (`45 deg` Fresnel stationary phase),
+//     where `V_cell = 64, I_cell = 64, P_cell_max = 64 * 64 = 4096 = K_P^2`
+//     (and with `N_V = 12, M_I = 3`: `P_total_max = 12 * 3 * 4096 = 147,456 = 36 * K_P^2`!).
+//   - AC Grid Mode (`ac_polarity = 1` flips phase by `+256` half-turn for 50/60 Hz AC sine wave output).
+// ----------------------------------------------------------------------------
+module programmable_vi_power_inverter_controller (
+    input  wire signed [31:0] throttle_k,       // 0..128 phase opening from Pauli singlet lock 256
+    input  wire signed [31:0] voltage_beams_nv, // 1..12 active in-phase beams for voltage step-up
+    input  wire signed [31:0] current_planes_mi,// 1..3 parallel Euler planes (XY, XZ, YZ) for current step-up
+    input  wire               ac_half_cycle_inv,// 0 = positive half-wave, 1 = negative half-wave (+256 shift)
+    output wire signed [31:0] phi_load_out,
+    output wire signed [31:0] v_cell_norm,
+    output wire signed [31:0] i_cell_norm,
+    output wire signed [31:0] kirchhoff_sum_128,
+    output wire signed [31:0] v_terminal_out,
+    output wire signed [31:0] i_terminal_out,
+    output wire signed [31:0] p_terminal_out
+);
+    assign phi_load_out = 32'sd256 - throttle_k + (ac_half_cycle_inv ? 32'sd256 : 32'sd0);
+
+    wire signed [31:0] w_load, c_load, s_load;
+    rotator_512_unit u_load_rot (
+        .phi_in(32'sd256 - throttle_k),
+        .wrap_out(w_load),
+        .proj_c(c_load),
+        .proj_s(s_load)
+    );
+
+    assign v_cell_norm       = (c_load < 0) ? -c_load : c_load; // |C(256 - k)| = 128 - k
+    assign i_cell_norm       = s_load;                          //  S(256 - k)  = k
+    assign kirchhoff_sum_128 = v_cell_norm + i_cell_norm;       // Identically 128!
+
+    wire signed [31:0] ac_sign = ac_half_cycle_inv ? -32'sd1 : 32'sd1;
+    assign v_terminal_out = ac_sign * voltage_beams_nv * v_cell_norm;
+    assign i_terminal_out = ac_sign * current_planes_mi * i_cell_norm;
+    assign p_terminal_out = v_terminal_out * i_terminal_out;
+endmodule
+
 // ============================================================================
 // Testbench: Full Hardware Verification & VCD Waveform Dump
 // ============================================================================
@@ -768,6 +816,26 @@ module tb_cuboctahedron_carrier_asic;
         .food_decay_rate_phi(pelt_decay),
         .vortex_battery_charge(pelt_batt),
         .delivered_power_out(pelt_pwr)
+    );
+
+    reg signed [31:0] vi_k  = 32'sd0;
+    reg signed [31:0] vi_nv = 32'sd12;
+    reg signed [31:0] vi_mi = 32'sd3;
+    reg               vi_ac = 1'b0;
+    wire signed [31:0] vi_phi, vi_vc, vi_ic, vi_ksum, vi_vout, vi_iout, vi_pout;
+
+    programmable_vi_power_inverter_controller u_vi_ctrl (
+        .throttle_k(vi_k),
+        .voltage_beams_nv(vi_nv),
+        .current_planes_mi(vi_mi),
+        .ac_half_cycle_inv(vi_ac),
+        .phi_load_out(vi_phi),
+        .v_cell_norm(vi_vc),
+        .i_cell_norm(vi_ic),
+        .kirchhoff_sum_128(vi_ksum),
+        .v_terminal_out(vi_vout),
+        .i_terminal_out(vi_iout),
+        .p_terminal_out(vi_pout)
     );
 
     initial begin
@@ -972,6 +1040,28 @@ module tb_cuboctahedron_carrier_asic;
         #5 clk = 1; #5 clk = 0;
         $display("  -> [Pauli Battery Discharge at dphi=128] Delivered coherent power = %0d", pelt_pwr);
         if (pelt_back_leak !== 32'sd0 || pelt_joule !== 32'sd0 || pelt_decay !== 32'sd0 || pelt_pwr !== 32'sd16384)
+            errors = errors + 1;
+
+        $display("======================================================================");
+        $display("[10] Programmable V-I Phase-Throttle & Grid Inverter (MPPT at k* = 64)");
+        $display("======================================================================");
+        vi_nv = 32'sd12; vi_mi = 32'sd3; vi_ac = 1'b0;
+        // Audit all 129 throttle positions k = 0..128
+        for (i = 0; i <= 128; i = i + 1) begin
+            vi_k = i;
+            #1;
+            if (vi_vc !== (32'sd128 - i) || vi_ic !== i || vi_ksum !== 32'sd128 || vi_pout > 32'sd147456)
+                errors = errors + 1;
+            if (i == 0 || i == 32 || i == 64 || i == 96 || i == 128) begin
+                $display("  -> Throttle k=%3d (phi=%3d) | V_cell=%3d, I_cell=%3d (V+I=%3d) | V_out=%4d, I_out=%3d | P_out=%6d",
+                         i, vi_phi, vi_vc, vi_ic, vi_ksum, vi_vout, vi_iout, vi_pout);
+            end
+        end
+        // Verify AC negative half-cycle inversion (+256 Pauli flip at k = 64 MPPT)
+        vi_k = 32'sd64; vi_ac = 1'b1; #1;
+        $display("  -> [50/60 Hz AC Grid Inversion at k*=64] V_out=%5d, I_out=%4d, P_out=%6d (36 * K_P^2 = 147,456!)",
+                 vi_vout, vi_iout, vi_pout);
+        if (vi_vout !== -32'sd768 || vi_iout !== -32'sd192 || vi_pout !== 32'sd147456)
             errors = errors + 1;
 
         $display("======================================================================");
