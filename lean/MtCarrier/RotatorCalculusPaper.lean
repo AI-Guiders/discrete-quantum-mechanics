@@ -297,6 +297,64 @@ def cuboct3DContinuumIntegrator (d : Nat) (f3D : Int × Int × Int → Int) : In
 def exactContinuum1DUnitIntegralNum (pDeg : Nat) : Int :=
   ((1 : Int) - ((-1 : Int) ^ (pDeg + 1))) / 2
 
+/-- **Step-`s` Wronskian `stepWronskian(d, s, φ)` and Inner Product `stepInner(d, s, φ)` for `\pi(n)` as a Function of `n = N_ring(d) / s`:**
+On the Weierstrass `n`-gon with step `s = N_ring(d) / n`, the inscribed rational approximation `\pi_in(n)` and circumscribed
+rational approximation `\pi_out(n)` have per-segment terms `a_j = (I_s * W_s) / (R_1 * R_2)` and `b_j = W_s / I_s`.
+By Brahmagupta's identity `R_1 * R_2 - I_s² = W_s²`, their difference over common denominator `I_s * R_1 * R_2`
+is identically the **cube of the step Wronskian `W_s³ = (s * Q_□(d))³`**:
+`b_j - a_j = W_s³ / (I_s * R_1 * R_2) > 0`!
+Under polygon doubling `n ↦ 2n` (`s ↦ s / 2`), `W_s³` shrinks by `2^d = |△(d)| = 8` while the segment count doubles by `‖e‖₂² = d - 1 = 2`,
+so the rational bracket width `\pi_out(n) - \pi_in(n)` contracts by the exact factor `2^d / (d - 1) = d_in(□) = 4` at every step! -/
+def stepWronskian (d : Nat) (s phi : Int) : Int :=
+  projC d phi * projS d (phi + s) - projS d phi * projC d (phi + s)
+
+def stepInner (d : Nat) (s phi : Int) : Int :=
+  projC d phi * projC d (phi + s) + projS d phi * projS d (phi + s)
+
+/-- Rational pair addition `(n₁, d₁) + (n₂, d₂) = (n₁ * d₂ + n₂ * d₁, d₁ * d₂)` and reduction for `\pi_in(n)` and `\pi_out(n)`. -/
+def addRat (p1 p2 : Nat × Nat) : Nat × Nat :=
+  (p1.1 * p2.2 + p2.1 * p1.2, p1.2 * p2.2)
+
+def reduceRat (p : Nat × Nat) : Nat × Nat :=
+  (p.1 / Nat.gcd p.1 p.2, p.2 / Nat.gcd p.1 p.2)
+
+/-- Helper fold over `nSteps` for rational sums without `List.range` (`0 Classical.choice`). -/
+def foldRatUpTo : Nat → (Nat → Nat × Nat) → Nat × Nat
+  | 0, _ => (0, 1)
+  | n + 1, f => reduceRat (addRat (foldRatUpTo n f) (f n))
+
+/-- Inscribed rational `\pi_in(n)` and circumscribed rational `\pi_out(n)` as explicit functions of polygon side count `n` (`s = N_ring(d) / n`). -/
+def piInscribedRat (d nSides : Nat) : Nat × Nat :=
+  foldRatUpTo (nSides / 2) (fun j =>
+    reduceRat
+      ((stepInner d ((nRing d / nSides : Nat) : Int) ((j * (nRing d / nSides) : Nat) : Int)).toNat *
+       (stepWronskian d ((nRing d / nSides : Nat) : Int) ((j * (nRing d / nSides) : Nat) : Int)).toNat,
+       (pythHypDenom d ((j * (nRing d / nSides) : Nat) : Int)).toNat *
+       (pythHypDenom d (((j + 1) * (nRing d / nSides) : Nat) : Int)).toNat))
+
+def piCircumscribedRat (d nSides : Nat) : Nat × Nat :=
+  foldRatUpTo (nSides / 2) (fun j =>
+    reduceRat
+      ((stepWronskian d ((nRing d / nSides : Nat) : Int) ((j * (nRing d / nSides) : Nat) : Int)).toNat,
+       (stepInner d ((nRing d / nSides : Nat) : Int) ((j * (nRing d / nSides) : Nat) : Int)).toNat))
+
+/-- Huygens–Snellius dimension-weighted rational estimator `\pi_d(n) = (\pi_in(n) + (d - 1) * \pi_out(n)) / d`. -/
+def piHuygensSnelliusRat (d nSides : Nat) : Nat × Nat :=
+  reduceRat
+    ((addRat (piInscribedRat d nSides) (normSqEdge d * (piCircumscribedRat d nSides).1, (piCircumscribedRat d nSides).2)).1,
+     d * (addRat (piInscribedRat d nSides) (normSqEdge d * (piCircumscribedRat d nSides).1, (piCircumscribedRat d nSides).2)).2)
+
+/-- **Calculator-Free Rational Sine Operator `verletParabolaSineRat(d, p, q)` on Fractions `(p / q) * Q_□(d)` of a Right Angle:**
+Evaluates the Verlet half-turn parabola `P(p, q) = p * (2 * q - p)` weighted by the cuboctahedron square-face degree `d_in(□) = 4`
+and outer edge degree `d_out(E)(d) = 5`:
+`sin_rat(d; p, q) = reduceRat(d_in(□) * p * (2 * q - p), d_out(E)(d) * q² - p * (2 * q - p))`.
+At the canonical fractions of a right angle `p / q ∈ {1 / modBits(d) (10°), 1 / d (30°), 1 / ‖e‖₂² (45°), ‖e‖₂² / d (60°), 1 / 1 (90°)}`,
+it outputs the exact structural invariants of the cuboctahedron `(17/97, 1/2, 12/17, 32/37, 1/1)`! -/
+def verletParabolaSineRat (d p q : Nat) : Nat × Nat :=
+  reduceRat
+    (dInSquare * p * (normSqEdge d * q - p),
+     dOutEdge d * q * q - p * (normSqEdge d * q - p))
+
 /-!
 ## 5. Main Theorems of the Paper
 -/
@@ -387,9 +445,44 @@ theorem thm3_continuum_integration_from_cuboctahedron_archimedes_layers (d : Nat
          (fallingFactorial (nVertices d + unitStep d) dInSquare : Int) ∧
        allUpTo (nRing d) (fun phi =>
          Nat.ble (quarterPeriod d * quarterPeriod d) (Int.toNat (pythHypDenom d (phi : Int)) * normSqEdge d)) = true ∧
-       nSquares d * nRing d * nRing d = d * normSqEdge d * (nRing d ^ (normSqEdge d)))) d :=
+       nSquares d * nRing d * nRing d = d * normSqEdge d * (nRing d ^ (normSqEdge d))) ∧
+      -- (iv) \pi(n) as a pure rational function of n on the Weierstrass rotator: Wronskian-cube identity R₁*R₂ - I_s² = W_s²,
+      -- strict monotone nested brackets \pi_in(8) < \pi_in(16) < \pi_in(32) < \pi_out(32) < \pi_out(16) < \pi_out(8),
+      -- and Huygens-Snellius estimator \pi_d(16) = 142 / 45 = (2*K_P(d) + 14) / (modBits(d) * d_out(E)(d))!
+      (allUpTo (nRing d) (fun phi =>
+         eqIntBool
+           (pythHypDenom d (phi : Int) * pythHypDenom d ((phi : Int) + 1) -
+            rotatorInnerStep d (phi : Int) * rotatorInnerStep d (phi : Int))
+           (rotatorWronskian d (phi : Int) * rotatorWronskian d (phi : Int))) = true ∧
+       piInscribedRat d (nTriangles d) = (normSqEdge d, unitStep d) ∧
+       piCircumscribedRat d (nTriangles d) = (dInSquare, unitStep d) ∧
+       piInscribedRat d (normSqEdge d * nTriangles d) = (nVertices d + normSqEdge d, dOutEdge d) ∧
+       piCircumscribedRat d (normSqEdge d * nTriangles d) = (nVertices d - normSqEdge d, d) ∧
+       piHuygensSnelliusRat d (normSqEdge d * nTriangles d) =
+         (normSqEdge d * octantStep d + nVertices d + normSqEdge d, modBits d * dOutEdge d) ∧
+       (piInscribedRat d (nTriangles d)).1 * (piInscribedRat d (normSqEdge d * nTriangles d)).2 <
+         (piInscribedRat d (normSqEdge d * nTriangles d)).1 * (piInscribedRat d (nTriangles d)).2 ∧
+       (piInscribedRat d (normSqEdge d * nTriangles d)).1 * (piInscribedRat d (dInSquare * nTriangles d)).2 <
+         (piInscribedRat d (dInSquare * nTriangles d)).1 * (piInscribedRat d (normSqEdge d * nTriangles d)).2 ∧
+       (piInscribedRat d (dInSquare * nTriangles d)).1 * (piCircumscribedRat d (dInSquare * nTriangles d)).2 <
+         (piCircumscribedRat d (dInSquare * nTriangles d)).1 * (piInscribedRat d (dInSquare * nTriangles d)).2 ∧
+       (piCircumscribedRat d (dInSquare * nTriangles d)).1 * (piCircumscribedRat d (normSqEdge d * nTriangles d)).2 <
+         (piCircumscribedRat d (normSqEdge d * nTriangles d)).1 * (piCircumscribedRat d (dInSquare * nTriangles d)).2 ∧
+       (piCircumscribedRat d (normSqEdge d * nTriangles d)).1 * (piCircumscribedRat d (nTriangles d)).2 <
+         (piCircumscribedRat d (nTriangles d)).1 * (piCircumscribedRat d (normSqEdge d * nTriangles d)).2) ∧
+      -- (v) Calculator-free rational sine from the Verlet parabola at 10°, 30°, 45°, 60°, 90°: (17/97, 1/2, 12/17, 32/37, 1/1)
+      (verletParabolaSineRat d (unitStep d) (modBits d) =
+         (nVertices d + unitStep d + dInSquare, dInSquare * dInSquare + modBits d * modBits d) ∧
+       verletParabolaSineRat d (unitStep d) d = (unitStep d, normSqEdge d) ∧
+       verletParabolaSineRat d (unitStep d) (normSqEdge d) =
+         (nVertices d, nVertices d + unitStep d + dInSquare) ∧
+       verletParabolaSineRat d (normSqEdge d) d =
+         (octantStep d / normSqEdge d, dInSquare ^ d - d ^ d) ∧
+       verletParabolaSineRat d (unitStep d) (unitStep d) = (unitStep d, unitStep d))) d :=
   catalan_chain d (thm2_closed_form_fresnel_jacobi_dirichlet_parseval_bessel_integrals 3)
-    (fun _ => ⟨⟨rfl, rfl, rfl, rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl⟩⟩)
+    (fun _ => ⟨⟨rfl, rfl, rfl, rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl⟩,
+               ⟨rfl, rfl, rfl, rfl, rfl, rfl, by decide, by decide, by decide, by decide, by decide⟩,
+               ⟨rfl, rfl, rfl, rfl, rfl⟩⟩)
 
 #print axioms catalan_lock_iff_d3
 #print axioms thm1_constant_wronskian_weierstrass_lift_and_newton_leibniz

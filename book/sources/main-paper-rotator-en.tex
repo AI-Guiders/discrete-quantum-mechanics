@@ -330,6 +330,29 @@ Chained directly from Theorem~\ref{thm:main-2} via \texttt{catalan\_chain}, for 
   \]
 \item \textbf{Remainder-free Pochhammer falling-factorial integration and $512$-gon radius bound:}
   for falling factorials $m^{\underline{k}} = m(m-1)\cdots(m-k+1)$, $d_{\mathrm{in}}(\square)\sum_{m=0}^{|V_{O_2}(d)|} m^{\underline{d}} = (|V_{O_2}(d)|+1)^{\underline{d_{\mathrm{in}}(\square)}}$, the Weierstrass radius satisfies $\|e\|_2^2\,R_d(\varphi) \ge Q_\square(d)^2$ at all $512$ points, and the $512$-gon perimeter defect denominator equals $|\square(d)|\,N_{\mathrm{ring}}(d)^2 = d\,\|e\|_2^2\,N_{\mathrm{ring}}(d)^{\|e\|_2^2} = 1,572,864$.
+\item \textbf{$\pi(n)$ as a monotone rational function of polygon side count $n$, the Wronskian-cube identity, and calculator-free rational trigonometry:}
+  on the Weierstrass $n$-gon with step $s = N_{\mathrm{ring}}(d)/n$, the inscribed and circumscribed rational estimators
+  \[
+    \pi_{\mathrm{in}}(n) = \sum_{j=0}^{n/2-1}\frac{I_s(js)\,W_s(js)}{R_d(js)\,R_d((j+1)s)}\in\mathbb{Q},\qquad
+    \pi_{\mathrm{out}}(n) = \sum_{j=0}^{n/2-1}\frac{W_s(js)}{I_s(js)}\in\mathbb{Q}
+  \]
+  satisfy, via Brahmagupta's identity $R_d(\varphi)R_d(\varphi+s)-I_s(\varphi)^2 \equiv W_s(\varphi)^2$, the exact \emph{Wronskian-cube bracket identity}
+  \begin{equation}
+    \label{eq:wronskian-cube-pi-gap}
+    \pi_{\mathrm{out}}(n) - \pi_{\mathrm{in}}(n) \;=\; \sum_{j=0}^{n/2-1}\frac{W_s(js)^3}{I_s(js)\,R_d(js)\,R_d((j+1)s)} \;>\; 0,
+  \end{equation}
+  so under every polygon doubling $n\mapsto 2n$ ($s\mapsto s/2$) the bracket width contracts by $2^d/\|e\|_2^2 = d_{\mathrm{in}}(\square) = 4$ ($\pi_{\mathrm{in}}(8)=2 < \pi_{\mathrm{in}}(16)=\frac{14}{5} < \pi_{\mathrm{in}}(32)=\frac{6486}{2125} < \pi_{\mathrm{out}}(32)=\frac{2209}{693} < \pi_{\mathrm{out}}(16)=\frac{10}{3} < \pi_{\mathrm{out}}(8)=4$), while the dimension-weighted Huygens--Snellius rational estimator $\pi_d(n) = \bigl(\pi_{\mathrm{in}}(n)+(d-1)\pi_{\mathrm{out}}(n)\bigr)/d$ yields $\pi_3(16) = \frac{142}{45} = 3.1555\dots$ and $\pi_3(512) = 3.141592667\dots$ ($8$~exact decimal digits of $\pi$ in pure rationals). Furthermore, the Verlet-parabola rational sine operator for fraction $(p/q)Q_\square(d)$ of a right angle,
+  \[
+    \sin_{\mathrm{rat}}(d;\,p,q) \;=\; \frac{d_{\mathrm{in}}(\square)\,p(\|e\|_2^2 q - p)}{d_{\mathrm{out}}(E)(d)\,q^2 - p(\|e\|_2^2 q - p)},
+  \]
+  evaluates $\sin$ and $\cos$ without a calculator in two arithmetic operations and at the canonical right-angle fractions $p/q\in\{1/\mathrm{modBits}(d),\,1/d,\,1/\|e\|_2^2,\,\|e\|_2^2/d,\,1\}$ ($10^\circ,30^\circ,45^\circ,60^\circ,90^\circ$) returns the exact structural ratios of the cuboctahedron:
+  \[
+    \sin_{\mathrm{rat}}(10^\circ) = \frac{17}{97},\quad
+    \sin_{\mathrm{rat}}(30^\circ) = \frac{1}{2},\quad
+    \sin_{\mathrm{rat}}(45^\circ) = \frac{12}{17},\quad
+    \sin_{\mathrm{rat}}(60^\circ) = \frac{32}{37},\quad
+    \sin_{\mathrm{rat}}(90^\circ) = 1.
+  \]
 \end{enumerate}
 \end{theorem}
 

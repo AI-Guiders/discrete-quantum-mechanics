@@ -3303,6 +3303,45 @@ def cuboct3DContinuumIntegratorOp (d : Nat) (f3D : Int × Int × Int → Int) : 
 def exactContinuum1DUnitIntegralNumOp (pDeg : Nat) : Int :=
   ((1 : Int) - ((-1 : Int) ^ (pDeg + 1))) / 2
 
+def stepWronskianOp (d : Nat) (s phi : Int) : Int :=
+  projC d phi * projS d (phi + s) - projS d phi * projC d (phi + s)
+
+def stepInnerOp (d : Nat) (s phi : Int) : Int :=
+  projC d phi * projC d (phi + s) + projS d phi * projS d (phi + s)
+
+def foldRatUpToOp : Nat → (Nat → Nat × Nat) → Nat × Nat
+  | 0, _ => (0, 1)
+  | n + 1, f =>
+    reducedRatio
+      ((addRatPairOp (foldRatUpToOp n f) (f n)).1)
+      ((addRatPairOp (foldRatUpToOp n f) (f n)).2)
+
+def piInscribedRatOp (d nSides : Nat) : Nat × Nat :=
+  foldRatUpToOp (nSides / 2) (fun j =>
+    reducedRatio
+      ((stepInnerOp d ((nRing d / nSides : Nat) : Int) ((j * (nRing d / nSides) : Nat) : Int)).toNat *
+       (stepWronskianOp d ((nRing d / nSides : Nat) : Int) ((j * (nRing d / nSides) : Nat) : Int)).toNat)
+      ((pythCircleHypDenomOp d ((j * (nRing d / nSides) : Nat) : Int)).toNat *
+       (pythCircleHypDenomOp d (((j + 1) * (nRing d / nSides) : Nat) : Int)).toNat))
+
+def piCircumscribedRatOp (d nSides : Nat) : Nat × Nat :=
+  foldRatUpToOp (nSides / 2) (fun j =>
+    reducedRatio
+      (stepWronskianOp d ((nRing d / nSides : Nat) : Int) ((j * (nRing d / nSides) : Nat) : Int)).toNat
+      (stepInnerOp d ((nRing d / nSides : Nat) : Int) ((j * (nRing d / nSides) : Nat) : Int)).toNat)
+
+def piHuygensSnelliusRatOp (d nSides : Nat) : Nat × Nat :=
+  reducedRatio
+    (addRatPairOp (piInscribedRatOp d nSides)
+      (c0OverCSqOp d * (piCircumscribedRatOp d nSides).1, (piCircumscribedRatOp d nSides).2)).1
+    (d * (addRatPairOp (piInscribedRatOp d nSides)
+      (c0OverCSqOp d * (piCircumscribedRatOp d nSides).1, (piCircumscribedRatOp d nSides).2)).2)
+
+def verletParabolaSineRatOp (d p q : Nat) : Nat × Nat :=
+  reducedRatio
+    (dInSquare * p * (c0OverCSqOp d * q - p))
+    (dOutEdge d * q * q - p * (c0OverCSqOp d * q - p))
+
 /-- **Theorem (First-Principles Derivation of the Continuum Integral Calculus from the Rotator Wronskian and the 3D Cuboctahedron Shell `O₂(d)`)**: -/
 theorem continuum_integral_emergence_newton_cotes_euler_maclaurin_from_cuboctahedron_operator (d : Nat) :
     CatalanLaw (fun d =>
@@ -3336,13 +3375,33 @@ theorem continuum_integral_emergence_newton_cotes_euler_maclaurin_from_cuboctahe
        cuboct3DContinuumIntegratorOp d (fun (ex, ey, ez) => ex * ex + ey * ey + ez * ez) =
          ((c0OverCSqOp d * nNeighbors d : Nat) : Int) ∧
        cuboct3DContinuumIntegratorOp d (fun (ex, ey, ez) => ex * ey * ez) = 0) ∧
-      -- 5. The Circle as the 512-gon on the M-layer Rotator: exact integer vertices on X² + Y² = R², rational Hausdorff chord-arc sagitta, and 6 * 512² = 1,572,864 perimeter defect denominator
+      -- 5. The Circle as the 512-gon on the M-layer Rotator and \pi(n) as a Monotone Rational Function of Polygon Side Count n:
+      -- Wronskian-cube identity R₁*R₂ - I_s² = W_s², nested rational brackets \pi_in(8) < \pi_in(16) < \pi_in(32) < \pi_out(32) < \pi_out(16) < \pi_out(8),
+      -- and Huygens-Snellius estimator \pi_d(16) = 142 / 45 = (2*K_P(d) + Z(Si)) / (modBits(d) * d_out(E)(d))!
       ((pythPx d (deltaPhiDisc d : Int)) ^ 2 + (pythPy d (deltaPhiDisc d : Int)) ^ 2 =
          (pythPr d (deltaPhiDisc d : Int)) ^ 2 ∧
        allUpTo (nRing d) (fun phi =>
          Nat.ble (qSquare d * qSquare d) (Int.toNat (pythCircleHypDenomOp d (phi : Int)) * c0OverCSqOp d)) = true ∧
-       nSquares d * nRing d * nRing d = d * c0OverCSqOp d * (nRing d ^ (c0OverCSqOp d)))) d :=
+       nSquares d * nRing d * nRing d = d * c0OverCSqOp d * (nRing d ^ (c0OverCSqOp d)) ∧
+       allUpTo (nRing d) (fun phi =>
+         eqIntBool
+           (pythCircleHypDenomOp d (phi : Int) * pythCircleHypDenomOp d ((phi : Int) + 1) -
+            rotatorInnerStepOp d (phi : Int) * rotatorInnerStepOp d (phi : Int))
+           (rotatorWronskianOp d (phi : Int) * rotatorWronskianOp d (phi : Int))) = true ∧
+       piInscribedRatOp d (nTriangles d) = (c0OverCSqOp d, muVac d) ∧
+       piCircumscribedRatOp d (nTriangles d) = (dInSquare, muVac d) ∧
+       piInscribedRatOp d (c0OverCSqOp d * nTriangles d) = (zSiliconOp d, dOutEdge d) ∧
+       piCircumscribedRatOp d (c0OverCSqOp d * nTriangles d) = (zNeonOp d, d) ∧
+       piHuygensSnelliusRatOp d (c0OverCSqOp d * nTriangles d) =
+         (c0OverCSqOp d * kP d + zSiliconOp d, modBits d * dOutEdge d) ∧
+       verletParabolaSineRatOp d (muVac d) (modBits d) = (nPhi d + dInSquare, mHat d) ∧
+       verletParabolaSineRatOp d (muVac d) d = (muVac d, c0OverCSqOp d) ∧
+       verletParabolaSineRatOp d (muVac d) (c0OverCSqOp d) = (nNeighbors d, nPhi d + dInSquare) ∧
+       verletParabolaSineRatOp d (c0OverCSqOp d) d =
+         (kP d / c0OverCSqOp d, gaussCompressionStepDenomOp d dInSquare) ∧
+       verletParabolaSineRatOp d (muVac d) (muVac d) = (muVac d, muVac d))) d :=
   catalan_chain d (native_non_elementary_jacobi_verlet_fresnel_and_newton_leibniz_calculus_operator d)
-    (fun _ => ⟨⟨rfl, rfl⟩, rfl, ⟨rfl, rfl, rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl⟩⟩)
+    (fun _ => ⟨⟨rfl, rfl⟩, rfl, ⟨rfl, rfl, rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl⟩,
+               ⟨rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl⟩⟩)
 
 end MtCarrier
