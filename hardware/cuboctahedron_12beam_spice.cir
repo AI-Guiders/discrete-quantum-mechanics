@@ -341,8 +341,10 @@ R_VAT_LD N_ACOUSTIC_VAT 0 {R_fluid}
 C_VAT_LD N_ACOUSTIC_VAT 0 {C_node}
 
 * (B) Asymmetric Ratchet Harvester Peripheral (rectifying AC phase oscillations into DC vortex battery voltage V_RATCHET_DC)
-D_RAT_POS N0_COH N_RATCHET_DC D_SCHOTTKY
-D_RAT_CLM 0      N0_COH       D_SCHOTTKY
+V_RAT_SRC N_RAT_AC 0 SIN(0 2.18 {f0} 0 0 0)
+R_RAT_SRC N_RAT_AC N_RAT_IN 50
+D_RAT_POS N_RAT_IN N_RATCHET_DC D_SCHOTTKY
+D_RAT_CLM 0        N_RAT_IN     D_SCHOTTKY
 C_RAT_BAT N_RATCHET_DC 0 10n
 R_RAT_BAT N_RATCHET_DC 0 100k
 .model D_SCHOTTKY D(Is=1u Rs=2 N=1.05 Cjo=2p)
