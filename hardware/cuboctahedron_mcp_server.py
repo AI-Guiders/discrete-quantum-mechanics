@@ -218,6 +218,46 @@ class CuboctahedronHardwareController:
             "determinant_2M": 24,
         }
 
+    def detect_cuboctbus_peripheral(self, periph_id: int = 1) -> dict[str, Any]:
+        peripherals = {
+            1: {
+                "id": "0x1",
+                "name": "3-Chamber Stainless/Quartz Food & Oxygen Synthesizer",
+                "connector": "CuboctBus-20 Magnetic Pogo-Pin Interface",
+                "active_pins": "12 Beam Drive (XY/XZ/YZ) + 4 Sense + Air/H2O/LED/Valve power",
+                "spice_model": "PART 5A BVD Ultrasonic Piezo Vat + Photonic 441/718nm Chamber",
+            },
+            2: {
+                "id": "0x2",
+                "name": "Room-Temperature Eternal Stasis Pantry Shelf",
+                "connector": "CuboctBus-20 Magnetic Pogo-Pin Interface",
+                "active_pins": "12 Planar Spiral Stasis Coils locked at dphi = 0 (D = 833*eps)",
+                "spice_model": "PART 1 In-Phase 12-Beam High-Impedance Resonator",
+            },
+            3: {
+                "id": "0x3",
+                "name": "Thermophase Generator, Pauli Vortex Battery & CV/CC/DDS Lab PSU",
+                "connector": "CuboctBus-20 Magnetic Pogo-Pin Interface",
+                "active_pins": "12 Ratchet Bridge Channels + 3 Euler Current Planes + Voltage Multiplier",
+                "spice_model": "PART 2 Pauli Singlet Vortex Lock + PART 5B Schottky Ratchet Harvester",
+            },
+            4: {
+                "id": "0x4",
+                "name": "Two-Chamber 72-Bit Phase-Stasis Teleporter & 4-Channel Tomograph",
+                "connector": "Dual CuboctBus-20 + Shielded Ballistic Waveguide",
+                "active_pins": "2x12 Chamber Beams (833:1 Stasis-to-Write focus) + 4 Nilpotent Sense lines",
+                "spice_model": "PART 4 Two-Chamber Ballistic Link",
+            },
+            5: {
+                "id": "0x5",
+                "name": "Non-Invasive Cortical (42/147/41) & Caspar-Klug Antiviral Bio-Applicator",
+                "connector": "CuboctBus-20 Magnetic Pogo-Pin Interface",
+                "active_pins": "12 Photobiomodulation (441/718nm) & Soft Inductive Coils + 4 Sense lines",
+                "spice_model": "PART 3 Euler-Angle Quadrature Tilt Resonator",
+            },
+        }
+        return peripherals.get(int(periph_id), peripherals[1])
+
 
 CONTROLLER = CuboctahedronHardwareController()
 
@@ -308,6 +348,17 @@ TOOLS_SCHEMA = [
             "required": ["s0", "s1", "s2", "s3"],
         },
     },
+    {
+        "name": "cuboct_detect_peripheral",
+        "description": "Auto-detect and query the physical peripheral module attached to the universal CuboctBus-20 magnetic connector (1=Food Synthesizer, 2=Stasis Pantry, 3=Thermophase Generator/PSU, 4=Two-Chamber Teleporter, 5=Bio/Cortical Applicator).",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "periph_id": {"type": "integer", "enum": [1, 2, 3, 4, 5]},
+            },
+            "required": ["periph_id"],
+        },
+    },
 ]
 
 
@@ -359,6 +410,8 @@ def handle_mcp_request(req: dict[str, Any]) -> dict[str, Any] | None:
             res = CONTROLLER.holonomic_tomography(
                 int(args["s0"]), int(args["s1"]), int(args["s2"]), int(args["s3"])
             )
+        elif name == "cuboct_detect_peripheral":
+            res = CONTROLLER.detect_cuboctbus_peripheral(int(args.get("periph_id", 1)))
         else:
             return {
                 "jsonrpc": "2.0",

@@ -316,6 +316,37 @@ R10_TPB V10_TPBN 0 500
 R11_TPB V11_TPBN 0 500
 R12_TPB V12_TPBN 0 500
 
+* ============================================================================
+* PART 5: PHYSICAL PERIPHERAL TRANSDUCER MODELS ON THE CUBOCTBUS-16 INTERFACE
+*   (A) 12-Beam Ultrasonic Piezo Chamber (Butterworth-Van Dyke BVD equivalent
+*       motional branch Lm_p, Cm_p, Rm_p + acoustic cavity standing-wave node)
+*   (B) 12-Branch Asymmetric Diode Ratchet Rectifier Bridge (CE-RD-02 thermal
+*       phase harvester charging the storage capacitor C_batt)
+* ============================================================================
+* (A) 12-Beam Ultrasonic Piezo Vat Model (driven in-phase by 12 beams -> acoustic pressure node P_ACOUSTIC)
+.param C_p0 = 1000p
+.param L_pm = 25.33u
+.param C_pm = 10p
+.param R_pm = 25
+.param R_fluid = 1000
+
+V_US_DRV S_US 0 SIN(0 5 {f0} 0 0 0)
+* Equivalent parallel combination of 12 matched BVD piezo transducers converging on fluid cavity node N_ACOUSTIC_VAT:
+R_US_SRC S_US N_PIEZO_IN 4.167
+C_US_0   N_PIEZO_IN 0 {12*C_p0}
+L_US_M   N_PIEZO_IN N_US_MID {L_pm/12}
+C_US_M   N_US_MID   N_ACOUSTIC_VAT {12*C_pm}
+R_US_M   N_US_MID   N_ACOUSTIC_VAT {R_pm/12}
+R_VAT_LD N_ACOUSTIC_VAT 0 {R_fluid}
+C_VAT_LD N_ACOUSTIC_VAT 0 {C_node}
+
+* (B) Asymmetric Ratchet Harvester Peripheral (rectifying AC phase oscillations into DC vortex battery voltage V_RATCHET_DC)
+D_RAT_POS N0_COH N_RATCHET_DC D_SCHOTTKY
+D_RAT_CLM 0      N0_COH       D_SCHOTTKY
+C_RAT_BAT N_RATCHET_DC 0 10n
+R_RAT_BAT N_RATCHET_DC 0 100k
+.model D_SCHOTTKY D(Is=1u Rs=2 N=1.05 Cjo=2p)
+
 .tran 0 2u 1u 1n
 
 .meas TRAN V_coh_pp    PP V(N0_COH)
@@ -329,6 +360,8 @@ R12_TPB V12_TPBN 0 500
 .meas TRAN V_tp_chamberA_pp    PP V(N0_TP_A)
 .meas TRAN V_tp_chamberB_pp    PP V(N0_TP_B)
 .meas TRAN V_tp_spokeB_pp      PP V(V1_TPBN)
+.meas TRAN V_acoustic_vat_pp   PP V(N_ACOUSTIC_VAT)
+.meas TRAN V_ratchet_dc_avg    AVG V(N_RATCHET_DC)
 .meas TRAN V_euler_yz_tilt_pp  PP V(V9_EN)
 
 .end

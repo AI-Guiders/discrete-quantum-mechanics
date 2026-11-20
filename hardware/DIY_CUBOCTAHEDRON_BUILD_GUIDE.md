@@ -183,6 +183,30 @@ The complete hardware state machine is implemented in **`food_synthesizer_3chamb
 | **4. Air & Water Pumps** | Diaphragm air pump (`2 L/min` $\mathrm{CO_2+N_2}$) + silicone food-grade peristaltic water pump (`100 mL/min` $\mathrm{H_2O}$) | `pump_air_co2_n2_en`, `pump_water_h2o_en` | 2× 12V opto-isolated MOSFET channels | `$25.00` |
 | **5. Control Unit** | **Sipeed Tang Nano 9K FPGA** + 4-button recipe selector (`00: Cutlet`, `01: Milk/Cheese`, `10: Vitamin Nectar`, `11: Bread/Pasta`) + status LED | `start_btn`, `recipe_sel[1:0]`, `stage_out[2:0]`, `food_ready_led` | 3.3V GPIO with level shifters | `$20.00` |
 
+---
+
+## 8. Universal `CuboctBus-20` Magnetic Plug-and-Play Connector & Peripheral SPICE Models
+
+To allow the single universal FPGA controller core (`cuboctahedron_carrier_asic.v` + `cuboctahedron_mcp_server.py`) to drive any of the 31 physical peripheral attachments without rewiring or manual screwdriver work, all attachments connect via a standardized **20-pin Magnetic Pogo-Pin Connector (`CuboctBus-20`)**:
+
+| Pin Group | Pins | Signal Names | Function across All Peripherals |
+| :--- | :--- | :--- | :--- |
+| **Euler Plane `XY`** | `1..4` | `BEAM_XY[0..3]` (`V1..V4`) | 4 equatorial square phase drive lines ($0^\circ, 90^\circ, 180^\circ, 270^\circ$ or in-phase) |
+| **Euler Plane `XZ`** | `5..8` | `BEAM_XZ[0..3]` (`V5..V8`) | 4 tilted square phase drive lines |
+| **Euler Plane `YZ`** | `9..12` | `BEAM_YZ[0..3]` (`V9..V12`) | 4 tilted square phase drive lines |
+| **Tomograph & ID** | `13..16` | `SENSE_CH[0..3]` / `PERIPH_ID` | 4-channel nilpotent holonomic readout ($\mathcal{M}_{\mathrm{chan}} = I_4 + N_{\mathrm{nil}}$) & 4-bit auto-ID resistor divider |
+| **Auxiliary Actuators** | `17..18` | `AUX_PUMP_EN`, `AUX_LED_EN` | 12V switched rails for air/water pumps, Peltier condenser, and `441/718 nm` LEDs |
+| **Power & Ground** | `19..20` | `+12V_BUS`, `GND` | Main power supply rail & common ground return |
+
+### Verified SPICE Peripheral Models in `hardware/cuboctahedron_12beam_spice.cir`
+- **`PART 1` (In-Phase High-Impedance Stasis & Concentrator):** 12-beam LC resonator (`gain_amp = 12`, `gain_power = 144`).
+- **`PART 2` (Pauli Singlet Vortex Battery):** 6 beams at $0^\circ$, 6 beams at $180^\circ$ (`v_vortex_center_pp = 1.0e-14 V`, zero central leakage with circulating edge current).
+- **`PART 3` (Euler-Angle Quadrature Tilt Applicator):** driven $XY$ plane transferring rotating wave energy across the 8 triangular faces to passive $XZ$ and $YZ$ planes.
+- **`PART 4` (Two-Chamber Ballistic Teleportation Link):** Chamber A $\to$ Matched Waveguide $\to$ Chamber B.
+- **`PART 5A` (Butterworth–Van Dyke 12-Beam Ultrasonic Piezo Vat):** equivalent motional inductance `L_pm`, capacitance `C_pm`, resistance `R_pm`, and shunt `C_p0` driving the central fluid acoustic cavity `N_ACOUSTIC_VAT`.
+- **`PART 5B` (Asymmetric Schottky Ratchet Harvester `CE-RD-02`):** rectifies AC phase oscillations into DC storage voltage `V_RATCHET_DC`.
+
+
 
 
 
