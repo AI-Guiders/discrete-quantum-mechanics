@@ -386,6 +386,36 @@ def checkCuboctMomentIdentitiesBool (d : Nat) : Bool :=
         eqIntBool (cuboctFourthMoment d kz ky kx)
           (cuboctFourthMomentClosedForm d kz ky kx))))
 
+/-- Number of independent rotation/tilt planes (Euler angles `dim SO(d) = d(d-1)/2`), which equals `d` uniquely at `d = 3`,
+partitioning the `12` cuboctahedron vertices into `3 × 4` equatorial squares `(xy, xz, yz)`. -/
+def eulerPlaneCount (d : Nat) : Nat :=
+  d * (d - 1) / normSqEdge d
+
+/-- Exact root-free 3D Euler-angle rotator `(φ₁, φ₂, φ₃) ∈ ℤ_{N_ring(d)}³` acting on `(x, y, z) ∈ ℤ³`
+by composing Weierstrass Pythagorean rotations in the three cuboctahedron coordinate planes `(xy, xz, yz)`:
+1. Yaw `φ₁` in the `xy`-plane,
+2. Pitch/nutation tilt `φ₂` in the `xz`-plane,
+3. Roll tilt `φ₃` in the `yz`-plane. -/
+def euler3DRotateVec (d : Nat) (phi1 phi2 phi3 x y z : Int) : Int × Int × Int :=
+  let x1 := pythCosNum d phi1 * x - pythSinNum d phi1 * y
+  let y1 := pythSinNum d phi1 * x + pythCosNum d phi1 * y
+  let z1 := pythHypDenom d phi1 * z
+  let x2 := pythCosNum d phi2 * x1 - pythSinNum d phi2 * z1
+  let y2 := pythHypDenom d phi2 * y1
+  let z2 := pythSinNum d phi2 * x1 + pythCosNum d phi2 * z1
+  let x3 := pythHypDenom d phi3 * x2
+  let y3 := pythCosNum d phi3 * y2 - pythSinNum d phi3 * z2
+  let z3 := pythSinNum d phi3 * y2 + pythCosNum d phi3 * z2
+  (x3, y3, z3)
+
+/-- Product of the three Weierstrass hypotenuse denominators `R_d(φ₁) * R_d(φ₂) * R_d(φ₃)`. -/
+def euler3DHypDenom (d : Nat) (phi1 phi2 phi3 : Int) : Int :=
+  pythHypDenom d phi1 * pythHypDenom d phi2 * pythHypDenom d phi3
+
+/-- Squared Euclidean norm `x² + y² + z²` of a 3D integer vector. -/
+def vec3NormSq (v : Int × Int × Int) : Int :=
+  v.1 * v.1 + v.2.1 * v.2.1 + v.2.2 * v.2.2
+
 /-!
 ## 5. Main Theorems of the Paper
 -/
@@ -510,18 +540,31 @@ theorem thm3_continuum_integration_from_cuboctahedron_archimedes_layers (d : Nat
        verletParabolaSineRat d (normSqEdge d) d =
          (octantStep d / normSqEdge d, dInSquare ^ d - d ^ d) ∧
        verletParabolaSineRat d (unitStep d) (unitStep d) = (unitStep d, unitStep d)) ∧
-      -- (vi) Exact O(k²) isotropy `∑ (k·e)² = 8 |k|²` and O(k⁴) fourth-moment identity `∑ (k·e)⁴ = 12 |k|⁴ - 4 ∑ k_i⁴`
+      -- (vi) Exact O(k²) isotropy `∑ (k·e)² = 8 |k|²`, O(k⁴) fourth-moment identity `∑ (k·e)⁴ = 12 |k|⁴ - 4 ∑ k_i⁴`,
+      -- and root-free 3D Euler-angle rotator `(φ₁, φ₂, φ₃)` across the `d(d-1)/2 = 3` cuboctahedron planes `(xy, xz, yz)`
       (checkCuboctMomentIdentitiesBool d = true ∧
        cuboctFourthMoment d (unitStep d : Int) 0 0 =
          (nVertices d : Int) - (dInSquare : Int) ∧
        cuboctFourthMoment d (unitStep d : Int) (unitStep d : Int) 0 / (dInSquare : Int) =
          (nVertices d : Int) - (normSqEdge d : Int) ∧
        cuboctFourthMoment d (unitStep d : Int) (unitStep d : Int) (unitStep d : Int) =
-         ((nVertices d * nTriangles d : Nat) : Int))) d :=
+         ((nVertices d * nTriangles d : Nat) : Int) ∧
+       eulerPlaneCount d = d ∧
+       nVertices d = eulerPlaneCount d * dInSquare ∧
+       ((cubicOrbit3D (d - 1)).all (fun (ex, ey, ez) =>
+         eqIntBool
+           (vec3NormSq (euler3DRotateVec d (d : Int) (dOutEdge d : Int) (modBits d : Int) ex ey ez))
+           (euler3DHypDenom d (d : Int) (dOutEdge d : Int) (modBits d : Int) *
+            euler3DHypDenom d (d : Int) (dOutEdge d : Int) (modBits d : Int) *
+            (normSqEdge d : Int))) = true) ∧
+       euler3DRotateVec d 0 (octantStep d : Int) 0 (unitStep d : Int) (unitStep d : Int) 0 =
+         (0,
+          euler3DHypDenom d 0 (octantStep d : Int) 0,
+          euler3DHypDenom d 0 (octantStep d : Int) 0))) d :=
   catalan_chain d (thm2_closed_form_fresnel_jacobi_dirichlet_parseval_bessel_integrals 3)
     (fun _ => ⟨⟨rfl, rfl, rfl, rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl⟩,
                ⟨rfl, rfl, rfl, rfl, rfl, rfl, by decide, by decide, by decide, by decide, by decide⟩,
-               ⟨rfl, rfl, rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl, rfl⟩⟩)
+               ⟨rfl, rfl, rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl⟩⟩)
 
 #print axioms catalan_lock_iff_d3
 #print axioms thm1_constant_wronskian_weierstrass_lift_and_newton_leibniz

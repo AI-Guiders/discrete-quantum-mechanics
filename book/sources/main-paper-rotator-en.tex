@@ -354,14 +354,14 @@ Chained directly from Theorem~\ref{thm:main-2} via \texttt{catalan\_chain}, for 
     \sin_{\mathrm{rat}}(60^\circ) = \frac{32}{37},\quad
     \sin_{\mathrm{rat}}(90^\circ) = 1.
   \]
-\item \textbf{Exact $O(|\mathbf{k}|^2)$ spherical isotropy and the exact $O(|\mathbf{k}|^4)$ fourth-moment anisotropy law on the cuboctahedron:}
+\item \textbf{Exact $O(|\mathbf{k}|^2)$ spherical isotropy, the $O(|\mathbf{k}|^4)$ fourth-moment anisotropy law, and the root-free 3D Euler-angle rotator $(\varphi_1,\varphi_2,\varphi_3)$ on the cuboctahedron:}
   for any wavevector $\mathbf{k}=(k_1,k_2,k_3)$, the directional moments of the cuboctahedron shell $O_2(d)$ satisfy the exact polynomial identities
   \begin{equation}
     \label{eq:cuboct-second-fourth-moments}
     \sum_{e\in O_2(d)} (\mathbf{k}\cdot e)^2 \;=\; |{\triangle}(d)|\,|\mathbf{k}|^2 \;=\; 8\,|\mathbf{k}|^2,\qquad
     \sum_{e\in O_2(d)} (\mathbf{k}\cdot e)^4 \;=\; |V_{O_2}(d)|\,|\mathbf{k}|^4 - d_{\mathrm{in}}(\square)\sum_{i=1}^d k_i^4 \;=\; 12\,|\mathbf{k}|^4 - 4\sum_{i=1}^3 k_i^4,
   \end{equation}
-  so that the dispersion expansion $\sum_{e\in O_2(d)}(1-\cos(\mathbf{k}\cdot e)) = 4\,|\mathbf{k}|^2 - \bigl(\frac{1}{2}|\mathbf{k}|^4 - \frac{1}{6}\sum_{i=1}^3 k_i^4\bigr) + O(|\mathbf{k}|^6)$ is strictly isotropic at leading order $O(|\mathbf{k}|^2)$, while at fourth order $O(|\mathbf{k}|^4)$ it yields normalized values $12-4=8=|{\triangle}(d)|$ along a coordinate axis $(1,0,0)$, $12-2=10=2\,d_{\mathrm{out}}(E)(d)$ along a face diagonal $(1,1,0)$, and an exact $d:1 = 3:1$ ratio of the cubic anisotropy invariant $\sum_{i=1}^d k_i^4/|\mathbf{k}|^4$ between a coordinate axis $(1,0,0)$ and a space diagonal $(1,1,1)$.
+  so that the dispersion expansion $\sum_{e\in O_2(d)}(1-\cos(\mathbf{k}\cdot e)) = 4\,|\mathbf{k}|^2 - \bigl(\frac{1}{2}|\mathbf{k}|^4 - \frac{1}{6}\sum_{i=1}^3 k_i^4\bigr) + O(|\mathbf{k}|^6)$ is strictly isotropic at leading order $O(|\mathbf{k}|^2)$, while at fourth order $O(|\mathbf{k}|^4)$ it yields normalized values $12-4=8=|{\triangle}(d)|$ along a coordinate axis $(1,0,0)$, $12-2=10=2\,d_{\mathrm{out}}(E)(d)$ along a face diagonal $(1,1,0)$, and an exact $d:1 = 3:1$ ratio of the cubic anisotropy invariant $\sum_{i=1}^d k_i^4/|\mathbf{k}|^4$ between a coordinate axis $(1,0,0)$ and a space diagonal $(1,1,1)$. Moreover, the number of independent rotation/tilt planes (Euler angles $\dim\mathrm{SO}(d)=d(d-1)/2$) equals the spatial dimension $d$ uniquely at $d=3$, partitioning the $|V_{O_2}(d)| = \frac{d(d-1)}{2}\,d_{\mathrm{in}}(\square) = 3\times 4 = 12$ cuboctahedron vertices into three mutually orthogonal equatorial squares $(xy,xz,yz)$, while composing three planar Weierstrass Pythagorean rotations $\mathcal{R}_{\mathrm{Euler}}(\varphi_1,\varphi_2,\varphi_3)$ across Euler angles $(\varphi_1,\varphi_2,\varphi_3)\in\mathbb{Z}_{N_{\mathrm{ring}}(d)}^3$ performs 3D rotations and tilts in pure integers with exact spherical norm preservation $\|\mathcal{R}_{\mathrm{Euler}}(\varphi_1,\varphi_2,\varphi_3)\mathbf{v}\|_2^2 = \bigl(R_d(\varphi_1)R_d(\varphi_2)R_d(\varphi_3)\bigr)^2\|\mathbf{v}\|_2^2$, tilting the $xy$-plane vertex $(1,1,0)$ across a triangular face of the cuboctahedron at $\varphi_2 = K_P(d)=64$ onto the $yz$-plane vertex $(0,1,1)$.
 \end{enumerate}
 \end{theorem}
 

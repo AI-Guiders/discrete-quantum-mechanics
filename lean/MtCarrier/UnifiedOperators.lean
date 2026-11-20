@@ -3382,6 +3382,27 @@ def verletParabolaSineRatOp (d p q : Nat) : Nat × Nat :=
     (dInSquare * p * (c0OverCSqOp d * q - p))
     (dOutEdge d * q * q - p * (c0OverCSqOp d * q - p))
 
+def eulerPlaneCountOp (d : Nat) : Nat :=
+  d * (d - 1) / c0OverCSqOp d
+
+def euler3DRotateVecOp (d : Nat) (phi1 phi2 phi3 x y z : Int) : Int × Int × Int :=
+  let x1 := pythCircleCosNumOp d phi1 * x - pythCircleSinNumOp d phi1 * y
+  let y1 := pythCircleSinNumOp d phi1 * x + pythCircleCosNumOp d phi1 * y
+  let z1 := pythCircleHypDenomOp d phi1 * z
+  let x2 := pythCircleCosNumOp d phi2 * x1 - pythCircleSinNumOp d phi2 * z1
+  let y2 := pythCircleHypDenomOp d phi2 * y1
+  let z2 := pythCircleSinNumOp d phi2 * x1 + pythCircleCosNumOp d phi2 * z1
+  let x3 := pythCircleHypDenomOp d phi3 * x2
+  let y3 := pythCircleCosNumOp d phi3 * y2 - pythCircleSinNumOp d phi3 * z2
+  let z3 := pythCircleSinNumOp d phi3 * y2 + pythCircleCosNumOp d phi3 * z2
+  (x3, y3, z3)
+
+def euler3DHypDenomOp (d : Nat) (phi1 phi2 phi3 : Int) : Int :=
+  pythCircleHypDenomOp d phi1 * pythCircleHypDenomOp d phi2 * pythCircleHypDenomOp d phi3
+
+def vec3NormSqOp (v : Int × Int × Int) : Int :=
+  v.1 * v.1 + v.2.1 * v.2.1 + v.2.2 * v.2.2
+
 /-- **Theorem (First-Principles Derivation of the Continuum Integral Calculus from the Rotator Wronskian and the 3D Cuboctahedron Shell `O₂(d)`)**: -/
 theorem continuum_integral_emergence_newton_cotes_euler_maclaurin_from_cuboctahedron_operator (d : Nat) :
     CatalanLaw (fun d =>
@@ -3439,9 +3460,21 @@ theorem continuum_integral_emergence_newton_cotes_euler_maclaurin_from_cuboctahe
        verletParabolaSineRatOp d (muVac d) (c0OverCSqOp d) = (nNeighbors d, nPhi d + dInSquare) ∧
        verletParabolaSineRatOp d (c0OverCSqOp d) d =
          (kP d / c0OverCSqOp d, gaussCompressionStepDenomOp d dInSquare) ∧
-       verletParabolaSineRatOp d (muVac d) (muVac d) = (muVac d, muVac d))) d :=
+       verletParabolaSineRatOp d (muVac d) (muVac d) = (muVac d, muVac d) ∧
+       eulerPlaneCountOp d = d ∧
+       nNeighbors d = eulerPlaneCountOp d * dInSquare ∧
+       ((cubicOrbit3D (d - 1)).all (fun (ex, ey, ez) =>
+         eqIntBool
+           (vec3NormSqOp (euler3DRotateVecOp d (d : Int) (dOutEdge d : Int) (modBits d : Int) ex ey ez))
+           (euler3DHypDenomOp d (d : Int) (dOutEdge d : Int) (modBits d : Int) *
+            euler3DHypDenomOp d (d : Int) (dOutEdge d : Int) (modBits d : Int) *
+            (c0OverCSqOp d : Int))) = true) ∧
+       euler3DRotateVecOp d 0 (kP d : Int) 0 (muVac d : Int) (muVac d : Int) 0 =
+         (0,
+          euler3DHypDenomOp d 0 (kP d : Int) 0,
+          euler3DHypDenomOp d 0 (kP d : Int) 0))) d :=
   catalan_chain d (native_non_elementary_jacobi_verlet_fresnel_and_newton_leibniz_calculus_operator d)
     (fun _ => ⟨⟨rfl, rfl⟩, rfl, ⟨rfl, rfl, rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl⟩,
-               ⟨rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl⟩⟩)
+               ⟨rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl⟩⟩)
 
 end MtCarrier
