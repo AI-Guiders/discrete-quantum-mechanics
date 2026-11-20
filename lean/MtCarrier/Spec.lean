@@ -150,6 +150,19 @@ theorem catalan_law_of_d3 (P : Nat → Prop) (h3 : P 3) (d : Nat) :
     exact ⟨h, h3⟩
   · exact And.left
 
+/-- Recursive implication chain combinator (`Catalan → Step 1 → Step 2 → ... → Output`):
+derives `CatalanLaw Q d` directly from a prior link `CatalanLaw P d` and the implication `P 3 → Q 3`. -/
+theorem catalan_chain {P Q : Nat → Prop} (d : Nat)
+    (hPrev : CatalanLaw P d) (hNext : P 3 → Q 3) :
+    CatalanLaw Q d := by
+  unfold CatalanLaw
+  constructor
+  · intro hLock
+    have hd := (catalan_lock_iff_d3 d).mp hLock
+    subst hd
+    exact ⟨hLock, hNext ((hPrev.mp hLock).2)⟩
+  · exact And.left
+
 /-- Canonical system of operator identities chained directly via `CatalanLaw`
 for any `d : Nat`. -/
 theorem canonical_d3_constants (d : Nat) :

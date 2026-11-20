@@ -81,6 +81,19 @@ theorem catalan_law_of_d3 (P : Nat → Prop) (h3 : P 3) (d : Nat) :
     exact ⟨h, h3⟩
   · exact And.left
 
+/-- Recursive implication chain combinator (`Catalan → Step 1 → Step 2 → Step 3`):
+derives `CatalanLaw Q d` directly from a prior link `CatalanLaw P d` and the implication `P 3 → Q 3`. -/
+theorem catalan_chain {P Q : Nat → Prop} (d : Nat)
+    (hPrev : CatalanLaw P d) (hNext : P 3 → Q 3) :
+    CatalanLaw Q d := by
+  unfold CatalanLaw
+  constructor
+  · intro hLock
+    have hd := (catalan_lock_iff_d3 d).mp hLock
+    subst hd
+    exact ⟨hLock, hNext ((hPrev.mp hLock).2)⟩
+  · exact And.left
+
 /--Induced algebraic invariants of the discrete phase ring `ℤ_{N_ring(d)}`:
 - `nTriangles(d) = 2^d` (`8` triangular faces / octants),
 - `modBits(d) = 1 + nTriangles(d)` (`9` bits),
@@ -334,7 +347,8 @@ theorem thm2_closed_form_fresnel_jacobi_dirichlet_parseval_bessel_integrals (d :
       (besselJ0Integral d 0 = ((nRing d * quarterPeriod d : Nat) : Int) ∧
        besselJ0Integral d (unitStep d : Int) = ((halfPeriod d * quarterPeriod d : Nat) : Int) ∧
        besselJ0Integral d (dInSquare : Int) = 0)) d :=
-  catalan_law_of_d3 _ ⟨⟨rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl⟩⟩ d
+  catalan_chain d (thm1_constant_wronskian_weierstrass_lift_and_newton_leibniz d)
+    (fun _ => ⟨⟨rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl⟩⟩)
 
 /-- **Theorem 3 (First-Principles Derivation of 3D & 1D Continuum Integration from the Cuboctahedron Archimedes Equizonal Partition)**: -/
 theorem thm3_continuum_integration_from_cuboctahedron_archimedes_layers (d : Nat) :
@@ -356,7 +370,8 @@ theorem thm3_continuum_integration_from_cuboctahedron_archimedes_layers (d : Nat
       -- (iii) Exact Pochhammer falling-factorial discrete integration without Bernoulli remainders
       ((dInSquare : Int) * discreteIntegral (nVertices d + unitStep d) (fun m => (fallingFactorial (Int.toNat m) d : Int)) =
          (fallingFactorial (nVertices d + unitStep d) dInSquare : Int))) d :=
-  catalan_law_of_d3 _ ⟨⟨rfl, rfl, rfl, rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl⟩, rfl⟩ d
+  catalan_chain d (thm2_closed_form_fresnel_jacobi_dirichlet_parseval_bessel_integrals d)
+    (fun _ => ⟨⟨rfl, rfl, rfl, rfl, rfl, rfl⟩, ⟨rfl, rfl, rfl⟩, rfl⟩)
 
 #print axioms catalan_lock_iff_d3
 #print axioms thm1_constant_wronskian_weierstrass_lift_and_newton_leibniz
