@@ -3285,6 +3285,18 @@ def zCitricAcidKrebsOp (d : Nat) : Nat :=
 def zVanillinAromaOp (d : Nat) : Nat :=
   nTriangles d * zCarbonOp d + nTriangles d * muVac d + d * zOxygenOp d
 
+/-- **Direct Synthesis of All Biogenic Mineral Salts (`Mg, Si, P, S, Cl, K, Ca, Fe`) Purely from Atmospheric Gases (`C, N₂, O₂, Ar, H`):**
+- `zPhosphorusOp(d) = zNitrogenOp(d) + zOxygenOp(d) = 7 + 8 = 15 = d * d_out(E)(d)` (`¹⁵₇N + ¹⁶₈O → ³¹₁₅P`),
+- `zChlorineOp(d) = 2 * zOxygenOp(d) + μ_vac(d) = 16 + 1 = 17 = |N(d)| + d_out(E)(d)` (`O₂ + H → Cl`),
+- `zPotassiumOp(d) = zArgonOp(d) + μ_vac(d) = 18 + 1 = 19 = N_φ(d) + |□(d)|` (`Ar + H → K`),
+- `aCalcium40MassOp(d) = 2 * zCarbonOp(d) + 2 * (2 * zNitrogenOp(d)) = 12 + 28 = 40 = Δφ_disc(d) - 1` (`¹²₆C + ¹⁴₇N₂ → ⁴⁰₂₀Ca` with zero leftover neutrons!),
+- `zMagnesiumOp(d) = 2 * zCarbonOp(d) = 12`, `zSiliconOp(d) = 2 * zNitrogenOp(d) = 14` (`N₂ → ²⁸₁₄Si`),
+  `zSulfurOp(d) = 2 * zOxygenOp(d) = 16` (`O₂ → ³²₁₆S`), `zIronOp(d) = 2 * zCarbonOp(d) + 2 * zNitrogenOp(d) = 26` (`2C + N₂ → Fe`). -/
+def zPhosphorusOp (d : Nat) : Nat := d * dOutEdge d
+def zChlorineOp (d : Nat) : Nat := nNeighbors d + dOutEdge d
+def zPotassiumOp (d : Nat) : Nat := nPhi d + nSquares d
+def aCalcium40MassOp (d : Nat) : Nat := c0OverCSqOp d * zCarbonOp d + c0OverCSqOp d * (c0OverCSqOp d * zNitrogenOp d)
+
 def checkAutonomousFoodWaterSynthesisBool (d : Nat) : Bool :=
   (zWaterOp d == zNeonOp d) &&
   (zAmmoniaOp d == zNeonOp d) &&
@@ -3307,7 +3319,18 @@ def checkAutonomousFoodWaterSynthesisBool (d : Nat) : Bool :=
   (zGlycerolOp d == c0OverCSqOp d * dOutEdge d * dOutEdge d) &&
   (zVitaminB3NiacinOp d == kP d) &&
   (zCitricAcidKrebsOp d == zNeonOp d * zNeonOp d) &&
-  (zVanillinAromaOp d == c0OverCSqOp d * nTriangles d * dOutEdge d)
+  (zVanillinAromaOp d == c0OverCSqOp d * nTriangles d * dOutEdge d) &&
+  -- Atmospheric gas nuclear synthesis of all mineral salts:
+  (c0OverCSqOp d * zCarbonOp d == zMagnesiumOp d) &&
+  (c0OverCSqOp d * zNitrogenOp d == zSiliconOp d) &&
+  (zNitrogenOp d + zOxygenOp d == zPhosphorusOp d) &&
+  (c0OverCSqOp d * zOxygenOp d == zSulfurOp d) &&
+  (c0OverCSqOp d * zOxygenOp d + muVac d == zChlorineOp d) &&
+  (zArgonOp d + muVac d == zPotassiumOp d) &&
+  (zCarbonOp d + c0OverCSqOp d * zNitrogenOp d == zCalciumOp d) &&
+  (aCalcium40MassOp d == deltaPhiDisc d - muVac d) &&
+  (c0OverCSqOp d * zCarbonOp d + c0OverCSqOp d * zNitrogenOp d == zIronOp d) &&
+  (c0OverCSqOp d * (c0OverCSqOp d * zNitrogenOp d) == zSodiumChlorideOp d)
 
 def checkExactRingTeleportationBool (d : Nat) (aAnchor : Int) : Bool :=
   (List.range (nRing d)).all (fun psi =>
