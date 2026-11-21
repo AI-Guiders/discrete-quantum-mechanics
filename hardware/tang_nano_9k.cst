@@ -1,0 +1,69 @@
+// ============================================================================
+// tang_nano_9k.cst
+// Physical Pin Constraints for Sipeed Tang Nano 9K (Gowin GW1NR-9LV QN88P)
+// Top-level module: `tang_nano_9k_uart_board_top` in `cuboctahedron_carrier_asic.v`
+// ============================================================================
+
+// 1. On-board 27.000 MHz Crystal Oscillator & User Reset Button S1
+IO_LOC  "clk_27m" 52;
+IO_PORT "clk_27m" IO_TYPE=LVCMOS33 PULL_MODE=UP;
+
+IO_LOC  "rst_n" 4;
+IO_PORT "rst_n" IO_TYPE=LVCMOS18 PULL_MODE=UP;
+
+// 2. On-board BL702 USB-C UART Bridge (115200 8N1) / ESP32-C3 Wi-Fi UART
+IO_LOC  "uart_rx" 18;
+IO_PORT "uart_rx" IO_TYPE=LVCMOS33 PULL_MODE=UP;
+
+IO_LOC  "uart_tx" 17;
+IO_PORT "uart_tx" IO_TYPE=LVCMOS33 DRIVE=8 PULL_MODE=UP;
+
+// 3. 12 Cuboctahedron Phase-Driver Output Pins (V1..V4 XY, V5..V8 XZ, V9..V12 YZ)
+IO_LOC  "phys_beam_pins[0]"  25;
+IO_LOC  "phys_beam_pins[1]"  26;
+IO_LOC  "phys_beam_pins[2]"  27;
+IO_LOC  "phys_beam_pins[3]"  28;
+IO_LOC  "phys_beam_pins[4]"  29;
+IO_LOC  "phys_beam_pins[5]"  30;
+IO_LOC  "phys_beam_pins[6]"  33;
+IO_LOC  "phys_beam_pins[7]"  34;
+IO_LOC  "phys_beam_pins[8]"  40;
+IO_LOC  "phys_beam_pins[9]"  35;
+IO_LOC  "phys_beam_pins[10]" 41;
+IO_LOC  "phys_beam_pins[11]" 42;
+IO_PORT "phys_beam_pins[0]"  IO_TYPE=LVCMOS33 DRIVE=8;
+IO_PORT "phys_beam_pins[1]"  IO_TYPE=LVCMOS33 DRIVE=8;
+IO_PORT "phys_beam_pins[2]"  IO_TYPE=LVCMOS33 DRIVE=8;
+IO_PORT "phys_beam_pins[3]"  IO_TYPE=LVCMOS33 DRIVE=8;
+IO_PORT "phys_beam_pins[4]"  IO_TYPE=LVCMOS33 DRIVE=8;
+IO_PORT "phys_beam_pins[5]"  IO_TYPE=LVCMOS33 DRIVE=8;
+IO_PORT "phys_beam_pins[6]"  IO_TYPE=LVCMOS33 DRIVE=8;
+IO_PORT "phys_beam_pins[7]"  IO_TYPE=LVCMOS33 DRIVE=8;
+IO_PORT "phys_beam_pins[8]"  IO_TYPE=LVCMOS33 DRIVE=8;
+IO_PORT "phys_beam_pins[9]"  IO_TYPE=LVCMOS33 DRIVE=8;
+IO_PORT "phys_beam_pins[10]" IO_TYPE=LVCMOS33 DRIVE=8;
+IO_PORT "phys_beam_pins[11]" IO_TYPE=LVCMOS33 DRIVE=8;
+
+// 4. 6 Power MOSFET Peripheral Enables (Air Pump, H2O Pump, Fe/Mineral Gate, O2 Vent, 441/718nm LEDs, 12-Beam Ultrasonic)
+IO_LOC  "soc_pump_air_en"   51;
+IO_LOC  "soc_pump_h2o_en"   53;
+IO_LOC  "soc_valve_fe_en"   54;
+IO_LOC  "soc_valve_o2_en"   55;
+IO_LOC  "soc_led_photo_en"  56;
+IO_LOC  "soc_ultrasonic_en" 57;
+IO_PORT "soc_pump_air_en"   IO_TYPE=LVCMOS33 DRIVE=8;
+IO_PORT "soc_pump_h2o_en"   IO_TYPE=LVCMOS33 DRIVE=8;
+IO_PORT "soc_valve_fe_en"   IO_TYPE=LVCMOS33 DRIVE=8;
+IO_PORT "soc_valve_o2_en"   IO_TYPE=LVCMOS33 DRIVE=8;
+IO_PORT "soc_led_photo_en"  IO_TYPE=LVCMOS33 DRIVE=8;
+IO_PORT "soc_ultrasonic_en" IO_TYPE=LVCMOS33 DRIVE=8;
+
+// 5. On-board Status LEDs (Food Ready & 3-Bit Stage Indicator)
+IO_LOC  "soc_food_ready"    10;
+IO_LOC  "soc_food_stage[0]" 11;
+IO_LOC  "soc_food_stage[1]" 13;
+IO_LOC  "soc_food_stage[2]" 14;
+IO_PORT "soc_food_ready"    IO_TYPE=LVCMOS18 DRIVE=8;
+IO_PORT "soc_food_stage[0]" IO_TYPE=LVCMOS18 DRIVE=8;
+IO_PORT "soc_food_stage[1]" IO_TYPE=LVCMOS18 DRIVE=8;
+IO_PORT "soc_food_stage[2]" IO_TYPE=LVCMOS18 DRIVE=8;

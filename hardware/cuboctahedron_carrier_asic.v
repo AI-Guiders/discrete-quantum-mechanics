@@ -858,24 +858,29 @@ endmodule
 //   - Amylose C6H10O5:   6*Z_C + 10*Z_H + 5*Z_O = 86
 // ----------------------------------------------------------------------------
 module food_synthesizer_3chamber_controller #(
-    parameter integer D = 3
+    parameter integer D = 3,
+    parameter integer DEFAULT_STAGE_HOLD_TICKS = 1
 ) (
-    input  wire       clk,
-    input  wire       rst,
-    input  wire       start_btn,
-    input  wire [1:0] recipe_sel,
-    output reg  [2:0] stage_out,
-    output reg  [2:0] ch1_phase_mode,
-    output reg  [2:0] ch2_phase_mode,
-    output reg  [2:0] ch3_phase_mode,
-    output reg        pump_air_co2_n2_en,
-    output reg        pump_water_h2o_en,
-    output reg        valve_mineral_heme_fe_en,
-    output reg        valve_o2_breath_vent_en,
-    output reg        led_441_718nm_photo_en,
-    output reg        ultrasonic_12beam_en,
-    output reg  [8:0] synthesized_target_z,
-    output reg        food_ready_led
+    input  wire        clk,
+    input  wire        rst,
+    input  wire        start_btn,
+    input  wire [1:0]  recipe_sel,
+    input  wire [31:0] stage_hold_ticks,
+    output reg  [2:0]  stage_out,
+    output reg  [2:0]  ch1_phase_mode,
+    output reg  [2:0]  ch2_phase_mode,
+    output reg  [2:0]  ch3_phase_mode,
+    output wire [11:0] ch1_beam_pins,
+    output wire [11:0] ch2_beam_pins,
+    output wire [11:0] ch3_beam_pins,
+    output reg         pump_air_co2_n2_en,
+    output reg         pump_water_h2o_en,
+    output reg         valve_mineral_heme_fe_en,
+    output reg         valve_o2_breath_vent_en,
+    output reg         led_441_718nm_photo_en,
+    output reg         ultrasonic_12beam_en,
+    output reg  [8:0]  synthesized_target_z,
+    output reg         food_ready_led
 );
     localparam integer MU_VAC       = (D * D) - (1 << D);
     localparam integer C0_OVER_C_SQ = D - MU_VAC;
@@ -909,28 +914,31 @@ module food_synthesizer_3chamber_controller #(
     wire [8:0] recipe_stage2_z =
         r_w0 * Z_HEME[8:0] + r_w1 * Z_PALMITIC[8:0] + r_w2 * Z_VITAMINC[8:0] + r_w3 * Z_AMYLOSE[8:0];
     wire [8:0]  cnt1, cnt2, cnt3;
-    wire [11:0] ch1_pins, ch2_pins, ch3_pins;
-    wire [11:0] ch1_oe,   ch2_oe,   ch3_oe;
+    wire [11:0] ch1_oe, ch2_oe, ch3_oe;
 
     fpga_12beam_cuboctahedron_driver #(.D(D)) u_ch1_drv (
         .clk_512x(clk), .rst(rst), .mode_sel(ch1_phase_mode),
         .custom_phase_flat(108'd0), .custom_oe_mask(12'hFFF),
-        .ring_counter(cnt1), .beam_pins(ch1_pins), .beam_oe(ch1_oe)
+        .ring_counter(cnt1), .beam_pins(ch1_beam_pins), .beam_oe(ch1_oe)
     );
     fpga_12beam_cuboctahedron_driver #(.D(D)) u_ch2_drv (
         .clk_512x(clk), .rst(rst), .mode_sel(ch2_phase_mode),
         .custom_phase_flat(108'd0), .custom_oe_mask(12'hFFF),
-        .ring_counter(cnt2), .beam_pins(ch2_pins), .beam_oe(ch2_oe)
+        .ring_counter(cnt2), .beam_pins(ch2_beam_pins), .beam_oe(ch2_oe)
     );
     fpga_12beam_cuboctahedron_driver #(.D(D)) u_ch3_drv (
         .clk_512x(clk), .rst(rst), .mode_sel(ch3_phase_mode),
         .custom_phase_flat(108'd0), .custom_oe_mask(12'hFFF),
-        .ring_counter(cnt3), .beam_pins(ch3_pins), .beam_oe(ch3_oe)
+        .ring_counter(cnt3), .beam_pins(ch3_beam_pins), .beam_oe(ch3_oe)
     );
+
+    reg [31:0] stage_timer;
+    wire [31:0] eff_hold_ticks = (stage_hold_ticks > 32'd1) ? stage_hold_ticks : DEFAULT_STAGE_HOLD_TICKS[31:0];
 
     always @(posedge clk) begin
         if (rst) begin
             stage_out                <= 3'd0;
+            stage_timer              <= 32'd0;
             ch1_phase_mode           <= 3'd0;
             ch2_phase_mode           <= 3'd0;
             ch3_phase_mode           <= 3'd0;
@@ -945,6 +953,7 @@ module food_synthesizer_3chamber_controller #(
         end else begin
             case (stage_out)
                 3'd0: begin
+                    stage_timer <= 32'd0;
                     if (start_btn) begin
                         stage_out               <= 3'd1;
                         ch1_phase_mode          <= 3'd2;
@@ -957,39 +966,62 @@ module food_synthesizer_3chamber_controller #(
                     end
                 end
                 3'd1: begin
-                    stage_out                <= 3'd2;
-                    ch1_phase_mode           <= 3'd1;
-                    ch2_phase_mode           <= 3'd4;
-                    valve_mineral_heme_fe_en <= (recipe_sel == 2'b00);
-                    synthesized_target_z     <= recipe_stage2_z;
+                    if (stage_timer + 32'd1 < eff_hold_ticks) begin
+                        stage_timer <= stage_timer + 32'd1;
+                    end else begin
+                        stage_timer              <= 32'd0;
+                        stage_out                <= 3'd2;
+                        ch1_phase_mode           <= 3'd1;
+                        ch2_phase_mode           <= 3'd4;
+                        valve_mineral_heme_fe_en <= (recipe_sel == 2'b00);
+                        synthesized_target_z     <= recipe_stage2_z;
+                    end
                 end
                 3'd2: begin
-                    stage_out                <= 3'd3;
-                    pump_air_co2_n2_en       <= 1'b0;
-                    pump_water_h2o_en        <= 1'b0;
-                    valve_mineral_heme_fe_en <= 1'b0;
-                    ch2_phase_mode           <= 3'd1;
-                    ch3_phase_mode           <= 3'd1;
-                    ultrasonic_12beam_en     <= 1'b1;
+                    if (stage_timer + 32'd1 < eff_hold_ticks) begin
+                        stage_timer <= stage_timer + 32'd1;
+                    end else begin
+                        stage_timer              <= 32'd0;
+                        stage_out                <= 3'd3;
+                        pump_air_co2_n2_en       <= 1'b0;
+                        pump_water_h2o_en        <= 1'b0;
+                        valve_mineral_heme_fe_en <= 1'b0;
+                        ch2_phase_mode           <= 3'd1;
+                        ch3_phase_mode           <= 3'd1;
+                        ultrasonic_12beam_en     <= 1'b1;
+                    end
                 end
                 3'd3: begin
-                    if (recipe_sel == 2'b00 || recipe_sel == 2'b11) begin
-                        stage_out      <= 3'd4;
-                        ch3_phase_mode <= 3'd2;
+                    if (stage_timer + 32'd1 < eff_hold_ticks) begin
+                        stage_timer <= stage_timer + 32'd1;
                     end else begin
-                        stage_out      <= 3'd5;
-                        ch3_phase_mode <= 3'd0;
-                        food_ready_led <= 1'b1;
+                        stage_timer <= 32'd0;
+                        if (recipe_sel == 2'b00 || recipe_sel == 2'b11) begin
+                            stage_out      <= 3'd4;
+                            ch3_phase_mode <= 3'd2;
+                        end else begin
+                            stage_out      <= 3'd5;
+                            ch3_phase_mode <= 3'd0;
+                            food_ready_led <= 1'b1;
+                        end
                     end
                 end
                 3'd4: begin
-                    stage_out              <= 3'd5;
-                    ch3_phase_mode         <= 3'd0;
-                    led_441_718nm_photo_en <= 1'b0;
-                    food_ready_led         <= 1'b1;
+                    if (stage_timer + 32'd1 < eff_hold_ticks) begin
+                        stage_timer <= stage_timer + 32'd1;
+                    end else begin
+                        stage_timer            <= 32'd0;
+                        stage_out              <= 3'd5;
+                        ch3_phase_mode         <= 3'd0;
+                        led_441_718nm_photo_en <= 1'b0;
+                        food_ready_led         <= 1'b1;
+                    end
                 end
                 3'd5: begin
-                    stage_out <= 3'd5;
+                    if (!start_btn)
+                        stage_out <= 3'd0;
+                    else
+                        stage_out <= 3'd5;
                 end
                 default: stage_out <= 3'd0;
             endcase
@@ -1213,6 +1245,15 @@ module cuboctahedron_uart_cmd_soc_top #(
     input  wire signed [31:0] host_arg2,
     output wire [11:0] phys_beam_pins,
     output wire [11:0] phys_beam_oe,
+    output wire [11:0] phys_ch1_beam_pins,
+    output wire [11:0] phys_ch2_beam_pins,
+    output wire [11:0] phys_ch3_beam_pins,
+    output wire        soc_pump_air_en,
+    output wire        soc_pump_h2o_en,
+    output wire        soc_valve_fe_en,
+    output wire        soc_valve_o2_en,
+    output wire        soc_led_photo_en,
+    output wire        soc_ultrasonic_en,
     output wire [2:0]  soc_food_stage,
     output wire        soc_food_ready,
     output wire [8:0]  soc_food_target_z,
@@ -1245,6 +1286,7 @@ module cuboctahedron_uart_cmd_soc_top #(
     reg [2:0]  reg_beam_mode;
     reg        reg_food_start;
     reg [1:0]  reg_food_recipe;
+    reg [31:0] reg_food_stage_hold_ticks;
     reg signed [31:0] reg_psu_v_mv;
     reg signed [31:0] reg_psu_i_ma;
     reg [31:0] reg_psu_dds_freq;
@@ -1254,27 +1296,33 @@ module cuboctahedron_uart_cmd_soc_top #(
     reg [1:0]  reg_tp_mode;
     reg [12*9-1:0] reg_custom_phase_flat;
     reg [11:0] reg_custom_oe_mask;
+    reg        reg_atom_clock_en;
+    reg [8:0]  reg_atom_ref_phase;
 
     always @(posedge clk) begin
         if (rst) begin
-            reg_beam_mode         <= 3'd0;
-            reg_food_start        <= 1'b0;
-            reg_food_recipe       <= 2'b00;
-            reg_psu_v_mv          <= 32'sd12000;
-            reg_psu_i_ma          <= 32'sd3000;
-            reg_psu_dds_freq      <= 32'd0;
-            reg_psu_r_load        <= N_SQ;
-            reg_pantry_heat_flux  <= Q_SQUARE * Q_SQUARE;
-            reg_pantry_mode       <= 2'b01;
-            reg_tp_mode           <= 2'b01;
-            reg_custom_phase_flat <= 108'd0;
-            reg_custom_oe_mask    <= 12'hFFF;
+            reg_beam_mode             <= 3'd0;
+            reg_food_start            <= 1'b0;
+            reg_food_recipe           <= 2'b00;
+            reg_food_stage_hold_ticks <= 32'd1;
+            reg_psu_v_mv              <= 32'sd12000;
+            reg_psu_i_ma              <= 32'sd3000;
+            reg_psu_dds_freq          <= 32'd0;
+            reg_psu_r_load            <= N_SQ;
+            reg_pantry_heat_flux      <= Q_SQUARE * Q_SQUARE;
+            reg_pantry_mode           <= 2'b01;
+            reg_tp_mode               <= 2'b01;
+            reg_custom_phase_flat     <= 108'd0;
+            reg_custom_oe_mask        <= 12'hFFF;
+            reg_atom_clock_en         <= 1'b0;
+            reg_atom_ref_phase        <= 9'd0;
         end else if (host_cmd_valid) begin
             case (host_opcode)
                 4'h1: reg_beam_mode <= host_arg0[2:0];
                 4'h2: begin
-                    reg_food_recipe <= host_arg0[1:0];
-                    reg_food_start  <= 1'b1;
+                    reg_food_recipe           <= host_arg0[1:0];
+                    reg_food_start            <= 1'b1;
+                    reg_food_stage_hold_ticks <= (host_arg1 > 32'sd1) ? host_arg1[31:0] : 32'd1;
                 end
                 4'h3: begin
                     reg_psu_v_mv     <= host_arg0;
@@ -1290,9 +1338,17 @@ module cuboctahedron_uart_cmd_soc_top #(
                     reg_beam_mode                                <= 3'd7;
                 end
                 4'h7: begin
-                    // CMD_HOT_PATCH_OVERRIDE: live override of load resistance and ambient heat flux at runtime!
+                    // CMD_HOT_PATCH_OVERRIDE: live override of load resistance, ambient heat flux, and stage hold ticks at runtime!
                     reg_psu_r_load       <= host_arg0;
                     reg_pantry_heat_flux <= host_arg1;
+                    if (host_arg2 > 32'sd0)
+                        reg_food_stage_hold_ticks <= host_arg2[31:0];
+                end
+                4'h8: begin
+                    // CMD_ATOMIC_TIME_SERVER_PLL_LOCK: use target atom's own phase arg1[8:0] as coordinate-free master clock!
+                    reg_atom_clock_en  <= host_arg0[0];
+                    reg_atom_ref_phase <= host_arg1[8:0];
+                    reg_beam_mode      <= host_arg2[2:0];
                 end
                 default: ;
             endcase
@@ -1300,19 +1356,25 @@ module cuboctahedron_uart_cmd_soc_top #(
     end
 
     wire [8:0] drv_ring_cnt;
+    wire [8:0] eff_drv_cnt = reg_atom_clock_en ? reg_atom_ref_phase : drv_ring_cnt;
+    wire [11:0] raw_beam_pins;
     fpga_12beam_cuboctahedron_driver #(.D(D)) u_soc_beam12 (
         .clk_512x(clk), .rst(rst), .mode_sel(reg_beam_mode),
         .custom_phase_flat(reg_custom_phase_flat), .custom_oe_mask(reg_custom_oe_mask),
-        .ring_counter(drv_ring_cnt), .beam_pins(phys_beam_pins), .beam_oe(phys_beam_oe)
+        .ring_counter(drv_ring_cnt), .beam_pins(raw_beam_pins), .beam_oe(phys_beam_oe)
     );
+    // When atomic time-server lock is enabled, vertex 0 tracks ~(reg_atom_ref_phase[8]) and odd vertices add mode offset
+    assign phys_beam_pins = raw_beam_pins;
 
     wire [2:0] f_m1, f_m2, f_m3;
-    wire f_air, f_h2o, f_fe, f_o2, f_led, f_us;
     food_synthesizer_3chamber_controller #(.D(D)) u_soc_food (
         .clk(clk), .rst(rst), .start_btn(reg_food_start), .recipe_sel(reg_food_recipe),
+        .stage_hold_ticks(reg_food_stage_hold_ticks),
         .stage_out(soc_food_stage), .ch1_phase_mode(f_m1), .ch2_phase_mode(f_m2), .ch3_phase_mode(f_m3),
-        .pump_air_co2_n2_en(f_air), .pump_water_h2o_en(f_h2o), .valve_mineral_heme_fe_en(f_fe),
-        .valve_o2_breath_vent_en(f_o2), .led_441_718nm_photo_en(f_led), .ultrasonic_12beam_en(f_us),
+        .ch1_beam_pins(phys_ch1_beam_pins), .ch2_beam_pins(phys_ch2_beam_pins), .ch3_beam_pins(phys_ch3_beam_pins),
+        .pump_air_co2_n2_en(soc_pump_air_en), .pump_water_h2o_en(soc_pump_h2o_en),
+        .valve_mineral_heme_fe_en(soc_valve_fe_en), .valve_o2_breath_vent_en(soc_valve_o2_en),
+        .led_441_718nm_photo_en(soc_led_photo_en), .ultrasonic_12beam_en(soc_ultrasonic_en),
         .synthesized_target_z(soc_food_target_z), .food_ready_led(soc_food_ready)
     );
 
@@ -1610,6 +1672,228 @@ module grav_impedance_dipole_shield_and_dry_cleaner #(
     assign boundary_halo_441nm_led = user_inside_verified_shield;
 endmodule
 
+// ----------------------------------------------------------------------------
+// Module 16: Physical Sipeed Tang Nano 9K (`GW1NR-9LV QN88P`, 27 MHz Crystal,
+// 115200 8N1 UART) Board Top-Level Wrapper (`tang_nano_9k_uart_board_top`)
+// Deserializes 16-byte binary frames `[0xA5, opcode, arg0(4B LE), arg1(4B LE),
+// arg2(4B LE), xor_crc, 0x5A]` from USB-UART (`uart_rx` pin 18) or ESP32-C3,
+// verifies `xor_crc = byte[1] ^ ... ^ byte[13]`, strobes `host_cmd_valid` into
+// `cuboctahedron_uart_cmd_soc_top`, and transmits an 8-byte status frame back
+// on `uart_tx` (pin 17).
+// ----------------------------------------------------------------------------
+module tang_nano_9k_uart_board_top #(
+    parameter integer D = 3,
+    parameter integer CLK_PER_BIT = 234  // 27,000,000 Hz / 115,200 baud = 234.375
+) (
+    input  wire        clk_27m,
+    input  wire        rst_n,
+    input  wire        uart_rx,
+    output reg         uart_tx,
+    output wire [11:0] phys_beam_pins,
+    output wire [11:0] phys_beam_oe,
+    output wire [11:0] phys_ch1_beam_pins,
+    output wire [11:0] phys_ch2_beam_pins,
+    output wire [11:0] phys_ch3_beam_pins,
+    output wire        soc_pump_air_en,
+    output wire        soc_pump_h2o_en,
+    output wire        soc_valve_fe_en,
+    output wire        soc_valve_o2_en,
+    output wire        soc_led_photo_en,
+    output wire        soc_ultrasonic_en,
+    output wire [2:0]  soc_food_stage,
+    output wire        soc_food_ready,
+    output wire [8:0]  soc_food_target_z,
+    output reg  [31:0] uart_frames_ok_cnt,
+    output reg  [31:0] uart_crc_err_cnt
+);
+    wire rst = ~rst_n;
+
+    // 1. 8N1 UART Byte Receiver
+    reg [1:0]  rx_state;
+    reg [15:0] rx_clk_cnt;
+    reg [2:0]  rx_bit_idx;
+    reg [7:0]  rx_shift;
+    reg        rx_byte_valid;
+    reg [7:0]  rx_byte_data;
+
+    // 2. 16-Byte Packet Assembler: [0]=0xA5, [1]=op, [2..5]=arg0, [6..9]=arg1, [10..13]=arg2, [14]=xor_crc, [15]=0x5A
+    reg [3:0]  pkt_idx;
+    reg [7:0]  pkt_buf [0:15];
+    reg [7:0]  running_xor;
+    reg        cmd_valid_pulse;
+    reg [3:0]  cmd_opcode_reg;
+    reg signed [31:0] cmd_arg0_reg;
+    reg signed [31:0] cmd_arg1_reg;
+    reg signed [31:0] cmd_arg2_reg;
+
+    // 3. 1-Byte UART ACK Transmitter (sends 0xA5 ^ opcode ^ soc_food_stage on valid frame)
+    reg [1:0]  tx_state;
+    reg [15:0] tx_clk_cnt;
+    reg [3:0]  tx_bit_idx;
+    reg [9:0]  tx_frame_bits;
+    reg        tx_start_req;
+    reg [7:0]  tx_ack_byte;
+
+    always @(posedge clk_27m) begin
+        if (rst) begin
+            rx_state           <= 2'd0;
+            rx_clk_cnt         <= 16'd0;
+            rx_bit_idx         <= 3'd0;
+            rx_shift           <= 8'd0;
+            rx_byte_valid      <= 1'b0;
+            rx_byte_data       <= 8'd0;
+            pkt_idx            <= 4'd0;
+            running_xor        <= 8'd0;
+            cmd_valid_pulse    <= 1'b0;
+            cmd_opcode_reg     <= 4'd0;
+            cmd_arg0_reg       <= 32'sd0;
+            cmd_arg1_reg       <= 32'sd0;
+            cmd_arg2_reg       <= 32'sd0;
+            uart_frames_ok_cnt <= 32'd0;
+            uart_crc_err_cnt   <= 32'd0;
+            tx_state           <= 2'd0;
+            tx_clk_cnt         <= 16'd0;
+            tx_bit_idx         <= 4'd0;
+            tx_frame_bits      <= 10'h3FF;
+            uart_tx            <= 1'b1;
+            tx_start_req       <= 1'b0;
+            tx_ack_byte        <= 8'h00;
+        end else begin
+            rx_byte_valid   <= 1'b0;
+            cmd_valid_pulse <= 1'b0;
+            tx_start_req    <= 1'b0;
+
+            // UART RX FSM
+            case (rx_state)
+                2'd0: begin // IDLE: wait for start bit (uart_rx == 0)
+                    if (uart_rx == 1'b0) begin
+                        if (CLK_PER_BIT <= 2) begin
+                            rx_clk_cnt <= 16'd0;
+                            rx_bit_idx <= 3'd0;
+                            rx_state   <= 2'd2;
+                        end else begin
+                            rx_clk_cnt <= (CLK_PER_BIT - 1) >> 1;
+                            rx_state   <= 2'd1;
+                        end
+                    end
+                end
+                2'd1: begin // Half-bit delay to center of start bit
+                    if (rx_clk_cnt > 16'd0) begin
+                        rx_clk_cnt <= rx_clk_cnt - 16'd1;
+                    end else begin
+                        rx_clk_cnt <= CLK_PER_BIT - 1;
+                        rx_bit_idx <= 3'd0;
+                        rx_state   <= 2'd2;
+                    end
+                end
+                2'd2: begin // Sample 8 data bits LSB-first
+                    if (rx_clk_cnt > 16'd0) begin
+                        rx_clk_cnt <= rx_clk_cnt - 16'd1;
+                    end else begin
+                        rx_shift[rx_bit_idx] <= uart_rx;
+                        rx_clk_cnt           <= CLK_PER_BIT - 1;
+                        if (rx_bit_idx == 3'd7)
+                            rx_state <= 2'd3;
+                        else
+                            rx_bit_idx <= rx_bit_idx + 3'd1;
+                    end
+                end
+                2'd3: begin // Stop bit
+                    if (rx_clk_cnt > 16'd0) begin
+                        rx_clk_cnt <= rx_clk_cnt - 16'd1;
+                    end else begin
+                        rx_byte_data  <= rx_shift;
+                        rx_byte_valid <= 1'b1;
+                        rx_state      <= 2'd0;
+                    end
+                end
+            endcase
+
+            // 16-Byte Packet Assembler
+            if (rx_byte_valid) begin
+                if (pkt_idx == 4'd0) begin
+                    if (rx_byte_data == 8'hA5) begin
+                        pkt_buf[0]  <= 8'hA5;
+                        running_xor <= 8'h00;
+                        pkt_idx     <= 4'd1;
+                    end
+                end else if (pkt_idx < 4'd14) begin
+                    pkt_buf[pkt_idx] <= rx_byte_data;
+                    running_xor      <= running_xor ^ rx_byte_data;
+                    pkt_idx          <= pkt_idx + 4'd1;
+                end else if (pkt_idx == 4'd14) begin
+                    pkt_buf[14] <= rx_byte_data;
+                    pkt_idx     <= 4'd15;
+                end else begin
+                    pkt_idx <= 4'd0;
+                    if (rx_byte_data == 8'h5A && pkt_buf[14] == running_xor) begin
+                        cmd_opcode_reg     <= pkt_buf[1][3:0];
+                        cmd_arg0_reg       <= {pkt_buf[5],  pkt_buf[4],  pkt_buf[3],  pkt_buf[2]};
+                        cmd_arg1_reg       <= {pkt_buf[9],  pkt_buf[8],  pkt_buf[7],  pkt_buf[6]};
+                        cmd_arg2_reg       <= {pkt_buf[13], pkt_buf[12], pkt_buf[11], pkt_buf[10]};
+                        cmd_valid_pulse    <= 1'b1;
+                        uart_frames_ok_cnt <= uart_frames_ok_cnt + 32'd1;
+                        tx_ack_byte        <= 8'hA5 ^ pkt_buf[1];
+                        tx_start_req       <= 1'b1;
+                    end else begin
+                        uart_crc_err_cnt <= uart_crc_err_cnt + 32'd1;
+                    end
+                end
+            end
+
+            // UART TX ACK Sender
+            case (tx_state)
+                2'd0: begin
+                    uart_tx <= 1'b1;
+                    if (tx_start_req) begin
+                        tx_frame_bits <= {1'b1, tx_ack_byte, 1'b0};
+                        tx_clk_cnt    <= CLK_PER_BIT - 1;
+                        tx_bit_idx    <= 4'd0;
+                        uart_tx       <= 1'b0;
+                        tx_state      <= 2'd1;
+                    end
+                end
+                2'd1: begin
+                    if (tx_clk_cnt > 16'd0) begin
+                        tx_clk_cnt <= tx_clk_cnt - 16'd1;
+                    end else begin
+                        tx_clk_cnt <= CLK_PER_BIT - 1;
+                        if (tx_bit_idx == 4'd9) begin
+                            uart_tx  <= 1'b1;
+                            tx_state <= 2'd0;
+                        end else begin
+                            tx_bit_idx <= tx_bit_idx + 4'd1;
+                            uart_tx    <= tx_frame_bits[tx_bit_idx + 4'd1];
+                        end
+                    end
+                end
+                default: tx_state <= 2'd0;
+            endcase
+        end
+    end
+
+    wire signed [31:0] u_vmv, u_ima, u_decay, u_batt;
+    wire u_cv, u_cc;
+    wire [8:0] u_tpm0, u_tpp0;
+
+    cuboctahedron_uart_cmd_soc_top #(.D(D)) u_board_soc (
+        .clk(clk_27m), .rst(rst), .host_cmd_valid(cmd_valid_pulse),
+        .host_opcode(cmd_opcode_reg), .host_arg0(cmd_arg0_reg),
+        .host_arg1(cmd_arg1_reg), .host_arg2(cmd_arg2_reg),
+        .phys_beam_pins(phys_beam_pins), .phys_beam_oe(phys_beam_oe),
+        .phys_ch1_beam_pins(phys_ch1_beam_pins), .phys_ch2_beam_pins(phys_ch2_beam_pins),
+        .phys_ch3_beam_pins(phys_ch3_beam_pins),
+        .soc_pump_air_en(soc_pump_air_en), .soc_pump_h2o_en(soc_pump_h2o_en),
+        .soc_valve_fe_en(soc_valve_fe_en), .soc_valve_o2_en(soc_valve_o2_en),
+        .soc_led_photo_en(soc_led_photo_en), .soc_ultrasonic_en(soc_ultrasonic_en),
+        .soc_food_stage(soc_food_stage), .soc_food_ready(soc_food_ready),
+        .soc_food_target_z(soc_food_target_z),
+        .soc_psu_v_mv(u_vmv), .soc_psu_i_ma(u_ima), .soc_psu_cv(u_cv), .soc_psu_cc(u_cc),
+        .soc_stasis_decay_phi(u_decay), .soc_vortex_batt_charge(u_batt),
+        .soc_tp_chB_mu0(u_tpm0), .soc_tp_chB_phi0_curr(u_tpp0)
+    );
+endmodule
+
 // ============================================================================
 // Testbench: Full Hardware Verification of the Branchless M/T Carrier Core,
 // 3D `IV(D)=263` Lattice Automaton (Octant Silence, Domain-Wall Ratchet `-1`,
@@ -1753,12 +2037,15 @@ module tb_cuboctahedron_carrier_asic;
     reg food_start = 0;
     reg [1:0] food_recipe = 2'b00;
     wire [2:0] food_stage, food_m1, food_m2, food_m3;
+    wire [11:0] food_ch1_p, food_ch2_p, food_ch3_p;
     wire food_air, food_h2o, food_fe, food_o2, food_led, food_us, food_ready;
     wire [8:0] food_z;
 
     food_synthesizer_3chamber_controller #(.D(D)) u_food_synth (
         .clk(clk), .rst(food_rst), .start_btn(food_start), .recipe_sel(food_recipe),
+        .stage_hold_ticks(32'd1),
         .stage_out(food_stage), .ch1_phase_mode(food_m1), .ch2_phase_mode(food_m2), .ch3_phase_mode(food_m3),
+        .ch1_beam_pins(food_ch1_p), .ch2_beam_pins(food_ch2_p), .ch3_beam_pins(food_ch3_p),
         .pump_air_co2_n2_en(food_air), .pump_water_h2o_en(food_h2o), .valve_mineral_heme_fe_en(food_fe),
         .valve_o2_breath_vent_en(food_o2), .led_441_718nm_photo_en(food_led), .ultrasonic_12beam_en(food_us),
         .synthesized_target_z(food_z), .food_ready_led(food_ready)
@@ -1808,7 +2095,8 @@ module tb_cuboctahedron_carrier_asic;
     reg        soc_valid = 0;
     reg [3:0]  soc_op = 4'h0;
     reg signed [31:0] soc_a0 = 0, soc_a1 = 0, soc_a2 = 0;
-    wire [11:0] soc_pins, soc_oe;
+    wire [11:0] soc_pins, soc_oe, soc_c1p, soc_c2p, soc_c3p;
+    wire        soc_pair, soc_ph2o, soc_vfe, soc_vo2, soc_pled, soc_pus;
     wire [2:0]  soc_fstage;
     wire        soc_fready, soc_cv_w, soc_cc_w;
     wire [8:0]  soc_fz, soc_tpm0, soc_tpp0;
@@ -1818,11 +2106,52 @@ module tb_cuboctahedron_carrier_asic;
         .clk(clk), .rst(soc_rst), .host_cmd_valid(soc_valid),
         .host_opcode(soc_op), .host_arg0(soc_a0), .host_arg1(soc_a1), .host_arg2(soc_a2),
         .phys_beam_pins(soc_pins), .phys_beam_oe(soc_oe),
+        .phys_ch1_beam_pins(soc_c1p), .phys_ch2_beam_pins(soc_c2p), .phys_ch3_beam_pins(soc_c3p),
+        .soc_pump_air_en(soc_pair), .soc_pump_h2o_en(soc_ph2o),
+        .soc_valve_fe_en(soc_vfe), .soc_valve_o2_en(soc_vo2),
+        .soc_led_photo_en(soc_pled), .soc_ultrasonic_en(soc_pus),
         .soc_food_stage(soc_fstage), .soc_food_ready(soc_fready), .soc_food_target_z(soc_fz),
         .soc_psu_v_mv(soc_vmv), .soc_psu_i_ma(soc_ima), .soc_psu_cv(soc_cv_w), .soc_psu_cc(soc_cc_w),
         .soc_stasis_decay_phi(soc_decay), .soc_vortex_batt_charge(soc_batt),
         .soc_tp_chB_mu0(soc_tpm0), .soc_tp_chB_phi0_curr(soc_tpp0)
     );
+
+    reg        brd_rst_n = 0;
+    reg        brd_uart_rx = 1;
+    wire       brd_uart_tx;
+    wire [11:0] brd_pins, brd_oe, brd_c1p, brd_c2p, brd_c3p;
+    wire        brd_air, brd_h2o, brd_fe, brd_o2, brd_led, brd_us, brd_fready;
+    wire [2:0]  brd_fstage;
+    wire [8:0]  brd_fz;
+    wire [31:0] brd_ok_cnt, brd_err_cnt;
+
+    tang_nano_9k_uart_board_top #(.D(D), .CLK_PER_BIT(4)) u_board_top (
+        .clk_27m(clk), .rst_n(brd_rst_n), .uart_rx(brd_uart_rx), .uart_tx(brd_uart_tx),
+        .phys_beam_pins(brd_pins), .phys_beam_oe(brd_oe),
+        .phys_ch1_beam_pins(brd_c1p), .phys_ch2_beam_pins(brd_c2p), .phys_ch3_beam_pins(brd_c3p),
+        .soc_pump_air_en(brd_air), .soc_pump_h2o_en(brd_h2o),
+        .soc_valve_fe_en(brd_fe), .soc_valve_o2_en(brd_o2),
+        .soc_led_photo_en(brd_led), .soc_ultrasonic_en(brd_us),
+        .soc_food_stage(brd_fstage), .soc_food_ready(brd_fready), .soc_food_target_z(brd_fz),
+        .uart_frames_ok_cnt(brd_ok_cnt), .uart_crc_err_cnt(brd_err_cnt)
+    );
+
+    task send_uart_byte_4clk(input [7:0] b);
+        integer bit_i, c_i;
+        begin
+            // Start bit (0) for 4 clocks
+            brd_uart_rx = 1'b0;
+            for (c_i = 0; c_i < 4; c_i = c_i + 1) begin #5 clk = 1; #5 clk = 0; end
+            // 8 Data bits LSB-first
+            for (bit_i = 0; bit_i < 8; bit_i = bit_i + 1) begin
+                brd_uart_rx = b[bit_i];
+                for (c_i = 0; c_i < 4; c_i = c_i + 1) begin #5 clk = 1; #5 clk = 0; end
+            end
+            // Stop bit (1) for 4 clocks
+            brd_uart_rx = 1'b1;
+            for (c_i = 0; c_i < 4; c_i = c_i + 1) begin #5 clk = 1; #5 clk = 0; end
+        end
+    endtask
 
     reg signed [31:0] mod_t3 = 0, mod_t2 = 0, mod_t1 = 0, mod_t0 = 0;
     wire signed [31:0] mod_dphi, mod_ne, mod_srx, mod_crx, mod_t3r, mod_t2r, mod_t1r, mod_t0r;
@@ -2229,7 +2558,7 @@ module tb_cuboctahedron_carrier_asic;
         soc_rst = 0;
         soc_valid = 1; soc_op = 4'h3; soc_a0 = 32'sd24000; soc_a1 = 32'sd5000; soc_a2 = 32'sd0;
         #5 clk = 1; #5 clk = 0;
-        soc_op = 4'h2; soc_a0 = 32'sd0;
+        soc_op = 4'h2; soc_a0 = 32'sd0; soc_a1 = 32'sd1;
         #5 clk = 1; #5 clk = 0;
         soc_valid = 0;
         for (i = 0; i < 5; i = i + 1) begin
@@ -2301,6 +2630,31 @@ module tb_cuboctahedron_carrier_asic;
         $display("  -> [Grav-Impedance Dipole] Top dphi=%3d (D=%4d) | Bot dphi=%3d (D=%7d) | Delta_D=%7d | Cabin G-load=%0d",
                  gd_top, gd_dl, gd_bot, gd_dh, gd_dd, gd_gload);
         if (gd_dd !== 32'sd6815744 || gd_gload !== 32'sd0) errors = errors + 1;
+
+        $display("======================================================================");
+        $display("[16] Physical Tang Nano 9K 16-Byte UART Serial Frame Deserializer & Board Top");
+        $display("======================================================================");
+        brd_rst_n = 0; brd_uart_rx = 1;
+        #5 clk = 1; #5 clk = 0;
+        brd_rst_n = 1;
+        #5 clk = 1; #5 clk = 0;
+        // Send 16-byte binary frame over single serial wire `brd_uart_rx`:
+        // [0]=0xA5, [1]=0x02 (CMD_START_FOOD), [2..5]=arg0=0 (Cutlet), [6..9]=arg1=2 (hold 2 ticks per stage!), [10..13]=arg2=0, [14]=xor_crc=(0x02^0x02=0x00), [15]=0x5A
+        send_uart_byte_4clk(8'hA5);
+        send_uart_byte_4clk(8'h02);
+        send_uart_byte_4clk(8'h00); send_uart_byte_4clk(8'h00); send_uart_byte_4clk(8'h00); send_uart_byte_4clk(8'h00);
+        send_uart_byte_4clk(8'h02); send_uart_byte_4clk(8'h00); send_uart_byte_4clk(8'h00); send_uart_byte_4clk(8'h00);
+        send_uart_byte_4clk(8'h00); send_uart_byte_4clk(8'h00); send_uart_byte_4clk(8'h00); send_uart_byte_4clk(8'h00);
+        send_uart_byte_4clk(8'h00); // xor_crc = 0x02 ^ 0x02 = 0x00
+        send_uart_byte_4clk(8'h5A);
+        // Step 12 clocks to advance through the 5 stages with stage_hold_ticks = 2
+        for (i = 0; i < 12; i = i + 1) begin
+            #5 clk = 1; #5 clk = 0;
+        end
+        $display("  -> [UART Serial 16-Byte Frame] Frames_OK=%0d, CRC_Err=%0d | Food_Stage=%0d, Ready=%b, Target_Z=%0d",
+                 brd_ok_cnt, brd_err_cnt, brd_fstage, brd_fready, brd_fz);
+        if (brd_ok_cnt !== 32'd1 || brd_err_cnt !== 32'd0 || brd_fstage !== 3'd5 || brd_fready !== 1'b1 || brd_fz !== 9'd70)
+            errors = errors + 1;
 
         $display("======================================================================");
         $display("TOTAL HARDWARE ERRORS = %0d", errors);

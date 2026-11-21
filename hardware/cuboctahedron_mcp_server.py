@@ -16,6 +16,7 @@ from __future__ import annotations
 import json
 import os
 import socket
+import struct
 import sys
 from typing import Any
 
@@ -32,36 +33,54 @@ def proj_s(phi: int) -> int:
     return proj_c(int(phi) - 128)
 
 
+def pack_uart_16byte_frame(opcode: int, arg0: int = 0, arg1: int = 0, arg2: int = 0) -> bytes:
+    """Pack a 16-byte binary command frame matching Module 16 (`tang_nano_9k_uart_board_top`):
+    `[0xA5, opcode, arg0(4B LE), arg1(4B LE), arg2(4B LE), xor_crc, 0x5A]`.
+    """
+    op_byte = int(opcode) & 0xFF
+    payload = struct.pack("<Biii", op_byte, int(arg0), int(arg1), int(arg2))
+    xor_crc = 0
+    for b in payload:
+        xor_crc ^= b
+    return bytes([0xA5]) + payload + bytes([xor_crc, 0x5A])
+
+
 class CuboctahedronHardwareController:
-    """Bit-exact hardware twin & USB-UART / Wi-Fi packet transmitter for Module 12 SoC."""
+    """Bit-exact hardware twin & USB-UART / Wi-Fi packet transmitter for Module 12 / Module 16 SoC."""
 
     def __init__(self) -> None:
         self.serial_port = os.environ.get("CUBOCT_SERIAL_PORT", "")
+        self.serial_baud = int(os.environ.get("CUBOCT_SERIAL_BAUD", "115200"))
         self.wifi_host = os.environ.get("CUBOCT_WIFI_HOST", "")
         self.wifi_port = int(os.environ.get("CUBOCT_WIFI_PORT", "9512"))
+        self.fpga_clk_hz = float(os.environ.get("CUBOCT_FPGA_CLK_HZ", "27000000.0"))
         self.beam_mode = 0
         self.vortex_battery_charge = 128
         self.stasis_pantry_active = True
 
     def _send_hw_packet(self, opcode: int, arg0: int, arg1: int = 0, arg2: int = 0) -> str:
-        """Send 16-byte command frame [0xA5, opcode, arg0..arg2, crc] over Wi-Fi or USB-UART if connected."""
-        frame = {
-            "magic": "0xA5",
-            "opcode": opcode,
-            "arg0": int(arg0),
-            "arg1": int(arg1),
-            "arg2": int(arg2),
-        }
+        """Send 16-byte binary command frame `[0xA5, opcode, arg0..arg2, xor_crc, 0x5A]` over Wi-Fi or USB-UART."""
+        raw_frame = pack_uart_16byte_frame(opcode, arg0, arg1, arg2)
         if self.wifi_host:
             try:
                 with socket.create_connection((self.wifi_host, self.wifi_port), timeout=1.0) as sock:
-                    sock.sendall((json.dumps(frame) + "\n").encode("utf-8"))
-                return f"transmitted_wifi:{self.wifi_host}:{self.wifi_port}"
+                    sock.sendall(raw_frame)
+                return f"transmitted_wifi_16B:{self.wifi_host}:{self.wifi_port}(crc=0x{raw_frame[14]:02X})"
             except OSError as exc:
                 return f"digital_twin_fallback(wifi_err={exc})"
         if self.serial_port:
-            return f"queued_usb_uart:{self.serial_port}"
-        return "bit_exact_digital_twin"
+            try:
+                import serial  # type: ignore
+
+                with serial.Serial(self.serial_port, self.serial_baud, timeout=1.0) as ser:
+                    ser.write(raw_frame)
+                    ser.flush()
+                    ack = ser.read(1)
+                    ack_hex = f"0x{ack[0]:02X}" if ack else "no_ack"
+                return f"transmitted_usb_uart_16B:{self.serial_port}@{self.serial_baud}(crc=0x{raw_frame[14]:02X},ack={ack_hex})"
+            except Exception as exc:
+                return f"digital_twin_fallback(uart_err={exc},frame={raw_frame.hex()})"
+        return f"bit_exact_digital_twin(frame_16B={raw_frame.hex()})"
 
     def synthesize_food(self, recipe: str) -> dict[str, Any]:
         recipes = {
@@ -103,7 +122,8 @@ class CuboctahedronHardwareController:
             },
         }
         r = recipes.get(recipe.lower(), recipes["cutlet"])
-        transport = self._send_hw_packet(0x2, r["code"])
+        stage_hold_ticks = int(os.environ.get("CUBOCT_STAGE_HOLD_TICKS", "27000000"))
+        transport = self._send_hw_packet(0x2, r["code"], stage_hold_ticks)
         return {
             "status": "FOOD_READY_IN_STASIS",
             "transport": transport,
@@ -123,7 +143,7 @@ class CuboctahedronHardwareController:
     def set_power_supply(
         self, v_set_mv: int, i_set_ma: int, freq_hz: float = 0.0, r_load_ohm: int = 6
     ) -> dict[str, Any]:
-        f_clk = 50_000_000.0
+        f_clk = self.fpga_clk_hz
         dds_word = int(round((float(freq_hz) / f_clk) * (2**32))) if freq_hz > 0 else 0
         transport = self._send_hw_packet(0x3, v_set_mv, i_set_ma, dds_word)
         i_demand_ma = v_set_mv // r_load_ohm if r_load_ohm > 0 else i_set_ma
