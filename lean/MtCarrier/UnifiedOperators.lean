@@ -4645,9 +4645,9 @@ def readoutOpticalWavelengthNmOp (d : Nat) (dphi : Int) : Int :=
 def readoutRgbColorTriadOp (d : Nat) (dphi : Int) : Int × Int × Int :=
   let c := projC d dphi
   let s := projS d dphi
-  let rCh : Int := (isPosNat c.toNat : Int) * c
+  let rCh : Int := (c + (c.natAbs : Int)).tdiv 2
   let gCh : Int := (s.natAbs : Int)
-  let bCh : Int := (isPosNat (-c).toNat : Int) * (-c)
+  let bCh : Int := ((c.natAbs : Int) - c).tdiv 2
   (rCh, gCh, bCh)
 
 def readoutAcousticSoundPressureOp (d : Nat) (mu0 mu1 dphi : Int) : Int :=
