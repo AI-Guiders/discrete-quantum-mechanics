@@ -4597,7 +4597,7 @@ def twoPointWorldlineSlopeRecoveryOp (d : Nat) (phiOrigin0 phiNowAt1 : Int) : In
   (phiNowAt1 - phiOrigin0).emod (nRing d : Int)
 
 def twoPointWorldlineInterpolateOp (d : Nat) (phiOrigin0 phiNowAt1 phiImp tau : Int) : Int :=
-  let v0 := twoPointWorldlineSlopeRecoveryOp d phiOrigin0 phiNowAt1
+  let v0 := twoPointWorldlineSlopeRecoveryOp d phiOrigin0 phiNowAt1 - phiImp
   verletParabolaClosedFormJumpOp d phiOrigin0 v0 phiImp tau
 
 def checkTwoPointWorldlineUniquenessFromOriginAndAtomOp (d : Nat) : Bool :=
