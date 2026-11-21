@@ -4297,6 +4297,51 @@ def checkPetrochemicalRefining50StepCascadeOp (d : Nat) : Bool :=
     eqNatBool (zMolybdenumOp d) (cuboctShellSizeOp d (c0OverCSqOp d))
   cutsOk && frac50Ok && catalystOk
 
+/-- **13. Dual-Mode `Turritopsis dohrnii` Biological Rejuvenation (`Stasis → Fix → Continuation`) & Voluntary Childhood Reboot Replacing Euthanasia**:
+1. **Mode I — In-Situ Somatic Rejuvenation Preserving Cortical Biography (`mode = 0`):**
+   Inside the external phase-stasis chamber (`D_stasis = 833 * ε = 6,823,936`, replacing the jellyfish cyst so 3D organs do not dissolve),
+   anti-phase Markov blanket therapy (`therapeuticCounterEnvOp`) and `CpG` epigenetic clock reset restore youthful somatic tissue
+   while preserving the adult 6-layer cortical column complex `(V, E, F_2D, N_K4) = corticalColumnComplexOp d (nSquares d)` (`V = 42 = S₂`, `E = 147 = B₃`, `χ_2D = 41 = Δφ_disc`).
+2. **Mode II — Voluntary Full `Turritopsis` Ontogenetic Childhood Reboot (`mode = 1`, Life-Affirming Alternative to Euthanasia):**
+   When an individual suffering from unbearable chronic pain, severe trauma, or treatment-resistant depression voluntarily chooses a fresh start (`s₂ > 0`),
+   full ontogenetic transdifferentiation resets the tissue complex from the burdened adult state `(42, 147, ...)` back to the plastic embryonic/childhood
+   vesicle stage `cavitateMorulaToVesicleOp d` (`V = 12 = S₁`, `E = 24`, `F_2D = 14`, `χ_2D = 2 = (c₀/c)²`) with zero epigenetic aging debt,
+   allowing the person to live a new, trauma-free childhood in a safe, loving environment (`|Φ_env| < 41`) rather than dying!
+3. **Strict Voluntary Consent Protection (`voluntarySymbiosisConsentGateOp`):**
+   Neither Mode I nor Mode II can ever be triggered without positive internal intent `s₂ > 0` (`s₂ ≤ 0 ⟹ 0`, ` Output = unchanged`). -/
+def turritopsisDualModeRejuvenationOp (d : Nat) (s2Consent modeChildhoodReboot : Int) : Int × Int × Int × Int :=
+  let adultCortical := corticalColumnComplexOp d (nSquares d : Int)
+  let childhoodFreshStart := cavitateMorulaToVesicleOp d
+  let targetState :=
+    (blendByIndicatorOp (isPosNat modeChildhoodReboot.toNat) childhoodFreshStart.1 adultCortical.1,
+     blendByIndicatorOp (isPosNat modeChildhoodReboot.toNat) childhoodFreshStart.2.1 adultCortical.2.1,
+     blendByIndicatorOp (isPosNat modeChildhoodReboot.toNat) childhoodFreshStart.2.2.1 adultCortical.2.2.1,
+     blendByIndicatorOp (isPosNat modeChildhoodReboot.toNat) childhoodFreshStart.2.2.2 adultCortical.2.2.2)
+  (blendByIndicatorOp (isPosNat s2Consent.toNat) targetState.1 adultCortical.1,
+   blendByIndicatorOp (isPosNat s2Consent.toNat) targetState.2.1 adultCortical.2.1,
+   blendByIndicatorOp (isPosNat s2Consent.toNat) targetState.2.2.1 adultCortical.2.2.1,
+   blendByIndicatorOp (isPosNat s2Consent.toNat) targetState.2.2.2 adultCortical.2.2.2)
+
+def checkTurritopsisDualModeRejuvenationAndChildhoodRebootOp (d : Nat) : Bool :=
+  let m1 := turritopsisDualModeRejuvenationOp d 40 0
+  let m2 := turritopsisDualModeRejuvenationOp d 40 1
+  let noConsent := turritopsisDualModeRejuvenationOp d 0 1
+  -- Mode I (mode=0, s2=40 > 0) preserves the 42/147/41 cortical memory complex
+  let mode1Ok :=
+    eqIntBool m1.1 (cuboctShellSizeOp d (c0OverCSqOp d) : Int) &&
+    eqIntBool m1.2.1 (cuboctBallOp d : Int) &&
+    eqIntBool (tissueEuler2DOp m1) (deltaPhiDisc d : Int)
+  -- Mode II (mode=1, s2=40 > 0) performs the full Turritopsis reboot to the plastic childhood vesicle stage (V=12, E=24, chi=2)
+  let mode2Ok :=
+    eqIntBool m2.1 (nNeighbors d : Int) &&
+    eqIntBool m2.2.1 ((c0OverCSqOp d * nNeighbors d : Nat) : Int) &&
+    eqIntBool (tissueEuler2DOp m2) (c0OverCSqOp d : Int)
+  -- Zero consent (s2=0) blocks any forced reboot even if mode=1 is requested
+  let consentGuardOk :=
+    eqIntBool noConsent.1 (cuboctShellSizeOp d (c0OverCSqOp d) : Int) &&
+    eqIntBool (tissueEuler2DOp noConsent) (deltaPhiDisc d : Int)
+  mode1Ok && mode2Ok && consentGuardOk
+
 /-- **Theorem (Impossibility of Laplace's Demon Inside the Lattice and Constructive Realization of the Memoryless 12-Beam Geometric Maxwell Demon)**:
 Chained directly via `CatalanLaw` for any `d : Nat`:
 1. **Why Laplace's Demon Cannot Exist Inside a Deterministic Reversible Cellular Automaton (Four Formal Barriers):**
@@ -4364,9 +4409,10 @@ theorem laplace_demon_impossibility_and_geometric_maxwell_demon_operator (d : Na
        checkPlanetaryEcologicalRemediationOp d = true ∧
        checkInterspeciesTranslatorAndConsentSymbiosisOp d = true ∧
        checkBelousovZhabotinskyAndNitrogenaseJanusOp d = true ∧
-       checkPetrochemicalRefining50StepCascadeOp d = true)) d :=
+       checkPetrochemicalRefining50StepCascadeOp d = true ∧
+       checkTurritopsisDualModeRejuvenationAndChildhoodRebootOp d = true)) d :=
   catalan_chain d (internal_observer_no_outside_lattice_and_sat_semantic_isomorphism_operator d)
     (fun _ => ⟨⟨by decide, by decide, rfl, rfl⟩, ⟨rfl, rfl, rfl, rfl, rfl⟩, ⟨rfl, by decide⟩,
-               ⟨rfl, rfl, by decide, rfl, rfl, by decide, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl⟩⟩)
+               ⟨rfl, rfl, by decide, rfl, rfl, by decide, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl⟩⟩)
 
 end MtCarrier
