@@ -4672,7 +4672,7 @@ def checkMultiModalSensorReadoutColorSoundConcTempOp (d : Nat) : Bool :=
   let soundOk :=
     eqIntBool (readoutAcousticSoundPressureOp d (nPhi d : Int) (nPhi d : Int) 0) 0 &&
     eqIntBool (readoutAcousticSoundPressureOp d (muVac d : Int) (muVac d : Int) (qSquare d : Int)) (qSquare d : Int) &&
-    eqIntBool (readoutAcousticSoundPressureOp d (muVac d : Int) (muVac d : Int) (phiPauli d : Int)) (nRing d : Int)
+    eqIntBool (readoutAcousticSoundPressureOp d (muVac d : Int) (muVac d : Int) (phiPauli d : Int)) ((c0OverCSqOp d * qSquare d : Nat) : Int)
   -- 4. Concentration A3 norm conservation & L/D chiral polarimeter readout
   let concAndChiralOk :=
     eqIntBool (readoutConcentrationQuantaOp (nPhi d : Int) (nPhi d : Int)) ((c0OverCSqOp d * nPhi d * nPhi d : Nat) : Int) &&
