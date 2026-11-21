@@ -4183,7 +4183,7 @@ def checkInterspeciesTranslatorAndConsentSymbiosisOp (d : Nat) : Bool :=
    - Exactly at the **Janus state `E₄`** (`k = 4`, `4 * 41 = 164 > Q_□ = 128`), `C_d(4 * 41) = -36 < 0` and the raw 12-neighbor impedance denominator
      crosses zero into the negative resonance regime (`(nNeighbors d : Int) * (nPhi d : Int) * (nPhi d : Int) * projC d (4 * 41) + (nPhi d : Int) * (nPhi d : Int) * (qSquare d : Int) + (epsDenom d : Int) = -43184 < 0`),
      while at `E₇` (`k = 7`, `7 * 41 = 287`), `C_d(7 * 41) = -97 = -M̂(d)`! -/
-def zBromineOp (d : Nat) : Nat := dOutEdge d * dOutVertex d
+def zBromineOp (d : Nat) : Nat := dOutEdge d * zNitrogenOp d
 
 def zHBrO2AutocatalystOp (d : Nat) : Nat :=
   muVac d + zBromineOp d + c0OverCSqOp d * zOxygenOp d
@@ -4198,7 +4198,7 @@ def zMolybdenumOp (d : Nat) : Nat :=
   cuboctShellSizeOp d (c0OverCSqOp d)
 
 def zFeMoCofactorCoreOp (d : Nat) : Nat :=
-  dOutVertex d * zIronOp d + zMolybdenumOp d + modBits d * zSulfurOp d + zCarbonOp d
+  zNitrogenOp d * zIronOp d + zMolybdenumOp d + modBits d * zSulfurOp d + zCarbonOp d
 
 def checkBelousovZhabotinskyAndNitrogenaseJanusOp (d : Nat) : Bool :=
   -- 1. Belousov-Zhabotinsky FKN / Oregonator shell identities
@@ -4206,18 +4206,18 @@ def checkBelousovZhabotinskyAndNitrogenaseJanusOp (d : Nat) : Bool :=
     eqNatBool (zHBrO2AutocatalystOp d) (dInSquare * nPhi d) &&
     eqNatBool (c0OverCSqOp d * zHBrO2AutocatalystOp d) (nTriangles d * nPhi d) &&
     eqNatBool (c0OverCSqOp d * zHBrO2AutocatalystOp d) (zBrO3BromateOp d + zHOBrHypobromousOp d + muVac d) &&
-    eqNatBool (c0OverCSqOp d * zBromineOp d) (zHemePocketOp d)
+    eqNatBool (c0OverCSqOp d * zBromineOp d) (kP d + nSquares d)
   -- 2. Nitrogenase Fe7MoS9C + N2 shell identities (Mo = 42 = S_2, C = 6 = |□|, Fe7MoS9C + N2 = 388 = 4 * 97, Janus E4 = 392 = 8 * 49)
   let feMoIdOk :=
     eqNatBool (zMolybdenumOp d) (cuboctShellSizeOp d (c0OverCSqOp d)) &&
     eqNatBool (zCarbonOp d) (nSquares d) &&
     eqNatBool (zFeMoCofactorCoreOp d + c0OverCSqOp d * zNitrogenOp d) (dInSquare * mHat d) &&
     eqNatBool (zFeMoCofactorCoreOp d + dInSquare * muVac d + c0OverCSqOp d * zNitrogenOp d)
-      (nTriangles d * dOutVertex d * dOutVertex d)
+      (nTriangles d * zNitrogenOp d * zNitrogenOp d)
   -- 3. Lowe-Thorneley E1..E3 positive bonding regime vs E4 Janus saddle & impedance sign flip, and E7 = -M_hat = -97
   let e3Phase := (d : Int) * (deltaPhiDisc d : Int)
   let e4Phase := (dInSquare : Int) * (deltaPhiDisc d : Int)
-  let e7Phase := (dOutVertex d : Int) * (deltaPhiDisc d : Int)
+  let e7Phase := (zNitrogenOp d : Int) * (deltaPhiDisc d : Int)
   let rawDenomE3 :=
     (nNeighbors d : Int) * (nPhi d : Int) * (nPhi d : Int) * projC d e3Phase +
     (nPhi d : Int) * (nPhi d : Int) * (qSquare d : Int) + (epsDenom d : Int)
@@ -4225,10 +4225,10 @@ def checkBelousovZhabotinskyAndNitrogenaseJanusOp (d : Nat) : Bool :=
     (nNeighbors d : Int) * (nPhi d : Int) * (nPhi d : Int) * projC d e4Phase +
     (nPhi d : Int) * (nPhi d : Int) * (qSquare d : Int) + (epsDenom d : Int)
   let janusGateOk :=
-    eqNatBool (isPosNat (projC d e3Phase)) 1 &&
-    eqNatBool (isPosNat rawDenomE3) 1 &&
-    eqNatBool (isPosNat (-projC d e4Phase)) 1 &&
-    eqNatBool (isPosNat (-rawDenomE4)) 1 &&
+    eqIntBool (isPosNat (projC d e3Phase).toNat) 1 &&
+    eqIntBool (isPosNat rawDenomE3.toNat) 1 &&
+    eqIntBool (isPosNat (-projC d e4Phase).toNat) 1 &&
+    eqIntBool (isPosNat (-rawDenomE4).toNat) 1 &&
     eqIntBool (projC d e7Phase) (-(mHat d : Int))
   bzStoichOk && feMoIdOk && janusGateOk
 
