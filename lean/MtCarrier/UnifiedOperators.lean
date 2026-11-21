@@ -4359,11 +4359,11 @@ def checkCorticalIdentityReadoutAndSomaticAlignmentOp (d : Nat) : Bool :=
   let sigmaId : Int := (nPhi d : Int)
   let sigmaSomaMismatch : Int := -(nPhi d : Int)
   let stressBefore := dysphoriaStressOp d sigmaId sigmaSomaMismatch
-  let obs := nilpotentTomographForwardOp (muVac d : Int) stressBefore 40 sigmaId
-  let recState := nilpotentTomographInverse24xOp obs.1 obs.2.1 obs.2.2.1 obs.2.2.2
+  let obs := nilpotentTomographForward2xOp (muVac d : Int) stressBefore 40 sigmaId
+  let recState := nilpotentTomographInverse24xOp obs
   let readoutOk :=
-    eqIntBool (recState.2.2.2 / 24) sigmaId &&
-    eqIntBool (recState.2.1 / 24) stressBefore &&
+    eqIntBool recState.2.2.2 sigmaId &&
+    eqIntBool recState.2.1 stressBefore &&
     eqIntBool (isPosNat (energyQuantumOperator d stressBefore)) 1
   -- 2. Voluntary somatic alignment (s2 = 40 > 0) aligns body to cortical identity (sigmaSoma' = sigmaId) and zeroes dysphoria stress
   let alignedSoma := somaticIdentityAlignmentOp 40 sigmaId sigmaSomaMismatch
