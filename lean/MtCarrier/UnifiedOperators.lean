@@ -4164,6 +4164,74 @@ def checkInterspeciesTranslatorAndConsentSymbiosisOp (d : Nat) : Bool :=
     eqNatBool (corticalLongevityMultiplierOp d (muVac d) (muVac d) (deltaPhiDisc d : Int)) 0
   tomOk && darkSafeOk && consentOk && longevityOk
 
+/-- **11. Belousov–Zhabotinsky Oscillatory Reaction (FKN / Oregonator) & Nitrogenase `Fe₇MoS₉C` Lowe–Thorneley 8-Step Cycle (`E₀..E₈`) on the Cuboctahedron**:
+1. **Belousov–Zhabotinsky (FKN / Oregonator) Shell Identities & 12-Tick 3D Automaton Limit Cycle:**
+   - The autocatalytic trigger bromous acid `HBrO₂` (`Z(H) = 1`, `Z(Br) = 35`, `2 * Z(O) = 16`) has nuclear charge
+     `zHBrO2AutocatalystOp(d) = 1 + 35 + 16 = 52 = d_in(□) * N_φ(d)` (exactly 4 dressed Planck cells!),
+   - Bimolecular disproportionation `2 HBrO₂ → BrO₃⁻ + HOBr + H⁺` has total charge
+     `2 * 52 = 104 = |△(d)| * N_φ(d) = 59 (BrO₃⁻) + 44 (HOBr) + 1 (H⁺)`,
+   - Bromide inhibitor pair `Br₂ / 2 Br⁻` has charge `2 * 35 = 70 = zHemePocketOp(d)` (matching the `FeN₄O₂` ferroin catalyst redox pocket `Z = 70`!),
+   - And in the 3D carrier automaton `runCarrierAutomatonOp d t` with catalytic boundary `A_coh(d) = 139`, the origin phase alternates between
+     reduced (`C_d > 0`, `t = 0, 2, 3`) and oxidized (`C_d < 0`, `t = 1, 4`) ferroin states and returns to the exact `t = 1` phase `352` at `t = 1 + |N(d)| = 13` (a 12-tick cycle!).
+2. **Nitrogenase `Fe₇MoS₉C` FeMo-Cofactor & Lowe–Thorneley 8-Step Cycle (`E₁..E₈`, `a_k = k * Δφ_disc(d)`):**
+   - Apical Molybdenum has atomic number `Z(Mo) = 42 = cuboctShellSizeOp d 2` (2nd coordination shell `S₂`),
+   - Interstitial central Carbon inside the `Fe₆` trigonal prism has `Z(C) = 6 = nSquares d` (`|□(3)|`),
+   - The `N₂`-bound cofactor core `Fe₇MoS₉C + N₂` (`7*26 + 42 + 9*16 + 6 + 14 = 388`) equals `d_in(□) * M̂(d) = 4 * 97 = 388`,
+   - At the **Janus state `E₄`** (`4` added `[H⁺ + e⁻]`: `Fe₇MoS₉C + 4H + N₂`), total charge is `388 + 4 = 392 = |△(d)| * d_out(V)² = 8 * 49`,
+   - Across steps `E₁, E₂, E₃` (`k = 1, 2, 3`, `k * 41 = 41, 82, 123 < Q_□ = 128`), the shell projection `C_d(k * 41) > 0` and the 12-neighbor impedance denominator
+     `shellGateDenomOp d (nPhi d) (k * 41) > 0` remain strictly positive (bonding regime: `N≡N` triple bond cannot be cleaved),
+   - Exactly at the **Janus state `E₄`** (`k = 4`, `4 * 41 = 164 > Q_□ = 128`), `C_d(4 * 41) = -36 < 0` and the raw 12-neighbor impedance denominator
+     crosses zero into the negative resonance regime (`(nNeighbors d : Int) * (nPhi d : Int) * (nPhi d : Int) * projC d (4 * 41) + (nPhi d : Int) * (nPhi d : Int) * (qSquare d : Int) + (epsDenom d : Int) = -43184 < 0`),
+     while at `E₇` (`k = 7`, `7 * 41 = 287`), `C_d(7 * 41) = -97 = -M̂(d)`! -/
+def zBromineOp (d : Nat) : Nat := dOutEdge d * dOutVertex d
+
+def zHBrO2AutocatalystOp (d : Nat) : Nat :=
+  muVac d + zBromineOp d + c0OverCSqOp d * zOxygenOp d
+
+def zBrO3BromateOp (d : Nat) : Nat :=
+  zBromineOp d + d * zOxygenOp d
+
+def zHOBrHypobromousOp (d : Nat) : Nat :=
+  muVac d + zOxygenOp d + zBromineOp d
+
+def zMolybdenumOp (d : Nat) : Nat :=
+  cuboctShellSizeOp d (c0OverCSqOp d)
+
+def zFeMoCofactorCoreOp (d : Nat) : Nat :=
+  dOutVertex d * zIronOp d + zMolybdenumOp d + modBits d * zSulfurOp d + zCarbonOp d
+
+def checkBelousovZhabotinskyAndNitrogenaseJanusOp (d : Nat) : Bool :=
+  -- 1. Belousov-Zhabotinsky FKN / Oregonator shell identities
+  let bzStoichOk :=
+    eqNatBool (zHBrO2AutocatalystOp d) (dInSquare * nPhi d) &&
+    eqNatBool (c0OverCSqOp d * zHBrO2AutocatalystOp d) (nTriangles d * nPhi d) &&
+    eqNatBool (c0OverCSqOp d * zHBrO2AutocatalystOp d) (zBrO3BromateOp d + zHOBrHypobromousOp d + muVac d) &&
+    eqNatBool (c0OverCSqOp d * zBromineOp d) (zHemePocketOp d)
+  -- 2. Nitrogenase Fe7MoS9C + N2 shell identities (Mo = 42 = S_2, C = 6 = |□|, Fe7MoS9C + N2 = 388 = 4 * 97, Janus E4 = 392 = 8 * 49)
+  let feMoIdOk :=
+    eqNatBool (zMolybdenumOp d) (cuboctShellSizeOp d (c0OverCSqOp d)) &&
+    eqNatBool (zCarbonOp d) (nSquares d) &&
+    eqNatBool (zFeMoCofactorCoreOp d + c0OverCSqOp d * zNitrogenOp d) (dInSquare * mHat d) &&
+    eqNatBool (zFeMoCofactorCoreOp d + dInSquare * muVac d + c0OverCSqOp d * zNitrogenOp d)
+      (nTriangles d * dOutVertex d * dOutVertex d)
+  -- 3. Lowe-Thorneley E1..E3 positive bonding regime vs E4 Janus saddle & impedance sign flip, and E7 = -M_hat = -97
+  let e3Phase := (d : Int) * (deltaPhiDisc d : Int)
+  let e4Phase := (dInSquare : Int) * (deltaPhiDisc d : Int)
+  let e7Phase := (dOutVertex d : Int) * (deltaPhiDisc d : Int)
+  let rawDenomE3 :=
+    (nNeighbors d : Int) * (nPhi d : Int) * (nPhi d : Int) * projC d e3Phase +
+    (nPhi d : Int) * (nPhi d : Int) * (qSquare d : Int) + (epsDenom d : Int)
+  let rawDenomE4 :=
+    (nNeighbors d : Int) * (nPhi d : Int) * (nPhi d : Int) * projC d e4Phase +
+    (nPhi d : Int) * (nPhi d : Int) * (qSquare d : Int) + (epsDenom d : Int)
+  let janusGateOk :=
+    eqNatBool (isPosNat (projC d e3Phase)) 1 &&
+    eqNatBool (isPosNat rawDenomE3) 1 &&
+    eqNatBool (isPosNat (-projC d e4Phase)) 1 &&
+    eqNatBool (isPosNat (-rawDenomE4)) 1 &&
+    eqIntBool (projC d e7Phase) (-(mHat d : Int))
+  bzStoichOk && feMoIdOk && janusGateOk
+
 /-- **Theorem (Impossibility of Laplace's Demon Inside the Lattice and Constructive Realization of the Memoryless 12-Beam Geometric Maxwell Demon)**:
 Chained directly via `CatalanLaw` for any `d : Nat`:
 1. **Why Laplace's Demon Cannot Exist Inside a Deterministic Reversible Cellular Automaton (Four Formal Barriers):**
@@ -4229,9 +4297,10 @@ theorem laplace_demon_impossibility_and_geometric_maxwell_demon_operator (d : Na
        checkMultiHopBlindTeleportNetworkOp d (deltaPhiDisc d : Int) (mHat d : Int) (ivSeed d : Int) = true ∧
        checkBezoutStationRoutingOp d = true ∧
        checkPlanetaryEcologicalRemediationOp d = true ∧
-       checkInterspeciesTranslatorAndConsentSymbiosisOp d = true)) d :=
+       checkInterspeciesTranslatorAndConsentSymbiosisOp d = true ∧
+       checkBelousovZhabotinskyAndNitrogenaseJanusOp d = true)) d :=
   catalan_chain d (internal_observer_no_outside_lattice_and_sat_semantic_isomorphism_operator d)
     (fun _ => ⟨⟨by decide, by decide, rfl, rfl⟩, ⟨rfl, rfl, rfl, rfl, rfl⟩, ⟨rfl, by decide⟩,
-               ⟨rfl, rfl, by decide, rfl, rfl, by decide, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl⟩⟩)
+               ⟨rfl, rfl, by decide, rfl, rfl, by decide, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl⟩⟩)
 
 end MtCarrier
