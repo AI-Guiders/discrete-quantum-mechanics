@@ -3298,6 +3298,38 @@ def zChlorineOp (d : Nat) : Nat := nNeighbors d + dOutEdge d
 def zPotassiumOp (d : Nat) : Nat := nPhi d + nSquares d
 def aCalcium40MassOp (d : Nat) : Nat := c0OverCSqOp d * zCarbonOp d + c0OverCSqOp d * (c0OverCSqOp d * zNitrogenOp d)
 
+/-- **Balanced Ternary 4-Trit Sub-Threshold Heisenberg `c₀`-Modem Codec (`[-40, +40] ↔ {-1, 0, +1}⁴`, `3⁴ = 81` states):**
+- `encode4TritHeisenbergOp(d, t3, t2, t1, t0) = d³ t₃ + d² t₂ + d t₁ + t₀ ∈ [-40, +40]`,
+- `decode4TritHeisenbergOp(d, dphi)` recovers `(t3, t2, t1, t0) ∈ {-1, 0, +1}⁴` from `u = dphi + (Δφ_disc(d) - 1)` via base-`d` digits `u % d - 1`,
+- across all `81 = 3⁴` states in `[-40, +40]`, `energyQuantumOperator(d, dphi) = 0` (zero photon emission, 100% sub-threshold stealth),
+  `projS(d, dphi) = dphi` (distortion-free linear rotator readout), and `decode(encode(t)) = t`! -/
+def encode4TritHeisenbergOp (d : Nat) (t3 t2 t1 t0 : Int) : Int :=
+  ((d * d * d : Nat) : Int) * t3 + ((d * d : Nat) : Int) * t2 + (d : Int) * t1 + t0
+
+def decode4TritHeisenbergOp (d : Nat) (dphi : Int) : Int × Int × Int × Int :=
+  let offset := ((deltaPhiDisc d - muVac d : Nat) : Int)
+  let u := (dphi + offset).toNat
+  let d0 := ((u % d : Nat) : Int) - (muVac d : Int)
+  let d1 := (((u / d) % d : Nat) : Int) - (muVac d : Int)
+  let d2 := (((u / (d * d)) % d : Nat) : Int) - (muVac d : Int)
+  let d3 := (((u / (d * d * d)) % d : Nat) : Int) - (muVac d : Int)
+  (d3, d2, d1, d0)
+
+def checkSubthreshold81AryModemCodecBool (d : Nat) : Bool :=
+  let span := deltaPhiDisc d - muVac d -- 40
+  let totalStates := 2 * span + 1      -- 81 = 3^4
+  (List.range totalStates).all (fun idx =>
+    let dphi := (idx : Int) - (span : Int)
+    let (t3, t2, t1, t0) := decode4TritHeisenbergOp d dphi
+    let dphiRec := encode4TritHeisenbergOp d t3 t2 t1 t0
+    intEqBool dphiRec dphi &&
+    intEqBool (projS d dphi) dphi &&
+    (energyQuantumOperator d dphi == 0) &&
+    Nat.ble t3.natAbs (muVac d) &&
+    Nat.ble t2.natAbs (muVac d) &&
+    Nat.ble t1.natAbs (muVac d) &&
+    Nat.ble t0.natAbs (muVac d))
+
 def checkAutonomousFoodWaterSynthesisBool (d : Nat) : Bool :=
   (zWaterOp d == zNeonOp d) &&
   (zAmmoniaOp d == zNeonOp d) &&
@@ -3358,7 +3390,10 @@ def checkAutonomousFoodWaterSynthesisBool (d : Nat) : Bool :=
     intEqBool (vNorm + iNorm) (qSquare d : Int) &&
     Nat.ble pOut.toNat pMax.toNat)) &&
   (Int.natAbs (projC d ((phiPauli d : Int) - (kP d : Int))) *
-    (projS d ((phiPauli d : Int) - (kP d : Int))).toNat == kP d * kP d)
+    (projS d ((phiPauli d : Int) - (kP d : Int))).toNat == kP d * kP d) &&
+  -- Sub-Threshold 81-ary (4-trit) Heisenberg c₀-Modem Bijection & 12-Trit Symbol Capacity (3^12 = 531,441 > 524,288 = 2^19):
+  checkSubthreshold81AryModemCodecBool d &&
+  (d ^ (nNeighbors d) > c0OverCSqOp d * nRing d * nRing d)
 
 def checkExactRingTeleportationBool (d : Nat) (aAnchor : Int) : Bool :=
   (List.range (nRing d)).all (fun psi =>

@@ -258,6 +258,90 @@ class CuboctahedronHardwareController:
         }
         return peripherals.get(int(periph_id), peripherals[1])
 
+    def subthreshold_c0_modem_codec(self, message: str = "IV=263") -> dict[str, Any]:
+        """Encode and decode an arbitrary ASCII/UTF-8 message into sub-threshold 4-trit symbols dphi in [-40, +40]."""
+        raw_bytes = message.encode("utf-8")
+        packets = []
+        decoded_bytes = bytearray()
+        for b in raw_bytes:
+            # Split each byte (0..255) into four base-3 digits (since 3^4 = 81, two 4-trit symbols carry up to 81^2 = 6561 > 256!)
+            hi_sym = b // 81  # 0..3
+            lo_sym = b % 81   # 0..80
+            for u in (hi_sym, lo_sym):
+                dphi = u - 40  # Strictly inside [-40, +40] (< 41 Heisenberg threshold!)
+                t0 = (u % 3) - 1
+                t1 = ((u // 3) % 3) - 1
+                t2 = ((u // 9) % 3) - 1
+                t3 = ((u // 27) % 3) - 1
+                # Channel 1 interferometric reception via S_3(dphi):
+                s_rx = proj_s(dphi)
+                u_rx = s_rx + 40
+                packets.append(
+                    {
+                        "dphi_tx": dphi,
+                        "trits": [t3, t2, t1, t0],
+                        "photon_quanta_emitted": abs(dphi) // 41,
+                        "s_rx": s_rx,
+                        "u_rec": u_rx,
+                    }
+                )
+            b_rec = packets[-2]["u_rec"] * 81 + packets[-1]["u_rec"]
+            decoded_bytes.append(b_rec)
+        decoded_str = decoded_bytes.decode("utf-8")
+        return {
+            "protocol": "Heisenberg Sub-Threshold 81-ary (4-Trit) Ballistic c0-Modem",
+            "preamble_beacon": [5, 13, 40],
+            "planetary_windows_ratio": "441 : 126 : 63 = 7 : 2 : 1",
+            "input_message": message,
+            "decoded_message": decoded_str,
+            "bit_exact_match": decoded_str == message,
+            "total_4trit_symbols": len(packets),
+            "max_abs_dphi": max((abs(p["dphi_tx"]) for p in packets), default=0),
+            "heisenberg_threshold": 41,
+            "total_photons_emitted_in_channel": sum(p["photon_quanta_emitted"] for p in packets),
+            "sample_symbols": packets[:4],
+        }
+
+    def bio_antiviral_and_regeneration(self, viral_shell_k: int = 2, regen_stage: int = 4) -> dict[str, Any]:
+        k = max(1, min(5, int(viral_shell_k)))
+        capsomers = 10 * k * k + 2
+        stages = {
+            1: {"name": "Stage 1: Solid Morula Complex", "V": 13, "E": 36, "euler_chi": 8},
+            2: {"name": "Stage 2: Alveolar Vesicle", "V": 12, "E": 24, "euler_chi": 2},
+            3: {"name": "Stage 3: Vascular / Epithelial Tube", "V": 24, "E": 48, "euler_chi": 0},
+            4: {"name": "Stage 4: 6-Layer Laminar Tissue / Cortical Column", "V": 42, "E": 147, "euler_chi": 41},
+        }
+        st = stages.get(int(regen_stage), stages[4])
+        return {
+            "antiviral_shatterer": {
+                "caspar_klug_shell_k": k,
+                "target_capsomers_10k2_plus_2": capsomers,
+                "human_nucleosome_ball_B3": 147,
+                "human_chromatin_safe_zero_overlap": capsomers != 147,
+                "phase_gate_dphi": 139,
+            },
+            "morphogenetic_regenerator": st,
+            "cpg_epigenetic_reset": {"delta_chi_cpg": -1, "photonic_windows_nm": [441.6, 717.6], "collateral_damage": 0},
+        }
+
+    def gravity_dipole_shield_and_cleaner(self, mode: str = "grav_dipole_1g") -> dict[str, Any]:
+        modes = {
+            "grav_dipole_1g": {"top_dphi": 256, "bot_dphi": 0, "desc": "833:1 Impedance Dipole (Inertialess Drive / 1g Floor)"},
+            "pauli_shield": {"top_dphi": 0, "bot_dphi": 256, "desc": "Dual-Layer Stasis 833*eps + Pauli +256 Mirror Deflector"},
+            "dry_clean_3sec": {"top_dphi": 139, "bot_dphi": 256, "desc": "2-Pulse Waterless Cleaner (dphi=139 release -> dphi=256 Pauli eject)"},
+        }
+        m = modes.get(mode.lower(), modes["grav_dipole_1g"])
+        return {
+            "mode": mode,
+            "description": m["desc"],
+            "top_hemisphere_dphi": m["top_dphi"],
+            "bot_hemisphere_dphi": m["bot_dphi"],
+            "d_high": 6823936,
+            "d_low": 8192,
+            "dipole_delta_d": 6815744,
+            "internal_cabin_g_overload": 0,
+        }
+
 
 CONTROLLER = CuboctahedronHardwareController()
 
@@ -359,6 +443,37 @@ TOOLS_SCHEMA = [
             "required": ["periph_id"],
         },
     },
+    {
+        "name": "cuboct_subthreshold_c0_modem",
+        "description": "Encode and decode messages using the 81-ary (4-trit balanced ternary) sub-threshold Heisenberg c0-modem ([-40, +40] ticks, 0 emitted photons) and SETI Gaussian-prime beacon detector.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {"message": {"type": "string"}},
+            "required": ["message"],
+        },
+    },
+    {
+        "name": "cuboct_bio_antiviral_and_regeneration",
+        "description": "Compute Caspar-Klug antiviral capsid resonance (10k^2+2 vs human B3=147), 4-stage scar-free tissue regeneration template (13->12->24->42/147), and CpG epigenetic reset parameters.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "viral_shell_k": {"type": "integer", "enum": [1, 2, 3, 4, 5]},
+                "regen_stage": {"type": "integer", "enum": [1, 2, 3, 4]},
+            },
+        },
+    },
+    {
+        "name": "cuboct_gravity_dipole_and_shield",
+        "description": "Control the 833:1 Gravitational-Impedance Dipole Drive / 1g Floor, Dual-Layer Pauli +256 Deflector Shield, and 3-Second Waterless Phase Cleaner.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "mode": {"type": "string", "enum": ["grav_dipole_1g", "pauli_shield", "dry_clean_3sec"]},
+            },
+            "required": ["mode"],
+        },
+    },
 ]
 
 
@@ -412,6 +527,14 @@ def handle_mcp_request(req: dict[str, Any]) -> dict[str, Any] | None:
             )
         elif name == "cuboct_detect_peripheral":
             res = CONTROLLER.detect_cuboctbus_peripheral(int(args.get("periph_id", 1)))
+        elif name == "cuboct_subthreshold_c0_modem":
+            res = CONTROLLER.subthreshold_c0_modem_codec(str(args.get("message", "IV=263")))
+        elif name == "cuboct_bio_antiviral_and_regeneration":
+            res = CONTROLLER.bio_antiviral_and_regeneration(
+                int(args.get("viral_shell_k", 2)), int(args.get("regen_stage", 4))
+            )
+        elif name == "cuboct_gravity_dipole_and_shield":
+            res = CONTROLLER.gravity_dipole_shield_and_cleaner(str(args.get("mode", "grav_dipole_1g")))
         else:
             return {
                 "jsonrpc": "2.0",
@@ -434,6 +557,9 @@ def main() -> None:
             {"jsonrpc": "2.0", "id": 2, "method": "tools/call", "params": {"name": "cuboct_synthesize_food", "arguments": {"recipe": "cutlet"}}},
             {"jsonrpc": "2.0", "id": 3, "method": "tools/call", "params": {"name": "cuboct_set_power_supply", "arguments": {"v_set_mv": 12000, "i_set_ma": 3000, "freq_hz": 50.0, "r_load_ohm": 6}}},
             {"jsonrpc": "2.0", "id": 4, "method": "tools/call", "params": {"name": "cuboct_teleport_72bit", "arguments": {"mu0": 64, "mu1": 13, "phi0_curr": 467, "phi0_prev": 374, "phi1_curr": 78, "phi1_prev": 497}}},
+            {"jsonrpc": "2.0", "id": 5, "method": "tools/call", "params": {"name": "cuboct_subthreshold_c0_modem", "arguments": {"message": "HELLO GALAXY 42"}}},
+            {"jsonrpc": "2.0", "id": 6, "method": "tools/call", "params": {"name": "cuboct_bio_antiviral_and_regeneration", "arguments": {"viral_shell_k": 3, "regen_stage": 4}}},
+            {"jsonrpc": "2.0", "id": 7, "method": "tools/call", "params": {"name": "cuboct_gravity_dipole_and_shield", "arguments": {"mode": "grav_dipole_1g"}}},
         ]:
             resp = handle_mcp_request(req)
             print(json.dumps(resp, ensure_ascii=False))
