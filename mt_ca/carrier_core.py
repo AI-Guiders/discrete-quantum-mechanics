@@ -641,3 +641,44 @@ def universe_iv_carrier_3d(
     return torch.stack([mu, phi0, mu, phi1], dim=-1)
 
 
+def multimodal_sensor_readout_core(state: torch.Tensor, cfg=None) -> dict[str, torch.Tensor]:
+    """Closed-form multimodal sensor readout on polar register [μ₀, φ₀, μ₁, φ₁] (Section 36 UnifiedOperators.lean):
+    - `concentration_q2`: molar density / A3 norm quanta² `μ₀² + μ₁²`,
+    - `wavelength_nm`: optical spectrum wavelength `579 + ⌊139 · C_3(φ₀) / 128⌋` ∈ [440, 718] nm,
+    - `rgb_triad`: `(R, G, B)` color channels `(max(0, C_3), |S_3|, max(0, -C_3))` with exact L1 sum `R + G + B ≡ 128`,
+    - `acoustic_pressure_q2`: longitudinal Bohm sound pressure `μ₀ · μ₁ · (128 - C_3(φ₀))`,
+    - `reaction_current_j`: electron-transfer reaction rate `μ₀ · μ₁ · S_3(φ₀)`,
+    - `chirality_sign`: polarimeter L/D optical rotation `sgn(S_3(φ₀)) ∈ {-1, 0, +1}`,
+    - `thermal_quanta_ne`: Heisenberg thermal / photon quantum number `⌊|wrap(Φ_gate)| / 41⌋ ∈ [0, 6]`.
+    """
+    c = CARRIER
+    mu0 = state[..., 0].to(torch.int64)
+    phi0 = state[..., 1].to(torch.int64)
+    mu1 = state[..., 2].to(torch.int64)
+    c_proj = edge_proj_cos_int(phi0, c.mod_bits)
+    s_proj = edge_proj_sin_int(phi0, c.mod_bits)
+    gate_phi = wrap_ring_signed(carrier_gate_phi(state, cfg), c.mod_bits)
+    a_coh = c.q_square + c.n_links - 1  # 139
+
+    conc_q2 = mu0 * mu0 + mu1 * mu1
+    wavelength_nm = 579 + torch.div(a_coh * c_proj, c.q_square, rounding_mode="floor")
+    r_ch = torch.clamp(c_proj, min=0)
+    g_ch = s_proj.abs()
+    b_ch = torch.clamp(-c_proj, min=0)
+    rgb = torch.stack([r_ch, g_ch, b_ch], dim=-1)
+    acoustic_p = mu0 * mu1 * (c.q_square - c_proj)
+    reaction_j = mu0 * mu1 * s_proj
+    chirality = torch.sign(s_proj)
+    thermal_ne = torch.div(gate_phi.abs(), c.dphi_min_ticks, rounding_mode="floor")
+    return {
+        "concentration_q2": conc_q2,
+        "wavelength_nm": wavelength_nm,
+        "rgb_triad": rgb,
+        "acoustic_pressure_q2": acoustic_p,
+        "reaction_current_j": reaction_j,
+        "chirality_sign": chirality,
+        "thermal_quanta_ne": thermal_ne,
+    }
+
+
+

@@ -362,6 +362,31 @@ class CuboctahedronHardwareController:
             "internal_cabin_g_overload": 0,
         }
 
+    def read_multimodal_sensors(
+        self, mu0: int = 13, mu1: int = 13, dphi: int = 352, gate_phi: int = 139
+    ) -> dict[str, Any]:
+        c_val = proj_c(dphi)
+        s_val = proj_s(dphi)
+        conc_q2 = int(mu0) * int(mu0) + int(mu1) * int(mu1)
+        lambda_nm = 579 + (139 * c_val) // 128
+        r_ch = max(0, c_val)
+        g_ch = abs(s_val)
+        b_ch = max(0, -c_val)
+        p_sound = int(mu0) * int(mu1) * (128 - c_val)
+        j_rxn = int(mu0) * int(mu1) * s_val
+        chiral = "L (+1)" if s_val > 0 else ("D (-1)" if s_val < 0 else "Achiral (0)")
+        n_e = abs(wrap512(gate_phi)) // 41
+        return {
+            "concentration_quanta2": conc_q2,
+            "optical_wavelength_nm": lambda_nm,
+            "rgb_color_triad": [r_ch, g_ch, b_ch],
+            "rgb_l1_sum_128": r_ch + g_ch + b_ch,
+            "acoustic_sound_pressure_q2": p_sound,
+            "reaction_current_j": j_rxn,
+            "chiral_polarimeter_ld": chiral,
+            "thermal_photon_quanta_ne": n_e,
+        }
+
 
 CONTROLLER = CuboctahedronHardwareController()
 
@@ -494,6 +519,19 @@ TOOLS_SCHEMA = [
             "required": ["mode"],
         },
     },
+    {
+        "name": "cuboct_read_multimodal_sensors",
+        "description": "Read full multimodal physical telemetry from a carrier cell or reaction/Chronovisor frame: concentration (quanta^2), optical spectrum wavelength (440..718 nm), RGB color triad (R+G+B=128), acoustic sound pressure wave, reaction current J_rxn, L/D chiral polarimeter rotation, and thermal photon quanta n_E.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "mu0": {"type": "integer"},
+                "mu1": {"type": "integer"},
+                "dphi": {"type": "integer"},
+                "gate_phi": {"type": "integer"},
+            },
+        },
+    },
 ]
 
 
@@ -555,6 +593,13 @@ def handle_mcp_request(req: dict[str, Any]) -> dict[str, Any] | None:
             )
         elif name == "cuboct_gravity_dipole_and_shield":
             res = CONTROLLER.gravity_dipole_shield_and_cleaner(str(args.get("mode", "grav_dipole_1g")))
+        elif name == "cuboct_read_multimodal_sensors":
+            res = CONTROLLER.read_multimodal_sensors(
+                int(args.get("mu0", 13)),
+                int(args.get("mu1", 13)),
+                int(args.get("dphi", 352)),
+                int(args.get("gate_phi", 139)),
+            )
         else:
             return {
                 "jsonrpc": "2.0",
