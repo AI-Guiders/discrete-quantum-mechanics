@@ -295,21 +295,62 @@ def benchmark_external_file(file_path: str) -> None:
     print(f"EXTERNAL FILE TEST: {p.name} ({file_size:,} bytes = {file_size/(1024*1024):.2f} MB)")
     print("==========================================================================================")
 
-    # If the input is a video container (.mp4, .mkv, .avi, .mov, .webm), run the 4D Lossless Video Frame Archiver
-    # directly via ffmpeg pipe (works even on 14+ GB video files without loading the whole file into RAM!)
-    if p.suffix.lower() in (".mp4", ".mkv", ".avi", ".mov", ".webm", ".y4m"):
+    # If the input is an audio file (.wav, .pcm, or *sound*.mxf), run the 2-Point Verlet Acoustic Lossless Archiver!
+    if p.suffix.lower() in (".wav", ".flac", ".aiff") or (p.suffix.lower() == ".mxf" and "sound" in p.name.lower()):
+        ffmpeg_exe = r"C:\Users\dkara\AppData\Local\Microsoft\WinGet\Links\ffmpeg.exe"
+        if Path(ffmpeg_exe).exists():
+            cmd = [ffmpeg_exe, "-ss", "00:02:00", "-t", "30", "-i", str(p), "-f", "s16le", "-ac", "2", "-ar", "48000", "-"]
+            raw_pcm = subprocess.check_output(cmd, stderr=subprocess.DEVNULL)
+            samples = np.frombuffer(raw_pcm, dtype=np.int16).reshape(-1, 2)
+            g_len = len(zlib.compress(raw_pcm, level=9))
+            l_len = len(lzma.compress(raw_pcm, preset=9))
+
+            s32 = samples.astype(np.int32)
+            l_ch = s32[:, 0]
+            side_ch = s32[:, 1] - l_ch
+            ms = np.stack([l_ch, side_ch], axis=1)
+            res_verlet = np.empty_like(ms, dtype=np.int16)
+            res_verlet[0] = (ms[0] & 0xFFFF).astype(np.int16)
+            res_verlet[1] = ((ms[1] - ms[0]) & 0xFFFF).astype(np.int16)
+            res_verlet[2:] = ((ms[2:] - (2 * ms[1:-1] - ms[:-2])) & 0xFFFF).astype(np.int16)
+
+            audio_filters = [{"id": lzma.FILTER_LZMA1, "preset": 9, "lc": CARRIER.d, "lp": 0, "pb": 1, "nice_len": CARRIER.pauli_ticks}]
+            comp_snd = lzma.compress(res_verlet.tobytes(), format=lzma.FORMAT_RAW, filters=audio_filters)
+
+            rec_r = np.frombuffer(lzma.decompress(comp_snd, format=lzma.FORMAT_RAW, filters=audio_filters), dtype=np.int16).reshape(samples.shape).astype(np.int32)
+            rec_ms = np.empty_like(rec_r, dtype=np.int32)
+            rec_ms[0] = rec_r[0]
+            rec_ms[1] = rec_ms[0] + rec_r[1]
+            for t in range(2, len(rec_r)):
+                rec_ms[t] = ((2 * rec_ms[t - 1] - rec_ms[t - 2] + rec_r[t] + 32768) & 0xFFFF) - 32768
+            rec_l = rec_ms[:, 0].astype(np.int16)
+            rec_right = ((rec_ms[:, 0] + rec_ms[:, 1]) & 0xFFFF).astype(np.int16)
+            rec_pcm = np.stack([rec_l, rec_right], axis=1).tobytes()
+            sha_a_in = hashlib.sha256(raw_pcm).hexdigest()
+            sha_a_out = hashlib.sha256(rec_pcm).hexdigest()
+
+            print(f"  [Decoded Studio Audio Stream: 30s 48kHz Stereo PCM = {len(raw_pcm):,d} B ({len(raw_pcm)/(1024*1024):.2f} MB)]")
+            print(f"  Standard gzip/deflate -9:           {g_len:12,d} B ({len(raw_pcm)/g_len:6.2f}x)")
+            print(f"  Standard xz/LZMA -9:                {l_len:12,d} B ({len(raw_pcm)/l_len:6.2f}x)")
+            print(f"  Cuboct 2-Point Verlet Audio Codec:  {len(comp_snd):12,d} B ({len(raw_pcm)/len(comp_snd):6.2f}x -> saved {l_len - len(comp_snd):+,d} B vs xz/LZMA and {g_len - len(comp_snd):+,d} B vs gzip!)")
+            print(f"  100% Bit-Exact Lossless SHA-256:    {sha_a_in == sha_a_out} (SHA-256 = {sha_a_out})\n")
+            return
+
+    # If the input is a video container (.mp4, .mkv, .avi, .mov, .webm, .mxf), run the 4D Lossless Video Frame Archiver
+    # directly via ffmpeg pipe (works even on 14+ GB 4K DCP MXF files without loading the whole file into RAM!)
+    if p.suffix.lower() in (".mp4", ".mkv", ".avi", ".mov", ".webm", ".y4m", ".mxf") and "sound" not in p.name.lower():
         ffmpeg_exe = r"C:\Users\dkara\AppData\Local\Microsoft\WinGet\Links\ffmpeg.exe"
         if Path(ffmpeg_exe).exists():
             cmd = [
-                ffmpeg_exe, "-i", str(p),
-                "-vf", "scale=320:180",
+                ffmpeg_exe, "-ss", "00:02:00", "-i", str(p),
+                "-vf", "scale=640:360",
                 "-vframes", "60",
                 "-f", "rawvideo",
                 "-pix_fmt", "rgb24",
                 "-"
             ]
             raw_vid = subprocess.check_output(cmd, stderr=subprocess.DEVNULL)
-            video_4d = np.frombuffer(raw_vid, dtype=np.uint8).reshape(-1, 180, 320, 3)
+            video_4d = np.frombuffer(raw_vid, dtype=np.uint8).reshape(-1, 360, 640, 3)
             nt = video_4d.shape[0]
             g_len = len(zlib.compress(raw_vid, level=9))
             l_len = len(lzma.compress(raw_vid, preset=9))
@@ -338,7 +379,7 @@ def benchmark_external_file(file_path: str) -> None:
             sha_v_in = hashlib.sha256(raw_vid).hexdigest()
             sha_v_out = hashlib.sha256(rec_vid.tobytes()).hexdigest()
 
-            print(f"  [4D Decoded Video Stream: {nt} frames x 320x180 RGB24 = {len(raw_vid):,d} B ({len(raw_vid)/(1024*1024):.2f} MB)]")
+            print(f"  [4D Decoded Video Stream: {nt} frames x 640x360 RGB24 = {len(raw_vid):,d} B ({len(raw_vid)/(1024*1024):.2f} MB)]")
             print(f"  Standard gzip/deflate -9:           {g_len:12,d} B ({len(raw_vid)/g_len:6.2f}x)")
             print(f"  Standard xz/LZMA -9:                {l_len:12,d} B ({len(raw_vid)/l_len:6.2f}x)")
             print(f"  Cuboct 4D Lossless (100% SHA-256):  {len(comp_vid):12,d} B ({len(raw_vid)/len(comp_vid):6.2f}x -> saved {l_len - len(comp_vid):+,d} B vs xz/LZMA and {g_len - len(comp_vid):+,d} B vs gzip!)")
