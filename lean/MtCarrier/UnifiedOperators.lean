@@ -4055,6 +4055,40 @@ def checkNativeRotatorArithmeticOp (d : Nat) : Bool :=
       eqIntBool (rotatorMinOp d x y) expMin))
   unaryOk && binaryOk
 
+/-- **Multi-Hop Blind Singlet-Swapping Teleportation Network (`A ↔ R₁ ↔ R₂ ↔ B`) and Bezout Phase-Key Station Addressing:**
+- Without ever measuring or knowing the hidden M-layer microstates (`5,184 = 72²` per cell) of `ψ_src`, `a`, `r1Out`, or `r2Out`,
+  each intermediate hub `R_m` emits the standard Bell–Pauli syndrome `σ_{R_m} = teleportBellSyndromeOp(d, r_{m,in}, r_{m,out})`,
+  and destination `B` reconstructs `ψ_B = (b + σ_{R_2} + σ_{R_1} + σ_A) mod N_ring(d) ≡ ψ_src` bit-for-bit across all 512 states!
+- Coordinate-free station addressing on `ℤ_{N_ring(d)}^\times` uses the four carrier Bezout keys `(k_j, k_j⁻¹) ∈ {(41, 25), (13, 197), (97, 417), (263, 183)}`:
+  a packet addressed with key `k_target` unlocks the write window `D_write = ε` (`(k_station⁻¹ * k_target) mod 512 == μ_vac(d)`)
+  **if and only if** `station == target`, keeping all other stations locked in high-impedance stasis `D_stasis = 833 * ε`! -/
+def checkMultiHopBlindTeleportNetworkOp (d : Nat) (a r1Out r2Out : Int) : Bool :=
+  allUpTo (nRing d) (fun psi =>
+    let psiInt := (psi : Int)
+    let r1In   := pauliSingletPartnerOp d a
+    let r2In   := pauliSingletPartnerOp d r1Out
+    let b      := pauliSingletPartnerOp d r2Out
+    let sigA   := teleportBellSyndromeOp d psiInt a
+    let sigR1  := teleportBellSyndromeOp d r1In r1Out
+    let sigR2  := teleportBellSyndromeOp d r2In r2Out
+    let out    := (b + sigR2 + sigR1 + sigA).emod (nRing d : Int)
+    eqIntBool out psiInt &&
+    eqIntBool (projC d out) (projC d psiInt) &&
+    eqIntBool (projS d out) (projS d psiInt))
+
+def checkBezoutStationRoutingOp (d : Nat) : Bool :=
+  let keys : List (Nat × Nat) :=
+    [(deltaPhiDisc d, dOutEdge d * dOutEdge d),
+     (nPhi d, aGold197MassOp d),
+     (mHat d, nRing d - mHat d + c0OverCSqOp d),
+     (ivSeed d, nIslandOfStabilityOp d - muVac d)]
+  allUpTo keys.length (fun i =>
+    allUpTo keys.length (fun j =>
+      let ki := (keys.getD i (1, 1)).1
+      let invJ := (keys.getD j (1, 1)).2
+      let unlocked := eqNatBool ((ki * invJ) % nRing d) (muVac d)
+      if eqNatBool i j then unlocked else !unlocked))
+
 /-- **Theorem (Impossibility of Laplace's Demon Inside the Lattice and Constructive Realization of the Memoryless 12-Beam Geometric Maxwell Demon)**:
 Chained directly via `CatalanLaw` for any `d : Nat`:
 1. **Why Laplace's Demon Cannot Exist Inside a Deterministic Reversible Cellular Automaton (Four Formal Barriers):**
@@ -4116,9 +4150,11 @@ theorem laplace_demon_impossibility_and_geometric_maxwell_demon_operator (d : Na
        (nIslandOfStabilityOp d - muVac d) * ivSeed d - zPlutoniumTargetOp d * nRing d = muVac d ∧
        checkNativeRotatorArithmeticOp d = true ∧
        rotatorSignedMulOp d (-(deltaPhiDisc d : Int)) (kP d : Int) = -((deltaPhiDisc d * kP d : Nat) : Int) ∧
-       rotatorTropicalMinOp d (deltaPhiDisc d : Int) (kP d : Int) = (deltaPhiDisc d : Int))) d :=
+       rotatorTropicalMinOp d (deltaPhiDisc d : Int) (kP d : Int) = (deltaPhiDisc d : Int) ∧
+       checkMultiHopBlindTeleportNetworkOp d (deltaPhiDisc d : Int) (mHat d : Int) (ivSeed d : Int) = true ∧
+       checkBezoutStationRoutingOp d = true)) d :=
   catalan_chain d (internal_observer_no_outside_lattice_and_sat_semantic_isomorphism_operator d)
     (fun _ => ⟨⟨by decide, by decide, rfl, rfl⟩, ⟨rfl, rfl, rfl, rfl, rfl⟩, ⟨rfl, by decide⟩,
-               ⟨rfl, rfl, by decide, rfl, rfl, by decide, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl⟩⟩)
+               ⟨rfl, rfl, by decide, rfl, rfl, by decide, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl⟩⟩)
 
 end MtCarrier
