@@ -54,19 +54,20 @@ module rotator_512_unit #(
     localparam integer MANT_MASK    = Q_SQUARE - MU_VAC;       // 127
     localparam integer PHI_PAULI    = N_RING / C0_OVER_C_SQ;
 
-    // Principal wrapped phase in (-PHI_PAULI, +PHI_PAULI]
-    wire signed [31:0] shifted_c = PHI_PAULI - phi_in;
-    wire signed [31:0] emod_c    = shifted_c & RING_MASK;
-    assign wrap_out              = PHI_PAULI - emod_c;
+    // Native 9-bit ring wire [MOD_BITS-1:0] IS Z_512 automatically (zero masks, zero shifts!):
+    //   - wire [8]   = q1 (half-turn Pauli bit 256),
+    //   - wire [7]   = q0 (quadrant bit 128),
+    //   - wire [6:0] = m7 (7-bit intra-quadrant mantissa 0..127).
+    wire [MOD_BITS-1:0] u_ring = phi_in[MOD_BITS-1:0];
+    wire [MOD_BITS-1:0] neg_u  = PHI_PAULI[MOD_BITS-1:0] - u_ring;
+    assign wrap_out            = PHI_PAULI - {23'b0, neg_u};
 
-    // Native Gray-Quadrant decomposition (q1, q0, m7):
-    wire [31:0] u_ring      = phi_in & RING_MASK;
-    wire        q1          = u_ring[MOD_BITS - 1];
-    wire        q0          = u_ring[MOD_BITS - 2];
-    wire signed [31:0] m7    = u_ring & MANT_MASK;
-    wire signed [31:0] comp7 = Q_SQUARE - m7; // Unique complement: comp7 + m7 === 128!
+    wire                q1    = u_ring[MOD_BITS - 1];
+    wire                q0    = u_ring[MOD_BITS - 2];
+    wire signed [31:0]  m7    = {25'b0, u_ring[MOD_BITS - 3 : 0]};
+    wire signed [31:0]  comp7 = Q_SQUARE - m7; // Unique complement: comp7 + m7 === 128!
 
-    // Branchless X-butterfly swap by q0:
+    // Branchless X-butterfly swap by wire q0:
     wire [31:0] q0_mask  = {32{q0}};
     wire [31:0] nq0_mask = {32{~q0}};
     wire signed [31:0] c_mag = (nq0_mask & comp7) | (q0_mask & m7);
@@ -163,10 +164,12 @@ module carrier_native_multiplierless_alu #(
 endmodule
 
 // ----------------------------------------------------------------------------
-// Module 2: 100% Branchless Euclidean Quotient-Remainder Unit on Z_{N_ring(D)}
-//   (d0 phi) = N_RING * branch_q + edge_r
-//   branch_q = (delta_phi + (PHI_PAULI - 1)) >>> MOD_BITS
-//   edge_r   = delta_phi - (branch_q <<< MOD_BITS)
+// Module 2: Shift-Free Native 9-Bit Adder Carry-Out / Sum Split on Z_{N_ring(D)}
+// On a native 9-bit ring bus, adding `(PHI_PAULI - 1)` splits `delta_phi`
+// directly into:
+//   - the low 9 sum wires `sum_9bit = num[8:0]` (Channel 1 wave remainder in Z_512),
+//   - the high carry-out wires `branch_q = num[31:9]` (Channel 2 corpuscle quantum!),
+// with ZERO bit-shift operators (`>>>` or `<<<`) and ZERO masks!
 // ----------------------------------------------------------------------------
 module quotient_remainder_512_unit #(
     parameter integer D = 3
@@ -182,24 +185,19 @@ module quotient_remainder_512_unit #(
     localparam integer N_RING       = (1 << MOD_BITS);
     localparam integer PHI_PAULI    = N_RING / C0_OVER_C_SQ;
 
-    wire signed [31:0] num = delta_phi + (PHI_PAULI - MU_VAC);
-    assign branch_q        = num >>> MOD_BITS;
-    assign edge_r          = delta_phi - (branch_q <<< MOD_BITS);
+    wire signed [31:0] num       = delta_phi + (PHI_PAULI - MU_VAC);
+    wire [MOD_BITS-1:0] rem_9bit = num[MOD_BITS-1:0];
+    assign branch_q              = {{MOD_BITS{num[31]}}, num[31:MOD_BITS]};
+    assign edge_r                = {23'b0, rem_9bit} - (PHI_PAULI - MU_VAC);
 endmodule
 
 // ----------------------------------------------------------------------------
-// Module 3: 100% Branchless Two-Tick Symplectic Reversible Verlet Cell
-// (`polarStepCell` / `polarReverseCell` from `TrajectoryIV263.lean`)
-//   dir_sel = reverse_dir (0 = forward g, 1 = reverse g^-1 without history stack)
-//   Forward (dir_sel = 0):
-//     phi_next = (2 * phi_curr - phi_prev + phi_accel) & RING_MASK
-//     prev_next = phi_curr
-//   Reverse (dir_sel = 1):
-//     phi_next = phi_prev
-//     prev_next = (2 * phi_prev - phi_curr + phi_accel) & RING_MASK
-//   Reset blending (`rst_sel = rst`):
-//     reg <= rst_sel * init + (1 - rst_sel) * evolved
-// Zero `if`, zero `?:`.
+// Module 3: Shift-Free & Mask-Free Native 9-Bit Symplectic Reversible Verlet Cell
+// On 9-bit ring wires `wire [8:0]`, addition and subtraction are AUTOMATICALLY
+// modulo 512 (just as 1-bit XOR is automatically modulo 2):
+//   Forward: `fwd_curr = phi_curr + phi_curr - phi_prev + phi_accel[8:0]`
+//   Reverse: `rev_prev = phi_prev + phi_prev - phi_curr + phi_accel[8:0]`
+// Zero shifts, zero `& 511` masks, zero `if`, zero `?:`.
 // ----------------------------------------------------------------------------
 module verlet_reversible_cell #(
     parameter integer D = 3
@@ -213,34 +211,30 @@ module verlet_reversible_cell #(
     output reg  [8:0]  phi_curr,
     output reg  [8:0]  phi_prev
 );
-    localparam integer MU_VAC    = (D * D) - (1 << D);
-    localparam integer N_TRI     = (1 << D);
-    localparam integer MOD_BITS  = MU_VAC + N_TRI;
-    localparam integer N_RING    = (1 << MOD_BITS);
-    localparam integer RING_MASK = N_RING - MU_VAC;
+    localparam integer MU_VAC   = (D * D) - (1 << D);
+    localparam integer N_TRI    = (1 << D);
+    localparam integer MOD_BITS = MU_VAC + N_TRI;
 
-    wire signed [31:0] curr_s  = {23'b0, phi_curr};
-    wire signed [31:0] prev_s  = {23'b0, phi_prev};
-    wire [31:0] rst_mask  = {32{rst}};
-    wire [31:0] nrst_mask = {32{~rst}};
-    wire [31:0] dir_mask  = {32{reverse_dir}};
-    wire [31:0] ndir_mask = {32{~reverse_dir}};
+    wire [MOD_BITS-1:0] rst_mask  = {MOD_BITS{rst}};
+    wire [MOD_BITS-1:0] nrst_mask = {MOD_BITS{~rst}};
+    wire [MOD_BITS-1:0] dir_mask  = {MOD_BITS{reverse_dir}};
+    wire [MOD_BITS-1:0] ndir_mask = {MOD_BITS{~reverse_dir}};
 
-    wire signed [31:0] fwd_curr = ((curr_s <<< MU_VAC) - prev_s + phi_accel) & RING_MASK;
-    wire signed [31:0] fwd_prev = curr_s;
+    wire [MOD_BITS-1:0] fwd_curr = phi_curr + phi_curr - phi_prev + phi_accel[MOD_BITS-1:0];
+    wire [MOD_BITS-1:0] fwd_prev = phi_curr;
 
-    wire signed [31:0] rev_curr = prev_s;
-    wire signed [31:0] rev_prev = ((prev_s <<< MU_VAC) - curr_s + phi_accel) & RING_MASK;
+    wire [MOD_BITS-1:0] rev_curr = phi_prev;
+    wire [MOD_BITS-1:0] rev_prev = phi_prev + phi_prev - phi_curr + phi_accel[MOD_BITS-1:0];
 
-    wire [31:0] run_curr = (ndir_mask & fwd_curr) | (dir_mask & rev_curr);
-    wire [31:0] run_prev = (ndir_mask & fwd_prev) | (dir_mask & rev_prev);
+    wire [MOD_BITS-1:0] run_curr = (ndir_mask & fwd_curr) | (dir_mask & rev_curr);
+    wire [MOD_BITS-1:0] run_prev = (ndir_mask & fwd_prev) | (dir_mask & rev_prev);
 
-    wire [31:0] nxt_curr = (rst_mask & {23'b0, init_curr}) | (nrst_mask & run_curr);
-    wire [31:0] nxt_prev = (rst_mask & {23'b0, init_prev}) | (nrst_mask & run_prev);
+    wire [MOD_BITS-1:0] nxt_curr = (rst_mask & init_curr) | (nrst_mask & run_curr);
+    wire [MOD_BITS-1:0] nxt_prev = (rst_mask & init_prev) | (nrst_mask & run_prev);
 
     always @(posedge clk) begin
-        phi_curr <= nxt_curr[MOD_BITS-1:0];
-        phi_prev <= nxt_prev[MOD_BITS-1:0];
+        phi_curr <= nxt_curr;
+        phi_prev <= nxt_prev;
     end
 endmodule
 
@@ -631,17 +625,18 @@ module two_chamber_72bit_teleporter #(
     wire signed [31:0] is_pos_noise    = 32'sd1 - (32'sd1 / (q_noise_heis + 32'sd1));
     assign waveguide_noise_leak        = is_pos_noise * raw_noise_ratio;
 
-    // Shared Pauli singlet partners in Chamber B: b_k = (a_k + PHI_PAULI) & RING_MASK
-    wire [8:0] singlet_b0 = (singlet_a0 + PHI_PAULI) & RING_MASK;
-    wire [8:0] singlet_b1 = (singlet_a1 + PHI_PAULI) & RING_MASK;
-    wire [8:0] singlet_b2 = (singlet_a2 + PHI_PAULI) & RING_MASK;
-    wire [8:0] singlet_b3 = (singlet_a3 + PHI_PAULI) & RING_MASK;
+    // Shared Pauli singlet partners in Chamber B on native 9-bit ring wires:
+    // adding PHI_PAULI = 256 in Z_512 is simply flipping MSB wire [8] (zero adders, zero masks, zero shifts!):
+    wire [8:0] singlet_b0 = {~singlet_a0[8], singlet_a0[7:0]};
+    wire [8:0] singlet_b1 = {~singlet_a1[8], singlet_a1[7:0]};
+    wire [8:0] singlet_b2 = {~singlet_a2[8], singlet_a2[7:0]};
+    wire [8:0] singlet_b3 = {~singlet_a3[8], singlet_a3[7:0]};
 
-    // Bell-Pauli syndromes emitted by Chamber A: sigma_k = (psi_A,k - a_k - PHI_PAULI) & RING_MASK
-    wire [8:0] sigma0 = (chA_phi0_curr - singlet_a0 - PHI_PAULI) & RING_MASK;
-    wire [8:0] sigma1 = (chA_phi0_prev - singlet_a1 - PHI_PAULI) & RING_MASK;
-    wire [8:0] sigma2 = (chA_phi1_curr - singlet_a2 - PHI_PAULI) & RING_MASK;
-    wire [8:0] sigma3 = (chA_phi1_prev - singlet_a3 - PHI_PAULI) & RING_MASK;
+    // Bell-Pauli syndromes emitted by Chamber A on native 9-bit ring wires (automatic mod 512):
+    wire [8:0] sigma0 = chA_phi0_curr - singlet_b0;
+    wire [8:0] sigma1 = chA_phi0_prev - singlet_b1;
+    wire [8:0] sigma2 = chA_phi1_curr - singlet_b2;
+    wire [8:0] sigma3 = chA_phi1_prev - singlet_b3;
 
     assign total_two_chamber_norm_sq =
         (chA_mu0 * chA_mu0 + chA_mu1 * chA_mu1) +
@@ -673,27 +668,27 @@ module two_chamber_72bit_teleporter #(
         end else begin
             case (cmd_mode)
                 2'b00: begin
-                    // Normal Verlet evolution in Chamber A with carrier fundamental step N_PHI
+                    // Normal Verlet evolution on native 9-bit ring wires (automatic mod 512, zero shifts/masks)
                     chA_phi0_prev <= chA_phi0_curr;
-                    chA_phi0_curr <= ((chA_phi0_curr <<< MU_VAC) - chA_phi0_prev + N_PHI) & RING_MASK;
+                    chA_phi0_curr <= chA_phi0_curr + chA_phi0_curr - chA_phi0_prev + N_PHI[8:0];
                     chA_phi1_prev <= chA_phi1_curr;
-                    chA_phi1_curr <= ((chA_phi1_curr <<< MU_VAC) - chA_phi1_prev + N_PHI) & RING_MASK;
+                    chA_phi1_curr <= chA_phi1_curr + chA_phi1_curr - chA_phi1_prev + N_PHI[8:0];
                 end
                 2'b01: begin
                     // STEP 1 — STASIS: live stasis core outputs pgate_st === 0 inside Heisenberg deadband!
-                    chA_phi0_curr <= (chA_phi0_curr + pgate_st[8:0]) & RING_MASK;
+                    chA_phi0_curr <= chA_phi0_curr + pgate_st[8:0];
                     chA_phi0_prev <= chA_phi0_prev;
-                    chA_phi1_curr <= (chA_phi1_curr + pgate_st[8:0]) & RING_MASK;
+                    chA_phi1_curr <= chA_phi1_curr + pgate_st[8:0];
                     chA_phi1_prev <= chA_phi1_prev;
                 end
                 2'b10: begin
-                    // STEP 2 — TELEPORT: reconstruct all 72 bits in Chamber B and discharge Chamber A to MU_VAC
+                    // STEP 2 — TELEPORT: reconstruct all 72 bits in Chamber B on native 9-bit ring wires
                     chB_mu0       <= chA_mu0;
                     chB_mu1       <= chA_mu1;
-                    chB_phi0_curr <= (singlet_b0 + sigma0 + waveguide_noise_leak[8:0]) & RING_MASK;
-                    chB_phi0_prev <= (singlet_b1 + sigma1 + waveguide_noise_leak[8:0]) & RING_MASK;
-                    chB_phi1_curr <= (singlet_b2 + sigma2 + waveguide_noise_leak[8:0]) & RING_MASK;
-                    chB_phi1_prev <= (singlet_b3 + sigma3 + waveguide_noise_leak[8:0]) & RING_MASK;
+                    chB_phi0_curr <= singlet_b0 + sigma0 + waveguide_noise_leak[8:0];
+                    chB_phi0_prev <= singlet_b1 + sigma1 + waveguide_noise_leak[8:0];
+                    chB_phi1_curr <= singlet_b2 + sigma2 + waveguide_noise_leak[8:0];
+                    chB_phi1_prev <= singlet_b3 + sigma3 + waveguide_noise_leak[8:0];
                     chA_mu0       <= MU_VAC;
                     chA_mu1       <= MU_VAC;
                     chA_phi0_curr <= 9'd0;
@@ -702,11 +697,11 @@ module two_chamber_72bit_teleporter #(
                     chA_phi1_prev <= 9'd0;
                 end
                 2'b11: begin
-                    // STEP 3 — RELEASE STASIS IN CHAMBER B: resume Verlet evolution
+                    // STEP 3 — RELEASE STASIS IN CHAMBER B: resume Verlet evolution on native 9-bit ring wires
                     chB_phi0_prev <= chB_phi0_curr;
-                    chB_phi0_curr <= ((chB_phi0_curr <<< MU_VAC) - chB_phi0_prev + N_PHI) & RING_MASK;
+                    chB_phi0_curr <= chB_phi0_curr + chB_phi0_curr - chB_phi0_prev + N_PHI[8:0];
                     chB_phi1_prev <= chB_phi1_curr;
-                    chB_phi1_curr <= ((chB_phi1_curr <<< MU_VAC) - chB_phi1_prev + N_PHI) & RING_MASK;
+                    chB_phi1_curr <= chB_phi1_curr + chB_phi1_curr - chB_phi1_prev + N_PHI[8:0];
                 end
             endcase
         end
@@ -747,7 +742,7 @@ module fpga_12beam_cuboctahedron_driver #(
         if (rst)
             ring_counter <= 9'd0;
         else
-            ring_counter <= (ring_counter + MU_VAC) & RING_MASK;
+            ring_counter <= ring_counter + MU_VAC[8:0];
     end
 
     reg [8:0] phase_off [0:N_LINKS-1];
@@ -797,7 +792,7 @@ module fpga_12beam_cuboctahedron_driver #(
     genvar g;
     generate
         for (g = 0; g < N_LINKS; g = g + 1) begin : gen_pins
-            wire [8:0] shifted_tick = (ring_counter + phase_off[g]) & RING_MASK;
+            wire [8:0] shifted_tick = ring_counter + phase_off[g];
             assign beam_pins[g] = oe_reg[g] & (~shifted_tick[MOD_BITS-1]);
         end
     endgenerate
