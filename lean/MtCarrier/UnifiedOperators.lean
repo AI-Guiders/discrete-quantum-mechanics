@@ -4824,8 +4824,8 @@ def checkVerletHeisenberg4DVideoTvCodecOp (d : Nat) : Bool :=
     allUpTo (phiPauli d) (fun uByte =>
       let qr := heisenberg41CodecSplitOp d uByte
       eqNatBool (heisenberg41CodecJoinOp d qr) uByte &&
-      eqNatBool (isPosNat ((nSquares d + 1) - qr.1)) 1 &&
-      eqNatBool (isPosNat (deltaPhiDisc d - qr.2)) 1)
+      eqIntBool (isPosNat ((nSquares d + 1) - qr.1)) 1 &&
+      eqIntBool (isPosNat (deltaPhiDisc d - qr.2)) 1)
   zeroResidualAllFramesOk && lossless256ByteRoundtripOk
 
 /-- **Theorem (Impossibility of Laplace's Demon Inside the Lattice and Constructive Realization of the Memoryless 12-Beam Geometric Maxwell Demon)**:
