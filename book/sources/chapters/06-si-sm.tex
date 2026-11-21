@@ -296,9 +296,12 @@ $k$ & $\lambda/\ell_P$ & $\log_{10}(\lambda/\ell_P)$ & степень $\alpha_{\
 На электрослабой полке~$v$ (глубина иерархии $\vevHierarchySteps = 8$) константа сильного взаимодействия определяется отношением числа цветовых плоскостей $d=3$ к полному фазовому объёму восьмибитной башни $\vevHierarchySteps\pi$:
 \begin{equation}
 \label{eq:alpha-s-seed}
-  \alpha_s(v) = \frac{d}{\vevHierarchySteps\,\pi} = \frac{3}{8\pi} \approx 0{,}11937,
+  \alpha_s^{(0)} = \frac{d}{\vevHierarchySteps\,\pi} = \frac{3}{8\pi} \approx 0{,}119366,
+  \qquad
+  \alpha_s(M_Z) = \frac{d}{\vevHierarchySteps\,\pi}\!\left(1 - \frac{1}{\vevHierarchySteps\,N_\varphi}\right)
+  = \frac{3}{8\pi}\cdot\frac{103}{104} \approx 0{,}118218,
 \end{equation}
-что при стандартном однопетлевом сдвиге от $v\approx 246{,}1\ \mathrm{ГэВ}$ к полюсу $M_Z\approx 91{,}19\ \mathrm{ГэВ}$ согласуется с измерением PDG ($\alpha_s(M_Z) = 0{,}1179\pm 0{,}0009$).
+что с учётом поправки на шов однотактового кластера $(\vevHierarchySteps N_\varphi)^{-1} = 1/104$ на полюсе $M_Z\approx 91{,}19\ \mathrm{ГэВ}$ согласуется с измерением PDG ($\alpha_s(M_Z) = 0{,}1179\pm 0{,}0009$, расхождение $0{,}35\sigma$; тогда как при дальнейшем спуске по энергии ниже~$M_Z$ в область удержания решёточная связь возрастает к инфракрасному порогу $d\,\Delta\varphi_{\mathrm{disc}}/(2\phaseRingCount) = 123/1024 \approx 0{,}12012$ и далее к конфайнменту).
 \end{proposition}
 
 \begin{proof}
@@ -390,6 +393,6 @@ $k$ & $\lambda/\ell_P$ & $\log_{10}(\lambda/\ell_P)$ & степень $\alpha_{\
   для двухфотонного распада $\pi^0\to 2\gamma$ число открытых каналов на $d_{\mathrm{in}}(\square)=4$ канала квадратной грани за вычетом $2\vevHierarchySteps=16$ бит спинорного заголовка равно $N_{\mathrm{open}}(\pi^0) = d_{\mathrm{in}}(\square)(\phaseRingCount - 2\vevHierarchySteps) = 4\times 496 = 1984$ ($\tau_{\pi^0} \approx 8{,}36\times 10^{-17}\ \mathrm{с}$ против $8{,}43\times 10^{-17}\ \mathrm{с}$), а для $\pi^+\to\mu^+\nu_\mu$ вдоль $\geomNeighborTwelve(1 + z_{\min}) = 12\times 65/64$ лучей звезды получаем $\tau_{\pi^+} \approx 2{,}605\times 10^{-8}\ \mathrm{с}$ (PDG: $2{,}6033\times 10^{-8}\ \mathrm{с}$, откл.~$0{,}051\%$);
   аксиальный заряд нуклона $g_A = d_{\mathrm{out}}(V)/d_{\mathrm{in}}(V) + 1/(d N_\varphi) = 5/4 + 1/39 = 199/156 \approx 1{,}27564$ (PDG: $1{,}2754\pm 0{,}0013$), расщепление масс $\Delta m_{np} = 2(\lfloor\caBitBudget\rfloor/\vevHierarchySteps)^2 m_e = \frac{81}{32}m_e \approx 1{,}2935\ \mathrm{МэВ}$ и число открытых слотов $N_{\mathrm{open}}(n) = (2^{\mathrm{frac\_bits}}-1)(\geomNeighborTwelve-1)/\geomNeighborTwelve = 63\times 11/12 = 57{,}75$ дают время жизни свободного нейтрона $\tau_n \approx 875{,}0\ \mathrm{с}$ (эксперимент в ловушке: $878{,}4\ \mathrm{с}$, откл.~$0{,}38\%$);
   натяжение цветовой струны внутри барионного треугольника~$K_3$ равно $\sqrt{\sigma_{\mathrm{string}}} = m_p/\sqrt{d_{\mathrm{out}}(V)} = m_p/\sqrt{5} \approx 419{,}61\ \mathrm{МэВ}$ (решёточная КХД: $420\ \mathrm{МэВ}$, $\Lambda_{\mathrm{QCD}} = \planckHbar c/r_p = m_p/d_{\mathrm{in}}(\square) \approx 234{,}6\ \mathrm{МэВ}$);
-  барион-фотонное отношение в пузыре равно $\eta_B = \bar\eta\,(d_{\mathrm{out}}(V)/\vevHierarchySteps)\,\alpha_{\mathrm{fs}}^4 = \frac{45}{208}\alpha_{\mathrm{fs}}^4 \approx 6{,}135\times 10^{-10}$ (Planck~2018: $6{,}12\times 10^{-10}$), а отношение нейтрального ореола деформации однотактового кубооктаэдра $V_{\mathrm{cuboct}}$ к локализованному барионному ядру Вороного $dV$ равно $\Omega_{\mathrm{DM}}/\Omega_b = V_{\mathrm{cuboct}}/dV = 2\vevHierarchySteps/d = 16/3 \approx 5{,}333$ (Planck~2018: $5{,}364$).
+  барион-фотонное отношение в пузыре равно $\eta_B = \bar\eta\,(d_{\mathrm{out}}(E)/\vevHierarchySteps)\,\alpha_{\mathrm{fs}}^4 = \frac{45}{208}\alpha_{\mathrm{fs}}^4 \approx 6{,}135\times 10^{-10}$ (Planck~2018: $6{,}12\times 10^{-10}$), а отношение канальной ёмкости спинорного ореола голономии вакуума $C_{\mathrm{halo}} = 2\vevHierarchySteps = 16$ к числу пространственных каналов барионного ядра $C_{\mathrm{core}} = d = 3$ (отличное от отношения евклидовых объёмов $V_{\mathrm{cuboct}}/dV = 10/3$) равно $\Omega_{\mathrm{halo}}/\Omega_b = C_{\mathrm{halo}}/C_{\mathrm{core}} = 2\vevHierarchySteps/d = 16/3 \approx 5{,}333$ (Planck~2018: $5{,}364$).
 \end{enumerate}
 \end{proposition}

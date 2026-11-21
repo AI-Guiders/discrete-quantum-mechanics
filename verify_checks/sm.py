@@ -209,6 +209,8 @@ def check_neutron_mass(device: str = "cpu") -> dict:
         and row["m_n_GeV"] > row["threshold_m_p_plus_m_e_GeV"]
         and abs(row["m_n_GeV"] - (row["m_p_GeV"] + 2.0 * row["m_e_GeV"])) < 1e-18
         and row["m_n_rel_err"] < 0.01
+        and abs(row["dressed_delta_over_me_pred"] - (81.0 / 32.0)) < 1e-15
+        and row["dressed_delta_over_me_rel_err"] < 2e-4
     )
     return {
         "id": "Neutron_mass",
@@ -220,6 +222,8 @@ def check_neutron_mass(device: str = "cpu") -> dict:
         "beta_downhill": row["beta_downhill"],
         "m_n_rel_err": row["m_n_rel_err"],
         "delta_rel_err": row["delta_rel_err"],
+        "dressed_delta_over_me_pred": row["dressed_delta_over_me_pred"],
+        "dressed_delta_over_me_rel_err": row["dressed_delta_over_me_rel_err"],
         "ok": ok,
         "note": row["note"],
     }

@@ -551,10 +551,15 @@ class SISmRows:
         elec = self.electron_mass_row()
         m_p = float(prot["m_p_GeV"])
         m_e = float(elec["m_e_GeV"])
-        k = 2  # minimal integer k with m_n > m_p + m_e
+        k = 2  # minimal integer k with m_n > m_p + m_e (bare channel threshold)
         delta = float(k) * m_e
         m_n = m_p + delta
         threshold = m_p + m_e
+        # Dressed nucleon mass splitting ratio (m_n - m_p)/m_e = mod_bits^2 / (K_P/2) = 81 / 32 = 2.53125
+        # (`nucleonMassDiffOverMeRatOp` in `lean/MtCarrier/UnifiedOperators.lean`):
+        dressed_ratio_pred = 81.0 / 32.0
+        dressed_ratio_codata = (M_NEUTRON_GEV_PDG - M_PROTON_GEV_PDG) / self.m_e_CODATA
+        dressed_ratio_rel_err = abs(dressed_ratio_pred - dressed_ratio_codata) / dressed_ratio_codata
         return {
             "m_p_GeV": m_p,
             "m_e_GeV": m_e,
@@ -568,7 +573,10 @@ class SISmRows:
             "m_n_rel_err": abs(m_n - M_NEUTRON_GEV_PDG) / M_NEUTRON_GEV_PDG,
             "delta_rel_err": abs(delta - (M_NEUTRON_GEV_PDG - M_PROTON_GEV_PDG))
             / (M_NEUTRON_GEV_PDG - M_PROTON_GEV_PDG),
-            "note": "§8.2·7: m_n=m_p+2m_e; ladder=m_arg/ρ_Q; channel=m_e; k=2 min β",
+            "dressed_delta_over_me_pred": dressed_ratio_pred,
+            "dressed_delta_over_me_CODATA": dressed_ratio_codata,
+            "dressed_delta_over_me_rel_err": dressed_ratio_rel_err,
+            "note": "§8.2·7: bare k=2 (m_n>m_p+m_e); dressed (m_n-m_p)/m_e = 81/32 = 2.53125 (0.0103% vs CODATA-2022)",
         }
 
     def neutrino_mass_row(self) -> dict[str, float]:
