@@ -558,7 +558,7 @@ class SISmRows:
         # Dressed nucleon mass splitting ratio (m_n - m_p)/m_e = mod_bits^2 / (K_P/2) = 81 / 32 = 2.53125
         # (`nucleonMassDiffOverMeRatOp` in `lean/MtCarrier/UnifiedOperators.lean`):
         dressed_ratio_pred = 81.0 / 32.0
-        dressed_ratio_codata = (M_NEUTRON_GEV_PDG - M_PROTON_GEV_PDG) / self.m_e_CODATA
+        dressed_ratio_codata = (M_NEUTRON_GEV_PDG - M_PROTON_GEV_PDG) / M_ELECTRON_GEV_PDG
         dressed_ratio_rel_err = abs(dressed_ratio_pred - dressed_ratio_codata) / dressed_ratio_codata
         return {
             "m_p_GeV": m_p,
