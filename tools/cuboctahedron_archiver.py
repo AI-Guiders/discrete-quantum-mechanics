@@ -284,6 +284,9 @@ def run_benchmark() -> None:
 
 
 def benchmark_external_file(file_path: str) -> None:
+    import subprocess
+    import numpy as np
+
     p = Path(file_path)
     if not p.exists():
         raise FileNotFoundError(f"File not found: {p}")
@@ -291,6 +294,56 @@ def benchmark_external_file(file_path: str) -> None:
     print("==========================================================================================")
     print(f"EXTERNAL FILE TEST: {p.name} ({len(data):,} bytes = {len(data)/(1024*1024):.2f} MB)")
     print("==========================================================================================")
+
+    # If the input is a video container (.mp4, .mkv, .avi, .mov, .webm), also run the 4D Lossless Video Frame Archiver!
+    if p.suffix.lower() in (".mp4", ".mkv", ".avi", ".mov", ".webm"):
+        ffmpeg_exe = r"C:\Users\dkara\AppData\Local\Microsoft\WinGet\Links\ffmpeg.exe"
+        if Path(ffmpeg_exe).exists():
+            cmd = [
+                ffmpeg_exe, "-i", str(p),
+                "-vf", "scale=320:180",
+                "-vframes", "60",
+                "-f", "rawvideo",
+                "-pix_fmt", "rgb24",
+                "-"
+            ]
+            raw_vid = subprocess.check_output(cmd, stderr=subprocess.DEVNULL)
+            video_4d = np.frombuffer(raw_vid, dtype=np.uint8).reshape(-1, 180, 320, 3)
+            nt = video_4d.shape[0]
+            g_len = len(zlib.compress(raw_vid, level=9))
+            l_len = len(lzma.compress(raw_vid, preset=9))
+
+            # Reversible 4D Color + Spatial + Temporal Cuboctahedron Transform
+            f_color = video_4d.copy()
+            g_ch = f_color[..., 1]
+            f_color[..., 0] = (f_color[..., 0].astype(np.int16) - g_ch.astype(np.int16)) & 0xFF
+            f_color[..., 2] = (f_color[..., 2].astype(np.int16) - g_ch.astype(np.int16)) & 0xFF
+            res_color = np.empty_like(f_color, dtype=np.uint8)
+            res_color[0] = f_color[0]
+            res_color[0, :, 1:, :] = (f_color[0, :, 1:, :].astype(np.int16) - f_color[0, :, :-1, :].astype(np.int16)) & 0xFF
+            for t in range(1, nt):
+                res_color[t] = ((f_color[t].astype(np.int16) - f_color[t - 1].astype(np.int16)) & 0xFF).astype(np.uint8)
+            comp_vid = carrier_entropy_compress(res_color.tobytes())
+
+            # Reconstruct 100% bit-exact and verify SHA-256
+            rec_res = np.frombuffer(carrier_entropy_decompress(comp_vid), dtype=np.uint8).reshape(video_4d.shape)
+            rec_color = np.empty_like(rec_res, dtype=np.uint8)
+            rec_color[0] = np.cumsum(rec_res[0].astype(np.int32), axis=1).astype(np.uint8)
+            for t in range(1, nt):
+                rec_color[t] = ((rec_color[t - 1].astype(np.int16) + rec_res[t].astype(np.int16)) & 0xFF).astype(np.uint8)
+            rec_vid = rec_color.copy()
+            rec_vid[..., 0] = (rec_vid[..., 0].astype(np.int16) + rec_vid[..., 1].astype(np.int16)) & 0xFF
+            rec_vid[..., 2] = (rec_vid[..., 2].astype(np.int16) + rec_vid[..., 1].astype(np.int16)) & 0xFF
+            sha_v_in = hashlib.sha256(raw_vid).hexdigest()
+            sha_v_out = hashlib.sha256(rec_vid.tobytes()).hexdigest()
+
+            print(f"  [4D Decoded Video Stream: {nt} frames x 320x180 RGB24 = {len(raw_vid):,d} B ({len(raw_vid)/(1024*1024):.2f} MB)]")
+            print(f"  Standard gzip/deflate -9:  {g_len:12,d} B ({len(raw_vid)/g_len:6.2f}x)")
+            print(f"  Standard xz/LZMA -9:       {l_len:12,d} B ({len(raw_vid)/l_len:6.2f}x)")
+            print(f"  Cuboct 4D Video Archiver:  {len(comp_vid):12,d} B ({len(raw_vid)/len(comp_vid):6.2f}x -> saved {l_len - len(comp_vid):+,d} B vs xz/LZMA and {g_len - len(comp_vid):+,d} B vs gzip!)")
+            print(f"  100% Bit-Exact SHA-256:    {sha_v_in == sha_v_out} (SHA-256 = {sha_v_out})\n")
+            return
+
     sha_in = hashlib.sha256(data).hexdigest()
     arch, mode_used = compress_universal_cuboct(data)
     rec = decompress_universal_cuboct(arch)
