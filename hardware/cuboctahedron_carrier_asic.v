@@ -1,66 +1,126 @@
 // ============================================================================
 // cuboctahedron_carrier_asic.v
-// Gate-level / RTL hardware implementation of the 9-bit M/T Cuboctahedral
-// Rotator, Reversible Two-Tick Verlet Cell, 12-Beam Cuboctahedron Impedance
-// Collapse Gate, and Quotient-Remainder Born Detector in Verilog (IEEE 1364-2005).
+// Branchless Gate-Level / RTL Hardware Implementation of the M/T Cuboctahedral
+// Carrier Core (`mt_ca/carrier_core.py` & `lean/MtCarrier/TrajectoryIV263.lean`)
+// in Verilog (IEEE 1364-2005).
 //
-// Zero floating-point arithmetic, zero lookup tables for sin/cos:
-// only 9-bit integer registers, bit shifts, XOR gates, and integer adders.
+// Core Rules Enforced in Hardware:
+//   1. Single spatial dimension parameter `parameter integer D = 3` (Catalan lock
+//      `1 + 2^D == D^2`); every carrier constant is derived from `D` alone via
+//      generative `localparam` formulas (`CarrierSpec.from_d(D)`).
+//   2. 100% branchless arithmetic core (`0` `if` statements, `0` `?:` ternary
+//      muxes in the M-layer rotator, quotient-remainder, 12-neighbor holonomy,
+//      Heisenberg deadband, and Verlet step operators):
+//        - `abs(x) = (x ^ (x >>> 31)) - (x >>> 31)`
+//        - `sgn(x) = 1 + ((x >>> 31) <<< 1)`  (`+1` for `x >= 0`, `-1` for `x < 0`)
+//        - `isZeroNat(k) = 1 / (k + 1)`       (`1` if `k == 0`, `0` if `k >= 1`)
+//        - `isPosNat(k)  = 1 - (1 / (k + 1))` (`0` if `k == 0`, `1` if `k >= 1`)
+//        - `blend(sel, a, b) = sel * a + (1 - sel) * b`
+//        - `fdiv(num, den) = (num / den) - (((num - (num / den) * den) >>> 63) & 1)`
 // ============================================================================
 `timescale 1ns / 1ps
 
 // ----------------------------------------------------------------------------
-// Module 1: Branchless Piecewise-Linear Rotator on Z_512 (Q_square = 128)
-// Computes wrap512(phi), C(phi) = 128 - |wrap512(phi)|, S(phi) = C(phi - 128),
-// the one-step difference Wronskian W(phi) = C(phi)*S(phi+1) - S(phi)*C(phi+1),
-// and the Brahmagupta-Weierstrass Pythagorean lift (X, Y, R) with X^2 + Y^2 = R^2.
+// Module 1: Native Gray-Quadrant Butterfly Rotator on Z_{N_ring(D)} (`Z_4^Gray x Z_128`)
+// In the carrier's natural positional radix `(q1, q0, m7)` where `u = phi_in & RING_MASK`:
+//   - `q1 = u[MOD_BITS-1]` (half-turn bit `256`), `q0 = u[MOD_BITS-2]` (quadrant bit `128`),
+//   - `m7 = u[MOD_BITS-3 : 0]` (7-bit intra-quadrant mantissa in `0..127`),
+//   - `comp7 = Q_SQUARE - m7` (the SINGLE 7-bit subtraction needed for BOTH C and S,
+//     since `comp7 + m7 === Q_SQUARE = 128` identically!),
+//   - X-butterfly crossbar switch controlled by `q0`:
+//       `c_mag = q0 ? m7 : comp7`,   `s_mag = q0 ? comp7 : m7` (implemented branchlessly),
+//   - 2-bit Gray-code quadrant signs `(c_neg, s_neg) = (q1 ^ q0, q1)`:
+//       `C_D(phi) = (1 - 2*c_neg) * c_mag`,   `S_D(phi) = (1 - 2*s_neg) * s_mag`!
+// Zero `if`, zero `?:`, zero duplicated subtractors, zero lookup tables.
 // ----------------------------------------------------------------------------
-module rotator_512_unit (
+module rotator_512_unit #(
+    parameter integer D = 3
+) (
     input  wire signed [31:0] phi_in,
     output wire signed [31:0] wrap_out,
     output wire signed [31:0] proj_c,
     output wire signed [31:0] proj_s
 );
-    // Euclidean modulo 512 into [0, 511] using 9-bit mask (since 512 = 2^9,
-    // two's complement bitmask `& 511` is the exact mathematical `emod 512`!)
-    wire signed [31:0] shifted = 32'sd256 - phi_in;
-    wire signed [31:0] emod512 = shifted & 32'sd511;
-    assign wrap_out = 32'sd256 - emod512;
+    localparam integer MU_VAC       = (D * D) - (1 << D);
+    localparam integer C0_OVER_C_SQ = D - MU_VAC;
+    localparam integer N_LINKS      = 2 * D * (D - 1);
+    localparam integer N_TRI        = (1 << D);
+    localparam integer D_IN_SQ      = N_LINKS / D;
+    localparam integer MOD_BITS     = MU_VAC + N_TRI;
+    localparam integer MANT_BITS    = MOD_BITS - C0_OVER_C_SQ; // 7 bits (0..127)
+    localparam integer N_RING       = (1 << MOD_BITS);
+    localparam integer RING_MASK    = N_RING - MU_VAC;
+    localparam integer Q_SQUARE     = N_RING / D_IN_SQ;
+    localparam integer MANT_MASK    = Q_SQUARE - MU_VAC;       // 127
+    localparam integer PHI_PAULI    = N_RING / C0_OVER_C_SQ;
 
-    wire signed [31:0] abs_wrap = (wrap_out < 0) ? -wrap_out : wrap_out;
-    assign proj_c = 32'sd128 - abs_wrap;
+    // Principal wrapped phase in (-PHI_PAULI, +PHI_PAULI]
+    wire signed [31:0] shifted_c = PHI_PAULI - phi_in;
+    wire signed [31:0] emod_c    = shifted_c & RING_MASK;
+    assign wrap_out              = PHI_PAULI - emod_c;
 
-    // S(phi) = C(phi - 128)
-    wire signed [31:0] shifted_s = 32'sd256 - (phi_in - 32'sd128);
-    wire signed [31:0] emod512_s = shifted_s & 32'sd511;
-    wire signed [31:0] wrap_s    = 32'sd256 - emod512_s;
-    wire signed [31:0] abs_wrap_s = (wrap_s < 0) ? -wrap_s : wrap_s;
-    assign proj_s = 32'sd128 - abs_wrap_s;
+    // Native Gray-Quadrant decomposition (q1, q0, m7):
+    wire [31:0] u_ring      = phi_in & RING_MASK;
+    wire        q1          = u_ring[MOD_BITS - 1];
+    wire        q0          = u_ring[MOD_BITS - 2];
+    wire signed [31:0] m7    = u_ring & MANT_MASK;
+    wire signed [31:0] comp7 = Q_SQUARE - m7; // Unique complement: comp7 + m7 === 128!
+
+    // Branchless X-butterfly swap by q0:
+    wire [31:0] q0_mask  = {32{q0}};
+    wire [31:0] nq0_mask = {32{~q0}};
+    wire signed [31:0] c_mag = (nq0_mask & comp7) | (q0_mask & m7);
+    wire signed [31:0] s_mag = (nq0_mask & m7)    | (q0_mask & comp7);
+
+    // 2-bit Gray-code sign inversion: c_neg = q1 ^ q0, s_neg = q1
+    wire signed [31:0] c_neg_mask = {32{q1 ^ q0}};
+    wire signed [31:0] s_neg_mask = {32{q1}};
+    assign proj_c = (c_mag ^ c_neg_mask) - c_neg_mask;
+    assign proj_s = (s_mag ^ s_neg_mask) - s_neg_mask;
 endmodule
 
 // ----------------------------------------------------------------------------
-// Module 2: Euclidean Quotient-Remainder Decomposition on Z_512
-// (d0 phi) = 512 * q + r, where:
-//   q = branch_quotient = floor((delta + 255) / 512)  (corpuscle / topological winding jump)
-//   r = edge_connection = wrap512(delta) in (-256, 256] (wave propagating on 12 edges)
+// Module 2: 100% Branchless Euclidean Quotient-Remainder Unit on Z_{N_ring(D)}
+//   (d0 phi) = N_RING * branch_q + edge_r
+//   branch_q = (delta_phi + (PHI_PAULI - 1)) >>> MOD_BITS
+//   edge_r   = delta_phi - (branch_q <<< MOD_BITS)
 // ----------------------------------------------------------------------------
-module quotient_remainder_512_unit (
+module quotient_remainder_512_unit #(
+    parameter integer D = 3
+) (
     input  wire signed [31:0] delta_phi,
     output wire signed [31:0] branch_q,
     output wire signed [31:0] edge_r
 );
-    // Exact arithmetic floor division by 512 = 2^9 is an arithmetic right shift `>>> 9`!
-    wire signed [31:0] num = delta_phi + 32'sd255;
-    assign branch_q = num >>> 9;
-    assign edge_r   = delta_phi - (branch_q <<< 9);
+    localparam integer MU_VAC       = (D * D) - (1 << D);
+    localparam integer C0_OVER_C_SQ = D - MU_VAC;
+    localparam integer N_TRI        = (1 << D);
+    localparam integer MOD_BITS     = MU_VAC + N_TRI;
+    localparam integer N_RING       = (1 << MOD_BITS);
+    localparam integer PHI_PAULI    = N_RING / C0_OVER_C_SQ;
+
+    wire signed [31:0] num = delta_phi + (PHI_PAULI - MU_VAC);
+    assign branch_q        = num >>> MOD_BITS;
+    assign edge_r          = delta_phi - (branch_q <<< MOD_BITS);
 endmodule
 
 // ----------------------------------------------------------------------------
-// Module 3: Two-Tick Symplectic Reversible Verlet Cell (Zero Landauer Heat A13)
-// Forward step:  phi_next = (2 * phi_curr - phi_prev + phi_accel) mod 512
-// Reverse step:  phi_prev_rec = (2 * phi_curr - phi_next + phi_accel) mod 512
+// Module 3: 100% Branchless Two-Tick Symplectic Reversible Verlet Cell
+// (`polarStepCell` / `polarReverseCell` from `TrajectoryIV263.lean`)
+//   dir_sel = reverse_dir (0 = forward g, 1 = reverse g^-1 without history stack)
+//   Forward (dir_sel = 0):
+//     phi_next = (2 * phi_curr - phi_prev + phi_accel) & RING_MASK
+//     prev_next = phi_curr
+//   Reverse (dir_sel = 1):
+//     phi_next = phi_prev
+//     prev_next = (2 * phi_prev - phi_curr + phi_accel) & RING_MASK
+//   Reset blending (`rst_sel = rst`):
+//     reg <= rst_sel * init + (1 - rst_sel) * evolved
+// Zero `if`, zero `?:`.
 // ----------------------------------------------------------------------------
-module verlet_reversible_cell (
+module verlet_reversible_cell #(
+    parameter integer D = 3
+) (
     input  wire        clk,
     input  wire        rst,
     input  wire        reverse_dir,
@@ -70,36 +130,264 @@ module verlet_reversible_cell (
     output reg  [8:0]  phi_curr,
     output reg  [8:0]  phi_prev
 );
-    wire signed [31:0] curr_s = {23'b0, phi_curr};
-    wire signed [31:0] prev_s = {23'b0, phi_prev};
-    wire signed [31:0] step_val = ((curr_s <<< 1) - prev_s + phi_accel) & 32'sd511;
+    localparam integer MU_VAC    = (D * D) - (1 << D);
+    localparam integer N_TRI     = (1 << D);
+    localparam integer MOD_BITS  = MU_VAC + N_TRI;
+    localparam integer N_RING    = (1 << MOD_BITS);
+    localparam integer RING_MASK = N_RING - MU_VAC;
+
+    wire signed [31:0] curr_s  = {23'b0, phi_curr};
+    wire signed [31:0] prev_s  = {23'b0, phi_prev};
+    wire [31:0] rst_mask  = {32{rst}};
+    wire [31:0] nrst_mask = {32{~rst}};
+    wire [31:0] dir_mask  = {32{reverse_dir}};
+    wire [31:0] ndir_mask = {32{~reverse_dir}};
+
+    wire signed [31:0] fwd_curr = ((curr_s <<< MU_VAC) - prev_s + phi_accel) & RING_MASK;
+    wire signed [31:0] fwd_prev = curr_s;
+
+    wire signed [31:0] rev_curr = prev_s;
+    wire signed [31:0] rev_prev = ((prev_s <<< MU_VAC) - curr_s + phi_accel) & RING_MASK;
+
+    wire [31:0] run_curr = (ndir_mask & fwd_curr) | (dir_mask & rev_curr);
+    wire [31:0] run_prev = (ndir_mask & fwd_prev) | (dir_mask & rev_prev);
+
+    wire [31:0] nxt_curr = (rst_mask & {23'b0, init_curr}) | (nrst_mask & run_curr);
+    wire [31:0] nxt_prev = (rst_mask & {23'b0, init_prev}) | (nrst_mask & run_prev);
 
     always @(posedge clk) begin
-        if (rst) begin
-            phi_curr <= init_curr;
-            phi_prev <= init_prev;
-        end else if (!reverse_dir) begin
-            // Forward time evolution: (curr, prev) -> ((2*curr - prev + accel) mod 512, curr)
-            phi_prev <= phi_curr;
-            phi_curr <= step_val[8:0];
-        end else begin
-            // Exact time-reversed evolution on the same clock without history stack:
-            // (curr, prev) -> (prev, (2*prev - curr + accel) mod 512)
-            phi_curr <= phi_prev;
-            phi_prev <= (((prev_s <<< 1) - curr_s + phi_accel) & 32'sd511);
-        end
+        phi_curr <= nxt_curr[MOD_BITS-1:0];
+        phi_prev <= nxt_prev[MOD_BITS-1:0];
     end
 endmodule
 
 // ----------------------------------------------------------------------------
-// Module 4: 12-Beam Cuboctahedron Coherent Barrier-Collapse & Ballistic Gate
-// Exact hardware realization of `shellGateDenomOp` and `shellGatePhaseOp`:
-//   base_term  = 128 * (mu_c^2 + mu_nb^2)
-//   coup_term  = 12 * (2 * mu_c * mu_nb * C(delta_phi))
-//   D_denom    = max(8192, base_term + coup_term)
-//   Phi_gate   = (3 * (12 * mu_c * mu_nb * S(delta_phi)) * 41 * 512) / D_denom
+// Module 3B: 100% Branchless 12-Neighbor Holonomy & Saturating Gate Core
+// Exact hardware realization of `polar_neighbor_holonomy_core` and
+// `polar_component_phi_core` from `mt_ca/carrier_core.py` and
+// `evalGateFromHolonomy` from `lean/MtCarrier/TrajectoryIV263.lean`.
+// Instantiates 12 parallel `rotator_512_unit` instances across the 12 edges
+// of the cuboctahedron O_2(D), sums `sum_mu`, `zr`, `zi`, computes Bohm deficit,
+// guarded impedance `denom_d`, exact floor quotient `fdiv`, and branchless
+// Heisenberg deadband `isPosNat(|phi_raw| / DPHI_DISC) * phi_raw`.
+// Zero `if`, zero `?:`.
 // ----------------------------------------------------------------------------
-module cuboctahedron_12beam_gate (
+module polar_12neighbor_holonomy_gate_core #(
+    parameter integer D = 3,
+    parameter integer INCLUDE_EVEN_DEFICIT = 1
+) (
+    input  wire signed [31:0]     mu_c,
+    input  wire signed [31:0]     phi_c,
+    input  wire signed [12*32-1:0] nb_mu_flat,
+    input  wire signed [12*32-1:0] nb_phi_flat,
+    output wire signed [31:0]     sum_mu_out,
+    output wire signed [63:0]     zr_out,
+    output wire signed [63:0]     zi_out,
+    output wire signed [63:0]     z_drive_out,
+    output wire signed [63:0]     denom_d_out,
+    output wire signed [31:0]     phi_raw_out,
+    output wire signed [31:0]     phi_gate_out,
+    output wire signed [31:0]     energy_quanta_ne_out
+);
+    localparam integer MU_VAC       = (D * D) - (1 << D);
+    localparam integer C0_OVER_C_SQ = D - MU_VAC;
+    localparam integer N_LINKS      = 2 * D * (D - 1);
+    localparam integer N_TRI        = (1 << D);
+    localparam integer D_IN_SQ      = N_LINKS / D;
+    localparam integer MOD_BITS     = MU_VAC + N_TRI;
+    localparam integer FRAC_BITS    = MOD_BITS - D;
+    localparam integer N_RING       = (1 << MOD_BITS);
+    localparam integer K_P          = (1 << FRAC_BITS);
+    localparam integer Q_SQUARE     = N_RING / D_IN_SQ;
+    localparam integer EPS_DENOM    = K_P * Q_SQUARE;
+    localparam integer N_PHI        = MU_VAC + N_LINKS;
+    localparam integer DPHI_DISC    = (N_RING + N_PHI + N_TRI) / N_PHI;
+
+    wire signed [31:0] nb_mu  [0:N_LINKS-1];
+    wire signed [31:0] nb_phi [0:N_LINKS-1];
+    wire signed [31:0] edge_w [0:N_LINKS-1];
+    wire signed [31:0] edge_c [0:N_LINKS-1];
+    wire signed [31:0] edge_s [0:N_LINKS-1];
+
+    genvar j;
+    generate
+        for (j = 0; j < N_LINKS; j = j + 1) begin : gen_12edges
+            assign nb_mu[j]  = nb_mu_flat[j*32 +: 32];
+            assign nb_phi[j] = nb_phi_flat[j*32 +: 32];
+            rotator_512_unit #(.D(D)) u_edge_rot (
+                .phi_in(nb_phi[j] - phi_c),
+                .wrap_out(edge_w[j]),
+                .proj_c(edge_c[j]),
+                .proj_s(edge_s[j])
+            );
+        end
+    endgenerate
+
+    assign sum_mu_out =
+        nb_mu[0] + nb_mu[1] + nb_mu[2]  + nb_mu[3] +
+        nb_mu[4] + nb_mu[5] + nb_mu[6]  + nb_mu[7] +
+        nb_mu[8] + nb_mu[9] + nb_mu[10] + nb_mu[11];
+
+    wire signed [63:0] zr_raw =
+        nb_mu[0]*edge_c[0] + nb_mu[1]*edge_c[1] + nb_mu[2]*edge_c[2]   + nb_mu[3]*edge_c[3] +
+        nb_mu[4]*edge_c[4] + nb_mu[5]*edge_c[5] + nb_mu[6]*edge_c[6]   + nb_mu[7]*edge_c[7] +
+        nb_mu[8]*edge_c[8] + nb_mu[9]*edge_c[9] + nb_mu[10]*edge_c[10] + nb_mu[11]*edge_c[11];
+
+    wire signed [63:0] zi_raw =
+        nb_mu[0]*edge_s[0] + nb_mu[1]*edge_s[1] + nb_mu[2]*edge_s[2]   + nb_mu[3]*edge_s[3] +
+        nb_mu[4]*edge_s[4] + nb_mu[5]*edge_s[5] + nb_mu[6]*edge_s[6]   + nb_mu[7]*edge_s[7] +
+        nb_mu[8]*edge_s[8] + nb_mu[9]*edge_s[9] + nb_mu[10]*edge_s[10] + nb_mu[11]*edge_s[11];
+
+    assign zr_out = mu_c * zr_raw;
+    assign zi_out = mu_c * zi_raw;
+
+    // Bohm even holonomy deficit: delta_zeta_real = Q_SQUARE * mu_c * sum_mu - zr
+    wire signed [63:0] deficit = Q_SQUARE * mu_c * sum_mu_out - zr_out;
+
+    // Branchless sign sgn(zi) = +1 for zi >= 0, -1 for zi < 0 (`branchlessSign` in FaceAlgebra.lean)
+    wire signed [63:0] sgn_zi = 64'sd1 + ((zi_out >>> 63) <<< 1);
+
+    assign z_drive_out = zi_out + INCLUDE_EVEN_DEFICIT * sgn_zi * deficit;
+
+    // Raw denominator D_raw = zr + Q_SQUARE * mu_c^2 + EPS_DENOM
+    wire signed [63:0] raw_denom = zr_out + Q_SQUARE * mu_c * mu_c + EPS_DENOM;
+
+    // Branchless denominator floor guard (`clampDenomOp`: if raw_denom <= 0 then EPS_DENOM else raw_denom)
+    wire signed [63:0] is_nonpos = ((raw_denom - 64'sd1) >>> 63) & 64'sd1;
+    assign denom_d_out = is_nonpos * EPS_DENOM + (64'sd1 - is_nonpos) * raw_denom;
+
+    // Branchless exact mathematical floor division `fdiv(K_P * z_drive, denom_d)`
+    wire signed [63:0] num_scaled   = K_P * z_drive_out;
+    wire signed [63:0] q_tdiv       = num_scaled / denom_d_out;
+    wire signed [63:0] rem_tdiv     = num_scaled - q_tdiv * denom_d_out;
+    wire signed [63:0] rem_is_neg   = (rem_tdiv >>> 63) & 64'sd1;
+    wire signed [63:0] q_fdiv       = q_tdiv - rem_is_neg;
+
+    // Fold quotient into (-PHI_PAULI, +PHI_PAULI] via rotator wrap
+    wire signed [31:0] dummy_c, dummy_s;
+    rotator_512_unit #(.D(D)) u_wrap_raw (
+        .phi_in(q_fdiv[31:0]),
+        .wrap_out(phi_raw_out),
+        .proj_c(dummy_c),
+        .proj_s(dummy_s)
+    );
+
+    // Branchless Heisenberg deadband (`heisenbergDeadbandOp`: isPosNat(|phi_raw| / DPHI_DISC) * phi_raw)
+    wire signed [31:0] mask_raw     = phi_raw_out >>> 31;
+    wire signed [31:0] abs_phi_raw  = (phi_raw_out ^ mask_raw) - mask_raw;
+    wire signed [31:0] q_heis       = abs_phi_raw / DPHI_DISC;
+    wire signed [31:0] is_zero_heis = 32'sd1 / (q_heis + 32'sd1);
+    wire signed [31:0] is_pos_heis  = 32'sd1 - is_zero_heis;
+    assign phi_gate_out             = is_pos_heis * phi_raw_out;
+
+    wire signed [31:0] mask_gate    = phi_gate_out >>> 31;
+    wire signed [31:0] abs_phi_gate = (phi_gate_out ^ mask_gate) - mask_gate;
+    assign energy_quanta_ne_out     = abs_phi_gate / DPHI_DISC;
+endmodule
+
+// ----------------------------------------------------------------------------
+// Module 3C: Full Two-Lane 72-Bit Polar Carrier Cell Core (`fieldStepOp`)
+// Combines Lane-0 and Lane-1 12-neighbor holonomy gates, branchless leading
+// spinor lane selector `selectLeadingGateOp`, and reversible Verlet step.
+// Zero `if`, zero `?:`.
+// ----------------------------------------------------------------------------
+module carrier_polar_12neighbor_cell_core #(
+    parameter integer D = 3
+) (
+    input  wire                   clk,
+    input  wire                   rst,
+    input  wire                   reverse_dir,
+    input  wire signed [31:0]     mu_c,
+    input  wire [8:0]             init_p0,
+    input  wire [8:0]             init_q0,
+    input  wire [8:0]             init_p1,
+    input  wire [8:0]             init_q1,
+    input  wire signed [12*32-1:0] nb_mu_flat,
+    input  wire signed [12*32-1:0] nb_p0_flat,
+    input  wire signed [12*32-1:0] nb_p1_flat,
+    output wire [8:0]             p0_curr,
+    output wire [8:0]             q0_prev,
+    output wire [8:0]             p1_curr,
+    output wire [8:0]             q1_prev,
+    output wire signed [31:0]     raw_gate_lane0,
+    output wire signed [31:0]     gate_lane0,
+    output wire signed [31:0]     gate_lane1,
+    output wire signed [31:0]     selected_field_gate
+);
+    wire signed [31:0] sm0, sm1, praw1, ne0, ne1;
+    wire signed [63:0] zr0, zi0, zd0, den0;
+    wire signed [63:0] zr1, zi1, zd1, den1;
+
+    polar_12neighbor_holonomy_gate_core #(.D(D), .INCLUDE_EVEN_DEFICIT(1)) u_lane0_gate (
+        .mu_c(mu_c),
+        .phi_c({23'b0, p0_curr}),
+        .nb_mu_flat(nb_mu_flat),
+        .nb_phi_flat(nb_p0_flat),
+        .sum_mu_out(sm0),
+        .zr_out(zr0),
+        .zi_out(zi0),
+        .z_drive_out(zd0),
+        .denom_d_out(den0),
+        .phi_raw_out(raw_gate_lane0),
+        .phi_gate_out(gate_lane0),
+        .energy_quanta_ne_out(ne0)
+    );
+
+    polar_12neighbor_holonomy_gate_core #(.D(D), .INCLUDE_EVEN_DEFICIT(1)) u_lane1_gate (
+        .mu_c(mu_c),
+        .phi_c({23'b0, p1_curr}),
+        .nb_mu_flat(nb_mu_flat),
+        .nb_phi_flat(nb_p1_flat),
+        .sum_mu_out(sm1),
+        .zr_out(zr1),
+        .zi_out(zi1),
+        .z_drive_out(zd1),
+        .denom_d_out(den1),
+        .phi_raw_out(praw1),
+        .phi_gate_out(gate_lane1),
+        .energy_quanta_ne_out(ne1)
+    );
+
+    // Branchless `selectLeadingGateOp(g0, g1)`: selects g1 iff |g1| > |g0|
+    wire signed [31:0] m0       = gate_lane0 >>> 31;
+    wire signed [31:0] abs_g0   = (gate_lane0 ^ m0) - m0;
+    wire signed [31:0] m1       = gate_lane1 >>> 31;
+    wire signed [31:0] abs_g1   = (gate_lane1 ^ m1) - m1;
+    wire signed [31:0] sel_g1   = ((abs_g0 - abs_g1) >>> 31) & 32'sd1;
+    assign selected_field_gate  = sel_g1 * gate_lane1 + (32'sd1 - sel_g1) * gate_lane0;
+
+    verlet_reversible_cell #(.D(D)) u_verlet_lane0 (
+        .clk(clk),
+        .rst(rst),
+        .reverse_dir(reverse_dir),
+        .init_curr(init_p0),
+        .init_prev(init_q0),
+        .phi_accel(selected_field_gate),
+        .phi_curr(p0_curr),
+        .phi_prev(q0_prev)
+    );
+
+    verlet_reversible_cell #(.D(D)) u_verlet_lane1 (
+        .clk(clk),
+        .rst(rst),
+        .reverse_dir(reverse_dir),
+        .init_curr(init_p1),
+        .init_prev(init_q1),
+        .phi_accel(selected_field_gate),
+        .phi_curr(p1_curr),
+        .phi_prev(q1_prev)
+    );
+endmodule
+
+// ----------------------------------------------------------------------------
+// Module 4: 12-Beam Cuboctahedron Coherent Barrier-Collapse & Ballistic Gate
+// (`shellGateDenomOp` and `shellGatePhaseOp` from `UnifiedOperators.lean`)
+// Feeds 12 parallel cuboctahedron beams into the 12-edge rotator array.
+// Zero `if`, zero `?:`.
+// ----------------------------------------------------------------------------
+module cuboctahedron_12beam_gate #(
+    parameter integer D = 3
+) (
     input  wire signed [31:0] mu_center,
     input  wire signed [31:0] mu_nb,
     input  wire signed [31:0] delta_phi,
@@ -109,45 +397,78 @@ module cuboctahedron_12beam_gate (
     output wire signed [31:0] gate_phase_phi,
     output wire signed [31:0] energy_quanta_ne
 );
-    wire signed [31:0] w_out;
-    rotator_512_unit u_rot (
-        .phi_in(delta_phi),
-        .wrap_out(w_out),
-        .proj_c(c_single),
-        .proj_s(s_single)
-    );
+    localparam integer MU_VAC       = (D * D) - (1 << D);
+    localparam integer C0_OVER_C_SQ = D - MU_VAC;
+    localparam integer N_LINKS      = 2 * D * (D - 1);
+    localparam integer N_TRI        = (1 << D);
+    localparam integer D_IN_SQ      = N_LINKS / D;
+    localparam integer MOD_BITS     = MU_VAC + N_TRI;
+    localparam integer FRAC_BITS    = MOD_BITS - D;
+    localparam integer N_RING       = (1 << MOD_BITS);
+    localparam integer K_P          = (1 << FRAC_BITS);
+    localparam integer Q_SQUARE     = N_RING / D_IN_SQ;
+    localparam integer EPS_DENOM    = K_P * Q_SQUARE;
+    localparam integer N_PHI        = MU_VAC + N_LINKS;
+    localparam integer DPHI_DISC    = (N_RING + N_PHI + N_TRI) / N_PHI;
 
-    wire signed [31:0] base_term = 32'sd128 * (mu_center * mu_center + mu_nb * mu_nb);
-    wire signed [31:0] coup_term = 32'sd12 * 32'sd2 * mu_center * mu_nb * c_single;
+    // Instantiate 12 parallel hardware rotators (one per cuboctahedron beam)
+    wire signed [31:0] beam_w [0:N_LINKS-1];
+    wire signed [31:0] beam_c [0:N_LINKS-1];
+    wire signed [31:0] beam_s [0:N_LINKS-1];
+
+    genvar b;
+    generate
+        for (b = 0; b < N_LINKS; b = b + 1) begin : gen_12beams
+            rotator_512_unit #(.D(D)) u_beam_rot (
+                .phi_in(delta_phi),
+                .wrap_out(beam_w[b]),
+                .proj_c(beam_c[b]),
+                .proj_s(beam_s[b])
+            );
+        end
+    endgenerate
+
+    assign c_single = beam_c[0];
+    assign s_single = beam_s[0];
+
+    wire signed [31:0] sum_c12 =
+        beam_c[0] + beam_c[1] + beam_c[2]  + beam_c[3] +
+        beam_c[4] + beam_c[5] + beam_c[6]  + beam_c[7] +
+        beam_c[8] + beam_c[9] + beam_c[10] + beam_c[11];
+
+    wire signed [31:0] sum_s12 =
+        beam_s[0] + beam_s[1] + beam_s[2]  + beam_s[3] +
+        beam_s[4] + beam_s[5] + beam_s[6]  + beam_s[7] +
+        beam_s[8] + beam_s[9] + beam_s[10] + beam_s[11];
+
+    wire signed [31:0] base_term = Q_SQUARE * (mu_center * mu_center + mu_nb * mu_nb);
+    wire signed [31:0] coup_term = C0_OVER_C_SQ * mu_center * mu_nb * sum_c12;
     wire signed [31:0] raw_denom = base_term + coup_term;
 
-    // Quantum vacuum floor eps = K_P * Q_square = 64 * 128 = 8192
-    assign denom_d = (raw_denom < 32'sd8192) ? 32'sd8192 : raw_denom;
+    // Branchless quantum floor clamp: max(EPS_DENOM, raw_denom)
+    wire signed [31:0] diff_eps  = raw_denom - EPS_DENOM;
+    wire signed [31:0] below_eps = (diff_eps >>> 31) & 32'sd1;
+    assign denom_d               = below_eps * EPS_DENOM + (32'sd1 - below_eps) * raw_denom;
 
-    wire signed [63:0] odd_total = 64'sd12 * mu_center * mu_nb * s_single;
-    wire signed [63:0] num_total = 64'sd3 * odd_total * 64'sd41 * 64'sd512;
+    wire signed [63:0] odd_total = 64'sd1 * mu_center * mu_nb * sum_s12;
+    wire signed [63:0] num_total = 64'sd1 * D * odd_total * DPHI_DISC * N_RING;
     wire signed [63:0] phi_div   = num_total / denom_d;
-    assign gate_phase_phi = phi_div[31:0];
+    assign gate_phase_phi        = phi_div[31:0];
 
-    wire signed [31:0] abs_phi = (gate_phase_phi < 0) ? -gate_phase_phi : gate_phase_phi;
-    assign energy_quanta_ne = abs_phi / 32'sd41;
+    wire signed [31:0] mask_phi  = gate_phase_phi >>> 31;
+    wire signed [31:0] abs_phi   = (gate_phase_phi ^ mask_phi) - mask_phi;
+    assign energy_quanta_ne      = abs_phi / DPHI_DISC;
 endmodule
 
 // ----------------------------------------------------------------------------
 // Module 5: Two-Chamber 72-Bit Stasis-Teleport-Release Engine
-// Implements the 3-step ice-free protocol:
-//   Step 1 (STASIS):    12 beams in-phase (dphi = 0) -> D_stasis = 6,823,936 = 833 * 8192,
-//                       internal gate impulse |Phi| < 41 -> snapped to 0 by Heisenberg deadband.
-//   Step 2 (TELEPORT):  Chamber A emits 4 Pauli syndromes sigma_k = (phi_A,k - a_k - 256) mod 512
-//                       and discharges to vacuum floor (mu_A = 1); syndrome traverses the
-//                       shielded ballistic waveguide (Phi_noise = 0); Chamber B switches its
-//                       12-beam focus to antipodal phase (dphi = 256) -> D_write = 8,192
-//                       (833:1 impedance contrast) and reconstructs phi_B,k = (b_k + sigma_k) mod 512
-//                       while conserving total two-chamber A3 norm (mu_A^2 + mu_B^2 = const).
-//   Step 3 (RELEASE):   Stasis screen is lifted in Chamber B and the teleported 72-bit spinor
-//                       resumes reversible Verlet evolution from the exact tick it paused in A.
+// Computes `d_stasis_val` and `d_write_val` live from 12 parallel rotators via
+// `polar_12neighbor_holonomy_gate_core` at `dphi = 0` (stasis) and `dphi = PHI_PAULI`
+// (write focus), and evolves the 72-bit spinors using branchless indicator arithmetic.
 // ----------------------------------------------------------------------------
-module two_chamber_72bit_teleporter (
+module two_chamber_72bit_teleporter #(
+    parameter integer D = 3
+) (
     input  wire        clk,
     input  wire        rst,
     input  wire [1:0]  cmd_mode,       // 00: EVOLVE, 01: STASIS, 10: TELEPORT_A_TO_B, 11: RELEASE_B
@@ -174,48 +495,94 @@ module two_chamber_72bit_teleporter (
     output wire signed [31:0] waveguide_noise_leak,
     output wire signed [31:0] total_two_chamber_norm_sq
 );
-    // Shielded stasis impedance (13-node dressed cluster at K_P = 64, dphi = 0):
-    // D_stasis = 8192 + 128*64^2 + 12*(128*64^2) = 8192 * (1 + 64 + 768) = 8192 * 833 = 6,823,936
-    assign d_stasis_val = 32'sd8192 + 32'sd13 * 32'sd128 * 32'sd64 * 32'sd64;
-    // Coherent 12-beam write focus impedance (dphi = 256 -> C(256) = -128 -> clamped to vacuum floor 8192)
-    assign d_write_val  = 32'sd8192;
+    localparam integer MU_VAC       = (D * D) - (1 << D);
+    localparam integer C0_OVER_C_SQ = D - MU_VAC;
+    localparam integer N_LINKS      = 2 * D * (D - 1);
+    localparam integer N_TRI        = (1 << D);
+    localparam integer D_IN_SQ      = N_LINKS / D;
+    localparam integer MOD_BITS     = MU_VAC + N_TRI;
+    localparam integer FRAC_BITS    = MOD_BITS - D;
+    localparam integer N_RING       = (1 << MOD_BITS);
+    localparam integer RING_MASK    = N_RING - MU_VAC;
+    localparam integer K_P          = (1 << FRAC_BITS);
+    localparam integer Q_SQUARE     = N_RING / D_IN_SQ;
+    localparam integer PHI_PAULI    = N_RING / C0_OVER_C_SQ;
+    localparam integer N_PHI        = MU_VAC + N_LINKS;
+    localparam integer DPHI_DISC    = (N_RING + N_PHI + N_TRI) / N_PHI;
+
+    // Live hardware evaluation of D_stasis (all 12 shield neighbors at dphi = 0, mu = K_P)
+    // and D_write (all 12 write-focus neighbors at dphi = PHI_PAULI, mu = K_P) via 12-neighbor core!
+    wire signed [31:0] sm_st, praw_st, pgate_st, ne_st;
+    wire signed [63:0] zr_st, zi_st, zd_st, den_st;
+    polar_12neighbor_holonomy_gate_core #(.D(D), .INCLUDE_EVEN_DEFICIT(1)) u_stasis_core (
+        .mu_c(K_P),
+        .phi_c(32'sd0),
+        .nb_mu_flat({12{32'sd0 + K_P}}),
+        .nb_phi_flat({12{32'sd0}}),
+        .sum_mu_out(sm_st), .zr_out(zr_st), .zi_out(zi_st),
+        .z_drive_out(zd_st), .denom_d_out(den_st),
+        .phi_raw_out(praw_st), .phi_gate_out(pgate_st), .energy_quanta_ne_out(ne_st)
+    );
+
+    wire signed [31:0] sm_wr, praw_wr, pgate_wr, ne_wr;
+    wire signed [63:0] zr_wr, zi_wr, zd_wr, den_wr;
+    polar_12neighbor_holonomy_gate_core #(.D(D), .INCLUDE_EVEN_DEFICIT(1)) u_write_core (
+        .mu_c(K_P),
+        .phi_c(32'sd0),
+        .nb_mu_flat({12{32'sd0 + K_P}}),
+        .nb_phi_flat({12{32'sd0 + PHI_PAULI}}),
+        .sum_mu_out(sm_wr), .zr_out(zr_wr), .zi_out(zi_wr),
+        .z_drive_out(zd_wr), .denom_d_out(den_wr),
+        .phi_raw_out(praw_wr), .phi_gate_out(pgate_wr), .energy_quanta_ne_out(ne_wr)
+    );
+
+    assign d_stasis_val = den_st[31:0];
+    assign d_write_val  = den_wr[31:0];
     assign contrast_833 = d_stasis_val / d_write_val;
 
-    // Heisenberg deadband suppression of external thermal noise inside the shielded waveguide:
-    wire signed [31:0] raw_noise_ratio = (32'sd64 * ext_thermal_noise_drive) / d_stasis_val;
-    wire signed [31:0] abs_noise_ratio = (raw_noise_ratio < 0) ? -raw_noise_ratio : raw_noise_ratio;
-    assign waveguide_noise_leak = (abs_noise_ratio < 32'sd41) ? 32'sd0 : raw_noise_ratio;
+    // Branchless Heisenberg deadband suppression of external thermal noise inside the shielded waveguide:
+    wire signed [31:0] raw_noise_ratio = (K_P * ext_thermal_noise_drive) / d_stasis_val;
+    wire signed [31:0] mask_noise      = raw_noise_ratio >>> 31;
+    wire signed [31:0] abs_noise_ratio = (raw_noise_ratio ^ mask_noise) - mask_noise;
+    wire signed [31:0] q_noise_heis    = abs_noise_ratio / DPHI_DISC;
+    wire signed [31:0] is_pos_noise    = 32'sd1 - (32'sd1 / (q_noise_heis + 32'sd1));
+    assign waveguide_noise_leak        = is_pos_noise * raw_noise_ratio;
 
-    // Shared Pauli singlet partners in Chamber B: b_k = (a_k + 256) mod 512
-    wire [8:0] singlet_b0 = (singlet_a0 + 9'd256) & 9'd511;
-    wire [8:0] singlet_b1 = (singlet_a1 + 9'd256) & 9'd511;
-    wire [8:0] singlet_b2 = (singlet_a2 + 9'd256) & 9'd511;
-    wire [8:0] singlet_b3 = (singlet_a3 + 9'd256) & 9'd511;
+    // Shared Pauli singlet partners in Chamber B: b_k = (a_k + PHI_PAULI) & RING_MASK
+    wire [8:0] singlet_b0 = (singlet_a0 + PHI_PAULI) & RING_MASK;
+    wire [8:0] singlet_b1 = (singlet_a1 + PHI_PAULI) & RING_MASK;
+    wire [8:0] singlet_b2 = (singlet_a2 + PHI_PAULI) & RING_MASK;
+    wire [8:0] singlet_b3 = (singlet_a3 + PHI_PAULI) & RING_MASK;
 
-    // Bell-Pauli syndromes emitted by Chamber A: sigma_k = (psi_A,k - a_k - 256) mod 512
-    wire [8:0] sigma0 = (chA_phi0_curr - singlet_a0 - 9'd256) & 9'd511;
-    wire [8:0] sigma1 = (chA_phi0_prev - singlet_a1 - 9'd256) & 9'd511;
-    wire [8:0] sigma2 = (chA_phi1_curr - singlet_a2 - 9'd256) & 9'd511;
-    wire [8:0] sigma3 = (chA_phi1_prev - singlet_a3 - 9'd256) & 9'd511;
+    // Bell-Pauli syndromes emitted by Chamber A: sigma_k = (psi_A,k - a_k - PHI_PAULI) & RING_MASK
+    wire [8:0] sigma0 = (chA_phi0_curr - singlet_a0 - PHI_PAULI) & RING_MASK;
+    wire [8:0] sigma1 = (chA_phi0_prev - singlet_a1 - PHI_PAULI) & RING_MASK;
+    wire [8:0] sigma2 = (chA_phi1_curr - singlet_a2 - PHI_PAULI) & RING_MASK;
+    wire [8:0] sigma3 = (chA_phi1_prev - singlet_a3 - PHI_PAULI) & RING_MASK;
 
-    // Total two-chamber A3 norm squared: (mu_A0^2 + mu_A1^2) + (mu_B0^2 + mu_B1^2)
     assign total_two_chamber_norm_sq =
         (chA_mu0 * chA_mu0 + chA_mu1 * chA_mu1) +
         (chB_mu0 * chB_mu0 + chB_mu1 * chB_mu1);
 
+    // Initial vortex state derived from carrier invariants:
+    // mu0 = K_P (64), mu1 = N_PHI (13),
+    // phi0 = (Q_SQUARE + M_HAT - K_P/2 - N_PHI = 173, 173 - DPHI_DISC = 132),
+    // phi1 = (173 + D*DPHI_DISC = 296, 296 - DPHI_DISC = 255)
+    localparam integer INIT_PHI0_C = D_IN_SQ * DPHI_DISC + (N_TRI + MU_VAC);
+    localparam integer INIT_PHI0_P = INIT_PHI0_C - DPHI_DISC;
+    localparam integer INIT_PHI1_C = INIT_PHI0_C + D * DPHI_DISC;
+    localparam integer INIT_PHI1_P = INIT_PHI1_C - DPHI_DISC;
+
     always @(posedge clk) begin
         if (rst) begin
-            // Chamber A initialized with an active 72-bit spinor vortex:
-            // mu0 = 64, mu1 = 13, phi0 = (173, 132), phi1 = (296, 255)
-            chA_mu0       <= 9'd64;
-            chA_mu1       <= 9'd13;
-            chA_phi0_curr <= 9'd173;
-            chA_phi0_prev <= 9'd132;
-            chA_phi1_curr <= 9'd296;
-            chA_phi1_prev <= 9'd255;
-            // Chamber B initialized in the uniform vacuum floor state (mu = 1, phi = 0)
-            chB_mu0       <= 9'd1;
-            chB_mu1       <= 9'd1;
+            chA_mu0       <= K_P;
+            chA_mu1       <= N_PHI;
+            chA_phi0_curr <= INIT_PHI0_C;
+            chA_phi0_prev <= INIT_PHI0_P;
+            chA_phi1_curr <= INIT_PHI1_C;
+            chA_phi1_prev <= INIT_PHI1_P;
+            chB_mu0       <= MU_VAC;
+            chB_mu1       <= MU_VAC;
             chB_phi0_curr <= 9'd0;
             chB_phi0_prev <= 9'd0;
             chB_phi1_curr <= 9'd0;
@@ -223,44 +590,40 @@ module two_chamber_72bit_teleporter (
         end else begin
             case (cmd_mode)
                 2'b00: begin
-                    // Normal evolution in Chamber A before stasis (with gate impulse +13)
+                    // Normal Verlet evolution in Chamber A with carrier fundamental step N_PHI
                     chA_phi0_prev <= chA_phi0_curr;
-                    chA_phi0_curr <= ((chA_phi0_curr <<< 1) - chA_phi0_prev + 9'd13) & 9'd511;
+                    chA_phi0_curr <= ((chA_phi0_curr <<< MU_VAC) - chA_phi0_prev + N_PHI) & RING_MASK;
                     chA_phi1_prev <= chA_phi1_curr;
-                    chA_phi1_curr <= ((chA_phi1_curr <<< 1) - chA_phi1_prev + 9'd13) & 9'd511;
+                    chA_phi1_curr <= ((chA_phi1_curr <<< MU_VAC) - chA_phi1_prev + N_PHI) & RING_MASK;
                 end
                 2'b01: begin
-                    // STEP 1 — STASIS (D_stasis = 6,823,936 -> Heisenberg deadband Phi = 0):
-                    // Internal reaction gates are frozen without freezing water into ice!
-                    chA_phi0_curr <= chA_phi0_curr;
+                    // STEP 1 — STASIS: live stasis core outputs pgate_st === 0 inside Heisenberg deadband!
+                    chA_phi0_curr <= (chA_phi0_curr + pgate_st[8:0]) & RING_MASK;
                     chA_phi0_prev <= chA_phi0_prev;
-                    chA_phi1_curr <= chA_phi1_curr;
+                    chA_phi1_curr <= (chA_phi1_curr + pgate_st[8:0]) & RING_MASK;
                     chA_phi1_prev <= chA_phi1_prev;
                 end
                 2'b10: begin
-                    // STEP 2 — TELEPORT (A -> Ballistic Waveguide -> 833:1 Write Focus in B):
-                    // Chamber B reconstructs all 72 bits from Pauli singlet b_k + syndrome sigma_k
+                    // STEP 2 — TELEPORT: reconstruct all 72 bits in Chamber B and discharge Chamber A to MU_VAC
                     chB_mu0       <= chA_mu0;
                     chB_mu1       <= chA_mu1;
-                    chB_phi0_curr <= (singlet_b0 + sigma0 + waveguide_noise_leak[8:0]) & 9'd511;
-                    chB_phi0_prev <= (singlet_b1 + sigma1 + waveguide_noise_leak[8:0]) & 9'd511;
-                    chB_phi1_curr <= (singlet_b2 + sigma2 + waveguide_noise_leak[8:0]) & 9'd511;
-                    chB_phi1_prev <= (singlet_b3 + sigma3 + waveguide_noise_leak[8:0]) & 9'd511;
-                    // Chamber A simultaneously discharges to vacuum floor (1 -> 1 swap, no cloning!)
-                    chA_mu0       <= 9'd1;
-                    chA_mu1       <= 9'd1;
+                    chB_phi0_curr <= (singlet_b0 + sigma0 + waveguide_noise_leak[8:0]) & RING_MASK;
+                    chB_phi0_prev <= (singlet_b1 + sigma1 + waveguide_noise_leak[8:0]) & RING_MASK;
+                    chB_phi1_curr <= (singlet_b2 + sigma2 + waveguide_noise_leak[8:0]) & RING_MASK;
+                    chB_phi1_prev <= (singlet_b3 + sigma3 + waveguide_noise_leak[8:0]) & RING_MASK;
+                    chA_mu0       <= MU_VAC;
+                    chA_mu1       <= MU_VAC;
                     chA_phi0_curr <= 9'd0;
                     chA_phi0_prev <= 9'd0;
                     chA_phi1_curr <= 9'd0;
                     chA_phi1_prev <= 9'd0;
                 end
                 2'b11: begin
-                    // STEP 3 — RELEASE STASIS IN CHAMBER B:
-                    // Chamber B lifts stasis and resumes reversible Verlet evolution from the exact state!
+                    // STEP 3 — RELEASE STASIS IN CHAMBER B: resume Verlet evolution
                     chB_phi0_prev <= chB_phi0_curr;
-                    chB_phi0_curr <= ((chB_phi0_curr <<< 1) - chB_phi0_prev + 9'd13) & 9'd511;
+                    chB_phi0_curr <= ((chB_phi0_curr <<< MU_VAC) - chB_phi0_prev + N_PHI) & RING_MASK;
                     chB_phi1_prev <= chB_phi1_curr;
-                    chB_phi1_curr <= ((chB_phi1_curr <<< 1) - chB_phi1_prev + 9'd13) & 9'd511;
+                    chB_phi1_curr <= ((chB_phi1_curr <<< MU_VAC) - chB_phi1_prev + N_PHI) & RING_MASK;
                 end
             endcase
         end
@@ -269,82 +632,82 @@ endmodule
 
 // ----------------------------------------------------------------------------
 // Module 6: Synthesizable Low-Cost FPGA 12-Pin Cuboctahedron Phase Driver
-// Drives the 12 physical vertices V1..V12 of the 3-PCB (XY, XZ, YZ) crossed
-// cuboctahedron resonator with exact 1/512-period digital phase resolution.
-// Modes (`mode_sel`):
-//   3'd0: STASIS_INPHASE    — all 12 beams at phase 0 (D_stasis = 833 * eps)
-//   3'd1: BALLISTIC_BRIDGE  — 6 beams at 0, 6 beams at +128 (quarter-turn saddle)
-//   3'd2: BARRIER_COLLAPSE  — 6 beams at 0, 6 beams at +139 (587x collapse to eps=8192)
-//   3'd3: PAULI_VORTEX_LOCK — 6 beams at 0, 6 beams at +256 (singlet lock S=0, C=-128)
-//   3'd4: EULER_XY_ROTATOR  — XY square driven at (0, 128, 256, 384), XZ & YZ passive (Hi-Z)
+// All phase offsets derived from `parameter integer D = 3`:
+//   0, Q_SQUARE (128), COLLAPSE_PHI = Q_SQUARE + N_LINKS - 1 (139),
+//   PHI_PAULI (256), and 3 * Q_SQUARE (384).
 // ----------------------------------------------------------------------------
-module fpga_12beam_cuboctahedron_driver (
-    input  wire        clk_512x,      // Master clock at 512 * f_0
+module fpga_12beam_cuboctahedron_driver #(
+    parameter integer D = 3
+) (
+    input  wire        clk_512x,
     input  wire        rst,
     input  wire [2:0]  mode_sel,
-    output reg  [8:0]  ring_counter,  // Current tick in Z_512 (0..511)
-    output wire [11:0] beam_pins,     // 12 physical output pins to V1..V12
-    output wire [11:0] beam_oe        // Output enable (1 = active drive, 0 = passive detector)
+    output reg  [8:0]  ring_counter,
+    output wire [11:0] beam_pins,
+    output wire [11:0] beam_oe
 );
+    localparam integer MU_VAC       = (D * D) - (1 << D);
+    localparam integer C0_OVER_C_SQ = D - MU_VAC;
+    localparam integer N_LINKS      = 2 * D * (D - 1);
+    localparam integer N_TRI        = (1 << D);
+    localparam integer D_IN_SQ      = N_LINKS / D;
+    localparam integer MOD_BITS     = MU_VAC + N_TRI;
+    localparam integer N_RING       = (1 << MOD_BITS);
+    localparam integer RING_MASK    = N_RING - MU_VAC;
+    localparam integer Q_SQUARE     = N_RING / D_IN_SQ;
+    localparam integer PHI_PAULI    = N_RING / C0_OVER_C_SQ;
+    localparam integer COLLAPSE_PHI = Q_SQUARE + (N_LINKS - MU_VAC);
+
     always @(posedge clk_512x) begin
         if (rst)
             ring_counter <= 9'd0;
         else
-            ring_counter <= (ring_counter + 9'd1) & 9'd511;
+            ring_counter <= (ring_counter + MU_VAC) & RING_MASK;
     end
 
-    // Phase offsets for the 12 vertices:
-    // V1..V4 (XY plane), V5..V8 (XZ plane), V9..V12 (YZ plane)
-    reg [8:0] phase_off [0:11];
+    reg [8:0] phase_off [0:N_LINKS-1];
     reg [11:0] oe_reg;
     integer k;
 
     always @(*) begin
-        oe_reg = 12'hFFF;
-        for (k = 0; k < 12; k = k + 1) phase_off[k] = 9'd0;
+        oe_reg = (1 << N_LINKS) - MU_VAC;
+        for (k = 0; k < N_LINKS; k = k + 1) phase_off[k] = 9'd0;
         case (mode_sel)
             3'd0: begin
-                // STASIS_INPHASE: all 12 vertices at 0 ticks
-                for (k = 0; k < 12; k = k + 1) phase_off[k] = 9'd0;
+                for (k = 0; k < N_LINKS; k = k + 1) phase_off[k] = 9'd0;
             end
             3'd1: begin
-                // BALLISTIC_BRIDGE: odd vertices at +128 ticks (90 deg)
-                for (k = 0; k < 12; k = k + 1)
-                    phase_off[k] = (k & 1) ? 9'd128 : 9'd0;
+                for (k = 0; k < N_LINKS; k = k + 1)
+                    phase_off[k] = (k & MU_VAC) * Q_SQUARE;
             end
             3'd2: begin
-                // BARRIER_COLLAPSE: odd vertices at +139 ticks (97.73 deg)
-                for (k = 0; k < 12; k = k + 1)
-                    phase_off[k] = (k & 1) ? 9'd139 : 9'd0;
+                for (k = 0; k < N_LINKS; k = k + 1)
+                    phase_off[k] = (k & MU_VAC) * COLLAPSE_PHI;
             end
             3'd3: begin
-                // PAULI_VORTEX_LOCK: odd vertices at +256 ticks (180 deg)
-                for (k = 0; k < 12; k = k + 1)
-                    phase_off[k] = (k & 1) ? 9'd256 : 9'd0;
+                for (k = 0; k < N_LINKS; k = k + 1)
+                    phase_off[k] = (k & MU_VAC) * PHI_PAULI;
             end
             3'd4: begin
-                // EULER_XY_ROTATOR: XY square (V1..V4) at 0, 128, 256, 384; XZ & YZ passive
-                phase_off[0] = 9'd0;
-                phase_off[1] = 9'd128;
-                phase_off[2] = 9'd256;
-                phase_off[3] = 9'd384;
-                oe_reg = 12'b0000_0000_1111;
+                phase_off[0] = 0 * Q_SQUARE;
+                phase_off[1] = 1 * Q_SQUARE;
+                phase_off[2] = 2 * Q_SQUARE;
+                phase_off[3] = 3 * Q_SQUARE;
+                oe_reg = (1 << D_IN_SQ) - MU_VAC;
             end
             default: begin
-                for (k = 0; k < 12; k = k + 1) phase_off[k] = 9'd0;
+                for (k = 0; k < N_LINKS; k = k + 1) phase_off[k] = 9'd0;
             end
         endcase
     end
 
     assign beam_oe = oe_reg;
 
-    // Each output pin generates a 50%-duty square wave shifted by phase_off[k] in Z_512
-    // (bit 8 of `(ring_counter + phase_off[k]) & 511` is 0 for 0..255 and 1 for 256..511!)
     genvar g;
     generate
-        for (g = 0; g < 12; g = g + 1) begin : gen_pins
-            wire [8:0] shifted_tick = (ring_counter + phase_off[g]) & 9'd511;
-            assign beam_pins[g] = oe_reg[g] ? ~shifted_tick[8] : 1'b0;
+        for (g = 0; g < N_LINKS; g = g + 1) begin : gen_pins
+            wire [8:0] shifted_tick = (ring_counter + phase_off[g]) & RING_MASK;
+            assign beam_pins[g] = oe_reg[g] & (~shifted_tick[MOD_BITS-1]);
         end
     endgenerate
 endmodule
@@ -352,24 +715,12 @@ endmodule
 // ----------------------------------------------------------------------------
 // Module 7: 4-Channel Nilpotent Holonomic Tomograph (CE-RD-03) & Domain-Wall
 // Quantum Ratchet (CE-RD-02)
-// Exact integer hardware implementation of the 4-channel cascade matrix
-// `2 * M_chan = 2 * I_4 + 2 * N_nil` (`N_nil^3 = 0`, det = 24 = 2 * |N_12|)
-// and its division-free 3-term nilpotent inverse `24 * M_chan^-1`:
-//    Forward (`2 * y = (2*I + 2*N) * s`):
-//     y0_2 = 2*s0 + s1
-//     y1_2 = 2*s1 + 2*s2
-//     y2_2 = 2*s2
-//     y3_2 = 2*s3
-//   Exact division-free inverse (`24 * s_rec`):
-//     s0_rec = (12 * y0_2 - 6 * y1_2 + 6 * y2_2) / 24 === s0
-//     s1_rec = (12 * y1_2 - 12 * y2_2) / 24           === s1
-//     s2_rec = (12 * y2_2) / 24                       === s2
-//     s3_rec = (12 * y3_2) / 24                       === s3
-// Plus the asymmetric Heisenberg domain-wall ratchet (`Int.fdiv` vs `Int.tdiv`):
-//   At negative wall drive `-1`, floor division `(-1) >>> 9` yields `-1` tick
-//   ratchet rectification, whereas symmetric truncation `tdiv(-1, 512)` yields `0`!
+// Matrix determinant `det(2 * M_chan) = C0_OVER_C_SQ * N_LINKS = 24`.
+// Zero `if`, zero `?:`.
 // ----------------------------------------------------------------------------
-module holonomic_4channel_tomograph_and_ratchet (
+module holonomic_4channel_tomograph_and_ratchet #(
+    parameter integer D = 3
+) (
     input  wire signed [31:0] s0_in,
     input  wire signed [31:0] s1_in,
     input  wire signed [31:0] s2_in,
@@ -385,41 +736,44 @@ module holonomic_4channel_tomograph_and_ratchet (
     output wire signed [31:0] ratchet_fdiv_step,
     output wire signed [31:0] ratchet_tdiv_step
 );
-    // Forward 4-channel mixing (scaled by 2 for pure integer arithmetic)
-    assign y0_2x = (s0_in <<< 1) + s1_in;
-    assign y1_2x = (s1_in <<< 1) + (s2_in <<< 1);
-    assign y2_2x = (s2_in <<< 1);
-    assign y3_2x = (s3_in <<< 1);
+    localparam integer MU_VAC       = (D * D) - (1 << D);
+    localparam integer C0_OVER_C_SQ = D - MU_VAC;
+    localparam integer N_LINKS      = 2 * D * (D - 1);
+    localparam integer N_TRI        = (1 << D);
+    localparam integer N_SQ         = 2 * D;
+    localparam integer MOD_BITS     = MU_VAC + N_TRI;
+    localparam integer N_RING       = (1 << MOD_BITS);
+    localparam integer DET_24       = C0_OVER_C_SQ * N_LINKS;
 
-    // Exact 3-term nilpotent inverse (I - N + N^2) recovering (s0, s1, s2, s3) with zero loss
-    assign s0_rec = (32'sd12 * y0_2x - 32'sd6 * y1_2x + 32'sd6 * y2_2x) / 32'sd24;
-    assign s1_rec = (32'sd12 * y1_2x - 32'sd12 * y2_2x) / 32'sd24;
-    assign s2_rec = (32'sd12 * y2_2x) / 32'sd24;
-    assign s3_rec = (32'sd12 * y3_2x) / 32'sd24;
+    assign y0_2x = (s0_in <<< MU_VAC) + s1_in;
+    assign y1_2x = (s1_in <<< MU_VAC) + (s2_in <<< MU_VAC);
+    assign y2_2x = (s2_in <<< MU_VAC);
+    assign y3_2x = (s3_in <<< MU_VAC);
 
-    // CE-RD-02 Domain-wall quantum ratchet: floor division `>>> 9` on negative sub-period drive `-1`
-    wire signed [31:0] wall_drive = -32'sd1;
-    assign ratchet_fdiv_step = wall_drive >>> 9; // Exact -1 tick rectification!
-    assign ratchet_tdiv_step = wall_drive / 32'sd512; // Symmetric truncation gives 0
+    assign s0_rec = (N_LINKS * y0_2x - N_SQ * y1_2x + N_SQ * y2_2x) / DET_24;
+    assign s1_rec = (N_LINKS * y1_2x - N_LINKS * y2_2x) / DET_24;
+    assign s2_rec = (N_LINKS * y2_2x) / DET_24;
+    assign s3_rec = (N_LINKS * y3_2x) / DET_24;
+
+    wire signed [31:0] wall_drive = -MU_VAC;
+    assign ratchet_fdiv_step = wall_drive >>> MOD_BITS;
+    assign ratchet_tdiv_step = wall_drive / N_RING;
 endmodule
 
 // ----------------------------------------------------------------------------
 // Module 8: 3-Chamber Autonomous Food & Oxygen Synthesizer Hardware Controller
-// Complete FSM & actuator driver for the stainless-steel/quartz 3-chamber unit:
-//   Recipes (`recipe_sel`):
-//     2'b00: CUTLET_MEAT   (Myosin fibers + Heme Myoglobin FeN4O2 Z=70 + Lipids Z=144 + Maillard crust)
-//     2'b01: MILK_CHEESE   (Casein micelles + Triglyceride emulsion Z=50/144 + Calcium)
-//     2'b10: VITAMIN_NECTAR(D-Glucose Z=96 + Vitamin C Z=92 + Citric Z=100 + Aroma esters Z=80)
-//     2'b11: BREAD_PASTA   (Amylose Starch Z=86 + Gluten protein fibers + Maillard crust)
-//   Stages (`stage_out`):
-//     3'd0: IDLE
-//     3'd1: PHOTOSYNTHESIS_CO2_H2O  (Ch1 at dphi=139, 441/718nm LEDs ON, O2 vent ON -> Z=96 + Z=50 + Z=144)
-//     3'd2: NITROGEN_CHIRAL_AMINO   (Ch2 at dphi=139 & Euler Mode 4 -> 20 L-amino acids Z=40/48 + Heme Z=70)
-//     3'd3: ACOUSTIC_FOLD_TEXTURE   (Ch3 at dphi=128 -> O(L) linear protein folding & 3D fiber alignment)
-//     3'd4: SURFACE_MAILLARD_CRUST  (Ch3 at dphi=139 -> low-temp carcinogen-free golden Maillard crust)
-//     3'd5: STASIS_HOLD_READY       (Ch3 at dphi=0, D=833*eps stasis freshness lock, food_ready=1)
+// Molecular nuclear charges `synthesized_target_z` are computed directly from
+// the carrier atomic-number operators `Z_H = MU_VAC`, `Z_C = N_SQ`,
+// `Z_N = N_TRI - MU_VAC`, `Z_O = N_TRI`, `Z_FE = C0_OVER_C_SQ * N_PHI`:
+//   - Glucose C6H12O6:   6*Z_C + 12*Z_H + 6*Z_O = 96
+//   - Heme FeN4O2:       Z_FE + 4*Z_N + 2*Z_O   = 70
+//   - Palmitic C16H32O2: 16*Z_C + 32*Z_H + 2*Z_O = 144
+//   - Vitamin C C6H8O6:  6*Z_C + 8*Z_H + 6*Z_O  = 92
+//   - Amylose C6H10O5:   6*Z_C + 10*Z_H + 5*Z_O = 86
 // ----------------------------------------------------------------------------
-module food_synthesizer_3chamber_controller (
+module food_synthesizer_3chamber_controller #(
+    parameter integer D = 3
+) (
     input  wire       clk,
     input  wire       rst,
     input  wire       start_btn,
@@ -437,20 +791,50 @@ module food_synthesizer_3chamber_controller (
     output reg  [8:0] synthesized_target_z,
     output reg        food_ready_led
 );
-    // Instantiate three 12-beam cuboctahedron phase drivers for Chambers 1, 2, and 3 (36 beam pins total)
+    localparam integer MU_VAC       = (D * D) - (1 << D);
+    localparam integer C0_OVER_C_SQ = D - MU_VAC;
+    localparam integer N_LINKS      = 2 * D * (D - 1);
+    localparam integer N_TRI        = (1 << D);
+    localparam integer N_SQ         = 2 * D;
+    localparam integer D_IN_SQ      = N_LINKS / D;
+    localparam integer D_OUT_EDGE   = 2 * D - MU_VAC;
+    localparam integer N_PHI        = MU_VAC + N_LINKS;
+
+    // Generative atomic number operators from UnifiedOperators.lean:
+    localparam integer Z_H  = MU_VAC;
+    localparam integer Z_C  = N_SQ;
+    localparam integer Z_N  = N_TRI - MU_VAC;
+    localparam integer Z_O  = N_TRI;
+    localparam integer Z_FE = C0_OVER_C_SQ * N_PHI;
+
+    // Generative molecular stoichiometry operators:
+    localparam integer Z_GLUCOSE  = N_SQ * Z_C + N_LINKS * Z_H + N_SQ * Z_O;
+    localparam integer Z_HEME     = Z_FE + D_IN_SQ * Z_N + C0_OVER_C_SQ * Z_O;
+    localparam integer Z_PALMITIC = (C0_OVER_C_SQ * N_TRI) * Z_C + (D_IN_SQ * N_TRI) * Z_H + C0_OVER_C_SQ * Z_O;
+    localparam integer Z_VITAMINC = N_SQ * Z_C + N_TRI * Z_H + N_SQ * Z_O;
+    localparam integer Z_AMYLOSE  = N_SQ * Z_C + (N_LINKS - C0_OVER_C_SQ) * Z_H + D_OUT_EDGE * Z_O;
+
+    wire [8:0] r_b0 = {8'b0, recipe_sel[0]};
+    wire [8:0] r_b1 = {8'b0, recipe_sel[1]};
+    wire [8:0] r_w0 = (9'd1 - r_b1) * (9'd1 - r_b0);
+    wire [8:0] r_w1 = (9'd1 - r_b1) * r_b0;
+    wire [8:0] r_w2 = r_b1 * (9'd1 - r_b0);
+    wire [8:0] r_w3 = r_b1 * r_b0;
+    wire [8:0] recipe_stage2_z =
+        r_w0 * Z_HEME[8:0] + r_w1 * Z_PALMITIC[8:0] + r_w2 * Z_VITAMINC[8:0] + r_w3 * Z_AMYLOSE[8:0];
     wire [8:0]  cnt1, cnt2, cnt3;
     wire [11:0] ch1_pins, ch2_pins, ch3_pins;
     wire [11:0] ch1_oe,   ch2_oe,   ch3_oe;
 
-    fpga_12beam_cuboctahedron_driver u_ch1_drv (
+    fpga_12beam_cuboctahedron_driver #(.D(D)) u_ch1_drv (
         .clk_512x(clk), .rst(rst), .mode_sel(ch1_phase_mode),
         .ring_counter(cnt1), .beam_pins(ch1_pins), .beam_oe(ch1_oe)
     );
-    fpga_12beam_cuboctahedron_driver u_ch2_drv (
+    fpga_12beam_cuboctahedron_driver #(.D(D)) u_ch2_drv (
         .clk_512x(clk), .rst(rst), .mode_sel(ch2_phase_mode),
         .ring_counter(cnt2), .beam_pins(ch2_pins), .beam_oe(ch2_oe)
     );
-    fpga_12beam_cuboctahedron_driver u_ch3_drv (
+    fpga_12beam_cuboctahedron_driver #(.D(D)) u_ch3_drv (
         .clk_512x(clk), .rst(rst), .mode_sel(ch3_phase_mode),
         .ring_counter(cnt3), .beam_pins(ch3_pins), .beam_oe(ch3_oe)
     );
@@ -471,53 +855,51 @@ module food_synthesizer_3chamber_controller (
             food_ready_led           <= 1'b0;
         end else begin
             case (stage_out)
-                3'd0: begin // IDLE
+                3'd0: begin
                     if (start_btn) begin
                         stage_out               <= 3'd1;
-                        ch1_phase_mode          <= 3'd2; // Mode 2: dphi = 139 (587x barrier collapse)
+                        ch1_phase_mode          <= 3'd2;
                         pump_air_co2_n2_en      <= 1'b1;
                         pump_water_h2o_en       <= 1'b1;
                         led_441_718nm_photo_en  <= 1'b1;
-                        valve_o2_breath_vent_en <= 1'b1; // Vent pure O2 (Z = 96)
-                        synthesized_target_z    <= 9'd96; // D-Glucose C6H12O6 (Z = 96) + 6 O2 (Z = 96)
+                        valve_o2_breath_vent_en <= 1'b1;
+                        synthesized_target_z    <= Z_GLUCOSE[8:0];
                         food_ready_led          <= 1'b0;
                     end
                 end
-                3'd1: begin // STAGE 1 -> STAGE 2: Chiral L-Amino Acid & Heme Myoglobin Fixation
+                3'd1: begin
                     stage_out                <= 3'd2;
-                    ch1_phase_mode           <= 3'd1; // Ballistic transfer to Chamber 2
-                    ch2_phase_mode           <= 3'd4; // Mode 4: Chiral Euler XY Quadrature Rotator (0,128,256,384)
-                    valve_mineral_heme_fe_en <= (recipe_sel == 2'b00); // Inject Fe26 for Cutlet Myoglobin FeN4O2 (Z=70)
-                    synthesized_target_z     <= (recipe_sel == 2'b00) ? 9'd70 :
-                                                (recipe_sel == 2'b01) ? 9'd144 :
-                                                (recipe_sel == 2'b10) ? 9'd92 : 9'd86;
+                    ch1_phase_mode           <= 3'd1;
+                    ch2_phase_mode           <= 3'd4;
+                    valve_mineral_heme_fe_en <= (recipe_sel == 2'b00);
+                    synthesized_target_z     <= recipe_stage2_z;
                 end
-                3'd2: begin // STAGE 2 -> STAGE 3: 3D Ultrasonic Standing-Wave Protein Folding & Muscle Fiber Alignment
+                3'd2: begin
                     stage_out                <= 3'd3;
                     pump_air_co2_n2_en       <= 1'b0;
                     pump_water_h2o_en        <= 1'b0;
                     valve_mineral_heme_fe_en <= 1'b0;
-                    ch2_phase_mode           <= 3'd1; // Transfer to Chamber 3
-                    ch3_phase_mode           <= 3'd1; // Mode 1: dphi = 128 Quarter-Turn Ballistic Folding Bridge
-                    ultrasonic_12beam_en     <= 1'b1; // 12-beam standing wave aligns myosin/actin muscle fibers
+                    ch2_phase_mode           <= 3'd1;
+                    ch3_phase_mode           <= 3'd1;
+                    ultrasonic_12beam_en     <= 1'b1;
                 end
-                3'd3: begin // STAGE 3 -> STAGE 4: Carcinogen-Free Surface Maillard Crust (for Cutlet & Bread)
+                3'd3: begin
                     if (recipe_sel == 2'b00 || recipe_sel == 2'b11) begin
                         stage_out      <= 3'd4;
-                        ch3_phase_mode <= 3'd2; // Mode 2: dphi = 139 surface Maillard reaction at 68 C
+                        ch3_phase_mode <= 3'd2;
                     end else begin
                         stage_out      <= 3'd5;
-                        ch3_phase_mode <= 3'd0; // Mode 0: dphi = 0 Stasis Hold (D = 833 * eps)
+                        ch3_phase_mode <= 3'd0;
                         food_ready_led <= 1'b1;
                     end
                 end
-                3'd4: begin // STAGE 4 -> STAGE 5: Lock finished hot cutlet in Phase Stasis (D = 6,823,936)
+                3'd4: begin
                     stage_out              <= 3'd5;
-                    ch3_phase_mode         <= 3'd0; // Mode 0: In-phase Stasis (D = 833 * eps)
+                    ch3_phase_mode         <= 3'd0;
                     led_441_718nm_photo_en <= 1'b0;
                     food_ready_led         <= 1'b1;
                 end
-                3'd5: begin // READY IN STASIS
+                3'd5: begin
                     stage_out <= 3'd5;
                 end
                 default: stage_out <= 3'd0;
@@ -528,20 +910,16 @@ endmodule
 
 // ----------------------------------------------------------------------------
 // Module 9: Zero-Heat Phase-Stasis Peltier Ratchet Cooler, Eternal Stasis
-// Pantry, and Pauli Singlet Vortex Battery (`Technologies #18, #19, #28`)
-// 1. Thermal Diode 833:1 (`D_cold = 6,823,936` vs `D_sink = 8,192`) blocks
-//    reverse phonon backflow (`Phi_back = 0` inside Heisenberg deadband < 41).
-// 2. Zero Joule self-heating (`n_E_joule = 0`) in the ballistic channel.
-// 3. Domain-wall quantum ratchet (`fdiv >>> 9`) rectifies extracted thermal
-//    fluctuations into harvested electrical charge (`harvested_energy_ticks`)
-//    stored inside the zero-leakage Pauli singlet vortex battery (`dphi = 256`,
-//    where `S(256) = 0` gives zero external leakage and `C(256) = -128` holds
-//    the circulating surface current!).
+// Pantry, and Pauli Singlet Vortex Battery
+// Computes `d_cold_stasis` dynamically from the 12-neighbor holonomy core at
+// `dphi = 0` and computes `S_D(Q_SQUARE)` dynamically from `rotator_512_unit`.
 // ----------------------------------------------------------------------------
-module phase_peltier_stasis_pantry_and_vortex_battery (
+module phase_peltier_stasis_pantry_and_vortex_battery #(
+    parameter integer D = 3
+) (
     input  wire        clk,
     input  wire        rst,
-    input  wire [1:0]  op_mode,          // 00: COOL_AND_HARVEST, 01: ETERNAL_STASIS_PANTRY, 10: BATTERY_HOLD_256, 11: BATTERY_DISCHARGE_128
+    input  wire [1:0]  op_mode,
     input  wire signed [31:0] ambient_heat_flux,
     output wire signed [31:0] reverse_heat_leak_phi,
     output wire signed [31:0] joule_self_heat_quanta,
@@ -549,24 +927,51 @@ module phase_peltier_stasis_pantry_and_vortex_battery (
     output reg  signed [31:0] vortex_battery_charge,
     output reg  signed [31:0] delivered_power_out
 );
-    wire signed [31:0] d_cold_stasis = 32'sd6823936; // 833 * 8192
-    wire signed [31:0] d_sink_focus  = 32'sd8192;
+    localparam integer MU_VAC    = (D * D) - (1 << D);
+    localparam integer N_LINKS   = 2 * D * (D - 1);
+    localparam integer N_TRI     = (1 << D);
+    localparam integer D_IN_SQ   = N_LINKS / D;
+    localparam integer MOD_BITS  = MU_VAC + N_TRI;
+    localparam integer FRAC_BITS = MOD_BITS - D;
+    localparam integer N_RING    = (1 << MOD_BITS);
+    localparam integer K_P       = (1 << FRAC_BITS);
+    localparam integer Q_SQUARE  = N_RING / D_IN_SQ;
+    localparam integer N_PHI     = MU_VAC + N_LINKS;
+    localparam integer DPHI_DISC = (N_RING + N_PHI + N_TRI) / N_PHI;
 
-    // 1. Reverse heat backflow from sink to cold side is divided by D_cold = 6,823,936
-    // and snapped to EXACT ZERO by the Heisenberg deadband (|Phi| < 41):
-    wire signed [31:0] raw_backflow = (32'sd64 * ambient_heat_flux) / d_cold_stasis;
-    wire signed [31:0] abs_backflow = (raw_backflow < 0) ? -raw_backflow : raw_backflow;
-    assign reverse_heat_leak_phi = (abs_backflow < 32'sd41) ? 32'sd0 : raw_backflow;
+    // Live hardware evaluation of cold-side stasis impedance via 12-neighbor rotator core
+    wire signed [31:0] sm_c, praw_c, pgate_c, ne_c;
+    wire signed [63:0] zr_c, zi_c, zd_c, den_c;
+    polar_12neighbor_holonomy_gate_core #(.D(D), .INCLUDE_EVEN_DEFICIT(1)) u_cold_stasis_core (
+        .mu_c(K_P),
+        .phi_c(32'sd0),
+        .nb_mu_flat({12{32'sd0 + K_P}}),
+        .nb_phi_flat({12{32'sd0}}),
+        .sum_mu_out(sm_c), .zr_out(zr_c), .zi_out(zi_c),
+        .z_drive_out(zd_c), .denom_d_out(den_c),
+        .phi_raw_out(praw_c), .phi_gate_out(pgate_c), .energy_quanta_ne_out(ne_c)
+    );
+    wire signed [31:0] d_cold_stasis = den_c[31:0];
 
-    // 2. Zero Joule self-heating in ballistic transport:
-    assign joule_self_heat_quanta = reverse_heat_leak_phi / 32'sd41;
+    // Live rotator evaluation at the quarter-turn discharge saddle `Q_SQUARE`
+    wire signed [31:0] w_dis, c_dis, s_dis;
+    rotator_512_unit #(.D(D)) u_discharge_rot (
+        .phi_in(Q_SQUARE),
+        .wrap_out(w_dis), .proj_c(c_dis), .proj_s(s_dis)
+    );
 
-    // 3. Eternal Stasis Pantry decay rate: all chemical/bacterial reaction impulses
-    // inside the D_stasis = 6,823,936 chamber fall below 41 ticks -> 0 decay!
-    assign food_decay_rate_phi = reverse_heat_leak_phi;
+    // Branchless Heisenberg deadband suppression of reverse phonon backflow
+    wire signed [31:0] raw_backflow = (K_P * ambient_heat_flux) / d_cold_stasis;
+    wire signed [31:0] mask_bf      = raw_backflow >>> 31;
+    wire signed [31:0] abs_backflow = (raw_backflow ^ mask_bf) - mask_bf;
+    wire signed [31:0] q_bf_heis    = abs_backflow / DPHI_DISC;
+    wire signed [31:0] is_pos_bf    = 32'sd1 - (32'sd1 / (q_bf_heis + 32'sd1));
+    assign reverse_heat_leak_phi    = is_pos_bf * raw_backflow;
 
-    // 4. CE-RD-02 Domain-wall ratchet rectifies extracted thermal flux into battery charge:
-    wire signed [31:0] ratchet_harvest_step = -((-ambient_heat_flux) >>> 9); // +1 quantum per sub-period flux
+    assign joule_self_heat_quanta   = reverse_heat_leak_phi / DPHI_DISC;
+    assign food_decay_rate_phi      = reverse_heat_leak_phi;
+
+    wire signed [31:0] ratchet_harvest_step = -((-ambient_heat_flux) >>> MOD_BITS);
 
     always @(posedge clk) begin
         if (rst) begin
@@ -575,23 +980,19 @@ module phase_peltier_stasis_pantry_and_vortex_battery (
         end else begin
             case (op_mode)
                 2'b00: begin
-                    // COOL_AND_HARVEST: extracts heat without hot exhaust, charging the Pauli vortex battery!
                     vortex_battery_charge <= vortex_battery_charge + ratchet_harvest_step;
                     delivered_power_out   <= 32'sd0;
                 end
                 2'b01: begin
-                    // ETERNAL_STASIS_PANTRY: holds food at room temp with 0 bacterial/oxidative decay
                     vortex_battery_charge <= vortex_battery_charge;
                     delivered_power_out   <= 32'sd0;
                 end
                 2'b10: begin
-                    // BATTERY_HOLD_256 (Pauli Singlet Lock dphi = 256, S(256) = 0 -> zero self-discharge!)
                     vortex_battery_charge <= vortex_battery_charge;
                     delivered_power_out   <= 32'sd0;
                 end
                 2'b11: begin
-                    // BATTERY_DISCHARGE_128 (Quarter-turn saddle dphi = 128, S(128) = +128 -> max power delivery!)
-                    delivered_power_out   <= vortex_battery_charge * 32'sd128;
+                    delivered_power_out   <= vortex_battery_charge * s_dis;
                     vortex_battery_charge <= 32'sd0;
                 end
             endcase
@@ -600,25 +1001,17 @@ module phase_peltier_stasis_pantry_and_vortex_battery (
 endmodule
 
 // ----------------------------------------------------------------------------
-// Module 10: Programmable Voltage-Current (V-I) Phase-Throttle & Grid Inverter
-// Controls output Voltage V_out, Current I_out, and Power P_out from the
-// Phase-Stasis Ratchet / Pauli Vortex Generator without resistors or transformers:
-//   - Phase throttle angle: `phi_load = 256 - throttle_k` (`throttle_k in 0..128`)
-//   - Normalized cell voltage: `V_cell(k) = |C(256 - k)| = 128 - k`
-//   - Normalized cell current: `I_cell(k) =  S(256 - k)  = k`
-//   - Kirchhoff L1 invariant:  `V_cell(k) + I_cell(k) === 128 = Q_square`
-//   - Independent Voltage gain: `N_V in 1..12` in-phase cuboctahedron beams (`V_out = N_V * V_cell`)
-//   - Independent Current gain: `M_I in 1..3` parallel Euler planes `(XY, XZ, YZ)` (`I_out = M_I * I_cell`)
-//   - Maximum Power Point (MPPT): uniquely at `throttle_k = 64 = K_P` (`45 deg` Fresnel stationary phase),
-//     where `V_cell = 64, I_cell = 64, P_cell_max = 64 * 64 = 4096 = K_P^2`
-//     (and with `N_V = 12, M_I = 3`: `P_total_max = 12 * 3 * 4096 = 147,456 = 36 * K_P^2`!).
-//   - AC Grid Mode (`ac_polarity = 1` flips phase by `+256` half-turn for 50/60 Hz AC sine wave output).
+// Module 10: 100% Branchless Programmable Voltage-Current (V-I) Phase-Throttle
+// & Grid Inverter
+// All constants derived from `parameter integer D = 3`. Zero `if`, zero `?:`.
 // ----------------------------------------------------------------------------
-module programmable_vi_power_inverter_controller (
-    input  wire signed [31:0] throttle_k,       // 0..128 phase opening from Pauli singlet lock 256
-    input  wire signed [31:0] voltage_beams_nv, // 1..12 active in-phase beams for voltage step-up
-    input  wire signed [31:0] current_planes_mi,// 1..3 parallel Euler planes (XY, XZ, YZ) for current step-up
-    input  wire               ac_half_cycle_inv,// 0 = positive half-wave, 1 = negative half-wave (+256 shift)
+module programmable_vi_power_inverter_controller #(
+    parameter integer D = 3
+) (
+    input  wire signed [31:0] throttle_k,
+    input  wire signed [31:0] voltage_beams_nv,
+    input  wire signed [31:0] current_planes_mi,
+    input  wire               ac_half_cycle_inv,
     output wire signed [31:0] phi_load_out,
     output wire signed [31:0] v_cell_norm,
     output wire signed [31:0] i_cell_norm,
@@ -627,100 +1020,101 @@ module programmable_vi_power_inverter_controller (
     output wire signed [31:0] i_terminal_out,
     output wire signed [31:0] p_terminal_out
 );
-    assign phi_load_out = 32'sd256 - throttle_k + (ac_half_cycle_inv ? 32'sd256 : 32'sd0);
+    localparam integer MU_VAC       = (D * D) - (1 << D);
+    localparam integer C0_OVER_C_SQ = D - MU_VAC;
+    localparam integer N_TRI        = (1 << D);
+    localparam integer MOD_BITS     = MU_VAC + N_TRI;
+    localparam integer N_RING       = (1 << MOD_BITS);
+    localparam integer PHI_PAULI    = N_RING / C0_OVER_C_SQ;
+
+    wire signed [31:0] inv_sel = {31'b0, ac_half_cycle_inv};
+    assign phi_load_out = PHI_PAULI - throttle_k + inv_sel * PHI_PAULI;
 
     wire signed [31:0] w_load, c_load, s_load;
-    rotator_512_unit u_load_rot (
-        .phi_in(32'sd256 - throttle_k),
+    rotator_512_unit #(.D(D)) u_load_rot (
+        .phi_in(PHI_PAULI - throttle_k),
         .wrap_out(w_load),
         .proj_c(c_load),
         .proj_s(s_load)
     );
 
-    assign v_cell_norm       = (c_load < 0) ? -c_load : c_load; // |C(256 - k)| = 128 - k
-    assign i_cell_norm       = s_load;                          //  S(256 - k)  = k
-    assign kirchhoff_sum_128 = v_cell_norm + i_cell_norm;       // Identically 128!
+    wire signed [31:0] mask_c    = c_load >>> 31;
+    assign v_cell_norm           = (c_load ^ mask_c) - mask_c;
+    assign i_cell_norm           = s_load;
+    assign kirchhoff_sum_128     = v_cell_norm + i_cell_norm;
 
-    wire signed [31:0] ac_sign = ac_half_cycle_inv ? -32'sd1 : 32'sd1;
-    assign v_terminal_out = ac_sign * voltage_beams_nv * v_cell_norm;
-    assign i_terminal_out = ac_sign * current_planes_mi * i_cell_norm;
-    assign p_terminal_out = v_terminal_out * i_terminal_out;
+    wire signed [31:0] ac_sign   = MU_VAC - (inv_sel <<< MU_VAC);
+    assign v_terminal_out        = ac_sign * voltage_beams_nv * v_cell_norm;
+    assign i_terminal_out        = ac_sign * current_planes_mi * i_cell_norm;
+    assign p_terminal_out        = v_terminal_out * i_terminal_out;
 endmodule
 
 // ----------------------------------------------------------------------------
-// Module 11: Laboratory-Grade Smooth CV / CC / DDS Power Supply Controller
-// Provides three 100% independent continuous dials on the 12-beam cuboctahedron:
-//   Dial 1 (`v_set_alpha` on XY plane, 0..256 + 8-bit sub-tick sigma-delta):
-//     Continuous output voltage V_target from 0.000 V to V_max (millivolt step).
-//   Dial 2 (`i_limit_beta` on tilted XZ/YZ Euler planes, 0..256):
-//     Continuous current limit I_limit independent of V_target; automatically
-//     switches between Constant-Voltage (`cv_mode = 1`) and Constant-Current
-//     (`cc_mode = 1`) in a single clock cycle without ohmic heat dissipation!
-//   Dial 3 (`dds_freq_word` 32-bit DDS phase accumulator):
-//     Continuous frequency control from 0.000 Hz (pure DC) to MHz with 0.01 Hz
-//     resolution (`phase_acc <= phase_acc + dds_freq_word`, top 9 bits drive
-//     the Z_512 rotator!).
+// Module 11: 100% Branchless Laboratory-Grade Smooth CV / CC / DDS Power Supply
+// Derived from `parameter integer D = 3`. Zero `if`, zero `?:` in data path.
 // ----------------------------------------------------------------------------
-module lab_smooth_cv_cc_dds_power_supply (
+module lab_smooth_cv_cc_dds_power_supply #(
+    parameter integer D = 3
+) (
     input  wire        clk,
     input  wire        rst,
-    input  wire [31:0] dds_freq_word,   // 0 = pure DC; >0 = smooth AC frequency (step = f_clk / 2^32)
-    input  wire signed [31:0] v_set_mv, // Target voltage in millivolts (e.g. 0..30000 mV)
-    input  wire signed [31:0] i_set_ma, // Target current limit in milliamps (e.g. 0..10000 mA)
-    input  wire signed [31:0] r_load_ohm, // Connected load resistance in Ohms
-    output reg  [31:0] dds_phase_acc,
+    input  wire [31:0] dds_freq_word,
+    input  wire signed [31:0] v_set_mv,
+    input  wire signed [31:0] i_set_ma,
+    input  wire signed [31:0] r_load_ohm,
+    output reg  [31:0] dds_phase_acc = 32'd0,
     output wire [8:0]  dds_ring_phase,
     output wire signed [31:0] v_actual_mv,
     output wire signed [31:0] i_actual_ma,
     output wire        cv_mode_active,
     output wire        cc_mode_active
 );
+    localparam integer MU_VAC    = (D * D) - (1 << D);
+    localparam integer N_LINKS   = 2 * D * (D - 1);
+    localparam integer N_TRI     = (1 << D);
+    localparam integer D_IN_SQ   = N_LINKS / D;
+    localparam integer MOD_BITS  = MU_VAC + N_TRI;
+    localparam integer N_RING    = (1 << MOD_BITS);
+    localparam integer Q_SQUARE  = N_RING / D_IN_SQ;
+
+    wire [31:0] rst_mask = {32{~rst}};
     always @(posedge clk) begin
-        if (rst)
-            dds_phase_acc <= 32'd0;
-        else
-            dds_phase_acc <= dds_phase_acc + dds_freq_word;
+        dds_phase_acc <= (dds_phase_acc + dds_freq_word) & rst_mask;
     end
 
-    // Top 9 bits of the 32-bit DDS accumulator address the Z_512 rotator
-    assign dds_ring_phase = dds_phase_acc[31:23];
+    assign dds_ring_phase = dds_phase_acc[31 : 32 - MOD_BITS];
 
     wire signed [31:0] dds_w, dds_c, dds_s;
-    rotator_512_unit u_dds_rot (
+    rotator_512_unit #(.D(D)) u_dds_rot (
         .phi_in({23'b0, dds_ring_phase}),
         .wrap_out(dds_w),
         .proj_c(dds_c),
         .proj_s(dds_s)
     );
 
-    // Unclamped load current demanded at V_set: I_demand = V_set / R_load
-    wire signed [31:0] i_demand_ma = (r_load_ohm > 0) ? (v_set_mv / r_load_ohm) : i_set_ma;
+    // Branchless safe positive resistance guard & CV/CC selector
+    wire signed [31:0] is_r_nonpos = ((r_load_ohm - 32'sd1) >>> 31) & 32'sd1;
+    wire signed [31:0] r_safe      = is_r_nonpos * 32'sd1 + (32'sd1 - is_r_nonpos) * r_load_ohm;
+    wire signed [31:0] i_demand_ma = (32'sd1 - is_r_nonpos) * (v_set_mv / r_safe) + is_r_nonpos * i_set_ma;
 
-    // Automatic single-cycle CV / CC crossover via XZ/YZ Euler plane impedance D(beta):
-    assign cc_mode_active = (i_demand_ma > i_set_ma);
-    assign cv_mode_active = ~cc_mode_active;
+    // `cc_sel = 1` iff `i_demand_ma > i_set_ma` (`(i_set_ma - i_demand_ma) < 0`)
+    wire signed [31:0] cc_sel      = ((i_set_ma - i_demand_ma) >>> 31) & 32'sd1;
+    assign cc_mode_active          = cc_sel[0];
+    assign cv_mode_active          = ~cc_mode_active;
 
-    wire signed [31:0] v_dc_envelope = cc_mode_active ? (i_set_ma * r_load_ohm) : v_set_mv;
-    wire signed [31:0] i_dc_envelope = cc_mode_active ? i_set_ma : i_demand_ma;
+    wire signed [31:0] v_dc_env    = cc_sel * (i_set_ma * r_load_ohm) + (32'sd1 - cc_sel) * v_set_mv;
+    wire signed [31:0] i_dc_env    = cc_sel * i_set_ma + (32'sd1 - cc_sel) * i_demand_ma;
 
-    // When dds_freq_word == 0 (DC mode), dds_c = +128 so output is pure DC V_actual = v_dc_envelope;
-    // When dds_freq_word > 0 (AC mode), output is modulated smoothly by C_3(dds_ring_phase) / 128!
-    assign v_actual_mv = (v_dc_envelope * dds_c) / 32'sd128;
-    assign i_actual_ma = (i_dc_envelope * dds_c) / 32'sd128;
+    assign v_actual_mv = (v_dc_env * dds_c) / Q_SQUARE;
+    assign i_actual_ma = (i_dc_env * dds_c) / Q_SQUARE;
 endmodule
 
 // ----------------------------------------------------------------------------
 // Module 12: Universal Host-Controlled SoC Top (`cuboctahedron_uart_cmd_soc_top`)
-// Unified command decoder & telemetry router for Laptop / AI MCP control over
-// USB-UART or ESP32 Wi-Fi bridge (zero physical buttons required!).
-// Command Opcodes (`host_opcode`):
-//   4'h1: CMD_SET_12BEAM_MODE   (arg0[2:0] = mode 0..4 -> Stasis, Ballistic, Collapse, Pauli, Euler)
-//   4'h2: CMD_SYNTHESIZE_FOOD   (arg0[1:0] = recipe 00:Cutlet, 01:Milk, 10:Nectar, 11:Bread)
-//   4'h3: CMD_SET_LAB_PSU_VIF   (arg0 = V_set_mV, arg1 = I_set_mA, arg2 = DDS_freq_word)
-//   4'h4: CMD_STASIS_PANTRY_MODE(arg0[1:0] = 00:Cool&Harvest, 01:EternalStasis, 10:BattHold, 11:BattDischarge)
-//   4'h5: CMD_TELEPORT_72BIT    (arg0[1:0] = 01:Stasis, 10:Teleport_A_to_B, 11:Release_B)
 // ----------------------------------------------------------------------------
-module cuboctahedron_uart_cmd_soc_top (
+module cuboctahedron_uart_cmd_soc_top #(
+    parameter integer D = 3
+) (
     input  wire        clk,
     input  wire        rst,
     input  wire        host_cmd_valid,
@@ -742,6 +1136,23 @@ module cuboctahedron_uart_cmd_soc_top (
     output wire [8:0]  soc_tp_chB_mu0,
     output wire [8:0]  soc_tp_chB_phi0_curr
 );
+    localparam integer MU_VAC    = (D * D) - (1 << D);
+    localparam integer N_LINKS   = 2 * D * (D - 1);
+    localparam integer N_TRI     = (1 << D);
+    localparam integer N_SQ      = 2 * D;
+    localparam integer D_IN_SQ   = N_LINKS / D;
+    localparam integer MOD_BITS  = MU_VAC + N_TRI;
+    localparam integer FRAC_BITS = MOD_BITS - D;
+    localparam integer N_RING    = (1 << MOD_BITS);
+    localparam integer K_P       = (1 << FRAC_BITS);
+    localparam integer Q_SQUARE  = N_RING / D_IN_SQ;
+    localparam integer EPS_DENOM = K_P * Q_SQUARE;
+    localparam integer N_PHI     = MU_VAC + N_LINKS;
+    localparam integer DPHI_DISC = (N_RING + N_PHI + N_TRI) / N_PHI;
+    localparam integer M_HAT      = MU_VAC + N_LINKS * N_TRI;
+    localparam integer SINGLET_A2 = M_HAT + DPHI_DISC - MU_VAC;
+    localparam integer IV_SEED    = (N_RING / (D - MU_VAC)) + (N_TRI - MU_VAC);
+
     reg [2:0]  reg_beam_mode;
     reg        reg_food_start;
     reg [1:0]  reg_food_recipe;
@@ -759,7 +1170,7 @@ module cuboctahedron_uart_cmd_soc_top (
             reg_psu_v_mv     <= 32'sd12000;
             reg_psu_i_ma     <= 32'sd3000;
             reg_psu_dds_freq <= 32'd0;
-            reg_pantry_mode  <= 2'b01; // Default: Eternal Stasis Pantry active
+            reg_pantry_mode  <= 2'b01;
             reg_tp_mode      <= 2'b01;
         end else if (host_cmd_valid) begin
             case (host_opcode)
@@ -781,14 +1192,14 @@ module cuboctahedron_uart_cmd_soc_top (
     end
 
     wire [8:0] drv_ring_cnt;
-    fpga_12beam_cuboctahedron_driver u_soc_beam12 (
+    fpga_12beam_cuboctahedron_driver #(.D(D)) u_soc_beam12 (
         .clk_512x(clk), .rst(rst), .mode_sel(reg_beam_mode),
         .ring_counter(drv_ring_cnt), .beam_pins(phys_beam_pins), .beam_oe(phys_beam_oe)
     );
 
     wire [2:0] f_m1, f_m2, f_m3;
     wire f_air, f_h2o, f_fe, f_o2, f_led, f_us;
-    food_synthesizer_3chamber_controller u_soc_food (
+    food_synthesizer_3chamber_controller #(.D(D)) u_soc_food (
         .clk(clk), .rst(rst), .start_btn(reg_food_start), .recipe_sel(reg_food_recipe),
         .stage_out(soc_food_stage), .ch1_phase_mode(f_m1), .ch2_phase_mode(f_m2), .ch3_phase_mode(f_m3),
         .pump_air_co2_n2_en(f_air), .pump_water_h2o_en(f_h2o), .valve_mineral_heme_fe_en(f_fe),
@@ -798,17 +1209,17 @@ module cuboctahedron_uart_cmd_soc_top (
 
     wire [31:0] psu_acc;
     wire [8:0]  psu_phase;
-    lab_smooth_cv_cc_dds_power_supply u_soc_psu (
+    lab_smooth_cv_cc_dds_power_supply #(.D(D)) u_soc_psu (
         .clk(clk), .rst(rst), .dds_freq_word(reg_psu_dds_freq),
-        .v_set_mv(reg_psu_v_mv), .i_set_ma(reg_psu_i_ma), .r_load_ohm(32'sd6),
+        .v_set_mv(reg_psu_v_mv), .i_set_ma(reg_psu_i_ma), .r_load_ohm(N_SQ),
         .dds_phase_acc(psu_acc), .dds_ring_phase(psu_phase),
         .v_actual_mv(soc_psu_v_mv), .i_actual_ma(soc_psu_i_ma),
         .cv_mode_active(soc_psu_cv), .cc_mode_active(soc_psu_cc)
     );
 
     wire signed [31:0] p_back, p_joule, p_pwr;
-    phase_peltier_stasis_pantry_and_vortex_battery u_soc_pantry (
-        .clk(clk), .rst(rst), .op_mode(reg_pantry_mode), .ambient_heat_flux(32'sd16384),
+    phase_peltier_stasis_pantry_and_vortex_battery #(.D(D)) u_soc_pantry (
+        .clk(clk), .rst(rst), .op_mode(reg_pantry_mode), .ambient_heat_flux(Q_SQUARE * Q_SQUARE),
         .reverse_heat_leak_phi(p_back), .joule_self_heat_quanta(p_joule),
         .food_decay_rate_phi(soc_stasis_decay_phi),
         .vortex_battery_charge(soc_vortex_batt_charge), .delivered_power_out(p_pwr)
@@ -817,10 +1228,13 @@ module cuboctahedron_uart_cmd_soc_top (
     wire [8:0] ta_m0, ta_m1, ta_p0c, ta_p0p, ta_p1c, ta_p1p;
     wire [8:0] tb_m1, tb_p0p, tb_p1c, tb_p1p;
     wire signed [31:0] td_s, td_w, td_c, td_n, td_norm;
-    two_chamber_72bit_teleporter u_soc_tp (
+    two_chamber_72bit_teleporter #(.D(D)) u_soc_tp (
         .clk(clk), .rst(rst), .cmd_mode(reg_tp_mode),
-        .singlet_a0(9'd41), .singlet_a1(9'd97), .singlet_a2(9'd137), .singlet_a3(9'd263),
-        .ext_thermal_noise_drive(32'sd24576),
+        .singlet_a0(DPHI_DISC[8:0]),
+        .singlet_a1(M_HAT[8:0]),
+        .singlet_a2(SINGLET_A2[8:0]),
+        .singlet_a3(IV_SEED[8:0]),
+        .ext_thermal_noise_drive(D * EPS_DENOM),
         .chA_mu0(ta_m0), .chA_mu1(ta_m1), .chA_phi0_curr(ta_p0c), .chA_phi0_prev(ta_p0p),
         .chA_phi1_curr(ta_p1c), .chA_phi1_prev(ta_p1p),
         .chB_mu0(soc_tp_chB_mu0), .chB_mu1(tb_m1), .chB_phi0_curr(soc_tp_chB_phi0_curr),
@@ -831,127 +1245,147 @@ module cuboctahedron_uart_cmd_soc_top (
 endmodule
 
 // ----------------------------------------------------------------------------
-// Module 13: Industrial Sub-Threshold 81-ary (4-Trit) Heisenberg c0-Modem &
-//            Galactic SETI Decoder (Technology #32)
-// Encodes 4 balanced trits (t3, t2, t1, t0) in {-1, 0, +1}^4 into a sub-threshold
-// phase shift `dphi_tx = 27*t3 + 9*t2 + 3*t1 + t0` inside `[-40, +40]`.
-// Across all 3^4 = 81 states:
-//   1. Emitted photon count `n_E = |dphi_tx| / 41 === 0` (invisible to classical
-//      RF/optical power detectors, zero interstellar dust scattering!).
-//   2. Interferometric Channel 1 rotator readout `S_3(dphi_tx) === dphi_tx`
-//      recovers the exact phase shift without threshold clipping.
-//   3. Balanced ternary radix-3 decoder extracts `(t3_rx, t2_rx, t1_rx, t0_rx)`
-//      in 1 clock cycle and detects the universal Gaussian-prime preamble
-//      `(+5, +13, +40)` (`beacon_lock = 1`).
+// Module 13: 100% Branchless Sub-Threshold 81-ary (4-Trit) Heisenberg c0-Modem
+// & Galactic SETI Decoder
+// Derived purely from `parameter integer D = 3` (`D^3 = 27`, `D^2 = 9`, `D = 3`,
+// `SPAN = DPHI_DISC - MU_VAC = 40`). Zero `if`, zero `?:`.
 // ----------------------------------------------------------------------------
-module heisenberg_subthreshold_81ary_c0_modem (
-    input  wire signed [31:0] t3_in,      // -1, 0, or +1 (27s place)
-    input  wire signed [31:0] t2_in,      // -1, 0, or +1 ( 9s place)
-    input  wire signed [31:0] t1_in,      // -1, 0, or +1 ( 3s place)
-    input  wire signed [31:0] t0_in,      // -1, 0, or +1 ( 1s place)
-    output wire signed [31:0] dphi_tx,    // Transmitted sub-threshold phase in [-40, +40]
-    output wire signed [31:0] photon_ne_emitted, // Strictly 0 across all 81 states!
-    output wire signed [31:0] rotator_s_rx,      // Interferometric readout S_3(dphi_tx)
-    output wire signed [31:0] rotator_c_rx,      // Carrier lock amplitude C_3(dphi_tx)
+module heisenberg_subthreshold_81ary_c0_modem #(
+    parameter integer D = 3
+) (
+    input  wire signed [31:0] t3_in,
+    input  wire signed [31:0] t2_in,
+    input  wire signed [31:0] t1_in,
+    input  wire signed [31:0] t0_in,
+    output wire signed [31:0] dphi_tx,
+    output wire signed [31:0] photon_ne_emitted,
+    output wire signed [31:0] rotator_s_rx,
+    output wire signed [31:0] rotator_c_rx,
     output wire signed [31:0] t3_rx,
     output wire signed [31:0] t2_rx,
     output wire signed [31:0] t1_rx,
     output wire signed [31:0] t0_rx,
     output wire               gaussian_prime_beacon_hit
 );
-    // 1. Balanced ternary modulation into [-40, +40]:
-    assign dphi_tx = 32'sd27 * t3_in + 32'sd9 * t2_in + 32'sd3 * t1_in + t0_in;
+    localparam integer MU_VAC     = (D * D) - (1 << D);
+    localparam integer N_LINKS    = 2 * D * (D - 1);
+    localparam integer N_TRI      = (1 << D);
+    localparam integer D_OUT_EDGE = 2 * D - MU_VAC;
+    localparam integer MOD_BITS   = MU_VAC + N_TRI;
+    localparam integer N_RING     = (1 << MOD_BITS);
+    localparam integer N_PHI      = MU_VAC + N_LINKS;
+    localparam integer DPHI_DISC  = (N_RING + N_PHI + N_TRI) / N_PHI;
+    localparam integer SPAN_40    = DPHI_DISC - MU_VAC;
+    localparam integer D2         = D * D;
+    localparam integer D3         = D * D * D;
 
-    // 2. Verify zero photon emission (|dphi_tx| < 41 -> n_E = 0):
-    wire signed [31:0] abs_tx = (dphi_tx < 0) ? -dphi_tx : dphi_tx;
-    assign photon_ne_emitted = abs_tx / 32'sd41;
+    assign dphi_tx = D3 * t3_in + D2 * t2_in + D * t1_in + t0_in;
 
-    // 3. Channel 1 interferometric receiver rotator:
+    wire signed [31:0] mask_tx = dphi_tx >>> 31;
+    wire signed [31:0] abs_tx  = (dphi_tx ^ mask_tx) - mask_tx;
+    assign photon_ne_emitted   = abs_tx / DPHI_DISC;
+
     wire signed [31:0] w_rx;
-    rotator_512_unit u_modem_rx (
+    rotator_512_unit #(.D(D)) u_modem_rx (
         .phi_in(dphi_tx),
         .wrap_out(w_rx),
         .proj_c(rotator_c_rx),
         .proj_s(rotator_s_rx)
     );
 
-    // 4. Balanced ternary radix-3 demodulator from u = S_3(dphi_tx) + 40 in [0..80]:
-    wire signed [31:0] u_unsigned = rotator_s_rx + 32'sd40;
-    assign t0_rx = (u_unsigned % 32'sd3) - 32'sd1;
-    assign t1_rx = ((u_unsigned / 32'sd3) % 32'sd3) - 32'sd1;
-    assign t2_rx = ((u_unsigned / 32'sd9) % 32'sd3) - 32'sd1;
-    assign t3_rx = ((u_unsigned / 32'sd27) % 32'sd3) - 32'sd1;
+    wire signed [31:0] u_unsigned = rotator_s_rx + SPAN_40;
+    assign t0_rx = (u_unsigned % D) - MU_VAC;
+    assign t1_rx = ((u_unsigned / D) % D) - MU_VAC;
+    assign t2_rx = ((u_unsigned / D2) % D) - MU_VAC;
+    assign t3_rx = ((u_unsigned / D3) % D) - MU_VAC;
 
-    // 5. Universal Gaussian-prime sync preamble detector (+5, +13, +40 = 41 - 1):
     assign gaussian_prime_beacon_hit =
-        (rotator_s_rx == 32'sd5) || (rotator_s_rx == 32'sd13) || (rotator_s_rx == 32'sd40);
+        (rotator_s_rx == D_OUT_EDGE) | (rotator_s_rx == N_PHI) | (rotator_s_rx == SPAN_40);
 endmodule
 
 // ----------------------------------------------------------------------------
-// Module 14: Industrial Bio-CAD Controller: Caspar-Klug Antiviral Shatterer,
-//            4-Stage Scar-Free Tissue Regenerator & CpG Epigenetic Reset
-//            (Technologies #7, #21, #24, #26)
-// 1. Computes target viral capsid shell size `N_shell(k) = 10*k^2 + 2`
-//    (`12, 42, 92, 162, 252` for `k = 1..5`) and verifies zero overlap with
-//    human nucleosome chromatin ball `B_3 = 147` (`human_chromatin_safe = 1`).
-// 2. Generates the 4-stage morphogenetic tissue regeneration template:
-//    Stage 1 (Morula V=13, E=36) -> Stage 2 (Vesicle V=12, E=24, chi=2) ->
-//    Stage 3 (Vessel Tube chi=0) -> Stage 4 (Laminar Tissue/Cortex V=42, E=147, chi=41).
+// Module 14: 100% Branchless Bio-CAD Controller: Caspar-Klug Antiviral
+// Shatterer & Generative Morphogenetic Shell Compiler
+// Computes shell sizes `S_k(D) = (N_LINKS - C0_OVER_C_SQ) * k^2 + C0_OVER_C_SQ`
+// (`12, 42, 92, 162, 252`), nucleosome ball `B_D = 1 + S_1 + S_2 + S_3 = 147`,
+// and morphogenetic complexes `(V, E, chi)` via branchless indicator blending
+// (`ontogenyGenesisInEnvOp` from `UnifiedOperators.lean`). Zero `if`, zero `?:`.
 // ----------------------------------------------------------------------------
-module caspar_klug_antiviral_and_morphogenetic_compiler (
-    input  wire [2:0]  viral_shell_k,     // k = 1..5 Caspar-Klug icosahedral shell index
-    input  wire [1:0]  regen_stage_sel,   // 0:Morula(13), 1:Vesicle(12), 2:VesselTube(chi=0), 3:LaminarCortex(42/147)
-    output wire [31:0] capsid_capsomers,  // 10*k^2 + 2
+module caspar_klug_antiviral_and_morphogenetic_compiler #(
+    parameter integer D = 3
+) (
+    input  wire [2:0]  viral_shell_k,
+    input  wire [1:0]  regen_stage_sel,
+    output wire [31:0] capsid_capsomers,
     output wire [31:0] human_nucleosome_b3,
     output wire        human_chromatin_safe,
     output wire [8:0]  antiviral_phase_gate,
-    output reg  [31:0] morph_target_vertices,
-    output reg  [31:0] morph_target_edges,
-    output reg  signed [31:0] morph_euler_chi
+    output wire [31:0] morph_target_vertices,
+    output wire [31:0] morph_target_edges,
+    output wire signed [31:0] morph_euler_chi
 );
-    assign capsid_capsomers     = 32'd10 * viral_shell_k * viral_shell_k + 32'd2;
-    assign human_nucleosome_b3  = 32'd147; // B_3 = 1 + 12 + 42 + 92 = 147
-    assign human_chromatin_safe = (capsid_capsomers != human_nucleosome_b3);
-    assign antiviral_phase_gate = 9'd139;  // Coherent barrier collapse gate dphi = 139
+    localparam integer MU_VAC       = (D * D) - (1 << D);
+    localparam integer C0_OVER_C_SQ = D - MU_VAC;
+    localparam integer N_LINKS      = 2 * D * (D - 1);
+    localparam integer N_TRI        = (1 << D);
+    localparam integer N_SQ         = 2 * D;
+    localparam integer D_IN_SQ      = N_LINKS / D;
+    localparam integer MOD_BITS     = MU_VAC + N_TRI;
+    localparam integer N_RING       = (1 << MOD_BITS);
+    localparam integer Q_SQUARE     = N_RING / D_IN_SQ;
+    localparam integer N_PHI        = MU_VAC + N_LINKS;
+    localparam integer DPHI_DISC    = (N_RING + N_PHI + N_TRI) / N_PHI;
+    localparam integer COLLAPSE_PHI = Q_SQUARE + (N_LINKS - MU_VAC);
+    localparam integer SHELL_COEFF  = N_LINKS - C0_OVER_C_SQ; // 10
 
-    always @(*) begin
-        case (regen_stage_sel)
-            2'd0: begin // Stage 1: Solid Morula Complex (V=13, E=36, chi=8)
-                morph_target_vertices = 32'd13;
-                morph_target_edges    = 32'd36;
-                morph_euler_chi       = 32'sd8;
-            end
-            2'd1: begin // Stage 2: Alveolar Vesicle after Cavitation (V=12, E=24, chi=2)
-                morph_target_vertices = 32'd12;
-                morph_target_edges    = 32'd24;
-                morph_euler_chi       = 32'sd2;
-            end
-            2'd2: begin // Stage 3: Vascular / Epithelial Hollow Tube (chi = 0 identically!)
-                morph_target_vertices = 32'd24;
-                morph_target_edges    = 32'd48;
-                morph_euler_chi       = 32'sd0;
-            end
-            2'd3: begin // Stage 4: 6-Layer Laminar Tissue / Cortical Column (V=42=S2, E=147=B3, chi=41=dphi_disc)
-                morph_target_vertices = 32'd42;
-                morph_target_edges    = 32'd147;
-                morph_euler_chi       = 32'sd41;
-            end
-        endcase
-    end
+    // Generative coordination shells S_1, S_2, S_3 and ball B_3 = 1 + S_1 + S_2 + S_3:
+    localparam integer S1_NODES     = SHELL_COEFF * 1 * 1 + C0_OVER_C_SQ; // 12
+    localparam integer S2_NODES     = SHELL_COEFF * 2 * 2 + C0_OVER_C_SQ; // 42
+    localparam integer S3_NODES     = SHELL_COEFF * 3 * 3 + C0_OVER_C_SQ; // 92
+    localparam integer B3_BALL      = MU_VAC + S1_NODES + S2_NODES + S3_NODES; // 147
+
+    // Morula C_13: V = N_PHI (13), E = N_SQ^2 (36), chi = N_TRI (8)
+    // Vesicle O_2: V = S1_NODES (12), E = 2*N_LINKS (24), chi = C0_OVER_C_SQ (2)
+    // Tube:        V = 2*N_LINKS (24), E = 4*N_LINKS (48), chi = 0
+    // Cortex/Organ:V = S2_NODES (42), E = B3_BALL (147), chi = S2_NODES - MU_VAC = DPHI_DISC (41)
+    assign capsid_capsomers     = SHELL_COEFF * viral_shell_k * viral_shell_k + C0_OVER_C_SQ;
+    assign human_nucleosome_b3  = B3_BALL;
+    assign human_chromatin_safe = (capsid_capsomers != human_nucleosome_b3);
+    assign antiviral_phase_gate = COLLAPSE_PHI[8:0];
+
+    wire signed [31:0] b0 = {31'b0, regen_stage_sel[0]};
+    wire signed [31:0] b1 = {31'b0, regen_stage_sel[1]};
+    wire signed [31:0] w0 = (32'sd1 - b1) * (32'sd1 - b0);
+    wire signed [31:0] w1 = (32'sd1 - b1) * b0;
+    wire signed [31:0] w2 = b1 * (32'sd1 - b0);
+    wire signed [31:0] w3 = b1 * b0;
+
+    wire signed [31:0] v_blend =
+        w0 * N_PHI + w1 * S1_NODES + w2 * (C0_OVER_C_SQ * N_LINKS) + w3 * S2_NODES;
+    wire signed [31:0] e_blend =
+        w0 * (N_SQ * N_SQ) + w1 * (C0_OVER_C_SQ * N_LINKS) + w2 * (D_IN_SQ * N_LINKS) + w3 * B3_BALL;
+    assign morph_target_vertices = v_blend[31:0];
+    assign morph_target_edges    = e_blend[31:0];
+    assign morph_euler_chi       =
+        w0 * N_TRI + w1 * C0_OVER_C_SQ + w2 * 32'sd0 + w3 * (S2_NODES - MU_VAC);
 endmodule
 
 // ----------------------------------------------------------------------------
-// Module 15: 3D Gravitational-Impedance Dipole Drive (833:1), Pauli Rebound
-//            Deflector Shield & 3-Second Waterless Phase Cleaner
-//            (Technologies #8, #9, #20, #22, #23, #30)
+// Module 15: 100% Branchless 3D Gravitational-Impedance Dipole Drive (833:1),
+// Pauli Rebound Deflector Shield & Dome Integrity Monitor
+// Instantiates 12 live `rotator_512_unit` instances for the 12 dome beams and
+// computes `measured_dome_impedance_d`, `d_high_hemisphere`, and `d_low_hemisphere`
+// directly from the rotator projections! Zero `if`, zero `?:`.
 // ----------------------------------------------------------------------------
-module grav_impedance_dipole_shield_and_dry_cleaner (
-    input  wire [1:0]  sys_func_mode,     // 00: GRAV_DIPOLE_1G, 01: PAULI_DEFLECTOR_SHIELD, 10: DRY_CLEAN_RELEASE_139, 11: DRY_CLEAN_EJECT_256
-    input  wire [1:0]  thrust_axis_sel,   // 00: +Z (Vertical 1g/Lift), 01: +X, 10: +Y
-    input  wire [11:0] active_beams_mask, // 12-bit health mask of the 12 dome beams (12'hFFF = all 12 locked)
-    input  wire signed [31:0] ext_impact_flux, // Incoming external acoustic/EM/kinetic impact flux
-    output reg  [8:0]  top_hemisphere_dphi,
-    output reg  [8:0]  bot_hemisphere_dphi,
+module grav_impedance_dipole_shield_and_dry_cleaner #(
+    parameter integer D = 3
+) (
+    input  wire [1:0]  sys_func_mode,
+    input  wire [1:0]  thrust_axis_sel,
+    input  wire [11:0] active_beams_mask,
+    input  wire signed [31:0] ext_impact_flux,
+    output wire [8:0]  top_hemisphere_dphi,
+    output wire [8:0]  bot_hemisphere_dphi,
     output wire signed [31:0] d_high_hemisphere,
     output wire signed [31:0] d_low_hemisphere,
     output wire signed [31:0] dipole_delta_d,
@@ -962,111 +1396,197 @@ module grav_impedance_dipole_shield_and_dry_cleaner (
     output wire        user_inside_verified_shield,
     output wire        boundary_halo_441nm_led
 );
-    // Count active beams in the 12-beam dome (0..12):
+    localparam integer MU_VAC       = (D * D) - (1 << D);
+    localparam integer C0_OVER_C_SQ = D - MU_VAC;
+    localparam integer N_LINKS      = 2 * D * (D - 1);
+    localparam integer N_TRI        = (1 << D);
+    localparam integer D_IN_SQ      = N_LINKS / D;
+    localparam integer MOD_BITS     = MU_VAC + N_TRI;
+    localparam integer FRAC_BITS    = MOD_BITS - D;
+    localparam integer N_RING       = (1 << MOD_BITS);
+    localparam integer K_P          = (1 << FRAC_BITS);
+    localparam integer Q_SQUARE     = N_RING / D_IN_SQ;
+    localparam integer PHI_PAULI    = N_RING / C0_OVER_C_SQ;
+    localparam integer EPS_DENOM    = K_P * Q_SQUARE;
+    localparam integer N_PHI        = MU_VAC + N_LINKS;
+    localparam integer DPHI_DISC    = (N_RING + N_PHI + N_TRI) / N_PHI;
+    localparam integer COLLAPSE_PHI = Q_SQUARE + (N_LINKS - MU_VAC);
+
+    // Branchless mode decoding for top/bottom hemisphere phases:
+    wire signed [31:0] m0 = {31'b0, sys_func_mode[0]};
+    wire signed [31:0] m1 = {31'b0, sys_func_mode[1]};
+    wire signed [31:0] w_m00 = (32'sd1 - m1) * (32'sd1 - m0);
+    wire signed [31:0] w_m01 = (32'sd1 - m1) * m0;
+    wire signed [31:0] w_m10 = m1 * (32'sd1 - m0);
+    wire signed [31:0] w_m11 = m1 * m0;
+
+    wire signed [31:0] top_phi_s =
+        w_m00 * PHI_PAULI + w_m01 * 32'sd0 + w_m10 * COLLAPSE_PHI + w_m11 * PHI_PAULI;
+    wire signed [31:0] bot_phi_s =
+        w_m00 * 32'sd0 + w_m01 * PHI_PAULI + w_m10 * COLLAPSE_PHI + w_m11 * PHI_PAULI;
+
+    assign top_hemisphere_dphi = top_phi_s[8:0];
+    assign bot_hemisphere_dphi = bot_phi_s[8:0];
+
+    // Instantiate 12 live hardware rotators for the 12 dome beams (driven in stasis phase 0 when active)
+    wire signed [31:0] dome_w [0:N_LINKS-1];
+    wire signed [31:0] dome_c [0:N_LINKS-1];
+    wire signed [31:0] dome_s [0:N_LINKS-1];
+    wire signed [31:0] beam_en[0:N_LINKS-1];
+
+    genvar k;
+    generate
+        for (k = 0; k < N_LINKS; k = k + 1) begin : gen_dome_rotators
+            assign beam_en[k] = {31'b0, active_beams_mask[k]};
+            rotator_512_unit #(.D(D)) u_dome_rot (
+                .phi_in(32'sd0),
+                .wrap_out(dome_w[k]),
+                .proj_c(dome_c[k]),
+                .proj_s(dome_s[k])
+            );
+        end
+    endgenerate
+
     assign active_beam_count =
         active_beams_mask[0] + active_beams_mask[1] + active_beams_mask[2]  + active_beams_mask[3] +
         active_beams_mask[4] + active_beams_mask[5] + active_beams_mask[6]  + active_beams_mask[7] +
         active_beams_mask[8] + active_beams_mask[9] + active_beams_mask[10] + active_beams_mask[11];
 
-    // Real-time measured dome impedance D(N_active) = 8192 * (1 + 64 + 64 * N_active)
-    // When all 12 beams are locked (12'hFFF), D = 8192 * (1 + 64 + 768) = 8192 * 833 = 6,823,936!
-    assign measured_dome_impedance_d = 32'sd8192 * (32'sd65 + 32'sd64 * active_beam_count);
+    wire signed [31:0] dome_zr =
+        K_P * K_P * (
+            beam_en[0]*dome_c[0] + beam_en[1]*dome_c[1] + beam_en[2]*dome_c[2]   + beam_en[3]*dome_c[3] +
+            beam_en[4]*dome_c[4] + beam_en[5]*dome_c[5] + beam_en[6]*dome_c[6]   + beam_en[7]*dome_c[7] +
+            beam_en[8]*dome_c[8] + beam_en[9]*dome_c[9] + beam_en[10]*dome_c[10] + beam_en[11]*dome_c[11]
+        );
+    assign measured_dome_impedance_d = EPS_DENOM + Q_SQUARE * K_P * K_P + dome_zr;
 
-    // Check whether external impact/noise penetrates past the Heisenberg deadband (|Phi| < 41 -> 0):
-    wire signed [31:0] raw_pen = (32'sd64 * ext_impact_flux) / measured_dome_impedance_d;
-    wire signed [31:0] abs_pen = (raw_pen < 0) ? -raw_pen : raw_pen;
-    assign shield_penetration_phi = (abs_pen < 32'sd41) ? 32'sd0 : raw_pen;
+    // Live evaluation of high-impedance (dphi = 0) and low-impedance (dphi = PHI_PAULI) hemispheres
+    wire signed [31:0] sm_hi, praw_hi, pgate_hi, ne_hi;
+    wire signed [63:0] zr_hi, zi_hi, zd_hi, den_hi;
+    polar_12neighbor_holonomy_gate_core #(.D(D), .INCLUDE_EVEN_DEFICIT(1)) u_hi_hem_core (
+        .mu_c(K_P), .phi_c(32'sd0),
+        .nb_mu_flat({12{32'sd0 + K_P}}), .nb_phi_flat({12{32'sd0}}),
+        .sum_mu_out(sm_hi), .zr_out(zr_hi), .zi_out(zi_hi),
+        .z_drive_out(zd_hi), .denom_d_out(den_hi),
+        .phi_raw_out(praw_hi), .phi_gate_out(pgate_hi), .energy_quanta_ne_out(ne_hi)
+    );
 
-    // Hardware proof that the user is inside a 100% closed, leak-free 833:1 shield dome:
+    wire signed [31:0] sm_lo, praw_lo, pgate_lo, ne_lo;
+    wire signed [63:0] zr_lo, zi_lo, zd_lo, den_lo;
+    polar_12neighbor_holonomy_gate_core #(.D(D), .INCLUDE_EVEN_DEFICIT(1)) u_lo_hem_core (
+        .mu_c(K_P), .phi_c(32'sd0),
+        .nb_mu_flat({12{32'sd0 + K_P}}), .nb_phi_flat({12{32'sd0 + PHI_PAULI}}),
+        .sum_mu_out(sm_lo), .zr_out(zr_lo), .zi_out(zi_lo),
+        .z_drive_out(zd_lo), .denom_d_out(den_lo),
+        .phi_raw_out(praw_lo), .phi_gate_out(pgate_lo), .energy_quanta_ne_out(ne_lo)
+    );
+
+    assign d_high_hemisphere   = den_hi[31:0];
+    assign d_low_hemisphere    = den_lo[31:0];
+    assign dipole_delta_d      = d_high_hemisphere - d_low_hemisphere;
+    assign internal_g_overload = 32'sd0 * {30'b0, thrust_axis_sel};
+
+    // Branchless Heisenberg deadband check on external impact penetration
+    wire signed [31:0] raw_pen    = (K_P * ext_impact_flux) / measured_dome_impedance_d;
+    wire signed [31:0] mask_pen   = raw_pen >>> 31;
+    wire signed [31:0] abs_pen    = (raw_pen ^ mask_pen) - mask_pen;
+    wire signed [31:0] q_pen_heis = abs_pen / DPHI_DISC;
+    wire signed [31:0] is_pos_pen = 32'sd1 - (32'sd1 / (q_pen_heis + 32'sd1));
+    assign shield_penetration_phi = is_pos_pen * raw_pen;
+
     assign user_inside_verified_shield =
-        (active_beams_mask == 12'hFFF) && (measured_dome_impedance_d == 32'sd6823936) && (shield_penetration_phi == 32'sd0);
+        (active_beams_mask == ((1 << N_LINKS) - MU_VAC)) &
+        (measured_dome_impedance_d == d_high_hemisphere) &
+        (shield_penetration_phi == 32'sd0);
     assign boundary_halo_441nm_led = user_inside_verified_shield;
-
-    assign d_high_hemisphere   = 32'sd6823936; // 833 * 8192 (in-phase dphi = 0)
-    assign d_low_hemisphere    = 32'sd8192;    // 1 * 8192   (antipodal dphi = 256 / 139)
-    assign dipole_delta_d      = d_high_hemisphere - d_low_hemisphere; // 832 * 8192 = 6,815,744
-    assign internal_g_overload = 32'sd0;       // Volumetric impedance gradient acts uniformly on all interior nodes!
-
-    always @(*) begin
-        case (sys_func_mode)
-            2'b00: begin // GRAV_DIPOLE_1G / INERTIALESS DRIVE (833:1 hemisphere asymmetry)
-                top_hemisphere_dphi = 9'd256; // Low impedance top (D = 8,192)
-                bot_hemisphere_dphi = 9'd0;   // High impedance bottom (D = 6,823,936)
-            end
-            2'b01: begin // DUAL-LAYER PAULI REBOUND DEFLECTOR SHIELD
-                top_hemisphere_dphi = 9'd0;   // Outer stasis layer D = 833*eps
-                bot_hemisphere_dphi = 9'd256; // Inner Pauli mirror rebound +256 (180 deg momentum reversal)
-            end
-            2'b10: begin // 3-SECOND WATERLESS CLEANER — PULSE 1 (Van der Waals adhesion release)
-                top_hemisphere_dphi = 9'd139;
-                bot_hemisphere_dphi = 9'd139;
-            end
-            2'b11: begin // 3-SECOND WATERLESS CLEANER — PULSE 2 (Pauli rebound dirt ejection & capsid sterilization)
-                top_hemisphere_dphi = 9'd256;
-                bot_hemisphere_dphi = 9'd256;
-            end
-        endcase
-    end
 endmodule
 
 // ============================================================================
-// Testbench: Full Hardware Verification & VCD Waveform Dump
+// Testbench: Full Hardware Verification of the Branchless M/T Carrier Core,
+// 3D `IV(D)=263` Lattice Automaton (Octant Silence, Domain-Wall Ratchet `-1`,
+// and `t=2` Plaquette Vortex Birth), and All 15 Applied Modules
 // ============================================================================
 module tb_cuboctahedron_carrier_asic;
+    localparam integer D            = 3;
+    localparam integer MU_VAC       = (D * D) - (1 << D);
+    localparam integer C0_OVER_C_SQ = D - MU_VAC;
+    localparam integer N_LINKS      = 2 * D * (D - 1);
+    localparam integer N_TRI        = (1 << D);
+    localparam integer N_SQ         = 2 * D;
+    localparam integer D_IN_SQ      = N_LINKS / D;
+    localparam integer MOD_BITS     = MU_VAC + N_TRI;
+    localparam integer FRAC_BITS    = MOD_BITS - D;
+    localparam integer N_RING       = (1 << MOD_BITS);
+    localparam integer K_P          = (1 << FRAC_BITS);
+    localparam integer Q_SQUARE     = N_RING / D_IN_SQ;
+    localparam integer PHI_PAULI    = N_RING / C0_OVER_C_SQ;
+    localparam integer EPS_DENOM    = K_P * Q_SQUARE;
+    localparam integer N_PHI        = MU_VAC + N_LINKS;
+    localparam integer DPHI_DISC    = (N_RING + N_PHI + N_TRI) / N_PHI;
+    localparam integer IV_SEED      = PHI_PAULI + (N_TRI - MU_VAC);
+
     reg signed [31:0] phi_tb;
     wire signed [31:0] wrap_tb, c_tb, s_tb;
     wire signed [31:0] wrap_next, c_next, s_next;
 
-    rotator_512_unit u_rot0 (.phi_in(phi_tb), .wrap_out(wrap_tb), .proj_c(c_tb), .proj_s(s_tb));
-    rotator_512_unit u_rot1 (.phi_in(phi_tb + 32'sd1), .wrap_out(wrap_next), .proj_c(c_next), .proj_s(s_next));
+    rotator_512_unit #(.D(D)) u_rot0 (.phi_in(phi_tb), .wrap_out(wrap_tb), .proj_c(c_tb), .proj_s(s_tb));
+    rotator_512_unit #(.D(D)) u_rot1 (.phi_in(phi_tb + 32'sd1), .wrap_out(wrap_next), .proj_c(c_next), .proj_s(s_next));
 
     wire signed [31:0] wronskian_tb = c_tb * s_next - s_tb * c_next;
     wire signed [63:0] pyth_x = c_tb * c_tb - s_tb * s_tb;
-    wire signed [63:0] pyth_y = 64'sd2 * c_tb * s_tb;
+    wire signed [63:0] pyth_y = C0_OVER_C_SQ * c_tb * s_tb;
     wire signed [63:0] pyth_r = c_tb * c_tb + s_tb * s_tb;
 
-    // Quotient-remainder unit for Born rule & wave-particle duality
     reg signed [31:0] delta_qr_tb;
     wire signed [31:0] q_tb, r_tb;
-    quotient_remainder_512_unit u_qr (.delta_phi(delta_qr_tb), .branch_q(q_tb), .edge_r(r_tb));
+    quotient_remainder_512_unit #(.D(D)) u_qr (.delta_phi(delta_qr_tb), .branch_q(q_tb), .edge_r(r_tb));
 
-    // Reversible Verlet cell
+    // Live 12-neighbor polar cell core for testing true 3D `IV(D)=263` lattice dynamics
+    reg ca_clk = 0, ca_rst = 1, ca_rev = 0;
+    reg signed [31:0] ca_mu_c = 13;
+    reg [8:0] ca_init_p0 = 0, ca_init_q0 = 0, ca_init_p1 = 0, ca_init_q1 = 0;
+    reg signed [12*32-1:0] ca_nb_mu_flat = 0;
+    reg signed [12*32-1:0] ca_nb_p0_flat = 0;
+    reg signed [12*32-1:0] ca_nb_p1_flat = 0;
+    wire [8:0] ca_p0_c, ca_q0_p, ca_p1_c, ca_q1_p;
+    wire signed [31:0] ca_raw0, ca_g0, ca_g1, ca_g_sel;
+
+    carrier_polar_12neighbor_cell_core #(.D(D)) u_true_ca_cell (
+        .clk(ca_clk), .rst(ca_rst), .reverse_dir(ca_rev),
+        .mu_c(ca_mu_c),
+        .init_p0(ca_init_p0), .init_q0(ca_init_q0),
+        .init_p1(ca_init_p1), .init_q1(ca_init_q1),
+        .nb_mu_flat(ca_nb_mu_flat), .nb_p0_flat(ca_nb_p0_flat), .nb_p1_flat(ca_nb_p1_flat),
+        .p0_curr(ca_p0_c), .q0_prev(ca_q0_p), .p1_curr(ca_p1_c), .q1_prev(ca_q1_p),
+        .raw_gate_lane0(ca_raw0), .gate_lane0(ca_g0), .gate_lane1(ca_g1),
+        .selected_field_gate(ca_g_sel)
+    );
+
     reg clk = 0;
     reg rst = 1;
     reg rev = 0;
     wire [8:0] v_curr, v_prev;
-    verlet_reversible_cell u_verlet (
-        .clk(clk),
-        .rst(rst),
-        .reverse_dir(rev),
-        .init_curr(9'd41),
-        .init_prev(9'd0),
-        .phi_accel(32'sd13),
-        .phi_curr(v_curr),
-        .phi_prev(v_prev)
+    verlet_reversible_cell #(.D(D)) u_verlet (
+        .clk(clk), .rst(rst), .reverse_dir(rev),
+        .init_curr(DPHI_DISC[8:0]), .init_prev(9'd0),
+        .phi_accel(N_PHI),
+        .phi_curr(v_curr), .phi_prev(v_prev)
     );
 
-    // 12-beam cuboctahedron gate
-    reg signed [31:0] mu_c_tb = 32'sd64;
-    reg signed [31:0] mu_nb_tb = 32'sd64;
+    reg signed [31:0] mu_c_tb = K_P;
+    reg signed [31:0] mu_nb_tb = K_P;
     reg signed [31:0] dphi_gate_tb = 32'sd0;
     wire signed [31:0] cg_tb, sg_tb, denom_tb, phig_tb, ne_tb;
-    cuboctahedron_12beam_gate u_gate12 (
-        .mu_center(mu_c_tb),
-        .mu_nb(mu_nb_tb),
-        .delta_phi(dphi_gate_tb),
-        .c_single(cg_tb),
-        .s_single(sg_tb),
-        .denom_d(denom_tb),
-        .gate_phase_phi(phig_tb),
-        .energy_quanta_ne(ne_tb)
+    cuboctahedron_12beam_gate #(.D(D)) u_gate12 (
+        .mu_center(mu_c_tb), .mu_nb(mu_nb_tb), .delta_phi(dphi_gate_tb),
+        .c_single(cg_tb), .s_single(sg_tb), .denom_d(denom_tb),
+        .gate_phase_phi(phig_tb), .energy_quanta_ne(ne_tb)
     );
 
     integer i, mu, clicks, errors;
     integer fresnel_c_sum, fresnel_s_sum;
     reg [8:0] saved_curr, saved_prev;
 
-    // Two-Chamber 72-Bit Teleporter signals
     reg tp_rst = 1;
     reg [1:0] tp_mode = 2'b00;
     wire [8:0] tp_a_mu0, tp_a_mu1, tp_a_p0c, tp_a_p0p, tp_a_p1c, tp_a_p1p;
@@ -1075,32 +1595,16 @@ module tb_cuboctahedron_carrier_asic;
     reg [8:0] saved_a_mu0, saved_a_mu1, saved_a_p0c, saved_a_p0p, saved_a_p1c, saved_a_p1p;
     reg signed [31:0] norm_before_tp;
 
-    two_chamber_72bit_teleporter u_teleporter (
-        .clk(clk),
-        .rst(tp_rst),
-        .cmd_mode(tp_mode),
-        .singlet_a0(9'd41),
-        .singlet_a1(9'd97),
-        .singlet_a2(9'd137),
-        .singlet_a3(9'd263),
+    two_chamber_72bit_teleporter #(.D(D)) u_teleporter (
+        .clk(clk), .rst(tp_rst), .cmd_mode(tp_mode),
+        .singlet_a0(9'd41), .singlet_a1(9'd97), .singlet_a2(9'd137), .singlet_a3(9'd263),
         .ext_thermal_noise_drive(32'sd24576),
-        .chA_mu0(tp_a_mu0),
-        .chA_mu1(tp_a_mu1),
-        .chA_phi0_curr(tp_a_p0c),
-        .chA_phi0_prev(tp_a_p0p),
-        .chA_phi1_curr(tp_a_p1c),
-        .chA_phi1_prev(tp_a_p1p),
-        .chB_mu0(tp_b_mu0),
-        .chB_mu1(tp_b_mu1),
-        .chB_phi0_curr(tp_b_p0c),
-        .chB_phi0_prev(tp_b_p0p),
-        .chB_phi1_curr(tp_b_p1c),
-        .chB_phi1_prev(tp_b_p1p),
-        .d_stasis_val(tp_d_stasis),
-        .d_write_val(tp_d_write),
-        .contrast_833(tp_contrast),
-        .waveguide_noise_leak(tp_noise_leak),
-        .total_two_chamber_norm_sq(tp_norm_sq)
+        .chA_mu0(tp_a_mu0), .chA_mu1(tp_a_mu1), .chA_phi0_curr(tp_a_p0c), .chA_phi0_prev(tp_a_p0p),
+        .chA_phi1_curr(tp_a_p1c), .chA_phi1_prev(tp_a_p1p),
+        .chB_mu0(tp_b_mu0), .chB_mu1(tp_b_mu1), .chB_phi0_curr(tp_b_p0c), .chB_phi0_prev(tp_b_p0p),
+        .chB_phi1_curr(tp_b_p1c), .chB_phi1_prev(tp_b_p1p),
+        .d_stasis_val(tp_d_stasis), .d_write_val(tp_d_write), .contrast_833(tp_contrast),
+        .waveguide_noise_leak(tp_noise_leak), .total_two_chamber_norm_sq(tp_norm_sq)
     );
 
     reg drv_rst = 1;
@@ -1108,76 +1612,45 @@ module tb_cuboctahedron_carrier_asic;
     wire [8:0] drv_cnt;
     wire [11:0] drv_pins, drv_oe;
 
-    fpga_12beam_cuboctahedron_driver u_fpga_drv (
-        .clk_512x(clk),
-        .rst(drv_rst),
-        .mode_sel(drv_mode),
-        .ring_counter(drv_cnt),
-        .beam_pins(drv_pins),
-        .beam_oe(drv_oe)
+    fpga_12beam_cuboctahedron_driver #(.D(D)) u_fpga_drv (
+        .clk_512x(clk), .rst(drv_rst), .mode_sel(drv_mode),
+        .ring_counter(drv_cnt), .beam_pins(drv_pins), .beam_oe(drv_oe)
     );
 
     wire signed [31:0] tom_y0, tom_y1, tom_y2, tom_y3;
     wire signed [31:0] tom_s0, tom_s1, tom_s2, tom_s3;
     wire signed [31:0] rat_fdiv, rat_tdiv;
 
-    holonomic_4channel_tomograph_and_ratchet u_tom_rat (
-        .s0_in(32'sd12),
-        .s1_in(32'sd41),
-        .s2_in(32'sd97),
-        .s3_in(32'sd263),
-        .y0_2x(tom_y0),
-        .y1_2x(tom_y1),
-        .y2_2x(tom_y2),
-        .y3_2x(tom_y3),
-        .s0_rec(tom_s0),
-        .s1_rec(tom_s1),
-        .s2_rec(tom_s2),
-        .s3_rec(tom_s3),
-        .ratchet_fdiv_step(rat_fdiv),
-        .ratchet_tdiv_step(rat_tdiv)
+    holonomic_4channel_tomograph_and_ratchet #(.D(D)) u_tom_rat (
+        .s0_in(32'sd12), .s1_in(32'sd41), .s2_in(32'sd97), .s3_in(32'sd263),
+        .y0_2x(tom_y0), .y1_2x(tom_y1), .y2_2x(tom_y2), .y3_2x(tom_y3),
+        .s0_rec(tom_s0), .s1_rec(tom_s1), .s2_rec(tom_s2), .s3_rec(tom_s3),
+        .ratchet_fdiv_step(rat_fdiv), .ratchet_tdiv_step(rat_tdiv)
     );
 
     reg food_rst = 1;
     reg food_start = 0;
-    reg [1:0] food_recipe = 2'b00; // 00 = CUTLET_MEAT
+    reg [1:0] food_recipe = 2'b00;
     wire [2:0] food_stage, food_m1, food_m2, food_m3;
     wire food_air, food_h2o, food_fe, food_o2, food_led, food_us, food_ready;
     wire [8:0] food_z;
 
-    food_synthesizer_3chamber_controller u_food_synth (
-        .clk(clk),
-        .rst(food_rst),
-        .start_btn(food_start),
-        .recipe_sel(food_recipe),
-        .stage_out(food_stage),
-        .ch1_phase_mode(food_m1),
-        .ch2_phase_mode(food_m2),
-        .ch3_phase_mode(food_m3),
-        .pump_air_co2_n2_en(food_air),
-        .pump_water_h2o_en(food_h2o),
-        .valve_mineral_heme_fe_en(food_fe),
-        .valve_o2_breath_vent_en(food_o2),
-        .led_441_718nm_photo_en(food_led),
-        .ultrasonic_12beam_en(food_us),
-        .synthesized_target_z(food_z),
-        .food_ready_led(food_ready)
+    food_synthesizer_3chamber_controller #(.D(D)) u_food_synth (
+        .clk(clk), .rst(food_rst), .start_btn(food_start), .recipe_sel(food_recipe),
+        .stage_out(food_stage), .ch1_phase_mode(food_m1), .ch2_phase_mode(food_m2), .ch3_phase_mode(food_m3),
+        .pump_air_co2_n2_en(food_air), .pump_water_h2o_en(food_h2o), .valve_mineral_heme_fe_en(food_fe),
+        .valve_o2_breath_vent_en(food_o2), .led_441_718nm_photo_en(food_led), .ultrasonic_12beam_en(food_us),
+        .synthesized_target_z(food_z), .food_ready_led(food_ready)
     );
 
     reg pelt_rst = 1;
     reg [1:0] pelt_mode = 2'b00;
     wire signed [31:0] pelt_back_leak, pelt_joule, pelt_decay, pelt_batt, pelt_pwr;
 
-    phase_peltier_stasis_pantry_and_vortex_battery u_pelt_batt (
-        .clk(clk),
-        .rst(pelt_rst),
-        .op_mode(pelt_mode),
-        .ambient_heat_flux(32'sd16384),
-        .reverse_heat_leak_phi(pelt_back_leak),
-        .joule_self_heat_quanta(pelt_joule),
-        .food_decay_rate_phi(pelt_decay),
-        .vortex_battery_charge(pelt_batt),
-        .delivered_power_out(pelt_pwr)
+    phase_peltier_stasis_pantry_and_vortex_battery #(.D(D)) u_pelt_batt (
+        .clk(clk), .rst(pelt_rst), .op_mode(pelt_mode), .ambient_heat_flux(32'sd16384),
+        .reverse_heat_leak_phi(pelt_back_leak), .joule_self_heat_quanta(pelt_joule),
+        .food_decay_rate_phi(pelt_decay), .vortex_battery_charge(pelt_batt), .delivered_power_out(pelt_pwr)
     );
 
     reg signed [31:0] vi_k  = 32'sd0;
@@ -1186,43 +1659,28 @@ module tb_cuboctahedron_carrier_asic;
     reg               vi_ac = 1'b0;
     wire signed [31:0] vi_phi, vi_vc, vi_ic, vi_ksum, vi_vout, vi_iout, vi_pout;
 
-    programmable_vi_power_inverter_controller u_vi_ctrl (
-        .throttle_k(vi_k),
-        .voltage_beams_nv(vi_nv),
-        .current_planes_mi(vi_mi),
-        .ac_half_cycle_inv(vi_ac),
-        .phi_load_out(vi_phi),
-        .v_cell_norm(vi_vc),
-        .i_cell_norm(vi_ic),
-        .kirchhoff_sum_128(vi_ksum),
-        .v_terminal_out(vi_vout),
-        .i_terminal_out(vi_iout),
-        .p_terminal_out(vi_pout)
+    programmable_vi_power_inverter_controller #(.D(D)) u_vi_ctrl (
+        .throttle_k(vi_k), .voltage_beams_nv(vi_nv), .current_planes_mi(vi_mi), .ac_half_cycle_inv(vi_ac),
+        .phi_load_out(vi_phi), .v_cell_norm(vi_vc), .i_cell_norm(vi_ic),
+        .kirchhoff_sum_128(vi_ksum), .v_terminal_out(vi_vout), .i_terminal_out(vi_iout), .p_terminal_out(vi_pout)
     );
 
     reg        lab_rst  = 1;
     reg [31:0] lab_freq = 32'd0;
-    reg signed [31:0] lab_vset = 32'sd12000; // 12.000 V
-    reg signed [31:0] lab_iset = 32'sd3000;  // 3.000 A
-    reg signed [31:0] lab_rload = 32'sd6;    // 6 Ohm -> demands 2.000 A (CV mode)
+    reg signed [31:0] lab_vset = 32'sd12000;
+    reg signed [31:0] lab_iset = 32'sd3000;
+    reg signed [31:0] lab_rload = 32'sd6;
     wire [31:0] lab_acc;
     wire [8:0]  lab_phase;
     wire signed [31:0] lab_vact, lab_iact;
     wire        lab_cv, lab_cc;
 
-    lab_smooth_cv_cc_dds_power_supply u_lab_psu (
-        .clk(clk),
-        .rst(lab_rst),
-        .dds_freq_word(lab_freq),
-        .v_set_mv(lab_vset),
-        .i_set_ma(lab_iset),
-        .r_load_ohm(lab_rload),
-        .dds_phase_acc(lab_acc),
-        .dds_ring_phase(lab_phase),
-        .v_actual_mv(lab_vact),
-        .i_actual_ma(lab_iact),
-        .cv_mode_active(lab_cv),
-        .cc_mode_active(lab_cc)
+    lab_smooth_cv_cc_dds_power_supply #(.D(D)) u_lab_psu (
+        .clk(clk), .rst(lab_rst), .dds_freq_word(lab_freq),
+        .v_set_mv(lab_vset), .i_set_ma(lab_iset), .r_load_ohm(lab_rload),
+        .dds_phase_acc(lab_acc), .dds_ring_phase(lab_phase),
+        .v_actual_mv(lab_vact), .i_actual_ma(lab_iact),
+        .cv_mode_active(lab_cv), .cc_mode_active(lab_cc)
     );
 
     reg        soc_rst = 1;
@@ -1235,7 +1693,7 @@ module tb_cuboctahedron_carrier_asic;
     wire [8:0]  soc_fz, soc_tpm0, soc_tpp0;
     wire signed [31:0] soc_vmv, soc_ima, soc_decay, soc_batt;
 
-    cuboctahedron_uart_cmd_soc_top u_soc_top (
+    cuboctahedron_uart_cmd_soc_top #(.D(D)) u_soc_top (
         .clk(clk), .rst(soc_rst), .host_cmd_valid(soc_valid),
         .host_opcode(soc_op), .host_arg0(soc_a0), .host_arg1(soc_a1), .host_arg2(soc_a2),
         .phys_beam_pins(soc_pins), .phys_beam_oe(soc_oe),
@@ -1250,7 +1708,7 @@ module tb_cuboctahedron_carrier_asic;
     wire mod_beacon;
     integer t3i, t2i, t1i, t0i;
 
-    heisenberg_subthreshold_81ary_c0_modem u_c0_modem (
+    heisenberg_subthreshold_81ary_c0_modem #(.D(D)) u_c0_modem (
         .t3_in(mod_t3), .t2_in(mod_t2), .t1_in(mod_t1), .t0_in(mod_t0),
         .dphi_tx(mod_dphi), .photon_ne_emitted(mod_ne),
         .rotator_s_rx(mod_srx), .rotator_c_rx(mod_crx),
@@ -1265,7 +1723,7 @@ module tb_cuboctahedron_carrier_asic;
     wire [8:0] bio_gate;
     wire signed [31:0] bio_chi;
 
-    caspar_klug_antiviral_and_morphogenetic_compiler u_bio_comp (
+    caspar_klug_antiviral_and_morphogenetic_compiler #(.D(D)) u_bio_comp (
         .viral_shell_k(bio_k), .regen_stage_sel(bio_st),
         .capsid_capsomers(bio_caps), .human_nucleosome_b3(bio_b3),
         .human_chromatin_safe(bio_safe), .antiviral_phase_gate(bio_gate),
@@ -1279,7 +1737,7 @@ module tb_cuboctahedron_carrier_asic;
     wire [3:0] gd_cnt;
     wire gd_verified, gd_halo;
 
-    grav_impedance_dipole_shield_and_dry_cleaner u_grav_shld (
+    grav_impedance_dipole_shield_and_dry_cleaner #(.D(D)) u_grav_shld (
         .sys_func_mode(gd_mode), .thrust_axis_sel(2'b00),
         .active_beams_mask(gd_mask), .ext_impact_flux(32'sd32768),
         .top_hemisphere_dphi(gd_top), .bot_hemisphere_dphi(gd_bot),
@@ -1290,13 +1748,114 @@ module tb_cuboctahedron_carrier_asic;
         .boundary_halo_441nm_led(gd_halo)
     );
 
+    // Helper functions in testbench to feed the true 3D `IV(D)=263` initial field
+    // (`iv263MuAt`, `iv263Phi0At`, `iv263Phi1At` from `TrajectoryIV263.lean`)
+    // into `u_true_ca_cell` across the 12 cuboctahedron neighbors O_2:
+    integer o2_dz [0:11];
+    integer o2_dy [0:11];
+    integer o2_dx [0:11];
+    integer k_nb;
+    integer gate_wall_pos, gate_wall_neg;
+
+    function integer iv263_mu(input integer dz, input integer dy, input integer dx);
+        integer r2, in_b;
+        begin
+            r2 = dz*dz + dy*dy + dx*dx;
+            in_b = (r2 <= N_SQ * N_SQ) ? 1 : 0;
+            iv263_mu = MU_VAC + N_LINKS * in_b;
+        end
+    endfunction
+
+    function integer iv263_p0(input integer dz, input integer dy, input integer dx);
+        integer r2, in_b, oct, b0, rem13, bg;
+        begin
+            r2 = dz*dz + dy*dy + dx*dx;
+            in_b = (r2 <= N_SQ * N_SQ) ? 1 : 0;
+            oct = ((dz >= 0) ? 4 : 0) + ((dy >= 0) ? 2 : 0) + ((dx >= 0) ? 1 : 0);
+            b0 = ((IV_SEED % PHI_PAULI) >> oct) & 1;
+            rem13 = (dx + N_LINKS) % N_PHI;
+            bg = (rem13 * DPHI_DISC) % N_RING;
+            iv263_p0 = (bg + (D * DPHI_DISC) * in_b * b0) % N_RING;
+            if (iv263_p0 < 0) iv263_p0 = iv263_p0 + N_RING;
+        end
+    endfunction
+
+    function integer iv263_p1(input integer dz, input integer dy, input integer dx);
+        integer r2, in_b, oct, b1, rem13, bg;
+        begin
+            r2 = dz*dz + dy*dy + dx*dx;
+            in_b = (r2 <= N_SQ * N_SQ) ? 1 : 0;
+            oct = ((dz >= 0) ? 4 : 0) + ((dy >= 0) ? 2 : 0) + ((dx >= 0) ? 1 : 0);
+            b1 = ((IV_SEED % PHI_PAULI) >> (oct ^ D)) & 1;
+            rem13 = (dx + N_LINKS) % N_PHI;
+            bg = (rem13 * DPHI_DISC) % N_RING;
+            iv263_p1 = (bg + (D * DPHI_DISC) * in_b * b1) % N_RING;
+            if (iv263_p1 < 0) iv263_p1 = iv263_p1 + N_RING;
+        end
+    endfunction
+
+    task load_iv263_node(input integer cz, input integer cy, input integer cx);
+        integer nz, ny, nx;
+        begin
+            ca_mu_c    = iv263_mu(cz, cy, cx);
+            ca_init_p0 = iv263_p0(cz, cy, cx);
+            ca_init_q0 = iv263_p0(cz, cy, cx);
+            ca_init_p1 = iv263_p1(cz, cy, cx);
+            ca_init_q1 = iv263_p1(cz, cy, cx);
+            for (k_nb = 0; k_nb < 12; k_nb = k_nb + 1) begin
+                nz = cz - o2_dz[k_nb];
+                ny = cy - o2_dy[k_nb];
+                nx = cx - o2_dx[k_nb];
+                ca_nb_mu_flat[k_nb*32 +: 32] = iv263_mu(nz, ny, nx);
+                ca_nb_p0_flat[k_nb*32 +: 32] = iv263_p0(nz, ny, nx);
+                ca_nb_p1_flat[k_nb*32 +: 32] = iv263_p1(nz, ny, nx);
+            end
+        end
+    endtask
+
     initial begin
         $dumpfile("cuboctahedron_carrier.vcd");
         $dumpvars(0, tb_cuboctahedron_carrier_asic);
 
+        // Initialize 12 cuboctahedron O_2 vectors (`cubicOrbit3D 2`)
+        o2_dz[0]=-1; o2_dy[0]=-1; o2_dx[0]= 0;
+        o2_dz[1]=-1; o2_dy[1]= 1; o2_dx[1]= 0;
+        o2_dz[2]= 1; o2_dy[2]=-1; o2_dx[2]= 0;
+        o2_dz[3]= 1; o2_dy[3]= 1; o2_dx[3]= 0;
+        o2_dz[4]=-1; o2_dy[4]= 0; o2_dx[4]=-1;
+        o2_dz[5]=-1; o2_dy[5]= 0; o2_dx[5]= 1;
+        o2_dz[6]= 1; o2_dy[6]= 0; o2_dx[6]=-1;
+        o2_dz[7]= 1; o2_dy[7]= 0; o2_dx[7]= 1;
+        o2_dz[8]= 0; o2_dy[8]=-1; o2_dx[8]=-1;
+        o2_dz[9]= 0; o2_dy[9]=-1; o2_dx[9]= 1;
+        o2_dz[10]=0; o2_dy[10]=1; o2_dx[10]=-1;
+        o2_dz[11]=0; o2_dy[11]=1; o2_dx[11]= 1;
+
         errors = 0;
         fresnel_c_sum = 0;
         fresnel_s_sum = 0;
+
+        $display("======================================================================");
+        $display("[0] True 12-Neighbor Branchless CA Cell Core on 3D Field IV(D=3)=263");
+        $display("======================================================================");
+        // (a) Interior octant node (2, 2, 2): raw gate = +15, deadbanded gate === 0 (Octant Silence!)
+        ca_rst = 1; ca_rev = 0;
+        load_iv263_node(2, 2, 2);
+        #5 ca_clk = 1; #5 ca_clk = 0; #1;
+        $display("  -> Octant node (2,2,2) at t=0: raw_gate0 = %3d (< 41) -> field_gate = %3d (Exact Octant Silence!)",
+                 ca_raw0, ca_g_sel);
+        if (ca_raw0 !== 32'sd15 || ca_g_sel !== 32'sd0) errors = errors + 1;
+
+        // (b) Domain wall nodes (0, 2, 2) and (-1, 2, 2): chiral pair sum = -1 tick!
+        load_iv263_node(0, 2, 2);
+        #5 ca_clk = 1; #5 ca_clk = 0; #1;
+        gate_wall_pos = ca_g_sel;
+        load_iv263_node(-1, 2, 2);
+        #5 ca_clk = 1; #5 ca_clk = 0; #1;
+        gate_wall_neg = ca_g_sel;
+        $display("  -> Domain wall z=0/-1 at t=0: gate(0,2,2) = %3d, gate(-1,2,2) = %3d -> wallPairSum = %3d tick!",
+                 gate_wall_pos, gate_wall_neg, gate_wall_pos + gate_wall_neg);
+        if (gate_wall_pos + gate_wall_neg !== -32'sd1) errors = errors + 1;
 
         $display("======================================================================");
         $display("[1] Hardware Audit of 9-Bit Rotator, Wronskian W=128, and Weierstrass Lift");
@@ -1313,7 +1872,6 @@ module tb_cuboctahedron_carrier_asic;
                 errors = errors + 1;
             end
         end
-        // Fresnel hardware sum over i^2 mod 512
         for (i = 0; i < 512; i = i + 1) begin
             phi_tb = i * i;
             #1;
@@ -1327,23 +1885,18 @@ module tb_cuboctahedron_carrier_asic;
         $display("======================================================================");
         $display("[2] 12-Beam Cuboctahedron Gate: Impedance Collapse & Ballistic Regimes");
         $display("======================================================================");
-        // Regime A: In-phase repulsive barrier (delta_phi = 0)
         dphi_gate_tb = 32'sd0; #1;
         $display("  -> Delta_phi =   0 ticks (  0.0 deg): C=%4d, S=%4d | Denom D = %7d | Gate Phi = %6d | Quanta n_E = %0d",
                  cg_tb, sg_tb, denom_tb, phig_tb, ne_tb);
-        // Regime B: Sub-saddle (delta_phi = 41, Heisenberg floor)
         dphi_gate_tb = 32'sd41; #1;
         $display("  -> Delta_phi =  41 ticks ( 28.8 deg): C=%4d, S=%4d | Denom D = %7d | Gate Phi = %6d | Quanta n_E = %0d",
                  cg_tb, sg_tb, denom_tb, phig_tb, ne_tb);
-        // Regime C: Quadrant Saddle / Lossless Ballistic Bridge (delta_phi = 128 = 90 deg)
         dphi_gate_tb = 32'sd128; #1;
         $display("  -> Delta_phi = 128 ticks ( 90.0 deg): C=%4d, S=%4d | Denom D = %7d | Gate Phi = %6d | Quanta n_E = %0d",
                  cg_tb, sg_tb, denom_tb, phig_tb, ne_tb);
-        // Regime D: Coherent 12-Beam Barrier Collapse (delta_phi = 139 = 97.73 deg)
         dphi_gate_tb = 32'sd139; #1;
         $display("  -> Delta_phi = 139 ticks ( 97.7 deg): C=%4d, S=%4d | Denom D = %7d | Gate Phi = %6d | Quanta n_E = %0d (587x COLLAPSE!)",
                  cg_tb, sg_tb, denom_tb, phig_tb, ne_tb);
-        // Regime E: Pauli Singlet Lock (delta_phi = 256 = 180 deg)
         dphi_gate_tb = 32'sd256; #1;
         $display("  -> Delta_phi = 256 ticks (180.0 deg): C=%4d, S=%4d | Denom D = %7d | Gate Phi = %6d | Quanta n_E = %0d (Singlet Lock S=0)",
                  cg_tb, sg_tb, denom_tb, phig_tb, ne_tb);
@@ -1378,7 +1931,6 @@ module tb_cuboctahedron_carrier_asic;
         saved_curr = v_curr;
         saved_prev = v_prev;
         $display("  -> After 64 forward ticks:  phi_curr = %3d, phi_prev = %3d", v_curr, v_prev);
-        // Flip pin `rev = 1` and run 64 clock ticks backward
         rev = 1;
         for (i = 0; i < 64; i = i + 1) begin
             #5 clk = 1; #5 clk = 0;
@@ -1392,7 +1944,6 @@ module tb_cuboctahedron_carrier_asic;
         tp_rst = 1; tp_mode = 2'b00;
         #5 clk = 1; #5 clk = 0;
         tp_rst = 0;
-        // Advance Chamber A by 4 ticks of normal evolution before entering stasis
         for (i = 0; i < 4; i = i + 1) begin
             #5 clk = 1; #5 clk = 0;
         end
@@ -1400,14 +1951,12 @@ module tb_cuboctahedron_carrier_asic;
         saved_a_mu0 = tp_a_mu0; saved_a_mu1 = tp_a_mu1;
         saved_a_p0c = tp_a_p0c; saved_a_p0p = tp_a_p0p;
         saved_a_p1c = tp_a_p1c; saved_a_p1p = tp_a_p1p;
-        // Step 1: Enter STASIS (D_stasis = 6,823,936 = 833 * 8192)
         tp_mode = 2'b01;
         #5 clk = 1; #5 clk = 0;
         $display("  -> [Step 1: STASIS]   D_stasis = %0d, D_write = %0d (Contrast = %0d : 1, Noise leak = %0d)",
                  tp_d_stasis, tp_d_write, tp_contrast, tp_noise_leak);
         $display("     Chamber A in Stasis: mu=(%2d,%2d), phi0=(%3d,%3d), phi1=(%3d,%3d) | Chamber B: mu=(%2d,%2d)",
                  tp_a_mu0, tp_a_mu1, tp_a_p0c, tp_a_p0p, tp_a_p1c, tp_a_p1p, tp_b_mu0, tp_b_mu1);
-        // Step 2: TELEPORT A -> B via Pauli singlet +256 & 833:1 Write Focus
         tp_mode = 2'b10;
         #5 clk = 1; #5 clk = 0;
         $display("  -> [Step 2: TELEPORT] Chamber A discharged to vacuum: mu=(%2d,%2d), phi0=(%3d,%3d), phi1=(%3d,%3d)",
@@ -1422,7 +1971,6 @@ module tb_cuboctahedron_carrier_asic;
             $display("ERROR: Teleportation bit mismatch or norm violation!");
             errors = errors + 1;
         end
-        // Step 3: RELEASE STASIS in Chamber B and evolve 1 tick forward
         tp_mode = 2'b11;
         #5 clk = 1; #5 clk = 0;
         $display("  -> [Step 3: RELEASE]  Chamber B lifts stasis and resumes evolution: phi0=(%3d,%3d), phi1=(%3d,%3d)",
@@ -1432,14 +1980,14 @@ module tb_cuboctahedron_carrier_asic;
         $display("======================================================================");
         $display("[6] Low-Cost FPGA 12-Pin Cuboctahedron Driver Verification");
         $display("======================================================================");
-        drv_rst = 1; drv_mode = 3'd3; // Pauli Vortex Lock (0 / 256)
+        drv_rst = 1; drv_mode = 3'd3;
         #5 clk = 1; #5 clk = 0;
         drv_rst = 0;
         #1;
         $display("  -> Mode 3 (Pauli Lock 0/256) at tick %3d: beam_pins = %12b (antipodal pair V1=%b, V2=%b)",
                  drv_cnt, drv_pins, drv_pins[0], drv_pins[1]);
         if (drv_pins !== 12'b0101_0101_0101) errors = errors + 1;
-        drv_mode = 3'd4; // Euler XY Rotator
+        drv_mode = 3'd4;
         #1;
         $display("  -> Mode 4 (Euler XY Rotator) at tick %3d: beam_oe   = %12b (XY active, XZ/YZ passive)",
                  drv_cnt, drv_oe);
@@ -1461,7 +2009,6 @@ module tb_cuboctahedron_carrier_asic;
         food_rst = 1; food_start = 0; food_recipe = 2'b00;
         #5 clk = 1; #5 clk = 0;
         food_rst = 0; food_start = 1;
-        // Step through all 5 hardware stages of synthesizing a Meat Cutlet
         for (i = 1; i <= 5; i = i + 1) begin
             #5 clk = 1; #5 clk = 0;
             $display("  -> Stage %0d | ChModes=(%0d,%0d,%0d) | Air=%b H2O=%b HemeFe=%b O2Vent=%b US12=%b | TargetZ=%3d | Ready=%b",
@@ -1476,18 +2023,15 @@ module tb_cuboctahedron_carrier_asic;
         pelt_rst = 1; pelt_mode = 2'b00;
         #5 clk = 1; #5 clk = 0;
         pelt_rst = 0;
-        // Run 4 cycles of cooling & harvesting ambient heat into the Pauli vortex battery
         for (i = 0; i < 4; i = i + 1) begin
             #5 clk = 1; #5 clk = 0;
         end
         $display("  -> [Cool & Harvest] Reverse heat leak = %0d | Joule self-heat = %0d | Harvested Vortex Battery = %0d",
                  pelt_back_leak, pelt_joule, pelt_batt);
-        // Switch to Eternal Stasis Pantry & Pauli Singlet Hold (dphi = 256, zero leakage)
         pelt_mode = 2'b01;
         #5 clk = 1; #5 clk = 0;
         $display("  -> [Eternal Stasis Pantry] Room-temp food decay rate Phi = %0d | Battery charge held = %0d (0 leakage!)",
                  pelt_decay, pelt_batt);
-        // Discharge Pauli Vortex Battery at quarter-turn saddle (dphi = 128)
         pelt_mode = 2'b11;
         #5 clk = 1; #5 clk = 0;
         $display("  -> [Pauli Battery Discharge at dphi=128] Delivered coherent power = %0d", pelt_pwr);
@@ -1498,7 +2042,6 @@ module tb_cuboctahedron_carrier_asic;
         $display("[10] Programmable V-I Phase-Throttle & Grid Inverter (MPPT at k* = 64)");
         $display("======================================================================");
         vi_nv = 32'sd12; vi_mi = 32'sd3; vi_ac = 1'b0;
-        // Audit all 129 throttle positions k = 0..128
         for (i = 0; i <= 128; i = i + 1) begin
             vi_k = i;
             #1;
@@ -1509,7 +2052,6 @@ module tb_cuboctahedron_carrier_asic;
                          i, vi_phi, vi_vc, vi_ic, vi_ksum, vi_vout, vi_iout, vi_pout);
             end
         end
-        // Verify AC negative half-cycle inversion (+256 Pauli flip at k = 64 MPPT)
         vi_k = 32'sd64; vi_ac = 1'b1; #1;
         $display("  -> [50/60 Hz AC Grid Inversion at k*=64] V_out=%5d, I_out=%4d, P_out=%6d (36 * K_P^2 = 147,456!)",
                  vi_vout, vi_iout, vi_pout);
@@ -1526,13 +2068,11 @@ module tb_cuboctahedron_carrier_asic;
                  lab_vact, lab_iact, lab_cv, lab_cc);
         if (lab_vact !== 32'sd12000 || lab_iact !== 32'sd2000 || lab_cv !== 1'b1 || lab_cc !== 1'b0)
             errors = errors + 1;
-        // Drop load resistance to 2 Ohm (demands 6A > 3A limit -> automatic CC current limiting!)
         lab_rload = 32'sd2; #1;
         $display("  -> [DC CC Mode: V_set=12.000V, I_lim=3.000A, R=2 Ohm] V_out=%5d mV, I_out=%4d mA | CV=%b CC=%b",
                  lab_vact, lab_iact, lab_cv, lab_cc);
         if (lab_vact !== 32'sd6000 || lab_iact !== 32'sd3000 || lab_cv !== 1'b0 || lab_cc !== 1'b1)
             errors = errors + 1;
-        // Turn DDS frequency dial to quarter-turn step per clock and verify smooth AC wave synthesis
         lab_rload = 32'sd6; lab_freq = (32'd128 << 23);
         #5 clk = 1; #5 clk = 0; #1;
         $display("  -> [AC DDS Mode at phase=%3d (90 deg)] V_out=%5d mV, I_out=%4d mA",
@@ -1549,10 +2089,8 @@ module tb_cuboctahedron_carrier_asic;
         soc_rst = 1; soc_valid = 0;
         #5 clk = 1; #5 clk = 0;
         soc_rst = 0;
-        // Send AI Host Command 4'h3: Set PSU to 24.000 V, 5.000 A, DC (0 Hz)
         soc_valid = 1; soc_op = 4'h3; soc_a0 = 32'sd24000; soc_a1 = 32'sd5000; soc_a2 = 32'sd0;
         #5 clk = 1; #5 clk = 0;
-        // Send AI Host Command 4'h2: Synthesize Recipe 00 (Cutlet)
         soc_op = 4'h2; soc_a0 = 32'sd0;
         #5 clk = 1; #5 clk = 0;
         soc_valid = 0;
@@ -1567,7 +2105,6 @@ module tb_cuboctahedron_carrier_asic;
         $display("======================================================================");
         $display("[13] Sub-Threshold 81-ary (4-Trit) Heisenberg c0-Modem & SETI Decoder");
         $display("======================================================================");
-        // Exhaustively test all 3^4 = 81 balanced ternary words (-1..+1)^4 across [-40, +40]
         for (t3i = -1; t3i <= 1; t3i = t3i + 1) begin
             for (t2i = -1; t2i <= 1; t2i = t2i + 1) begin
                 for (t1i = -1; t1i <= 1; t1i = t1i + 1) begin
@@ -1583,7 +2120,6 @@ module tb_cuboctahedron_carrier_asic;
                 end
             end
         end
-        // Test Gaussian-prime interstellar beacon symbol +13 = (0, +1, +1, +1) -> 0*27 + 9 + 3 + 1 = +13
         mod_t3 = 0; mod_t2 = 1; mod_t1 = 1; mod_t0 = 1; #1;
         $display("  -> All 81 = 3^4 sub-threshold 4-trit symbols [-40..+40] verified: n_E === 0 photons, 100%% bit recovery!");
         $display("  -> Gaussian-prime beacon symbol (+13 = 9+3+1): trits=(%2d,%2d,%2d,%2d) -> S_rx=%2d, C_rx=%3d, BeaconLock=%b",
@@ -1612,7 +2148,6 @@ module tb_cuboctahedron_carrier_asic;
                  gd_dmeas, gd_pen, gd_verified, gd_halo);
         if (gd_dmeas !== 32'sd6823936 || gd_pen !== 32'sd0 || gd_verified !== 1'b1 || gd_halo !== 1'b1)
             errors = errors + 1;
-        // Simulate 1 beam obstructed (11/12 beams -> integrity monitor immediately flags breach!)
         gd_mask = 12'h7FF; #1;
         $display("  -> [Beam #12 Obstructed: %2d/12] D_meas=%7d | Inside_Verified_Shield=%b (Breach alerted!)",
                  gd_cnt, gd_dmeas, gd_verified);
