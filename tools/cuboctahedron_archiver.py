@@ -290,13 +290,14 @@ def benchmark_external_file(file_path: str) -> None:
     p = Path(file_path)
     if not p.exists():
         raise FileNotFoundError(f"File not found: {p}")
-    data = p.read_bytes()
+    file_size = p.stat().st_size
     print("==========================================================================================")
-    print(f"EXTERNAL FILE TEST: {p.name} ({len(data):,} bytes = {len(data)/(1024*1024):.2f} MB)")
+    print(f"EXTERNAL FILE TEST: {p.name} ({file_size:,} bytes = {file_size/(1024*1024):.2f} MB)")
     print("==========================================================================================")
 
-    # If the input is a video container (.mp4, .mkv, .avi, .mov, .webm), also run the 4D Lossless Video Frame Archiver!
-    if p.suffix.lower() in (".mp4", ".mkv", ".avi", ".mov", ".webm"):
+    # If the input is a video container (.mp4, .mkv, .avi, .mov, .webm), run the 4D Lossless Video Frame Archiver
+    # directly via ffmpeg pipe (works even on 14+ GB video files without loading the whole file into RAM!)
+    if p.suffix.lower() in (".mp4", ".mkv", ".avi", ".mov", ".webm", ".y4m"):
         ffmpeg_exe = r"C:\Users\dkara\AppData\Local\Microsoft\WinGet\Links\ffmpeg.exe"
         if Path(ffmpeg_exe).exists():
             cmd = [
@@ -313,37 +314,67 @@ def benchmark_external_file(file_path: str) -> None:
             g_len = len(zlib.compress(raw_vid, level=9))
             l_len = len(lzma.compress(raw_vid, preset=9))
 
-            # Reversible 4D Color + Spatial + Temporal Cuboctahedron Transform
-            f_color = video_4d.copy()
-            g_ch = f_color[..., 1]
-            f_color[..., 0] = (f_color[..., 0].astype(np.int16) - g_ch.astype(np.int16)) & 0xFF
-            f_color[..., 2] = (f_color[..., 2].astype(np.int16) - g_ch.astype(np.int16)) & 0xFF
-            res_color = np.empty_like(f_color, dtype=np.uint8)
-            res_color[0] = f_color[0]
-            res_color[0, :, 1:, :] = (f_color[0, :, 1:, :].astype(np.int16) - f_color[0, :, :-1, :].astype(np.int16)) & 0xFF
+            # 1) 100% Bit-Exact SHA-256 Lossless 1-Step Temporal + Sub-Green Color Transform:
+            f_color = video_4d.astype(np.int16)
+            g_ch = f_color[..., 1].copy()
+            f_color[..., 0] = (f_color[..., 0] - g_ch) & 0xFF
+            f_color[..., 2] = (f_color[..., 2] - g_ch) & 0xFF
+            res_1step = np.empty_like(video_4d, dtype=np.uint8)
+            res_1step[0] = f_color[0].astype(np.uint8)
+            res_1step[0, :, 1:, :] = ((f_color[0, :, 1:, :] - f_color[0, :, :-1, :]) & 0xFF).astype(np.uint8)
             for t in range(1, nt):
-                res_color[t] = ((f_color[t].astype(np.int16) - f_color[t - 1].astype(np.int16)) & 0xFF).astype(np.uint8)
-            comp_vid = carrier_entropy_compress(res_color.tobytes())
+                res_1step[t] = ((f_color[t] - f_color[t - 1]) & 0xFF).astype(np.uint8)
+            comp_vid = carrier_entropy_compress(res_1step.tobytes())
 
-            # Reconstruct 100% bit-exact and verify SHA-256
+            # Reconstruct 100% bit-exact from comp_vid and verify SHA-256:
             rec_res = np.frombuffer(carrier_entropy_decompress(comp_vid), dtype=np.uint8).reshape(video_4d.shape)
-            rec_color = np.empty_like(rec_res, dtype=np.uint8)
-            rec_color[0] = np.cumsum(rec_res[0].astype(np.int32), axis=1).astype(np.uint8)
+            rec_color = np.empty_like(rec_res, dtype=np.int16)
+            rec_color[0] = np.cumsum(rec_res[0].astype(np.int32), axis=1) & 0xFF
             for t in range(1, nt):
-                rec_color[t] = ((rec_color[t - 1].astype(np.int16) + rec_res[t].astype(np.int16)) & 0xFF).astype(np.uint8)
-            rec_vid = rec_color.copy()
+                rec_color[t] = (rec_color[t - 1] + rec_res[t].astype(np.int16)) & 0xFF
+            rec_vid = rec_color.astype(np.uint8)
             rec_vid[..., 0] = (rec_vid[..., 0].astype(np.int16) + rec_vid[..., 1].astype(np.int16)) & 0xFF
             rec_vid[..., 2] = (rec_vid[..., 2].astype(np.int16) + rec_vid[..., 1].astype(np.int16)) & 0xFF
             sha_v_in = hashlib.sha256(raw_vid).hexdigest()
             sha_v_out = hashlib.sha256(rec_vid.tobytes()).hexdigest()
 
             print(f"  [4D Decoded Video Stream: {nt} frames x 320x180 RGB24 = {len(raw_vid):,d} B ({len(raw_vid)/(1024*1024):.2f} MB)]")
-            print(f"  Standard gzip/deflate -9:  {g_len:12,d} B ({len(raw_vid)/g_len:6.2f}x)")
-            print(f"  Standard xz/LZMA -9:       {l_len:12,d} B ({len(raw_vid)/l_len:6.2f}x)")
-            print(f"  Cuboct 4D Video Archiver:  {len(comp_vid):12,d} B ({len(raw_vid)/len(comp_vid):6.2f}x -> saved {l_len - len(comp_vid):+,d} B vs xz/LZMA and {g_len - len(comp_vid):+,d} B vs gzip!)")
-            print(f"  100% Bit-Exact SHA-256:    {sha_v_in == sha_v_out} (SHA-256 = {sha_v_out})\n")
+            print(f"  Standard gzip/deflate -9:           {g_len:12,d} B ({len(raw_vid)/g_len:6.2f}x)")
+            print(f"  Standard xz/LZMA -9:                {l_len:12,d} B ({len(raw_vid)/l_len:6.2f}x)")
+            print(f"  Cuboct 4D Lossless (100% SHA-256):  {len(comp_vid):12,d} B ({len(raw_vid)/len(comp_vid):6.2f}x -> saved {l_len - len(comp_vid):+,d} B vs xz/LZMA and {g_len - len(comp_vid):+,d} B vs gzip!)")
+            print(f"  100% Bit-Exact Lossless SHA-256:    {sha_v_in == sha_v_out} (SHA-256 = {sha_v_out})")
+
+            # 2) Two-Point Keyframe Drop Ladder (N = 2, 4 = d_in(sq), 8 = |Delta|, 12 = |N_12|):
+            #    Drop intermediate frames and reconstruct them from the straight line through the two surrounding keyframes!
+            print("\n  [Two-Point Keyframe-Drop TV Streaming Ladder (Intermediate Frames Dropped & Reconstructed from 2-Point Line)]")
+            for step_n, label_n in [
+                (2, "Stride N=2  (1/2 keyframes)"),
+                (4, "Stride N=4  (d_in(sq) = 4)"),
+                (8, "Stride N=8  (|Delta|  = 8)"),
+                (12, "Stride N=12 (|N_12|  = 12)"),
+            ]:
+                kf = f_color[0::step_n].copy()
+                res_kf = np.empty_like(kf, dtype=np.uint8)
+                res_kf[0] = kf[0].astype(np.uint8)
+                res_kf[0, :, 1:, :] = ((kf[0, :, 1:, :] - kf[0, :, :-1, :]) & 0xFF).astype(np.uint8)
+                for k in range(1, len(kf)):
+                    res_kf[k] = ((kf[k] - kf[k - 1]) & 0xFF).astype(np.uint8)
+                c_kf = carrier_entropy_compress(res_kf.tobytes())
+                inside_cnt, tot_cnt = 0, 0
+                for k in range(len(kf) - 1):
+                    t0 = k * step_n
+                    t1 = (k + 1) * step_n
+                    for t in range(t0 + 1, min(t1, nt)):
+                        line_pred = video_4d[t0].astype(np.int32) + ((t - t0) * (video_4d[t1].astype(np.int32) - video_4d[t0].astype(np.int32))) // step_n
+                        err = np.abs(video_4d[t].astype(np.int32) - line_pred)
+                        inside_cnt += int((err < 41).sum())
+                        tot_cnt += int(err.size)
+                pct_41 = (inside_cnt / max(1, tot_cnt)) * 100.0
+                print(f"    -> {label_n}: {len(c_kf):10,d} B ({len(raw_vid)/len(c_kf):6.2f}x compression, {l_len/len(c_kf):5.2f}x smaller than xz!) | {pct_41:6.2f}% pixels inside Heisenberg [-40,+40]!")
+            print()
             return
 
+    data = p.read_bytes()
     sha_in = hashlib.sha256(data).hexdigest()
     arch, mode_used = compress_universal_cuboct(data)
     rec = decompress_universal_cuboct(arch)
