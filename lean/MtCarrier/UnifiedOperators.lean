@@ -4232,6 +4232,71 @@ def checkBelousovZhabotinskyAndNitrogenaseJanusOp (d : Nat) : Bool :=
     eqIntBool (projC d e7Phase) (-(mHat d : Int))
   bzStoichOk && feMoIdOk && janusGateOk
 
+/-- **12. 50-Step Petrochemical Refining, Fischer–Tropsch Homologous Quantization, and `Pt/Al₂O₃` Platforming Saddle Resonance on the Cuboctahedron**:
+1. **Homologous Alkane & Olefin Quantization (`Z(C_n H_{2n}) = |△(d)| * n`, `Z(C_n H_{2n+2}) = |△(d)| * n + (c₀/c)²`):**
+   Every methylene step `-CH₂-` adds `Z(C) + 2*Z(H) = 6 + 2 = 8 = |△(d)|`, mapping the principal industrial refinery fractions
+   across `n = 1..50` directly onto the canonical invariants of the cuboctahedron `O₂(d)`:
+   - `n = 1` (Methane `CH₄`): `Z_alk = 10 = zNeonOp(d)`,
+   - `n = 2` (Ethylene `C₂H₄` / Ethane `C₂H₆`): `Z_olef = 16 = 2 * |△(d)|`, `Z_alk = 18 = zArgonOp(d)`,
+   - `n = 3` (Propylene `C₃H₆` / Propane `C₃H₈`): `Z_olef = 24 = 2 * |N(d)|`, `Z_alk = 26 = zIronOp(d)`,
+   - `n = 5` (Pentane `C₅H₁₂`, light naphtha): `Z_olef = 40 = Δφ_disc(d) - 1`, `Z_alk = 42 = cuboctShellSizeOp d 2` (`S₂`),
+   - `n = 6` (Hexane `C₆H₁₄` → Benzene `C₆H₆ + 4 H₂`): `Z_alk = 50 = nuclearMagicHighOp d (dOutEdge d)` → `S₂(42) + |△|(8)`,
+   - `n = 8` (Iso-Octane `C₈H₁₈`, 100-octane gasoline standard): `Z_olef = 64 = K_P(d)`, `Z_alk = 66 = K_P(d) + 2`,
+   - `n = 12` (Dodecane `C₁₂H₂₆`, Jet-A1 aviation kerosene): `Z_olef = 96 = |N(d)| * |△(d)| = M̂(d) - 1`, `Z_alk = 98 = M̂(d) + 1`,
+   - `n = 16` (Cetane `C₁₆H₃₄`, 100-cetane compression-ignition diesel standard): `Z_olef = 128 = Q_□(d)` (exact transition-state saddle!), `Z_alk = 130 = Q_□(d) + 2`,
+   - `n = 18` (Octadecane `C₁₈H₃₈`, base lubricating oil): `Z_olef = 144 = |N(d)|²`, `Z_alk = 146 = cuboctBallOp d - 1`,
+   - `n = 32` (Heavy vacuum gas oil / paraffin wax `C₃₂H₆₆`): `Z_olef = 256 = Φ_Pauli(d)`, `Z_alk = 258 = Φ_Pauli(d) + 2`,
+   - `n = 50` (Ultra-heavy bitumen / asphaltene core `C₅₀H₁₀₂`): `Z_olef = 400 = (20)²`, `Z_alk = 402`.
+2. **Exact 50-Carbon Multi-Stream Fractionation Conservation (`C₅₀H₁₀₂ → C₁₆H₃₄ + C₁₂H₂₄ + C₈H₁₆ + C₆H₁₂ + C₅H₁₀ + C₃H₆`):**
+   Cracking a 50-carbon heavy residue `C₅₀H₁₀₂` (`Z = 402`) into Cetane (`130`), Jet-A1 (`96`), Octane (`64`), Hexene (`48`), Pentene (`40`), and Propylene (`24`)
+   conserves carbon count (`16 + 12 + 8 + 6 + 5 + 3 = 50`), hydrogen count (`34 + 24 + 16 + 12 + 10 + 6 = 102`), and total shell charge (`130 + 96 + 64 + 48 + 40 + 24 = 402`).
+3. **Industrial Refinery Catalyst Resonances (`Pt/Al₂O₃` Platforming Saddle `78 + 50 = 128 = Q_□(d)` and `Co-MoS₂` HDS `27 + 42`):**
+   - Platinum `Z(Pt) = 78 = |□(d)| * N_φ(d)` on alumina support `Z(Al₂O₃) = 2*13 + 3*8 = 50` sums to the **exact transition-state saddle**:
+     `Z(Pt) + Z(Al₂O₃) = 78 + 50 = 128 = Q_□(d)`!
+   - Hydrodesulfurization (HDS) catalyst `Co-Mo` pairs `Z(Co) = d³ = 27` with `Z(Mo) = S₂(d) = 42`. -/
+def zOlefinChainOp (d n : Nat) : Nat :=
+  nTriangles d * n
+
+def zAlkaneChainOp (d n : Nat) : Nat :=
+  nTriangles d * n + c0OverCSqOp d
+
+def checkPetrochemicalRefining50StepCascadeOp (d : Nat) : Bool :=
+  -- 1. Methylene step Z(CH2) = 8 = |△(d)| and refinery cut shell closures across n = 1..50
+  let cutsOk :=
+    eqNatBool (zCarbonOp d + c0OverCSqOp d * zHydrogenOp d) (nTriangles d) &&
+    eqNatBool (zAlkaneChainOp d 1) (zNeonOp d) &&
+    eqNatBool (zAlkaneChainOp d 2) (zArgonOp d) &&
+    eqNatBool (zOlefinChainOp d 3) (c0OverCSqOp d * nNeighbors d) &&
+    eqNatBool (zOlefinChainOp d 5) (deltaPhiDisc d - muVac d) &&
+    eqNatBool (zAlkaneChainOp d 5) (cuboctShellSizeOp d (c0OverCSqOp d)) &&
+    eqNatBool (zAlkaneChainOp d 6) (nuclearMagicHighOp d (dOutEdge d)) &&
+    eqNatBool (zOlefinChainOp d 8) (kP d) &&
+    eqNatBool (zOlefinChainOp d 12) (nNeighbors d * nTriangles d) &&
+    eqNatBool (zAlkaneChainOp d 12) (mHat d + muVac d) &&
+    eqNatBool (zOlefinChainOp d 16) (qSquare d) &&
+    eqNatBool (zOlefinChainOp d 18) (nNeighbors d * nNeighbors d) &&
+    eqNatBool (zOlefinChainOp d 32) (phiPauli d) &&
+    eqNatBool (zOlefinChainOp d 50) ((dInSquare * dOutEdge d) * (dInSquare * dOutEdge d))
+  -- 2. Exact 50-carbon multi-stream fractionation conservation (C50H102, Z = 402)
+  let frac50Ok :=
+    eqNatBool (16 + 12 + 8 + 6 + 5 + 3) 50 &&
+    eqNatBool (34 + 24 + 16 + 12 + 10 + 6) 102 &&
+    eqNatBool
+      (zAlkaneChainOp d 16 + zOlefinChainOp d 12 + zOlefinChainOp d 8 +
+       zOlefinChainOp d 6 + zOlefinChainOp d 5 + zOlefinChainOp d 3)
+      (zAlkaneChainOp d 50)
+  -- 3. Pt/Al2O3 platforming catalyst resonance Z(Pt)=78 + Z(Al2O3)=50 == 128 = Q_□(d), and Co-Mo HDS (27, 42)
+  let zPt := nSquares d * nPhi d
+  let zAl2O3 := c0OverCSqOp d * zAluminumOp d + d * zOxygenOp d
+  let zCo := d * d * d
+  let catalystOk :=
+    eqNatBool zPt 78 &&
+    eqNatBool zAl2O3 (nuclearMagicHighOp d (dOutEdge d)) &&
+    eqNatBool (zPt + zAl2O3) (qSquare d) &&
+    eqNatBool zCo 27 &&
+    eqNatBool (zMolybdenumOp d) (cuboctShellSizeOp d (c0OverCSqOp d))
+  cutsOk && frac50Ok && catalystOk
+
 /-- **Theorem (Impossibility of Laplace's Demon Inside the Lattice and Constructive Realization of the Memoryless 12-Beam Geometric Maxwell Demon)**:
 Chained directly via `CatalanLaw` for any `d : Nat`:
 1. **Why Laplace's Demon Cannot Exist Inside a Deterministic Reversible Cellular Automaton (Four Formal Barriers):**
@@ -4298,9 +4363,10 @@ theorem laplace_demon_impossibility_and_geometric_maxwell_demon_operator (d : Na
        checkBezoutStationRoutingOp d = true ∧
        checkPlanetaryEcologicalRemediationOp d = true ∧
        checkInterspeciesTranslatorAndConsentSymbiosisOp d = true ∧
-       checkBelousovZhabotinskyAndNitrogenaseJanusOp d = true)) d :=
+       checkBelousovZhabotinskyAndNitrogenaseJanusOp d = true ∧
+       checkPetrochemicalRefining50StepCascadeOp d = true)) d :=
   catalan_chain d (internal_observer_no_outside_lattice_and_sat_semantic_isomorphism_operator d)
     (fun _ => ⟨⟨by decide, by decide, rfl, rfl⟩, ⟨rfl, rfl, rfl, rfl, rfl⟩, ⟨rfl, by decide⟩,
-               ⟨rfl, rfl, by decide, rfl, rfl, by decide, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl⟩⟩)
+               ⟨rfl, rfl, by decide, rfl, rfl, by decide, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl⟩⟩)
 
 end MtCarrier
