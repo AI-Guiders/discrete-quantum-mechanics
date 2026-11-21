@@ -4466,18 +4466,19 @@ def checkMacroCocoonSpacetimeGpsAndTimeMachineOp (d : Nat) : Bool :=
     eqIntBool dDome ((maxGravitationalCompressionRatioOp d * epsDenom d : Nat) : Int) &&
     eqIntBool (heisenbergDeadbandOp d rawBoundaryLeak) 0 &&
     eqNatBool (energyQuantumOperator d (heisenbergDeadbandOp d rawBoundaryLeak)) 0
-  -- 4. Exact Verlet time-machine roundtrip (t -> t-1 -> t-2 -> t-3 and back) inside the isolated cocoon
-  let c0 : PolarCell := { mu0 := kP d, p0 := ivSeed d, q0 := mHat d, mu1 := nPhi d, p1 := deltaPhiDisc d, q1 := qSquare d }
+  -- 4. Exact Verlet time-machine roundtrip (t -> t+1 -> t) inside the isolated cocoon
+  let cCurr : PolarCell := { mu0 := (kP d : Int), phi0 := (ivSeed d : Int), mu1 := (nPhi d : Int), phi1 := (deltaPhiDisc d : Int) }
+  let cPast : PolarCell := { mu0 := (kP d : Int), phi0 := (mHat d : Int),   mu1 := (nPhi d : Int), phi1 := (qSquare d : Int) }
   let imp : Int := (deltaPhiDisc d : Int)
-  let cBack1 := polarReverseCell d c0 imp
-  let c0Recovered := polarStepCell d cBack1 imp
+  let (cNext, cMid) := polarStepCell d cCurr cPast imp
+  let (cPastRecovered, cCurrRecovered) := polarReverseCell d cMid cNext imp
   let reversalExactOk :=
-    eqNatBool c0Recovered.mu0 c0.mu0 &&
-    eqNatBool c0Recovered.p0 c0.p0 &&
-    eqNatBool c0Recovered.q0 c0.q0 &&
-    eqNatBool c0Recovered.mu1 c0.mu1 &&
-    eqNatBool c0Recovered.p1 c0.p1 &&
-    eqNatBool c0Recovered.q1 c0.q1
+    eqIntBool cPastRecovered.mu0  cPast.mu0 &&
+    eqIntBool cPastRecovered.phi0 cPast.phi0 &&
+    eqIntBool cPastRecovered.mu1  cPast.mu1 &&
+    eqIntBool cPastRecovered.phi1 cPast.phi1 &&
+    eqIntBool cCurrRecovered.phi0 cCurr.phi0 &&
+    eqIntBool cCurrRecovered.phi1 cCurr.phi1
   spatial13Ok && time512Ok && cocoonIsolationOk && reversalExactOk
 
 /-- **Theorem (Impossibility of Laplace's Demon Inside the Lattice and Constructive Realization of the Memoryless 12-Beam Geometric Maxwell Demon)**:
