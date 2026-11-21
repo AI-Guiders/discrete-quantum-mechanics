@@ -143,9 +143,10 @@ module carrier_native_multiplierless_alu #(
     genvar n;
     generate
         for (n = 0; n <= Q_SQUARE; n = n + 1) begin : gen_verlet_antideriv
+            localparam signed [31:0] PHI_N_32 = n;
             wire signed [31:0] wn_i, cn_i, sn_i;
             rotator_512_unit #(.D(D)) u_rn (
-                .phi_in(32'sd0 + n),
+                .phi_in(PHI_N_32),
                 .wrap_out(wn_i),
                 .proj_c(cn_i),
                 .proj_s(sn_i)
@@ -724,6 +725,8 @@ module fpga_12beam_cuboctahedron_driver #(
     input  wire        clk_512x,
     input  wire        rst,
     input  wire [2:0]  mode_sel,
+    input  wire [12*9-1:0] custom_phase_flat,
+    input  wire [11:0] custom_oe_mask,
     output reg  [8:0]  ring_counter,
     output wire [11:0] beam_pins,
     output wire [11:0] beam_oe
@@ -776,6 +779,12 @@ module fpga_12beam_cuboctahedron_driver #(
                 phase_off[2] = 2 * Q_SQUARE;
                 phase_off[3] = 3 * Q_SQUARE;
                 oe_reg = (1 << D_IN_SQ) - MU_VAC;
+            end
+            3'd7: begin
+                // SOFT_DEFINED_CUSTOM: live per-vertex phases and OE mask programmed from host laptop / MCP without rebuilding!
+                for (k = 0; k < N_LINKS; k = k + 1)
+                    phase_off[k] = custom_phase_flat[k*9 +: 9];
+                oe_reg = custom_oe_mask;
             end
             default: begin
                 for (k = 0; k < N_LINKS; k = k + 1) phase_off[k] = 9'd0;
@@ -910,14 +919,17 @@ module food_synthesizer_3chamber_controller #(
 
     fpga_12beam_cuboctahedron_driver #(.D(D)) u_ch1_drv (
         .clk_512x(clk), .rst(rst), .mode_sel(ch1_phase_mode),
+        .custom_phase_flat(108'd0), .custom_oe_mask(12'hFFF),
         .ring_counter(cnt1), .beam_pins(ch1_pins), .beam_oe(ch1_oe)
     );
     fpga_12beam_cuboctahedron_driver #(.D(D)) u_ch2_drv (
         .clk_512x(clk), .rst(rst), .mode_sel(ch2_phase_mode),
+        .custom_phase_flat(108'd0), .custom_oe_mask(12'hFFF),
         .ring_counter(cnt2), .beam_pins(ch2_pins), .beam_oe(ch2_oe)
     );
     fpga_12beam_cuboctahedron_driver #(.D(D)) u_ch3_drv (
         .clk_512x(clk), .rst(rst), .mode_sel(ch3_phase_mode),
+        .custom_phase_flat(108'd0), .custom_oe_mask(12'hFFF),
         .ring_counter(cnt3), .beam_pins(ch3_pins), .beam_oe(ch3_oe)
     );
 
@@ -1241,19 +1253,27 @@ module cuboctahedron_uart_cmd_soc_top #(
     reg signed [31:0] reg_psu_v_mv;
     reg signed [31:0] reg_psu_i_ma;
     reg [31:0] reg_psu_dds_freq;
+    reg signed [31:0] reg_psu_r_load;
+    reg signed [31:0] reg_pantry_heat_flux;
     reg [1:0]  reg_pantry_mode;
     reg [1:0]  reg_tp_mode;
+    reg [12*9-1:0] reg_custom_phase_flat;
+    reg [11:0] reg_custom_oe_mask;
 
     always @(posedge clk) begin
         if (rst) begin
-            reg_beam_mode    <= 3'd0;
-            reg_food_start   <= 1'b0;
-            reg_food_recipe  <= 2'b00;
-            reg_psu_v_mv     <= 32'sd12000;
-            reg_psu_i_ma     <= 32'sd3000;
-            reg_psu_dds_freq <= 32'd0;
-            reg_pantry_mode  <= 2'b01;
-            reg_tp_mode      <= 2'b01;
+            reg_beam_mode         <= 3'd0;
+            reg_food_start        <= 1'b0;
+            reg_food_recipe       <= 2'b00;
+            reg_psu_v_mv          <= 32'sd12000;
+            reg_psu_i_ma          <= 32'sd3000;
+            reg_psu_dds_freq      <= 32'd0;
+            reg_psu_r_load        <= N_SQ;
+            reg_pantry_heat_flux  <= Q_SQUARE * Q_SQUARE;
+            reg_pantry_mode       <= 2'b01;
+            reg_tp_mode           <= 2'b01;
+            reg_custom_phase_flat <= 108'd0;
+            reg_custom_oe_mask    <= 12'hFFF;
         end else if (host_cmd_valid) begin
             case (host_opcode)
                 4'h1: reg_beam_mode <= host_arg0[2:0];
@@ -1268,6 +1288,17 @@ module cuboctahedron_uart_cmd_soc_top #(
                 end
                 4'h4: reg_pantry_mode <= host_arg0[1:0];
                 4'h5: reg_tp_mode     <= host_arg0[1:0];
+                4'h6: begin
+                    // CMD_WRITE_CUSTOM_BEAM_PHASE: live soft-defined phase & OE override for vertex arg0[3:0] without rebuilding!
+                    reg_custom_phase_flat[host_arg0[3:0]*9 +: 9] <= host_arg1[8:0];
+                    reg_custom_oe_mask                           <= host_arg2[11:0];
+                    reg_beam_mode                                <= 3'd7;
+                end
+                4'h7: begin
+                    // CMD_HOT_PATCH_OVERRIDE: live override of load resistance and ambient heat flux at runtime!
+                    reg_psu_r_load       <= host_arg0;
+                    reg_pantry_heat_flux <= host_arg1;
+                end
                 default: ;
             endcase
         end
@@ -1276,6 +1307,7 @@ module cuboctahedron_uart_cmd_soc_top #(
     wire [8:0] drv_ring_cnt;
     fpga_12beam_cuboctahedron_driver #(.D(D)) u_soc_beam12 (
         .clk_512x(clk), .rst(rst), .mode_sel(reg_beam_mode),
+        .custom_phase_flat(reg_custom_phase_flat), .custom_oe_mask(reg_custom_oe_mask),
         .ring_counter(drv_ring_cnt), .beam_pins(phys_beam_pins), .beam_oe(phys_beam_oe)
     );
 
@@ -1293,7 +1325,7 @@ module cuboctahedron_uart_cmd_soc_top #(
     wire [8:0]  psu_phase;
     lab_smooth_cv_cc_dds_power_supply #(.D(D)) u_soc_psu (
         .clk(clk), .rst(rst), .dds_freq_word(reg_psu_dds_freq),
-        .v_set_mv(reg_psu_v_mv), .i_set_ma(reg_psu_i_ma), .r_load_ohm(N_SQ),
+        .v_set_mv(reg_psu_v_mv), .i_set_ma(reg_psu_i_ma), .r_load_ohm(reg_psu_r_load),
         .dds_phase_acc(psu_acc), .dds_ring_phase(psu_phase),
         .v_actual_mv(soc_psu_v_mv), .i_actual_ma(soc_psu_i_ma),
         .cv_mode_active(soc_psu_cv), .cc_mode_active(soc_psu_cc)
@@ -1301,7 +1333,7 @@ module cuboctahedron_uart_cmd_soc_top #(
 
     wire signed [31:0] p_back, p_joule, p_pwr;
     phase_peltier_stasis_pantry_and_vortex_battery #(.D(D)) u_soc_pantry (
-        .clk(clk), .rst(rst), .op_mode(reg_pantry_mode), .ambient_heat_flux(Q_SQUARE * Q_SQUARE),
+        .clk(clk), .rst(rst), .op_mode(reg_pantry_mode), .ambient_heat_flux(reg_pantry_heat_flux),
         .reverse_heat_leak_phi(p_back), .joule_self_heat_quanta(p_joule),
         .food_decay_rate_phi(soc_stasis_decay_phi),
         .vortex_battery_charge(soc_vortex_batt_charge), .delivered_power_out(p_pwr)
@@ -1707,6 +1739,7 @@ module tb_cuboctahedron_carrier_asic;
 
     fpga_12beam_cuboctahedron_driver #(.D(D)) u_fpga_drv (
         .clk_512x(clk), .rst(drv_rst), .mode_sel(drv_mode),
+        .custom_phase_flat(108'd0), .custom_oe_mask(12'hFFF),
         .ring_counter(drv_cnt), .beam_pins(drv_pins), .beam_oe(drv_oe)
     );
 
@@ -2211,6 +2244,13 @@ module tb_cuboctahedron_carrier_asic;
                  soc_vmv, soc_ima, soc_cv_w, soc_fstage, soc_fready, soc_decay);
         if (soc_vmv !== 32'sd24000 || soc_ima !== 32'sd4000 || soc_fready !== 1'b1 || soc_decay !== 32'sd0)
             errors = errors + 1;
+        // Send AI Host Command 4'h6: Live Hot-Patch custom phase 256 on Vertex 0 and OE mask 12'hA5A without rebuilding!
+        soc_valid = 1; soc_op = 4'h6; soc_a0 = 32'sd0; soc_a1 = 32'sd256; soc_a2 = 32'shA5A;
+        #5 clk = 1; #5 clk = 0;
+        soc_valid = 0; #1;
+        $display("  -> [AI Host Live Hot-Patch 4'h6] Custom OE Mask = %3h (expected A5A), beam_pins = %12b",
+                 soc_oe, soc_pins);
+        if (soc_oe !== 12'hA5A) errors = errors + 1;
 
         $display("======================================================================");
         $display("[13] Sub-Threshold 81-ary (4-Trit) Heisenberg c0-Modem & SETI Decoder");
