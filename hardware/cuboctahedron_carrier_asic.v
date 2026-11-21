@@ -80,6 +80,88 @@ module rotator_512_unit #(
 endmodule
 
 // ----------------------------------------------------------------------------
+// Module 1B: Native Multiplierless Carrier ALU (`carrier_native_multiplierless_alu`)
+// Expresses all integer arithmetic operations (`x`, `-x`, `|x|`, `max(x,y)`,
+// `min(x,y)`, `x^2`, and signed `x * y` across `[-K_P, +K_P]^2 = [-64, +64]^2`)
+// PURELY through the rotator `(C_D, S_D)` and its Verlet antiderivative
+// `F_S(n) = sum_{phi=0}^{n-1} S_D(phi)` accumulated purely by addition!
+// Contains ZERO hardware `*` multipliers, ZERO `if`, ZERO `?:`.
+// ----------------------------------------------------------------------------
+module carrier_native_multiplierless_alu #(
+    parameter integer D = 3
+) (
+    input  wire signed [31:0] x_in,
+    input  wire signed [31:0] y_in,
+    output wire signed [31:0] id_x_out,
+    output wire signed [31:0] neg_x_out,
+    output wire signed [31:0] abs_x_out,
+    output wire signed [31:0] max_xy_out,
+    output wire signed [31:0] min_xy_out,
+    output wire signed [31:0] tropical_min_xy_out,
+    output wire signed [31:0] sq_x_out,
+    output wire signed [31:0] signed_mul_xy_out
+);
+    localparam integer MU_VAC       = (D * D) - (1 << D);
+    localparam integer C0_OVER_C_SQ = D - MU_VAC;
+    localparam integer N_TRI        = (1 << D);
+    localparam integer MOD_BITS     = MU_VAC + N_TRI;
+    localparam integer N_RING       = (1 << MOD_BITS);
+    localparam integer PHI_PAULI    = N_RING >> MU_VAC;
+    localparam integer Q_SQUARE     = PHI_PAULI >> MU_VAC;
+
+    // 1. Rotator evaluations at 0, x, x + PHI_PAULI, y, x - y, and x + y:
+    wire signed [31:0] w0, c0, s0;
+    wire signed [31:0] wx, cx, sx;
+    wire signed [31:0] wn, cn, sn;
+    wire signed [31:0] wy, cy, sy;
+    wire signed [31:0] wd, cd, sd;
+    wire signed [31:0] ws, cs, ss;
+
+    rotator_512_unit #(.D(D)) u_r0   (.phi_in(32'sd0),          .wrap_out(w0), .proj_c(c0), .proj_s(s0));
+    rotator_512_unit #(.D(D)) u_rx   (.phi_in(x_in),            .wrap_out(wx), .proj_c(cx), .proj_s(sx));
+    rotator_512_unit #(.D(D)) u_rneg (.phi_in(x_in + PHI_PAULI),.wrap_out(wn), .proj_c(cn), .proj_s(sn));
+    rotator_512_unit #(.D(D)) u_ry   (.phi_in(y_in),            .wrap_out(wy), .proj_c(cy), .proj_s(sy));
+    rotator_512_unit #(.D(D)) u_rdif (.phi_in(x_in - y_in),     .wrap_out(wd), .proj_c(cd), .proj_s(sd));
+    rotator_512_unit #(.D(D)) u_rsum (.phi_in(x_in + y_in),     .wrap_out(ws), .proj_c(cs), .proj_s(ss));
+
+    // Identity x === S_D(x), Negation -x === S_D(x + PHI_PAULI), Absolute value |x| === C_D(0) - C_D(x)
+    assign id_x_out  = sx;
+    assign neg_x_out = sn;
+    assign abs_x_out = c0 - cx;
+
+    wire signed [31:0] abs_diff = c0 - cd;
+    wire signed [31:0] abs_sum  = c0 - cs;
+
+    // Max, Min, and Prosthaphaeresis Tropical Min without comparators:
+    assign max_xy_out          = (sx + sy + abs_diff) >>> MU_VAC;
+    assign min_xy_out          = (sx + sy - abs_diff) >>> MU_VAC;
+    assign tropical_min_xy_out = (cd - cs) >>> MU_VAC;
+
+    // 2. Verlet antiderivative F_S(n) = sum_{phi=0}^{n-1} S_D(phi) built purely by addition (ZERO `*`!):
+    wire signed [31:0] fs_val [0:Q_SQUARE+1];
+    assign fs_val[0] = 32'sd0;
+    genvar n;
+    generate
+        for (n = 0; n <= Q_SQUARE; n = n + 1) begin : gen_verlet_antideriv
+            wire signed [31:0] wn_i, cn_i, sn_i;
+            rotator_512_unit #(.D(D)) u_rn (
+                .phi_in(32'sd0 + n),
+                .wrap_out(wn_i),
+                .proj_c(cn_i),
+                .proj_s(sn_i)
+            );
+            assign fs_val[n + 1] = fs_val[n] + sn_i;
+        end
+    endgenerate
+
+    // Exact square u^2 === F_S(|u|) + F_S(|u| + 1) and signed product x * y === (sq(x+y) - sq(x-y)) >>> 2
+    assign sq_x_out = fs_val[abs_x_out] + fs_val[abs_x_out + MU_VAC];
+    wire signed [31:0] sq_sum  = fs_val[abs_sum]  + fs_val[abs_sum  + MU_VAC];
+    wire signed [31:0] sq_diff = fs_val[abs_diff] + fs_val[abs_diff + MU_VAC];
+    assign signed_mul_xy_out   = (sq_sum - sq_diff) >>> C0_OVER_C_SQ;
+endmodule
+
+// ----------------------------------------------------------------------------
 // Module 2: 100% Branchless Euclidean Quotient-Remainder Unit on Z_{N_ring(D)}
 //   (d0 phi) = N_RING * branch_q + edge_r
 //   branch_q = (delta_phi + (PHI_PAULI - 1)) >>> MOD_BITS
@@ -1532,6 +1614,17 @@ module tb_cuboctahedron_carrier_asic;
     rotator_512_unit #(.D(D)) u_rot0 (.phi_in(phi_tb), .wrap_out(wrap_tb), .proj_c(c_tb), .proj_s(s_tb));
     rotator_512_unit #(.D(D)) u_rot1 (.phi_in(phi_tb + 32'sd1), .wrap_out(wrap_next), .proj_c(c_next), .proj_s(s_next));
 
+    reg signed [31:0] alu_x = 0, alu_y = 0;
+    wire signed [31:0] alu_id, alu_neg, alu_abs, alu_max, alu_min, alu_tmin, alu_sq, alu_mul;
+    integer ax, ay;
+
+    carrier_native_multiplierless_alu #(.D(D)) u_native_alu (
+        .x_in(alu_x), .y_in(alu_y),
+        .id_x_out(alu_id), .neg_x_out(alu_neg), .abs_x_out(alu_abs),
+        .max_xy_out(alu_max), .min_xy_out(alu_min), .tropical_min_xy_out(alu_tmin),
+        .sq_x_out(alu_sq), .signed_mul_xy_out(alu_mul)
+    );
+
     wire signed [31:0] wronskian_tb = c_tb * s_next - s_tb * c_next;
     wire signed [63:0] pyth_x = c_tb * c_tb - s_tb * s_tb;
     wire signed [63:0] pyth_y = C0_OVER_C_SQ * c_tb * s_tb;
@@ -1881,6 +1974,23 @@ module tb_cuboctahedron_carrier_asic;
         $display("  -> All 512 ring ticks verified: W(phi) === 128, X^2 + Y^2 === R^2 (errors = %0d)", errors);
         $display("  -> Hardware Fresnel Diffraction Integrals: C_Fresnel = %0d, S_Fresnel = %0d", fresnel_c_sum, fresnel_s_sum);
         if (fresnel_c_sum !== 2048 || fresnel_s_sum !== 2048) errors = errors + 1;
+
+        for (ax = -64; ax <= 64; ax = ax + 1) begin
+            for (ay = -64; ay <= 64; ay = ay + 1) begin
+                alu_x = ax; alu_y = ay;
+                #1;
+                if (alu_id !== ax || alu_neg !== -ax ||
+                    alu_abs !== ((ax < 0) ? -ax : ax) ||
+                    alu_sq  !== (ax * ax) ||
+                    alu_mul !== (ax * ay) ||
+                    alu_max !== ((ax >= ay) ? ax : ay) ||
+                    alu_min !== ((ax <= ay) ? ax : ay)) begin
+                    $display("ALU ERROR at (%0d, %0d): mul=%0d != %0d", ax, ay, alu_mul, ax * ay);
+                    errors = errors + 1;
+                end
+            end
+        end
+        $display("  -> Native Multiplierless Rotator ALU verified across all 129x129 = 16,641 signed pairs [-64..+64]^2 (errors = %0d)", errors);
 
         $display("======================================================================");
         $display("[2] 12-Beam Cuboctahedron Gate: Impedance Collapse & Ballistic Regimes");
