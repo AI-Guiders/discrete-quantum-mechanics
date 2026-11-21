@@ -4311,16 +4311,9 @@ def checkPetrochemicalRefining50StepCascadeOp (d : Nat) : Bool :=
    Neither Mode I nor Mode II can ever be triggered without positive internal intent `s₂ > 0` (`s₂ ≤ 0 ⟹ 0`, ` Output = unchanged`). -/
 def turritopsisDualModeRejuvenationOp (d : Nat) (s2Consent modeChildhoodReboot : Int) : Int × Int × Int × Int :=
   let adultCortical := corticalColumnComplexOp d (nSquares d : Int)
-  let childhoodFreshStart := cavitateMorulaToVesicleOp d
-  let targetState :=
-    (blendByIndicatorOp (isPosNat modeChildhoodReboot.toNat) childhoodFreshStart.1 adultCortical.1,
-     blendByIndicatorOp (isPosNat modeChildhoodReboot.toNat) childhoodFreshStart.2.1 adultCortical.2.1,
-     blendByIndicatorOp (isPosNat modeChildhoodReboot.toNat) childhoodFreshStart.2.2.1 adultCortical.2.2.1,
-     blendByIndicatorOp (isPosNat modeChildhoodReboot.toNat) childhoodFreshStart.2.2.2 adultCortical.2.2.2)
-  (blendByIndicatorOp (isPosNat s2Consent.toNat) targetState.1 adultCortical.1,
-   blendByIndicatorOp (isPosNat s2Consent.toNat) targetState.2.1 adultCortical.2.1,
-   blendByIndicatorOp (isPosNat s2Consent.toNat) targetState.2.2.1 adultCortical.2.2.1,
-   blendByIndicatorOp (isPosNat s2Consent.toNat) targetState.2.2.2 adultCortical.2.2.2)
+  let childhoodFreshStart := vesicleComplexOp d
+  let targetState := blendComplexOp (isPosNat modeChildhoodReboot.toNat) childhoodFreshStart adultCortical
+  blendComplexOp (isPosNat s2Consent.toNat) targetState adultCortical
 
 def checkTurritopsisDualModeRejuvenationAndChildhoodRebootOp (d : Nat) : Bool :=
   let m1 := turritopsisDualModeRejuvenationOp d 40 0
