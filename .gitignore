@@ -51,3 +51,9 @@ checkpoints/
 Thumbs.db
 *~
 *.swp
+
+# --- SPICE runtime artifacts ---
+hardware/*.db
+
+# --- Verilog waveform dumps ---
+*.vcd
