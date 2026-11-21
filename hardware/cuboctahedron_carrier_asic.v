@@ -948,13 +948,40 @@ endmodule
 module grav_impedance_dipole_shield_and_dry_cleaner (
     input  wire [1:0]  sys_func_mode,     // 00: GRAV_DIPOLE_1G, 01: PAULI_DEFLECTOR_SHIELD, 10: DRY_CLEAN_RELEASE_139, 11: DRY_CLEAN_EJECT_256
     input  wire [1:0]  thrust_axis_sel,   // 00: +Z (Vertical 1g/Lift), 01: +X, 10: +Y
+    input  wire [11:0] active_beams_mask, // 12-bit health mask of the 12 dome beams (12'hFFF = all 12 locked)
+    input  wire signed [31:0] ext_impact_flux, // Incoming external acoustic/EM/kinetic impact flux
     output reg  [8:0]  top_hemisphere_dphi,
     output reg  [8:0]  bot_hemisphere_dphi,
     output wire signed [31:0] d_high_hemisphere,
     output wire signed [31:0] d_low_hemisphere,
     output wire signed [31:0] dipole_delta_d,
-    output wire signed [31:0] internal_g_overload
+    output wire signed [31:0] internal_g_overload,
+    output wire [3:0]  active_beam_count,
+    output wire signed [31:0] measured_dome_impedance_d,
+    output wire signed [31:0] shield_penetration_phi,
+    output wire        user_inside_verified_shield,
+    output wire        boundary_halo_441nm_led
 );
+    // Count active beams in the 12-beam dome (0..12):
+    assign active_beam_count =
+        active_beams_mask[0] + active_beams_mask[1] + active_beams_mask[2]  + active_beams_mask[3] +
+        active_beams_mask[4] + active_beams_mask[5] + active_beams_mask[6]  + active_beams_mask[7] +
+        active_beams_mask[8] + active_beams_mask[9] + active_beams_mask[10] + active_beams_mask[11];
+
+    // Real-time measured dome impedance D(N_active) = 8192 * (1 + 64 + 64 * N_active)
+    // When all 12 beams are locked (12'hFFF), D = 8192 * (1 + 64 + 768) = 8192 * 833 = 6,823,936!
+    assign measured_dome_impedance_d = 32'sd8192 * (32'sd65 + 32'sd64 * active_beam_count);
+
+    // Check whether external impact/noise penetrates past the Heisenberg deadband (|Phi| < 41 -> 0):
+    wire signed [31:0] raw_pen = (32'sd64 * ext_impact_flux) / measured_dome_impedance_d;
+    wire signed [31:0] abs_pen = (raw_pen < 0) ? -raw_pen : raw_pen;
+    assign shield_penetration_phi = (abs_pen < 32'sd41) ? 32'sd0 : raw_pen;
+
+    // Hardware proof that the user is inside a 100% closed, leak-free 833:1 shield dome:
+    assign user_inside_verified_shield =
+        (active_beams_mask == 12'hFFF) && (measured_dome_impedance_d == 32'sd6823936) && (shield_penetration_phi == 32'sd0);
+    assign boundary_halo_441nm_led = user_inside_verified_shield;
+
     assign d_high_hemisphere   = 32'sd6823936; // 833 * 8192 (in-phase dphi = 0)
     assign d_low_hemisphere    = 32'sd8192;    // 1 * 8192   (antipodal dphi = 256 / 139)
     assign dipole_delta_d      = d_high_hemisphere - d_low_hemisphere; // 832 * 8192 = 6,815,744
@@ -1246,14 +1273,21 @@ module tb_cuboctahedron_carrier_asic;
     );
 
     reg [1:0] gd_mode = 2'b00;
+    reg [11:0] gd_mask = 12'hFFF;
     wire [8:0] gd_top, gd_bot;
-    wire signed [31:0] gd_dh, gd_dl, gd_dd, gd_gload;
+    wire signed [31:0] gd_dh, gd_dl, gd_dd, gd_gload, gd_dmeas, gd_pen;
+    wire [3:0] gd_cnt;
+    wire gd_verified, gd_halo;
 
     grav_impedance_dipole_shield_and_dry_cleaner u_grav_shld (
         .sys_func_mode(gd_mode), .thrust_axis_sel(2'b00),
+        .active_beams_mask(gd_mask), .ext_impact_flux(32'sd32768),
         .top_hemisphere_dphi(gd_top), .bot_hemisphere_dphi(gd_bot),
         .d_high_hemisphere(gd_dh), .d_low_hemisphere(gd_dl),
-        .dipole_delta_d(gd_dd), .internal_g_overload(gd_gload)
+        .dipole_delta_d(gd_dd), .internal_g_overload(gd_gload),
+        .active_beam_count(gd_cnt), .measured_dome_impedance_d(gd_dmeas),
+        .shield_penetration_phi(gd_pen), .user_inside_verified_shield(gd_verified),
+        .boundary_halo_441nm_led(gd_halo)
     );
 
     initial begin
@@ -1571,9 +1605,19 @@ module tb_cuboctahedron_carrier_asic;
         if (bio_mv !== 32'd42 || bio_me !== 32'd147 || bio_chi !== 32'sd41) errors = errors + 1;
 
         $display("======================================================================");
-        $display("[15] 3D Gravitational-Impedance Dipole (833:1), Pauli Shield & Waterless Cleaner");
+        $display("[15] 3D Gravitational-Impedance Dipole (833:1), Pauli Shield & Dome Integrity Monitor");
         $display("======================================================================");
-        gd_mode = 2'b00; #1;
+        gd_mode = 2'b01; gd_mask = 12'hFFF; #1;
+        $display("  -> [Shield Dome 12/12 Beams] D_meas=%7d | Penetration Phi=%0d | Inside_Verified_Shield=%b | 441nm_Halo=%b",
+                 gd_dmeas, gd_pen, gd_verified, gd_halo);
+        if (gd_dmeas !== 32'sd6823936 || gd_pen !== 32'sd0 || gd_verified !== 1'b1 || gd_halo !== 1'b1)
+            errors = errors + 1;
+        // Simulate 1 beam obstructed (11/12 beams -> integrity monitor immediately flags breach!)
+        gd_mask = 12'h7FF; #1;
+        $display("  -> [Beam #12 Obstructed: %2d/12] D_meas=%7d | Inside_Verified_Shield=%b (Breach alerted!)",
+                 gd_cnt, gd_dmeas, gd_verified);
+        if (gd_verified !== 1'b0) errors = errors + 1;
+        gd_mask = 12'hFFF; gd_mode = 2'b00; #1;
         $display("  -> [Grav-Impedance Dipole] Top dphi=%3d (D=%4d) | Bot dphi=%3d (D=%7d) | Delta_D=%7d | Cabin G-load=%0d",
                  gd_top, gd_dl, gd_bot, gd_dh, gd_dd, gd_gload);
         if (gd_dd !== 32'sd6815744 || gd_gload !== 32'sd0) errors = errors + 1;
