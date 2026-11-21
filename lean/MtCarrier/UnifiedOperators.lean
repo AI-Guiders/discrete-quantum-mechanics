@@ -4638,7 +4638,9 @@ def readoutConcentrationQuantaOp (mu0 mu1 : Int) : Int :=
 def readoutOpticalWavelengthNmOp (d : Nat) (dphi : Int) : Int :=
   let aCoh : Int := ((qSquare d + nNeighbors d - muVac d : Nat) : Int)
   let centerNm : Int := 579
-  centerNm + (aCoh * projC d dphi).fdiv (qSquare d : Int)
+  let num := aCoh * projC d dphi
+  let q : Int := (qSquare d : Int)
+  centerNm + (num - num.emod q).tdiv q
 
 def readoutRgbColorTriadOp (d : Nat) (dphi : Int) : Int × Int × Int :=
   let c := projC d dphi
