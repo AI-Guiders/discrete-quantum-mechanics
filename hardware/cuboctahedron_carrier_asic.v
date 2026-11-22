@@ -1356,14 +1356,28 @@ module cuboctahedron_uart_cmd_soc_top #(
     end
 
     wire [8:0] drv_ring_cnt;
-    wire [8:0] eff_drv_cnt = reg_atom_clock_en ? reg_atom_ref_phase : drv_ring_cnt;
+    wire [8:0] cal_offset_mask = {9{reg_atom_clock_en}};
+    wire [8:0] cal_phase_offset = cal_offset_mask & reg_atom_ref_phase;
+    wire [107:0] calibrated_custom_phase_flat = {
+        reg_custom_phase_flat[11*9 +: 9] + cal_phase_offset,
+        reg_custom_phase_flat[10*9 +: 9] + cal_phase_offset,
+        reg_custom_phase_flat[ 9*9 +: 9] + cal_phase_offset,
+        reg_custom_phase_flat[ 8*9 +: 9] + cal_phase_offset,
+        reg_custom_phase_flat[ 7*9 +: 9] + cal_phase_offset,
+        reg_custom_phase_flat[ 6*9 +: 9] + cal_phase_offset,
+        reg_custom_phase_flat[ 5*9 +: 9] + cal_phase_offset,
+        reg_custom_phase_flat[ 4*9 +: 9] + cal_phase_offset,
+        reg_custom_phase_flat[ 3*9 +: 9] + cal_phase_offset,
+        reg_custom_phase_flat[ 2*9 +: 9] + cal_phase_offset,
+        reg_custom_phase_flat[ 1*9 +: 9] + cal_phase_offset,
+        reg_custom_phase_flat[ 0*9 +: 9] + cal_phase_offset
+    };
     wire [11:0] raw_beam_pins;
     fpga_12beam_cuboctahedron_driver #(.D(D)) u_soc_beam12 (
         .clk_512x(clk), .rst(rst), .mode_sel(reg_beam_mode),
-        .custom_phase_flat(reg_custom_phase_flat), .custom_oe_mask(reg_custom_oe_mask),
+        .custom_phase_flat(calibrated_custom_phase_flat), .custom_oe_mask(reg_custom_oe_mask),
         .ring_counter(drv_ring_cnt), .beam_pins(raw_beam_pins), .beam_oe(phys_beam_oe)
     );
-    // When atomic time-server lock is enabled, vertex 0 tracks ~(reg_atom_ref_phase[8]) and odd vertices add mode offset
     assign phys_beam_pins = raw_beam_pins;
 
     wire [2:0] f_m1, f_m2, f_m3;
