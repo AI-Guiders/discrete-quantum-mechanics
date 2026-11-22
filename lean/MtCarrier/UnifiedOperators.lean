@@ -4965,7 +4965,7 @@ def checkCascadedSystemInteractionAndInformationLossOp (d : Nat) : Bool :=
   let zSiO4Tetra := zSi + dInSquare * zOxygenOp d
   let halfKpSq := (kP d * kP d) / c0OverCSqOp d
   let alphaQuartzInstrumentOk :=
-    eqNatBool zSiO3Cell (mHat d - dOutVertex d) &&
+    eqNatBool zSiO3Cell (mHat d - zNitrogenOp d) &&
     eqNatBool zSiO4Tetra 46 &&
     eqNatBool (isPosNat (zSiO4Tetra * zSiO4Tetra - halfKpSq)).toNat 1 &&
     eqNatBool (isPosNat (halfKpSq - (zSiO4Tetra - muVac d) * (zSiO4Tetra - muVac d))).toNat 1 &&
