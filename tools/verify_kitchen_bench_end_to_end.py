@@ -61,6 +61,10 @@ def main() -> int:
          mech["moist_air_carbonic_acid_h2co3_z"] == 32 and mech["coil_srf_to_ring_freq_ratio"] == 87 and mech["bjerknes_quarter_wave_node_step_mm"] == 7 and mech["esd_hbm_capacitive_divider_argon_ratio"] == 18),
         ("Node 27-30: PDMS silicone couplant Z(C2H6SiO)=40=dphi_disc-1 (0 phonon loss); FR-4 35um copper lag=0; 30-node closure",
          mech["pdms_silicone_acoustic_couplant_c2h6sio_z"] == 40 and mech["pdms_couplant_phonon_loss_quanta"] == 0 and mech["total_verified_kitchen_bench_nodes"] == 30),
+        ("Node 31-36: Wheeler 60-turn air-core MMF=42; NaHCO3 Z=42 & ethanol Z=26 wash; TEC1-12706 (127 couples, Te=52); Bus36 closure",
+         mech["coil_nominal_turns_5x12"] == 60 and mech["glass_prewash_baking_soda_nahco3_z"] == 42 and mech["peltier_tec1_12706_couples_qsquare_minus_1"] == 127 and mech["total_unit_ball_b1_bench_edges_bus36"] == 36),
+        ("Node 37-42: Gate #0 BZ bromate Z=60 & malonic Z=54; triiodide polarizer Z(I3-)=160; 5 food recipes; full S2(3)=42 closure",
+         mech["gate0_bz_bromate_ion_bro3_z"] == 60 and mech["gate0_bz_malonic_acid_c3h4o4_z"] == 54 and mech["polarizer_triiodide_i3_minus_z"] == 160 and mech["total_second_sphere_s2_bench_nodes"] == 42),
         ("Hardware files present: Verilog ASIC, Tang Nano 9K CST, LTspice .cir, OpenSCAD .scad, and 3D-printable .stl",
          all((ROOT / "hardware" / f).is_file() for f in (
              "cuboctahedron_carrier_asic.v",

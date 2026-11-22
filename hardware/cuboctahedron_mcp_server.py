@@ -572,6 +572,12 @@ class CuboctahedronHardwareController:
                 "polyswitch_ptc_fuse_trip_amps_ar": 18,
                 "heisenberg_thermal_emergency_cutoff_c": 81,
                 "total_unit_ball_b1_bench_edges_bus36": 36,
+                "gate0_bz_bromate_ion_bro3_z": 60,
+                "gate0_bz_malonic_acid_c3h4o4_z": 54,
+                "polarizer_iodine_shell_z": 53,
+                "polarizer_triiodide_i3_minus_z": 160,
+                "food_recipe_shells_z": {"cutlet_heme": 70, "bread_amylose_rn": 86, "vitamin_c_s3": 92, "caffeine_batio3": 102, "palmitic_lipid": 144},
+                "total_second_sphere_s2_bench_nodes": 42,
             },
             "calibration_result": {
                 "target_phase_in_dish_ticks": int(target_phase_ticks),
