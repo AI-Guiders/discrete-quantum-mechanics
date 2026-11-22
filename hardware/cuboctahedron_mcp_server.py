@@ -531,6 +531,12 @@ class CuboctahedronHardwareController:
                 "lead_free_solder_tin_magic_shell_z": 50,
                 "home_fdm_3d_printer_max_skew_ticks": 3,
                 "home_fdm_3d_printer_heisenberg_tolerance_mm": 2.2,
+                "copper_skin_depth_52khz_mm": 0.288,
+                "recommended_magnet_wire_diameter_mm": 0.40,
+                "skin_effect_extra_lag_ticks": 0,
+                "far_field_emc_dipole_radiation_sum": 0,
+                "silanol_glass_wetting_group_sioh_z": 23,
+                "silicone_vibration_feet_count": 4,
             },
             "calibration_result": {
                 "target_phase_in_dish_ticks": int(target_phase_ticks),
