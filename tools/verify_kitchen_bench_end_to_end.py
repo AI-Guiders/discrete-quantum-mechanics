@@ -311,6 +311,35 @@ def main() -> int:
          mech["peltier_tec1_12706_couples_qsquare_minus_1"] == 127 == 7**3 - 6**3),
         ("Node 253-256: Complete 128-Section Quarter-Ring Saddle Q_square(3) = 2^7 = 128 Self-Closure (Stage 3 Ultrasonic Folding, R+G+B=128, Pt+Al2O3=128)",
          mech["total_section36_26_qsquare128_blocks"] == 128 == 97 + 31),
+        ("Node 257-259: Numbers 129..131 (Meniscus Gate 129=128+1 -> n_E=3, Vortex/Cetane 130=10*13, Prime 131=128+3)",
+         mech["meniscus_interface_gate_128_plus_1"] == 129
+         and mech["vortex_step_and_cetane_alkane_10x13"] == 130 == 10 * 13
+         and mech["quarter_plus_dim_prime_128_3"] == 131),
+        ("Node 260-262: Numbers 132..134 (Ordered Pairs / 6 CO2 / 12-Beam |sum C_3(139)| = 132 = 12*11, Cs-133 Mass 133=7*19=55+78, 134=128+6)",
+         mech["ordered_coil_pairs_and_6co2_12x11"] == 132 == 12 * 11
+         and mech["cesium133_atomic_clock_mass_7x19"] == 133 == 55 + 78
+         and mech["quarter_plus_squares_128_6"] == 134),
+        ("Node 263-265: Numbers 135..137 (5*27=135, 8*17=136, Fine-Structure Floor 137 = 128 + 9 = 11^2 + 4^2)",
+         mech["five_moore_cubes_5x27"] == 135
+         and mech["triangles_times_fresnel_8x17"] == 136
+         and mech["fine_structure_integer_floor_128_9"] == 137 == 128 + 9),
+        ("Node 266-268: Numbers 138..140 (6*Silanol=138, Coherent Collapse Phase A_coh=139 -> D=8192 & 128-C_3(139)=139, 20*7=140)",
+         mech["six_square_silanol_6x23"] == 138
+         and mech["coherent_barrier_collapse_phase_acoh"] == 139 == 128 - mcp.proj_c(139)
+         and mech["amino_times_meniscus_20x7"] == 140),
+        ("Node 269-271: Numbers 141..143 (3*47=141, 2*71=142, Neighbor*Core 143 = 11*13 = 12^2 - 1)",
+         mech["triple_lactate_anion_3x47"] == 141
+         and mech["double_verlet_msb_2x71"] == 142
+         and mech["neighbor_times_core_11x13"] == 143 == 11 * 13),
+        ("Node 272-274: Number 144 Four-Fold Convergence (Palmitic Lipid 144=12^2, 2*sigma_72=144, Octadecene=144, Carrier Second 9*16=144)",
+         mech["food_recipe_shells_z"]["palmitic_lipid"] == 144 == 12 * 12 == 2 * 72),
+        ("Node 275-277: Numbers 145..146 (5 Winding Layers * Cu = 145 = 5*29 = 12^2+1, Double Frame Radius / Octadecane = 146 = 2*73 = 147-1)",
+         mech["five_layers_copper_5x29"] == 145 == 5 * 29
+         and mech["double_frame_radius_octadecane_2x73"] == 146 == 2 * 73),
+        ("Node 278-288: Complete 147-Section Three-Shell Ball |B_3(3)| = 55 + 92 = 128 + 19 = 3 * 7^2 = 147 Self-Closure (72/72 VerletCell72 Audit!)",
+         mech["total_section36_26_b3_147_blocks"] == 147 == 3 * 49
+         and mech["total_three_shell_ball_b3_bench_nodes"] == 147
+         and mech["total_section36_26_b3_147_blocks"] - mech["food_recipe_shells_z"]["palmitic_lipid"] == 3),
     ]
 
     print("=== Complete 30-Node Physical Kitchen Bench Audit ===")
