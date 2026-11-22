@@ -2023,6 +2023,22 @@ module cuboct_closed_loop_kitchen_bench_pll #(
 
     wire signed [31:0] p_sound_sensor = Q_SQUARE - dish_c;
     wire signed [31:0] j_rxn_sensor   = dish_s;
+    wire signed [31:0] s0_temp_68c    = K_P + D_IN_SQ;          // 68 C Maillard crust DS18B20 sensor
+    wire signed [31:0] s1_cap_45pf    = D_OUT_EDGE * MOD_BITS;  // 45 pF wall capacitive probe
+    wire signed [31:0] y0_mix, y1_mix, y2_mix, y3_mix;
+    wire signed [31:0] s0_demix, s1_demix, s2_demix_jrxn, s3_demix_psound;
+    wire signed [31:0] unused_rf, unused_rt;
+
+    // 4-channel nilpotent holonomic tomograph de-mixing cross-channel sensor crosstalk (N_nil^3 == 0):
+    holonomic_4channel_tomograph_and_ratchet #(.D(D)) u_bench_tomo (
+        .s0_in(s0_temp_68c), .s1_in(s1_cap_45pf),
+        .s2_in(j_rxn_sensor), .s3_in(p_sound_sensor),
+        .y0_2x(y0_mix), .y1_2x(y1_mix), .y2_2x(y2_mix), .y3_2x(y3_mix),
+        .s0_rec(s0_demix), .s1_rec(s1_demix),
+        .s2_rec(s2_demix_jrxn), .s3_rec(s3_demix_psound),
+        .ratchet_fdiv_step(unused_rf), .ratchet_tdiv_step(unused_rt)
+    );
+
     wire [8:0] unused_precomp, unused_arrived;
     wire signed [31:0] unused_w202, unused_s833, unused_f288;
 
@@ -2030,8 +2046,8 @@ module cuboct_closed_loop_kitchen_bench_pll #(
         .target_dish_phase(target_dish_phase),
         .coil_inductive_lag(9'd0), .mosfet_gate_lag(9'd0),
         .thermal_drift_lag(9'd0), .dish_wall_lag(9'd0), .coil_winding_skew(9'd0),
-        .hydrophone_p_sound(p_sound_sensor),
-        .polarimeter_j_rxn(j_rxn_sensor),
+        .hydrophone_p_sound(s3_demix_psound),
+        .polarimeter_j_rxn(s2_demix_jrxn),
         .fpga_precomp_phase(unused_precomp),
         .arrived_dish_phase(unused_arrived),
         .recovered_telemetry_phase(recovered_dish_phase),

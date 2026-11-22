@@ -18,6 +18,7 @@ sys.path.insert(0, str(ROOT / "tools"))
 
 import cuboctahedron_mcp_server as mcp  # noqa: E402
 import kitchen_bench_telemetry_codec as tcodec  # noqa: E402
+import generate_kitchen_bench_lab_protocol as labproto  # noqa: E402
 
 
 def main() -> int:
@@ -130,6 +131,8 @@ def main() -> int:
              )["updated_precomp_lag_ticks"] == true_lag
              for true_lag in range(512)
          ) and (ROOT / "hardware" / "kitchen_bench_mujoco.xml").exists()),
+        ("Node 113-116: Bus36 Pre-Flight 12-Coil Continuity Decomposition (L1=16, L2=2*(N+1)) & 14-Frame Startup Protocol",
+         labproto.generate_full_lab_protocol()["protocol_verified"] is True),
     ]
 
     print("=== Complete 30-Node Physical Kitchen Bench Audit ===")
