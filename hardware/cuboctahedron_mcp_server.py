@@ -578,6 +578,12 @@ class CuboctahedronHardwareController:
                 "polarizer_triiodide_i3_minus_z": 160,
                 "food_recipe_shells_z": {"cutlet_heme": 70, "bread_amylose_rn": 86, "vitamin_c_s3": 92, "caffeine_batio3": 102, "palmitic_lipid": 144},
                 "total_second_sphere_s2_bench_nodes": 42,
+                "snell_quartz_to_water_ratio_9_over_8": [9, 8],
+                "fresnel_quartz_water_transmission_288_over_289": [288, 289],
+                "contactless_capacitive_wall_electrolysis_current_ma": 0,
+                "wien_ir_pyrometer_peak_at_68c_um": 8.5,
+                "mutual_inductance_coil_pairs_count": 66,
+                "total_two_shell_ball_b2_bench_nodes_cs55": 55,
             },
             "calibration_result": {
                 "target_phase_in_dish_ticks": int(target_phase_ticks),

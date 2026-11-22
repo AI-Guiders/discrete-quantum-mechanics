@@ -65,6 +65,8 @@ def main() -> int:
          mech["coil_nominal_turns_5x12"] == 60 and mech["glass_prewash_baking_soda_nahco3_z"] == 42 and mech["peltier_tec1_12706_couples_qsquare_minus_1"] == 127 and mech["total_unit_ball_b1_bench_edges_bus36"] == 36),
         ("Node 37-42: Gate #0 BZ bromate Z=60 & malonic Z=54; triiodide polarizer Z(I3-)=160; 5 food recipes; full S2(3)=42 closure",
          mech["gate0_bz_bromate_ion_bro3_z"] == 60 and mech["gate0_bz_malonic_acid_c3h4o4_z"] == 54 and mech["polarizer_triiodide_i3_minus_z"] == 160 and mech["total_second_sphere_s2_bench_nodes"] == 42),
+        ("Node 43-55: Snell/Fresnel 9:8 & 288/289 transmission; 0mA electrolysis; 8.5um Wien IR peak; 66 M_jk pairs; B2(3)=55=Z(Cs) closure",
+         mech["snell_quartz_to_water_ratio_9_over_8"] == [9, 8] and mech["fresnel_quartz_water_transmission_288_over_289"] == [288, 289] and mech["mutual_inductance_coil_pairs_count"] == 66 and mech["total_two_shell_ball_b2_bench_nodes_cs55"] == 55),
         ("Hardware files present: Verilog ASIC, Tang Nano 9K CST, LTspice .cir, OpenSCAD .scad, and 3D-printable .stl",
          all((ROOT / "hardware" / f).is_file() for f in (
              "cuboctahedron_carrier_asic.v",
