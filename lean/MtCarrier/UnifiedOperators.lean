@@ -11874,6 +11874,15 @@ def checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp (d : Nat) : 
   let detP4 : Int := p4_00 * p4_11 - p4_01 * p4_10                                -- -1599 + 1600 = +1
   let trP4  : Int := p4_00 + p4_11                                                -- -39 + 41 = +2
   let lightConeInterval4 : Int := ((p4_00 - p4_11) / (c0OverCSqOp d : Int)) ^ 2 - (p4_01) ^ 2 -- (-40)^2 - (-40)^2 = 0
+  -- Exact Light-Cone Factorization Theorem `C = (x^(m-a) ∓ y^b) * (x^a - y^b)` across all four locks:
+  -- Lock I:   1   = (3^1 - 2^1) * (3^1 - 2^1)   = 1 * 1
+  -- Lock II:  5   = (2^3 - 3^1) * (2^2 - 3^1)   = 5 * 1
+  -- Lock III: 44  = (5^2 - 3^1) * (5^1 - 3^1)   = 22 * 2
+  -- Lock IV:  399 = (2^7 + 5^1) * (2^3 - 5^1)   = 133 * 3 = (Q_□(3) + d_out(E)) * d
+  let factLock1 : Int := ((d : Int) - (c0OverCSqOp d : Int)) * ((d : Int) - (c0OverCSqOp d : Int))
+  let factLock2 : Int := (((nTriangles d : Nat) : Int) - (d : Int)) * (((dInSquare : Nat) : Int) - (d : Int))
+  let factLock3 : Int := (((dOutEdge d * dOutEdge d : Nat) : Int) - (d : Int)) * (((dOutEdge d : Nat) : Int) - (d : Int))
+  let factLock4 : Int := (((quarterPeriod d + dOutEdge d : Nat) : Int)) * (((nTriangles d : Nat) : Int) - ((dOutEdge d : Nat) : Int))
   -- 3-level recursive descent law `C_0 - (x + y)*C_1 + x*y*C_2 = 0` on Lock II (`2^5 - 3^3 = 5`)
   -- and Hankel-Wronskian identity `C_1^2 - C_0 * C_2 = x^(5-2) * y^(3-2) * (x - y)^2 = 8 * 3 * 1 = 24 = 2 * |N(3)|`:
   let cDesc0 : Int := cLock2                                                      -- 5 = d_out(E)
@@ -11937,6 +11946,10 @@ def checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp (d : Nat) : 
   eqIntBool detP4 (muVac d : Int) &&
   eqIntBool trP4 (c0OverCSqOp d : Int) &&
   eqIntBool lightConeInterval4 0 &&
+  eqIntBool factLock1 (muVac d : Int) &&
+  eqIntBool factLock2 cLock2 &&
+  eqIntBool factLock3 cLock3 &&
+  eqIntBool factLock4 cLock4 &&
   eqIntBool cDesc1 ((nTriangles d - muVac d : Nat) : Int) &&
   eqIntBool cDesc2 (dOutEdge d : Int) &&
   eqIntBool recLawLock2 0 &&
