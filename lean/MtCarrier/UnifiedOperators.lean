@@ -8047,9 +8047,6 @@ def checkKitchenBenchConsecutive385To441MultiscaleClosureOp (d : Nat) : Bool :=
   let zGlycine40 : Nat := deltaPhiDisc d - muVac d                                -- 40
   let zLacticAcidMilk48 : Nat := dInSquare * nNeighbors d                         -- 48
   let midRunCoilLag30Min59 : Nat := kP d - dOutEdge d                             -- 59
-  let totalMidLag30Min84 : Nat := midRunCoilLag30Min59 + dOutEdge d * dOutEdge d  -- 84
-  let coilTurns60 : Nat := dOutEdge d * nNeighbors d                              -- 60
-  let totalLag20Min85 : Nat := coilTurns60 + dOutEdge d * dOutEdge d              -- 85
   let benchNumber57 : Nat := d * zPotassium40Proton19                             -- 57
   let zBreadAmylose86 : Nat := heisenbergEquivClassSizeOp d + dOutEdge d          -- 86
   let minHandWoundCoilLag62 : Nat := kP d - c0OverCSqOp d                         -- 62
@@ -8059,39 +8056,21 @@ def checkKitchenBenchConsecutive385To441MultiscaleClosureOp (d : Nat) : Bool :=
   let mujocoBenchGeomCount49 : Nat := (nTriangles d - muVac d) * (nTriangles d - muVac d) -- 49
   let nominalColdTotalLag89 : Nat := kP d + dOutEdge d * dOutEdge d               -- 89
   let zCitricAcidNectar100 : Nat := dInSquare * (dOutEdge d * dOutEdge d)         -- 100
-  let zMalonicAcid54 : Nat := nSquares d * modBits d                              -- 54
   let zGlucose96 : Nat := mHat d - muVac d                                        -- 96
   let zSucroseDisaccharide182 : Nat := c0OverCSqOp d * zGlucose96 - zNeonOp d     -- 182
   let earlyRunCoilLag10Min61 : Nat := kP d - d                                    -- 61
-  let benchNumber56 : Nat := (nTriangles d - muVac d) * nTriangles d              -- 56
   let hotCoilLag52Min58 : Nat := kP d - nSquares d                                -- 58
-  let zTheobromineChocolate94 : Nat := zGlucose96 - c0OverCSqOp d                 -- 94
-  let stasisHoldingTemp65C : Nat := dOutEdge d * nPhi d                           -- 65
   let zPalmiticLipid144 : Nat := nNeighbors d * nNeighbors d                      -- 144
   let mHatGaussian97 : Nat := mHat d                                              -- 97
-  let mutualCoilPairs66 : Nat := nSquares d * (nNeighbors d - muVac d)            -- 66
   let benchNumber67 : Nat := kP d + d                                             -- 67
-  let maillardCrustTemp68C : Nat := kP d + dInSquare                              -- 68
-  let fullThermalSpan69C : Nat := d * zSilanolGroup                               -- 69
   let pentaOctahedral95 : Nat := dOutEdge d * zPotassium40Proton19                -- 95
-  let zCutletHeme70 : Nat := kP d + nSquares d                                    -- 70
   let verletCell72MsbIndex71 : Nat := twoTickPhaseSpaceBitBudgetOp d - muVac d    -- 71
   let wireRadiusUm : Nat := c0OverCSqOp d * (dOutEdge d * dOutEdge d * dInSquare) -- 200
   let frameCircumscribedRadius73Mm : Nat := kP d + modBits d                      -- 73
   let wheelerDenom202 : Nat := nSquares d * modBits d + modBits d * nNeighbors d + dInSquare * zNeonOp d -- 202
-  let collagenTripleGate75 : Nat := d * (dOutEdge d * dOutEdge d)                 -- 75
   let zBaTiO3Piezo : Nat := nSquares d * fresnelSum17                             -- 102
-  let tetraOctahedral76 : Nat := dInSquare * zPotassium40Proton19                 -- 76
-  let zGlutamicAcidUmami78 : Nat := nSquares d * nPhi d                           -- 78
-  let zGlutamateAnion77 : Nat := zGlutamicAcidUmami78 - muVac d                   -- 77
-  let waterDielectric20C_80 : Nat := dOutEdge d * zO2                             -- 80
-  let zHistidineHemeLigand82 : Nat := heisenbergEquivClassSizeOp d + muVac d      -- 82
   let custom12CoilBusBits108 : Nat := nNeighbors d * modBits d                    -- 108
   let custom12CoilBusMsb107 : Nat := custom12CoilBusBits108 - muVac d             -- 107
-  let zAlphaQuartzUnit90 : Nat := d * zSiO2                                       -- 90
-  let maxTotalCoil11Lag91 : Nat := (nTriangles d - muVac d) * nPhi d              -- 91
-  let zVitaminCS3_92 : Nat := cuboctShellSizeOp d d                               -- 92
-  let tripleGallium93 : Nat := d * zGallium                                       -- 93
   let wheelerPrime101 : Nat := zCitricAcidNectar100 + muVac d                     -- 101
   let singleChannelWallCap45Pf : Nat := dOutEdge d * modBits d                    -- 45
   let meniscusGate129 : Nat := qSquare d + muVac d                                -- 129
@@ -8201,7 +8180,7 @@ def checkKitchenBenchConsecutive385To441MultiscaleClosureOp (d : Nat) : Bool :=
   let acrylamideKelvin393 : Nat := phiPauli d + alphaFsFloor137                   -- 256 + 137 = 393 K = 120 + 273!
   let number393AcrylamideKelvinOk :=
     eqNatBool acrylamideKelvin393 393 &&
-    eqNatBool (d * zNeonOp d * nNeighbors d + singleRaySubcavitationPhase21 * nPhi d) acrylamideKelvin393
+    eqNatBool (zNeonOp d * nNeighbors d + singleRaySubcavitationPhase21 * nPhi d) acrylamideKelvin393
   -- 394. Number `394 = 2 * 197 = (c₀/c)² * A(¹⁹⁷Au) = 256 + 138 = Φ_Pauli(d) + 6 * Z(-Si-OH)`: Double Gold-197 Mass & Pauli Plus Six-Square Silanol (`2 * 197 = 394`):
   let doubleGold197Mass394 : Nat := c0OverCSqOp d * aGold197MassOp d              -- 2 * 197 = 394 = 256 + 138!
   let number394DoubleGoldMassOk :=
