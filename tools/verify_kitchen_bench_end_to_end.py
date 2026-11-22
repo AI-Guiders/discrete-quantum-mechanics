@@ -229,6 +229,23 @@ def main() -> int:
          mech["total_section36_26_verlet72_blocks"] == 72
          and mech["total_verlet72_bit_budget_bench_nodes"] == 72
          and mech["pure_water_surface_tension_mn_per_m"] == 72),
+        ("Node 185: Number 73 Circumscribed Frame Radius Floor (73 = 64 + 9 = 8^2 + 3^2 mm)",
+         mech["circumscribed_frame_radius_floor_mm"] == 73 == 64 + 9),
+        ("Node 186: Number 74 Optocoupler 6N137 2-Tick Delay in Nanoseconds (74 = 2 * 37 ns = Z(W))",
+         mech["optocoupler_6n137_2tick_delay_ns"] == 74 == 2 * 37),
+        ("Node 187: Number 75 Collagen Triple-Helix Gate Multiple (75 = 3 * 25 = d * d_out(E)^2)",
+         mech["collagen_triple_gate_delay_3x25"] == 75 == 3 * 25),
+        ("Node 188: Number 76 Tetra-Octahedral Factor (76 = 4 * 19 = Z(Os), 3 * 76 = 228 FPGA Cold Drive)",
+         mech["tetra_octahedral_factor_4x19"] == 76 and 3 * mech["tetra_octahedral_factor_4x19"] == 228),
+        ("Node 189: Number 77 Glutamate Anion & MuJoCo Foot Z-Offset (77 = 7 * 11 = 78 - 1, 77 + 11 = 88 MSG)",
+         mech["glutamate_anion_and_foot_offset_7x11"] == 77 == 7 * 11),
+        ("Node 190: Number 78 Three-Fold Umami / Platinum / MMO Active Complex Convergence (78 = 6 * 13, 78 + 50 = 128)",
+         mech["umami_glutamic_acid_c5h9no4_z"] == 78 == 6 * 13),
+        ("Node 191: Number 79 Corrosion-Free ENIG Gold PCB Contact Plating (79 = 78 + 1 = Z(Au) = 81 - 2)",
+         mech["enig_gold_pcb_contact_plating_au_z"] == 79),
+        ("Node 192-200: Numbers 80..81 (Water eps_r(20C) = Ribose = Hg = 80, Complete 81-Section |E_Heis(3)| = 3^4 = 72 + 9 Self-Closure)",
+         mech["water_dielectric_permittivity_20c"] == 80 == mech["ribose_rna_sugar_5x16_z"]
+         and mech["total_section36_26_heisenberg81_blocks"] == 81 == mech["total_heisenberg_81_bench_nodes"]),
     ]
 
     print("=== Complete 30-Node Physical Kitchen Bench Audit ===")
