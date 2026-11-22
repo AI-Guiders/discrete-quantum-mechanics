@@ -584,6 +584,11 @@ class CuboctahedronHardwareController:
                 "wien_ir_pyrometer_peak_at_68c_um": 8.5,
                 "mutual_inductance_coil_pairs_count": 66,
                 "total_two_shell_ball_b2_bench_nodes_cs55": 55,
+                "fused_quartz_abbe_dispersion_number_vd": 68,
+                "total_12beam_capacitive_wall_coupling_pf": 540,
+                "heme_soret_absorption_band_nm": 418,
+                "acrylamide_free_safety_margin_c": 52,
+                "total_verlet72_bit_budget_bench_nodes": 72,
             },
             "calibration_result": {
                 "target_phase_in_dish_ticks": int(target_phase_ticks),

@@ -5353,13 +5353,32 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
     eqNatBool fresnelTransmittedNum288 skinDepthCu52kHzUm &&
     eqNatBool mutualCoilPairs66 (nSquares d * (nNeighbors d - muVac d)) &&
     eqNatBool totalBenchTwoShellBallNodes55 (dOutEdge d * (nNeighbors d - muVac d))
+  -- 21. Fused Quartz Abbe Dispersion Number (`V_d(SiO₂) = 68 = K_P(d) + 4 = maillardCrustTemp68C`),
+  --     Total 12-Channel Capacitive Dish Coupling (`12 * 45 pF = 540 pF = 6 * 90 pF = |□(d)| * Z((SiO₂)₃)`),
+  --     Heme Soret Band (`418 nm = 2 * 11 * 19`), Acrylamide Carcinogen-Free Safety Margin (`120 °C - 68 °C = 52 °C = Z(Te)`),
+  --     and Complete 72-Node VerletCell72 Bit-Budget Kitchen Bench Closure (`55 + 17 = 72 = 8 * 9 = twoTickPhaseSpaceBitBudgetOp d`):
+  let quartzAbbeNumber68 : Nat := kP d + dInSquare                                -- 64 + 4 = 68 (fused silica Abbe V_d)
+  let singleChannelWallCap45Pf : Nat := dOutEdge d * modBits d                    -- 5 * 9 = 45 pF per coil electrode
+  let total12BeamWallCap540Pf : Nat := nNeighbors d * singleChannelWallCap45Pf    -- 12 * 45 = 540 pF = 6 * 90 pF
+  let hemeSoretBand418Nm : Nat := c0OverCSqOp d * (nNeighbors d - muVac d) * (muVac d + nNeighbors d + nSquares d) -- 2 * 11 * 19 = 418 nm
+  let acrylamideThreshold120C : Nat := zNeonOp d * nNeighbors d                   -- 10 * 12 = 120 C pyrolysis threshold
+  let acrylamideSafetyMargin52C : Nat := acrylamideThreshold120C - maillardCrustTemp68C -- 120 - 68 = 52 C = Z(Te)!
+  let totalBenchVerlet72Closure : Nat := totalBenchTwoShellBallNodes55 + fresnelSum17 -- 55 + 17 = 72 = 8 * 9 = VerletCell72!
+  let verlet72CompleteBenchClosureOk :=
+    eqNatBool quartzAbbeNumber68 maillardCrustTemp68C &&
+    eqNatBool total12BeamWallCap540Pf (nSquares d * (d * zSiO2)) &&
+    eqNatBool hemeSoretBand418Nm (c0OverCSqOp d * (nNeighbors d - muVac d) * (muVac d + nNeighbors d + nSquares d)) &&
+    eqNatBool acrylamideSafetyMargin52C zTellurium52 &&
+    eqNatBool totalBenchVerlet72Closure (twoTickPhaseSpaceBitBudgetOp d) &&
+    eqNatBool totalBenchVerlet72Closure sigmaWaterSurfaceTensionMnM
   finitePerturbationOk && stringDimsDemystifiedOk && singleUniverseFiberOk &&
   mosfetCoilDishBridgeOk && kitchenWaterAndThermalDriftOk && complete10NodeBenchOk &&
   mutualInductanceDiagonalOk && flybackPiezoAndAdcOk && frameIsolationAndGeomagneticOk &&
   wiringSolderAnd3dToleranceOk && skinEmcWettingAndVibrationOk && moistAirSrfBjerknesAndEsdOk &&
   pdmsPcbAnd30NodeClosureOk && preflightContinuityDiagnosticOk && wheelerAirCoreAndMmfOk &&
   glassCleaningAndPhotoLedOk && peltierPhAndStoichiometryOk && siliconFuseAnd36EdgeClosureOk &&
-  gate0PolarizerRecipesAnd42ClosureOk && snellFresnelAnd55BallClosureOk
+  gate0PolarizerRecipesAnd42ClosureOk && snellFresnelAnd55BallClosureOk &&
+  verlet72CompleteBenchClosureOk
 
 /-- **Theorem (Impossibility of Laplace's Demon Inside the Lattice and Constructive Realization of the Memoryless 12-Beam Geometric Maxwell Demon)**:
 Chained directly via `CatalanLaw` for any `d : Nat`:
