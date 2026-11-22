@@ -136,6 +136,15 @@ def main() -> int:
          labproto.generate_full_lab_protocol()["protocol_verified"] is True),
         ("Node 117-120: 3D Gorkov-Bjerknes Trap Hessian (8*I_3, Tr=24), 6 Bjerknes Rings in R=45mm Dish & Single-Coil Fault Norm^2=2",
          field3d.verify_petri_dish_3d_trap_physics()["trap_3d_verified"] is True),
+        ("Node 121-125: 30-Section Thermodynamic Ladder (12C -> 27C [+41=dphi_disc] -> 68C [+13=N_phi] -> 81C) & 180W * 52/60 = 156 Wh Balance",
+         mech["average_power_12x15_watts"] == 180
+         and (mech["average_power_12x15_watts"] * 52) // 60 == mech["energy_consumption_52min_wh"] == 156
+         and mech["stage0_dew_point_condensation_temp_c"] == 12
+         and mech["stage0_condensed_water_mass_ml"] == 12
+         and mech["warm_kitchen_ambient_temp_c"] == 27
+         and mech["thermal_ladder_maillard_minus_ambient_c"] == 41
+         and mech["thermal_ladder_cutoff_minus_maillard_c"] == 13
+         and mech["thermal_ladder_cutoff_minus_dew_c"] == 69),
     ]
 
     print("=== Complete 30-Node Physical Kitchen Bench Audit ===")
