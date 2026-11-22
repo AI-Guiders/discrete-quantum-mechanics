@@ -66,7 +66,7 @@ def generate_full_lab_protocol() -> dict:
     start_0x02_frame = mcp.pack_uart_16byte_frame(0x02, 0, 1, 0).hex(" ")
     startup_14_frames = per_coil_frames + [global_0x08_frame, start_0x02_frame]
 
-    sim_run = sim52.simulate_52min_run()
+    sim_run = sim52.simulate_52_minutes()
 
     all_ok = (
         all(r["matches_formula"] for r in continuity)
@@ -74,8 +74,8 @@ def generate_full_lab_protocol() -> dict:
         and continuity[12]["dome_impedance_d"] == 6823936
         and continuity[11]["dome_impedance_d"] == 6299648
         and len(startup_14_frames) == 14
-        and sim_run["max_phase_error_ticks"] == 0
-        and sim_run["all_53_minutes_phase_locked"] is True
+        and sim_run["max_dish_phase_error_across_all_53_points_ticks"] == 0
+        and sim_run["zero_phase_drift_verified"] is True
     )
 
     return {
