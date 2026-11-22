@@ -6302,10 +6302,10 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
     eqNatBool totalSection36_26Ball147 (cuboctBallOp d) &&
     eqNatBool (totalSection36_26Ball147 - zPalmiticLipid144) d
   -- 148. Number 148 Double Optocoupler `6N137` Delay in Nanoseconds (`148 = 4 * 37 = d_in(□) * T_tick,ns = 2 * 74 = 128 + 20`):
-  let doubleOptoDelay148Ns : Nat := c0OverCSqOp d * optocouplerTwoTick74Ns        -- 2 * 74 = 148 ns (4 ticks)
+  let doubleOptoDelay148Ns : Nat := c0OverCSqOp d * optocoupler2Tick74Ns          -- 2 * 74 = 148 ns (4 ticks)
   let number148DoubleOptoNsOk :=
     eqNatBool doubleOptoDelay148Ns 148 &&
-    eqNatBool doubleOptoDelay148Ns (dInSquare * tickDuration37Ns) &&
+    eqNatBool doubleOptoDelay148Ns (dInSquare * singleTick37Ns) &&
     eqNatBool doubleOptoDelay148Ns (qSquare d + canonicalAminoAcidCount20)
   -- 149. Number 149 Quarter-Ring Plus Single-Ray Sub-Cavitation Seam Prime (`149 = 128 + 21 = Q_□(d) + Δφ_seam(d)`):
   let quarterPlusSeam149 : Nat := qSquare d + singleRaySubcavitationPhase21       -- 128 + 21 = 149
@@ -6332,13 +6332,13 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
   let number153BitsFresnelOk :=
     eqNatBool bitsTimesFresnel153 153 &&
     eqNatBool (qSquare d + dOutEdge d * dOutEdge d) bitsTimesFresnel153 &&
-    eqNatBool (d * halfPiezo51) bitsTimesFresnel153
+    eqNatBool (d * halfPiezoFresnel51) bitsTimesFresnel153
   -- 154. Number 154 Fourteen Cuboctahedron Faces Times 11 Off-Axis Neighbors (`154 = 14 * 11 = (|□| + |△|) * (|N| - 1) = 7 * 22 = 128 + 26`):
   let facesTimesNeighbors154 : Nat := zSi * (nNeighbors d - muVac d)              -- 14 * 11 = 154
   let number154FacesNeighborsOk :=
     eqNatBool facesTimesNeighbors154 154 &&
     eqNatBool ((nTriangles d - muVac d) * zCarbonDioxide) facesTimesNeighbors154 &&
-    eqNatBool (qSquare d + zFe) facesTimesNeighbors154
+    eqNatBool (qSquare d + zIronOp d) facesTimesNeighbors154
   -- 155. Number 155 Five Outward Edge Links Times Gallium LED Charge (`155 = 5 * 31 = d_out(E) * Z(Ga) = 128 + 27`):
   let quintupleGallium155 : Nat := dOutEdge d * zGallium                          -- 5 * 31 = 155
   let number155QuintupleGaOk :=
@@ -6348,13 +6348,13 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
   let number156Energy156WhOk :=
     eqNatBool energyBudget52Min156Wh 156 &&
     eqNatBool ((benchTotalAvgPower180W * zTellurium52) / minutesPerHour60) energyBudget52Min156Wh &&
-    eqNatBool (qSquare d + zSodiumChloride28) energyBudget52Min156Wh
+    eqNatBool (qSquare d + zNeonOp d + zArgonOp d) energyBudget52Min156Wh
   -- 157. Number 157 Quarter-Ring Plus Copper Coil Nuclear Charge Prime (`157 = 128 + 29 = Q_□(d) + Z(Cu)`):
   let quarterPlusCopper157 : Nat := qSquare d + zCu                               -- 128 + 29 = 157
   let number157QuarterCuOk :=
     eqNatBool quarterPlusCopper157 157
   -- 158. Number 158 Double Gold/ENIG Contact Charge & Quarter-Ring Plus Quartz `SiO₂` (`158 = 2 * 79 = (c₀/c)² * Z(Au) = 128 + 30`):
-  let doubleGold158 : Nat := c0OverCSqOp d * zGoldContact79                       -- 2 * 79 = 158
+  let doubleGold158 : Nat := c0OverCSqOp d * zGoldPcbPlating79                    -- 2 * 79 = 158
   let number158DoubleGoldOk :=
     eqNatBool doubleGold158 158 &&
     eqNatBool (qSquare d + zSiO2) doubleGold158
@@ -6394,7 +6394,7 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
   let number165TripleBallOk :=
     eqNatBool tripleTwoShellBall165 165 &&
     eqNatBool (dOutEdge d * zSilanolHydratedBridge) tripleTwoShellBall165 &&
-    eqNatBool (qSquare d + tickDuration37Ns) tripleTwoShellBall165
+    eqNatBool (qSquare d + singleTick37Ns) tripleTwoShellBall165
   -- 166. Number 166 Double Bismuth-83 / 52-Minute Total Lag (`166 = 2 * 83 = 128 + 38 = Q_□(d) + Z(PLA)`):
   let doubleHotLag166 : Nat := c0OverCSqOp d * zBismuth83                         -- 2 * 83 = 166
   let number166DoubleHotLagOk :=
@@ -6405,10 +6405,10 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
   let number167PrimeOk :=
     eqNatBool quarterPlusTripleCore167 167
   -- 168. Number 168 Four-Fold Second Sphere `4 * 42`, Double 30-Min Lag `2 * 84`, `8 * 21` & `128 + 40`:
-  let quadrupleSecondSphere168 : Nat := dInSquare * (cuboctShellOp d (c0OverCSqOp d)) -- 4 * 42 = 168
+  let quadrupleSecondSphere168 : Nat := dInSquare * (cuboctShellSizeOp d (c0OverCSqOp d)) -- 4 * 42 = 168
   let number168FourFoldOk :=
     eqNatBool quadrupleSecondSphere168 168 &&
-    eqNatBool (c0OverCSqOp d * midRunTotalLag30Min84) quadrupleSecondSphere168 &&
+    eqNatBool (c0OverCSqOp d * totalMidLag30Min84) quadrupleSecondSphere168 &&
     eqNatBool (nTriangles d * singleRaySubcavitationPhase21) quadrupleSecondSphere168 &&
     eqNatBool (qSquare d + zGlycine40) quadrupleSecondSphere168
   -- 169. Number 169 Causal Core Volume Square & Quarter-Ring Plus Heisenberg Deadband (`169 = 13² = N_φ(d)² = 128 + 41 = Q_□(d) + Δφ_disc(d)`):
@@ -6420,20 +6420,20 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
   let neonTimesFresnel170 : Nat := zNeonOp d * fresnelSum17                       -- 10 * 17 = 170
   let number170NeonFresnelOk :=
     eqNatBool neonTimesFresnel170 170 &&
-    eqNatBool (c0OverCSqOp d * mid20MinTotalLag85) neonTimesFresnel170 &&
-    eqNatBool (qSquare d + cuboctShellOp d (c0OverCSqOp d)) neonTimesFresnel170
+    eqNatBool (c0OverCSqOp d * totalLag20Min85) neonTimesFresnel170 &&
+    eqNatBool (qSquare d + cuboctShellSizeOp d (c0OverCSqOp d)) neonTimesFresnel170
   -- 171. Number 171 Nine-Bit Bus Word Times 19 Octahedral Core (`171 = 9 * 19 = modBits(d) * |B₁^oct(d)| = 3 * 57`):
   let bitsTimesOctCore171 : Nat := modBits d * zPotassium40Proton19               -- 9 * 19 = 171
   let number171BitsOctOk :=
     eqNatBool bitsTimesOctCore171 171 &&
-    eqNatBool (d * triOctahedral57) bitsTimesOctCore171
+    eqNatBool (d * benchNumber57) bitsTimesOctCore171
   -- 172. Number 172 Double 10-Minute Total Lag / Double Bread Crust Shell (`172 = 2 * 86 = 4 * 43 = 128 + 44 = Q_□(d) + Z(Si+SiO₂)`):
-  let doubleBreadLag172 : Nat := c0OverCSqOp d * zBreadCrust86                    -- 2 * 86 = 172
+  let doubleBreadLag172 : Nat := c0OverCSqOp d * zBreadAmylose86                  -- 2 * 86 = 172
   let number172DoubleBreadOk :=
     eqNatBool doubleBreadLag172 172 &&
     eqNatBool (qSquare d + zSi + zSiO2) doubleBreadLag172
   -- 173. Number 173 Quarter-Ring Plus Dish Radius / Wall Cap Prime (`173 = 128 + 45 = Q_□(d) + R_dish,mm = 13² + 2²`):
-  let quarterPlusDishRadius173 : Nat := qSquare d + wallCap45Pf                   -- 128 + 45 = 173
+  let quarterPlusDishRadius173 : Nat := qSquare d + dOutEdge d * modBits d        -- 128 + 45 = 173
   let number173QuarterRadiusOk :=
     eqNatBool quarterPlusDishRadius173 173 &&
     eqNatBool (coreVolumeSquare169 + dInSquare) quarterPlusDishRadius173
@@ -6441,15 +6441,15 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
   let sixSquareCopper174 : Nat := nSquares d * zCu                                -- 6 * 29 = 174
   let number174SixCopperOk :=
     eqNatBool sixSquareCopper174 174 &&
-    eqNatBool (c0OverCSqOp d * coilSrfToRingRatio87) sixSquareCopper174 &&
-    eqNatBool (qSquare d + zSiO4) sixSquareCopper174
+    eqNatBool (c0OverCSqOp d * minTotalCoil0Lag87) sixSquareCopper174 &&
+    eqNatBool (qSquare d + zSi + dInSquare * zOxygenOp d) sixSquareCopper174
   -- 175. Number 175 Seven Meniscus Links Times 25-Tick Gate Delay (`175 = 7 * 25 = d_out(V) * d_out(E)² = 128 + 47`):
   let meniscusTimesGate175 : Nat := (nTriangles d - muVac d) * (dOutEdge d * dOutEdge d) -- 7 * 25 = 175
   let number175MeniscusGateLagOk :=
     eqNatBool meniscusTimesGate175 175 &&
     eqNatBool (qSquare d + zLacticAcidMilk48 - muVac d) meniscusTimesGate175
   -- 176. Number 176 Double MSG Umami Salt Shell & Quarter-Ring Plus Lactic Acid (`176 = 2 * 88 = 16 * 11 = 128 + 48`):
-  let doubleMsgUmami176 : Nat := c0OverCSqOp d * zMonosodiumGlutamate88           -- 2 * 88 = 176
+  let doubleMsgUmami176 : Nat := c0OverCSqOp d * zMsgUmami88                      -- 2 * 88 = 176
   let number176DoubleMsgOk :=
     eqNatBool doubleMsgUmami176 176 &&
     eqNatBool (zO2 * (nNeighbors d - muVac d)) doubleMsgUmami176 &&
@@ -6458,14 +6458,14 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
   let tripleMidCoilLag177 : Nat := d * midRunCoilLag30Min59                       -- 3 * 59 = 177
   let number177TripleMidLagOk :=
     eqNatBool tripleMidCoilLag177 177 &&
-    eqNatBool (qSquare d + mujocoTwinGeomCount49) tripleMidCoilLag177
+    eqNatBool (qSquare d + mujocoBenchGeomCount49) tripleMidCoilLag177
   -- 178. Number 178 Double Nominal Cold Total Lag & Quarter-Ring Plus Tin-50 Solder Magic (`178 = 2 * 89 = 128 + 50`):
   let doubleColdTotalLag178 : Nat := c0OverCSqOp d * nominalColdTotalLag89        -- 2 * 89 = 178
   let number178DoubleColdLagOk :=
     eqNatBool doubleColdTotalLag178 178 &&
     eqNatBool (qSquare d + zTinSolderMagic) doubleColdTotalLag178
   -- 179. Number 179 Quarter-Ring Plus Half-Piezo 51 Prime (`179 = 128 + 51 = Q_□(d) + 3 * 17 = 180 - 1`):
-  let quarterPlusHalfPiezo179 : Nat := qSquare d + halfPiezo51                    -- 128 + 51 = 179
+  let quarterPlusHalfPiezo179 : Nat := qSquare d + halfPiezoFresnel51             -- 128 + 51 = 179
   let number179PrimeOk :=
     eqNatBool quarterPlusHalfPiezo179 179 &&
     eqNatBool (quarterPlusHalfPiezo179 + muVac d) benchTotalAvgPower180W
@@ -6550,7 +6550,7 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
     eqNatBool (zAtpBioEnergyOp d) (canonicalAminoAcidCount20 * nPhi d)
   -- 197. Complete 197-Section Gold-197 Bezout Self-Closure of Section 36.26 (`N_sections_Au197 = 197 = 180 + 17 = 147 + 50 = 2 * 97 + 3 = A(¹⁹⁷₇₉Au₁₁₈)`,
   --      encompassing `1..180` consecutively plus `263 = IV(d)`, `278 nm`, `288/289`, `312 V`, `343 = 7³`, `352 -> 544 nm`, `384`, `417`, `441 nm`, `512`, `540 pF`, `544`, `833`, `1025`, `1536`, `5184`, `8192 = ε(d)`, `32768`, `524288`, `6823936`):
-  let mhat97BezoutInverse417 : Nat := nRing d - peltierGastrointestinalTotal95    -- 512 - 95 = 417 (97 * 417 = 40,449 = 79 * 512 + 1)
+  let mhat97BezoutInverse417 : Nat := nRing d - pentaOctahedral95                 -- 512 - 95 = 417 (97 * 417 = 40,449 = 79 * 512 + 1)
   let totalSection36_26Gold197 : Nat := totalSection36_26Power180 + fresnelSum17  -- 180 + 17 = 197 = A(Au-197)!
   let section197GoldBezoutMultiscaleSelfClosureOk :=
     eqNatBool totalSection36_26Gold197 197 &&
