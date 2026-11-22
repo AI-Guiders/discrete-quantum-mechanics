@@ -12048,6 +12048,20 @@ def checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp (d : Nat) : 
     eqIntBool ((qSqInt + xCircle) / twoQInt) absC &&
     eqIntBool ((qSqInt - xCircle) / twoQInt) absS &&
     eqIntBool (xCircle % (qSquare d : Int)) 0) &&
+  -- Stereographic Weierstrass Homeomorphism `[0, 512]/512 = [0, 1] ≅ ℝ` (`Y * C == S * (R + X)` and `128 * S / (C + S) == φ`)
+  -- and Quadrant I / II Pillai-Ramanujan-Nagell generation (`C_3(3) = 5^3`, `C_3(7) = 11^2`, `181 * S_3(181) + 256 * C_3(181) = 2^15 - 181^2 = 7`):
+  allUpTo (qSquare d - muVac d) (fun phi =>
+    let cVal : Int := projC d (phi : Int)
+    let sVal : Int := projS d (phi : Int)
+    let xCircle : Int := cVal * cVal - sVal * sVal
+    let yCircle : Int := (c0OverCSqOp d : Int) * cVal * sVal
+    let rCircle : Int := cVal * cVal + sVal * sVal
+    let qInt    : Int := (qSquare d : Int)
+    eqIntBool (yCircle * cVal) (sVal * (rCircle + xCircle)) &&
+    eqIntBool ((qInt * sVal) / (cVal + sVal)) (phi : Int)) &&
+  eqIntBool (projC d (d : Int)) ((dOutEdge d ^ d : Nat) : Int) &&
+  eqIntBool (projC d ((nTriangles d - muVac d : Nat) : Int)) (((nNeighbors d - muVac d) * (nNeighbors d - muVac d) : Nat) : Int) &&
+  eqIntBool ((181 : Int) * projS d 181 + (phiPauli d : Int) * projC d 181) ((nTriangles d - muVac d : Nat) : Int) &&
   eqIntBool detElbowBez (muVac d : Int) &&
   carryLockM2 && carryGapM3 && carryGapM4 && carryGapM5
 
