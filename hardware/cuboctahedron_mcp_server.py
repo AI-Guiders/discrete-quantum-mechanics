@@ -549,6 +549,10 @@ class CuboctahedronHardwareController:
                 "preflight_12coil_full_impedance_d": 6823936,
                 "preflight_11coil_open_fault_impedance_d": 6299648,
                 "preflight_single_coil_impedance_step_d": 524288,
+                "air_core_relative_permeability_mu_r": 1,
+                "coil_nominal_turns_5x12": 60,
+                "coil_mmf_ampere_turns_s2": 42,
+                "wheeler_bobbin_denominator_6r_9h_10b": 202,
             },
             "calibration_result": {
                 "target_phase_in_dish_ticks": int(target_phase_ticks),

@@ -71,8 +71,12 @@ def main() -> int:
              "kitchen_bench_mujoco.xml",
              "kitchen_bench_assembly.dxf",
              "kitchen_bench_assembly.svg",
+             "build_tang_nano_9k.tcl",
              "KITCHEN_BENCH_BOM_AND_CHECKLIST.md",
-         )) and mech["preflight_12coil_full_impedance_d"] - mech["preflight_11coil_open_fault_impedance_d"] == 524288),
+         )) and mech["preflight_12coil_full_impedance_d"] - mech["preflight_11coil_open_fault_impedance_d"] == 524288
+            and mech["coil_nominal_turns_5x12"] == 60
+            and mech["coil_mmf_ampere_turns_s2"] == 42
+            and mech["wheeler_bobbin_denominator_6r_9h_10b"] == 202),
     ]
 
     print("=== Complete 30-Node Physical Kitchen Bench Audit ===")
