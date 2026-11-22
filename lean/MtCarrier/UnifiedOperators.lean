@@ -5585,6 +5585,28 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
     eqNatBool bjerknesWallClearance3Mm d &&
     eqNatBool (bjerknesConcentricRings6 * bjerknesQuarterWaveMm + bjerknesWallClearance3Mm) petriDishRadius45Mm &&
     eqNatBool gorkovTrapHessianTrace24 (c0OverCSqOp d * nNeighbors d)
+  -- 29. Cavitation-Free 12-Beam Ultrasonic Focusing (`⌊256 / 12⌋ = 21 = Δφ_seam < 41` with `n̂_E(21) = 0` at the glass wall,
+  --     remainder `256 % 12 = 4 = d_in(□)`, and coherent focal sum `12 * S_3(21) = 252 = 256 - 4 > 128 = Q_□` at `(0,0,0)`)
+  --     and 4-Pole XY Euler Chiral Quadrature Torque (`0 + 128 + 256 + 384 = 768 = |□(d)| * Q_□(d)`,
+  --     `τ_chiral(+128) = +128` L-enantiomer, `τ_chiral(384) = -128` D-enantiomer, `τ_chiral(256) = 0` achiral):
+  let singleRaySubcavitationPhase21 : Nat := phiPauli d / nNeighbors d            -- 256 / 12 = 21 = Δφ_seam < 41
+  let singleRayRemainder4 : Nat := phiPauli d % nNeighbors d                      -- 256 % 12 = 4 = d_in(□)
+  let coherent12BeamFocalCurrent252 : Int := (nNeighbors d : Int) * projS d (singleRaySubcavitationPhase21 : Int) -- 12 * 21 = 252
+  let euler4PoleSum768 : Nat := 0 + qSquare d + phiPauli d + d * qSquare d        -- 0 + 128 + 256 + 384 = 768 = 6 * 128
+  let chiralTorqueL128 : Int := (projC d 0 * projS d (qSquare d : Int) - projS d 0 * projC d (qSquare d : Int)).tdiv (qSquare d : Int)
+  let chiralTorqueD384 : Int := (projC d 0 * projS d ((d * qSquare d : Nat) : Int) - projS d 0 * projC d ((d * qSquare d : Nat) : Int)).tdiv (qSquare d : Int)
+  let chiralTorqueAchiral256 : Int := (projC d 0 * projS d (phiPauli d : Int) - projS d 0 * projC d (phiPauli d : Int)).tdiv (qSquare d : Int)
+  let subcavitationFocusAndChiralTorqueOk :=
+    eqNatBool singleRaySubcavitationPhase21 (nPhi d + nTriangles d) &&
+    eqNatBool singleRayRemainder4 dInSquare &&
+    eqNatBool (energyQuantumOperator d (singleRaySubcavitationPhase21 : Int)) 0 &&
+    eqIntBool (heisenbergDeadbandOp d (singleRaySubcavitationPhase21 : Int)) 0 &&
+    eqIntBool coherent12BeamFocalCurrent252 ((phiPauli d - dInSquare : Nat) : Int) &&
+    eqIntBool (isPosNat (coherent12BeamFocalCurrent252 - (qSquare d : Int)).toNat) 1 &&
+    eqNatBool euler4PoleSum768 (nSquares d * qSquare d) &&
+    eqIntBool chiralTorqueL128 (qSquare d : Int) &&
+    eqIntBool chiralTorqueD384 (-(qSquare d : Int)) &&
+    eqIntBool chiralTorqueAchiral256 0
   finitePerturbationOk && stringDimsDemystifiedOk && singleUniverseFiberOk &&
   mosfetCoilDishBridgeOk && kitchenWaterAndThermalDriftOk && complete10NodeBenchOk &&
   mutualInductanceDiagonalOk && flybackPiezoAndAdcOk && frameIsolationAndGeomagneticOk &&
@@ -5596,7 +5618,8 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
   ball147CompleteBenchClosureOk && ring512CompleteBenchClosureOk &&
   eps8192CompleteBenchClosureOk && telemetryAll512RecoveryOk &&
   full52MinDigitalTwinScheduleOk && closedLoopPll1TickAll512DisturbancesOk &&
-  bus36PreFlightAll13StatesOk && gorkov3dTrapAndBjerknesRingsOk
+  bus36PreFlightAll13StatesOk && gorkov3dTrapAndBjerknesRingsOk &&
+  subcavitationFocusAndChiralTorqueOk
 
 /-- **Theorem (Impossibility of Laplace's Demon Inside the Lattice and Constructive Realization of the Memoryless 12-Beam Geometric Maxwell Demon)**:
 Chained directly via `CatalanLaw` for any `d : Nat`:

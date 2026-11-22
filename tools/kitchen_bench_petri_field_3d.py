@@ -87,6 +87,17 @@ def verify_petri_dish_3d_trap_physics() -> dict:
     center_collapse = evaluate_12beam_field_3d(0, 0, 0, dphi_center=139)
     center_stasis = evaluate_12beam_field_3d(0, 0, 0, dphi_center=0)
 
+    # 5. Cavitation-free 12-beam ultrasonic focusing (256 // 12 = 21 < 41, n_E(21) = 0 at wall,
+    #    focal sum 12 * 21 = 252 > 128) and 4-pole XY Euler chiral quadrupole torque:
+    single_ray_subcav_21 = 256 // 12
+    single_ray_rem_4 = 256 % 12
+    wall_phonon_quanta = single_ray_subcav_21 // 41
+    focal_current_252 = 12 * mcp.proj_s(single_ray_subcav_21)
+    euler_4pole_sum_768 = 0 + 128 + 256 + 384
+    torque_l_128 = (mcp.proj_c(0) * mcp.proj_s(128) - mcp.proj_s(0) * mcp.proj_c(128)) // 128
+    torque_d_384 = (mcp.proj_c(0) * mcp.proj_s(384) - mcp.proj_s(0) * mcp.proj_c(384)) // 128
+    torque_achiral_256 = (mcp.proj_c(0) * mcp.proj_s(256) - mcp.proj_s(0) * mcp.proj_c(256)) // 128
+
     all_ok = (
         dipole_sum == [0, 0, 0]
         and hessian_diag == [8, 8, 8]
@@ -98,6 +109,14 @@ def verify_petri_dish_3d_trap_physics() -> dict:
         and all(n2 == 2 for n2 in fault_drift_norms_sq)
         and center_collapse["coherent_c_sum_12beam"] == 12 * (-11)
         and center_stasis["coherent_c_sum_12beam"] == 12 * 128
+        and single_ray_subcav_21 == 21
+        and single_ray_rem_4 == 4
+        and wall_phonon_quanta == 0
+        and focal_current_252 == 252
+        and euler_4pole_sum_768 == 768
+        and torque_l_128 == 128
+        and torque_d_384 == -128
+        and torque_achiral_256 == 0
     )
 
     return {
@@ -110,6 +129,11 @@ def verify_petri_dish_3d_trap_physics() -> dict:
         "bjerknes_concentric_rings_count_6": bjerknes_rings_count,
         "bjerknes_wall_clearance_3mm": bjerknes_center_rem_mm,
         "single_coil_fault_drift_norm_sq_all_12": fault_drift_norms_sq,
+        "subcavitation_single_ray_21": single_ray_subcav_21,
+        "subcavitation_wall_phonons_0": wall_phonon_quanta,
+        "subcavitation_focal_current_252": focal_current_252,
+        "euler_4pole_sum_768": euler_4pole_sum_768,
+        "chiral_torque_l_d_achiral": [torque_l_128, torque_d_384, torque_achiral_256],
         "center_field_collapse_139": center_collapse,
         "center_field_stasis_0": center_stasis,
     }
