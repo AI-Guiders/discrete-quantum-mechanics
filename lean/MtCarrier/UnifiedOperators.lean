@@ -4956,6 +4956,20 @@ def checkCascadedSystemInteractionAndInformationLossOp (d : Nat) : Bool :=
   let zAl := nPhi d
   let zTi := zTitaniumBeamOp d
   let zTiNi := zNitinolShapeMemoryOp d
+  -- Single-Instrument Deep Dive: The Alpha-Quartz Piezoelectric Crystal Resonator ((SiO2)_3 / SiO4):
+  --   1) Z(Si) = 14 = N_φ + 1, Z(O2) = 16 = 2 * |△|, Z(SiO2) = 30 = |□| * d_out(E)
+  --   2) Trigonal unit cell (d = 3 helical units): Z((SiO2)_3) = 3 * 30 = 90 = M̂ - d_out(V)
+  --   3) Corner-shared tetrahedron Z(SiO4) = 14 + 4 * 8 = 46, which is the exact minimal Pauli dense amplitude (46² = 2116 > 2048 = K_P²/2 > 45² = 2025)!
+  --   4) Quarter-disk stability of (μ_Si, μ_O2) = (14, 16): 14² + 16² = 196 + 256 = 452 ≤ 4096 = K_P²
+  let zSiO3Cell := d * zSiO2
+  let zSiO4Tetra := zSi + dInSquare * zOxygenOp d
+  let halfKpSq := (kP d * kP d) / c0OverCSqOp d
+  let alphaQuartzInstrumentOk :=
+    eqNatBool zSiO3Cell (mHat d - dOutVertex d) &&
+    eqNatBool zSiO4Tetra 46 &&
+    eqNatBool (isPosNat (zSiO4Tetra * zSiO4Tetra - halfKpSq)).toNat 1 &&
+    eqNatBool (isPosNat (halfKpSq - (zSiO4Tetra - muVac d) * (zSiO4Tetra - muVac d))).toNat 1 &&
+    a7QuarterDiskPredicate d { mu0 := (zSi : Int), phi0 := 206, mu1 := (zO2 : Int), phi1 := 206 }
   let sixEngineeredSystemClassesOk :=
     eqNatBool zSi 14 &&
     eqNatBool zSiO2 (nSquares d * dOutEdge d) &&
@@ -4969,7 +4983,8 @@ def checkCascadedSystemInteractionAndInformationLossOp (d : Nat) : Bool :=
     eqNatBool zTi 22 &&
     eqNatBool zTiNi 50 &&
     eqNatBool (energyQuantumOperator d ((deltaPhiDisc d - muVac d : Nat) : Int)) 0 &&
-    eqIntBool (plaquetteFlux d 0 130 260 390) (nRing d : Int)
+    eqIntBool (plaquetteFlux d 0 130 260 390) (nRing d : Int) &&
+    alphaQuartzInstrumentOk
   type1TotalLossAndDriftOk && type2MatchedRelayOk && type3SubthresholdLosslessOk &&
   type4ClosedLoopCalibrationOk && sixEngineeredSystemClassesOk
 
