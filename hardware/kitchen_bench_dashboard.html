@@ -59,12 +59,62 @@
           <tr><td><b>256</b></td><td><code>Φ_Pauli = 3×81 + 13</code></td><td>Полупериод кольца, 8-битный АЦП камеры и зеркало Паули</td></tr>
           <tr><td><b>263</b></td><td><code>IV(3) = 256 + 7 = 407₈</code></td><td>Начальное зерно автомата при сбросе <code>rst_n</code></td></tr>
           <tr><td><b>512</b></td><td><code>N_ring(3) = 2⁹ = 8³</code></td><td>Полный период кольца (256 накачка MOSFET + 256 спад Шоттки)</td></tr>
+          <tr><td><b>833</b></td><td><code>1 + 13×64 = 7² × 17</code></td><td>Множитель импеданса стазиса (через сумму Френеля <code>9+8=17</code>)</td></tr>
+          <tr><td><b>8192</b></td><td><code>ε(3) = 16 × 512</code></td><td>Вакуумное дно; купол стазиса <code>D = 833×8192 = 6 823 936</code></td></tr>
         </tbody>
       </table>
+    </div>
+
+    <div class="card">
+      <h2>3. Обратный акусто-оптический декодер телеметрии (512/512)</h2>
+      <label>Истинная фаза в чашке Петри <code>Δφ ∈ [0..511]</code>:
+        <input id="simPhaseInput" type="number" value="139" min="0" max="511" step="1" oninput="updateTelemetry()" />
+      </label>
+      <div id="telemOutput" style="margin-top:14px; line-height:1.7;"></div>
     </div>
   </div>
 
   <script>
+    function projC(phi) {
+      const p = ((phi % 512) + 512) % 512;
+      const q = p >> 7;
+      const r = p & 127;
+      return q === 0 ? 128 - r : (q === 1 ? -r : (q === 2 ? -128 + r : r));
+    }
+    function projS(phi) {
+      const p = ((phi % 512) + 512) % 512;
+      const q = p >> 7;
+      const r = p & 127;
+      return q === 0 ? r : (q === 1 ? 128 - r : (q === 2 ? -r : -128 + r));
+    }
+    function recoverPhaseBranchless(pSound, jRxn, mu0, mu1) {
+      const amp = Math.max(1, mu0 * mu1);
+      const oneMinusC = Math.trunc(pSound / amp);
+      const cNeg = 1 - Math.trunc(1 / (Math.trunc(oneMinusC / 129) + 1));
+      const cPos = Math.trunc(1 / (Math.trunc(oneMinusC / 128) + 1));
+      const cZero = 1 - cPos - cNeg;
+      const sNeg = jRxn < 0 ? 1 : 0;
+      const sMag = Math.trunc(Math.abs(jRxn) / amp);
+      const q00 = (1 - sNeg) * (cPos + cZero);
+      const q01 = (1 - sNeg) * cNeg;
+      const q10 = sNeg * (cNeg + cZero);
+      const q11 = sNeg * cPos;
+      return (q00 * sMag + q01 * (256 - sMag) + q10 * (256 + sMag) + q11 * (512 - sMag)) % 512;
+    }
+    function updateTelemetry() {
+      const phi = ((parseInt(document.getElementById("simPhaseInput").value || "139", 10) % 512) + 512) % 512;
+      const mu0 = 13, mu1 = 13, amp = mu0 * mu1;
+      const c3 = projC(phi), s3 = projS(phi);
+      const pSound = amp * (128 - c3);
+      const jRxn = amp * s3;
+      const lambdaNm = 579 + Math.floor((139 * c3) / 128);
+      const recPhi = recoverPhaseBranchless(pSound, jRxn, mu0, mu1);
+      document.getElementById("telemOutput").innerHTML =
+        `Датчик УЗ-гидрофона BaTiO₃ <b>P_sound</b>: <b>${pSound}</b> (C₃ = ${c3})<br/>` +
+        `Поляриметр веб-камеры I₃⁻ <b>J_rxn</b>: <b>${jRxn}</b> (S₃ = ${s3})<br/>` +
+        `Оптический пик спектра <b>λ</b>: <b>${lambdaNm} нм</b><br/>` +
+        `Безветвевое восстановление (Module 17): <b>Δφ_rec = ${recPhi} тиков</b> (совпадение: <b>${recPhi === phi ? "100% ТОЧНО" : "ОШИБКА"}</b>)`;
+    }
     function packUart0x08(lagTicks) {
       const b = [0xA5, 0x08, 0x01, 0, 0, 0, lagTicks & 0xFF, (lagTicks >> 8) & 0xFF, 0, 0, 0x02, 0, 0, 0, 0, 0x5A];
       let crc = 0;
@@ -89,6 +139,7 @@
         `Готовый 16-байтный UART-кадр <code>0x08</code>: <span class="mono">${packUart0x08(totalLag)}</span>`;
     }
     updateBench();
+    updateTelemetry();
   </script>
 </body>
 </html>

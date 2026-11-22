@@ -387,6 +387,48 @@ class CuboctahedronHardwareController:
             "thermal_photon_quanta_ne": n_e,
         }
 
+    def recover_bench_telemetry(
+        self,
+        p_sound: int,
+        j_rxn: int,
+        mu0: int = 13,
+        mu1: int = 13,
+        target_phase_ticks: int = 139,
+        current_precomp_lag_ticks: int = 89,
+    ) -> dict[str, Any]:
+        amp = max(1, int(mu0) * int(mu1))
+        one_minus_c = int(p_sound) // amp
+        c_rec = 128 - one_minus_c
+        s_rec = int(j_rxn) // amp
+        if s_rec > 0 and c_rec >= 0:
+            dphi_rec = s_rec
+        elif s_rec >= 0 and c_rec < 0:
+            dphi_rec = 256 - s_rec
+        elif s_rec < 0 and c_rec <= 0:
+            dphi_rec = 256 - s_rec
+        else:
+            dphi_rec = (512 + s_rec) % 512
+        dphi_rec = int(dphi_rec) % 512
+        q1 = (dphi_rec >> 8) & 1
+        q0 = (dphi_rec >> 7) & 1
+        m7 = dphi_rec & 127
+        lambda_nm = 579 + (139 * c_rec) // 128
+        phase_err = wrap512(int(target_phase_ticks) - dphi_rec)
+        updated_lag = (int(current_precomp_lag_ticks) + phase_err) % 512
+        uart_0x08 = pack_uart_16byte_frame(0x08, 1, updated_lag, 2)
+        return {
+            "recovered_dish_phase_ticks": dphi_rec,
+            "gray_quadrant_q1_q0": [q1, q0],
+            "mantissa_7bit": m7,
+            "recovered_proj_c": c_rec,
+            "recovered_proj_s": s_rec,
+            "optical_wavelength_nm": lambda_nm,
+            "target_phase_ticks": int(target_phase_ticks) % 512,
+            "pll_phase_error_ticks": phase_err,
+            "updated_precomp_lag_ticks": updated_lag,
+            "uart_0x08_correction_frame_hex": uart_0x08.hex(" "),
+        }
+
     def calibrate_kitchen_bench(
         self,
         coil_inductance_uh: float = 100.0,
@@ -785,6 +827,22 @@ TOOLS_SCHEMA = [
             },
         },
     },
+    {
+        "name": "cuboct_recover_bench_telemetry",
+        "description": "Recover the exact ring phase dphi in Z_512 from non-invasive BaTiO3 ultrasonic hydrophone sound pressure (p_sound) and I3- crossed-polarizer chiral reaction current (j_rxn), compute PLL phase error against target_phase_ticks, and generate the corrective 16-byte UART 0x08 frame.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "p_sound": {"type": "integer"},
+                "j_rxn": {"type": "integer"},
+                "mu0": {"type": "integer"},
+                "mu1": {"type": "integer"},
+                "target_phase_ticks": {"type": "integer"},
+                "current_precomp_lag_ticks": {"type": "integer"},
+            },
+            "required": ["p_sound", "j_rxn"],
+        },
+    },
 ]
 
 
@@ -864,6 +922,15 @@ def handle_mcp_request(req: dict[str, Any]) -> dict[str, Any] | None:
                 int(args.get("target_phase_ticks", 139)),
                 args.get("per_coil_inductance_uh"),
             )
+        elif name == "cuboct_recover_bench_telemetry":
+            res = CONTROLLER.recover_bench_telemetry(
+                int(args["p_sound"]),
+                int(args["j_rxn"]),
+                int(args.get("mu0", 13)),
+                int(args.get("mu1", 13)),
+                int(args.get("target_phase_ticks", 139)),
+                int(args.get("current_precomp_lag_ticks", 89)),
+            )
         else:
             return {
                 "jsonrpc": "2.0",
@@ -890,6 +957,7 @@ def main() -> None:
             {"jsonrpc": "2.0", "id": 6, "method": "tools/call", "params": {"name": "cuboct_bio_antiviral_and_regeneration", "arguments": {"viral_shell_k": 3, "regen_stage": 4}}},
             {"jsonrpc": "2.0", "id": 7, "method": "tools/call", "params": {"name": "cuboct_gravity_dipole_and_shield", "arguments": {"mode": "grav_dipole_1g"}}},
             {"jsonrpc": "2.0", "id": 8, "method": "tools/call", "params": {"name": "cuboct_calibrate_kitchen_bench", "arguments": {"coil_inductance_uh": 100.0, "coil_resistance_ohm": 33.1, "coil_temp_c": 25.0, "mosfet_gate_delay_ns": 925.9, "dish_material": "glass_sio2", "water_type": "tap_mineral", "target_phase_ticks": 139}}},
+            {"jsonrpc": "2.0", "id": 9, "method": "tools/call", "params": {"name": "cuboct_recover_bench_telemetry", "arguments": {"p_sound": 23491, "j_rxn": 19773, "mu0": 13, "mu1": 13, "target_phase_ticks": 139, "current_precomp_lag_ticks": 89}}},
         ]:
             resp = handle_mcp_request(req)
             print(json.dumps(resp, ensure_ascii=False))
