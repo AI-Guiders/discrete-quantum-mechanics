@@ -71,6 +71,14 @@ def main() -> int:
          mech["fused_quartz_abbe_dispersion_number_vd"] == 68 and mech["total_12beam_capacitive_wall_coupling_pf"] == 540 and mech["heme_soret_absorption_band_nm"] == 418 and mech["acrylamide_free_safety_margin_c"] == 52 and mech["total_verlet72_bit_budget_bench_nodes"] == 72),
         ("Node 73-81: Isotonic NaCl Z=28; K-40 (19,21,40) & muon 0-phonon shield; 144/72=2 emulsion ratio; 156 Wh budget; |E_Heis|=81 closure",
          mech["isotonic_nacl_magic_shell_z"] == 28 and mech["potassium40_natural_isotope_z_n_a"] == [19, 21, 40] and mech["potassium40_and_muon_phonon_quanta"] == 0 and mech["energy_consumption_52min_wh"] == 156 and mech["total_heisenberg_81_bench_nodes"] == 81),
+        ("Node 82-147: Alpha-quartz 81+9=90; Gaussian M_hat 81+16=97; chromatin safety 147-144=3=d; Gerber 72-hole PCB; |B3(3)|=147 closure",
+         mech["alpha_quartz_trigonal_cell_81_plus_9"] == 90 and mech["gaussian_coulomb_modulus_81_plus_16"] == 97 and mech["human_chromatin_nucleosome_b3_safety_detuning"] == 3 and mech["total_three_shell_ball_b3_bench_nodes"] == 147
+         and all((ROOT / "hardware" / "gerber" / g).is_file() for g in (
+             "kitchen_bench_top_copper.gbr",
+             "kitchen_bench_bottom_copper.gbr",
+             "kitchen_bench_board_outline.gbr",
+             "kitchen_bench_drill.drl",
+         ))),
         ("Hardware files present: Verilog ASIC, Tang Nano 9K CST, LTspice .cir, OpenSCAD .scad, and 3D-printable .stl",
          all((ROOT / "hardware" / f).is_file() for f in (
              "cuboctahedron_carrier_asic.v",

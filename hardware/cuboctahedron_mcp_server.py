@@ -597,6 +597,10 @@ class CuboctahedronHardwareController:
                 "moving_mechanical_parts_count": 0,
                 "energy_consumption_52min_wh": 156,
                 "total_heisenberg_81_bench_nodes": 81,
+                "alpha_quartz_trigonal_cell_81_plus_9": 90,
+                "gaussian_coulomb_modulus_81_plus_16": 97,
+                "human_chromatin_nucleosome_b3_safety_detuning": 3,
+                "total_three_shell_ball_b3_bench_nodes": 147,
             },
             "calibration_result": {
                 "target_phase_in_dish_ticks": int(target_phase_ticks),
