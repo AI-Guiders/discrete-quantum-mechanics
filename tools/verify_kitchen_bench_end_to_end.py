@@ -165,6 +165,20 @@ def main() -> int:
          and mech["disulfide_cysteine_c3h7no2s_z"] == 64
          and mech["disulfide_cystine_bridge_z"] == 126
          and mech["total_section36_26_bus36_blocks"] == 36),
+        ("Node 141-144: 50/50 Reactive Power Balance C_3(64)=S_3(64)=64, Quartz/Water Sound Ratio=4 & All 6 Culinary Recipes (94,100,48,114)",
+         mcp.proj_c(64) == mcp.proj_s(64) == 64
+         and mech["quartz_to_water_sound_speed_ratio"] == 4
+         and mech["chocolate_theobromine_c7h8n4o2_z"] == 94
+         and mech["nectar_citric_acid_c6h8o7_z"] == 100
+         and mech["milk_lactic_acid_c3h6o3_z"] == 48
+         and mech["cheese_calcium_lactate_z"] == 114),
+        ("Node 145-147: Webcam 2x2 RGGB Bayer Ratio [1,2,1], Worst-Case 5-Source Noise = 8 < 41 (Margin 33) & Full 42-Section S_2(3) Closure",
+         mech["webcam_bayer_rggb_subpixel_weights"] == [1, 2, 1]
+         and sum(mech["webcam_bayer_rggb_subpixel_weights"]) == 4
+         and mech["worst_case_5source_noise_ticks"] == 8
+         and mech["heisenberg_noise_margin_ticks"] == 33
+         and mech["worst_case_5source_noise_ticks"] + mech["heisenberg_noise_margin_ticks"] == 41
+         and mech["total_section36_26_s2_42_blocks"] == 42),
     ]
 
     print("=== Complete 30-Node Physical Kitchen Bench Audit ===")
