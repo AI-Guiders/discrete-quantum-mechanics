@@ -12116,6 +12116,39 @@ def checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp (d : Nat) : 
    eqIntBool (p00 + p11 + p22) (pA * pC * (pA + pC)) &&
    eqNatBool ((c0OverCSqOp d ^ dOutEdge d) + (base7 * base7)) (heisenbergEquivClassSizeOp d) &&
    eqNatBool ((base13 * base13) + (base7 ^ d)) (nRing d)) &&
+  -- Planetary Differential 3D Orthogonal Frame F_3 = (r, omega, r x omega) (`||r||^2 = 1^2 + 5^2 + 4^2 = 42 = S_2(d)`),
+  -- Gear-Slip Brahmagupta Law (`S_AB = 10 = Z(Ne)`, `M_AB = 40 = k_IV`, `M_CA = 44 = C_III`),
+  -- Checkerboard Hankel-Vandermonde Differential Matrix H_3 (`S_1 = S_3 = 0`, `-det H_3 = 6 * 12^2 = 864`),
+  -- and Three Lagrange-Vandermonde Bone-Gap Projectors on `3 + 5^3 = 2^7 = 128`:
+  (let mBC : Int := m3_b1 * m3_c2 + m3_b2 * m3_c1
+   let mCA : Int := m3_c1 * m3_a2 + m3_c2 * m3_a1
+   let sAB : Int := m3_a1 * m3_b2 - m3_a2 * m3_b1
+   let mAB : Int := m3_a1 * m3_b2 + m3_a2 * m3_b1
+   let rNormSq : Int := m3_a1 * m3_a1 + m3_b1 * m3_b1 + m3_c1 * m3_c1
+   let wNormSq : Int := m3_a2 * m3_a2 + m3_b2 * m3_b2 + m3_c2 * m3_c2
+   let xBone : Int := (muVac d : Int)
+   let yBone : Int := (dOutEdge d : Int)
+   let zBone : Int := (dInSquare : Int)
+   let s0Mom : Int := (abcA3 : Int) + (abcB3 : Int) - (abcC3 : Int)
+   let s1Mom : Int := (abcA3 : Int) * xBone + (abcB3 : Int) * yBone - (abcC3 : Int) * zBone
+   let s2Mom : Int := (abcA3 : Int) * (xBone ^ 2) + (abcB3 : Int) * (yBone ^ 2) - (abcC3 : Int) * (zBone ^ 2)
+   let s4Mom : Int := (abcA3 : Int) * (xBone ^ 4) + (abcB3 : Int) * (yBone ^ 4) - (abcC3 : Int) * (zBone ^ 4)
+   let vand3 : Int := (xBone - yBone) * (yBone - zBone) * (zBone - xBone)
+   let detH3Neg : Int := (s2Mom ^ 3) - s4Mom * (s0Mom * s2Mom - s1Mom * s1Mom)
+   eqIntBool (m3_a1 * m3_a2 + m3_b1 * m3_b2 - m3_c1 * m3_c2) 0 &&
+   eqIntBool rNormSq ((cuboctShellSizeOp d (c0OverCSqOp d) : Nat) : Int) &&
+   eqIntBool sAB (zNeonOp d : Int) &&
+   eqIntBool mAB ((nTriangles d * dOutEdge d : Nat) : Int) &&
+   eqIntBool mCA cLock3 &&
+   eqIntBool (((qSquare d : Int) ^ 2) + (sAB ^ 2)) (((minor3_A - minor3_B) ^ 2) + (mAB ^ 2)) &&
+   eqIntBool (((qSquare d : Int) ^ 2) + (sAB ^ 2)) ((m3_a1 * m3_a1 + m3_b1 * m3_b1) * (m3_a2 * m3_a2 + m3_b2 * m3_b2)) &&
+   eqIntBool (mBC * mBC + mCA * mCA + sAB * sAB) (rNormSq * wNormSq) &&
+   eqIntBool s1Mom 0 &&
+   eqIntBool vand3 (-(nNeighbors d : Int)) &&
+   eqIntBool detH3Neg ((nSquares d * nNeighbors d * nNeighbors d : Nat) : Int) &&
+   eqIntBool (s1Mom * yBone * zBone - s2Mom * (yBone + zBone)) ((abcA3 : Int) * xBone * (xBone - yBone) * (xBone - zBone)) &&
+   eqIntBool (s1Mom * zBone * xBone - s2Mom * (zBone + xBone)) ((abcB3 : Int) * yBone * (yBone - xBone) * (yBone - zBone)) &&
+   eqIntBool (s2Mom * (xBone + yBone) - s1Mom * xBone * yBone) ((abcC3 : Int) * zBone * (zBone - xBone) * (zBone - yBone))) &&
   eqIntBool detElbowBez (muVac d : Int) &&
   carryLockM2 && carryGapM3 && carryGapM4 && carryGapM5
 
