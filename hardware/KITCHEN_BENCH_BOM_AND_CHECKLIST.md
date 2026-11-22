@@ -75,6 +75,7 @@ python hardware/cuboctahedron_mcp_server.py --self-test
 # 5. Полный прогон 14/14 тестов автономной библиотеки .NET 11 (AIGuiders.Physics.Core):
 dotnet test -c Release _guiders_physics/AIGuiders.Physics.slnx
 
-# 6. Единый сквозной аудит всех 30 физических узлов стенда (13/13 PASS) + 3D MuJoCo-модель (hardware/kitchen_bench_mujoco.xml):
+# 6. Единый сквозной аудит всех 30 физических узлов стенда (13/13 PASS), 3D MuJoCo-модели (hardware/kitchen_bench_mujoco.xml)
+#    и 2D CAD-чертежей стенда (hardware/kitchen_bench_assembly.dxf / .svg):
 python tools/verify_kitchen_bench_end_to_end.py
 ```

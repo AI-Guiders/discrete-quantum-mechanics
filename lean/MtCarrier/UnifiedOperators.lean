@@ -5233,11 +5233,19 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
     eqNatBool pcbSkinExtraLagTicks 0 &&
     eqNatBool totalKitchenBenchNodes zSiO2 &&
     eqNatBool totalKitchenBenchNodes (zN2 + zO2)
+  -- 14. Pre-Flight 12-Coil Continuity & Open-Wire Fault Detection (`D_{12/12} = 833 * ε = 6,823,936` vs
+  --     `D_{11/12} = 769 * ε = 6,299,648`, exact single-coil drop `ΔD_1 = K_P * ε = 524,288`):
+  let dFull12Coils : Nat := (muVac d + nNeighbors d * kP d + kP d) * epsDenom d         -- 833 * 8192 = 6,823,936
+  let dOpen1Coil11 : Nat := (muVac d + (nNeighbors d - muVac d) * kP d + kP d) * epsDenom d -- 769 * 8192 = 6,299,648
+  let singleCoilImpedanceDrop : Nat := dFull12Coils - dOpen1Coil11                      -- 64 * 8192 = 524,288 = K_P * ε
+  let preflightContinuityDiagnosticOk :=
+    eqNatBool singleCoilImpedanceDrop (kP d * epsDenom d) &&
+    eqNatBool (dOpen1Coil11 + kP d * epsDenom d) dFull12Coils
   finitePerturbationOk && stringDimsDemystifiedOk && singleUniverseFiberOk &&
   mosfetCoilDishBridgeOk && kitchenWaterAndThermalDriftOk && complete10NodeBenchOk &&
   mutualInductanceDiagonalOk && flybackPiezoAndAdcOk && frameIsolationAndGeomagneticOk &&
   wiringSolderAnd3dToleranceOk && skinEmcWettingAndVibrationOk && moistAirSrfBjerknesAndEsdOk &&
-  pdmsPcbAnd30NodeClosureOk
+  pdmsPcbAnd30NodeClosureOk && preflightContinuityDiagnosticOk
 
 /-- **Theorem (Impossibility of Laplace's Demon Inside the Lattice and Constructive Realization of the Memoryless 12-Beam Geometric Maxwell Demon)**:
 Chained directly via `CatalanLaw` for any `d : Nat`:

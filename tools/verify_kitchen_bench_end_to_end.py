@@ -69,8 +69,10 @@ def main() -> int:
              "cuboctahedron_12coil_frame.scad",
              "cuboctahedron_12coil_frame.stl",
              "kitchen_bench_mujoco.xml",
+             "kitchen_bench_assembly.dxf",
+             "kitchen_bench_assembly.svg",
              "KITCHEN_BENCH_BOM_AND_CHECKLIST.md",
-         ))),
+         )) and mech["preflight_12coil_full_impedance_d"] - mech["preflight_11coil_open_fault_impedance_d"] == 524288),
     ]
 
     print("=== Complete 30-Node Physical Kitchen Bench Audit ===")

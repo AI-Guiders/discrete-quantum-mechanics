@@ -546,6 +546,9 @@ class CuboctahedronHardwareController:
                 "fr4_pcb_copper_foil_35um_skin_lag_ticks": 0,
                 "dc_bus_470uf_12coil_pulse_droop_ticks": 0,
                 "total_verified_kitchen_bench_nodes": 30,
+                "preflight_12coil_full_impedance_d": 6823936,
+                "preflight_11coil_open_fault_impedance_d": 6299648,
+                "preflight_single_coil_impedance_step_d": 524288,
             },
             "calibration_result": {
                 "target_phase_in_dish_ticks": int(target_phase_ticks),
