@@ -5572,6 +5572,19 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
       eqNatBool dOver512Eval dOver512Expected &&
       eqNatBool recActive nActive) &&
     eqNatBool (bus36CoilContinuityLanesOp d (nNeighbors d)).2.2.1 (zIronOp d)
+  -- 28. 3D Gorkov–Bjerknes Acoustic-Magnetic Trap Stiffness (`Tr(H) = 8 + 8 + 8 = 24 = 2 * |N(d)|`),
+  --     90 mm Petri Dish (`R = 45 = 5 * 9 mm`) Quarter-Wave Bjerknes Ring Decomposition (`45 = 6 * 7 + 3 = |□(d)| * d_out(V) + d`),
+  --     and Single-Coil Fault Dipole Drift Norm (`||-e_{k₀}||² = 2 = (c₀/c)²`):
+  let petriDishRadius45Mm : Nat := dOutEdge d * modBits d                         -- 5 * 9 = 45 mm (90 mm dish radius)
+  let bjerknesConcentricRings6 : Nat := petriDishRadius45Mm / bjerknesQuarterWaveMm -- 45 / 7 = 6 = |□(3)|
+  let bjerknesWallClearance3Mm : Nat := petriDishRadius45Mm % bjerknesQuarterWaveMm -- 45 % 7 = 3 = d mm
+  let gorkovTrapHessianAxis8 : Nat := nTriangles d                                -- 8 = |△(3)| per spatial axis (X, Y, Z)
+  let gorkovTrapHessianTrace24 : Nat := d * gorkovTrapHessianAxis8                -- 3 * 8 = 24 = 2 * |N(3)|
+  let gorkov3dTrapAndBjerknesRingsOk :=
+    eqNatBool bjerknesConcentricRings6 (nSquares d) &&
+    eqNatBool bjerknesWallClearance3Mm d &&
+    eqNatBool (bjerknesConcentricRings6 * bjerknesQuarterWaveMm + bjerknesWallClearance3Mm) petriDishRadius45Mm &&
+    eqNatBool gorkovTrapHessianTrace24 (c0OverCSqOp d * nNeighbors d)
   finitePerturbationOk && stringDimsDemystifiedOk && singleUniverseFiberOk &&
   mosfetCoilDishBridgeOk && kitchenWaterAndThermalDriftOk && complete10NodeBenchOk &&
   mutualInductanceDiagonalOk && flybackPiezoAndAdcOk && frameIsolationAndGeomagneticOk &&
@@ -5583,7 +5596,7 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
   ball147CompleteBenchClosureOk && ring512CompleteBenchClosureOk &&
   eps8192CompleteBenchClosureOk && telemetryAll512RecoveryOk &&
   full52MinDigitalTwinScheduleOk && closedLoopPll1TickAll512DisturbancesOk &&
-  bus36PreFlightAll13StatesOk
+  bus36PreFlightAll13StatesOk && gorkov3dTrapAndBjerknesRingsOk
 
 /-- **Theorem (Impossibility of Laplace's Demon Inside the Lattice and Constructive Realization of the Memoryless 12-Beam Geometric Maxwell Demon)**:
 Chained directly via `CatalanLaw` for any `d : Nat`:

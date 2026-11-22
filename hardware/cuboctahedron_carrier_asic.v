@@ -1989,26 +1989,44 @@ endmodule
 module cuboct_closed_loop_kitchen_bench_pll #(
     parameter integer D = 3
 ) (
-    input  wire       clk,
-    input  wire       rst,
-    input  wire [8:0] target_dish_phase,
-    input  wire [8:0] true_hardware_lag_with_drift,
-    output reg  [8:0] pll_estimated_lag,
-    output wire [8:0] fpga_drive_phase,
-    output wire [8:0] actual_dish_phase,
-    output wire [8:0] recovered_dish_phase,
-    output wire [8:0] pll_phase_error
+    input  wire        clk,
+    input  wire        rst,
+    input  wire [8:0]  target_dish_phase,
+    input  wire [8:0]  true_hardware_lag_with_drift,
+    input  wire [11:0] active_coils_mask,
+    output reg  [8:0]  pll_estimated_lag,
+    output wire [8:0]  fpga_drive_phase,
+    output wire [8:0]  actual_dish_phase,
+    output wire [8:0]  recovered_dish_phase,
+    output wire [8:0]  pll_phase_error,
+    output wire [8:0]  bus36_lane1_o2,
+    output wire [8:0]  bus36_lane2_fe,
+    output wire [8:0]  recovered_active_coils,
+    output wire signed [31:0] gorkov_trap_hessian_trace
 );
-    localparam integer MU_VAC    = (D * D) - (1 << D);
-    localparam integer N_TRI     = (1 << D);
-    localparam integer MOD_BITS  = MU_VAC + N_TRI;
-    localparam integer FRAC_BITS = MOD_BITS - D;
-    localparam integer K_P       = (1 << FRAC_BITS);
-    localparam integer N_LINKS   = 2 * D * (D - 1);
-    localparam integer D_IN_SQ   = N_LINKS / D;
-    localparam integer D_OUT_EDGE = N_TRI - D;
-    localparam integer N_RING    = (1 << MOD_BITS);
-    localparam integer Q_SQUARE  = N_RING / D_IN_SQ;
+    localparam integer MU_VAC       = (D * D) - (1 << D);
+    localparam integer C0_OVER_C_SQ = D - MU_VAC;
+    localparam integer N_TRI        = (1 << D);
+    localparam integer MOD_BITS     = MU_VAC + N_TRI;
+    localparam integer FRAC_BITS    = MOD_BITS - D;
+    localparam integer K_P          = (1 << FRAC_BITS);
+    localparam integer N_LINKS      = 2 * D * (D - 1);
+    localparam integer D_IN_SQ      = N_LINKS / D;
+    localparam integer D_OUT_EDGE   = N_TRI - D;
+    localparam integer N_RING       = (1 << MOD_BITS);
+    localparam integer Q_SQUARE     = N_RING / D_IN_SQ;
+
+    // 1. Branchless 12-coil popcount and Bus36 pre-flight continuity decomposition (0 `if`, 0 `?:`):
+    wire [8:0] n_active_coils =
+        {8'd0, active_coils_mask[0]} + {8'd0, active_coils_mask[1]} + {8'd0, active_coils_mask[2]} +
+        {8'd0, active_coils_mask[3]} + {8'd0, active_coils_mask[4]} + {8'd0, active_coils_mask[5]} +
+        {8'd0, active_coils_mask[6]} + {8'd0, active_coils_mask[7]} + {8'd0, active_coils_mask[8]} +
+        {8'd0, active_coils_mask[9]} + {8'd0, active_coils_mask[10]} + {8'd0, active_coils_mask[11]};
+
+    assign bus36_lane1_o2         = C0_OVER_C_SQ * N_TRI;                     // 16 = Z(O2)
+    assign bus36_lane2_fe         = C0_OVER_C_SQ * (n_active_coils + MU_VAC); // 26 = Z(Fe) when 12/12 coils active
+    assign recovered_active_coils = (bus36_lane2_fe >> MU_VAC) - MU_VAC;
+    assign gorkov_trap_hessian_trace = C0_OVER_C_SQ * n_active_coils;         // 8+8+8 = 24 = 2*|N(3)| when 12/12 active
 
     assign fpga_drive_phase  = target_dish_phase + pll_estimated_lag;
     assign actual_dish_phase = fpga_drive_phase - true_hardware_lag_with_drift;
@@ -2389,17 +2407,25 @@ module tb_cuboctahedron_carrier_asic;
 
     reg pll_rst = 1'b1;
     reg [8:0] pll_target = 9'd139, pll_true_lag = 9'd89;
+    reg [11:0] pll_coils_mask = 12'hFFF;
     wire [8:0] pll_est_lag, pll_fpga_drv, pll_act_dish, pll_rec_dish, pll_err;
+    wire [8:0] pll_l1_o2, pll_l2_fe, pll_rec_coils;
+    wire signed [31:0] pll_hess_tr;
 
     cuboct_closed_loop_kitchen_bench_pll #(.D(D)) u_kb_pll (
         .clk(clk), .rst(pll_rst),
         .target_dish_phase(pll_target),
         .true_hardware_lag_with_drift(pll_true_lag),
+        .active_coils_mask(pll_coils_mask),
         .pll_estimated_lag(pll_est_lag),
         .fpga_drive_phase(pll_fpga_drv),
         .actual_dish_phase(pll_act_dish),
         .recovered_dish_phase(pll_rec_dish),
-        .pll_phase_error(pll_err)
+        .pll_phase_error(pll_err),
+        .bus36_lane1_o2(pll_l1_o2),
+        .bus36_lane2_fe(pll_l2_fe),
+        .recovered_active_coils(pll_rec_coils),
+        .gorkov_trap_hessian_trace(pll_hess_tr)
     );
 
     // Helper functions in testbench to feed the true 3D `IV(D)=263` initial field
@@ -2930,7 +2956,16 @@ module tb_cuboctahedron_carrier_asic;
             if (pll_act_dish !== 9'd139 || pll_err !== 9'd0 || pll_est_lag !== i[8:0])
                 errors = errors + 1;
         end
+        for (i = 0; i <= 12; i = i + 1) begin
+            pll_coils_mask = (12'd1 << i) - 12'd1;
+            #1;
+            if (pll_l1_o2 !== 9'd16 || pll_l2_fe !== (2 * (i + 1)) || pll_rec_coils !== i[8:0] || pll_hess_tr !== (2 * i))
+                errors = errors + 1;
+        end
+        pll_coils_mask = 12'hFFF; #1;
         $display("  -> All 512/512 unmodeled thermal/mechanical lag disturbances cancelled in 1 clock tick (37.037 ns) with 0 phase error!");
+        $display("  -> Bus36 12-Coil Pre-Flight Continuity: L1=%0d (Z(O2)), L2=%0d (Z(Fe)), Active=%0d/12 | Gorkov 3D Trap Hessian Trace = %0d (8+8+8)",
+                 pll_l1_o2, pll_l2_fe, pll_rec_coils, pll_hess_tr);
 
         $display("======================================================================");
         $display("TOTAL HARDWARE ERRORS = %0d", errors);

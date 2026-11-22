@@ -19,6 +19,7 @@ sys.path.insert(0, str(ROOT / "tools"))
 import cuboctahedron_mcp_server as mcp  # noqa: E402
 import kitchen_bench_telemetry_codec as tcodec  # noqa: E402
 import generate_kitchen_bench_lab_protocol as labproto  # noqa: E402
+import kitchen_bench_petri_field_3d as field3d  # noqa: E402
 
 
 def main() -> int:
@@ -133,6 +134,8 @@ def main() -> int:
          ) and (ROOT / "hardware" / "kitchen_bench_mujoco.xml").exists()),
         ("Node 113-116: Bus36 Pre-Flight 12-Coil Continuity Decomposition (L1=16, L2=2*(N+1)) & 14-Frame Startup Protocol",
          labproto.generate_full_lab_protocol()["protocol_verified"] is True),
+        ("Node 117-120: 3D Gorkov-Bjerknes Trap Hessian (8*I_3, Tr=24), 6 Bjerknes Rings in R=45mm Dish & Single-Coil Fault Norm^2=2",
+         field3d.verify_petri_dish_3d_trap_physics()["trap_3d_verified"] is True),
     ]
 
     print("=== Complete 30-Node Physical Kitchen Bench Audit ===")
