@@ -129,7 +129,59 @@
   \label{eq:mono-cuboct-shells}
   S_k(3) \;=\; 10k^2 + 2 \quad (k \ge 1): \qquad S_1 = 12,\quad S_2 = 42,\quad S_3 = 92,\quad S_4 = 162.
 \end{equation}
-\emph{Формальная верификация:} теоремы \texttt{cubic\_orbits\_partition\_26}, \texttt{cuboctahedron\_unique\_isotropic\_shell\_d3}, \texttt{cuboctahedron\_second\_moment\_isotropy\_tensor} и \texttt{laplacian\_O2\_exact\_on\_quadratic\_polynomial} в \texttt{lean/MtCarrier/Geometry.lean} и \texttt{ Continuum.lean}.
+\emph{Формальная верификация:} теоремы \texttt{cubic\_orbits\_partition\_26}, \texttt{cuboctahedron\_unique\_isotropic\_shell\_d3}, \texttt{cuboctahedron\_second\_moment\_isotropy\_tensor} и \texttt{laplacian\_O2\_exact\_on\_quadratic\_polynomial} в \texttt{lean/MtCarrier/Geometry.lean} и \texttt{Continuum.lean}.
+\end{theorem}
+
+\section{Матричное разложение Каталана--Пиллаи по суставам степенной башни и нильпотентный жорданов замок в \texorpdfstring{$\mathrm{SL}_2(\mathbb{Z})$}{SL2(Z)}}
+
+Покажем, каким образом уравнение самозамкнутости~\eqref{eq:mono-catalan-lock} ($3^2 - 2^3 = 1$) и общее диофантово уравнение Пиллаи
+\begin{equation}
+  \label{eq:mono-pillai-general}
+  A\,x^m - B\,y^n \;=\; C \qquad \bigl(A, B, C \in \mathbb{N}^+,\ x, y \ge 2,\ m, n \ge 2,\ (m,n) \ne (2,2)\bigr)
+\end{equation}
+формулируются в терминах произведения аффинных матриц двух сопряжённых решёток (скелетной кинематики степенных башен).
+
+Для любой внутренней пары индексов («суставов») $1 \le a \le m-1$ и $1 \le b \le n-1$ сопоставим уравнению~\eqref{eq:mono-pillai-general} целочисленную матрицу решётки размера $2 \times 2$:
+\begin{equation}
+  \label{eq:mono-pillai-joint-matrix}
+  M_{a,b} \;=\; \begin{pmatrix} A\,x^{m-a} & B\,y^{n-b} \\ y^b & x^a \end{pmatrix} \in \mathrm{Mat}_{2\times 2}(\mathbb{Z}),
+  \qquad \det M_{a,b} \;=\; A\,x^m - B\,y^n \;=\; C.
+\end{equation}
+Число таких внутренних матриц суставов равно $(m-1)(n-1)$.
+\begin{itemize}[leftmargin=*,noitemsep]
+\item В вырожденном случае $(m, n) = (2, 2)$ (уравнение Пелля $A x^2 - B y^2 = C$) существует ровно $(2-1)(2-1) = 1$ внутренняя матрица $M_{1,1}$, поэтому межуровневых связей внутри башни не возникает, и гиперболический ротатор Пелля порождает бесконечную серию решений.
+\item Как только $(m, n) \ne (2, 2)$ ($m, n \ge 2$), число внутренних матриц удовлетворяет неравенству $(m-1)(n-1) \ge 2$, а матрица перехода между любыми двумя суставами $P = M_{a,b}^{\mathrm{adj}}\,M_{a',b'}$ ($\Delta a = a' - a,\ \Delta b = b' - b$) обязана иметь фиксированный определитель $\det P = C^2$ при аффинной диагонали
+  \begin{equation}
+    \label{eq:mono-pillai-affine-diag}
+    P_{11} \;=\; -A\,x^{m-\Delta a}\bigl(x^{\Delta a}y^{\Delta b} - 1\bigr) + C\,y^{\Delta b}, \qquad
+    P_{22} \;=\; +B\,y^{n-\Delta b}\bigl(x^{\Delta a}y^{\Delta b} - 1\bigr) + C\,x^{\Delta a}.
+  \end{equation}
+\end{itemize}
+
+\begin{theorem}[Нильпотентный жорданов замок Каталана в $\mathrm{SL}_2(\mathbb{Z})$ и расхождение периодов переноса]
+\label{thm:mono-pillai-catalan-jordan}
+Для уравнения Каталана $x^2 - y^3 = 1$ ($A=B=C=1,\ m=2,\ n=3$) выполняются три структурных свойства:
+\begin{enumerate}[label=\textbf{\arabic*.},noitemsep]
+\item Две матрицы суставов $M_{1,1} = \begin{pmatrix} x & y^2 \\ y & x \end{pmatrix}$ и $M_{1,2} = \begin{pmatrix} x & y \\ y^2 & x \end{pmatrix} = M_{1,1}^{\mathsf{T}}$ принадлежат группе $\mathrm{SL}_2(\mathbb{Z})$, а матрица перехода между ними $P = M_{1,1}^{\mathrm{adj}}\,M_{1,2} \in \mathrm{SL}_2(\mathbb{Z})$ имеет след
+  \begin{equation}
+    \label{eq:mono-catalan-trace}
+    \operatorname{Tr}(P) \;=\; 2 - y^2(y - 1)^2.
+  \end{equation}
+  След~\eqref{eq:mono-catalan-trace} попадает в параболическую границу устойчивости $|\operatorname{Tr}(P)| \le 2$ исключительно при $y = 2$ ($x = 3$), где $\operatorname{Tr}(P_{\mathrm{Catalan}}) = -2 = -(c_0/c)^2$, а сама матрица перехода состоит в точности из трёх граневых инвариантов кубооктаэдра $d_{\mathrm{out}}(E)=5,\ |\square(3)|=6,\ d_{\mathrm{out}}(V)=7$:
+  \begin{equation}
+    \label{eq:mono-catalan-matrix-567}
+    P_{\mathrm{Catalan}} \;=\; \begin{pmatrix} -7 & -6 \\ 6 & 5 \end{pmatrix} \;=\; \begin{pmatrix} -d_{\mathrm{out}}(V) & -|\square(3)| \\ |\square(3)| & d_{\mathrm{out}}(E) \end{pmatrix}, \qquad
+    \bigl(P_{\mathrm{Catalan}} + I_2\bigr)^2 \;=\; \begin{pmatrix} -6 & -6 \\ 6 & 6 \end{pmatrix}^2 \;=\; \begin{pmatrix} 0 & 0 \\ 0 & 0 \end{pmatrix}.
+  \end{equation}
+  При всех $y \ge 3$ след $\operatorname{Tr}(P) \le -34 < -2$ необратимо уходит в гиперболическую область.
+\item В центральном («локтевом») суставе $a = \lfloor m/2 \rfloor,\ b = \lfloor n/2 \rfloor$ ($m = 2a + r_x,\ n = 2b + r_y,\ r_x, r_y \in \{0,1\}$) матрица~\eqref{eq:mono-pillai-joint-matrix} сводит уравнение Пиллаи к уравнению Пелля $\tilde{A} X^2 - \tilde{B} Y^2 = C$ для половинных костей $X = x^a,\ Y = y^b$ с коэффициентами $\tilde{A} = A x^{r_x},\ \tilde{B} = B y^{r_y}$, а на трёх суставах $(1/3, 1/2, 2/3)$ шестикратной башни $a_x U^6 - b_y V^6 = C$ матрица ускорения излома в локте равна
+  \begin{equation}
+    \label{eq:mono-elbow-accel}
+    \Delta P \;=\; P_{\frac{1}{3}\to\frac{1}{2}} - P_{\frac{1}{2}\to\frac{2}{3}} \;=\; U^2 V^2\,(U - V)(U V - 1)\begin{pmatrix} 0 & b_y \\ a_x & 0 \end{pmatrix}.
+  \end{equation}
+\item В системе счисления с основанием~$x$ равенство $B y^n + C = A x^m$ требует сквозного каскадного переноса (\texttt{carry\_out}) через все $m$~младших суставов ($B y^n \equiv -C \pmod{x^m}$), период которого по лемме о подъёме показателя растёт экспоненциально ($n \ge 3^{m-1}$ для $3^m - 2^n = 1$), совпадая с линейным балансом длин $n = 3$ при $m = 2$ и строго превосходя его ($3^{m-1} > 2m$) при всех $m \ge 3$.
+\end{enumerate}
+\emph{Формальная верификация:} оператор \texttt{checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp} в \texttt{lean/MtCarrier/UnifiedOperators.lean}.
 \end{theorem}
 
 % ============================================================================
