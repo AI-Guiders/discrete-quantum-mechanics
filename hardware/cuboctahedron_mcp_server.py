@@ -396,6 +396,7 @@ class CuboctahedronHardwareController:
         dish_material: str = "glass_sio2",
         water_type: str = "tap_mineral",
         target_phase_ticks: int = 139,
+        per_coil_inductance_uh: list[float] | None = None,
     ) -> dict[str, Any]:
         import math
 
@@ -423,6 +424,31 @@ class CuboctahedronHardwareController:
 
         # 5. Build ready-to-send 16-byte UART calibration frame (opcode 0x08 CMD_ATOMIC_TIME_SERVER_PLL_LOCK):
         uart_cal_frame = pack_uart_16byte_frame(0x08, 1, total_lag_ticks, 2)
+
+        # 5b. Per-coil 12-channel hand-wound tolerance calibration table (opcode 0x06 CMD_WRITE_CUSTOM_BEAM_PHASE):
+        coil_list = (
+            list(per_coil_inductance_uh)
+            if (per_coil_inductance_uh and len(per_coil_inductance_uh) == 12)
+            else [float(coil_inductance_uh) + (k - 5.5) * 0.8 for k in range(12)]
+        )
+        per_coil_table = []
+        for k, l_k_uh in enumerate(coil_list):
+            xl_k = omega * (float(l_k_uh) * 1e-6)
+            lag_k = int(round((math.atan2(xl_k, max(1e-6, r_hot_ohm)) / (2.0 * math.pi)) * 512.0)) % 512
+            mode_base_k = (k & 1) * int(target_phase_ticks)
+            custom_reg_k = (mode_base_k + lag_k + lag_gate_ticks + dish_wall_ticks) % 512
+            arrived_k = (custom_reg_k - lag_k - lag_gate_ticks - dish_wall_ticks) % 512
+            frame_k = pack_uart_16byte_frame(0x06, k, custom_reg_k, 0xFFF)
+            per_coil_table.append(
+                {
+                    "coil_vertex": k,
+                    "inductance_uh": round(float(l_k_uh), 2),
+                    "lag_coil_ticks": lag_k,
+                    "programmed_fpga_phase_ticks": custom_reg_k,
+                    "arrived_dish_phase_ticks": arrived_k,
+                    "uart_0x06_frame_hex": frame_k.hex(" "),
+                }
+            )
 
         # 6. Mutual inductance diagonalization on O_2(3) (4 at 60 deg [+1], 2 at 90 deg [0], 4 at 120 deg [-1] -> off-axis sum = 0!)
         #    and 52-minute Joule heating thermal compensation schedule (t = 0, 10, 20, 30, 40, 52 min):
@@ -491,6 +517,7 @@ class CuboctahedronHardwareController:
                 "fpga_precompensated_drive_ticks": precomp_fpga_phase,
                 "verified_arrived_phase_in_dish_ticks": arrived_dish_phase,
                 "uart_16byte_calibration_frame_hex": uart_cal_frame.hex(" "),
+                "per_coil_12channel_calibration": per_coil_table,
                 "thermal_52min_drift_schedule": thermal_schedule,
             },
         }
@@ -653,6 +680,7 @@ TOOLS_SCHEMA = [
                 "dish_material": {"type": "string", "enum": ["glass_sio2", "polystyrene"]},
                 "water_type": {"type": "string", "enum": ["tap_mineral", "distilled"]},
                 "target_phase_ticks": {"type": "integer"},
+                "per_coil_inductance_uh": {"type": "array", "items": {"type": "number"}},
             },
         },
     },
@@ -733,6 +761,7 @@ def handle_mcp_request(req: dict[str, Any]) -> dict[str, Any] | None:
                 str(args.get("dish_material", "glass_sio2")),
                 str(args.get("water_type", "tap_mineral")),
                 int(args.get("target_phase_ticks", 139)),
+                args.get("per_coil_inductance_uh"),
             )
         else:
             return {

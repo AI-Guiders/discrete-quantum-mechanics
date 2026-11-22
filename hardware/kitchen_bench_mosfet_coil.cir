@@ -1,0 +1,64 @@
+* ============================================================================
+* hardware/kitchen_bench_mosfet_coil.cir
+* Complete SPICE Circuit Model of the 12-Beam Kitchen Bench Power Stage:
+*   1. Tang Nano 9K LVCMOS33 GPIO Pin (3.3 V, f_512 = 27 MHz / 512 = 52,734.375 Hz,
+*      T_ring = 18.96296 us, 1 tick = 37.037037 ns)
+*   2. MOSFET Gate Driver & Miller Plateau Delay Network (R_gate = 544 Ohm,
+*      C_iss = 1.7 nF -> tau_gate = 925.9 ns = 25 ticks = d_out(E)^2)
+*   3. 24 V Power Rail & Low-Rds(on) N-Channel MOSFET Switch (IRLZ44N model)
+*   4. Hand-Wound Copper Field Coil (Z(Cu) = 29, L_eff = L_self - M_antipodal = 100 uH,
+*      R_coil(25C) = 33.1 Ohm -> X_L = 2*pi*52734.375*100uH = 33.134 Ohm -> lag = 64 ticks = K_P)
+*   5. Quartz/Borosilicate Petri Dish Wall (SiO2, Z = 30) & Air/Solution Load (Z(N2+O2) = 30)
+* ============================================================================
+
+.param F_CLK = 27Meg
+.param N_RING = 512
+.param F_RING = {F_CLK / N_RING}
+.param T_RING = {1 / F_RING}
+.param T_TICK = {1 / F_CLK}
+.param TEMP_C = 25
+.param ALPHA_CU = 0.00393
+.param L_COIL = 100u
+.param R_COIL_25 = 33.1
+.param R_COIL_HOT = {R_COIL_25 * (1 + ALPHA_CU * (TEMP_C - 25))}
+
+* 1. Pre-compensated Tang Nano 9K FPGA GPIO Output (pre-advanced by +89 ticks = 3.2963 us
+*    so that after -25 ticks gate delay and -64 ticks coil lag, coil current peaks at tick 139 = A_coh!):
+V_FPGA_CH0 fpga_pin0 0 PULSE(0 3.3 0 3n 3n {T_RING/2} {T_RING})
+V_FPGA_CH1 fpga_pin1 0 PULSE(0 3.3 {228 * T_TICK} 3n 3n {T_RING/2} {T_RING})
+
+* 2. MOSFET Gate Input Capacitance & Miller Delay Stage (tau = 25 ticks = 925.9 ns):
+R_GATE0 fpga_pin0 gate0 544
+C_ISS0  gate0     0     1.7n
+R_GATE1 fpga_pin1 gate1 544
+C_ISS1  gate1     0     1.7n
+
+* 3. 24 V DC Laboratory Power Supply with Decoupling Capacitor:
+V_PSU24 vdd24 0 DC 24.0
+C_DEC   vdd24 0 470u
+
+* 4. Power MOSFET Stage & Copper Coils L0, L1 (with O_2(3) mutual inductance off-axis cancellation = 0):
+S_MOS0 drain0 0 gate0 0 SW_IRLZ44N
+L_COIL0 vdd24 mid0 {L_COIL}
+R_COIL0 mid0  drain0 {R_COIL_HOT}
+
+S_MOS1 drain1 0 gate1 0 SW_IRLZ44N
+L_COIL1 vdd24 mid1 {L_COIL}
+R_COIL1 mid1  drain1 {R_COIL_HOT}
+
+* 5. Petri Dish Wall (SiO2 Glass C_wall = 45 pF) & Interior Air/Electrolyte Cavity Load:
+C_WALL0 drain0 dish_center 45p
+C_WALL1 drain1 dish_center 45p
+R_CAVITY dish_center 0 1536
+
+.model SW_IRLZ44N SW(Ron=0.022 Roff=1Meg Vt=1.8 Vh=0.2)
+
+* 6. Automated SPICE Verification Measurements:
+.meas TRAN t_gate0_turnon WHEN V(gate0)=1.8 RISE=1
+.meas TRAN t_gate1_turnon WHEN V(gate1)=1.8 RISE=1
+.meas TRAN i_coil0_peak MAX I(R_COIL0) FROM={T_RING} TO={2*T_RING}
+.meas TRAN i_coil1_peak MAX I(R_COIL1) FROM={T_RING} TO={2*T_RING}
+.meas TRAN v_dish_pp PP V(dish_center) FROM={T_RING} TO={2*T_RING}
+
+.tran 0 {4 * T_RING} 0 {T_TICK / 2}
+.end
