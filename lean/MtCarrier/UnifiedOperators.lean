@@ -6562,12 +6562,7 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
     eqNatBool fourteenFaceSquare196 196 &&
     eqNatBool (dInSquare * mujocoBenchGeomCount49) fourteenFaceSquare196 &&
     eqNatBool (qSquare d + maillardCrustTemp68C) fourteenFaceSquare196
-  -- 197. Complete 197-Section Consecutive Gold-197 Bezout Self-Closure of Section 36.26 (`N_sections_Au197 = 197 = 180 + 17 = 147 + 50 = 128 + 69 = 2 * 97 + 3 = A(¹⁹⁷₇₉Au₁₁₈)`,
-  --      with every integer `1..197` consecutively mapped, plus higher multiscale closures `200`, `202`, `206`, `216`, `228`, `234`, `243`, `252`, `255`, `256`,
-  --      `260`, `263 = IV(d)`, `278 nm`, `288/289`, `312 V`, `343 = 7³`, `352 -> 544 nm`, `384`, `417`, `441 nm`, `512`, `540 pF`, `544`, `833`, `1025`, `1536`, `5184`, `8192 = ε(d)`, `32768`, `524288`, `6823936`):
-  let quartzRingAddress206 : Nat := (zSiO2 * deltaPhiDisc d) % nRing d            -- (30 * 41) % 512 = 206
-  let sixSquareCube216 : Nat := (nSquares d) ^ d                                  -- 6^3 = 216
-  let branchCarryBias255 : Nat := phiPauli d - muVac d                            -- 256 - 1 = 255 = 3 * 5 * 17
+  -- 197. Complete 197-Section Consecutive Gold-197 Bezout Self-Closure of Section 36.26 (`N_sections_Au197 = 197 = 180 + 17 = 147 + 50 = 128 + 69 = 2 * 97 + 3 = A(¹⁹⁷₇₉Au₁₁₈)`):
   let mhat97BezoutInverse417 : Nat := nRing d - pentaOctahedral95                 -- 512 - 95 = 417 (97 * 417 = 40,449 = 79 * 512 + 1)
   let totalSection36_26Gold197 : Nat := totalSection36_26Power180 + fresnelSum17  -- 180 + 17 = 197 = A(Au-197)!
   let section197GoldBezoutMultiscaleSelfClosureOk :=
@@ -6575,19 +6570,368 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
     eqNatBool totalSection36_26Gold197 (aGold197MassOp d) &&
     eqNatBool (qSquare d + fullThermalSpan69C) totalSection36_26Gold197 &&
     eqNatBool (totalSection36_26Gold197 * nPhi d) (dOutEdge d * nRing d + muVac d) &&
-    eqNatBool ((mHat d * mhat97BezoutInverse417) % nRing d) (muVac d) &&
+    eqNatBool ((mHat d * mhat97BezoutInverse417) % nRing d) (muVac d)
+  -- 198. Number `198 = 18 * 11 = Z(Ar) * (|N(d)| - 1) = 9 * 22 = 128 + 70`: Quarter-Ring Plus Heme / Aspartate / Adenine (`128 + 70 = 198`):
+  let argonTimesNeighbors198 : Nat := zArgonOp d * (nNeighbors d - muVac d)       -- 18 * 11 = 198
+  let number198ArgonNeighborsOk :=
+    eqNatBool argonTimesNeighbors198 198 &&
+    eqNatBool (modBits d * zCarbonDioxide) argonTimesNeighbors198 &&
+    eqNatBool (qSquare d + zCutletHeme70) argonTimesNeighbors198
+  -- 199. Number `199 = 128 + 71 = Q_□(d) + (dim(VerletCell72) - 1) = 200 - 1`: Quarter-Ring Plus VerletCell72 MSB Index Prime:
+  let quarterPlusVerletMsb199 : Nat := qSquare d + verletCell72MsbIndex71         -- 128 + 71 = 199
+  let number199QuarterMsbOk :=
+    eqNatBool quarterPlusVerletMsb199 199 &&
+    eqNatBool (quarterPlusVerletMsb199 + muVac d) wireRadiusUm
+  -- 200. Number `200 = 25 * 8 = d_out(E)² * |△(d)| = 128 + 72 = Q_□(d) + dim(VerletCell72)`: Magnet-Wire Radius (`200 um`) & 4-Water PSII Cluster (`160 + 40 = 200`):
+  let number200WireRadiusAndPsiiOk :=
     eqNatBool wireRadiusUm 200 &&
+    eqNatBool wireRadiusUm ((dOutEdge d * dOutEdge d) * nTriangles d) &&
+    eqNatBool (zTriiodidePolarizer160 + dInSquare * zNeonOp d) wireRadiusUm &&
+    eqNatBool (qSquare d + totalBenchVerlet72Closure) wireRadiusUm
+  -- 201. Number `201 = 3 * 67 = d * (K_P(d) + d) = 128 + 73`: Quarter-Ring Plus Circumscribed Frame Radius (`128 + 73 = 201`):
+  let triplePrimeBridge201 : Nat := d * benchNumber67                             -- 3 * 67 = 201
+  let number201TripleBridgeOk :=
+    eqNatBool triplePrimeBridge201 201 &&
+    eqNatBool (qSquare d + frameCircumscribedRadius73Mm) triplePrimeBridge201
+  -- 202. Number `202 = 6*9 + 9*12 + 10*4 = 54 + 108 + 40 = 2 * 101 = 128 + 74`: Wheeler 60-Turn Air-Core Bobbin Inductance Denominator:
+  let number202WheelerDenomOk :=
     eqNatBool wheelerDenom202 202 &&
+    eqNatBool (wheelerRadiusTerm54 + wheelerLengthTerm108 + dInSquare * zNeonOp d) wheelerDenom202 &&
+    eqNatBool (qSquare d + optocoupler2Tick74Ns) wheelerDenom202
+  -- 203. Number `203 = 7 * 29 = d_out(V) * Z(Cu) = 128 + 75`: Seven Meniscus Links Times Copper Nuclear Charge & Quarter-Ring Plus Collagen Triple Gate:
+  let meniscusTimesCopper203 : Nat := (nTriangles d - muVac d) * zCu              -- 7 * 29 = 203
+  let number203MeniscusCopperOk :=
+    eqNatBool meniscusTimesCopper203 203 &&
+    eqNatBool (qSquare d + collagenTripleGate75) meniscusTimesCopper203
+  -- 204. Number `204 = 2 * 102 = (c₀/c)² * Z(BaTiO₃) = 12 * 17 = |N(d)| * (9 + 8) = 128 + 76`: Double Piezoceramic / Caffeine Shell & 12-Beam Fresnel Sum:
+  let doublePiezoCaffeine204 : Nat := c0OverCSqOp d * zBaTiO3Piezo                -- 2 * 102 = 204 = 12 * 17
+  let number204DoublePiezoOk :=
+    eqNatBool doublePiezoCaffeine204 204 &&
+    eqNatBool (nNeighbors d * fresnelSum17) doublePiezoCaffeine204 &&
+    eqNatBool (qSquare d + tetraOctahedral76) doublePiezoCaffeine204
+  -- 205. Number `205 = 5 * 41 = d_out(E) * Δφ_disc(d) = 128 + 77`: Five Outward Edge Links Times Heisenberg Deadband & Quarter-Ring Plus Glutamate Anion:
+  let quintupleHeisenberg205 : Nat := dOutEdge d * deltaPhiDisc d                 -- 5 * 41 = 205
+  let number205QuintupleHeisOk :=
+    eqNatBool quintupleHeisenberg205 205 &&
+    eqNatBool (qSquare d + zGlutamateAnion77) quintupleHeisenberg205
+  -- 206. Number `206 = (30 * 41) % 512 = 128 + 78 = Q_□(d) + Z(umami/Pt)`: Ring Phase Address of Fused Quartz `SiO₂` (`Z = 30`) and Dry Air `N₂ + O₂` (`Z = 30`):
+  let quartzRingAddress206 : Nat := (zSiO2 * deltaPhiDisc d) % nRing d            -- (30 * 41) % 512 = 206
+  let number206QuartzAddressOk :=
     eqNatBool quartzRingAddress206 206 &&
-    eqNatBool (sixSquareCube216 + peltierCoupleCount127) 343 &&
-    eqNatBool fpgaColdStartDrive228 228 &&
-    eqNatBool uartBaudDivider234 234 &&
+    eqNatBool (qSquare d + zGlutamicAcidUmami78) quartzRingAddress206
+  -- 207. Number `207 = 9 * 23 = modBits(d) * Z(-Si-OH) = 128 + 79 = Q_□(d) + Z(Au)`: Nine-Bit Bus Word Times Silanol Wetting Group & Quarter-Ring Plus Gold:
+  let bitsTimesSilanol207 : Nat := modBits d * zSilanolGroup                      -- 9 * 23 = 207
+  let number207BitsSilanolOk :=
+    eqNatBool bitsTimesSilanol207 207 &&
+    eqNatBool (qSquare d + zGoldPcbPlating79) bitsTimesSilanol207
+  -- 208. Number `208 = 16 * 13 = Z(O₂) * N_φ(d) = 128 + 80 = Q_□(d) + ε_r(H₂O, 20 °C)`: Dioxygen Shell Times Core Volume & Quarter-Ring Plus Ribose/Water:
+  let dioxygenTimesCore208 : Nat := zO2 * nPhi d                                  -- 16 * 13 = 208
+  let number208DioxygenCoreOk :=
+    eqNatBool dioxygenTimesCore208 208 &&
+    eqNatBool (qSquare d + waterDielectric20C_80) dioxygenTimesCore208
+  -- 209. Number `209 = 11 * 19 = (|N(d)| - 1) * |B₁^oct(d)| = 128 + 81 = Q_□(d) + |ℰ_Heis(d)|`: 11 Off-Axis Neighbors Times Octahedral Core & Quarter-Ring Plus Heisenberg Class:
+  let neighborsTimesOctCore209 : Nat := (nNeighbors d - muVac d) * zPotassium40Proton19 -- 11 * 19 = 209
+  let number209NeighborsOctOk :=
+    eqNatBool neighborsTimesOctCore209 209 &&
+    eqNatBool (qSquare d + heisenbergEquivClassSizeOp d) neighborsTimesOctCore209
+  -- 210. Number `210 = 7 * 30 = d_out(V) * Z(SiO₂) = 5 * 42 = d_out(E) * S₂(d) = 14 * 15 = 128 + 82`: Four-Fold Quartz/Air, Second Sphere, 14-Face Power & Histidine Sum:
+  let meniscusTimesQuartz210 : Nat := (nTriangles d - muVac d) * zSiO2            -- 7 * 30 = 210
+  let number210FourFoldOk :=
+    eqNatBool meniscusTimesQuartz210 210 &&
+    eqNatBool (dOutEdge d * cuboctShellSizeOp d (c0OverCSqOp d)) meniscusTimesQuartz210 &&
+    eqNatBool (zSi * benchPowerPerChannel15W) meniscusTimesQuartz210 &&
+    eqNatBool (qSquare d + zHistidineHemeLigand82) meniscusTimesQuartz210
+  -- 211. Number `211 = 128 + 83 = Q_□(d) + Z(Bi)`: Quarter-Ring Plus Bismuth Peltier Shell / 52-Minute Hot Total Lag Prime:
+  let quarterPlusBismuth211 : Nat := qSquare d + zBismuth83                       -- 128 + 83 = 211
+  let number211QuarterBismuthOk :=
+    eqNatBool quarterPlusBismuth211 211
+  -- 212. Number `212 = 4 * 53 = d_in(□) * Z(I) = 128 + 84`: Quadruple Iodine Polarizer Charge & Quarter-Ring Plus 30-Minute Total Lag:
+  let quadrupleIodine212 : Nat := dInSquare * zIodine53                           -- 4 * 53 = 212
+  let number212QuadIodineOk :=
+    eqNatBool quadrupleIodine212 212 &&
+    eqNatBool (qSquare d + totalMidLag30Min84) quadrupleIodine212
+  -- 213. Number `213 = 3 * 71 = d * (dim(VerletCell72) - 1) = 128 + 85`: Triple VerletCell72 MSB Index & Quarter-Ring Plus 20-Minute Total Lag:
+  let tripleVerletMsb213 : Nat := d * verletCell72MsbIndex71                      -- 3 * 71 = 213
+  let number213TripleMsbOk :=
+    eqNatBool tripleVerletMsb213 213 &&
+    eqNatBool (qSquare d + totalLag20Min85) tripleVerletMsb213
+  -- 214. Number `214 = 2 * 107 = 128 + 86 = Q_□(d) + Z(bread/Rn)`: Double 108-Bit Bus MSB Index & Quarter-Ring Plus Bread Amylose / 10-Min Total Lag:
+  let doubleBusMsb214 : Nat := c0OverCSqOp d * custom12CoilBusMsb107              -- 2 * 107 = 214
+  let number214DoubleBusMsbOk :=
+    eqNatBool doubleBusMsb214 214 &&
+    eqNatBool (qSquare d + zBreadAmylose86) doubleBusMsb214
+  -- 215. Number `215 = 128 + 87 = Q_□(d) + 3 * Z(Cu) = 216 - 1`: Quarter-Ring Plus Coil #0 Total Lag / SRF Ratio:
+  let quarterPlusSrf215 : Nat := qSquare d + minTotalCoil0Lag87                   -- 128 + 87 = 215
+  let number215QuarterSrfOk :=
+    eqNatBool quarterPlusSrf215 215 &&
+    eqNatBool (quarterPlusSrf215 + muVac d) ((nSquares d) ^ d)
+  -- 216. Number `216 = 6³ = |□(d)|^d = 27 * 8 = 2 * 108 = 128 + 88 = Q_□(d) + Z(MSG)`: Six-Square Cube (`7³ - 6³ = 343 - 216 = 127` Peltier couples) & Double 108-Bit Bus:
+  let sixSquareCube216 : Nat := (nSquares d) ^ d                                  -- 6^3 = 216
+  let number216SquareCubeOk :=
+    eqNatBool sixSquareCube216 216 &&
+    eqNatBool (c0OverCSqOp d * custom12CoilBusBits108) sixSquareCube216 &&
+    eqNatBool (qSquare d + zMsgUmami88) sixSquareCube216 &&
+    eqNatBool (sixSquareCube216 + peltierCoupleCount127) ((nTriangles d - muVac d) ^ d)
+  -- 217. Number `217 = 7 * 31 = d_out(V) * Z(Ga) = 128 + 89 = 6³ + 1`: Seven Meniscus Links Times Gallium LED Charge & Quarter-Ring Plus Nominal Cold Total Lag:
+  let meniscusTimesGallium217 : Nat := (nTriangles d - muVac d) * zGallium        -- 7 * 31 = 217
+  let number217MeniscusGaOk :=
+    eqNatBool meniscusTimesGallium217 217 &&
+    eqNatBool (qSquare d + nominalColdTotalLag89) meniscusTimesGallium217
+  -- 218. Number `218 = 13² + 7² = N_φ(d)² + d_out(V)² = 128 + 90 = Q_□(d) + D_dish,mm`: Core-Square Plus 49 MuJoCo Geoms & Quarter-Ring Plus 90 mm Quartz Dish:
+  let coreSqPlusGeoms218 : Nat := coreVolumeSquare169 + mujocoBenchGeomCount49    -- 169 + 49 = 218
+  let number218CoreGeomsOk :=
+    eqNatBool coreSqPlusGeoms218 218 &&
+    eqNatBool (qSquare d + zAlphaQuartzUnit90) coreSqPlusGeoms218
+  -- 219. Number `219 = 3 * 73 = d * R_frame,mm = 128 + 91`: Triple Circumscribed Frame Radius & Quarter-Ring Plus Max Coil #11 Total Lag:
+  let tripleFrameRadius219 : Nat := d * frameCircumscribedRadius73Mm              -- 3 * 73 = 219
+  let number219TripleRadiusOk :=
+    eqNatBool tripleFrameRadius219 219 &&
+    eqNatBool (qSquare d + maxTotalCoil11Lag91) tripleFrameRadius219
+  -- 220. Number `220 = 4 * 55 = d_in(□) * |B₂(d)| = 10 * 22 = 128 + 92 = Q_□(d) + S₃(d)`: Quadruple Two-Shell Ball, 10 CO₂ Molecules & Quarter-Ring Plus Vitamin C / S₃:
+  let quadrupleTwoShellBall220 : Nat := dInSquare * totalBenchTwoShellBallNodes55 -- 4 * 55 = 220
+  let number220QuadBallOk :=
+    eqNatBool quadrupleTwoShellBall220 220 &&
+    eqNatBool (zNeonOp d * zCarbonDioxide) quadrupleTwoShellBall220 &&
+    eqNatBool (qSquare d + zVitaminCS3_92) quadrupleTwoShellBall220
+  -- 221. Number `221 = 13 * 17 = N_φ(d) * (modBits(d) + |△(d)|) = 128 + 93 = 15² - 4`: Causal Core Volume Times Fresnel Sum (`13 * 17 = 221`):
+  let coreTimesFresnel221 : Nat := nPhi d * fresnelSum17                          -- 13 * 17 = 221
+  let number221CoreFresnelOk :=
+    eqNatBool coreTimesFresnel221 221 &&
+    eqNatBool (qSquare d + tripleGallium93) coreTimesFresnel221
+  -- 222. Number `222 = 6 * 37 = |□(d)| * T_tick,ns = 128 + 94 = Q_□(d) + Z(theobromine)`: Six-Tick Duration in Nanoseconds (`222 ns`) & Quarter-Ring Plus Chocolate:
+  let sixTickDuration222Ns : Nat := nSquares d * singleTick37Ns                   -- 6 * 37 = 222 ns
+  let number222SixTickNsOk :=
+    eqNatBool sixTickDuration222Ns 222 &&
+    eqNatBool (qSquare d + zTheobromineChocolate94) sixTickDuration222Ns
+  -- 223. Number `223 = 128 + 95 = Q_□(d) + 5 * |B₁^oct(d)|`: Quarter-Ring Plus Penta-Octahedral Core Prime:
+  let quarterPlusPentaOct223 : Nat := qSquare d + pentaOctahedral95               -- 128 + 95 = 223
+  let number223QuarterPentaOctOk :=
+    eqNatBool quarterPlusPentaOct223 223
+  -- 224. Number `224 = 7 * 32 = d_out(V) * (K_P(d) / 2) = 14 * 16 = 128 + 96 = Q_□(d) + Z(glucose)`: 7 Meniscus Links Times Hydrated Peptide & Quarter-Ring Plus Glucose:
+  let meniscusTimesHalfKp224 : Nat := (nTriangles d - muVac d) * (kP d / c0OverCSqOp d) -- 7 * 32 = 224
+  let number224MeniscusHalfKpOk :=
+    eqNatBool meniscusTimesHalfKp224 224 &&
+    eqNatBool (zSi * zO2) meniscusTimesHalfKp224 &&
+    eqNatBool (qSquare d + zGlucose96) meniscusTimesHalfKp224
+  -- 225. Number `225 = 15² = (d * d_out(E))² = 9 * 25 = modBits(d) * d_out(E)² = 128 + 97 = Q_□(d) + M̂(d)`: Single-Beam Power Square & Quarter-Ring Plus Gaussian Modulus:
+  let singleBeamPowerSquare225 : Nat := benchPowerPerChannel15W * benchPowerPerChannel15W -- 15 * 15 = 225 = 128 + 97!
+  let number225BeamPowerSqOk :=
+    eqNatBool singleBeamPowerSquare225 225 &&
+    eqNatBool (modBits d * (dOutEdge d * dOutEdge d)) singleBeamPowerSquare225 &&
+    eqNatBool (qSquare d + mHatGaussian97) singleBeamPowerSquare225
+  -- 226. Number `226 = 2 * 113 = 128 + 98 = Q_□(d) + 2 * d_out(V)²`: Quarter-Ring Plus Dodecane / Double MuJoCo Geoms:
+  let quarterPlusDodecane226 : Nat := qSquare d + doubleMujocoGeoms98             -- 128 + 98 = 226
+  let number226QuarterDodecaneOk :=
+    eqNatBool quarterPlusDodecane226 226
+  -- 227. Number `227 = 128 + 99 = Q_□(d) + 9 * 11 = 228 - 1`: Quarter-Ring Plus 11-Neighbor 9-Bit Cross-Wire Count Prime:
+  let quarterPlusCrossWires227 : Nat := qSquare d + neighborBitWires99            -- 128 + 99 = 227
+  let number227QuarterWiresOk :=
+    eqNatBool quarterPlusCrossWires227 227 &&
+    eqNatBool (quarterPlusCrossWires227 + muVac d) fpgaColdStartDrive228
+  -- 228. Complete 228-Section Consecutive Cold-Start FPGA Pre-Compensation Drive Self-Closure of Section 36.26
+  --      (`1..228 = 139 + 64 + 25 = 12 * 19 = |N(d)| * |B₁^oct(d)| = 57 + 76 + 95 = 128 + 100 = Q_□(d) + Z(citric)`):
+  let totalSection36_26Fpga228 : Nat := totalSection36_26Gold197 + zGallium       -- 197 + 31 = 228 = 12 * 19!
+  let section228ConsecutiveFpgaSelfClosureOk :=
+    eqNatBool totalSection36_26Fpga228 228 &&
+    eqNatBool totalSection36_26Fpga228 fpgaColdStartDrive228 &&
+    eqNatBool totalSection36_26Fpga228 (nNeighbors d * zPotassium40Proton19) &&
+    eqNatBool (qSquare d + zCitricAcidNectar100) totalSection36_26Fpga228
+  -- 229. Number `229 = 128 + 101 = Q_□(d) + 101 = 15² + 2²`: Quarter-Ring Plus Wheeler Bobbin Prime Factor:
+  let quarterPlusWheelerPrime229 : Nat := qSquare d + wheelerPrime101             -- 128 + 101 = 229
+  let number229QuarterWheelerOk :=
+    eqNatBool quarterPlusWheelerPrime229 229 &&
+    eqNatBool (singleBeamPowerSquare225 + dInSquare) quarterPlusWheelerPrime229
+  -- 230. Number `230 = 10 * 23 = Z(Ne) * Z(-Si-OH) = 128 + 102 = Q_□(d) + Z(BaTiO₃)`: Water Shell Times Silanol Group & Quarter-Ring Plus Piezoceramic / Caffeine:
+  let waterTimesSilanol230 : Nat := zNeonOp d * zSilanolGroup                     -- 10 * 23 = 230
+  let number230WaterSilanolOk :=
+    eqNatBool waterTimesSilanol230 230 &&
+    eqNatBool (qSquare d + zBaTiO3Piezo) waterTimesSilanol230
+  -- 231. Number `231 = 11 * 21 = (|N(d)| - 1) * Δφ_seam(d) = 7 * 33 = 128 + 103`: 11 Off-Axis Neighbors Times Sub-Cavitation Seam & 7 Meniscus Links Times Hydrated Silanol:
+  let neighborsTimesSeam231 : Nat := (nNeighbors d - muVac d) * singleRaySubcavitationPhase21 -- 11 * 21 = 231
+  let number231NeighborsSeamOk :=
+    eqNatBool neighborsTimesSeam231 231 &&
+    eqNatBool ((nTriangles d - muVac d) * zSilanolHydratedBridge) neighborsTimesSeam231
+  -- 232. Number `232 = 8 * 29 = |△(d)| * Z(Cu) = 128 + 104 = Q_□(d) + 8 * 13`: Eight Triangle Faces Times Copper Nuclear Charge (`8 * 29 = 232`):
+  let eightTriangleCopper232 : Nat := nTriangles d * zCu                          -- 8 * 29 = 232
+  let number232EightCopperOk :=
+    eqNatBool eightTriangleCopper232 232 &&
+    eqNatBool (qSquare d + nTriangles d * nPhi d) eightTriangleCopper232
+  -- 233. Number `233 = 128 + 105 = Q_□(d) + 3 * 5 * 7 = 13² + 8² = 234 - 1`: Quarter-Ring Plus Odd Carrier Triad & Fibonacci Gaussian Sum Prime:
+  let quarterPlusOddTriad233 : Nat := qSquare d + d * dOutEdge d * (nTriangles d - muVac d) -- 128 + 105 = 233
+  let number233QuarterTriadOk :=
+    eqNatBool quarterPlusOddTriad233 233 &&
+    eqNatBool (coreVolumeSquare169 + nTriangles d * nTriangles d) quarterPlusOddTriad233 &&
+    eqNatBool (quarterPlusOddTriad233 + muVac d) uartBaudDivider234
+  -- 234. Complete 234-Section Consecutive Hardware UART Baud Divider Self-Closure of Section 36.26
+  --      (`1..234 = 18 * 13 = Z(Ar) * N_φ(d) = ⌊27,000,000 / 115,200⌋ = 128 + 106 = Q_□(d) + Z(I₂)`):
+  let totalSection36_26Uart234 : Nat := totalSection36_26Fpga228 + nSquares d     -- 228 + 6 = 234 = 18 * 13!
+  let section234ConsecutiveUartSelfClosureOk :=
+    eqNatBool totalSection36_26Uart234 234 &&
+    eqNatBool totalSection36_26Uart234 uartBaudDivider234 &&
+    eqNatBool totalSection36_26Uart234 (zArgonOp d * nPhi d) &&
+    eqNatBool (qSquare d + c0OverCSqOp d * zIodine53) totalSection36_26Uart234
+  -- 235. Number `235 = 5 * 47 = d_out(E) * (Z(lactic) - 1) = 128 + 107`: Five Outward Edge Links Times Lactate Anion & Quarter-Ring Plus 108-Bit Bus MSB Index:
+  let quintupleLactateAnion235 : Nat := dOutEdge d * (zLacticAcidMilk48 - muVac d) -- 5 * 47 = 235
+  let number235QuintupleLactateOk :=
+    eqNatBool quintupleLactateAnion235 235 &&
+    eqNatBool (qSquare d + custom12CoilBusMsb107) quintupleLactateAnion235
+  -- 236. Number `236 = 4 * 59 = d_in(□) * δφ_L(30 min) = 128 + 108 = Q_□(d) + |N(d)| * modBits(d)`: Quadruple 30-Min Coil Lag & Quarter-Ring Plus 108-Bit Bus / Tryptophan:
+  let quadrupleMidCoilLag236 : Nat := dInSquare * midRunCoilLag30Min59            -- 4 * 59 = 236
+  let number236QuadMidLagOk :=
+    eqNatBool quadrupleMidCoilLag236 236 &&
+    eqNatBool (qSquare d + custom12CoilBusBits108) quadrupleMidCoilLag236
+  -- 237. Number `237 = 3 * 79 = d * Z(Au) = 128 + 109 = Q_□(d) + (K_P(d) + C_wall)`: Triple ENIG Gold Contact Charge (`3 * 79 = 237`):
+  let tripleGoldPlating237 : Nat := d * zGoldPcbPlating79                         -- 3 * 79 = 237
+  let number237TripleGoldOk :=
+    eqNatBool tripleGoldPlating237 237 &&
+    eqNatBool (qSquare d + coilLagPlusWallCap109) tripleGoldPlating237
+  -- 238. Number `238 = 2 * 119 = 14 * 17 = Z(Si) * (9 + 8) = 128 + 110 = Q_□(d) + 2 * |B₂(d)|`: Double Meniscus-Fresnel Product (`2 * 7 * 17 = 238`):
+  let doubleMeniscusFresnel238 : Nat := c0OverCSqOp d * meniscusFresnel119        -- 2 * 119 = 238 = 14 * 17
+  let number238DoubleMeniscusFresnelOk :=
+    eqNatBool doubleMeniscusFresnel238 238 &&
+    eqNatBool (zSi * fresnelSum17) doubleMeniscusFresnel238 &&
+    eqNatBool (qSquare d + doubleTwoShellBall110) doubleMeniscusFresnel238
+  -- 239. Number `239 = 128 + 111 = Q_□(d) + 3 * T_tick,ns = 240 - 1`: Quarter-Ring Plus Three-Tick Duration Prime:
+  let quarterPlusThreeTick239 : Nat := qSquare d + threeTickDuration111Ns         -- 128 + 111 = 239
+  let number239QuarterThreeTickOk :=
+    eqNatBool quarterPlusThreeTick239 239
+  -- 240. Number `240 = 15 * 16 = (d * d_out(E)) * Z(O₂) = 10 * 24 = 2 * 120 = 128 + 112`: Single-Beam Power Times Dioxygen, 10 * 24 V Bus & Double Acrylamide Threshold:
+  let beamPowerTimesDioxygen240 : Nat := benchPowerPerChannel15W * zO2            -- 15 * 16 = 240
+  let number240FourFoldOk :=
+    eqNatBool beamPowerTimesDioxygen240 240 &&
+    eqNatBool (zNeonOp d * dcBusVoltage24V) beamPowerTimesDioxygen240 &&
+    eqNatBool (c0OverCSqOp d * acrylamideThreshold120C) beamPowerTimesDioxygen240 &&
+    eqNatBool (qSquare d + doubleMaillardDewSpan112) beamPowerTimesDioxygen240
+  -- 241. Number `241 = 128 + 113 = Q_□(d) + K_P(d) + d_out(V)² = 15² + 4²`: Quarter-Ring Plus `K_P + 49` Geoms Prime:
+  let quarterPlusKpGeoms241 : Nat := qSquare d + kpPlusMujocoGeoms113             -- 128 + 113 = 241
+  let number241QuarterKpGeomsOk :=
+    eqNatBool quarterPlusKpGeoms241 241 &&
+    eqNatBool (singleBeamPowerSquare225 + dInSquare * dInSquare) quarterPlusKpGeoms241
+  -- 242. Number `242 = 2 * 11² = (c₀/c)² * (|N(d)| - 1)² = 128 + 114 = Q_□(d) + Z(Ca-lactate)`: Double Off-Axis Neighbor Square & Quarter-Ring Plus Cheese Calcium Lactate:
+  let doubleNeighborSquare242 : Nat := c0OverCSqOp d * neighborSquare121          -- 2 * 121 = 242
+  let number242DoubleNeighborSqOk :=
+    eqNatBool doubleNeighborSquare242 242 &&
+    eqNatBool (qSquare d + zCalciumLactateCheese114) doubleNeighborSquare242
+  -- 243. Number `243 = 3⁵ = 3 * 81 = d * τ_{flyback} = 128 + 115 = Q_□(d) + 5 * Z(-Si-OH)`: Three-Tau `1N5819` Schottky Flyback Decay Window (`243 + 13 = 256`):
+  let number243ThreeTauOk :=
     eqNatBool threeTauDecayTicks 243 &&
+    eqNatBool (threeTauDecayTicks + nPhi d) (phiPauli d) &&
+    eqNatBool (qSquare d + fiveFoldSilanol115) threeTauDecayTicks
+  -- 244. Number `244 = 4 * 61 = d_in(□) * δφ_L(10 min) = 128 + 116 = Q_□(d) + 4 * Z(Cu)`: Quadruple 10-Min Coil Lag & Quarter-Ring Plus 4-Coil Equatorial Copper:
+  let quadrupleEarlyCoilLag244 : Nat := dInSquare * earlyRunCoilLag10Min61        -- 4 * 61 = 244
+  let number244QuadEarlyLagOk :=
+    eqNatBool quadrupleEarlyCoilLag244 244 &&
+    eqNatBool (qSquare d + fourEquatorialCopper116) quadrupleEarlyCoilLag244
+  -- 245. Number `245 = 5 * 49 = d_out(E) * d_out(V)² = 128 + 117 = Q_□(d) + S_3(139)`: Five Outward Edge Links Times 49 MuJoCo Geoms & Quarter-Ring Plus Collapse Current:
+  let quintupleMujocoGeoms245 : Nat := dOutEdge d * mujocoBenchGeomCount49        -- 5 * 49 = 245
+  let number245QuintupleGeomsOk :=
+    eqNatBool quintupleMujocoGeoms245 245 &&
+    eqNatBool (qSquare d + collapseOddCurrent117) quintupleMujocoGeoms245
+  -- 246. Number `246 = 6 * 41 = |□(d)| * Δφ_disc(d) = 2 * 123 = 128 + 118 = Q_□(d) + Z(Og)`: Six Square Faces Times Heisenberg Deadband & Double Kok `S₃` Flash:
+  let sixSquareHeisenberg246 : Nat := nSquares d * deltaPhiDisc d                 -- 6 * 41 = 246
+  let number246SixHeisenbergOk :=
+    eqNatBool sixSquareHeisenberg246 246 &&
+    eqNatBool (c0OverCSqOp d * kokS3ThirdFlash123) sixSquareHeisenberg246 &&
+    eqNatBool (qSquare d + gold197Neutrons118) sixSquareHeisenberg246
+  -- 247. Number `247 = 13 * 19 = N_φ(d) * |B₁^oct(d)| = 128 + 119 = Q_□(d) + 7 * 17`: Causal Core Volume Times Octahedral Ball (`13 * 19 = 247`):
+  let coreTimesOctBall247 : Nat := nPhi d * zPotassium40Proton19                  -- 13 * 19 = 247
+  let number247CoreOctOk :=
+    eqNatBool coreTimesOctBall247 247 &&
+    eqNatBool (qSquare d + meniscusFresnel119) coreTimesOctBall247
+  -- 248. Number `248 = 8 * 31 = |△(d)| * Z(Ga) = 4 * 62 = 128 + 120 = Q_□(d) + T_acrylamide,C`: Eight Triangle Faces Times Gallium LED Charge & Quadruple Min Coil Lag:
+  let eightTriangleGallium248 : Nat := nTriangles d * zGallium                    -- 8 * 31 = 248
+  let number248EightGalliumOk :=
+    eqNatBool eightTriangleGallium248 248 &&
+    eqNatBool (dInSquare * minHandWoundCoilLag62) eightTriangleGallium248 &&
+    eqNatBool (qSquare d + acrylamideThreshold120C) eightTriangleGallium248
+  -- 249. Number `249 = 3 * 83 = d * Z(Bi) = 128 + 121 = Q_□(d) + 11²`: Triple Bismuth Peltier Shell / 52-Min Hot Total Lag & Quarter-Ring Plus 11²:
+  let tripleBismuthHotLag249 : Nat := d * zBismuth83                              -- 3 * 83 = 249
+  let number249TripleBismuthOk :=
+    eqNatBool tripleBismuthHotLag249 249 &&
+    eqNatBool (qSquare d + neighborSquare121) tripleBismuthHotLag249
+  -- 250. Number `250 = 2 * 5³ = (c₀/c)² * d_out(E)^d = 5 * 50 = 128 + 122`: Double Outward Edge Cube, Quintuple Tin-50 Solder Magic & Quarter-Ring Plus `2 * 61`:
+  let doubleOutwardEdgeCube250 : Nat := c0OverCSqOp d * outwardEdgeCube125        -- 2 * 125 = 250
+  let number250DoubleEdgeCubeOk :=
+    eqNatBool doubleOutwardEdgeCube250 250 &&
+    eqNatBool (dOutEdge d * zTinSolderMagic) doubleOutwardEdgeCube250 &&
+    eqNatBool (qSquare d + doubleEarlyCoilLag122) doubleOutwardEdgeCube250
+  -- 251. Number `251 = 128 + 123 = Q_□(d) + 3 * Δφ_disc(d) = 252 - 1`: Quarter-Ring Plus Kok `S₃` Third Photon Flash Prime:
+  let quarterPlusKokS3_251 : Nat := qSquare d + kokS3ThirdFlash123                -- 128 + 123 = 251
+  let number251QuarterKokS3Ok :=
+    eqNatBool quarterPlusKokS3_251 251
+  -- 252. Number `252 = 12 * 21 = |N(d)| * Δφ_seam(d) = 4 * 63 = 128 + 124 = 256 - 4`: Cavitation-Free 12-Beam Focal Current & Maxwell Demon Rectified Output:
+  let number252FocalCurrentOk :=
     eqIntBool coherent12BeamFocalCurrent252 252 &&
+    eqIntBool (maxwellDemonTotalExtractedCurrentOp d (phiPauli d : Int)) 252 &&
+    eqNatBool (dInSquare * hydrogenBondModulus63) 252 &&
+    eqNatBool (qSquare d + quadrupleGallium124) 252
+  -- 253. Number `253 = 11 * 23 = (|N(d)| - 1) * Z(-Si-OH) = 128 + 125 = Q_□(d) + d_out(E)^d`: 11 Off-Axis Neighbors Times Silanol Group & Quarter-Ring Plus `5³`:
+  let neighborsTimesSilanol253 : Nat := (nNeighbors d - muVac d) * zSilanolGroup  -- 11 * 23 = 253
+  let number253NeighborsSilanolOk :=
+    eqNatBool neighborsTimesSilanol253 253 &&
+    eqNatBool (qSquare d + outwardEdgeCube125) neighborsTimesSilanol253
+  -- 254. Number `254 = 2 * 127 = (c₀/c)² * N_couples(TEC1-12706) = 128 + 126 = Q_□(d) + Z(cystine)`: Double Peltier Couple Count & Quarter-Ring Plus Cystine Disulfide:
+  let doublePeltierCouples254 : Nat := c0OverCSqOp d * peltierCoupleCount127      -- 2 * 127 = 254
+  let number254DoublePeltierOk :=
+    eqNatBool doublePeltierCouples254 254 &&
+    eqNatBool (qSquare d + zCystineDisulfide126) doublePeltierCouples254
+  -- 255. Number `255 = 2⁸ - 1 = Φ_Pauli(d) - 1 = 3 * 5 * 17 = 128 + 127`: 8-Bit Webcam Pixel Max & Branch-Carry Bias (`bias255` in `Bus36`):
+  let branchCarryBias255 : Nat := phiPauli d - muVac d                            -- 256 - 1 = 255 = 3 * 5 * 17
+  let number255BiasOk :=
     eqNatBool branchCarryBias255 255 &&
-    eqNatBool (phiPauli d) 256 &&
+    eqNatBool branchCarryBias255 (benchPowerPerChannel15W * fresnelSum17) &&
+    eqNatBool (qSquare d + peltierCoupleCount127) branchCarryBias255
+  -- 256. Complete 256-Section Consecutive Half-Ring Pauli Mirror Self-Closure of Section 36.26
+  --      (`1..256 = 2⁸ = Φ_Pauli(d) = 3 * 81 + 13 = 128 + 128 = 2 * Q_□(d)`):
+  let totalSection36_26Pauli256 : Nat := totalSection36_26Uart234 + zCarbonDioxide -- 234 + 22 = 256 = Φ_Pauli(3)!
+  let section256ConsecutivePauliSelfClosureOk :=
+    eqNatBool totalSection36_26Pauli256 256 &&
+    eqNatBool totalSection36_26Pauli256 (phiPauli d) &&
+    eqNatBool (qSquare d + qSquare d) totalSection36_26Pauli256 &&
+    eqIntBool (readoutAcousticSoundPressureOp d 1 1 (phiPauli d : Int)) (totalSection36_26Pauli256 : Int)
+  -- 257. Number `257 = 2⁸ + 1 = Φ_Pauli(d) + μ_vac(d) = 16² + 1² = 128 + 129`: Fourth Fermat Prime `F₃ = 257` & Quarter-Ring Plus Meniscus Interface Gate `129`:
+  let fermatPrime257 : Nat := phiPauli d + muVac d                                -- 256 + 1 = 257 = 128 + 129
+  let number257FermatPrimeOk :=
+    eqNatBool fermatPrime257 257 &&
+    eqNatBool (zO2 * zO2 + muVac d) fermatPrime257 &&
+    eqNatBool (qSquare d + meniscusGate129) fermatPrime257
+  -- 258. Number `258 = 256 + 2 = Φ_Pauli(d) + (c₀/c)² = 6 * 43 = 128 + 130`: Pauli Plus Relativistic Ratio & Quarter-Ring Plus Vortex/Cetane `130`:
+  let pauliPlusRelativistic258 : Nat := phiPauli d + c0OverCSqOp d                -- 256 + 2 = 258 = 128 + 130
+  let number258PauliPlusTwoOk :=
+    eqNatBool pauliPlusRelativistic258 258 &&
+    eqNatBool (qSquare d + vortexStepCetane130) pauliPlusRelativistic258
+  -- 259. Number `259 = 7 * 37 = d_out(V) * T_tick,ns = 256 + 3 = 128 + 131`: Seven-Tick Duration in Nanoseconds (`259 ns`, 7 meniscus links * 37 ns):
+  let sevenTickDuration259Ns : Nat := (nTriangles d - muVac d) * singleTick37Ns   -- 7 * 37 = 259 ns = 256 + 3
+  let number259SevenTickNsOk :=
+    eqNatBool sevenTickDuration259Ns 259 &&
+    eqNatBool (phiPauli d + d) sevenTickDuration259Ns &&
+    eqNatBool (qSquare d + quarterPlusDim131) sevenTickDuration259Ns
+  -- 260. Number `260 = 4 * 5 * 13 = 20 * 13 = Z(Ca) * N_φ(d) = Z(ATP) = 256 + 4 = 128 + 132`: Universal Bio-Energy ATP Shell (`80 + 70 - 10 + 120 = 260`):
+  let number260AtpOk :=
     eqNatBool (zAtpBioEnergyOp d) 260 &&
-    eqNatBool (ivSeed d) 263 &&
+    eqNatBool (zAtpBioEnergyOp d) (canonicalAminoAcidCount20 * nPhi d) &&
+    eqNatBool (phiPauli d + dInSquare) (zAtpBioEnergyOp d) &&
+    eqNatBool (qSquare d + orderedCoilPairs132) (zAtpBioEnergyOp d)
+  -- 261. Number `261 = 9 * 29 = modBits(d) * Z(Cu) = 256 + 5 = Φ_Pauli(d) + d_out(E) = 128 + 133`: Nine-Bit Bus Word Times Copper Charge & Quarter-Ring Plus Cs-133 Mass:
+  let bitsTimesCopper261 : Nat := modBits d * zCu                                 -- 9 * 29 = 261 = 256 + 5 = 128 + 133
+  let number261BitsCopperOk :=
+    eqNatBool bitsTimesCopper261 261 &&
+    eqNatBool (phiPauli d + dOutEdge d) bitsTimesCopper261 &&
+    eqNatBool (qSquare d + cesium133AtomicMass) bitsTimesCopper261
+  -- 262. Number `262 = 2 * 131 = 256 + 6 = Φ_Pauli(d) + |□(d)| = 128 + 134 = 263 - 1`: Pauli Plus Six Square Faces (`IV(d) - 1 = 262`):
+  let pauliPlusSquares262 : Nat := phiPauli d + nSquares d                        -- 256 + 6 = 262 = 263 - 1
+  let number262PauliSquaresOk :=
+    eqNatBool pauliPlusSquares262 262 &&
+    eqNatBool (qSquare d + quarterPlusSquares134) pauliPlusSquares262 &&
+    eqNatBool (pauliPlusSquares262 + muVac d) (ivSeed d)
+  -- 263. Complete 263-Section Consecutive Catalan Initial Seed `IV(3) = 263 = 407₈ = 256 + 7 = 128 + 135` Self-Closure of Section 36.26
+  --      (every integer `1..263` consecutively mapped to an exact bench invariant, plus higher multiscale closures `278`, `288/289`, `312`, `343`, `352 -> 544 nm`, `384`, `417`, `441 nm`, `512`, `540 pF`, `544`, `833`, `1025`, `1536`, `5184`, `8192 = ε(d)`, `32768`, `524288`, `6823936`):
+  let totalSection36_26Iv263 : Nat := totalSection36_26Pauli256 + (nTriangles d - muVac d) -- 256 + 7 = 263 = IV(3)!
+  let section263ConsecutiveIvSeedMultiscaleSelfClosureOk :=
+    eqNatBool totalSection36_26Iv263 263 &&
+    eqNatBool totalSection36_26Iv263 (ivSeed d) &&
+    eqNatBool (qSquare d + fiveMooreCubes135) totalSection36_26Iv263 &&
+    eqNatBool ((totalSection36_26Iv263 * iv263BezoutInverse183) % nRing d) (muVac d) &&
     eqNatBool ledSpectralSpan278Nm 278 &&
     eqNatBool fresnelTransmittedNum288 288 &&
     eqNatBool fresnelDenom289 289 &&
@@ -6684,7 +7028,40 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
   number190DecaOctOk && number191QuarterHBondOk &&
   number192Photosynthesis192Ok && number193QuarterStasisOk &&
   number194DoubleGaussianOk && number195BeamCoreOk &&
-  number196FaceSquareOk && section197GoldBezoutMultiscaleSelfClosureOk
+  number196FaceSquareOk && section197GoldBezoutMultiscaleSelfClosureOk &&
+  number198ArgonNeighborsOk && number199QuarterMsbOk &&
+  number200WireRadiusAndPsiiOk && number201TripleBridgeOk &&
+  number202WheelerDenomOk && number203MeniscusCopperOk &&
+  number204DoublePiezoOk && number205QuintupleHeisOk &&
+  number206QuartzAddressOk && number207BitsSilanolOk &&
+  number208DioxygenCoreOk && number209NeighborsOctOk &&
+  number210FourFoldOk && number211QuarterBismuthOk &&
+  number212QuadIodineOk && number213TripleMsbOk &&
+  number214DoubleBusMsbOk && number215QuarterSrfOk &&
+  number216SquareCubeOk && number217MeniscusGaOk &&
+  number218CoreGeomsOk && number219TripleRadiusOk &&
+  number220QuadBallOk && number221CoreFresnelOk &&
+  number222SixTickNsOk && number223QuarterPentaOctOk &&
+  number224MeniscusHalfKpOk && number225BeamPowerSqOk &&
+  number226QuarterDodecaneOk && number227QuarterWiresOk &&
+  section228ConsecutiveFpgaSelfClosureOk && number229QuarterWheelerOk &&
+  number230WaterSilanolOk && number231NeighborsSeamOk &&
+  number232EightCopperOk && number233QuarterTriadOk &&
+  section234ConsecutiveUartSelfClosureOk && number235QuintupleLactateOk &&
+  number236QuadMidLagOk && number237TripleGoldOk &&
+  number238DoubleMeniscusFresnelOk && number239QuarterThreeTickOk &&
+  number240FourFoldOk && number241QuarterKpGeomsOk &&
+  number242DoubleNeighborSqOk && number243ThreeTauOk &&
+  number244QuadEarlyLagOk && number245QuintupleGeomsOk &&
+  number246SixHeisenbergOk && number247CoreOctOk &&
+  number248EightGalliumOk && number249TripleBismuthOk &&
+  number250DoubleEdgeCubeOk && number251QuarterKokS3Ok &&
+  number252FocalCurrentOk && number253NeighborsSilanolOk &&
+  number254DoublePeltierOk && number255BiasOk &&
+  section256ConsecutivePauliSelfClosureOk && number257FermatPrimeOk &&
+  number258PauliPlusTwoOk && number259SevenTickNsOk &&
+  number260AtpOk && number261BitsCopperOk &&
+  number262PauliSquaresOk && section263ConsecutiveIvSeedMultiscaleSelfClosureOk
 
 /-- **Theorem (Impossibility of Laplace's Demon Inside the Lattice and Constructive Realization of the Memoryless 12-Beam Geometric Maxwell Demon)**:
 Chained directly via `CatalanLaw` for any `d : Nat`:
