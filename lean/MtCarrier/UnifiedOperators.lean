@@ -11925,6 +11925,19 @@ def checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp (d : Nat) : 
   let wPade1 : Int := pade1Q * pade2P - pade1P * pade2Q                           -- -4 * C^3 = -500
   let wPade2 : Int := pade2Q * pade3P - pade2P * pade3Q                           -- -7 * C^5 = -21,875
   let padeSum3 : Nat := c0OverCSqOp d + d * zNeonOp d + nSquares d * (nTriangles d - muVac d) + (nTriangles d - muVac d) -- 2 + 30 + 42 + 7 = 81 = 3^4 = |ℰ_Heis(3)|
+  -- Skeletal abc-triple radical decomposition `A_k * X_k^k + B_k * Y_k^k = C_k * Z_k^k` with `A_k * B_k * C_k ≤ rad(A*B*C)^(k-1)`
+  -- on the Lock IV top-floor abc-triple `3 + 5^3 = 2^7 = 128 = Q_□(3)` (`rad(3 * 125 * 128) = 2 * 3 * 5 = 30 = Z(SiO_2)`):
+  -- Floor k=3: `3 * 1^3 + 1 * 5^3 = 2 * 4^3 = 128`, root weights product `3 * 1 * 2 = 6 = |□(3)| ≤ 30^2 = 900`, bone gap `5 - 4 = 1 = μ_vac(3)`:
+  let abcA3 : Nat := d                                                            -- 3
+  let abcB3 : Nat := muVac d                                                      -- 1
+  let abcC3 : Nat := c0OverCSqOp d                                                -- 2
+  let abcX3 : Nat := muVac d                                                      -- 1
+  let abcY3 : Nat := dOutEdge d                                                   -- 5
+  let abcZ3 : Nat := dInSquare                                                    -- 4
+  let abcRad : Nat := c0OverCSqOp d * d * dOutEdge d                              -- 2 * 3 * 5 = 30 = Z(SiO_2)
+  let abcLhs3 : Nat := abcA3 * (abcX3 ^ d) + abcB3 * (abcY3 ^ d)                  -- 3*1 + 1*125 = 128 = Q_□(3)
+  let abcRhs3 : Nat := abcC3 * (abcZ3 ^ d)                                        -- 2*64 = 128 = Q_□(3)
+  let abcWeightProd3 : Nat := abcA3 * abcB3 * abcC3                               -- 3 * 1 * 2 = 6 = |□(3)|
   eqIntBool detM11 (muVac d : Int) &&
   eqIntBool detM12 (muVac d : Int) &&
   eqIntBool p00 (-((nTriangles d - muVac d : Nat) : Int)) &&
@@ -11976,6 +11989,11 @@ def checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp (d : Nat) : 
   eqIntBool wPade1 (-((dInSquare : Int) * (cLock2 ^ 3))) &&
   eqIntBool wPade2 (-(((nTriangles d - muVac d : Nat) : Int) * (cLock2 ^ 5))) &&
   eqNatBool padeSum3 (heisenbergEquivClassSizeOp d) &&
+  eqNatBool abcLhs3 (qSquare d) &&
+  eqNatBool abcRhs3 (qSquare d) &&
+  eqNatBool abcWeightProd3 (nSquares d) &&
+  decide (abcWeightProd3 <= abcRad * abcRad) &&
+  eqNatBool (abcY3 - abcZ3) (muVac d) &&
   eqIntBool detElbowBez (muVac d : Int) &&
   carryLockM2 && carryGapM3 && carryGapM4 && carryGapM5
 
