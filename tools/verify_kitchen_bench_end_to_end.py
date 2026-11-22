@@ -382,7 +382,7 @@ def main() -> int:
          and mech["double_cold_total_lag_2x89"] == 178
          and mech["quarter_plus_half_piezo_128_51"] == 179
          and mech["total_section36_26_full180_blocks"] == 180 == 128 + 52),
-        ("Node 321-587: Complete 587-Section Consecutive 587x Coherent Cuboctahedron Barrier Collapse, Full Phase-Ring N_ring(3) = 512 & 27 MHz Crystal Multiscale Self-Closure (1..587 consecutively + 600..27000000; 81/81 Audit!)",
+        ("Node 321-1025: Complete 1025-Section Consecutive Two-Turn Verlet Spinor Period (1024 = 2*512), Gate-Heisenberg Bezout Return (25*41 = 1025), 925 ns MOSFET Delay, 833 Stasis Multiplier, 720 deg Spinor Identity, 651 nm Red Ferroin, 587x Barrier Collapse, Full Phase-Ring N_ring(3) = 512 & 27 MHz Crystal Multiscale Self-Closure (1..1025 consecutively + 1107..27000000; 81/81 Audit!)",
          mech["quarter_plus_iodine_128_53"] == 181
          and mech["sucrose_disaccharide_shell_14x13_z"] == 182
          and mech["iv263_bezout_inverse_3x61"] == 183
@@ -792,17 +792,57 @@ def main() -> int:
          and mech["dish_radius_times_core_45x13_9x65_512_plus_73"] == 585 == 45 * 13 == 9 * 65 == 512 + 73
          and mech["ring_plus_opto_delay_512_plus_74"] == 586 == 512 + 74
          and mech["total_section36_26_barrier_collapse587_blocks"] == 587 == 512 + 75
+         and mech["twelve_beams_mujoco_geoms_12x49_4x147_512_76"] == 588 == 12 * 49 == 4 * 147
          and mech["twelve_tin_magic_12x50"] == 600 == 12 * 50
+         and mech["second_turn_cold_total_lag_512_plus_89"] == 601 == 512 + 89
+         and mech["ring_plus_glucose_19x32_512_plus_96"] == 608 == 19 * 32 == 512 + 96
+         and mech["bus36_times_fresnel_36x17_512_plus_100"] == 612 == 36 * 17 == 512 + 100
          and mech["twelve_run_minutes_12x52"] == 624 == 12 * 52
          and mech["ten_kp_10x64"] == 640 == 10 * 64
          and mech["reduced_red_ferroin_512_139_579_72_21x31_nm"] == 651 == 512 + 139 == 579 + 72 == 21 * 31
+         and mech["total_section36_26_red_ferroin651_blocks"] == 651
+         and mech["balmer_h_alpha_16x41_512_plus_144_nm"] == 656 == 16 * 41 == 512 + 144
+         and mech["eighteen_tick_argon_18x37_512_plus_154_ns"] == 666 == 18 * 37
          and mech["iron_square_26sq_4x169"] == 676 == 26 * 26
+         and mech["fourteen_faces_tin_14x50_512_plus_188"] == 700 == 14 * 50
          and mech["red_gaas_led_579_139_512_206_nm"] == 718 == 579 + 139 == 512 + 206
          and mech["spinor_full_identity_10x72_2x360_deg"] == 720 == 10 * 72 == 2 * 360
+         and mech["total_section36_26_spinor720_blocks"] == 720
+         and mech["sixteenth_gauss_denom_16cubed_minus_15cubed_512_209"] == 721 == 16**3 - 15**3
+         and mech["modbits_cubed_9cubed_27sq_512_plus_217"] == 729 == 9**3 == 27**2
+         and mech["twenty_tick_fpga_window_20x37_512_plus_228_ns"] == 740 == 20 * 37 == 512 + 228
+         and mech["klein_j_invariant_24x31_12x62_512_plus_232"] == 744 == 24 * 31 == 12 * 62
+         and mech["second_turn_uart_divider_512_plus_234"] == 746 == 512 + 234
+         and mech["standard_atm_pressure_10x76_512_plus_248_torr"] == 760 == 10 * 76
          and mech["three_pauli_3x256_12x64"] == 768 == 3 * 256
+         and mech["second_turn_iv_seed_25x31_512_plus_263"] == 775 == 25 * 31 == 512 + 263
+         and mech["second_turn_ice_point_512_plus_273"] == 785 == 512 + 273
+         and mech["second_turn_fresnel_denom_9x89_512_plus_289"] == 801 == 9 * 89 == 512 + 289
+         and mech["seventeenth_gauss_denom_17cubed_minus_16cubed_512_305"] == 817 == 17**3 - 16**3
+         and mech["audible_subharmonic_floor_512_plus_311_hz"] == 823 == 27000000 // 32768
+         and mech["audible_subharmonic_rounded_512_plus_312_hz"] == 824 == 512 + 312
+         and mech["gravity_dipole_multiplier_13x64_512_plus_320"] == 832 == 13 * 64
+         and mech["total_section36_26_stasis833_blocks"] == 833 == 1 + 13 * 64 == 49 * 17
+         and mech["six_square_collapse_6x139_512_plus_322"] == 834 == 6 * 139
+         and mech["copper_square_29sq_20sq_21sq_512_plus_329"] == 841 == 29 * 29 == 400 + 441
+         and mech["twelve_verlet_cells_12x72_24x36_512_plus_352"] == 864 == 12 * 72 == 24 * 36
+         and mech["twenty_four_tick_vdc_24x37_512_plus_376_ns"] == 888 == 24 * 37
+         and mech["quartz_base_square_30sq_12x75_512_plus_388"] == 900 == 30 * 30 == 12 * 75
+         and mech["eighteenth_gauss_denom_18cubed_minus_17cubed_512_407"] == 919 == 18**3 - 17**3
          and mech["mosfet_gate_delay_25x37_ns"] == 925 == 25 * 37
+         and mech["total_section36_26_mosfet925_blocks"] == 925
+         and mech["causal_cone_t1_bit_budget_13x72_512_plus_424"] == 936 == 13 * 72
+         and mech["second_turn_blue_led_512_plus_441"] == 953 == 512 + 441
+         and mech["fifteen_watt_kp_15x64_12x80_512_plus_448"] == 960 == 15 * 64 == 12 * 80
+         and mech["twelve_heisenberg_class_12x81_9x108_512_plus_460"] == 972 == 12 * 81 == 9 * 108
+         and mech["moore_cube_27tick_27x37_512_plus_487_ns"] == 999 == 27 * 37
+         and mech["decimal_cube_10cubed_40x25_512_plus_488"] == 1000 == 10**3 == 40 * 25
+         and mech["scheherazade_prime_triad_7x11x13_512_plus_489"] == 1001 == 7 * 11 * 13
+         and mech["fourteen_faces_verlet_14x72_512_plus_496"] == 1008 == 14 * 72 == 512 + 496
+         and mech["eight_triangle_peltier_8x127_512_plus_504"] == 1016 == 8 * 127
          and mech["stationary_first_return_2x512_minus_1"] == 1023
          and mech["two_turn_verlet_period_2x512"] == 1024 == 2 * 512
+         and mech["total_section36_26_bezout1025_blocks"] == 1025 == 25 * 41 == 2 * 512 + 1
          and mech["silicon_photodiode_bandgap_cutoff_27x41_nm"] == 1107 == 27 * 41
          and mech["unreduced_quartz_phase_30x41"] == 1230 == 30 * 41
          and mech["heisenberg_deadband_41x37_ns"] == 1517 == 41 * 37
