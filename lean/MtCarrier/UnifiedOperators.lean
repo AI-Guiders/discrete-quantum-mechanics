@@ -11925,6 +11925,23 @@ def checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp (d : Nat) : 
   let wPade1 : Int := pade1Q * pade2P - pade1P * pade2Q                           -- -4 * C^3 = -500
   let wPade2 : Int := pade2Q * pade3P - pade2P * pade3Q                           -- -7 * C^5 = -21,875
   let padeSum3 : Nat := c0OverCSqOp d + d * zNeonOp d + nSquares d * (nTriangles d - muVac d) + (nTriangles d - muVac d) -- 2 + 30 + 42 + 7 = 81 = 3^4 = |ℰ_Heis(3)|
+  -- Root-free Padé-Thue 9-cell collision identities on Lock II cubic floor `4*X^3 - Y^3 = 5` (`At=4, Bt=1, X=2, Y=3, C=5`):
+  let xColl0 : Int := (c0OverCSqOp d : Int)
+  let yColl0 : Int := (d : Int)
+  let xColl1 : Int := xColl0 * pade1P
+  let yColl1 : Int := yColl0 * pade1Q
+  let xpTest : Int := (dInSquare : Int)
+  let ypTest : Int := (dOutEdge d : Int)
+  let cpTest : Int := (dInSquare : Int) * (xpTest ^ 3) - (ypTest ^ 3)
+  let iColl0 : Int := ypTest * xColl0 - xpTest * yColl0
+  let iColl1 : Int := ypTest * xColl1 - xpTest * yColl1
+  let cramerLhs0 : Int := yColl1 * iColl0 - yColl0 * iColl1
+  let cramerRhs0 : Int := xColl0 * yColl0 * ypTest * cLock2
+  let uColl  : Int := ypTest * xColl1
+  let vColl  : Int := xpTest * yColl1
+  let phi3Coll : Int := uColl * uColl + uColl * vColl + vColl * vColl
+  let cubicCollLhs : Int := (dInSquare : Int) * iColl1 * phi3Coll
+  let cubicCollRhs : Int := (ypTest ^ 3) * (cLock2 ^ 3) * (uPade + vPade) - cpTest * (yColl1 ^ 3)
   -- Skeletal abc-triple radical decomposition `A_k * X_k^k + B_k * Y_k^k = C_k * Z_k^k` with `A_k * B_k * C_k ≤ rad(A*B*C)^(k-1)`
   -- on the Lock IV top-floor abc-triple `3 + 5^3 = 2^7 = 128 = Q_□(3)` (`rad(3 * 125 * 128) = 2 * 3 * 5 = 30 = Z(SiO_2)`):
   -- Floor k=3: `3 * 1^3 + 1 * 5^3 = 2 * 4^3 = 128`, root weights product `3 * 1 * 2 = 6 = |□(3)| ≤ 30^2 = 900`, bone gap `5 - 4 = 1 = μ_vac(3)`:
@@ -12018,6 +12035,8 @@ def checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp (d : Nat) : 
   eqIntBool wPade1 (-((dInSquare : Int) * (cLock2 ^ 3))) &&
   eqIntBool wPade2 (-(((nTriangles d - muVac d : Nat) : Int) * (cLock2 ^ 5))) &&
   eqNatBool padeSum3 (heisenbergEquivClassSizeOp d) &&
+  eqIntBool cramerLhs0 cramerRhs0 &&
+  eqIntBool cubicCollLhs cubicCollRhs &&
   eqNatBool abcLhs3 (qSquare d) &&
   eqNatBool abcRhs3 (qSquare d) &&
   eqNatBool abcWeightProd3 (nSquares d) &&
