@@ -382,7 +382,7 @@ def main() -> int:
          and mech["double_cold_total_lag_2x89"] == 178
          and mech["quarter_plus_half_piezo_128_51"] == 179
          and mech["total_section36_26_full180_blocks"] == 180 == 128 + 52),
-        ("Node 321-352: Complete 352-Section Consecutive Catalytic Oxidation Phase 352 = 256 + 96 = 11 * 32 (-> 544 nm), 7^3 = 343, 312 V, 289 & Seed IV(3) = 263 Multiscale Self-Closure (1..352 consecutively + 384..512..8192..6823936; 81/81 Audit!)",
+        ("Node 321-384: Complete 384-Section Consecutive Euler Chiral Fourth Pole 3*128 = 384 = 256+128, Phase 352, 7^3 = 343, 312 V, 289 & Seed IV(3) = 263 Multiscale Self-Closure (1..384 consecutively + 417..512..8192..6823936; 81/81 Audit!)",
          mech["quarter_plus_iodine_128_53"] == 181
          and mech["sucrose_disaccharide_shell_14x13_z"] == 182
          and mech["iv263_bezout_inverse_3x61"] == 183
@@ -556,6 +556,39 @@ def main() -> int:
          and mech["moore_cube_times_core_27x13_256_95"] == 351 == 27 * 13 == 256 + 95
          and mech["total_section36_26_phase352_blocks"] == 352 == 256 + 96 == 11 * 32
          and mcp.proj_c(352) == -32
+         and mech["pauli_plus_gaussian_256_97_17sq_8sq"] == 353 == 289 + 64
+         and mech["thermal_cutoff_kelvin_81_273_6x59_256_98"] == 354 == 81 + 273
+         and mech["quintuple_verlet_msb_5x71_256_99"] == 355 == 5 * 71
+         and mech["quadruple_cold_total_lag_4x89_256_100_128_228"] == 356 == 4 * 89 == 128 + 228
+         and mech["seam_times_fresnel_21x17_3x119_256_101"] == 357 == 21 * 17
+         and mech["pauli_plus_piezo_caffeine_256_102"] == 358
+         and mech["pauli_plus_actinide_256_103"] == 359
+         and mech["full_circle_10x36_2x180_12x30_256_104"] == 360 == 10 * 36 == 2 * 180
+         and mech["octahedral_core_square_19sq_256_105"] == 361 == 19 * 19
+         and mech["pauli_plus_iodine2_256_106_128_234"] == 362 == 128 + 234
+         and mech["triple_neighbor_square_3x121_256_107"] == 363
+         and mech["pauli_plus_custom_bus_256_108_4x91"] == 364 == 256 + 108
+         and mech["quintuple_frame_radius_5x73_13sq_14sq_256_109"] == 365 == 5 * 73 == 169 + 196
+         and mech["six_square_early_lag_6x61_2x183_256_110"] == 366 == 6 * 61 == 2 * 183
+         and mech["pauli_plus_three_tick_256_111"] == 367
+         and mech["dioxygen_times_silanol_16x23_2x184_256_112"] == 368 == 16 * 23 == 2 * 184
+         and mech["bits_times_heisenberg_9x41_256_113"] == 369 == 9 * 41
+         and mech["ten_tick_duration_10x37_256_114_ns"] == 370 == 10 * 37
+         and mech["meniscus_times_iodine_7x53_256_115_128_243"] == 371 == 7 * 53 == 128 + 243
+         and mech["twelve_beam_gallium_12x31_6x62_256_116"] == 372 == 12 * 31
+         and mech["boiling_water_kelvin_256_117_18sq_7sq"] == 373 == 256 + 117 == 324 + 49
+         and mech["co2_times_fresnel_22x17_256_118"] == 374
+         and mech["beam_power_times_gate_lag_15x25_3x125_256_119"] == 375 == 15 * 25
+         and mech["eight_triangle_lactate_8x47_256_120"] == 376
+         and mech["copper_times_core_29x13_256_121"] == 377 == 29 * 13
+         and mech["six_square_hydrogen_bond_6x63_18x21_256_122"] == 378 == 6 * 63
+         and mech["pauli_plus_kok_s3_256_123"] == 379
+         and mech["amino_times_octahedral_20x19_10x38_128_252"] == 380 == 20 * 19 == 128 + 252
+         and mech["triple_peltier_couples_3x127_256_125"] == 381 == 3 * 127
+         and mech["pauli_plus_cystine_256_126"] == 382
+         and mech["pauli_plus_peltier_256_127_128_255"] == 383 == 256 + 127
+         and mech["total_section36_26_euler384_blocks"] == 384 == 3 * 128 == 256 + 128
+         and mcp.proj_c(384) == 0 and mcp.proj_s(384) == -128
          and (263 * mech["iv263_bezout_inverse_3x61"]) % 512 == 1
          and (97 * mech["mhat97_bezout_inverse_512_minus_95"]) % 512 == 1
          and (197 * 13) % 512 == 1
