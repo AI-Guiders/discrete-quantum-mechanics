@@ -11888,6 +11888,23 @@ def checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp (d : Nat) : 
   let quotK2Y : Int := (((((dOutEdge d * dInSquare * dInSquare : Nat) : Int) - cLock3)) / (modBits d : Int)) -- (80 - 44)/9 = 4 = d_in(□)
   let quotK3X : Int := ((cLock3 - ((d * nTriangles d : Nat) : Int)) / (dOutEdge d : Int)) -- (44 - 24)/5 = 4 = d_in(□)
   let quotK3Y : Int := ((((nTriangles d : Nat) : Int) - cLock3) / (d : Int))       -- (8 - 44)/3 = -12 = -|N(3)|
+  -- Padé-Thue Wronskian tower on the cubic floor k = 3 (`U = At*X^3 = 32, V = Bt*Y^3 = 27, C = U - V = 5`):
+  -- Level N=1: P^_1 = U + 2V, Q^_1 = 2U + V (coeff sum 1 + 2 = 3 = d)
+  -- Level N=2: P^_2 = 5U^2 + 35UV + 14V^2, Q^_2 = 14U^2 + 35UV + 5V^2 (coeffs (5, 35, 14), sum = 54 = 2*3^3)
+  -- Level N=3: P^_3 = 2U^3 + 30U^2V + 42UV^2 + 7V^3, Q^_3 = 7U^3 + 42U^2V + 30UV^2 + 2V^3 (coeff sum = 81 = 3^4 = |ℰ_Heis(3)|)
+  -- Exact Wronskian determinants: Q^_0*P^_1 - P^_0*Q^_1 = -1*C, Q^_1*P^_2 - P^_1*Q^_2 = -4*C^3, Q^_2*P^_3 - P^_2*Q^_3 = -7*C^5 (coeffs 1, 4, 7!):
+  let uPade : Int := (c0OverCSqOp d ^ dOutEdge d : Nat)                           -- 32
+  let vPade : Int := (d ^ d : Nat)                                                -- 27
+  let pade1P : Int := uPade + (c0OverCSqOp d : Int) * vPade
+  let pade1Q : Int := (c0OverCSqOp d : Int) * uPade + vPade
+  let pade2P : Int := (dOutEdge d : Int) * uPade * uPade + ((dOutEdge d * (nTriangles d - muVac d) : Nat) : Int) * uPade * vPade + ((nPhi d + muVac d : Nat) : Int) * vPade * vPade
+  let pade2Q : Int := ((nPhi d + muVac d : Nat) : Int) * uPade * uPade + ((dOutEdge d * (nTriangles d - muVac d) : Nat) : Int) * uPade * vPade + (dOutEdge d : Int) * vPade * vPade
+  let pade3P : Int := (c0OverCSqOp d : Int) * (uPade ^ 3) + ((d * zNeonOp d : Nat) : Int) * (uPade ^ 2) * vPade + ((nSquares d * (nTriangles d - muVac d) : Nat) : Int) * uPade * (vPade ^ 2) + ((nTriangles d - muVac d : Nat) : Int) * (vPade ^ 3)
+  let pade3Q : Int := ((nTriangles d - muVac d : Nat) : Int) * (uPade ^ 3) + ((nSquares d * (nTriangles d - muVac d) : Nat) : Int) * (uPade ^ 2) * vPade + ((d * zNeonOp d : Nat) : Int) * uPade * (vPade ^ 2) + (c0OverCSqOp d : Int) * (vPade ^ 3)
+  let wPade0 : Int := pade1P - pade1Q                                             -- -1 * C = -5
+  let wPade1 : Int := pade1Q * pade2P - pade1P * pade2Q                           -- -4 * C^3 = -500
+  let wPade2 : Int := pade2Q * pade3P - pade2P * pade3Q                           -- -7 * C^5 = -21,875
+  let padeSum3 : Nat := c0OverCSqOp d + d * zNeonOp d + nSquares d * (nTriangles d - muVac d) + (nTriangles d - muVac d) -- 2 + 30 + 42 + 7 = 81 = 3^4 = |ℰ_Heis(3)|
   eqIntBool detM11 (muVac d : Int) &&
   eqIntBool detM12 (muVac d : Int) &&
   eqIntBool p00 (-((nTriangles d - muVac d : Nat) : Int)) &&
@@ -11928,6 +11945,10 @@ def checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp (d : Nat) : 
   eqIntBool quotK2Y (dInSquare : Int) &&
   eqIntBool quotK3X (dInSquare : Int) &&
   eqIntBool quotK3Y (-(nNeighbors d : Int)) &&
+  eqIntBool wPade0 (-((muVac d : Int) * cLock2)) &&
+  eqIntBool wPade1 (-((dInSquare : Int) * (cLock2 ^ 3))) &&
+  eqIntBool wPade2 (-(((nTriangles d - muVac d : Nat) : Int) * (cLock2 ^ 5))) &&
+  eqNatBool padeSum3 (heisenbergEquivClassSizeOp d) &&
   eqIntBool detElbowBez (muVac d : Int) &&
   carryLockM2 && carryGapM3 && carryGapM4 && carryGapM5
 
