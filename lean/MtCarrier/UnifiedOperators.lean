@@ -12032,6 +12032,22 @@ def checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp (d : Nat) : 
   eqNatBool nilC_67 (nSquares d ^ d) &&
   eqNatBool (dyLock3 * dyLock3 + dCLock3 * dCLock3) hypLock3Sq &&
   eqNatBool (kLock3 * kLock3 + dxLock3 * dxLock3) hypLock3Sq &&
+  -- Bilateral Discrete-Continuum Carrier Transfer Isomorphism M <-> T across all 512 points:
+  -- R(phi) + |Y(phi)| == Q_□(d)^2 = 16,384 and root-free retraction ((16,384 ± X(phi))/256) == (|C(phi)|, |S(phi)|):
+  allUpTo (phaseRingCount d) (fun phi =>
+    let cVal : Int := projC d (phi : Int)
+    let sVal : Int := projS d (phi : Int)
+    let xCircle : Int := cVal * cVal - sVal * sVal
+    let yCircle : Int := (c0OverCSqOp d : Int) * cVal * sVal
+    let rCircle : Int := cVal * cVal + sVal * sVal
+    let qSqInt  : Int := ((qSquare d * qSquare d : Nat) : Int)
+    let twoQInt : Int := ((phiPauli d : Nat) : Int)
+    let absC    : Int := (Int.natAbs cVal : Int)
+    let absS    : Int := (Int.natAbs sVal : Int)
+    eqIntBool (rCircle + (Int.natAbs yCircle : Int)) qSqInt &&
+    eqIntBool ((qSqInt + xCircle) / twoQInt) absC &&
+    eqIntBool ((qSqInt - xCircle) / twoQInt) absS &&
+    eqIntBool (xCircle % (qSquare d : Int)) 0) &&
   eqIntBool detElbowBez (muVac d : Int) &&
   carryLockM2 && carryGapM3 && carryGapM4 && carryGapM5
 
