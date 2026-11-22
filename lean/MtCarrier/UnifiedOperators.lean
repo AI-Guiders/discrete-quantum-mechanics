@@ -11860,6 +11860,19 @@ def checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp (d : Nat) : 
   let p3_11 : Int := (((dOutEdge d ^ dInSquare : Nat) : Int) - ((d ^ c0OverCSqOp d : Nat) : Int)) / cLock3 -- (625 - 9)/44 = +14 = Z(Si)
   let detP3 : Int := p3_00 * p3_11 - p3_01 * p3_10                                -- -224 + 225 = +1
   let trP3  : Int := p3_00 + p3_11                                                -- -16 + 14 = -2
+  -- 3-level recursive descent law `C_0 - (x + y)*C_1 + x*y*C_2 = 0` on Lock II (`2^5 - 3^3 = 5`):
+  -- C_0 = 2^5 - 3^3 = 5 = d_out(E), C_1 = 2^4 - 3^2 = 7 = d_out(V), C_2 = 2^3 - 3^1 = 5 = d_out(E) (palindrome 5 -> 7 -> 5!):
+  let cDesc0 : Int := cLock2                                                      -- 5 = d_out(E)
+  let cDesc1 : Int := ((c0OverCSqOp d ^ dInSquare : Nat) : Int) - ((d ^ c0OverCSqOp d : Nat) : Int) -- 16 - 9 = 7 = d_out(V)
+  let cDesc2 : Int := ((c0OverCSqOp d ^ d : Nat) : Int) - (d : Int)               -- 8 - 3 = 5 = d_out(E)
+  let recLawLock2 : Int := cDesc0 - ((c0OverCSqOp d + d : Nat) : Int) * cDesc1 + ((c0OverCSqOp d * d : Nat) : Int) * cDesc2 -- 5 - 5*7 + 6*5 = 0
+  -- Binomial skeletal divisibility reciprocity between floors k=2 and k=3 on Lock III (`5^3 - 3^4 = 44`):
+  -- Floor k=2 (X=5, Y=9, delta=4): quotients are (1*4^2 + 44)/5 = 12 = |N(3)| and (5*4^2 - 44)/9 = 4 = d_in(□)
+  -- Floor k=3 (X=5, Y=3, delta=-2): quotients swap to (3*(-2)^3 + 44)/5 = 4 = d_in(□) and (1*2^3 - 44)/3 = -12 = -|N(3)|!
+  let quotK2X : Int := ((((dInSquare * dInSquare : Nat) : Int) + cLock3) / (dOutEdge d : Int)) -- (16 + 44)/5 = 12 = |N(3)|
+  let quotK2Y : Int := (((((dOutEdge d * dInSquare * dInSquare : Nat) : Int) - cLock3)) / (modBits d : Int)) -- (80 - 44)/9 = 4 = d_in(□)
+  let quotK3X : Int := ((cLock3 - ((d * nTriangles d : Nat) : Int)) / (dOutEdge d : Int)) -- (44 - 24)/5 = 4 = d_in(□)
+  let quotK3Y : Int := ((((nTriangles d : Nat) : Int) - cLock3) / (d : Int))       -- (8 - 44)/3 = -12 = -|N(3)|
   eqIntBool detM11 (muVac d : Int) &&
   eqIntBool detM12 (muVac d : Int) &&
   eqIntBool p00 (-((nTriangles d - muVac d : Nat) : Int)) &&
@@ -11885,6 +11898,13 @@ def checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp (d : Nat) : 
   eqIntBool p3_11 ((nPhi d + muVac d : Nat) : Int) &&
   eqIntBool detP3 (muVac d : Int) &&
   eqIntBool trP3 (-(c0OverCSqOp d : Int)) &&
+  eqIntBool cDesc1 ((nTriangles d - muVac d : Nat) : Int) &&
+  eqIntBool cDesc2 (dOutEdge d : Int) &&
+  eqIntBool recLawLock2 0 &&
+  eqIntBool quotK2X (nNeighbors d : Int) &&
+  eqIntBool quotK2Y (dInSquare : Int) &&
+  eqIntBool quotK3X (dInSquare : Int) &&
+  eqIntBool quotK3Y (-(nNeighbors d : Int)) &&
   eqIntBool detElbowBez (muVac d : Int) &&
   carryLockM2 && carryGapM3 && carryGapM4 && carryGapM5
 
