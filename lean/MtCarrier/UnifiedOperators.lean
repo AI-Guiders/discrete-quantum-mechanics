@@ -5534,8 +5534,16 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
       let initialEstLag : Int := 89
       let nextEstLag := kitchenBenchClosedLoopPllNextLagOp d aCoh initialEstLag trueLag
       let lockedDishNextTick := ((aCoh + nextEstLag) - trueLag).emod (nRing d : Int)
+      let pSoundRaw := readoutAcousticSoundPressureOp d mu13 mu13 lockedDishNextTick
+      let jRxnRaw := reactionCurrentOp d 1 mu13 mu13 lockedDishNextTick
+      let mixed4 := nilpotentTomographForward2xOp 68 45 jRxnRaw pSoundRaw
+      let demixed4 := nilpotentTomographInverse24xOp mixed4
+      let recFromDemixed := recoverRingPhaseFromHydrophoneAndChiralCurrentOp d mu13 mu13 demixed4.2.2.2 demixed4.2.2.1
       eqIntBool nextEstLag trueLag &&
-      eqIntBool lockedDishNextTick aCoh)
+      eqIntBool lockedDishNextTick aCoh &&
+      eqIntBool demixed4.1 68 &&
+      eqIntBool demixed4.2.1 45 &&
+      eqIntBool recFromDemixed aCoh)
   finitePerturbationOk && stringDimsDemystifiedOk && singleUniverseFiberOk &&
   mosfetCoilDishBridgeOk && kitchenWaterAndThermalDriftOk && complete10NodeBenchOk &&
   mutualInductanceDiagonalOk && flybackPiezoAndAdcOk && frameIsolationAndGeomagneticOk &&
