@@ -5626,6 +5626,15 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
     eqNatBool (maillardCrustTemp68C - tempDewPoint12C) ((nTriangles d - muVac d) * nTriangles d) &&
     eqNatBool (thermalCutoffTemp81C - maillardCrustTemp68C) (nPhi d) &&
     eqNatBool (thermalCutoffTemp81C - tempDewPoint12C) (d * zSilanolGroup)
+  -- 31. Acoustic Fixed-Point Identity Across All 4 Operating Modes (`Q_□(d) - C_d(Δφ) == Δφ` for `Δφ ∈ {0, 128, 139, 256}`)
+  --     and Audible Subharmonic Microphone Monitor Divider (`N_ring(d) * K_P(d) = 512 * 64 = 32,768 = 4 * ε(d)` clocks, `823.97 Hz`):
+  let audioSubharmonicPeriod32768 : Nat := nRing d * kP d                         -- 512 * 64 = 32,768 = 4 * 8192 clocks (823.97 Hz audible monitor!)
+  let acousticFixedPoint4ModesOk :=
+    eqIntBool (readoutAcousticSoundPressureOp d 1 1 0) 0 &&
+    eqIntBool (readoutAcousticSoundPressureOp d 1 1 (qSquare d : Int)) (qSquare d : Int) &&
+    eqIntBool (readoutAcousticSoundPressureOp d 1 1 aCoh) aCoh &&
+    eqIntBool (readoutAcousticSoundPressureOp d 1 1 (phiPauli d : Int)) (phiPauli d : Int) &&
+    eqNatBool audioSubharmonicPeriod32768 (dInSquare * epsDenom d)
   finitePerturbationOk && stringDimsDemystifiedOk && singleUniverseFiberOk &&
   mosfetCoilDishBridgeOk && kitchenWaterAndThermalDriftOk && complete10NodeBenchOk &&
   mutualInductanceDiagonalOk && flybackPiezoAndAdcOk && frameIsolationAndGeomagneticOk &&
@@ -5638,7 +5647,8 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
   eps8192CompleteBenchClosureOk && telemetryAll512RecoveryOk &&
   full52MinDigitalTwinScheduleOk && closedLoopPll1TickAll512DisturbancesOk &&
   bus36PreFlightAll13StatesOk && gorkov3dTrapAndBjerknesRingsOk &&
-  subcavitationFocusAndChiralTorqueOk && thermodynamic30ClosureOk
+  subcavitationFocusAndChiralTorqueOk && thermodynamic30ClosureOk &&
+  acousticFixedPoint4ModesOk
 
 /-- **Theorem (Impossibility of Laplace's Demon Inside the Lattice and Constructive Realization of the Memoryless 12-Beam Geometric Maxwell Demon)**:
 Chained directly via `CatalanLaw` for any `d : Nat`:

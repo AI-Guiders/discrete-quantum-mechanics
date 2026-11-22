@@ -20,6 +20,7 @@ import cuboctahedron_mcp_server as mcp  # noqa: E402
 import kitchen_bench_telemetry_codec as tcodec  # noqa: E402
 import generate_kitchen_bench_lab_protocol as labproto  # noqa: E402
 import kitchen_bench_petri_field_3d as field3d  # noqa: E402
+import kitchen_bench_waveform_synthesizer as wavesynth  # noqa: E402
 
 
 def main() -> int:
@@ -145,6 +146,8 @@ def main() -> int:
          and mech["thermal_ladder_maillard_minus_ambient_c"] == 41
          and mech["thermal_ladder_cutoff_minus_maillard_c"] == 13
          and mech["thermal_ladder_cutoff_minus_dew_c"] == 69),
+        ("Node 126-128: Acoustic Fixed-Point Identity (128 - C_3(dphi) == dphi on {0,128,139,256}) & 823.97 Hz Audible Subharmonic Monitor",
+         wavesynth.verify_acoustic_fixed_points_and_subharmonic_monitor()["waveform_monitor_verified"] is True),
     ]
 
     print("=== Complete 30-Node Physical Kitchen Bench Audit ===")
