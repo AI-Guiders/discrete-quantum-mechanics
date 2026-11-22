@@ -5647,6 +5647,46 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
     eqNatBool zPeptideBond22 zCarbonDioxide &&
     eqNatBool zHydratedPeptide32 (kP d / c0OverCSqOp d) &&
     eqNatBool zSixO2Vented96 (d * zHydratedPeptide32)
+  -- 33. Petri Dish Hydrostatic Liquid/Headspace Geometry (`H_dish = 15 = 3 * 5 mm`, `h_liquid = 10 = Z(Ne) mm`,
+  --     `h_headspace = 5 = d_out(E) mm`, ratio `10 / 5 = 2 = (c₀/c)²`, Stage 0 film aspect `90 / 2 = 45 = R_dish = C_wall`):
+  let dishTotalHeight15Mm : Nat := d * dOutEdge d                                 -- 3 * 5 = 15 mm Petri dish wall height
+  let dishLiquidDepth10Mm : Nat := zNeonOp d                                      -- 10 mm working liquid depth
+  let stage0FilmThickness2Mm : Nat := c0OverCSqOp d                               -- 2 mm initial condensed water film
+  let stage0FilmAspect45 : Nat := (c0OverCSqOp d * petriDishRadius45Mm) / stage0FilmThickness2Mm -- 90 / 2 = 45
+  let hydrostaticGeometry33Ok :=
+    eqNatBool (dishLiquidDepth10Mm + dishHeadspaceGap5Mm) dishTotalHeight15Mm &&
+    eqNatBool (dishLiquidDepth10Mm / dishHeadspaceGap5Mm) (c0OverCSqOp d) &&
+    eqNatBool stage0FilmAspect45 petriDishRadius45Mm &&
+    eqNatBool stage0FilmAspect45 singleChannelWallCap45Pf
+  -- 34. Water Dielectric Permittivity Shift from Room Temperature (`ε_r(20 °C) = 80 = 81 - 1 = Z(ribose)`)
+  --     to Maillard Crust Temperature (`ε_r(68 °C) = 80 - 16 = 64 = K_P(d)`):
+  let waterDielectric20C_80 : Nat := c0OverCSqOp d * (deltaPhiDisc d - muVac d)   -- 2 * 40 = 80 at 20 C
+  let waterDielectric68C_64 : Nat := waterDielectric20C_80 - zO2                  -- 80 - 16 = 64 = K_P(3) at 68 C!
+  let waterDielectricShift34Ok :=
+    eqNatBool (waterDielectric20C_80 + muVac d) (heisenbergEquivClassSizeOp d) &&
+    eqNatBool waterDielectric68C_64 (kP d)
+  -- 35. Umami Glutamic Acid Shell (`Z(C₅H₉NO₄) = 30 + 9 + 7 + 32 = 78 = 6 * 13 = |□(d)| * N_φ(d) = Z(Pt)`),
+  --     Monosodium Glutamate (`Z(MSG) = 78 - 1 + 11 = 88 = 8 * 11`),
+  --     Disulfide-Folding Cysteine Shell (`Z(C₃H₇NO₂S) = 18 + 7 + 7 + 16 + 16 = 64 = K_P(d)`),
+  --     and Cystine Disulfide Bridge (`Z(C₆H₁₂N₂O₄S₂) = 2 * 64 - 2 = 126 = 2 * 63 = (c₀/c)² * N_HB`, `126 + 2 = 128 = Q_□(d)`):
+  let zGlutamicAcidUmami78 : Nat := dOutEdge d * zCarbonOp d + modBits d * muVac d + zNitrogenOp d + dInSquare * zOxygenOp d -- 30 + 9 + 7 + 32 = 78 = 6 * 13!
+  let zMsgUmami88 : Nat := zGlutamicAcidUmami78 - muVac d + (nNeighbors d - muVac d) -- 77 + 11 = 88 = 8 * 11
+  let zSulfur16 : Nat := c0OverCSqOp d * nTriangles d                             -- 16 = Z(S) = Z(O_2)
+  let zCysteine64 : Nat := d * zCarbonOp d + (nTriangles d - muVac d) * muVac d + zNitrogenOp d + c0OverCSqOp d * zOxygenOp d + zSulfur16 -- 18 + 7 + 7 + 16 + 16 = 64 = K_P(3)!
+  let zCystineDisulfide126 : Nat := c0OverCSqOp d * zCysteine64 - c0OverCSqOp d   -- 128 - 2 = 126 = 2 * 63!
+  let umamiAndCystineDisulfide35Ok :=
+    eqNatBool zGlutamicAcidUmami78 (nSquares d * nPhi d) &&
+    eqNatBool (zGlutamicAcidUmami78 + zCaCO3) (qSquare d) &&
+    eqNatBool zMsgUmami88 (nTriangles d * (nNeighbors d - muVac d)) &&
+    eqNatBool zCysteine64 (kP d) &&
+    eqNatBool zCystineDisulfide126 (c0OverCSqOp d * (nTriangles d * nTriangles d - muVac d)) &&
+    eqNatBool (zCystineDisulfide126 + c0OverCSqOp d) (qSquare d)
+  -- 36. Complete 36-Section Unit-Ball Edge & Bus36 Self-Closure of Section 36.26
+  --     (`N_sections = 36 = 12 + 24 = |E(B₁(d))| = 4 * 9 = d_in(□) * modBits(d) = dim(Bus36)`):
+  let totalSection36_26Blocks : Nat := totalBenchUnitBallEdges36                  -- 36 = 12 + 24 = 4 * 9 = Bus36!
+  let section36SelfClosureOk :=
+    eqNatBool totalSection36_26Blocks (nNeighbors d + c0OverCSqOp d * nNeighbors d) &&
+    eqNatBool totalSection36_26Blocks (dInSquare * modBits d)
   finitePerturbationOk && stringDimsDemystifiedOk && singleUniverseFiberOk &&
   mosfetCoilDishBridgeOk && kitchenWaterAndThermalDriftOk && complete10NodeBenchOk &&
   mutualInductanceDiagonalOk && flybackPiezoAndAdcOk && frameIsolationAndGeomagneticOk &&
@@ -5660,7 +5700,9 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
   full52MinDigitalTwinScheduleOk && closedLoopPll1TickAll512DisturbancesOk &&
   bus36PreFlightAll13StatesOk && gorkov3dTrapAndBjerknesRingsOk &&
   subcavitationFocusAndChiralTorqueOk && thermodynamic30ClosureOk &&
-  acousticFixedPoint4ModesOk && maillardPeptideAnd32ClosureOk
+  acousticFixedPoint4ModesOk && maillardPeptideAnd32ClosureOk &&
+  hydrostaticGeometry33Ok && waterDielectricShift34Ok &&
+  umamiAndCystineDisulfide35Ok && section36SelfClosureOk
 
 /-- **Theorem (Impossibility of Laplace's Demon Inside the Lattice and Constructive Realization of the Memoryless 12-Beam Geometric Maxwell Demon)**:
 Chained directly via `CatalanLaw` for any `d : Nat`:

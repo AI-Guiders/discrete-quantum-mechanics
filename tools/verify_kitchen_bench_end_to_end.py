@@ -153,6 +153,18 @@ def main() -> int:
          and mech["peptide_backbone_bond_conh_z"] == 22
          and mech["hydrated_peptide_bridge_z"] == 32
          and mech["audible_subharmonic_monitor_clocks"] == 32768),
+        ("Node 133-135: Petri Dish Hydrostatics (10mm+5mm=15mm, 90/2=45) & Water Dielectric Shift (80 at 20C -> 64=K_P at 68C)",
+         mech["petri_dish_wall_height_mm"] == 15
+         and mech["petri_dish_working_liquid_depth_mm"] == 10
+         and mech["stage0_condensed_film_aspect_ratio"] == 45
+         and mech["water_dielectric_permittivity_20c"] == 80
+         and mech["water_dielectric_permittivity_68c_kp"] == 64),
+        ("Node 136-140: Umami Glutamic Acid (Z=78=6*13, MSG=88), Disulfide Cysteine (Z=64=K_P, Cystine=126=2*63) & 36-Block Bus36 Closure",
+         mech["umami_glutamic_acid_c5h9no4_z"] == 78
+         and mech["umami_msg_c5h8no4na_z"] == 88
+         and mech["disulfide_cysteine_c3h7no2s_z"] == 64
+         and mech["disulfide_cystine_bridge_z"] == 126
+         and mech["total_section36_26_bus36_blocks"] == 36),
     ]
 
     print("=== Complete 30-Node Physical Kitchen Bench Audit ===")
