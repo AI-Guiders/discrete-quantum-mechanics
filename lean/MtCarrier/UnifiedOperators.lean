@@ -11938,6 +11938,21 @@ def checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp (d : Nat) : 
   let abcLhs3 : Nat := abcA3 * (abcX3 ^ d) + abcB3 * (abcY3 ^ d)                  -- 3*1 + 1*125 = 128 = Q_□(3)
   let abcRhs3 : Nat := abcC3 * (abcZ3 ^ d)                                        -- 2*64 = 128 = Q_□(3)
   let abcWeightProd3 : Nat := abcA3 * abcB3 * abcC3                               -- 3 * 1 * 2 = 6 = |□(3)|
+  -- Unified 3x3 Pillai-abc Skeletal Matrix `M_3 = [[c2, a2, b2], [a1, c1, 0], [b1, 0, c1]]`
+  -- on `3 + 125 = 128` (`a1=1, a2=3; b1=5, b2=25; c1=4, c2=32`):
+  -- det(M_3) = c1*(C - A - B) = 0, principal 2x2 minors are `B = 125, A = 3, c1^2 = 16`,
+  -- and rank-1 adjugate `adj(M_3) = [c1, -a1, -b1]^T * [c1, -a2, -b2]` has trace `c1^2 + C = 16 + 128 = 144 = 12^2 = |N(3)|^2`!
+  let m3_a1 : Int := (muVac d : Int)                                              -- 1
+  let m3_a2 : Int := (d : Int)                                                    -- 3
+  let m3_b1 : Int := (dOutEdge d : Int)                                           -- 5
+  let m3_b2 : Int := ((dOutEdge d * dOutEdge d : Nat) : Int)                      -- 25
+  let m3_c1 : Int := (dInSquare : Int)                                            -- 4
+  let m3_c2 : Int := ((c0OverCSqOp d ^ dOutEdge d : Nat) : Int)                   -- 32
+  let minor3_B  : Int := m3_c2 * m3_c1 - m3_a2 * m3_a1                            -- 128 - 3 = 125 = B
+  let minor3_A  : Int := m3_c2 * m3_c1 - m3_b2 * m3_b1                            -- 128 - 125 = 3 = A
+  let minor3_C1 : Int := m3_c1 * m3_c1                                            -- 16 = c1^2
+  let detM3_abc : Int := m3_c1 * (m3_c1 * m3_c2 - m3_a1 * m3_a2 - m3_b1 * m3_b2)  -- 0
+  let trAdjM3   : Int := minor3_C1 + m3_a1 * m3_a2 + m3_b1 * m3_b2                -- 16 + 3 + 125 = 144 = 12^2 = |N(3)|^2
   eqIntBool detM11 (muVac d : Int) &&
   eqIntBool detM12 (muVac d : Int) &&
   eqIntBool p00 (-((nTriangles d - muVac d : Nat) : Int)) &&
@@ -11994,6 +12009,10 @@ def checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp (d : Nat) : 
   eqNatBool abcWeightProd3 (nSquares d) &&
   decide (abcWeightProd3 <= abcRad * abcRad) &&
   eqNatBool (abcY3 - abcZ3) (muVac d) &&
+  eqIntBool minor3_B ((dOutEdge d ^ d : Nat) : Int) &&
+  eqIntBool minor3_A (d : Int) &&
+  eqIntBool detM3_abc 0 &&
+  eqIntBool trAdjM3 ((nNeighbors d * nNeighbors d : Nat) : Int) &&
   eqIntBool detElbowBez (muVac d : Int) &&
   carryLockM2 && carryGapM3 && carryGapM4 && carryGapM5
 
