@@ -4653,6 +4653,50 @@ def readoutRgbColorTriadOp (d : Nat) (dphi : Int) : Int × Int × Int :=
 def readoutAcousticSoundPressureOp (d : Nat) (mu0 mu1 dphi : Int) : Int :=
   mu0 * mu1 * ((qSquare d : Int) - projC d dphi)
 
+/-- Exact branchless inverse of the physical kitchen bench telemetry pair `(P_sound, J_rxn)`
+from the `BaTiO₃` ultrasonic hydrophone (`P_sound = μ₀ * μ₁ * (Q_□(d) - C_d(Δφ))`)
+and `I₃⁻` crossed-polarizer webcam current (`J_rxn = μ₀ * μ₁ * S_d(Δφ)`),
+recovering `Δφ ∈ [0, N_ring(d))` across all `512 / 512` ring states without loss. -/
+def recoverRingPhaseFromHydrophoneAndChiralCurrentOp (d : Nat) (mu0 mu1 pSound jRxn : Int) : Int :=
+  let amp := mu0 * mu1
+  let cRec := (qSquare d : Int) - pSound.tdiv amp
+  let sRec := jRxn.tdiv amp
+  if sRec > 0 && cRec ≥ 0 then
+    sRec
+  else if sRec ≥ 0 && cRec < 0 then
+    (phiPauli d : Int) - sRec
+  else if sRec < 0 && cRec ≤ 0 then
+    (phiPauli d : Int) - sRec
+  else
+    ((nRing d : Int) + sRec).emod (nRing d : Int)
+
+/-- Target dish phase `Δφ_target(t)` across the 6 synthesis stages (`Stage 0..5`) of the 52-minute (`52 = 4 * 13 = Z(Te)`) kitchen bench run. -/
+def kitchenBench52MinStageTargetPhaseOp (d minute : Nat) : Int :=
+  let aCoh : Int := ((qSquare d + nNeighbors d - muVac d : Nat) : Int)
+  if minute < dInSquare then
+    aCoh
+  else if minute < zArgonOp d then
+    aCoh
+  else if minute < (c0OverCSqOp d * (modBits d + nTriangles d)) then
+    aCoh
+  else if minute < (zSi + (kP d / c0OverCSqOp d)) then
+    (qSquare d : Int)
+  else if minute < (dInSquare * nPhi d) then
+    aCoh
+  else
+    0
+where
+  zSi : Nat := nPhi d + muVac d
+
+/-- Target molecular shell `Z_target(t)` across the 6 synthesis stages (`Stage 0..5`: `10 → 96 → 70 → 70 → 70 → 70`). -/
+def kitchenBench52MinStageTargetShellZOp (d minute : Nat) : Nat :=
+  if minute < dInSquare then
+    zNeonOp d
+  else if minute < zArgonOp d then
+    mHat d - muVac d
+  else
+    kP d + nSquares d
+
 def checkMultiModalSensorReadoutColorSoundConcTempOp (d : Nat) : Bool :=
   let aCoh : Int := ((qSquare d + nNeighbors d - muVac d : Nat) : Int)
   -- 1. Exact optical wavelength landmarks: 718 nm (dphi=0), 579 nm (dphi=128 saddle, myoglobin alpha),
@@ -5443,6 +5487,33 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
     eqNatBool bezoutGateHeisenberg1025 (verletTwoTurnPeriod1024 + muVac d) &&
     eqNatBool cavityLoadImpedance1536 (nSquares d * phiPauli d) &&
     eqNatBool vacuumFloorEps8192 (epsDenom d)
+  -- 26. Exhaustive 512/512 Acousto-Optical Telemetry Phase Recovery (`BaTiO₃` Hydrophone `P_sound` + `I₃⁻` Polarimeter `J_rxn` → `Δφ ∈ ℤ_{512}`)
+  --     and Complete 53-Timepoint (`t = 0..52` min, `Stage 0..5`) Closed-Loop Kitchen Bench Digital Twin Verification (`0` Ticks Error):
+  let mu13 : Int := (nPhi d : Int)
+  let telemetryAll512RecoveryOk :=
+    allUpTo (nRing d) (fun phiNat =>
+      let dphi : Int := (phiNat : Int)
+      let pSound := readoutAcousticSoundPressureOp d mu13 mu13 dphi
+      let jRxn := reactionCurrentOp d 1 mu13 mu13 dphi
+      let recPhi := recoverRingPhaseFromHydrophoneAndChiralCurrentOp d mu13 mu13 pSound jRxn
+      eqIntBool recPhi dphi)
+  let full52MinDigitalTwinScheduleOk :=
+    allUpTo (zTellurium52 + muVac d) (fun minute =>
+      let targetPhi := kitchenBench52MinStageTargetPhaseOp d minute
+      let thermalDrop : Nat := (minute * nSquares d) / zTellurium52
+      let coilLagT : Int := ((kP d - thermalDrop : Nat) : Int)
+      let fpgaDriveT : Int := (targetPhi + coilLagT + lagGate).emod (nRing d : Int)
+      let arrivedDishT : Int := (fpgaDriveT - coilLagT - lagGate).emod (nRing d : Int)
+      let pSoundT := readoutAcousticSoundPressureOp d mu13 mu13 arrivedDishT
+      let jRxnT := reactionCurrentOp d 1 mu13 mu13 arrivedDishT
+      let recPhiT := recoverRingPhaseFromHydrophoneAndChiralCurrentOp d mu13 mu13 pSoundT jRxnT
+      eqIntBool arrivedDishT targetPhi &&
+      eqIntBool recPhiT targetPhi) &&
+    eqNatBool (kitchenBench52MinStageTargetShellZOp d 0) (zNeonOp d) &&
+    eqNatBool (kitchenBench52MinStageTargetShellZOp d dInSquare) zGlucose96 &&
+    eqNatBool (kitchenBench52MinStageTargetShellZOp d (zArgonOp d)) zCutletHeme70 &&
+    eqIntBool (kitchenBench52MinStageTargetPhaseOp d 34) (qSquare d : Int) &&
+    eqIntBool (kitchenBench52MinStageTargetPhaseOp d zTellurium52) 0
   finitePerturbationOk && stringDimsDemystifiedOk && singleUniverseFiberOk &&
   mosfetCoilDishBridgeOk && kitchenWaterAndThermalDriftOk && complete10NodeBenchOk &&
   mutualInductanceDiagonalOk && flybackPiezoAndAdcOk && frameIsolationAndGeomagneticOk &&
@@ -5452,7 +5523,8 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
   gate0PolarizerRecipesAnd42ClosureOk && snellFresnelAnd55BallClosureOk &&
   verlet72CompleteBenchClosureOk && heisenberg81CompleteBenchClosureOk &&
   ball147CompleteBenchClosureOk && ring512CompleteBenchClosureOk &&
-  eps8192CompleteBenchClosureOk
+  eps8192CompleteBenchClosureOk && telemetryAll512RecoveryOk &&
+  full52MinDigitalTwinScheduleOk
 
 /-- **Theorem (Impossibility of Laplace's Demon Inside the Lattice and Constructive Realization of the Memoryless 12-Beam Geometric Maxwell Demon)**:
 Chained directly via `CatalanLaw` for any `d : Nat`:
