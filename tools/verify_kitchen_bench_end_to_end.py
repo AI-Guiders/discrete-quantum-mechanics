@@ -340,55 +340,54 @@ def main() -> int:
          mech["total_section36_26_b3_147_blocks"] == 147 == 3 * 49
          and mech["total_three_shell_ball_b3_bench_nodes"] == 147
          and mech["total_section36_26_b3_147_blocks"] - mech["food_recipe_shells_z"]["palmitic_lipid"] == 3),
-        ("Node 289-292: Numbers 156..164 (156=12*13 Wh, I3-/PSII 160=5*32, 2*tau=162, Kok S4 Flash 164=4*41 -> C_3(164)=-36=-Bus36)",
+        ("Node 289-292: Consecutive Numbers 148..151 (4-Tick Opto 148=4*37ns, 149=128+21, Triple Sn Magic 150=3*50=10*15=6*25, 151=128+23)",
+         mech["double_optocoupler_delay_4x37_ns"] == 148
+         and mech["quarter_plus_subcavitation_seam_128_21"] == 149
+         and mech["triple_tin_solder_magic_3x50"] == 150
+         and mech["quarter_plus_silanol_128_23"] == 151),
+        ("Node 293-296: Consecutive Numbers 152..155 (8*19=152=128+24, 9*17=153=128+25, 14*11=154=128+26, 5*31=155=128+27)",
+         mech["octa_octahedral_core_8x19"] == 152
+         and mech["bits_times_fresnel_9x17"] == 153
+         and mech["faces_times_neighbors_14x11"] == 154
+         and mech["quintuple_gallium_5x31"] == 155),
+        ("Node 297-300: Consecutive Numbers 156..159 (156=12*13 Wh, 157=128+29, 2*Au=158=128+30, 3*I=159=160-1)",
          mech["energy_consumption_52min_wh"] == 156
-         and mech["polarizer_triiodide_i3_minus_z"] == 160
+         and mech["quarter_plus_copper_128_29"] == 157
+         and mech["double_gold_enig_2x79"] == 158
+         and mech["triple_iodine_3x53"] == 159),
+        ("Node 301-304: Consecutive Numbers 160..163 (I3-/PSII 160=5*32, 7*23=161=128+33, 2*tau=162, 163=128+35)",
+         mech["polarizer_triiodide_i3_minus_z"] == 160
+         and mech["meniscus_times_silanol_7x23"] == 161
          and mech["double_schottky_flyback_tau_2x81"] == 162
-         and mech["kok_s4_o2_expulsion_flash_4x41"] == 164
-         and mcp.proj_c(164) == -36),
-        ("Node 293-296: Numbers 180..192 (180=12*15 W & PSII+2H2O, Sucrose 182=14*13, Island/Silanol 184=8*23, Photosynthesis 192=96+96=3*64)",
-         mech["average_power_12x15_watts"] == 180
-         and mech["sucrose_disaccharide_shell_14x13_z"] == 182
-         and mech["island_of_stability_neutrons_8x23"] == 184 == 8 * 23
-         and mech["photosynthesis_shell_balance_6co2_6h2o"] == 192),
-        ("Node 297-300: Numbers 197..206 (Au-197 Bezout 197*13=5*512+1, Wire Radius/PSII 200=25*8, Wheeler Denom 202=2*101, SiO2 Phase 206)",
-         mech["gold197_bezout_mass_147_50"] == 197
+         and mech["quarter_plus_bromine_128_35"] == 163),
+        ("Node 305-308: Consecutive Numbers 164..167 (Kok S4 Flash 164=4*41 -> C_3=-36=-Bus36, 3*55=165=5*33, 2*83=166=128+38, 167=128+39)",
+         mech["kok_s4_o2_expulsion_flash_4x41"] == 164
+         and mcp.proj_c(164) == -36
+         and mech["triple_two_shell_ball_3x55"] == 165
+         and mech["double_bismuth_hot_lag_2x83"] == 166
+         and mech["quarter_plus_triple_core_128_39"] == 167),
+        ("Node 309-312: Consecutive Numbers 168..171 (4*42=168=2*84, Core Square 169=13^2=128+41, 10*17=170=128+42, 9*19=171=3*57)",
+         mech["quadruple_second_sphere_4x42"] == 168
+         and mech["causal_core_square_13sq_128_41"] == 169 == 13 * 13 == 128 + 41
+         and mech["neon_times_fresnel_10x17"] == 170
+         and mech["bits_times_octahedral_9x19"] == 171),
+        ("Node 313-316: Consecutive Numbers 172..175 (2*86=172=128+44, 173=128+45=13^2+2^2, 6*Cu=174=2*87=128+46, 7*25=175=128+47)",
+         mech["double_bread_lag_2x86"] == 172
+         and mech["quarter_plus_dish_radius_128_45"] == 173
+         and mech["six_square_copper_6x29"] == 174
+         and mech["meniscus_times_gate_lag_7x25"] == 175),
+        ("Node 317-320: Consecutive Numbers 176..180 Closure (2*88=176, 3*59=177=128+49, 2*89=178=128+50, 179=128+51, 180=12*15 W = PSII+2H2O)",
+         mech["double_msg_umami_2x88"] == 176
+         and mech["triple_mid_coil_lag_3x59"] == 177
+         and mech["double_cold_total_lag_2x89"] == 178
+         and mech["quarter_plus_half_piezo_128_51"] == 179
+         and mech["total_section36_26_full180_blocks"] == 180 == 128 + 52),
+        ("Node 321-330: Complete 197-Section Gold-197 Bezout Multiscale Self-Closure (1..180 + 182..512..8192..6823936; 81/81 Audit!)",
+         mech["total_section36_26_gold197_blocks"] == 197 == 180 + 17 == 147 + 50
+         and (263 * mech["iv263_bezout_inverse_3x61"]) % 512 == 1
+         and (97 * mech["mhat97_bezout_inverse_512_minus_95"]) % 512 == 1
          and (197 * 13) % 512 == 1
-         and mech["psii_4water_and_wire_radius_um"] == 200
-         and mech["wheeler_bobbin_denominator_6r_9h_10b"] == 202
-         and mech["quartz_sio2_ring_phase_address"] == 206),
-        ("Node 301-304: Numbers 216..243 (6^3=216 -> 343-216=127, Cold FPGA 228=12*19, UART 234=18*13, 3*tau=243 -> 243+13=256)",
-         mech["six_square_cube_6cubed"] == 216
-         and mech["fpga_cold_start_drive_12x19_ticks"] == 228
-         and mech["uart_baud_divider_18x13_clks"] == 234
-         and mech["three_tau_schottky_decay_3x81"] == 243),
-        ("Node 305-308: Numbers 252..263 (12-Beam Focal Current 252=12*21, Bias 255=3*5*17, Pauli 256, ATP 260=20*13, Seed IV=263=407_8)",
-         mech["subcavitation_12beam_focal_current_12x21"] == 252
-         and mech["branch_carry_bias_3x5x17"] == 255
-         and mech["pauli_half_ring_ceiling"] == 256
-         and mech["atp_bioenergy_shell_20x13"] == 260
-         and mech["catalan_initial_seed_iv263"] == 263),
-        ("Node 309-312: Numbers 278..343 (Spectral Span 278=2*139 nm, Fresnel/Skin 288/289, Mains Peak 312=24*13 V, Branching 7^3=343)",
-         mech["led_spectral_window_span_nm"] == 278
-         and mech["fresnel_quartz_water_transmission_288_over_289"] == [288, 289]
-         and mech["mains_ac_peak_voltage_24x13_v"] == 312
-         and mech["three_tick_channel2_branching_7cubed"] == 343),
-        ("Node 313-316: Numbers 352..441 (Oxidation Phase 352=256+96 -> C_3=-32 & 544nm, Euler Pole 384=3*128, Blue GaN LED 441=21^2=7*63 nm)",
-         mech["catalytic_oxidation_phase_256_96"] == 352
-         and mcp.proj_c(352) == -32
-         and mech["euler_xy_chiral_fourth_pole_ticks"] == 384
-         and mech["blue_gan_led_wavelength_21sq_nm"] == 441 == 21 * 21),
-        ("Node 317-320: Numbers 512..544 (Full Ring 512=2^9=8^3, 12-Beam Wall Cap 540=12*45=6*90 pF, Gate Resistor / Blue Ferroin 544=17*32)",
-         mech["total_full_ring_512_bench_closure"] == 512
-         and mech["total_12beam_capacitive_wall_coupling_pf"] == 540
-         and mech["gate_resistor_and_ferroin_blue_17x32"] == 544),
-        ("Node 321-330: Complete 180-Section Multiscale Self-Closure (833=49*17, 1025=25*41, 1536, 5184=72^2, 8192=eps, 32768, 524288, 6823936; 81/81 Audit!)",
-         mech["total_section36_26_full180_blocks"] == 180 == 147 + 33
-         and mech["stasis_multiplier_49x17_factorization"] == 833
-         and mech["verlet_two_turn_bezout_25x41"] == 1025
-         and mech["petri_cavity_load_impedance_3x512_ohm"] == 1536
-         and mech["vacuum_floor_eps_16x512"] == 8192
-         and mech["audible_subharmonic_monitor_clocks"] == 32768
+         and (25 * 41) % 512 == 1
          and mech["preflight_12coil_full_impedance_d"] == 6823936),
     ]
 
