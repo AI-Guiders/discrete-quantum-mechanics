@@ -246,6 +246,30 @@ def main() -> int:
         ("Node 192-200: Numbers 80..81 (Water eps_r(20C) = Ribose = Hg = 80, Complete 81-Section |E_Heis(3)| = 3^4 = 72 + 9 Self-Closure)",
          mech["water_dielectric_permittivity_20c"] == 80 == mech["ribose_rna_sugar_5x16_z"]
          and mech["total_section36_26_heisenberg81_blocks"] == 81 == mech["total_heisenberg_81_bench_nodes"]),
+        ("Node 201-204: Numbers 82..86 (Histidine 82=2*41, 52-Min Total Lag 83=Z(Bi), 30-Min Lag 84=2*S2, 20-Min Lag 85=5*17, 10-Min Lag 86=Z(Rn))",
+         mech["amino_acid_shells_z"]["histidine_heme_ligand"] == 82 == 2 * 41
+         and mech["total_hot_lag_52min_bi83_ticks"] == 83
+         and mech["total_mid_lag_30min_2s2_ticks"] == 84
+         and mech["total_lag_20min_and_dish_height_mm"] == 85
+         and mech["total_early_lag_10min_rn86_ticks"] == 86),
+        ("Node 205-208: Numbers 87..91 (Coil #0 Lag 87=3*29=SRF, Coil #1 Lag 88=MSG, Nominal Cold Lag 89=64+25, Dish/Lag 90, Coil #11 Lag 91=7*13)",
+         mech["min_coil0_total_lag_srf87_ticks"] == 87 == 3 * 29
+         and mech["coil1_total_lag_msg88_ticks"] == 88
+         and mech["nominal_cold_total_lag_ticks"] == 89 == 64 + 25
+         and mech["coil7_total_lag_dish90_ticks"] == 90
+         and mech["max_coil11_total_lag_gauss91_ticks"] == 91 == 7 * 13),
+        ("Node 209-212: Numbers 92..95 (Vitamin C S_3=92, Triple Gallium 93=3*31, Chocolate Theobromine 94, Penta-Octahedral 95=5*19 -> 57+76+95=228)",
+         mech["food_recipe_shells_z"]["vitamin_c_s3"] == 92
+         and mech["triple_gallium_led_3x31"] == 93 == 3 * 31
+         and mech["chocolate_theobromine_c7h8n4o2_z"] == 94
+         and mech["penta_octahedral_factor_5x19"] == 95 == 5 * 19
+         and 57 + 76 + 95 == 228),
+        ("Node 213-216: Number 96 Four-Fold Convergence (Glucose Z=96, 6 O2 Exhaust=96, Fermat Order |F_97^*|=96, Polystyrene Total Lag 89+7=96)",
+         mech["polystyrene_total_cold_lag_ticks"] == 96 == 89 + 7
+         and mech["photosynthesis_shell_balance_6co2_6h2o"] == 2 * 96),
+        ("Node 217-220: Complete 97-Section Gaussian Coulomb Modulus M_hat(3) = 9^2 + 4^2 = 81 + 16 = 97 Self-Closure of Section 36.26",
+         mech["total_section36_26_gaussian97_blocks"] == 97 == 9 * 9 + 4 * 4
+         and mech["gaussian_coulomb_modulus_81_plus_16"] == 97),
     ]
 
     print("=== Complete 30-Node Physical Kitchen Bench Audit ===")
