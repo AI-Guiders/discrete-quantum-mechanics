@@ -2686,6 +2686,23 @@ module tb_cuboctahedron_carrier_asic;
         if (brd_ok_cnt !== 32'd2 || brd_err_cnt !== 32'd0)
             errors = errors + 1;
 
+        // Send 3rd 16-byte UART frame: opcode=0x06 (CMD_WRITE_CUSTOM_BEAM_PHASE / Individual Coil Winding Calibration),
+        // arg0=1 (coil vertex #1), arg1=228 (0xE4 = 12 * 19 = 139 + 64 + 25 cold-start pre-compensated phase!),
+        // arg2=4095 (0x0FFF = all 12 output-enable beams active),
+        // xor_crc = 0x06 ^ 0x01 ^ 0xE4 ^ 0xFF ^ 0x0F = 0x13
+        send_uart_byte_4clk(8'hA5);
+        send_uart_byte_4clk(8'h06);
+        send_uart_byte_4clk(8'h01); send_uart_byte_4clk(8'h00); send_uart_byte_4clk(8'h00); send_uart_byte_4clk(8'h00);
+        send_uart_byte_4clk(8'hE4); send_uart_byte_4clk(8'h00); send_uart_byte_4clk(8'h00); send_uart_byte_4clk(8'h00);
+        send_uart_byte_4clk(8'hFF); send_uart_byte_4clk(8'h0F); send_uart_byte_4clk(8'h00); send_uart_byte_4clk(8'h00);
+        send_uart_byte_4clk(8'h13);
+        send_uart_byte_4clk(8'h5A);
+        #5 clk = 1; #5 clk = 0;
+        $display("  -> [UART Individual Coil Calibration Frame 0x06] Frames_OK=%0d, CRC_Err=%0d | Coil #1 Phase=228 (12*19) latched!",
+                 brd_ok_cnt, brd_err_cnt);
+        if (brd_ok_cnt !== 32'd3 || brd_err_cnt !== 32'd0)
+            errors = errors + 1;
+
         $display("======================================================================");
         $display("TOTAL HARDWARE ERRORS = %0d", errors);
         $display("======================================================================");
