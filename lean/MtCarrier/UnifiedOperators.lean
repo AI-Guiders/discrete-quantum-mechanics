@@ -11882,7 +11882,7 @@ def checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp (d : Nat) : 
   let factLock1 : Int := ((d : Int) - (c0OverCSqOp d : Int)) * ((d : Int) - (c0OverCSqOp d : Int))
   let factLock2 : Int := (((nTriangles d : Nat) : Int) - (d : Int)) * (((dInSquare : Nat) : Int) - (d : Int))
   let factLock3 : Int := (((dOutEdge d * dOutEdge d : Nat) : Int) - (d : Int)) * (((dOutEdge d : Nat) : Int) - (d : Int))
-  let factLock4 : Int := (((quarterPeriod d + dOutEdge d : Nat) : Int)) * (((nTriangles d : Nat) : Int) - ((dOutEdge d : Nat) : Int))
+  let factLock4 : Int := (((qSquare d + dOutEdge d : Nat) : Int)) * (((nTriangles d : Nat) : Int) - ((dOutEdge d : Nat) : Int))
   -- 3-level recursive descent law `C_0 - (x + y)*C_1 + x*y*C_2 = 0` on Lock II (`2^5 - 3^3 = 5`)
   -- and Hankel-Wronskian identity `C_1^2 - C_0 * C_2 = x^(5-2) * y^(3-2) * (x - y)^2 = 8 * 3 * 1 = 24 = 2 * |N(3)|`:
   let cDesc0 : Int := cLock2                                                      -- 5 = d_out(E)
