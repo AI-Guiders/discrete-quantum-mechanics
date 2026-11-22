@@ -11960,6 +11960,13 @@ def checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp (d : Nat) : 
   let nilA_67 : Nat := muVac d * (u7_op - nSquares d) * (u7_op * nSquares d - muVac d) -- 1*1*41 = 41 = Δφ_disc(3)
   let nilB_67 : Nat := u7_op * (nSquares d - muVac d) * (muVac d * nSquares d - muVac d) -- 7*5*5 = 175
   let nilC_67 : Nat := nSquares d * (u7_op - muVac d) * (muVac d * u7_op - muVac d) -- 6*6*6 = 216 = |□(3)|^3
+  -- Brahmagupta-Fibonacci double Pythagorean lock on Lock III (`5^3 - 3^4 = 44 = 4 * 11`):
+  -- `(3^3 - 3^1)^2 + (11 - 4)^2 = 24^2 + 7^2 = 15^2 + 20^2 = k_III^2 + (5^2 - 5^1)^2 = 25^2 = 625`!
+  let dyLock3 : Nat := (d ^ d) - d                                                -- 27 - 3 = 24 = 2*|N(3)|
+  let dCLock3 : Nat := (nNeighbors d - muVac d) - dInSquare                       -- 11 - 4 = 7 = d_out(V)
+  let kLock3  : Nat := d * dOutEdge d                                             -- 15 = d*d_out(E)
+  let dxLock3 : Nat := (dOutEdge d * dOutEdge d) - dOutEdge d                     -- 25 - 5 = 20 = 2*Z(Ne)
+  let hypLock3Sq : Nat := (dOutEdge d * dOutEdge d) * (dOutEdge d * dOutEdge d)   -- 25^2 = 625
   eqIntBool detM11 (muVac d : Int) &&
   eqIntBool detM12 (muVac d : Int) &&
   eqIntBool p00 (-((nTriangles d - muVac d : Nat) : Int)) &&
@@ -12023,6 +12030,8 @@ def checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp (d : Nat) : 
   eqNatBool (nilA_67 + nilB_67) nilC_67 &&
   eqNatBool nilA_67 (deltaPhiDisc d) &&
   eqNatBool nilC_67 (nSquares d ^ d) &&
+  eqNatBool (dyLock3 * dyLock3 + dCLock3 * dCLock3) hypLock3Sq &&
+  eqNatBool (kLock3 * kLock3 + dxLock3 * dxLock3) hypLock3Sq &&
   eqIntBool detElbowBez (muVac d : Int) &&
   carryLockM2 && carryGapM3 && carryGapM4 && carryGapM5
 
