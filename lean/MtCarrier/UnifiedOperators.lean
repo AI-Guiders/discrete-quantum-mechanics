@@ -11944,7 +11944,7 @@ def checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp (d : Nat) : 
   let cubicCollRhs : Int := (ypTest ^ 3) * (cLock2 ^ 3) * (uPade + vPade) - cpTest * (yColl1 ^ 3)
   -- Skeletal abc-triple radical decomposition `A_k * X_k^k + B_k * Y_k^k = C_k * Z_k^k` with `A_k * B_k * C_k ≤ rad(A*B*C)^(k-1)`
   -- on the Lock IV top-floor abc-triple `3 + 5^3 = 2^7 = 128 = Q_□(3)` (`rad(3 * 125 * 128) = 2 * 3 * 5 = 30 = Z(SiO_2)`):
-  -- Floor k=3: `3 * 1^3 + 1 * 5^3 = 2 * 4^3 = 128`, root weights product `3 * 1 * 2 = 6 = |□(3)| ≤ 30^2 = 900`, bone gap `5 - 4 = 1 = μ_vac(3)`:
+  -- Floor k=3: `3 * 1^3 + 1 * 5^3 = 2 * 4^3 = 128`, root weights product `3 * 1 * 2 = 6 = |□(3)| ≤ 30^2 = 900`, shaft gap `5 - 4 = 1 = μ_vac(3)`:
   let abcA3 : Nat := d                                                            -- 3
   let abcB3 : Nat := muVac d                                                      -- 1
   let abcC3 : Nat := c0OverCSqOp d                                                -- 2
@@ -12119,21 +12119,21 @@ def checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp (d : Nat) : 
   -- Planetary Differential 3D Orthogonal Frame F_3 = (r, omega, r x omega) (`||r||^2 = 1^2 + 5^2 + 4^2 = 42 = S_2(d)`),
   -- Gear-Slip Brahmagupta Law (`S_AB = 10 = Z(Ne)`, `M_AB = 40 = k_IV`, `M_CA = 44 = C_III`),
   -- Checkerboard Hankel-Vandermonde Differential Matrix H_3 (`S_1 = S_3 = 0`, `-det H_3 = 6 * 12^2 = 864`),
-  -- and Three Lagrange-Vandermonde Bone-Gap Projectors on `3 + 5^3 = 2^7 = 128`:
+  -- and Three Lagrange-Vandermonde Shaft-Gap Projectors on `3 + 5^3 = 2^7 = 128`:
   (let mBC : Int := m3_b1 * m3_c2 + m3_b2 * m3_c1
    let mCA : Int := m3_c1 * m3_a2 + m3_c2 * m3_a1
    let sAB : Int := m3_a1 * m3_b2 - m3_a2 * m3_b1
    let mAB : Int := m3_a1 * m3_b2 + m3_a2 * m3_b1
    let rNormSq : Int := m3_a1 * m3_a1 + m3_b1 * m3_b1 + m3_c1 * m3_c1
    let wNormSq : Int := m3_a2 * m3_a2 + m3_b2 * m3_b2 + m3_c2 * m3_c2
-   let xBone : Int := (muVac d : Int)
-   let yBone : Int := (dOutEdge d : Int)
-   let zBone : Int := (dInSquare : Int)
+   let xShaft : Int := (muVac d : Int)
+   let yShaft : Int := (dOutEdge d : Int)
+   let zShaft : Int := (dInSquare : Int)
    let s0Mom : Int := (abcA3 : Int) + (abcB3 : Int) - (abcC3 : Int)
-   let s1Mom : Int := (abcA3 : Int) * xBone + (abcB3 : Int) * yBone - (abcC3 : Int) * zBone
-   let s2Mom : Int := (abcA3 : Int) * (xBone ^ 2) + (abcB3 : Int) * (yBone ^ 2) - (abcC3 : Int) * (zBone ^ 2)
-   let s4Mom : Int := (abcA3 : Int) * (xBone ^ 4) + (abcB3 : Int) * (yBone ^ 4) - (abcC3 : Int) * (zBone ^ 4)
-   let vand3 : Int := (xBone - yBone) * (yBone - zBone) * (zBone - xBone)
+   let s1Mom : Int := (abcA3 : Int) * xShaft + (abcB3 : Int) * yShaft - (abcC3 : Int) * zShaft
+   let s2Mom : Int := (abcA3 : Int) * (xShaft ^ 2) + (abcB3 : Int) * (yShaft ^ 2) - (abcC3 : Int) * (zShaft ^ 2)
+   let s4Mom : Int := (abcA3 : Int) * (xShaft ^ 4) + (abcB3 : Int) * (yShaft ^ 4) - (abcC3 : Int) * (zShaft ^ 4)
+   let vand3 : Int := (xShaft - yShaft) * (yShaft - zShaft) * (zShaft - xShaft)
    let detH3Neg : Int := (s2Mom ^ 3) - s4Mom * (s0Mom * s2Mom - s1Mom * s1Mom)
    eqIntBool (m3_a1 * m3_a2 + m3_b1 * m3_b2 - m3_c1 * m3_c2) 0 &&
    eqIntBool rNormSq ((cuboctShellSizeOp d (c0OverCSqOp d) : Nat) : Int) &&
@@ -12146,10 +12146,10 @@ def checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp (d : Nat) : 
    eqIntBool s1Mom 0 &&
    eqIntBool vand3 (-(nNeighbors d : Int)) &&
    eqIntBool detH3Neg ((nSquares d * nNeighbors d * nNeighbors d : Nat) : Int) &&
-   eqIntBool (s1Mom * yBone * zBone - s2Mom * (yBone + zBone)) ((abcA3 : Int) * xBone * (xBone - yBone) * (xBone - zBone)) &&
-   eqIntBool (s1Mom * zBone * xBone - s2Mom * (zBone + xBone)) ((abcB3 : Int) * yBone * (yBone - xBone) * (yBone - zBone)) &&
-   eqIntBool (s2Mom * (xBone + yBone) - s1Mom * xBone * yBone) ((abcC3 : Int) * zBone * (zBone - xBone) * (zBone - yBone)) &&
-   -- Internal Bone-Bézout Gauss-Shell Inversion Matrix K_Bezout (`det = 4^3 - 3^3 = 37`) on Lock II
+   eqIntBool (s1Mom * yShaft * zShaft - s2Mom * (yShaft + zShaft)) ((abcA3 : Int) * xShaft * (xShaft - yShaft) * (xShaft - zShaft)) &&
+   eqIntBool (s1Mom * zShaft * xShaft - s2Mom * (zShaft + xShaft)) ((abcB3 : Int) * yShaft * (yShaft - xShaft) * (yShaft - zShaft)) &&
+   eqIntBool (s2Mom * (xShaft + yShaft) - s1Mom * xShaft * yShaft) ((abcC3 : Int) * zShaft * (zShaft - xShaft) * (zShaft - yShaft)) &&
+   -- Internal Shaft-Bézout Gauss-Shell Inversion Matrix K_Bezout (`det = 4^3 - 3^3 = 37`) on Lock II
    -- and Unimodular 2x3 Conjugate Bézout Partner Matrix B_{2x3} (`Av - Bu = Aw - Cu = Cv - Bw = +1`, `I_1 = 333 = 9 * 37`) on Lock IV:
    (let wBez2     : Int := (muVac d : Int)
     let vBez2     : Int := (c0OverCSqOp d : Int)
@@ -12158,32 +12158,32 @@ def checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp (d : Nat) : 
     let uBez4     : Int := (muVac d : Int)
     let vBez4     : Int := rNormSq
     let wBez4     : Int := uBez4 + vBez4
-    let wBone4    : Int := (d : Int)
-    let vBone4    : Int := (dInSquare : Int)
-    let apBone4   : Int := (abcC3 : Int) * (wBone4 ^ 3) - (abcB3 : Int) * (vBone4 ^ 3)
-    let i1Bone4   : Int := ((qSquare d : Int) + (c0OverCSqOp d : Int) * minor3_B) - minor3_A * yBone * wBone4
+    let wShaft4   : Int := (d : Int)
+    let vShaft4   : Int := (dInSquare : Int)
+    let apShaft4  : Int := (abcC3 : Int) * (wShaft4 ^ 3) - (abcB3 : Int) * (vShaft4 ^ 3)
+    let i1Shaft4  : Int := ((qSquare d : Int) + (c0OverCSqOp d : Int) * minor3_B) - minor3_A * yShaft * wShaft4
     eqIntBool (xColl0 * vBez2 - yColl0 * wBez2) (muVac d : Int) &&
     eqIntBool ((wBez2 ^ 3) * cLock2 - (xColl0 ^ 3) * apBez2) phiGauss2 &&
     eqIntBool ((vBez2 ^ 3) * cLock2 - (yColl0 ^ 3) * apBez2) ((dInSquare : Int) * phiGauss2) &&
     eqIntBool (minor3_A * vBez4 - minor3_B * uBez4) (muVac d : Int) &&
     eqIntBool (minor3_A * wBez4 - (qSquare d : Int) * uBez4) (muVac d : Int) &&
     eqIntBool ((qSquare d : Int) * vBez4 - minor3_B * wBez4) (muVac d : Int) &&
-    eqIntBool (zBone * vBone4 - yBone * wBone4) (muVac d : Int) &&
-    eqIntBool apBone4 (-sAB) &&
-    eqIntBool i1Bone4 ((modBits d : Int) * phiGauss2) &&
+    eqIntBool (zShaft * vShaft4 - yShaft * wShaft4) (muVac d : Int) &&
+    eqIntBool apShaft4 (-sAB) &&
+    eqIntBool i1Shaft4 ((modBits d : Int) * phiGauss2) &&
     -- Integer Mason-Stothers-Bézout Derivative Triple (alpha, beta, gamma) = (1, 7, 11) on `3*1^3 + 1*5^3 = 2*4^3 = 128`:
     -- `A* + B* = C*` (`1 + 175 = 176`), Wronskian `W* = 3*175 - 125*1 = 400 = 1^2 * 5^2 * 4^2`,
     -- and 3x3 fourth-power determinant `-det(W_MS) = 1^4 + 5^4 + 4^4 = 882 = λ_triplet(3)`!
     (let alphaMS : Int := (muVac d : Int)
      let betaMS  : Int := ((nTriangles d - muVac d : Nat) : Int)
      let gammaMS : Int := ((nNeighbors d - muVac d : Nat) : Int)
-     let aStar4  : Int := (xBone * xBone) * alphaMS
-     let bStar4  : Int := (yBone * yBone) * betaMS
-     let cStar4  : Int := (zBone * zBone) * gammaMS
+     let aStar4  : Int := (xShaft * xShaft) * alphaMS
+     let bStar4  : Int := (yShaft * yShaft) * betaMS
+     let cStar4  : Int := (zShaft * zShaft) * gammaMS
      let wStar4  : Int := minor3_A * bStar4 - minor3_B * aStar4
-     let detWMS4 : Int := (xBone ^ 4) + (yBone ^ 4) + (zBone ^ 4)
+     let detWMS4 : Int := (xShaft ^ 4) + (yShaft ^ 4) + (zShaft ^ 4)
      eqIntBool (aStar4 + bStar4) cStar4 &&
-     eqIntBool wStar4 ((xBone * xBone) * (yBone * yBone) * (zBone * zBone)) &&
+     eqIntBool wStar4 ((xShaft * xShaft) * (yShaft * yShaft) * (zShaft * zShaft)) &&
      eqIntBool detWMS4 (((c0OverCSqOp d * ((d * (nTriangles d - muVac d)) ^ 2) : Nat) : Int))))) &&
   eqIntBool detElbowBez (muVac d : Int) &&
   carryLockM2 && carryGapM3 && carryGapM4 && carryGapM5
