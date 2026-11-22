@@ -6301,6 +6301,217 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
     eqNatBool totalSection36_26Ball147 totalBenchThreeShellBall147 &&
     eqNatBool totalSection36_26Ball147 (cuboctBallOp d) &&
     eqNatBool (totalSection36_26Ball147 - zPalmiticLipid144) d
+  finitePerturbationOk && stringDimsDemystifiedOk && singleUniverseFiberOk &&
+  mosfetCoilDishBridgeOk && kitchenWaterAndThermalDriftOk && complete10NodeBenchOk &&
+  mutualInductanceDiagonalOk && flybackPiezoAndAdcOk && frameIsolationAndGeomagneticOk &&
+  wiringSolderAnd3dToleranceOk && skinEmcWettingAndVibrationOk && moistAirSrfBjerknesAndEsdOk &&
+  pdmsPcbAnd30NodeClosureOk && preflightContinuityDiagnosticOk && wheelerAirCoreAndMmfOk &&
+  glassCleaningAndPhotoLedOk && peltierPhAndStoichiometryOk && siliconFuseAnd36EdgeClosureOk &&
+  gate0PolarizerRecipesAnd42ClosureOk && snellFresnelAnd55BallClosureOk &&
+  verlet72CompleteBenchClosureOk && heisenberg81CompleteBenchClosureOk &&
+  ball147CompleteBenchClosureOk && ring512CompleteBenchClosureOk &&
+  eps8192CompleteBenchClosureOk && telemetryAll512RecoveryOk &&
+  full52MinDigitalTwinScheduleOk && closedLoopPll1TickAll512DisturbancesOk &&
+  bus36PreFlightAll13StatesOk && gorkov3dTrapAndBjerknesRingsOk &&
+  subcavitationFocusAndChiralTorqueOk && thermodynamic30ClosureOk &&
+  acousticFixedPoint4ModesOk && maillardPeptideAnd32ClosureOk &&
+  hydrostaticGeometry33Ok && waterDielectricShift34Ok &&
+  umamiAndCystineDisulfide35Ok && section36SelfClosureOk &&
+  coilReactivePowerBalance37Ok && allSixCulinaryRecipes38Ok &&
+  bayerWebcamMatrix39Ok && worstCaseNoiseImmunity40Ok &&
+  heisenberg41DecompositionOk && section42SecondSphereClosureOk &&
+  stage0WaterMolarStoichiometry43Ok && coldMeniscusSterilization44Ok &&
+  mainsTransformerRatio45Ok && magneticPermeabilityUnity46Ok &&
+  canonicalAminoAcidLadder47Ok && customBus108Closure48Ok &&
+  mujoco49SquareInvariantOk && magic50BenchConvergenceOk &&
+  halfPiezo51FactorOk && tellurium52ConvergenceOk &&
+  iodine53CheckpointsOk && malonic54ConvergenceOk &&
+  section55TwoShellBallClosureOk && number56ConvergenceOk &&
+  number57FactorOk && number58HotLagOk && number59MidLagOk &&
+  number60ConvergenceOk && number61EarlyLagOk && number62MinCoilLagOk &&
+  number63HydrogenBondOk && number64KpConvergenceOk && number65StasisTempOk &&
+  number66MutualAndCu2OOk && number67BridgeOk && number68ConvergenceOk &&
+  number69ThermalSpanOk && number70HemeConvergenceOk && number71VerletMsbOk &&
+  section72VerletSelfClosureOk && number73RadiusOk &&
+  number74OptocouplerNsOk && number75TripleGateOk && number76FactorOk &&
+  number77GlutamateAnionOk && number78UmamiPtMmoOk && number79GoldPlatingOk &&
+  number80WaterRiboseOk && section81HeisenbergSelfClosureOk &&
+  number82HistidineOk && number83BismuthHotLagOk && number84MidTotalLagOk &&
+  number85LagAndHeightOk && number86BreadRadonLagOk && number87SrfTripleCuOk &&
+  number88MsgLagOk && number89ColdLagOk && number90QuartzDishOk &&
+  number91MaxLagGaussOk && number92VitaminCS3Ok && number93TripleGaOk &&
+  number94TheobromineOk && number95PentaOctahedralOk && number96FourFoldOk &&
+  section97GaussianSelfClosureOk && number98DodecaneOk &&
+  number99NeighborBitsOk && number100FiveFoldOk && number101WheelerPrimeOk &&
+  number102PiezoCaffeineOk && number103ActinideOk && number104OctahedralCoreOk &&
+  number105OddTriadOk && number106KokOxoAndI2Ok && number107BusMsbOk &&
+  number108ThreeFoldOk && number109LagPlusCapOk && number110DoubleBallOk &&
+  number111ThreeTickNsOk && number112DoubleSpanOk && number113KpPlusGeomsOk &&
+  number114ThreeFoldOk && number115SilanolOk && number116EquatorialCuOk &&
+  number117CollapseCurrentOk && number118GoldNeutronsOk && number119MeniscusFresnelOk &&
+  number120AcrylamideAtpOk && number121NeighborSqOk && number122DoubleEarlyLagOk &&
+  number123KokS3FlashOk && number124QuadGaOk && number125EdgeCubeOk &&
+  number126CystineWindowOk && number127PeltierGaussOk &&
+  section128QuarterRingSelfClosureOk && number129MeniscusGateOk &&
+  number130VortexCetaneOk && number131PrimeOk && number132ThreeFoldOk &&
+  number133CesiumMassOk && number134QuarterSquaresOk && number135FiveCubesOk &&
+  number136TrianglesFresnelOk && number137FineStructureOk && number138SixSilanolOk &&
+  number139CollapseResonanceOk && number140AminoMeniscusOk && number141TripleLactateOk &&
+  number142DoubleMsbOk && number143NeighborCoreOk && number144FourFoldOk &&
+  number145FiveCopperOk && number146DoubleRadiusOk &&
+  section147ThreeShellBallSelfClosureOk
+
+/-- **Section 36.26 (Part II — Sections `148..343` Through `8192 = ε(3)` and `D_stasis = 6,823,936`):**
+Consecutive multiscale physical kitchen bench ladder from `148` (`4 * 37 ns` optocoupler window) through `180 W`,
+`197 Au` Bezout, `228` cold FPGA drive, `234` UART baud divider, `256` Pauli ceiling, `263 = IV(d)` initial seed,
+`273 K` ice point, `289 = 17²` Fresnel denominator, `298 K` standard temperature, `300` 12-channel gate delay sum,
+`312 V` mains peak, `333 ns` 9-bit word duration, `341 K` Maillard temperature, and `343 = 7³ = d_out(V)^d` preimage branching cube! -/
+def checkKitchenBenchConsecutive148To343MultiscaleClosureOp (d : Nat) : Bool :=
+  let zSi : Nat := nPhi d + muVac d                                               -- 14
+  let zO2 : Nat := c0OverCSqOp d * zOxygenOp d                                    -- 16
+  let zSiO2 : Nat := zSi + zO2                                                    -- 30
+  let zCu : Nat := nuclearMagicHighOp d dInSquare + muVac d                       -- 29
+  let zGallium : Nat := (nTriangles d * dInSquare) - muVac d                      -- 31
+  let zSilanolGroup : Nat := zSi + nTriangles d + muVac d                         -- 23
+  let zSilanolHydratedBridge : Nat := zSilanolGroup + zNeonOp d                   -- 33
+  let zCarbonDioxide : Nat := zCarbonOp d + c0OverCSqOp d * zOxygenOp d           -- 22
+  let zTinSolderMagic : Nat := c0OverCSqOp d * (dOutEdge d * dOutEdge d)          -- 50
+  let zPlaMonomer : Nat := d * zCarbonOp d + dInSquare * muVac d + c0OverCSqOp d * nTriangles d -- 38
+  let zPotassium40Proton19 : Nat := muVac d + nNeighbors d + nSquares d           -- 19
+  let fresnelSum17 : Nat := modBits d + nTriangles d                              -- 17
+  let halfPiezoFresnel51 : Nat := d * fresnelSum17                                -- 51
+  let singleTick37Ns : Nat := (nTriangles d - muVac d) * dOutEdge d + c0OverCSqOp d -- 37
+  let optocoupler2Tick74Ns : Nat := c0OverCSqOp d * singleTick37Ns                -- 74
+  let singleRaySubcavitationPhase21 : Nat := phiPauli d / nNeighbors d            -- 21
+  let canonicalAminoAcidCount20 : Nat := dInSquare * dOutEdge d                   -- 20
+  let benchPowerPerChannel15W : Nat := d * dOutEdge d                             -- 15
+  let benchTotalAvgPower180W : Nat := nNeighbors d * benchPowerPerChannel15W      -- 180
+  let minutesPerHour60 : Nat := dInSquare * benchPowerPerChannel15W               -- 60
+  let zTellurium52 : Nat := dInSquare * nPhi d                                    -- 52
+  let energyBudget52Min156Wh : Nat := nNeighbors d * nPhi d                       -- 156
+  let dcBusVoltage24V : Nat := c0OverCSqOp d * nNeighbors d                       -- 24
+  let zGoldPcbPlating79 : Nat := nSquares d * nPhi d + muVac d                    -- 79
+  let zIodine53 : Nat := cuboctShellSizeOp d (c0OverCSqOp d) + (nNeighbors d - muVac d) -- 53
+  let zTriiodidePolarizer160 : Nat := d * zIodine53 + muVac d                     -- 160
+  let flybackTauTicks : Nat := heisenbergEquivClassSizeOp d                       -- 81
+  let totalBenchUnitBallEdges36 : Nat := nNeighbors d + c0OverCSqOp d * nNeighbors d -- 36
+  let totalBenchTwoShellBallNodes55 : Nat := muVac d + nNeighbors d + cuboctShellSizeOp d (c0OverCSqOp d) -- 55
+  let totalBenchThreeShellBall147 : Nat := totalBenchTwoShellBallNodes55 + cuboctShellSizeOp d d -- 147
+  let totalSection36_26Ball147 : Nat := totalBenchThreeShellBall147               -- 147
+  let zBismuth83 : Nat := heisenbergEquivClassSizeOp d + c0OverCSqOp d            -- 83
+  let zGlycine40 : Nat := deltaPhiDisc d - muVac d                                -- 40
+  let zLacticAcidMilk48 : Nat := dInSquare * nNeighbors d                         -- 48
+  let midRunCoilLag30Min59 : Nat := kP d - dOutEdge d                             -- 59
+  let totalMidLag30Min84 : Nat := midRunCoilLag30Min59 + dOutEdge d * dOutEdge d  -- 84
+  let coilTurns60 : Nat := dOutEdge d * nNeighbors d                              -- 60
+  let totalLag20Min85 : Nat := coilTurns60 + dOutEdge d * dOutEdge d              -- 85
+  let benchNumber57 : Nat := d * zPotassium40Proton19                             -- 57
+  let zBreadAmylose86 : Nat := heisenbergEquivClassSizeOp d + dOutEdge d          -- 86
+  let minHandWoundCoilLag62 : Nat := kP d - c0OverCSqOp d                         -- 62
+  let minTotalCoil0Lag87 : Nat := minHandWoundCoilLag62 + dOutEdge d * dOutEdge d -- 87
+  let hydrogenBondModulus63 : Nat := kP d - muVac d                               -- 63
+  let zMsgUmami88 : Nat := nTriangles d * (nNeighbors d - muVac d)                -- 88
+  let mujocoBenchGeomCount49 : Nat := (nTriangles d - muVac d) * (nTriangles d - muVac d) -- 49
+  let nominalColdTotalLag89 : Nat := kP d + dOutEdge d * dOutEdge d               -- 89
+  let zCitricAcidNectar100 : Nat := dInSquare * (dOutEdge d * dOutEdge d)         -- 100
+  let zMalonicAcid54 : Nat := nSquares d * modBits d                              -- 54
+  let zGlucose96 : Nat := mHat d - muVac d                                        -- 96
+  let zSixO2Vented96 : Nat := nSquares d * zO2                                    -- 96
+  let zSucroseDisaccharide182 : Nat := c0OverCSqOp d * zGlucose96 - zNeonOp d     -- 182
+  let earlyRunCoilLag10Min61 : Nat := kP d - d                                    -- 61
+  let benchNumber56 : Nat := (nTriangles d - muVac d) * nTriangles d              -- 56
+  let hotCoilLag52Min58 : Nat := kP d - nSquares d                                -- 58
+  let zTheobromineChocolate94 : Nat := zGlucose96 - c0OverCSqOp d                 -- 94
+  let sixCarbonDioxides132 : Nat := nSquares d * zCarbonDioxide                   -- 132
+  let sixSubstrateWaters60 : Nat := nSquares d * zNeonOp d                        -- 60
+  let stasisHoldingTemp65C : Nat := dOutEdge d * nPhi d                           -- 65
+  let zPalmiticLipid144 : Nat := nNeighbors d * nNeighbors d                      -- 144
+  let mHatGaussian97 : Nat := mHat d                                              -- 97
+  let mutualCoilPairs66 : Nat := nSquares d * (nNeighbors d - muVac d)            -- 66
+  let benchNumber67 : Nat := kP d + d                                             -- 67
+  let maillardCrustTemp68C : Nat := kP d + dInSquare                              -- 68
+  let fullThermalSpan69C : Nat := d * zSilanolGroup                               -- 69
+  let pentaOctahedral95 : Nat := dOutEdge d * zPotassium40Proton19                -- 95
+  let zCutletHeme70 : Nat := kP d + nSquares d                                    -- 70
+  let verletCell72MsbIndex71 : Nat := twoTickPhaseSpaceBitBudgetOp d - muVac d    -- 71
+  let wireRadiusUm : Nat := c0OverCSqOp d * (dOutEdge d * dOutEdge d * dInSquare) -- 200
+  let totalBenchVerlet72Closure : Nat := twoTickPhaseSpaceBitBudgetOp d           -- 72
+  let frameCircumscribedRadius73Mm : Nat := kP d + modBits d                      -- 73
+  let wheelerRadiusTerm54 : Nat := nSquares d * modBits d                         -- 54
+  let wheelerLengthTerm108 : Nat := modBits d * nNeighbors d                      -- 108
+  let wheelerDenom202 : Nat := wheelerRadiusTerm54 + wheelerLengthTerm108 + dInSquare * zNeonOp d -- 202
+  let collagenTripleGate75 : Nat := d * (dOutEdge d * dOutEdge d)                 -- 75
+  let zBaTiO3Piezo : Nat := nSquares d * fresnelSum17                             -- 102
+  let tetraOctahedral76 : Nat := dInSquare * zPotassium40Proton19                 -- 76
+  let zGlutamicAcidUmami78 : Nat := nSquares d * nPhi d                           -- 78
+  let zGlutamateAnion77 : Nat := zGlutamicAcidUmami78 - muVac d                   -- 77
+  let waterDielectric20C_80 : Nat := dOutEdge d * zO2                             -- 80
+  let zHistidineHemeLigand82 : Nat := heisenbergEquivClassSizeOp d + muVac d      -- 82
+  let custom12CoilBusBits108 : Nat := nNeighbors d * modBits d                    -- 108
+  let custom12CoilBusMsb107 : Nat := custom12CoilBusBits108 - muVac d             -- 107
+  let peltierCoupleCount127 : Nat := qSquare d - muVac d                          -- 127
+  let zAlphaQuartzUnit90 : Nat := d * zSiO2                                       -- 90
+  let maxTotalCoil11Lag91 : Nat := (nTriangles d - muVac d) * nPhi d              -- 91
+  let zVitaminCS3_92 : Nat := cuboctShellSizeOp d d                               -- 92
+  let tripleGallium93 : Nat := d * zGallium                                       -- 93
+  let doubleMujocoGeoms98 : Nat := c0OverCSqOp d * mujocoBenchGeomCount49         -- 98
+  let neighborBitWires99 : Nat := modBits d * (nNeighbors d - muVac d)            -- 99
+  let fpgaColdStartDrive228 : Nat := nNeighbors d * zPotassium40Proton19          -- 228
+  let wheelerPrime101 : Nat := zCitricAcidNectar100 + muVac d                     -- 101
+  let uartBaudDivider234 : Nat := zArgonOp d * nPhi d                             -- 234
+  let singleChannelWallCap45Pf : Nat := dOutEdge d * modBits d                    -- 45
+  let coilLagPlusWallCap109 : Nat := kP d + singleChannelWallCap45Pf              -- 109
+  let meniscusFresnel119 : Nat := (nTriangles d - muVac d) * fresnelSum17         -- 119
+  let doubleTwoShellBall110 : Nat := c0OverCSqOp d * totalBenchTwoShellBallNodes55 -- 110
+  let threeTickDuration111Ns : Nat := d * singleTick37Ns                          -- 111
+  let acrylamideThreshold120C : Nat := zNeonOp d * nNeighbors d                   -- 120
+  let doubleMaillardDewSpan112 : Nat := c0OverCSqOp d * benchNumber56             -- 112
+  let kpPlusMujocoGeoms113 : Nat := kP d + mujocoBenchGeomCount49                 -- 113
+  let neighborSquare121 : Nat := (nNeighbors d - muVac d) * (nNeighbors d - muVac d) -- 121
+  let zCalciumLactateCheese114 : Nat := nSquares d * zPotassium40Proton19         -- 114
+  let threeTauDecayTicks : Nat := d * flybackTauTicks                             -- 243
+  let fiveFoldSilanol115 : Nat := dOutEdge d * zSilanolGroup                      -- 115
+  let fourEquatorialCopper116 : Nat := dInSquare * zCu                            -- 116
+  let collapseOddCurrent117 : Nat := modBits d * nPhi d                           -- 117
+  let kokS3ThirdFlash123 : Nat := d * deltaPhiDisc d                              -- 123
+  let gold197Neutrons118 : Nat := aGold197MassOp d - zGoldOp d                    -- 118
+  let outwardEdgeCube125 : Nat := (dOutEdge d) ^ d                                -- 125
+  let doubleEarlyCoilLag122 : Nat := c0OverCSqOp d * earlyRunCoilLag10Min61       -- 122
+  let coherent12BeamFocalCurrent252 : Int := (nNeighbors d : Int) * projS d (singleRaySubcavitationPhase21 : Int) -- 252
+  let quadrupleGallium124 : Nat := dInSquare * zGallium                           -- 124
+  let zCystineDisulfide126 : Nat := c0OverCSqOp d * hydrogenBondModulus63         -- 126
+  let meniscusGate129 : Nat := qSquare d + muVac d                                -- 129
+  let vortexStepCetane130 : Nat := zNeonOp d * nPhi d                             -- 130
+  let quarterPlusDim131 : Nat := qSquare d + d                                    -- 131
+  let orderedCoilPairs132 : Nat := nNeighbors d * (nNeighbors d - muVac d)        -- 132
+  let cesium133AtomicMass : Nat := (nTriangles d - muVac d) * zPotassium40Proton19 -- 133
+  let quarterPlusSquares134 : Nat := qSquare d + nSquares d                       -- 134
+  let fiveMooreCubes135 : Nat := dOutEdge d * (d ^ d)                             -- 135
+  let trianglesTimesFresnel136 : Nat := nTriangles d * fresnelSum17               -- 136
+  let alphaFsFloor137 : Nat := qSquare d + modBits d                              -- 137
+  let sixSquareSilanol138 : Nat := nSquares d * zSilanolGroup                     -- 138
+  let aCohNat139 : Nat := qSquare d + nNeighbors d - muVac d                      -- 139
+  let aminoTimesMeniscus140 : Nat := canonicalAminoAcidCount20 * (nTriangles d - muVac d) -- 140
+  let tripleLactateAnion141 : Nat := d * (zLacticAcidMilk48 - muVac d)            -- 141
+  let doubleVerletMsb142 : Nat := c0OverCSqOp d * verletCell72MsbIndex71          -- 142
+  let neighborTimesCore143 : Nat := (nNeighbors d - muVac d) * nPhi d             -- 143
+  let fiveLayersCopper145 : Nat := dOutEdge d * zCu                               -- 145
+  let doubleFrameRadius146Mm : Nat := c0OverCSqOp d * frameCircumscribedRadius73Mm -- 146
+  let ledSpectralSpan278Nm : Nat := c0OverCSqOp d * aCohNat139                    -- 278
+  let skinDepthCu52kHzUm : Nat := nTriangles d * totalBenchUnitBallEdges36        -- 288
+  let fresnelDenom289 : Nat := fresnelSum17 * fresnelSum17                        -- 289
+  let fresnelTransmittedNum288 : Nat := fresnelDenom289 - muVac d                 -- 288
+  let mainsPeakVoltage312V : Nat := dcBusVoltage24V * nPhi d                      -- 312
+  let eulerQuadraturePole384 : Nat := d * qSquare d                               -- 384
+  let totalBenchFullRing512Closure : Nat := nRing d                               -- 512
+  let total12BeamWallCap540Pf : Nat := nNeighbors d * singleChannelWallCap45Pf    -- 540
+  let gateResistorAndFerroin544 : Nat := fresnelSum17 * (kP d / c0OverCSqOp d)    -- 544
+  let stasisMultiplier833 : Nat := muVac d + nPhi d * kP d                        -- 833
+  let bezoutGateHeisenberg1025 : Nat := (dOutEdge d * dOutEdge d) * deltaPhiDisc d -- 1025
+  let cavityLoadImpedance1536 : Nat := d * nRing d                                -- 1536
+  let hiddenMicrostates : Nat := tLayerHiddenMicrostatesPerCellOp d               -- 5184
+  let vacuumFloorEps8192 : Nat := zO2 * nRing d                                   -- 8192
+  let audioSubharmonicPeriod32768 : Nat := nRing d * kP d                         -- 32768
   -- 148. Number 148 Double Optocoupler `6N137` Delay in Nanoseconds (`148 = 4 * 37 = d_in(□) * T_tick,ns = 2 * 74 = 128 + 20`):
   let doubleOptoDelay148Ns : Nat := c0OverCSqOp d * optocoupler2Tick74Ns          -- 2 * 74 = 148 ns (4 ticks)
   let number148DoubleOptoNsOk :=
@@ -7430,65 +7641,7 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
     eqNatBool hiddenMicrostates 5184 &&
     eqNatBool vacuumFloorEps8192 8192 &&
     eqNatBool audioSubharmonicPeriod32768 32768
-  finitePerturbationOk && stringDimsDemystifiedOk && singleUniverseFiberOk &&
-  mosfetCoilDishBridgeOk && kitchenWaterAndThermalDriftOk && complete10NodeBenchOk &&
-  mutualInductanceDiagonalOk && flybackPiezoAndAdcOk && frameIsolationAndGeomagneticOk &&
-  wiringSolderAnd3dToleranceOk && skinEmcWettingAndVibrationOk && moistAirSrfBjerknesAndEsdOk &&
-  pdmsPcbAnd30NodeClosureOk && preflightContinuityDiagnosticOk && wheelerAirCoreAndMmfOk &&
-  glassCleaningAndPhotoLedOk && peltierPhAndStoichiometryOk && siliconFuseAnd36EdgeClosureOk &&
-  gate0PolarizerRecipesAnd42ClosureOk && snellFresnelAnd55BallClosureOk &&
-  verlet72CompleteBenchClosureOk && heisenberg81CompleteBenchClosureOk &&
-  ball147CompleteBenchClosureOk && ring512CompleteBenchClosureOk &&
-  eps8192CompleteBenchClosureOk && telemetryAll512RecoveryOk &&
-  full52MinDigitalTwinScheduleOk && closedLoopPll1TickAll512DisturbancesOk &&
-  bus36PreFlightAll13StatesOk && gorkov3dTrapAndBjerknesRingsOk &&
-  subcavitationFocusAndChiralTorqueOk && thermodynamic30ClosureOk &&
-  acousticFixedPoint4ModesOk && maillardPeptideAnd32ClosureOk &&
-  hydrostaticGeometry33Ok && waterDielectricShift34Ok &&
-  umamiAndCystineDisulfide35Ok && section36SelfClosureOk &&
-  coilReactivePowerBalance37Ok && allSixCulinaryRecipes38Ok &&
-  bayerWebcamMatrix39Ok && worstCaseNoiseImmunity40Ok &&
-  heisenberg41DecompositionOk && section42SecondSphereClosureOk &&
-  stage0WaterMolarStoichiometry43Ok && coldMeniscusSterilization44Ok &&
-  mainsTransformerRatio45Ok && magneticPermeabilityUnity46Ok &&
-  canonicalAminoAcidLadder47Ok && customBus108Closure48Ok &&
-  mujoco49SquareInvariantOk && magic50BenchConvergenceOk &&
-  halfPiezo51FactorOk && tellurium52ConvergenceOk &&
-  iodine53CheckpointsOk && malonic54ConvergenceOk &&
-  section55TwoShellBallClosureOk && number56ConvergenceOk &&
-  number57FactorOk && number58HotLagOk && number59MidLagOk &&
-  number60ConvergenceOk && number61EarlyLagOk && number62MinCoilLagOk &&
-  number63HydrogenBondOk && number64KpConvergenceOk && number65StasisTempOk &&
-  number66MutualAndCu2OOk && number67BridgeOk && number68ConvergenceOk &&
-  number69ThermalSpanOk && number70HemeConvergenceOk && number71VerletMsbOk &&
-  section72VerletSelfClosureOk && number73RadiusOk &&
-  number74OptocouplerNsOk && number75TripleGateOk && number76FactorOk &&
-  number77GlutamateAnionOk && number78UmamiPtMmoOk && number79GoldPlatingOk &&
-  number80WaterRiboseOk && section81HeisenbergSelfClosureOk &&
-  number82HistidineOk && number83BismuthHotLagOk && number84MidTotalLagOk &&
-  number85LagAndHeightOk && number86BreadRadonLagOk && number87SrfTripleCuOk &&
-  number88MsgLagOk && number89ColdLagOk && number90QuartzDishOk &&
-  number91MaxLagGaussOk && number92VitaminCS3Ok && number93TripleGaOk &&
-  number94TheobromineOk && number95PentaOctahedralOk && number96FourFoldOk &&
-  section97GaussianSelfClosureOk && number98DodecaneOk &&
-  number99NeighborBitsOk && number100FiveFoldOk && number101WheelerPrimeOk &&
-  number102PiezoCaffeineOk && number103ActinideOk && number104OctahedralCoreOk &&
-  number105OddTriadOk && number106KokOxoAndI2Ok && number107BusMsbOk &&
-  number108ThreeFoldOk && number109LagPlusCapOk && number110DoubleBallOk &&
-  number111ThreeTickNsOk && number112DoubleSpanOk && number113KpPlusGeomsOk &&
-  number114ThreeFoldOk && number115SilanolOk && number116EquatorialCuOk &&
-  number117CollapseCurrentOk && number118GoldNeutronsOk && number119MeniscusFresnelOk &&
-  number120AcrylamideAtpOk && number121NeighborSqOk && number122DoubleEarlyLagOk &&
-  number123KokS3FlashOk && number124QuadGaOk && number125EdgeCubeOk &&
-  number126CystineWindowOk && number127PeltierGaussOk &&
-  section128QuarterRingSelfClosureOk && number129MeniscusGateOk &&
-  number130VortexCetaneOk && number131PrimeOk && number132ThreeFoldOk &&
-  number133CesiumMassOk && number134QuarterSquaresOk && number135FiveCubesOk &&
-  number136TrianglesFresnelOk && number137FineStructureOk && number138SixSilanolOk &&
-  number139CollapseResonanceOk && number140AminoMeniscusOk && number141TripleLactateOk &&
-  number142DoubleMsbOk && number143NeighborCoreOk && number144FourFoldOk &&
-  number145FiveCopperOk && number146DoubleRadiusOk &&
-  section147ThreeShellBallSelfClosureOk && number148DoubleOptoNsOk &&
+  number148DoubleOptoNsOk &&
   number149QuarterSeamOk && number150ThreeFoldOk && number151QuarterSilanolOk &&
   number152OctaCoreOk && number153BitsFresnelOk && number154FacesNeighborsOk &&
   number155QuintupleGaOk && number156Energy156WhOk && number157QuarterCuOk &&
@@ -7665,9 +7818,10 @@ theorem laplace_demon_impossibility_and_geometric_maxwell_demon_operator (d : Na
        checkVerletHeisenberg4DVideoTvCodecOp d = true ∧
        checkSenkuXenoSubthresholdVernamCipherOp d = true ∧
        checkCascadedSystemInteractionAndInformationLossOp d = true ∧
-       checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp d = true)) d :=
+       checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp d = true ∧
+       checkKitchenBenchConsecutive148To343MultiscaleClosureOp d = true)) d :=
   catalan_chain d (internal_observer_no_outside_lattice_and_sat_semantic_isomorphism_operator d)
     (fun _ => ⟨⟨by decide, by decide, rfl, rfl⟩, ⟨rfl, rfl, rfl, rfl, rfl⟩, ⟨rfl, by decide⟩,
-               ⟨rfl, rfl, by decide, rfl, rfl, by decide, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl⟩⟩)
+               ⟨rfl, rfl, by decide, rfl, rfl, by decide, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl, rfl⟩⟩)
 
 end MtCarrier
