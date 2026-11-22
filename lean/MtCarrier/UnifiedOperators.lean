@@ -12081,6 +12081,41 @@ def checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp (d : Nat) : 
   eqIntBool (projC d (d : Int)) ((dOutEdge d ^ d : Nat) : Int) &&
   eqIntBool (projC d ((nTriangles d - muVac d : Nat) : Int)) (((nNeighbors d - muVac d) * (nNeighbors d - muVac d) : Nat) : Int) &&
   eqIntBool ((181 : Int) * projS d 181 + (phiPauli d : Int) * projC d 181) ((nTriangles d - muVac d : Nat) : Int) &&
+  -- Cross-floor Padé Wronskian W_{2,3} (`det(W_{2,3}) = C^3*(U^2 + 3UV + V^2) = 19^2 = 361` on Lock I),
+  -- Three-channel 3x3 cubic Padé-Thue matrix P_3(A, B, C) (`P_3 * [A, B, -C]^T = [0, 0, 0]`, `Tr(P_3) = A*C*(A+C)`),
+  -- and dual Fermat-Catalan locks sharing base `7 = |△(d)| - 1`: `2^5 + 7^2 = 3^4 = 81` and `13^2 + 7^3 = 2^9 = 512 = N_ring(d)`:
+  (let u1CF    : Int := (modBits d : Int)
+   let v1CF    : Int := (nTriangles d : Int)
+   let p1K2    : Int := u1CF + (d : Int) * v1CF
+   let q1K2    : Int := (d : Int) * u1CF + v1CF
+   let p1K3    : Int := u1CF + (c0OverCSqOp d : Int) * v1CF
+   let q1K3    : Int := (c0OverCSqOp d : Int) * u1CF + v1CF
+   let phi23CF : Int := u1CF * u1CF + (d : Int) * u1CF * v1CF + v1CF * v1CF
+   let root19  : Int := ((nNeighbors d + (nTriangles d - muVac d) : Nat) : Int)
+   let detW23  : Int := (q1K2 * q1K2) * (p1K3 ^ 3) - (p1K2 * p1K2) * (q1K3 ^ 3)
+   let pA : Int := (d : Int)
+   let pB : Int := ((dOutEdge d ^ d : Nat) : Int)
+   let pC : Int := (qSquare d : Int)
+   let p00 : Int := (pA * pA) * (pB + pC)
+   let p01 : Int := (pB + (c0OverCSqOp d : Int) * pC) ^ 3
+   let p02 : Int := ((c0OverCSqOp d : Int) * pB + pC) ^ 3
+   let p10 : Int := (pA + (c0OverCSqOp d : Int) * pC) ^ 3
+   let p11 : Int := (pB * pB) * (pA + pC)
+   let p12 : Int := ((c0OverCSqOp d : Int) * pA + pC) ^ 3
+   let p20 : Int := (pA - (c0OverCSqOp d : Int) * pB) ^ 3
+   let p21 : Int := ((c0OverCSqOp d : Int) * pA - pB) ^ 3
+   let p22 : Int := (pC * pC) * (pA - pB)
+   let base7  : Nat := nTriangles d - muVac d
+   let base13 : Nat := nPhi d
+   eqIntBool ((u1CF + v1CF) * (p1K2 * p1K2) - (p1K3 ^ 3)) (v1CF * phi23CF) &&
+   eqIntBool ((u1CF + v1CF) * (q1K2 * q1K2) - (q1K3 ^ 3)) (u1CF * phi23CF) &&
+   eqIntBool detW23 (root19 * root19) &&
+   eqIntBool (p00 * pA + p01 * pB - p02 * pC) 0 &&
+   eqIntBool (p10 * pA + p11 * pB - p12 * pC) 0 &&
+   eqIntBool (p20 * pA + p21 * pB - p22 * pC) 0 &&
+   eqIntBool (p00 + p11 + p22) (pA * pC * (pA + pC)) &&
+   eqNatBool ((c0OverCSqOp d ^ dOutEdge d) + (base7 * base7)) (heisenbergEquivClassSizeOp d) &&
+   eqNatBool ((base13 * base13) + (base7 ^ d)) (nRing d)) &&
   eqIntBool detElbowBez (muVac d : Int) &&
   carryLockM2 && carryGapM3 && carryGapM4 && carryGapM5
 
