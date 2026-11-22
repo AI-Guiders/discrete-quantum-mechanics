@@ -560,6 +560,13 @@ class CuboctahedronHardwareController:
                 "red_718nm_gaas_led_shell_z": 64,
                 "led_spectral_window_span_nm": 278,
                 "stokes_acoustic_boundary_layer_um": 2.46,
+                "peltier_tec1_12706_couples_qsquare_minus_1": 127,
+                "peltier_bismuth_telluride_te_z": 52,
+                "peltier_bismuth_telluride_bi_z": 83,
+                "bicarbonate_buffer_neutral_ph": 7,
+                "ds18b20_thermometer_resolution_bits": 12,
+                "maillard_carcinogen_free_temp_c": 68,
+                "photosynthesis_shell_balance_6co2_6h2o": 192,
             },
             "calibration_result": {
                 "target_phase_in_dish_ticks": int(target_phase_ticks),

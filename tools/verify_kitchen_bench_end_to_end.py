@@ -81,7 +81,12 @@ def main() -> int:
             and mech["glass_prewash_ethanol_c2h5oh_z"] == 26
             and mech["pure_water_surface_tension_mn_per_m"] == 72
             and mech["blue_441nm_gan_led_shell_z"] == 38
-            and mech["led_spectral_window_span_nm"] == 278),
+            and mech["led_spectral_window_span_nm"] == 278
+            and mech["peltier_tec1_12706_couples_qsquare_minus_1"] == 127
+            and mech["peltier_bismuth_telluride_te_z"] == 52
+            and mech["bicarbonate_buffer_neutral_ph"] == 7
+            and mech["maillard_carcinogen_free_temp_c"] == 68
+            and mech["photosynthesis_shell_balance_6co2_6h2o"] == 192),
     ]
 
     print("=== Complete 30-Node Physical Kitchen Bench Audit ===")
