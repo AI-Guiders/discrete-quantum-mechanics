@@ -12034,7 +12034,7 @@ def checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp (d : Nat) : 
   eqNatBool (kLock3 * kLock3 + dxLock3 * dxLock3) hypLock3Sq &&
   -- Bilateral Discrete-Continuum Carrier Transfer Isomorphism M <-> T across all 512 points:
   -- R(phi) + |Y(phi)| == Q_□(d)^2 = 16,384 and root-free retraction ((16,384 ± X(phi))/256) == (|C(phi)|, |S(phi)|):
-  allUpTo (phaseRingCount d) (fun phi =>
+  allUpTo (nRing d) (fun phi =>
     let cVal : Int := projC d (phi : Int)
     let sVal : Int := projS d (phi : Int)
     let xCircle : Int := cVal * cVal - sVal * sVal
