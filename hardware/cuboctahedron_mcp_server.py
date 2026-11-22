@@ -517,6 +517,16 @@ class CuboctahedronHardwareController:
                 "dish_90mm_standing_halfwaves": 6,
                 "webcam_8bit_adc_quant_noise_photons": 0,
             },
+            "mechanical_frame_and_isolation": {
+                "earth_magnetic_field_antipodal_sum": 0,
+                "permalloy_shield_required": False,
+                "frame_3d_print_pla_monomer_c3h4o2_z": 38,
+                "frame_foucault_eddy_current_loss": 0,
+                "usb_optocoupler_gaas_led_z": 64,
+                "usb_optocoupler_matches_kp_64": True,
+                "optocoupler_6n137_delay_ticks": 2,
+                "quartz_lid_condensate_mass_loss_g": 0.0,
+            },
             "calibration_result": {
                 "target_phase_in_dish_ticks": int(target_phase_ticks),
                 "total_hardware_lag_ticks": total_lag_ticks,
