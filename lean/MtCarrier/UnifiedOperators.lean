@@ -5197,8 +5197,8 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
   let wireRadiusUm : Nat := c0OverCSqOp d * (dOutEdge d * dOutEdge d * dInSquare) -- 200 um (0.40 mm wire diameter)
   let skinDepthCu52kHzUm : Nat := (nTriangles d * nSquares d * nSquares d)        -- 288 um at 52.734 kHz
   let skinEffectExtraLagTicks : Nat := wireRadiusUm / skinDepthCu52kHzUm          -- 200 / 288 = 0 ticks!
-  let zSilanolGroup : Nat := zSilicon14 + nTriangles d + muVac d                  -- 14 + 8 + 1 = 23 = 2 * 12 - 1
-  let zSilanolHydratedBridge : Nat := zSilanolGroup + zNeonWater                  -- 23 + 10 = 33 = Z(As)
+  let zSilanolGroup : Nat := zSi + nTriangles d + muVac d                         -- 14 + 8 + 1 = 23 = 2 * 12 - 1
+  let zSilanolHydratedBridge : Nat := zSilanolGroup + zNeonOp d                   -- 23 + 10 = 33 = Z(As)
   let siliconeFeetCount : Nat := dInSquare                                        -- 4 = d_in(□) vibration-damping feet
   let skinEmcWettingAndVibrationOk :=
     eqNatBool skinEffectExtraLagTicks 0 &&
