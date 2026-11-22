@@ -14,8 +14,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "hardware"))
+sys.path.insert(0, str(ROOT / "tools"))
 
 import cuboctahedron_mcp_server as mcp  # noqa: E402
+import kitchen_bench_telemetry_codec as tcodec  # noqa: E402
 
 
 def main() -> int:
@@ -114,6 +116,8 @@ def main() -> int:
             and mech["fpga_55nm_lut4_timing_margin_ratio_modbits"] == 9
             and mech["heisenberg_thermal_emergency_cutoff_c"] == 81
             and mech["total_unit_ball_b1_bench_edges_bus36"] == 36),
+        ("Node 106-109: 512/512 Acousto-Optical Telemetry Recovery (BaTiO3 P_sound + I3- J_rxn -> dphi in Z_512)",
+         tcodec.verify_all_512_ring_states()["all_512_recovered"] is True),
     ]
 
     print("=== Complete 30-Node Physical Kitchen Bench Audit ===")
