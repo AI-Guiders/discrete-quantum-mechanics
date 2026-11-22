@@ -4956,19 +4956,30 @@ def checkCascadedSystemInteractionAndInformationLossOp (d : Nat) : Bool :=
   let zAl := nPhi d
   let zTi := zTitaniumBeamOp d
   let zTiNi := zNitinolShapeMemoryOp d
-  -- Single-Instrument Deep Dive: The Alpha-Quartz Piezoelectric Crystal Resonator ((SiO2)_3 / SiO4):
+  -- Single-Instrument Deep Dive: The Alpha-Quartz Piezoelectric Crystal Resonator ((SiO2)_3 / SiO4) & Real Impurity Physics:
   --   1) Z(Si) = 14 = N_φ + 1, Z(O2) = 16 = 2 * |△|, Z(SiO2) = 30 = |□| * d_out(E)
   --   2) Trigonal unit cell (d = 3 helical units): Z((SiO2)_3) = 3 * 30 = 90 = M̂ - d_out(V)
   --   3) Corner-shared tetrahedron Z(SiO4) = 14 + 4 * 8 = 46, which is the exact minimal Pauli dense amplitude (46² = 2116 > 2048 = K_P²/2 > 45² = 2025)!
-  --   4) Quarter-disk stability of (μ_Si, μ_O2) = (14, 16): 14² + 16² = 196 + 256 = 452 ≤ 4096 = K_P²
+  --   4) Real Crystal Impurities & Hydrogen Sweeping Passivation:
+  --      - Substitutional Aluminum impurity Z(Al) = 13 = N_φ drops the tetrahedron charge by 1 to Z([AlO4]⁻) = 13 + 32 = 45 (45² = 2025 < 2048: drops below Pauli piezoelectric threshold!),
+  --      - Hydrogen proton compensation [AlO4 + H⁺] (Z(H) = 1 = μ_vac) restores Z(AlO4H) = 45 + 1 = 46 == Z(SiO4) (exact Pauli threshold recovery!),
+  --      - Lithium compensation [AlO4 + Li⁺] (Z(Li) = 3 = d) gives Z(AlO4Li) = 45 + 3 = 48 = 4 * |N|, and Iron impurity Z(Fe) = 26 = 2 * N_φ (amethyst) gives Z(FeO4) = 58,
+  --      - Dilute impurity scatter |δφ_imp| ≤ 40 < 41 is quenched to 0 by the Heisenberg deadband (heisenbergDeadbandOp = 0, n̂_E = 0)!
   let zSiO3Cell := d * zSiO2
   let zSiO4Tetra := zSi + dInSquare * zOxygenOp d
+  let zAlO4Impurity := zAl + dInSquare * zOxygenOp d
+  let zAlO4HPassivated := zAlO4Impurity + muVac d
+  let zAlO4LiComp := zAlO4Impurity + d
   let halfKpSq := (kP d * kP d) / c0OverCSqOp d
   let alphaQuartzInstrumentOk :=
     eqNatBool zSiO3Cell (mHat d - zNitrogenOp d) &&
     eqNatBool zSiO4Tetra 46 &&
+    eqNatBool zAlO4Impurity 45 &&
+    eqNatBool zAlO4HPassivated zSiO4Tetra &&
+    eqNatBool zAlO4LiComp (dInSquare * nNeighbors d) &&
     eqNatBool (isPosNat (zSiO4Tetra * zSiO4Tetra - halfKpSq)).toNat 1 &&
-    eqNatBool (isPosNat (halfKpSq - (zSiO4Tetra - muVac d) * (zSiO4Tetra - muVac d))).toNat 1 &&
+    eqNatBool (isPosNat (halfKpSq - zAlO4Impurity * zAlO4Impurity)).toNat 1 &&
+    eqNatBool (isPosNat (zAlO4HPassivated * zAlO4HPassivated - halfKpSq)).toNat 1 &&
     a7QuarterDiskPredicate d { mu0 := (zSi : Int), phi0 := 206, mu1 := (zO2 : Int), phi1 := 206 }
   let sixEngineeredSystemClassesOk :=
     eqNatBool zSi 14 &&
