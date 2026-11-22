@@ -382,7 +382,7 @@ def main() -> int:
          and mech["double_cold_total_lag_2x89"] == 178
          and mech["quarter_plus_half_piezo_128_51"] == 179
          and mech["total_section36_26_full180_blocks"] == 180 == 128 + 52),
-        ("Node 321-340: Complete 289-Section Consecutive Fresnel Denominator (9+8)^2 = 17^2 = 289 & Catalan Seed IV(3) = 263 Multiscale Self-Closure (1..289 consecutively + 312..512..8192..6823936; 81/81 Audit!)",
+        ("Node 321-345: Complete 312-Section Consecutive Mains Peak 24*13 = 312 V, Fresnel 289 & Catalan Seed IV(3) = 263 Multiscale Self-Closure (1..312 consecutively + 343..512..8192..6823936; 81/81 Audit!)",
          mech["quarter_plus_iodine_128_53"] == 181
          and mech["sucrose_disaccharide_shell_14x13_z"] == 182
          and mech["iv263_bezout_inverse_3x61"] == 183
@@ -492,6 +492,29 @@ def main() -> int:
          and mech["meniscus_times_heisenberg_7x41_256_31"] == 287 == 7 * 41
          and mech["fresnel_quartz_water_transmission_288_over_289"] == [288, 289]
          and mech["total_section36_26_fresnel289_blocks"] == 289 == 17 * 17
+         and mech["water_times_copper_10x29_128_162"] == 290
+         and mech["triple_gaussian_modulus_3x97_128_163"] == 291
+         and mech["quadruple_frame_radius_4x73_256_36"] == 292
+         and mech["pauli_plus_tick_256_37_17sq_2sq"] == 293
+         and mech["double_three_shell_ball_2x147_6x49_7x42"] == 294 == 2 * 147
+         and mech["quintuple_mid_coil_lag_5x59_256_39"] == 295
+         and mech["eight_tick_duration_8x37_256_40"] == 296
+         and mech["pauli_plus_heisenberg_256_41_128_169"] == 297 == 256 + 41
+         and mech["standard_temp_kelvin_256_42_128_170"] == 298 == 256 + 42
+         and mech["core_times_silanol_13x23_128_171"] == 299
+         and mech["twelve_channel_gate_sum_12x25_10x30_300k"] == 300 == 12 * 25
+         and mech["pauli_plus_dish_radius_256_45_128_173"] == 301
+         and mech["pauli_plus_tetrahedron_256_46_128_174"] == 302
+         and mech["triple_wheeler_prime_3x101_128_175"] == 303
+         and mech["eight_triangle_pla_8x38_16x19_256_48"] == 304
+         and mech["quintuple_early_coil_lag_5x61_256_49"] == 305
+         and mech["argon_times_fresnel_18x17_256_50"] == 306
+         and mech["pauli_plus_half_piezo_256_51_128_179"] == 307
+         and mech["faces_times_co2_14x22_256_52_128_180"] == 308
+         and mech["pauli_plus_iodine_256_53_128_181"] == 309
+         and mech["water_times_gallium_10x31_128_182"] == 310
+         and mech["pauli_plus_two_shell_ball_256_55_128_183"] == 311
+         and mech["total_section36_26_mains312_blocks"] == 312 == 24 * 13
          and (263 * mech["iv263_bezout_inverse_3x61"]) % 512 == 1
          and (97 * mech["mhat97_bezout_inverse_512_minus_95"]) % 512 == 1
          and (197 * 13) % 512 == 1
