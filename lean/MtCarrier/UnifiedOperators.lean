@@ -11953,6 +11953,13 @@ def checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp (d : Nat) : 
   let minor3_C1 : Int := m3_c1 * m3_c1                                            -- 16 = c1^2
   let detM3_abc : Int := m3_c1 * (m3_c1 * m3_c2 - m3_a1 * m3_a2 - m3_b1 * m3_b2)  -- 0
   let trAdjM3   : Int := minor3_C1 + m3_a1 * m3_a2 + m3_b1 * m3_b2                -- 16 + 3 + 125 = 144 = 12^2 = |N(3)|^2
+  -- Cyclic 9-factor nilpotent cross-joint cone identity `Tr(adj(M_3) * M'_3) = 0`:
+  -- `ua*(ub - uc)*(ub*uc - 1) + ub*(uc - ua)*(ua*uc - 1) = uc*(ub - ua)*(ua*ub - 1)`
+  -- At `(1, 6, 7)`: `6^3 - 7*5^2 = (7 - 6)*(7*6 - 1) = 41 = Δφ_disc(3)`!
+  let u7_op   : Nat := nTriangles d - muVac d                                     -- 7 = d_out(V)
+  let nilA_67 : Nat := muVac d * (u7_op - nSquares d) * (u7_op * nSquares d - muVac d) -- 1*1*41 = 41 = Δφ_disc(3)
+  let nilB_67 : Nat := u7_op * (nSquares d - muVac d) * (muVac d * nSquares d - muVac d) -- 7*5*5 = 175
+  let nilC_67 : Nat := nSquares d * (u7_op - muVac d) * (muVac d * u7_op - muVac d) -- 6*6*6 = 216 = |□(3)|^3
   eqIntBool detM11 (muVac d : Int) &&
   eqIntBool detM12 (muVac d : Int) &&
   eqIntBool p00 (-((nTriangles d - muVac d : Nat) : Int)) &&
@@ -12013,6 +12020,9 @@ def checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp (d : Nat) : 
   eqIntBool minor3_A (d : Int) &&
   eqIntBool detM3_abc 0 &&
   eqIntBool trAdjM3 ((nNeighbors d * nNeighbors d : Nat) : Int) &&
+  eqNatBool (nilA_67 + nilB_67) nilC_67 &&
+  eqNatBool nilA_67 (deltaPhiDisc d) &&
+  eqNatBool nilC_67 (nSquares d ^ d) &&
   eqIntBool detElbowBez (muVac d : Int) &&
   carryLockM2 && carryGapM3 && carryGapM4 && carryGapM5
 
