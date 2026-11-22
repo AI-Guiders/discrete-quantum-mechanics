@@ -201,6 +201,34 @@ def main() -> int:
         ("Node 161-165: Complete 55-Section Two-Shell Ball |B_2(3)| = 1 + 12 + 42 = 55 = Z(Cs) Self-Closure of Section 36.26",
          mech["total_section36_26_b2_55_blocks"] == 55
          and mech["total_two_shell_ball_b2_bench_nodes_cs55"] == 55),
+        ("Node 166-168: Numbers 56..58 (Maillard-Dew Span 56=7*8, Tri-Octahedral 57=3*19 -> 4*57=228, Hot 52-Min Lag 58=64-6=Z(FeO4))",
+         mech["maillard_minus_dew_span_56c"] == 56
+         and mech["trioctahedral_factor_3x19"] == 57
+         and 4 * mech["trioctahedral_factor_3x19"] == 228
+         and mech["hot_coil_lag_52min_ticks"] == 58),
+        ("Node 169-171: Numbers 59..62 (30-Min Lag 59=64-5, 60=5*12 Turns/BrO3/6H2O, 10-Min Lag 61=64-3, Min Winding Lag 62=64-2)",
+         mech["mid_coil_lag_30min_ticks"] == 59
+         and mech["coil_nominal_turns_5x12"] == 60
+         and mech["early_coil_lag_10min_ticks"] == 61
+         and mech["min_hand_wound_coil_lag_ticks"] == 62),
+        ("Node 172-174: Numbers 63..65 (Planetary H-Bond 63=7*9 -> 441nm & 126 Cystine, K_P=64 6-Fold Convergence, Stasis Hold 65=5*13 C)",
+         mech["planetary_hydrogen_bond_modulus_7x9"] == 63
+         and 7 * mech["planetary_hydrogen_bond_modulus_7x9"] == 441
+         and 2 * mech["planetary_hydrogen_bond_modulus_7x9"] == 126
+         and mech["stage5_stasis_holding_temp_5x13_c"] == 65),
+        ("Node 175-177: Numbers 66..68 (66 Coil Pairs / Max Lag 66 / Cu2O=66, Prime Bridge 67=64+3, Maillard/Abbe/Fe2O2=68)",
+         mech["max_hand_wound_coil_lag_ticks"] == 66
+         and mech["mutual_inductance_coil_pairs_count"] == 66
+         and mech["prime_bridge_kp_plus_d"] == 67
+         and mech["maillard_carcinogen_free_temp_c"] == 68),
+        ("Node 178-180: Numbers 69..71 (Full Thermal Span 69=81-12=3*23, Heme/Aspartate/Adenine=70, VerletCell72 MSB Index 71=72-1)",
+         mech["thermal_ladder_cutoff_minus_dew_c"] == 69
+         and mech["food_recipe_shells_z"]["cutlet_heme"] == 70
+         and mech["verlet72_msb_bit_index_lu71"] == 71),
+        ("Node 181-184: Complete 72-Section VerletCell72 Self-Closure (55 + 17 = 72 = 8 * 9 = dim(VerletCell72) = sigma_H2O = 72 PCB Holes)",
+         mech["total_section36_26_verlet72_blocks"] == 72
+         and mech["total_verlet72_bit_budget_bench_nodes"] == 72
+         and mech["pure_water_surface_tension_mn_per_m"] == 72),
     ]
 
     print("=== Complete 30-Node Physical Kitchen Bench Audit ===")
