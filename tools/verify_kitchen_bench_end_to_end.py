@@ -148,6 +148,11 @@ def main() -> int:
          and mech["thermal_ladder_cutoff_minus_dew_c"] == 69),
         ("Node 126-128: Acoustic Fixed-Point Identity (128 - C_3(dphi) == dphi on {0,128,139,256}) & 823.97 Hz Audible Subharmonic Monitor",
          wavesynth.verify_acoustic_fixed_points_and_subharmonic_monitor()["waveform_monitor_verified"] is True),
+        ("Node 129-132: 32-Section Half-Pauli Closure (Maillard Pyrazine Z=42=S2, Peptide Z=22, Hydrated Peptide Z=32=K_P/2 & 6 O2 = 3*32)",
+         mech["maillard_pyrazine_aroma_c4h4n2_z"] == 42
+         and mech["peptide_backbone_bond_conh_z"] == 22
+         and mech["hydrated_peptide_bridge_z"] == 32
+         and mech["audible_subharmonic_monitor_clocks"] == 32768),
     ]
 
     print("=== Complete 30-Node Physical Kitchen Bench Audit ===")

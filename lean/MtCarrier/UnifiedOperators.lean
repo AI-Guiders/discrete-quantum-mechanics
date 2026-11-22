@@ -5635,6 +5635,18 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
     eqIntBool (readoutAcousticSoundPressureOp d 1 1 aCoh) aCoh &&
     eqIntBool (readoutAcousticSoundPressureOp d 1 1 (phiPauli d : Int)) (phiPauli d : Int) &&
     eqNatBool audioSubharmonicPeriod32768 (dInSquare * epsDenom d)
+  -- 32. Complete 32-Section Half-Pauli Closure (`32 = K_P(d) / 2`):
+  --     - Maillard Golden-Crust Pyrazine Aroma Ring (`Z(C₄H₄N₂) = 4*6 + 4*1 + 2*7 = 42 = S₂(d)` second cuboctahedron sphere!),
+  --     - Peptide Backbone Bond (`Z(-CO-NH-) = 6 + 8 + 7 + 1 = 22 = Z(CO₂)`) & Hydrated Peptide Bridge (`22 + 10 = 32 = K_P(d) / 2`),
+  --     - Breathable Oxygen Exhaust Factorization (`Z(6 O₂) = 96 = 3 * 32 = d * (K_P(d) / 2)`):
+  let zMaillardPyrazineAroma42 : Nat := dInSquare * zCarbonOp d + dInSquare * muVac d + c0OverCSqOp d * zNitrogenOp d -- 24 + 4 + 14 = 42 = S_2(3)!
+  let zPeptideBond22 : Nat := zCarbonOp d + zOxygenOp d + zNitrogenOp d + muVac d -- 6 + 8 + 7 + 1 = 22 = Z(CO_2)
+  let zHydratedPeptide32 : Nat := zPeptideBond22 + zNeonOp d                      -- 22 + 10 = 32 = K_P / 2!
+  let maillardPeptideAnd32ClosureOk :=
+    eqNatBool zMaillardPyrazineAroma42 (cuboctShellSizeOp d (c0OverCSqOp d)) &&
+    eqNatBool zPeptideBond22 zCarbonDioxide &&
+    eqNatBool zHydratedPeptide32 (kP d / c0OverCSqOp d) &&
+    eqNatBool zSixO2Vented96 (d * zHydratedPeptide32)
   finitePerturbationOk && stringDimsDemystifiedOk && singleUniverseFiberOk &&
   mosfetCoilDishBridgeOk && kitchenWaterAndThermalDriftOk && complete10NodeBenchOk &&
   mutualInductanceDiagonalOk && flybackPiezoAndAdcOk && frameIsolationAndGeomagneticOk &&
@@ -5648,7 +5660,7 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
   full52MinDigitalTwinScheduleOk && closedLoopPll1TickAll512DisturbancesOk &&
   bus36PreFlightAll13StatesOk && gorkov3dTrapAndBjerknesRingsOk &&
   subcavitationFocusAndChiralTorqueOk && thermodynamic30ClosureOk &&
-  acousticFixedPoint4ModesOk
+  acousticFixedPoint4ModesOk && maillardPeptideAnd32ClosureOk
 
 /-- **Theorem (Impossibility of Laplace's Demon Inside the Lattice and Constructive Realization of the Memoryless 12-Beam Geometric Maxwell Demon)**:
 Chained directly via `CatalanLaw` for any `d : Nat`:
