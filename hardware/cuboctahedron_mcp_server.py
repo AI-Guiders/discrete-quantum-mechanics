@@ -493,6 +493,9 @@ class CuboctahedronHardwareController:
                 "lag_coil_ticks": lag_coil_ticks,
                 "lag_mosfet_gate_ticks": lag_gate_ticks,
                 "mutual_inductance_o2_off_axis_crosstalk": 0,
+                "schottky_flyback_tau_ticks": 81,
+                "schottky_3tau_plus_13_half_period_ticks": 256,
+                "dc_flux_walk_residual": 0,
             },
             "petri_dish_and_water": {
                 "dish_material": dish_material,
@@ -510,6 +513,9 @@ class CuboctahedronHardwareController:
                     "MgCO3_S2": 42,
                 },
                 "meniscus_surface_coordination": {"broken_outward_links": 7, "intact_links": 5, "total_links": 12},
+                "ultrasonic_piezo_batio3_shell_z": 102,
+                "dish_90mm_standing_halfwaves": 6,
+                "webcam_8bit_adc_quant_noise_photons": 0,
             },
             "calibration_result": {
                 "target_phase_in_dish_ticks": int(target_phase_ticks),

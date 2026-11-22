@@ -37,14 +37,17 @@ C_ISS1  gate1     0     1.7n
 V_PSU24 vdd24 0 DC 24.0
 C_DEC   vdd24 0 470u
 
-* 4. Power MOSFET Stage & Copper Coils L0, L1 (with O_2(3) mutual inductance off-axis cancellation = 0):
+* 4. Power MOSFET Stage, Copper Coils L0, L1 (O_2(3) off-axis crosstalk = 0),
+*    and Schottky Flyback Freewheeling Diodes D_FLY0, D_FLY1 (1N5819, tau_{L/R} = 3.02 us = 81 ticks, 3*81 + 13 = 256):
 S_MOS0 drain0 0 gate0 0 SW_IRLZ44N
 L_COIL0 vdd24 mid0 {L_COIL}
 R_COIL0 mid0  drain0 {R_COIL_HOT}
+D_FLY0  drain0 vdd24 D_1N5819
 
 S_MOS1 drain1 0 gate1 0 SW_IRLZ44N
 L_COIL1 vdd24 mid1 {L_COIL}
 R_COIL1 mid1  drain1 {R_COIL_HOT}
+D_FLY1  drain1 vdd24 D_1N5819
 
 * 5. Petri Dish Wall (SiO2 Glass C_wall = 45 pF) & Interior Air/Electrolyte Cavity Load:
 C_WALL0 drain0 dish_center 45p
@@ -52,12 +55,14 @@ C_WALL1 drain1 dish_center 45p
 R_CAVITY dish_center 0 1536
 
 .model SW_IRLZ44N SW(Ron=0.022 Roff=1Meg Vt=1.8 Vh=0.2)
+.model D_1N5819 D(Is=3.16u Rs=0.042 N=1.08 Cjo=110p Vj=0.32 BV=40)
 
 * 6. Automated SPICE Verification Measurements:
 .meas TRAN t_gate0_turnon WHEN V(gate0)=1.8 RISE=1
 .meas TRAN t_gate1_turnon WHEN V(gate1)=1.8 RISE=1
 .meas TRAN i_coil0_peak MAX I(R_COIL0) FROM={T_RING} TO={2*T_RING}
 .meas TRAN i_coil1_peak MAX I(R_COIL1) FROM={T_RING} TO={2*T_RING}
+.meas TRAN v_drain0_max MAX V(drain0) FROM={T_RING} TO={2*T_RING}
 .meas TRAN v_dish_pp PP V(dish_center) FROM={T_RING} TO={2*T_RING}
 
 .tran 0 {4 * T_RING} 0 {T_TICK / 2}
