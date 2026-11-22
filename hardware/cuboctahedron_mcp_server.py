@@ -601,6 +601,11 @@ class CuboctahedronHardwareController:
                 "gaussian_coulomb_modulus_81_plus_16": 97,
                 "human_chromatin_nucleosome_b3_safety_detuning": 3,
                 "total_three_shell_ball_b3_bench_nodes": 147,
+                "sucrose_disaccharide_shell_14x13_z": 182,
+                "fpga_cold_start_drive_12x19_ticks": 228,
+                "uart_baud_divider_18x13_clks": 234,
+                "euler_xy_chiral_fourth_pole_ticks": 384,
+                "total_full_ring_512_bench_closure": 512,
             },
             "calibration_result": {
                 "target_phase_in_dish_ticks": int(target_phase_ticks),

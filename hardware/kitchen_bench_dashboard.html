@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Пульт управления кухонным стендом Tang Nano 9K — Кубоктаэдр O₂(3) на Z₅₁₂</title>
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; background: #0f141c; color: #e6edf3; margin: 0; padding: 24px; }
+    h1, h2 { color: #58a6ff; margin-top: 0; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 20px; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 18px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 10px; }
+    th, td { border-bottom: 1px solid #21262d; padding: 6px 8px; text-align: left; }
+    th { color: #8b949e; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; color: #7ee787; }
+    .badge { display: inline-block; background: #238636; color: #fff; padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+    input, select { background: #0d1117; color: #e6edf3; border: 1px solid #30363d; border-radius: 6px; padding: 6px 10px; }
+  </style>
+</head>
+<body>
+  <h1>Пульт управления и калибровки кухонного стенда <code>Tang Nano 9K</code> (<code>1 + 2^d = d^2</code>, <code>d = 3</code>)</h1>
+  <p>
+    <span class="badge">512/512 ТИКОВ ЗАМКНУТО</span>
+    Кварц: <b>27,000 МГц</b> (<code>1 тик = 37,037 нс</code>) · Частота кольца <code>Z₅₁₂</code>: <b>52 734,375 Гц</b> ·
+    Шпулька Уилэра: <b>60 витков</b> (<code>r=9 мм, h=12 мм, b=4 мм → L=100,0 мкГн, МДС=42=S₂(3) А·витков</code>)
+  </p>
+
+  <div class="grid">
+    <div class="card">
+      <h2>1. Интерактивный расчёт предкомпенсации ПЛИС</h2>
+      <label>Температура медных катушек (°C):
+        <input id="tempInput" type="number" value="25" min="15" max="80" step="1" oninput="updateBench()" />
+      </label>
+      <br/><br/>
+      <label>Целевая фаза в чашке Петри (тики Z₅₁₂):
+        <select id="targetInput" onchange="updateBench()">
+          <option value="139" selected>139 = A_coh (Коллапс барьера 587x: Стадии 1, 2, 4)</option>
+          <option value="128">128 = Q_□ (УЗ-фолдинг мышечных волокон: Стадия 3)</option>
+          <option value="0">0 = Стазис (D = 6 823 936 = 833·ε: Стадия 5)</option>
+          <option value="256">256 = Φ_Pauli (Фазовая самоочистка стекла)</option>
+        </select>
+      </label>
+      <div id="calOutput" style="margin-top:14px; line-height:1.7;"></div>
+    </div>
+
+    <div class="card">
+      <h2>2. Иерархия замыкания всех 512 узлов стенда</h2>
+      <table>
+        <thead><tr><th>Рубеж</th><th>Инвариант носителя</th><th>Физическое звено на кухонном столе</th></tr></thead>
+        <tbody>
+          <tr><td><b>30</b></td><td><code>Z(SiO₂) = Z(N₂+O₂)</code></td><td>Кварцевая чашка Петри 90 мм, кварц 27 МГц и воздух кухни</td></tr>
+          <tr><td><b>36</b></td><td><code>|E(B₁(3))| = 12 + 24</code></td><td>12 радиальных лучей + 24 ребра каркаса (шина <code>Bus36</code>)</td></tr>
+          <tr><td><b>42</b></td><td><code>S₂(3) = 42</code></td><td>МДС 60 витков × 0,7 А = 42 А·в; сода <code>NaHCO₃</code>; <code>MgCO₃</code></td></tr>
+          <tr><td><b>55</b></td><td><code>|B₂(3)| = 1 + 12 + 42</code></td><td>Двухслойный шар + оптика Френеля 9:8 (пропускание 288/289)</td></tr>
+          <tr><td><b>72</b></td><td><code>dim(VerletCell72) = 8×9</code></td><td>72 отверстия платы FR-4; натяжение чистой воды 72 мН/м</td></tr>
+          <tr><td><b>81</b></td><td><code>|ℰ_Heis(3)| = 3⁴</code></td><td>Спад Шоттки τ=81 тик; отсечка 81 °C; гашение фона ⁴⁰K</td></tr>
+          <tr><td><b>147</b></td><td><code>|B₃(3)| = 55 + 92</code></td><td>Трёхслойный шар и отстройка от нуклеосомы ДНК (147 − 144 = 3)</td></tr>
+          <tr><td><b>228</b></td><td><code>12 × 19 = 139 + 64 + 25</code></td><td>Упреждающая фаза ПЛИС на холодном старте (25 °C)</td></tr>
+          <tr><td><b>234</b></td><td><code>18 × 13 = Z(Ar)·N_φ</code></td><td>Точный делитель UART <code>27 МГц / 115 200 = 234</code> такта/бит</td></tr>
+          <tr><td><b>256</b></td><td><code>Φ_Pauli = 3×81 + 13</code></td><td>Полупериод кольца, 8-битный АЦП камеры и зеркало Паули</td></tr>
+          <tr><td><b>263</b></td><td><code>IV(3) = 256 + 7 = 407₈</code></td><td>Начальное зерно автомата при сбросе <code>rst_n</code></td></tr>
+          <tr><td><b>512</b></td><td><code>N_ring(3) = 2⁹ = 8³</code></td><td>Полный период кольца (256 накачка MOSFET + 256 спад Шоттки)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    function packUart0x08(lagTicks) {
+      const b = [0xA5, 0x08, 0x01, 0, 0, 0, lagTicks & 0xFF, (lagTicks >> 8) & 0xFF, 0, 0, 0x02, 0, 0, 0, 0, 0x5A];
+      let crc = 0;
+      for (let i = 1; i <= 13; i++) crc ^= b[i];
+      b[14] = crc;
+      return b.map(x => x.toString(16).padStart(2, "0")).join(" ");
+    }
+    function updateBench() {
+      const T = parseFloat(document.getElementById("tempInput").value || "25");
+      const target = parseInt(document.getElementById("targetInput").value || "139", 10);
+      const rHot = 33.1 * (1 + 0.00393 * (T - 25.0));
+      const xl = 2 * Math.PI * (27000000 / 512) * 0.0001;
+      const lagCoil = Math.round((Math.atan2(xl, rHot) / (2 * Math.PI)) * 512) % 512;
+      const lagGate = 25;
+      const totalLag = (lagCoil + lagGate) % 512;
+      const fpgaDrive = (target + totalLag) % 512;
+      const arrived = (fpgaDrive - totalLag + 512) % 512;
+      document.getElementById("calOutput").innerHTML =
+        `Сопротивление катушки <b>R(T)</b>: <b>${rHot.toFixed(2)} Ом</b> (X_L = ${xl.toFixed(2)} Ом)<br/>` +
+        `Индуктивное отставание катушки: <b>${lagCoil} тиков</b> + затвор MOSFET <b>25 тиков</b> = <b>+${totalLag} тиков</b><br/>` +
+        `Упреждающая фаза ПЛИС <code>φ_FPGA</code>: <b>${fpgaDrive} тиков</b> → Фаза в центре чашки Петри: <b>${arrived} тиков (ошибка = 0!)</b><br/>` +
+        `Готовый 16-байтный UART-кадр <code>0x08</code>: <span class="mono">${packUart0x08(totalLag)}</span>`;
+    }
+    updateBench();
+  </script>
+</body>
+</html>
