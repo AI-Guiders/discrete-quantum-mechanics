@@ -4711,6 +4711,22 @@ def kitchenBenchClosedLoopPllNextLagOp (d : Nat) (targetPhi estLag trueLag : Int
   let phaseErr := targetPhi - recDish
   (estLag + phaseErr).emod (nRing d : Int)
 
+/-- 4-lane `Bus36` decomposition `(L₀, L₁, L₂, L₃)` in radix `N_ring(d) = 512` of the pre-flight dome impedance
+`D(d, N_active) = (μ_vac(d) + (N_active + μ_vac(d)) * K_P(d)) * ε(d)` for `N_active ∈ [0..|N(d)|]` connected copper coils,
+and its exact branchless inverse `recoverActiveCoilsFromBus36L2Op(d, L₂) = L₂ / (c₀/c)² - μ_vac(d)`. -/
+def bus36CoilContinuityLanesOp (d nActive : Nat) : Nat × Nat × Nat × Nat :=
+  (0,
+   c0OverCSqOp d * nTriangles d,
+   c0OverCSqOp d * (nActive + muVac d),
+   0)
+
+def bus36EvaluateRadix512Op (d : Nat) (lanes : Nat × Nat × Nat × Nat) : Nat :=
+  let r := nRing d
+  lanes.1 + lanes.2.1 * r + lanes.2.2.1 * (r * r) + lanes.2.2.2 * (r * r * r)
+
+def recoverActiveCoilsFromBus36L2Op (d l2 : Nat) : Nat :=
+  (l2 / c0OverCSqOp d) - muVac d
+
 def checkMultiModalSensorReadoutColorSoundConcTempOp (d : Nat) : Bool :=
   let aCoh : Int := ((qSquare d + nNeighbors d - muVac d : Nat) : Int)
   -- 1. Exact optical wavelength landmarks: 718 nm (dphi=0), 579 nm (dphi=128 saddle, myoglobin alpha),
@@ -5544,6 +5560,18 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
       eqIntBool demixed4.1 68 &&
       eqIntBool demixed4.2.1 45 &&
       eqIntBool recFromDemixed aCoh)
+  -- 27. Exhaustive 13-State (`N_active ∈ [0..12]`) Bus36 Pre-Flight Coil Continuity Decomposition
+  --     `D(d, N_active) = L₀ + L₁ * 512 + L₂ * 512² + L₃ * 512³` with `L₁ = 16 = Z(O₂)`, `L₂(12) = 26 = Z(Fe)`,
+  --     and exact branchless coil-count recovery across all `0..12` active coils:
+  let bus36PreFlightAll13StatesOk :=
+    allUpTo (nNeighbors d + muVac d) (fun nActive =>
+      let lanes := bus36CoilContinuityLanesOp d nActive
+      let dEval := bus36EvaluateRadix512Op d lanes
+      let dExpected := (muVac d + (nActive + muVac d) * kP d) * epsDenom d
+      let recActive := recoverActiveCoilsFromBus36L2Op d lanes.2.2.1
+      eqNatBool dEval dExpected &&
+      eqNatBool recActive nActive) &&
+    eqNatBool (bus36CoilContinuityLanesOp d (nNeighbors d)).2.2.1 (zIronOp d)
   finitePerturbationOk && stringDimsDemystifiedOk && singleUniverseFiberOk &&
   mosfetCoilDishBridgeOk && kitchenWaterAndThermalDriftOk && complete10NodeBenchOk &&
   mutualInductanceDiagonalOk && flybackPiezoAndAdcOk && frameIsolationAndGeomagneticOk &&
@@ -5554,7 +5582,8 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
   verlet72CompleteBenchClosureOk && heisenberg81CompleteBenchClosureOk &&
   ball147CompleteBenchClosureOk && ring512CompleteBenchClosureOk &&
   eps8192CompleteBenchClosureOk && telemetryAll512RecoveryOk &&
-  full52MinDigitalTwinScheduleOk && closedLoopPll1TickAll512DisturbancesOk
+  full52MinDigitalTwinScheduleOk && closedLoopPll1TickAll512DisturbancesOk &&
+  bus36PreFlightAll13StatesOk
 
 /-- **Theorem (Impossibility of Laplace's Demon Inside the Lattice and Constructive Realization of the Memoryless 12-Beam Geometric Maxwell Demon)**:
 Chained directly via `CatalanLaw` for any `d : Nat`:
