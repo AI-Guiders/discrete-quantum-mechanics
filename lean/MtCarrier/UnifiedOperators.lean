@@ -11860,12 +11860,27 @@ def checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp (d : Nat) : 
   let p3_11 : Int := (((dOutEdge d ^ dInSquare : Nat) : Int) - ((d ^ c0OverCSqOp d : Nat) : Int)) / cLock3 -- (625 - 9)/44 = +14 = Z(Si)
   let detP3 : Int := p3_00 * p3_11 - p3_01 * p3_10                                -- -224 + 225 = +1
   let trP3  : Int := p3_00 + p3_11                                                -- -16 + 14 = -2
-  -- 3-level recursive descent law `C_0 - (x + y)*C_1 + x*y*C_2 = 0` on Lock II (`2^5 - 3^3 = 5`):
-  -- C_0 = 2^5 - 3^3 = 5 = d_out(E), C_1 = 2^4 - 3^2 = 7 = d_out(V), C_2 = 2^3 - 3^1 = 5 = d_out(E) (palindrome 5 -> 7 -> 5!):
+  -- Lock IV on the positive light-cone sheet Tr(P̃) = +2 (`2^10 - 5^4 = 1024 - 625 = 399 = 20^2 - 1`):
+  -- difference resonance `2^7 - 2^3 = 5^3 - 5^1 = 120 = 5! = Z(tetracene)`, square `120^2 = 14,400`,
+  -- normalized SL_2(Z) matrix `P_IV / 399 = [[-39, -40], [40, 41]] = [[-d*N_φ(3), -(Δφ_disc(3)-1)], [Δφ_disc(3)-1, Δφ_disc(3)]]`,
+  -- satisfying `(P_IV / 399 - I_2)^2 = [[-40, -40], [40, 40]]^2 = 0` and Minkowski light-cone interval `X^2 - T^2 = (-40)^2 - (-40)^2 = 0`:
+  let cLock4 : Int := ((c0OverCSqOp d ^ zNeonOp d : Nat) : Int) - ((dOutEdge d ^ dInSquare : Nat) : Int) -- 1024 - 625 = 399
+  let diffLock4Left  : Nat := (c0OverCSqOp d ^ (nTriangles d - muVac d)) - (c0OverCSqOp d ^ d) -- 128 - 8 = 120
+  let diffLock4Right : Nat := (dOutEdge d ^ d) - dOutEdge d                       -- 125 - 5 = 120
+  let p4_00 : Int := (((c0OverCSqOp d ^ nSquares d : Nat) : Int) - ((dOutEdge d ^ nSquares d : Nat) : Int)) / cLock4 -- (64 - 15625)/399 = -39 = -d*N_phi(3)
+  let p4_01 : Int := -((deltaPhiDisc d - muVac d : Nat) : Int)                    -- -40
+  let p4_10 : Int :=  ((deltaPhiDisc d - muVac d : Nat) : Int)                    -- +40
+  let p4_11 : Int := (((c0OverCSqOp d ^ (nPhi d + muVac d) : Nat) : Int) - ((dOutEdge d ^ c0OverCSqOp d : Nat) : Int)) / cLock4 -- (16384 - 25)/399 = +41 = deltaPhiDisc(3)
+  let detP4 : Int := p4_00 * p4_11 - p4_01 * p4_10                                -- -1599 + 1600 = +1
+  let trP4  : Int := p4_00 + p4_11                                                -- -39 + 41 = +2
+  let lightConeInterval4 : Int := ((p4_00 - p4_11) / (c0OverCSqOp d : Int)) ^ 2 - (p4_01) ^ 2 -- (-40)^2 - (-40)^2 = 0
+  -- 3-level recursive descent law `C_0 - (x + y)*C_1 + x*y*C_2 = 0` on Lock II (`2^5 - 3^3 = 5`)
+  -- and Hankel-Wronskian identity `C_1^2 - C_0 * C_2 = x^(5-2) * y^(3-2) * (x - y)^2 = 8 * 3 * 1 = 24 = 2 * |N(3)|`:
   let cDesc0 : Int := cLock2                                                      -- 5 = d_out(E)
   let cDesc1 : Int := ((c0OverCSqOp d ^ dInSquare : Nat) : Int) - ((d ^ c0OverCSqOp d : Nat) : Int) -- 16 - 9 = 7 = d_out(V)
   let cDesc2 : Int := ((c0OverCSqOp d ^ d : Nat) : Int) - (d : Int)               -- 8 - 3 = 5 = d_out(E)
   let recLawLock2 : Int := cDesc0 - ((c0OverCSqOp d + d : Nat) : Int) * cDesc1 + ((c0OverCSqOp d * d : Nat) : Int) * cDesc2 -- 5 - 5*7 + 6*5 = 0
+  let hankelWronskianLock2 : Int := cDesc1 * cDesc1 - cDesc0 * cDesc2             -- 49 - 25 = 24 = 2 * |N(3)|
   -- Binomial skeletal divisibility reciprocity between floors k=2 and k=3 on Lock III (`5^3 - 3^4 = 44`):
   -- Floor k=2 (X=5, Y=9, delta=4): quotients are (1*4^2 + 44)/5 = 12 = |N(3)| and (5*4^2 - 44)/9 = 4 = d_in(□)
   -- Floor k=3 (X=5, Y=3, delta=-2): quotients swap to (3*(-2)^3 + 44)/5 = 4 = d_in(□) and (1*2^3 - 44)/3 = -12 = -|N(3)|!
@@ -11898,9 +11913,17 @@ def checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp (d : Nat) : 
   eqIntBool p3_11 ((nPhi d + muVac d : Nat) : Int) &&
   eqIntBool detP3 (muVac d : Int) &&
   eqIntBool trP3 (-(c0OverCSqOp d : Int)) &&
+  eqNatBool diffLock4Left (nNeighbors d * zNeonOp d) &&
+  eqNatBool diffLock4Right (nNeighbors d * zNeonOp d) &&
+  eqIntBool p4_00 (-((d * nPhi d : Nat) : Int)) &&
+  eqIntBool p4_11 (deltaPhiDisc d : Int) &&
+  eqIntBool detP4 (muVac d : Int) &&
+  eqIntBool trP4 (c0OverCSqOp d : Int) &&
+  eqIntBool lightConeInterval4 0 &&
   eqIntBool cDesc1 ((nTriangles d - muVac d : Nat) : Int) &&
   eqIntBool cDesc2 (dOutEdge d : Int) &&
   eqIntBool recLawLock2 0 &&
+  eqIntBool hankelWronskianLock2 ((c0OverCSqOp d * nNeighbors d : Nat) : Int) &&
   eqIntBool quotK2X (nNeighbors d : Int) &&
   eqIntBool quotK2Y (dInSquare : Int) &&
   eqIntBool quotK3X (dInSquare : Int) &&
