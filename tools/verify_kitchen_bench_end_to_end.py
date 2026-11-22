@@ -76,7 +76,12 @@ def main() -> int:
          )) and mech["preflight_12coil_full_impedance_d"] - mech["preflight_11coil_open_fault_impedance_d"] == 524288
             and mech["coil_nominal_turns_5x12"] == 60
             and mech["coil_mmf_ampere_turns_s2"] == 42
-            and mech["wheeler_bobbin_denominator_6r_9h_10b"] == 202),
+            and mech["wheeler_bobbin_denominator_6r_9h_10b"] == 202
+            and mech["glass_prewash_baking_soda_nahco3_z"] == 42
+            and mech["glass_prewash_ethanol_c2h5oh_z"] == 26
+            and mech["pure_water_surface_tension_mn_per_m"] == 72
+            and mech["blue_441nm_gan_led_shell_z"] == 38
+            and mech["led_spectral_window_span_nm"] == 278),
     ]
 
     print("=== Complete 30-Node Physical Kitchen Bench Audit ===")

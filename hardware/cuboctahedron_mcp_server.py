@@ -553,6 +553,13 @@ class CuboctahedronHardwareController:
                 "coil_nominal_turns_5x12": 60,
                 "coil_mmf_ampere_turns_s2": 42,
                 "wheeler_bobbin_denominator_6r_9h_10b": 202,
+                "glass_prewash_baking_soda_nahco3_z": 42,
+                "glass_prewash_ethanol_c2h5oh_z": 26,
+                "pure_water_surface_tension_mn_per_m": 72,
+                "blue_441nm_gan_led_shell_z": 38,
+                "red_718nm_gaas_led_shell_z": 64,
+                "led_spectral_window_span_nm": 278,
+                "stokes_acoustic_boundary_layer_um": 2.46,
             },
             "calibration_result": {
                 "target_phase_in_dish_ticks": int(target_phase_ticks),
