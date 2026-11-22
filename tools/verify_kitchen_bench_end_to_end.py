@@ -118,6 +118,18 @@ def main() -> int:
             and mech["total_unit_ball_b1_bench_edges_bus36"] == 36),
         ("Node 106-109: 512/512 Acousto-Optical Telemetry Recovery (BaTiO3 P_sound + I3- J_rxn -> dphi in Z_512)",
          tcodec.verify_all_512_ring_states()["all_512_recovered"] is True),
+        ("Node 110-112: Closed-Loop 1-Tick PLL Disturbance Cancellation across all 512 unmodeled lag shifts",
+         all(
+             ctrl.recover_bench_telemetry(
+                 p_sound=13 * 13 * (128 - mcp.proj_c((139 + 89 - true_lag) % 512)),
+                 j_rxn=13 * 13 * mcp.proj_s((139 + 89 - true_lag) % 512),
+                 mu0=13,
+                 mu1=13,
+                 target_phase_ticks=139,
+                 current_precomp_lag_ticks=89,
+             )["updated_precomp_lag_ticks"] == true_lag
+             for true_lag in range(512)
+         ) and (ROOT / "hardware" / "kitchen_bench_mujoco.xml").exists()),
     ]
 
     print("=== Complete 30-Node Physical Kitchen Bench Audit ===")

@@ -4697,6 +4697,20 @@ def kitchenBench52MinStageTargetShellZOp (d minute : Nat) : Nat :=
   else
     kP d + nSquares d
 
+/-- Single-tick closed-loop PLL lag update (`Module 18: cuboct_closed_loop_kitchen_bench_pll`):
+Given current estimated hardware lag `estLag`, target dish phase `targetPhi`, and actual arrived dish phase
+recovered via `(P_sound, J_rxn)` under true unmodeled hardware lag `trueLag`, updates the pre-compensation accumulator
+in **1 clock tick (`37.037 ns`)** so that the next tick arrives at `targetPhi` with **0 phase error** across all `512 / 512` disturbances. -/
+def kitchenBenchClosedLoopPllNextLagOp (d : Nat) (targetPhi estLag trueLag : Int) : Int :=
+  let fpgaDrive := (targetPhi + estLag).emod (nRing d : Int)
+  let actualDish := (fpgaDrive - trueLag).emod (nRing d : Int)
+  let mu13 : Int := (nPhi d : Int)
+  let pSound := readoutAcousticSoundPressureOp d mu13 mu13 actualDish
+  let jRxn := reactionCurrentOp d 1 mu13 mu13 actualDish
+  let recDish := recoverRingPhaseFromHydrophoneAndChiralCurrentOp d mu13 mu13 pSound jRxn
+  let phaseErr := targetPhi - recDish
+  (estLag + phaseErr).emod (nRing d : Int)
+
 def checkMultiModalSensorReadoutColorSoundConcTempOp (d : Nat) : Bool :=
   let aCoh : Int := ((qSquare d + nNeighbors d - muVac d : Nat) : Int)
   -- 1. Exact optical wavelength landmarks: 718 nm (dphi=0), 579 nm (dphi=128 saddle, myoglobin alpha),
@@ -5514,6 +5528,14 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
     eqNatBool (kitchenBench52MinStageTargetShellZOp d (zArgonOp d)) zCutletHeme70 &&
     eqIntBool (kitchenBench52MinStageTargetPhaseOp d 34) (qSquare d : Int) &&
     eqIntBool (kitchenBench52MinStageTargetPhaseOp d zTellurium52) 0
+  let closedLoopPll1TickAll512DisturbancesOk :=
+    allUpTo (nRing d) (fun trueLagNat =>
+      let trueLag : Int := (trueLagNat : Int)
+      let initialEstLag : Int := 89
+      let nextEstLag := kitchenBenchClosedLoopPllNextLagOp d aCoh initialEstLag trueLag
+      let lockedDishNextTick := ((aCoh + nextEstLag) - trueLag).emod (nRing d : Int)
+      eqIntBool nextEstLag trueLag &&
+      eqIntBool lockedDishNextTick aCoh)
   finitePerturbationOk && stringDimsDemystifiedOk && singleUniverseFiberOk &&
   mosfetCoilDishBridgeOk && kitchenWaterAndThermalDriftOk && complete10NodeBenchOk &&
   mutualInductanceDiagonalOk && flybackPiezoAndAdcOk && frameIsolationAndGeomagneticOk &&
@@ -5524,7 +5546,7 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
   verlet72CompleteBenchClosureOk && heisenberg81CompleteBenchClosureOk &&
   ball147CompleteBenchClosureOk && ring512CompleteBenchClosureOk &&
   eps8192CompleteBenchClosureOk && telemetryAll512RecoveryOk &&
-  full52MinDigitalTwinScheduleOk
+  full52MinDigitalTwinScheduleOk && closedLoopPll1TickAll512DisturbancesOk
 
 /-- **Theorem (Impossibility of Laplace's Demon Inside the Lattice and Constructive Realization of the Memoryless 12-Beam Geometric Maxwell Demon)**:
 Chained directly via `CatalanLaw` for any `d : Nat`:

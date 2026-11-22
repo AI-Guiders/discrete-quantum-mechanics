@@ -89,8 +89,13 @@
       <geom name="coil_10" type="cylinder" fromto="-0.044  0.044  0.000  -0.058  0.058  0.000" size="0.011" material="mat_copper_coil" mass="0.022"/>
       <geom name="coil_11" type="cylinder" fromto="-0.044 -0.044  0.000  -0.058 -0.058  0.000" size="0.011" material="mat_copper_coil" mass="0.022"/>
 
-      <!-- Central 90 mm Quartz Glass Petri Dish (SiO2, Z = 30) & Liquid Water Meniscus (H2O, Z = 10, 7+5=12 surface links) -->
+      <!-- Central 90 mm Quartz Glass Petri Dish (SiO2, Z = 30), TEC1-12706 Peltier Stage 0/4 Plate (127 couples),
+           Photosynthetic LED Ring (441 nm GaN + 718 nm GaAs), and I3- Chiral Polarimeter Base -->
       <body name="quartz_petri_dish" pos="0 0 0">
+        <geom name="peltier_tec1_12706_plate" type="box" pos="0 0 -0.011" size="0.020 0.020 0.002" material="mat_batio3_piezo" mass="0.018"/>
+        <geom name="polarizer_i3_minus_film" type="cylinder" pos="0 0 -0.0085" size="0.044 0.0005" material="mat_tang_fpga" mass="0.003"/>
+        <geom name="led_441nm_gan_north" type="sphere" pos="0 0.046 0.010" size="0.003" rgba="0.15 0.35 1.0 1.0" mass="0.001"/>
+        <geom name="led_718nm_gaas_south" type="sphere" pos="0 -0.046 0.010" size="0.003" rgba="1.0 0.15 0.15 1.0" mass="0.001"/>
         <geom name="petri_water_meniscus" type="cylinder" pos="0 0 -0.002" size="0.043 0.004" material="mat_water_meniscus" mass="0.025"/>
         <geom name="petri_glass_dish_and_lid" type="cylinder" pos="0 0 0" size="0.045 0.008" material="mat_quartz_glass" mass="0.045"/>
         <site name="focal_center_12beam" pos="0 0 0" size="0.003" rgba="1 0.2 0.2 1"/>
