@@ -382,8 +382,24 @@ def main() -> int:
          and mech["double_cold_total_lag_2x89"] == 178
          and mech["quarter_plus_half_piezo_128_51"] == 179
          and mech["total_section36_26_full180_blocks"] == 180 == 128 + 52),
-        ("Node 321-330: Complete 197-Section Gold-197 Bezout Multiscale Self-Closure (1..180 + 182..512..8192..6823936; 81/81 Audit!)",
-         mech["total_section36_26_gold197_blocks"] == 197 == 180 + 17 == 147 + 50
+        ("Node 321-330: Complete 197-Section Consecutive Gold-197 Bezout Multiscale Self-Closure (1..197 consecutively + 200..512..8192..6823936; 81/81 Audit!)",
+         mech["quarter_plus_iodine_128_53"] == 181
+         and mech["sucrose_disaccharide_shell_14x13_z"] == 182
+         and mech["iv263_bezout_inverse_3x61"] == 183
+         and mech["island_of_stability_neutrons_8x23"] == 184
+         and mech["five_tick_duration_5x37_ns"] == 185
+         and mech["six_square_gallium_6x31"] == 186
+         and mech["neighbors_times_fresnel_11x17"] == 187
+         and mech["double_theobromine_2x94"] == 188
+         and mech["triple_hydrogen_bond_3x63"] == 189
+         and mech["deca_octahedral_core_10x19"] == 190
+         and mech["quarter_plus_hbond_128_63"] == 191
+         and mech["photosynthesis_shell_balance_6co2_6h2o"] == 192
+         and mech["quarter_plus_stasis_temp_128_65"] == 193
+         and mech["double_gaussian_modulus_2x97"] == 194
+         and mech["beam_power_times_core_15x13"] == 195
+         and mech["fourteen_face_square_14sq_4x49"] == 196
+         and mech["total_section36_26_gold197_blocks"] == 197 == 180 + 17 == 147 + 50
          and (263 * mech["iv263_bezout_inverse_3x61"]) % 512 == 1
          and (97 * mech["mhat97_bezout_inverse_512_minus_95"]) % 512 == 1
          and (197 * 13) % 512 == 1
