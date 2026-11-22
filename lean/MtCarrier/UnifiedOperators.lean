@@ -12170,7 +12170,21 @@ def checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp (d : Nat) : 
     eqIntBool ((qSquare d : Int) * vBez4 - minor3_B * wBez4) (muVac d : Int) &&
     eqIntBool (zBone * vBone4 - yBone * wBone4) (muVac d : Int) &&
     eqIntBool apBone4 (-sAB) &&
-    eqIntBool i1Bone4 ((modBits d : Int) * phiGauss2))) &&
+    eqIntBool i1Bone4 ((modBits d : Int) * phiGauss2) &&
+    -- Integer Mason-Stothers-Bézout Derivative Triple (alpha, beta, gamma) = (1, 7, 11) on `3*1^3 + 1*5^3 = 2*4^3 = 128`:
+    -- `A* + B* = C*` (`1 + 175 = 176`), Wronskian `W* = 3*175 - 125*1 = 400 = 1^2 * 5^2 * 4^2`,
+    -- and 3x3 fourth-power determinant `-det(W_MS) = 1^4 + 5^4 + 4^4 = 882 = λ_triplet(3)`!
+    (let alphaMS : Int := (muVac d : Int)
+     let betaMS  : Int := ((nTriangles d - muVac d : Nat) : Int)
+     let gammaMS : Int := ((nNeighbors d - muVac d : Nat) : Int)
+     let aStar4  : Int := (xBone * xBone) * alphaMS
+     let bStar4  : Int := (yBone * yBone) * betaMS
+     let cStar4  : Int := (zBone * zBone) * gammaMS
+     let wStar4  : Int := minor3_A * bStar4 - minor3_B * aStar4
+     let detWMS4 : Int := (xBone ^ 4) + (yBone ^ 4) + (zBone ^ 4)
+     eqIntBool (aStar4 + bStar4) cStar4 &&
+     eqIntBool wStar4 ((xBone * xBone) * (yBone * yBone) * (zBone * zBone)) &&
+     eqIntBool detWMS4 (((c0OverCSqOp d * ((d * (nTriangles d - muVac d)) ^ 2) : Nat) : Int)))) &&
   eqIntBool detElbowBez (muVac d : Int) &&
   carryLockM2 && carryGapM3 && carryGapM4 && carryGapM5
 
