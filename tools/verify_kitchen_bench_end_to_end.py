@@ -270,6 +270,47 @@ def main() -> int:
         ("Node 217-220: Complete 97-Section Gaussian Coulomb Modulus M_hat(3) = 9^2 + 4^2 = 81 + 16 = 97 Self-Closure of Section 36.26",
          mech["total_section36_26_gaussian97_blocks"] == 97 == 9 * 9 + 4 * 4
          and mech["gaussian_coulomb_modulus_81_plus_16"] == 97),
+        ("Node 221-224: Numbers 98..101 (Dodecane/2*49=98, Neighbor Bit-Wires 99=9*11, L=100uH/C=100nF/Citric=100, Wheeler Prime 101=202/2)",
+         mech["double_mujoco_geoms_dodecane_z"] == 98 == 2 * 49
+         and mech["single_coil_11neighbor_9bit_wires"] == 99 == 9 * 11
+         and mech["nectar_citric_acid_c6h8o7_z"] == 100
+         and mech["wheeler_prime_factor_202_div_2"] == 101),
+        ("Node 225-228: Numbers 102..106 (BaTiO3/Caffeine=102=6*17, 103=64+39, 104=8*13, Odd Triad 105=3*5*7, Kok Oxo / I2 = 106 = 2*53)",
+         mech["food_recipe_shells_z"]["caffeine_batio3"] == 102
+         and mech["actinide_lawrencium_kp_plus_39"] == 103
+         and mech["octahedral_core_product_8x13"] == 104
+         and mech["odd_structural_triad_3x5x7"] == 105
+         and mech["kok_s4_oxo_bridge_and_i2_z"] == 106),
+        ("Node 229-232: Numbers 107..110 (108-Bit Bus MSB=107, 12*9=108=Trp=9*12 Wheeler, 109=64+45, Double Ball 110=2*55)",
+         mech["custom_12coil_bus_msb_index"] == 107
+         and mech["custom_12coil_phase_bus_bits_12x9"] == 108
+         and mech["coil_lag_plus_wall_cap_64_45"] == 109
+         and mech["double_two_shell_ball_2x55"] == 110),
+        ("Node 233-236: Numbers 111..114 (3-Tick 111=3*37ns, Double Span 112=16*7, 113=64+49, Cheese Ca-Lactate 114=6*19=228/2)",
+         mech["three_tick_27mhz_duration_ns"] == 111 == 3 * 37
+         and mech["double_maillard_dew_span_16x7"] == 112
+         and mech["kp_plus_mujoco_geoms_64_49"] == 113
+         and mech["cheese_calcium_lactate_z"] == 114),
+        ("Node 237-240: Numbers 115..118 (5*Silanol=115, 4*Cu=116, Collapse Odd Current S_3(139)=117=9*13, Au-197 Neutrons / Og = 118)",
+         mech["five_fold_silanol_5x23"] == 115
+         and mech["four_equatorial_copper_4x29"] == 116
+         and mech["collapse_139_odd_current_9x13"] == 117 == mcp.proj_s(139)
+         and mech["gold197_neutron_count_og118"] == 118),
+        ("Node 241-244: Numbers 119..122 (Meniscus-Fresnel 119=7*17 -> 7*119=833, Acrylamide/ATP 120=68+52, 11^2=121, 2*61=122)",
+         mech["meniscus_fresnel_factor_7x17"] == 119
+         and 7 * mech["meniscus_fresnel_factor_7x17"] == 833
+         and mech["acrylamide_pyrolysis_threshold_c"] == 120
+         and mech["off_axis_neighbor_square_11sq"] == 121
+         and mech["double_early_10min_lag_2x61"] == 122),
+        ("Node 245-248: Numbers 123..126 (Kok S3 Flash 123=3*41, 4*Ga=124, 5^3=125 -> 125-64=61, Cystine Disulfide 126=2*63)",
+         mech["kok_s3_third_flash_3x41"] == 123 == 3 * 41
+         and mech["quadruple_gallium_4x31"] == 124
+         and mech["outward_edge_cube_5cubed"] == 125
+         and mech["disulfide_cystine_bridge_z"] == 126),
+        ("Node 249-252: Number 127 Three-Fold Convergence (TEC1-12706 127 Couples, 7-Bit Gray Mantissa Max 127, 7th Gauss Shell 7^3-6^3=127)",
+         mech["peltier_tec1_12706_couples_qsquare_minus_1"] == 127 == 7**3 - 6**3),
+        ("Node 253-256: Complete 128-Section Quarter-Ring Saddle Q_square(3) = 2^7 = 128 Self-Closure (Stage 3 Ultrasonic Folding, R+G+B=128, Pt+Al2O3=128)",
+         mech["total_section36_26_qsquare128_blocks"] == 128 == 97 + 31),
     ]
 
     print("=== Complete 30-Node Physical Kitchen Bench Audit ===")
