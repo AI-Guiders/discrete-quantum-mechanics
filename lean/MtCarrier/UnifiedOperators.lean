@@ -12148,7 +12148,29 @@ def checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp (d : Nat) : 
    eqIntBool detH3Neg ((nSquares d * nNeighbors d * nNeighbors d : Nat) : Int) &&
    eqIntBool (s1Mom * yBone * zBone - s2Mom * (yBone + zBone)) ((abcA3 : Int) * xBone * (xBone - yBone) * (xBone - zBone)) &&
    eqIntBool (s1Mom * zBone * xBone - s2Mom * (zBone + xBone)) ((abcB3 : Int) * yBone * (yBone - xBone) * (yBone - zBone)) &&
-   eqIntBool (s2Mom * (xBone + yBone) - s1Mom * xBone * yBone) ((abcC3 : Int) * zBone * (zBone - xBone) * (zBone - yBone))) &&
+   eqIntBool (s2Mom * (xBone + yBone) - s1Mom * xBone * yBone) ((abcC3 : Int) * zBone * (zBone - xBone) * (zBone - yBone)) &&
+   -- Internal Bone-Bézout Gauss-Shell Inversion Matrix K_Bezout (`det = 4^3 - 3^3 = 37`) on Lock II
+   -- and Unimodular 2x3 Conjugate Bézout Partner Matrix B_{2x3} (`Av - Bu = Aw - Cu = Cv - Bw = +1`, `I_1 = 333 = 9 * 37`) on Lock IV:
+   (let wBez2     : Int := (muVac d : Int)
+    let vBez2     : Int := (c0OverCSqOp d : Int)
+    let apBez2    : Int := (dInSquare : Int) * (wBez2 ^ 3) - (vBez2 ^ 3)
+    let phiGauss2 : Int := ((xColl0 * vBez2) ^ 3) - ((yColl0 * wBez2) ^ 3)
+    let uBez4     : Int := (muVac d : Int)
+    let vBez4     : Int := rNormSq
+    let wBez4     : Int := uBez4 + vBez4
+    let wBone4    : Int := (d : Int)
+    let vBone4    : Int := (dInSquare : Int)
+    let apBone4   : Int := (abcC3 : Int) * (wBone4 ^ 3) - (abcB3 : Int) * (vBone4 ^ 3)
+    let i1Bone4   : Int := ((qSquare d : Int) + (c0OverCSqOp d : Int) * minor3_B) - minor3_A * yBone * wBone4
+    eqIntBool (xColl0 * vBez2 - yColl0 * wBez2) (muVac d : Int) &&
+    eqIntBool ((wBez2 ^ 3) * cLock2 - (xColl0 ^ 3) * apBez2) phiGauss2 &&
+    eqIntBool ((vBez2 ^ 3) * cLock2 - (yColl0 ^ 3) * apBez2) ((dInSquare : Int) * phiGauss2) &&
+    eqIntBool (minor3_A * vBez4 - minor3_B * uBez4) (muVac d : Int) &&
+    eqIntBool (minor3_A * wBez4 - (qSquare d : Int) * uBez4) (muVac d : Int) &&
+    eqIntBool ((qSquare d : Int) * vBez4 - minor3_B * wBez4) (muVac d : Int) &&
+    eqIntBool (zBone * vBone4 - yBone * wBone4) (muVac d : Int) &&
+    eqIntBool apBone4 (-sAB) &&
+    eqIntBool i1Bone4 ((modBits d : Int) * phiGauss2))) &&
   eqIntBool detElbowBez (muVac d : Int) &&
   carryLockM2 && carryGapM3 && carryGapM4 && carryGapM5
 
