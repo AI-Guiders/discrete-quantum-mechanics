@@ -1,0 +1,105 @@
+<mujoco model="cuboctahedron_kitchen_bench_o2_d3">
+  <compiler angle="degree" coordinate="local" inertiafromgeom="true"/>
+  <option timestep="0.001" gravity="0 0 -9.81" integrator="RK4"/>
+
+  <visual>
+    <headlight ambient="0.35 0.35 0.38" diffuse="0.75 0.75 0.78" specular="0.3 0.3 0.3"/>
+    <rgba haze="0.12 0.14 0.18 1"/>
+    <global offwidth="960" offheight="720"/>
+  </visual>
+
+  <asset>
+    <texture name="grid" type="2d" builtin="checker" rgb1="0.18 0.20 0.24" rgb2="0.24 0.27 0.32" width="512" height="512"/>
+    <material name="mat_table" texture="grid" texrepeat="6 6" reflectance="0.1"/>
+    <material name="mat_pla_frame" rgba="0.22 0.26 0.34 1.0" specular="0.4" shininess="0.3"/>
+    <material name="mat_copper_coil" rgba="0.82 0.45 0.18 1.0" specular="0.8" shininess="0.7"/>
+    <material name="mat_batio3_piezo" rgba="0.88 0.86 0.72 1.0" specular="0.6" shininess="0.5"/>
+    <material name="mat_quartz_glass" rgba="0.75 0.90 0.98 0.42" specular="0.9" shininess="0.9"/>
+    <material name="mat_water_meniscus" rgba="0.15 0.58 0.92 0.70" specular="0.8" shininess="0.8"/>
+    <material name="mat_silicone_foot" rgba="0.15 0.75 0.55 0.95" specular="0.3" shininess="0.2"/>
+    <material name="mat_tang_fpga" rgba="0.10 0.42 0.22 1.0" specular="0.5" shininess="0.5"/>
+  </asset>
+
+  <worldbody>
+    <light pos="0.2 -0.3 0.5" dir="-0.3 0.4 -0.8" diffuse="0.9 0.9 0.9" specular="0.4 0.4 0.4" castshadow="true"/>
+    <light pos="-0.3 0.3 0.4" dir="0.4 -0.4 -0.7" diffuse="0.5 0.55 0.65"/>
+
+    <camera name="bench_iso" pos="0.24 -0.24 0.25" xyaxes="0.707 0.707 0 -0.408 0.408 0.816" fovy="45"/>
+    <camera name="bench_top" pos="0 0 0.34" xyaxes="1 0 0 0 1 0" fovy="45"/>
+
+    <!-- Kitchen Table Surface (z = 0) -->
+    <geom name="kitchen_table" type="plane" size="0.4 0.4 0.01" material="mat_table"/>
+
+    <!-- Tang Nano 9K FPGA Controller Board + FR-4 Power MOSFET Stage beside the Cuboctahedron -->
+    <body name="tang_nano_9k_controller" pos="0.14 0.0 0.008">
+      <geom name="fr4_power_pcb" type="box" size="0.045 0.065 0.004" material="mat_tang_fpga" mass="0.085"/>
+      <site name="uart_optocoupler_6n137" pos="-0.03 0.0 0.006" size="0.004" rgba="0.9 0.2 0.2 1"/>
+    </body>
+
+    <!-- 3D-Printed Cuboctahedron O_2(3) Frame suspended on 4 = d_in(square) Silicone Vibration-Damping Feet -->
+    <body name="cuboctahedron_frame" pos="0 0 0.085">
+      <!-- 3-DOF compliant suspension modeling the 4 silicone elastomer feet (k = 400 N/m, c = 12 N.s/m) -->
+      <joint name="vib_x" type="slide" axis="1 0 0" stiffness="400" damping="12" range="-0.01 0.01"/>
+      <joint name="vib_y" type="slide" axis="0 1 0" stiffness="400" damping="12" range="-0.01 0.01"/>
+      <joint name="vib_z" type="slide" axis="0 0 1" stiffness="800" damping="18" range="-0.01 0.01"/>
+
+      <!-- 4 Silicone Vibration-Damping Feet at bottom vertices (z = -0.052 m relative to center, resting near table) -->
+      <geom name="silicone_foot_0" type="cylinder" pos=" 0.000  0.052 -0.077" size="0.008 0.008" material="mat_silicone_foot" mass="0.005"/>
+      <geom name="silicone_foot_1" type="cylinder" pos=" 0.000 -0.052 -0.077" size="0.008 0.008" material="mat_silicone_foot" mass="0.005"/>
+      <geom name="silicone_foot_2" type="cylinder" pos=" 0.052  0.000 -0.077" size="0.008 0.008" material="mat_silicone_foot" mass="0.005"/>
+      <geom name="silicone_foot_3" type="cylinder" pos="-0.052  0.000 -0.077" size="0.008 0.008" material="mat_silicone_foot" mass="0.005"/>
+
+      <!-- 24 Structural Struts of the Cuboctahedron O_2(3) (step = 0.052 m, R_oct = 0.07354 m) -->
+      <geom name="strut_00_04" type="capsule" fromto=" 0.000  0.052  0.052   0.052  0.000  0.052" size="0.0035" material="mat_pla_frame" mass="0.004"/>
+      <geom name="strut_00_06" type="capsule" fromto=" 0.000  0.052  0.052  -0.052  0.000  0.052" size="0.0035" material="mat_pla_frame" mass="0.004"/>
+      <geom name="strut_00_08" type="capsule" fromto=" 0.000  0.052  0.052   0.052  0.052  0.000" size="0.0035" material="mat_pla_frame" mass="0.004"/>
+      <geom name="strut_00_10" type="capsule" fromto=" 0.000  0.052  0.052  -0.052  0.052  0.000" size="0.0035" material="mat_pla_frame" mass="0.004"/>
+      <geom name="strut_01_05" type="capsule" fromto=" 0.000  0.052 -0.052   0.052  0.000 -0.052" size="0.0035" material="mat_pla_frame" mass="0.004"/>
+      <geom name="strut_01_07" type="capsule" fromto=" 0.000  0.052 -0.052  -0.052  0.000 -0.052" size="0.0035" material="mat_pla_frame" mass="0.004"/>
+      <geom name="strut_01_08" type="capsule" fromto=" 0.000  0.052 -0.052   0.052  0.052  0.000" size="0.0035" material="mat_pla_frame" mass="0.004"/>
+      <geom name="strut_01_10" type="capsule" fromto=" 0.000  0.052 -0.052  -0.052  0.052  0.000" size="0.0035" material="mat_pla_frame" mass="0.004"/>
+      <geom name="strut_02_04" type="capsule" fromto=" 0.000 -0.052  0.052   0.052  0.000  0.052" size="0.0035" material="mat_pla_frame" mass="0.004"/>
+      <geom name="strut_02_06" type="capsule" fromto=" 0.000 -0.052  0.052  -0.052  0.000  0.052" size="0.0035" material="mat_pla_frame" mass="0.004"/>
+      <geom name="strut_02_09" type="capsule" fromto=" 0.000 -0.052  0.052   0.052 -0.052  0.000" size="0.0035" material="mat_pla_frame" mass="0.004"/>
+      <geom name="strut_02_11" type="capsule" fromto=" 0.000 -0.052  0.052  -0.052 -0.052  0.000" size="0.0035" material="mat_pla_frame" mass="0.004"/>
+      <geom name="strut_03_05" type="capsule" fromto=" 0.000 -0.052 -0.052   0.052  0.000 -0.052" size="0.0035" material="mat_pla_frame" mass="0.004"/>
+      <geom name="strut_03_07" type="capsule" fromto=" 0.000 -0.052 -0.052  -0.052  0.000 -0.052" size="0.0035" material="mat_pla_frame" mass="0.004"/>
+      <geom name="strut_03_09" type="capsule" fromto=" 0.000 -0.052 -0.052   0.052 -0.052  0.000" size="0.0035" material="mat_pla_frame" mass="0.004"/>
+      <geom name="strut_03_11" type="capsule" fromto=" 0.000 -0.052 -0.052  -0.052 -0.052  0.000" size="0.0035" material="mat_pla_frame" mass="0.004"/>
+      <geom name="strut_04_08" type="capsule" fromto=" 0.052  0.000  0.052   0.052  0.052  0.000" size="0.0035" material="mat_pla_frame" mass="0.004"/>
+      <geom name="strut_04_09" type="capsule" fromto=" 0.052  0.000  0.052   0.052 -0.052  0.000" size="0.0035" material="mat_pla_frame" mass="0.004"/>
+      <geom name="strut_05_08" type="capsule" fromto=" 0.052  0.000 -0.052   0.052  0.052  0.000" size="0.0035" material="mat_pla_frame" mass="0.004"/>
+      <geom name="strut_05_09" type="capsule" fromto=" 0.052  0.000 -0.052   0.052 -0.052  0.000" size="0.0035" material="mat_pla_frame" mass="0.004"/>
+      <geom name="strut_06_10" type="capsule" fromto="-0.052  0.000  0.052  -0.052  0.052  0.000" size="0.0035" material="mat_pla_frame" mass="0.004"/>
+      <geom name="strut_06_11" type="capsule" fromto="-0.052  0.000  0.052  -0.052 -0.052  0.000" size="0.0035" material="mat_pla_frame" mass="0.004"/>
+      <geom name="strut_07_10" type="capsule" fromto="-0.052  0.000 -0.052  -0.052  0.052  0.000" size="0.0035" material="mat_pla_frame" mass="0.004"/>
+      <geom name="strut_07_11" type="capsule" fromto="-0.052  0.000 -0.052  -0.052 -0.052  0.000" size="0.0035" material="mat_pla_frame" mass="0.004"/>
+
+      <!-- 12 Hand-Wound Copper Coils (Z(Cu)=29, L=100 uH) + BaTiO3 Piezo Transducers (Z=102) at all 12 O_2(3) vertices, aiming at (0,0,0) -->
+      <geom name="coil_00" type="cylinder" fromto=" 0.000  0.044  0.044   0.000  0.058  0.058" size="0.011" material="mat_copper_coil" mass="0.022"/>
+      <geom name="coil_01" type="cylinder" fromto=" 0.000  0.044 -0.044   0.000  0.058 -0.058" size="0.011" material="mat_copper_coil" mass="0.022"/>
+      <geom name="coil_02" type="cylinder" fromto=" 0.000 -0.044  0.044   0.000 -0.058  0.058" size="0.011" material="mat_copper_coil" mass="0.022"/>
+      <geom name="coil_03" type="cylinder" fromto=" 0.000 -0.044 -0.044   0.000 -0.058 -0.058" size="0.011" material="mat_copper_coil" mass="0.022"/>
+      <geom name="coil_04" type="cylinder" fromto=" 0.044  0.000  0.044   0.058  0.000  0.058" size="0.011" material="mat_copper_coil" mass="0.022"/>
+      <geom name="coil_05" type="cylinder" fromto=" 0.044  0.000 -0.044   0.058  0.000 -0.058" size="0.011" material="mat_copper_coil" mass="0.022"/>
+      <geom name="coil_06" type="cylinder" fromto="-0.044  0.000  0.044  -0.058  0.000  0.058" size="0.011" material="mat_copper_coil" mass="0.022"/>
+      <geom name="coil_07" type="cylinder" fromto="-0.044  0.000 -0.044  -0.058  0.000 -0.058" size="0.011" material="mat_copper_coil" mass="0.022"/>
+      <geom name="coil_08" type="cylinder" fromto=" 0.044  0.044  0.000   0.058  0.058  0.000" size="0.011" material="mat_copper_coil" mass="0.022"/>
+      <geom name="coil_09" type="cylinder" fromto=" 0.044 -0.044  0.000   0.058 -0.058  0.000" size="0.011" material="mat_copper_coil" mass="0.022"/>
+      <geom name="coil_10" type="cylinder" fromto="-0.044  0.044  0.000  -0.058  0.058  0.000" size="0.011" material="mat_copper_coil" mass="0.022"/>
+      <geom name="coil_11" type="cylinder" fromto="-0.044 -0.044  0.000  -0.058 -0.058  0.000" size="0.011" material="mat_copper_coil" mass="0.022"/>
+
+      <!-- Central 90 mm Quartz Glass Petri Dish (SiO2, Z = 30) & Liquid Water Meniscus (H2O, Z = 10, 7+5=12 surface links) -->
+      <body name="quartz_petri_dish" pos="0 0 0">
+        <geom name="petri_water_meniscus" type="cylinder" pos="0 0 -0.002" size="0.043 0.004" material="mat_water_meniscus" mass="0.025"/>
+        <geom name="petri_glass_dish_and_lid" type="cylinder" pos="0 0 0" size="0.045 0.008" material="mat_quartz_glass" mass="0.045"/>
+        <site name="focal_center_12beam" pos="0 0 0" size="0.003" rgba="1 0.2 0.2 1"/>
+      </body>
+    </body>
+  </worldbody>
+
+  <sensor>
+    <framepos name="focal_center_pos" objtype="site" objname="focal_center_12beam"/>
+    <jointpos name="vib_z_disp" joint="vib_z"/>
+  </sensor>
+</mujoco>

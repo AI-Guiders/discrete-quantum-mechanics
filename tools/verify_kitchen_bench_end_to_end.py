@@ -68,6 +68,7 @@ def main() -> int:
              "kitchen_bench_mosfet_coil.cir",
              "cuboctahedron_12coil_frame.scad",
              "cuboctahedron_12coil_frame.stl",
+             "kitchen_bench_mujoco.xml",
              "KITCHEN_BENCH_BOM_AND_CHECKLIST.md",
          ))),
     ]
