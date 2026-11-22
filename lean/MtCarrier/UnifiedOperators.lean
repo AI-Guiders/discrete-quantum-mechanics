@@ -5159,7 +5159,7 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
   let flybackPiezoAndAdcOk :=
     eqNatBool (threeTauDecayTicks + nPhi d) (phiPauli d) &&
     eqNatBool flybackSafetyMarginTicks (nPhi d) &&
-    eqNatBool zBaTiO3Piezo (c0OverCSqOp d * (s2ShellOp d + k3Shell d)) &&
+    eqNatBool zBaTiO3Piezo (c0OverCSqOp d * (d * (nNeighbors d + dOutEdge d))) &&
     eqNatBool adc8BitLevels (phiPauli d) &&
     eqIntBool (energyQuantumOperator d adcQuantNoiseTicks) 0 &&
     eqIntBool (heisenbergDeadbandOp d adcQuantNoiseTicks) 0
