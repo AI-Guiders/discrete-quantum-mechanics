@@ -11883,6 +11883,17 @@ def checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp (d : Nat) : 
   let factLock2 : Int := (((nTriangles d : Nat) : Int) - (d : Int)) * (((dInSquare : Nat) : Int) - (d : Int))
   let factLock3 : Int := (((dOutEdge d * dOutEdge d : Nat) : Int) - (d : Int)) * (((dOutEdge d : Nat) : Int) - (d : Int))
   let factLock4 : Int := (((qSquare d + dOutEdge d : Nat) : Int)) * (((nTriangles d : Nat) : Int) - ((dOutEdge d : Nat) : Int))
+  -- Farey-Bézout Exponent Matrix `E_Bezout = [[a', b'], [a, b]] ∈ SL_2(Z)` (`a + a' = m, b + b' = n, a'*b - a*b' = +1`)
+  -- and exact base reconstruction `(x^a')^b = x * (x^a)^b'`, `(y^b')^a = y * (y^b)^a'` on Lock II (`m=5, n=3 -> (a=2,b=1), (a'=3,b'=2)`):
+  let aBez2  : Nat := c0OverCSqOp d                                               -- 2
+  let bBez2  : Nat := muVac d                                                     -- 1
+  let apBez2 : Nat := d                                                           -- 3
+  let bpBez2 : Nat := c0OverCSqOp d                                               -- 2
+  let detFareyBez2 : Int := ((apBez2 * bBez2 : Nat) : Int) - ((aBez2 * bpBez2 : Nat) : Int) -- 3*1 - 2*2 = -1 (or a*bp - ap*b = +1)
+  let recBaseX2_L : Nat := (c0OverCSqOp d ^ apBez2) ^ bBez2                       -- (2^3)^1 = 8
+  let recBaseX2_R : Nat := (c0OverCSqOp d ^ aBez2) ^ bpBez2                       -- (2^2)^2 = 16 = 2 * 8
+  let recBaseY2_L : Nat := (d ^ bpBez2) ^ aBez2                                   -- (3^2)^2 = 81
+  let recBaseY2_R : Nat := (d ^ bBez2) ^ apBez2                                   -- (3^1)^3 = 27 (81 = 3 * 27)
   -- 3-level recursive descent law `C_0 - (x + y)*C_1 + x*y*C_2 = 0` on Lock II (`2^5 - 3^3 = 5`)
   -- and Hankel-Wronskian identity `C_1^2 - C_0 * C_2 = x^(5-2) * y^(3-2) * (x - y)^2 = 8 * 3 * 1 = 24 = 2 * |N(3)|`:
   let cDesc0 : Int := cLock2                                                      -- 5 = d_out(E)
@@ -11950,6 +11961,9 @@ def checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp (d : Nat) : 
   eqIntBool factLock2 cLock2 &&
   eqIntBool factLock3 cLock3 &&
   eqIntBool factLock4 cLock4 &&
+  eqIntBool detFareyBez2 (-(muVac d : Int)) &&
+  eqNatBool recBaseX2_R (c0OverCSqOp d * recBaseX2_L) &&
+  eqNatBool recBaseY2_L (d * recBaseY2_R) &&
   eqIntBool cDesc1 ((nTriangles d - muVac d : Nat) : Int) &&
   eqIntBool cDesc2 (dOutEdge d : Int) &&
   eqIntBool recLawLock2 0 &&
