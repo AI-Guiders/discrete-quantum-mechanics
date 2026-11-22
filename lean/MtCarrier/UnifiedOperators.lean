@@ -11838,6 +11838,28 @@ def checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp (d : Nat) : 
   let carryGapM3  : Bool := decide (c0OverCSqOp d * d < d ^ (d - muVac d))
   let carryGapM4  : Bool := decide (c0OverCSqOp d * dInSquare < d ^ (dInSquare - muVac d))
   let carryGapM5  : Bool := decide (c0OverCSqOp d * dOutEdge d < d ^ (dOutEdge d - muVac d))
+  -- Lock II (`2^5 - 3^3 = 5 = d_out(E)`): C = 5, resonance square `2^4 * (2+1)^2 = 3^2 * (3+1)^2 = 144 = 12^2 = |N(3)|^2`,
+  -- normalized SL_2(Z) matrix `P_II / 5 = [[-13, -12], [12, 11]] = [[-N_φ(3), -|N(3)|], [|N(3)|, |N(3)|-1]]`:
+  let cLock2 : Int := ((c0OverCSqOp d ^ dOutEdge d : Nat) : Int) - ((d ^ d : Nat) : Int) -- 32 - 27 = 5 = d_out(E)
+  let sqLock2Left  : Nat := (c0OverCSqOp d ^ dInSquare) * ((c0OverCSqOp d + muVac d) ^ c0OverCSqOp d) -- 16 * 9 = 144
+  let sqLock2Right : Nat := (d ^ c0OverCSqOp d) * ((d + muVac d) ^ c0OverCSqOp d) -- 9 * 16 = 144
+  let p2_00 : Int := (((c0OverCSqOp d ^ dInSquare : Nat) : Int) - ((d ^ dInSquare : Nat) : Int)) / cLock2 -- (16 - 81)/5 = -13 = -N_phi(3)
+  let p2_01 : Int := -((nNeighbors d : Nat) : Int)                                -- -12 = -|N(3)|
+  let p2_10 : Int :=  ((nNeighbors d : Nat) : Int)                                -- +12 = +|N(3)|
+  let p2_11 : Int := (((c0OverCSqOp d ^ nSquares d : Nat) : Int) - ((d ^ c0OverCSqOp d : Nat) : Int)) / cLock2 -- (64 - 9)/5 = +11 = |N(3)| - 1
+  let detP2 : Int := p2_00 * p2_11 - p2_01 * p2_10                                -- -143 + 144 = +1
+  let trP2  : Int := p2_00 + p2_11                                                -- -13 + 11 = -2
+  -- Lock III (`5^3 - 3^4 = 44 = Z(Si + SiO_2)`): C = 44, resonance square `5^2 * (5+1)^2 = 3^2 * (3^2+1)^2 = 900 = 30^2 = Z(SiO_2)^2`,
+  -- normalized SL_2(Z) matrix `P_III / 44 = [[-16, -15], [15, 14]] = [[-Z(O_2), -d*d_out(E)], [d*d_out(E), Z(Si)]]`:
+  let cLock3 : Int := ((dOutEdge d ^ d : Nat) : Int) - ((d ^ dInSquare : Nat) : Int) -- 125 - 81 = 44 = 14 + 30
+  let sqLock3Left  : Nat := (dOutEdge d ^ c0OverCSqOp d) * ((dOutEdge d + muVac d) ^ c0OverCSqOp d) -- 25 * 36 = 900 = 30^2
+  let sqLock3Right : Nat := (d ^ c0OverCSqOp d) * ((modBits d + muVac d) ^ c0OverCSqOp d) -- 9 * 100 = 900 = 30^2
+  let p3_00 : Int := (((dOutEdge d ^ c0OverCSqOp d : Nat) : Int) - ((d ^ (nSquares d) : Nat) : Int)) / cLock3 -- (25 - 729)/44 = -16 = -Z(O_2)
+  let p3_01 : Int := -((d * dOutEdge d : Nat) : Int)                              -- -15
+  let p3_10 : Int :=  ((d * dOutEdge d : Nat) : Int)                              -- +15
+  let p3_11 : Int := (((dOutEdge d ^ dInSquare : Nat) : Int) - ((d ^ c0OverCSqOp d : Nat) : Int)) / cLock3 -- (625 - 9)/44 = +14 = Z(Si)
+  let detP3 : Int := p3_00 * p3_11 - p3_01 * p3_10                                -- -224 + 225 = +1
+  let trP3  : Int := p3_00 + p3_11                                                -- -16 + 14 = -2
   eqIntBool detM11 (muVac d : Int) &&
   eqIntBool detM12 (muVac d : Int) &&
   eqIntBool p00 (-((nTriangles d - muVac d : Nat) : Int)) &&
@@ -11849,6 +11871,20 @@ def checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp (d : Nat) : 
   eqIntBool trP trFormulaY2 &&
   decide (trFormulaY3 < -(c0OverCSqOp d : Int)) &&
   eqIntBool nSq00 0 && eqIntBool nSq01 0 && eqIntBool nSq10 0 && eqIntBool nSq11 0 &&
+  eqIntBool cLock2 (dOutEdge d : Int) &&
+  eqNatBool sqLock2Left (nNeighbors d * nNeighbors d) &&
+  eqNatBool sqLock2Right (nNeighbors d * nNeighbors d) &&
+  eqIntBool p2_00 (-(nPhi d : Int)) &&
+  eqIntBool p2_11 ((nNeighbors d - muVac d : Nat) : Int) &&
+  eqIntBool detP2 (muVac d : Int) &&
+  eqIntBool trP2 (-(c0OverCSqOp d : Int)) &&
+  eqIntBool cLock3 ((nPhi d + muVac d + d * zNeonOp d : Nat) : Int) &&
+  eqNatBool sqLock3Left ((d * zNeonOp d) * (d * zNeonOp d)) &&
+  eqNatBool sqLock3Right ((d * zNeonOp d) * (d * zNeonOp d)) &&
+  eqIntBool p3_00 (-((c0OverCSqOp d * zOxygenOp d : Nat) : Int)) &&
+  eqIntBool p3_11 ((nPhi d + muVac d : Nat) : Int) &&
+  eqIntBool detP3 (muVac d : Int) &&
+  eqIntBool trP3 (-(c0OverCSqOp d : Int)) &&
   eqIntBool detElbowBez (muVac d : Int) &&
   carryLockM2 && carryGapM3 && carryGapM4 && carryGapM5
 

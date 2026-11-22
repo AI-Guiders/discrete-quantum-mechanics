@@ -173,7 +173,15 @@
     P_{\mathrm{Catalan}} \;=\; \begin{pmatrix} -7 & -6 \\ 6 & 5 \end{pmatrix} \;=\; \begin{pmatrix} -d_{\mathrm{out}}(V) & -|\square(3)| \\ |\square(3)| & d_{\mathrm{out}}(E) \end{pmatrix}, \qquad
     \bigl(P_{\mathrm{Catalan}} + I_2\bigr)^2 \;=\; \begin{pmatrix} -6 & -6 \\ 6 & 6 \end{pmatrix}^2 \;=\; \begin{pmatrix} 0 & 0 \\ 0 & 0 \end{pmatrix}.
   \end{equation}
-  При всех $y \ge 3$ след $\operatorname{Tr}(P) \le -34 < -2$ необратимо уходит в гиперболическую область.
+  При всех $y \ge 3$ след $\operatorname{Tr}(P) \le -34 < -2$ необратимо уходит в гиперболическую область. При нормировке общей матрицы перехода на правую часть уравнения Пиллаи $\widetilde{P} = \frac{1}{C} M_{a,b}^{\mathrm{adj}} M_{a+\Delta a, b+\Delta b}$ ($\det \widetilde{P} = +1$) параболическое условие $\operatorname{Tr}(\widetilde{P}) = -2$ принимает вид равенства полных квадратов $A x^{m-\Delta a}(x^{\Delta a}+1)^2 = B y^{n-\Delta b}(y^{\Delta b}+1)^2$ и для взаимно простых оснований ($A=B=1$) порождает замкнутый триптих нильпотентных жордановых матриц $\widetilde{P}_k = \begin{pmatrix} -(k+1) & -k \\ k & k-1 \end{pmatrix} \in \mathrm{SL}_2(\mathbb{Z})$:
+  \begin{equation}
+    \label{eq:mono-pillai-triptych}
+    \begin{aligned}
+      3^2 - 2^3 &= 1 = \mu_{\mathrm{vac}}(3) &\implies k &= 6 = |\square(3)|, &\quad \widetilde{P}_{\mathrm{I}} &= \begin{pmatrix} -7 & -6 \\ 6 & 5 \end{pmatrix} \quad (36 = 6^2), \\
+      2^5 - 3^3 &= 5 = d_{\mathrm{out}}(E) &\implies k &= 12 = |N(3)|, &\quad \widetilde{P}_{\mathrm{II}} &= \begin{pmatrix} -13 & -12 \\ 12 & 11 \end{pmatrix} \quad (144 = 12^2), \\
+      5^3 - 3^4 &= 44 = Z(\mathrm{Si+SiO_2}) &\implies k &= 15 = d\cdot d_{\mathrm{out}}(E), &\quad \widetilde{P}_{\mathrm{III}} &= \begin{pmatrix} -16 & -15 \\ 15 & 14 \end{pmatrix} \quad (900 = 30^2).
+    \end{aligned}
+  \end{equation}
 \item В центральном («локтевом») суставе $a = \lfloor m/2 \rfloor,\ b = \lfloor n/2 \rfloor$ ($m = 2a + r_x,\ n = 2b + r_y,\ r_x, r_y \in \{0,1\}$) матрица~\eqref{eq:mono-pillai-joint-matrix} сводит уравнение Пиллаи к уравнению Пелля $\tilde{A} X^2 - \tilde{B} Y^2 = C$ для половинных костей $X = x^a,\ Y = y^b$ с коэффициентами $\tilde{A} = A x^{r_x},\ \tilde{B} = B y^{r_y}$, а на трёх суставах $(1/3, 1/2, 2/3)$ шестикратной башни $a_x U^6 - b_y V^6 = C$ матрица ускорения излома в локте равна
   \begin{equation}
     \label{eq:mono-elbow-accel}
