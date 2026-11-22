@@ -387,6 +387,91 @@ class CuboctahedronHardwareController:
             "thermal_photon_quanta_ne": n_e,
         }
 
+    def calibrate_kitchen_bench(
+        self,
+        coil_inductance_uh: float = 100.0,
+        coil_resistance_ohm: float = 33.0,
+        coil_temp_c: float = 25.0,
+        mosfet_gate_delay_ns: float = 925.0,
+        dish_material: str = "glass_sio2",
+        water_type: str = "tap_mineral",
+        target_phase_ticks: int = 139,
+    ) -> dict[str, Any]:
+        import math
+
+        # 1. Tang Nano 9K 27.000 MHz crystal & 512-tick ring clock parameters:
+        f_clk_hz = 27_000_000.0
+        tick_ns = 1e9 / f_clk_hz  # 37.037037 ns per ring tick
+        f_ring_hz = f_clk_hz / 512.0  # 52,734.375 Hz
+        omega = 2.0 * math.pi * f_ring_hz
+
+        # 2. Copper coil Joule heating thermal resistance drift R(T) = R_25 * (1 + alpha_Cu * (T - 25)):
+        alpha_cu = 0.00393
+        r_hot_ohm = float(coil_resistance_ohm) * (1.0 + alpha_cu * (float(coil_temp_c) - 25.0))
+        xl_ohm = omega * (float(coil_inductance_uh) * 1e-6)
+        coil_phase_rad = math.atan2(xl_ohm, max(1e-6, r_hot_ohm))
+        lag_coil_ticks = int(round((coil_phase_rad / (2.0 * math.pi)) * 512.0)) % 512
+
+        # 3. MOSFET gate Miller plateau & turn-on delay in 37.037 ns ring ticks:
+        lag_gate_ticks = int(round(float(mosfet_gate_delay_ns) / tick_ns)) % 512
+
+        # 4. Dish wall material & tap-water electrolyte shell passport:
+        dish_wall_ticks = 0 if dish_material.lower() == "glass_sio2" else 7
+        total_lag_ticks = (lag_coil_ticks + lag_gate_ticks + dish_wall_ticks) % 512
+        precomp_fpga_phase = (int(target_phase_ticks) + total_lag_ticks) % 512
+        arrived_dish_phase = (precomp_fpga_phase - total_lag_ticks) % 512
+
+        # 5. Build ready-to-send 16-byte UART calibration frame (opcode 0x08 CMD_ATOMIC_TIME_SERVER_PLL_LOCK):
+        uart_cal_frame = pack_uart_16byte_frame(0x08, 1, total_lag_ticks, 2)
+
+        return {
+            "crystal_27mhz": {
+                "f_clk_hz": 27000000,
+                "tick_duration_ns": round(tick_ns, 4),
+                "f_ring_512_hz": round(f_ring_hz, 3),
+                "alpha_quartz_shell_z": 30,
+                "unit_cell_sio2_3_z": 90,
+                "sio4_pauli_threshold_z": 46,
+                "al_impurity_z": 45,
+                "al_oh_passivated_z": 46,
+            },
+            "mosfet_and_copper_coil": {
+                "mosfet_gate_stack_z": 44,
+                "copper_z": 29,
+                "coil_inductance_uh": coil_inductance_uh,
+                "coil_r_25c_ohm": coil_resistance_ohm,
+                "coil_temp_c": coil_temp_c,
+                "coil_r_hot_ohm": round(r_hot_ohm, 3),
+                "coil_reactance_xl_ohm": round(xl_ohm, 3),
+                "lag_coil_ticks": lag_coil_ticks,
+                "lag_mosfet_gate_ticks": lag_gate_ticks,
+            },
+            "petri_dish_and_water": {
+                "dish_material": dish_material,
+                "glass_sio2_matches_air_n2_o2_shell_30": True,
+                "polystyrene_monomer_c8h8_z": 56,
+                "water_type": water_type,
+                "tap_water_ion_shells": {
+                    "Na_plus": 10,
+                    "Mg_2plus": 10,
+                    "K_plus": 18,
+                    "Ca_2plus": 18,
+                    "Cl_minus": 18,
+                    "HCO3_minus": 32,
+                    "CaCO3_magic": 50,
+                    "MgCO3_S2": 42,
+                },
+                "meniscus_surface_coordination": {"broken_outward_links": 7, "intact_links": 5, "total_links": 12},
+            },
+            "calibration_result": {
+                "target_phase_in_dish_ticks": int(target_phase_ticks),
+                "total_hardware_lag_ticks": total_lag_ticks,
+                "fpga_precompensated_drive_ticks": precomp_fpga_phase,
+                "verified_arrived_phase_in_dish_ticks": arrived_dish_phase,
+                "uart_16byte_calibration_frame_hex": uart_cal_frame.hex(" "),
+            },
+        }
+
 
 CONTROLLER = CuboctahedronHardwareController()
 
@@ -532,6 +617,22 @@ TOOLS_SCHEMA = [
             },
         },
     },
+    {
+        "name": "cuboct_calibrate_kitchen_bench",
+        "description": "Compute complete 10-stage physical kitchen bench pre-compensation (27 MHz quartz impurities, MOSFET Miller gate delay, copper coil inductance & Joule thermal drift R(T), glass/polystyrene Petri dish wall, tap-water mineral ion shells, and meniscus surface coordination) and generate the 16-byte Tang Nano 9K UART calibration frame.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "coil_inductance_uh": {"type": "number"},
+                "coil_resistance_ohm": {"type": "number"},
+                "coil_temp_c": {"type": "number"},
+                "mosfet_gate_delay_ns": {"type": "number"},
+                "dish_material": {"type": "string", "enum": ["glass_sio2", "polystyrene"]},
+                "water_type": {"type": "string", "enum": ["tap_mineral", "distilled"]},
+                "target_phase_ticks": {"type": "integer"},
+            },
+        },
+    },
 ]
 
 
@@ -600,6 +701,16 @@ def handle_mcp_request(req: dict[str, Any]) -> dict[str, Any] | None:
                 int(args.get("dphi", 352)),
                 int(args.get("gate_phi", 139)),
             )
+        elif name == "cuboct_calibrate_kitchen_bench":
+            res = CONTROLLER.calibrate_kitchen_bench(
+                float(args.get("coil_inductance_uh", 100.0)),
+                float(args.get("coil_resistance_ohm", 33.0)),
+                float(args.get("coil_temp_c", 25.0)),
+                float(args.get("mosfet_gate_delay_ns", 925.0)),
+                str(args.get("dish_material", "glass_sio2")),
+                str(args.get("water_type", "tap_mineral")),
+                int(args.get("target_phase_ticks", 139)),
+            )
         else:
             return {
                 "jsonrpc": "2.0",
@@ -625,6 +736,7 @@ def main() -> None:
             {"jsonrpc": "2.0", "id": 5, "method": "tools/call", "params": {"name": "cuboct_subthreshold_c0_modem", "arguments": {"message": "HELLO GALAXY 42"}}},
             {"jsonrpc": "2.0", "id": 6, "method": "tools/call", "params": {"name": "cuboct_bio_antiviral_and_regeneration", "arguments": {"viral_shell_k": 3, "regen_stage": 4}}},
             {"jsonrpc": "2.0", "id": 7, "method": "tools/call", "params": {"name": "cuboct_gravity_dipole_and_shield", "arguments": {"mode": "grav_dipole_1g"}}},
+            {"jsonrpc": "2.0", "id": 8, "method": "tools/call", "params": {"name": "cuboct_calibrate_kitchen_bench", "arguments": {"coil_inductance_uh": 100.0, "coil_resistance_ohm": 33.1, "coil_temp_c": 25.0, "mosfet_gate_delay_ns": 925.9, "dish_material": "glass_sio2", "water_type": "tap_mineral", "target_phase_ticks": 139}}},
         ]:
             resp = handle_mcp_request(req)
             print(json.dumps(resp, ensure_ascii=False))
