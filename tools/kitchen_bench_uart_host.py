@@ -72,12 +72,13 @@ def build_full_bench_launch_sequence(
         per_coil_inductance_uh=inductances_uh,
     )
     food = mcp.CONTROLLER.synthesize_food(recipe)
+    food_launch_frame = mcp.pack_uart_16byte_frame(0x02, 0, 250, 0)
 
     frames_hex: list[str] = []
     for entry in cal["calibration_result"]["per_coil_12channel_calibration"]:
         frames_hex.append(entry["uart_0x06_frame_hex"])
     frames_hex.append(cal["calibration_result"]["uart_16byte_calibration_frame_hex"])
-    frames_hex.append(food["uart_16byte_frame_hex"])
+    frames_hex.append(food_launch_frame.hex(" "))
 
     all_crc_ok = all(verify_uart_frame_crc(bytes.fromhex(h)) for h in frames_hex)
     return {
