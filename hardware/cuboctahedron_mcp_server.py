@@ -537,6 +537,10 @@ class CuboctahedronHardwareController:
                 "far_field_emc_dipole_radiation_sum": 0,
                 "silanol_glass_wetting_group_sioh_z": 23,
                 "silicone_vibration_feet_count": 4,
+                "moist_air_carbonic_acid_h2co3_z": 32,
+                "coil_srf_to_ring_freq_ratio": 87,
+                "bjerknes_quarter_wave_node_step_mm": 7,
+                "esd_hbm_capacitive_divider_argon_ratio": 18,
             },
             "calibration_result": {
                 "target_phase_in_dish_ticks": int(target_phase_ticks),
