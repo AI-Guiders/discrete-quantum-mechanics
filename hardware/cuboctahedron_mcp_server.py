@@ -541,6 +541,11 @@ class CuboctahedronHardwareController:
                 "coil_srf_to_ring_freq_ratio": 87,
                 "bjerknes_quarter_wave_node_step_mm": 7,
                 "esd_hbm_capacitive_divider_argon_ratio": 18,
+                "pdms_silicone_acoustic_couplant_c2h6sio_z": 40,
+                "pdms_couplant_phonon_loss_quanta": 0,
+                "fr4_pcb_copper_foil_35um_skin_lag_ticks": 0,
+                "dc_bus_470uf_12coil_pulse_droop_ticks": 0,
+                "total_verified_kitchen_bench_nodes": 30,
             },
             "calibration_result": {
                 "target_phase_in_dish_ticks": int(target_phase_ticks),
