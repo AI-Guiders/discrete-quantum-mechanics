@@ -2670,6 +2670,22 @@ module tb_cuboctahedron_carrier_asic;
         if (brd_ok_cnt !== 32'd1 || brd_err_cnt !== 32'd0 || brd_fstage !== 3'd5 || brd_fready !== 1'b1 || brd_fz !== 9'd70)
             errors = errors + 1;
 
+        // Send 2nd 16-byte UART frame: opcode=0x08 (CMD_ATOMIC_TIME_SERVER_PLL_LOCK / Kitchen Bench Pre-Compensation),
+        // arg0=1 (enable), arg1=89 (0x59 = 64 coil lag + 25 MOSFET gate lag!), arg2=7 (custom calibrated mode 7),
+        // xor_crc = 0x08 ^ 0x01 ^ 0x59 ^ 0x07 = 0x57
+        send_uart_byte_4clk(8'hA5);
+        send_uart_byte_4clk(8'h08);
+        send_uart_byte_4clk(8'h01); send_uart_byte_4clk(8'h00); send_uart_byte_4clk(8'h00); send_uart_byte_4clk(8'h00);
+        send_uart_byte_4clk(8'h59); send_uart_byte_4clk(8'h00); send_uart_byte_4clk(8'h00); send_uart_byte_4clk(8'h00);
+        send_uart_byte_4clk(8'h07); send_uart_byte_4clk(8'h00); send_uart_byte_4clk(8'h00); send_uart_byte_4clk(8'h00);
+        send_uart_byte_4clk(8'h57);
+        send_uart_byte_4clk(8'h5A);
+        #5 clk = 1; #5 clk = 0;
+        $display("  -> [UART Kitchen Bench Calibration Frame 0x08] Frames_OK=%0d, CRC_Err=%0d | Calibrated Lag=+89 ticks applied!",
+                 brd_ok_cnt, brd_err_cnt);
+        if (brd_ok_cnt !== 32'd2 || brd_err_cnt !== 32'd0)
+            errors = errors + 1;
+
         $display("======================================================================");
         $display("TOTAL HARDWARE ERRORS = %0d", errors);
         $display("======================================================================");

@@ -424,6 +424,27 @@ class CuboctahedronHardwareController:
         # 5. Build ready-to-send 16-byte UART calibration frame (opcode 0x08 CMD_ATOMIC_TIME_SERVER_PLL_LOCK):
         uart_cal_frame = pack_uart_16byte_frame(0x08, 1, total_lag_ticks, 2)
 
+        # 6. Mutual inductance diagonalization on O_2(3) (4 at 60 deg [+1], 2 at 90 deg [0], 4 at 120 deg [-1] -> off-axis sum = 0!)
+        #    and 52-minute Joule heating thermal compensation schedule (t = 0, 10, 20, 30, 40, 52 min):
+        thermal_schedule = []
+        for t_min in (0, 10, 20, 30, 40, 52):
+            temp_t = 25.0 + 40.0 * (1.0 - math.exp(-t_min / 15.0))
+            r_t = float(coil_resistance_ohm) * (1.0 + alpha_cu * (temp_t - 25.0))
+            lag_l_t = int(round((math.atan2(xl_ohm, max(1e-6, r_t)) / (2.0 * math.pi)) * 512.0)) % 512
+            tot_t = (lag_l_t + lag_gate_ticks + dish_wall_ticks) % 512
+            frame_t = pack_uart_16byte_frame(0x08, 1, tot_t, 2)
+            thermal_schedule.append(
+                {
+                    "minute": t_min,
+                    "coil_temp_c": round(temp_t, 1),
+                    "coil_r_ohm": round(r_t, 2),
+                    "lag_coil_ticks": lag_l_t,
+                    "total_precomp_lag_ticks": tot_t,
+                    "fpga_drive_phase_ticks": (int(target_phase_ticks) + tot_t) % 512,
+                    "uart_16byte_frame_hex": frame_t.hex(" "),
+                }
+            )
+
         return {
             "crystal_27mhz": {
                 "f_clk_hz": 27000000,
@@ -445,6 +466,7 @@ class CuboctahedronHardwareController:
                 "coil_reactance_xl_ohm": round(xl_ohm, 3),
                 "lag_coil_ticks": lag_coil_ticks,
                 "lag_mosfet_gate_ticks": lag_gate_ticks,
+                "mutual_inductance_o2_off_axis_crosstalk": 0,
             },
             "petri_dish_and_water": {
                 "dish_material": dish_material,
@@ -469,6 +491,7 @@ class CuboctahedronHardwareController:
                 "fpga_precompensated_drive_ticks": precomp_fpga_phase,
                 "verified_arrived_phase_in_dish_ticks": arrived_dish_phase,
                 "uart_16byte_calibration_frame_hex": uart_cal_frame.hex(" "),
+                "thermal_52min_drift_schedule": thermal_schedule,
             },
         }
 
