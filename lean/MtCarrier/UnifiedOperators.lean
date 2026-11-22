@@ -5796,7 +5796,7 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
   let magic50BenchConvergenceOk :=
     eqNatBool zTinSolderMagic 50 &&
     eqNatBool zCaCO3 zTinSolderMagic &&
-    eqNatBool zTiNi zTinSolderMagic
+    eqNatBool (zNitinolShapeMemoryOp d) zTinSolderMagic
   -- 51. Antimony / Half-Piezo Fresnel Factor (`51 = 3 * 17 = d * (modBits(d) + |△(d)|)`, `2 * 51 = 102 = Z(BaTiO₃) = Z(caffeine)`):
   let halfPiezoFresnel51 : Nat := d * fresnelSum17                                -- 3 * 17 = 51
   let halfPiezo51FactorOk :=
