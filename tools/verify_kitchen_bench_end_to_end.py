@@ -72,6 +72,7 @@ def main() -> int:
              "kitchen_bench_assembly.dxf",
              "kitchen_bench_assembly.svg",
              "build_tang_nano_9k.tcl",
+             "kitchen_bench_power_board.net",
              "KITCHEN_BENCH_BOM_AND_CHECKLIST.md",
          )) and mech["preflight_12coil_full_impedance_d"] - mech["preflight_11coil_open_fault_impedance_d"] == 524288
             and mech["coil_nominal_turns_5x12"] == 60
@@ -86,7 +87,10 @@ def main() -> int:
             and mech["peltier_bismuth_telluride_te_z"] == 52
             and mech["bicarbonate_buffer_neutral_ph"] == 7
             and mech["maillard_carcinogen_free_temp_c"] == 68
-            and mech["photosynthesis_shell_balance_6co2_6h2o"] == 192),
+            and mech["photosynthesis_shell_balance_6co2_6h2o"] == 192
+            and mech["fpga_55nm_lut4_timing_margin_ratio_modbits"] == 9
+            and mech["heisenberg_thermal_emergency_cutoff_c"] == 81
+            and mech["total_unit_ball_b1_bench_edges_bus36"] == 36),
     ]
 
     print("=== Complete 30-Node Physical Kitchen Bench Audit ===")

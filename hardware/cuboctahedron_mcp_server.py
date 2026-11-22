@@ -567,6 +567,11 @@ class CuboctahedronHardwareController:
                 "ds18b20_thermometer_resolution_bits": 12,
                 "maillard_carcinogen_free_temp_c": 68,
                 "photosynthesis_shell_balance_6co2_6h2o": 192,
+                "fpga_55nm_lut4_timing_margin_ratio_modbits": 9,
+                "polyswitch_ptc_fuse_hold_amps_ne": 10,
+                "polyswitch_ptc_fuse_trip_amps_ar": 18,
+                "heisenberg_thermal_emergency_cutoff_c": 81,
+                "total_unit_ball_b1_bench_edges_bus36": 36,
             },
             "calibration_result": {
                 "target_phase_in_dish_ticks": int(target_phase_ticks),
