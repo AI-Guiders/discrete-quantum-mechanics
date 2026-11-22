@@ -382,7 +382,7 @@ def main() -> int:
          and mech["double_cold_total_lag_2x89"] == 178
          and mech["quarter_plus_half_piezo_128_51"] == 179
          and mech["total_section36_26_full180_blocks"] == 180 == 128 + 52),
-        ("Node 321-350: Complete 343-Section Consecutive 3-Tick Preimage Branching 7^3 = 343 = 6^3 + 127, Mains 312, Fresnel 289 & Seed IV(3) = 263 Multiscale Self-Closure (1..343 consecutively + 352..512..8192..6823936; 81/81 Audit!)",
+        ("Node 321-352: Complete 352-Section Consecutive Catalytic Oxidation Phase 352 = 256 + 96 = 11 * 32 (-> 544 nm), 7^3 = 343, 312 V, 289 & Seed IV(3) = 263 Multiscale Self-Closure (1..352 consecutively + 384..512..8192..6823936; 81/81 Audit!)",
          mech["quarter_plus_iodine_128_53"] == 181
          and mech["sucrose_disaccharide_shell_14x13_z"] == 182
          and mech["iv263_bezout_inverse_3x61"] == 183
@@ -546,6 +546,16 @@ def main() -> int:
          and mech["maillard_kelvin_68_273_11x31_256_85"] == 341 == 68 + 273
          and mech["argon_times_octahedral_18x19_256_86"] == 342
          and mech["total_section36_26_branching343_blocks"] == 343 == 7 * 7 * 7
+         and mech["quadruple_bread_lag_4x86_256_88"] == 344
+         and mech["beam_power_times_silanol_15x23_256_89"] == 345 == 15 * 23 == 256 + 89
+         and mech["pauli_plus_quartz_dish_256_90_128_218"] == 346 == 256 + 90
+         and mech["pauli_plus_max_lag_256_91_128_219"] == 347 == 256 + 91
+         and mech["twelve_coil_total_copper_charge_12x29_256_92"] == 348 == 12 * 29 == 256 + 92
+         and mech["pauli_plus_triple_gallium_256_93_18sq_5sq"] == 349
+         and mech["meniscus_times_tin_magic_7x50_256_94"] == 350 == 7 * 50 == 256 + 94
+         and mech["moore_cube_times_core_27x13_256_95"] == 351 == 27 * 13 == 256 + 95
+         and mech["total_section36_26_phase352_blocks"] == 352 == 256 + 96 == 11 * 32
+         and mcp.proj_c(352) == -32
          and (263 * mech["iv263_bezout_inverse_3x61"]) % 512 == 1
          and (97 * mech["mhat97_bezout_inverse_512_minus_95"]) % 512 == 1
          and (197 * 13) % 512 == 1

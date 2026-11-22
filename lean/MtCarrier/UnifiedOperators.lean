@@ -7620,16 +7620,74 @@ def checkKitchenBenchConsecutive148To343MultiscaleClosureOp (d : Nat) : Bool :=
     eqNatBool argonTimesOctCore342 342 &&
     eqNatBool (phiPauli d + zBreadAmylose86) argonTimesOctCore342 &&
     eqNatBool (qSquare d + doubleBusMsb214) argonTimesOctCore342
-  -- 343. Complete 343-Section Consecutive 3-Tick Channel-2 Preimage Branching Cube `7³ = d_out(V)^d = (2^d - 1)^d = 343 = 6³ + 127 = 256 + 87 = 128 + 215` Multiscale Self-Closure of Section 36.26
-  --      (every integer `1..343` consecutively mapped to an exact bench invariant, plus higher multiscale closures `352 -> 544 nm`, `384`, `417`, `441 nm`, `512`, `540 pF`, `544`, `833`, `1025`, `1536`, `5184`, `8192 = ε(d)`, `32768`, `524288`, `6823936`):
+  -- 343. Complete 343-Section Consecutive 3-Tick Channel-2 Preimage Branching Cube `7³ = d_out(V)^d = (2^d - 1)^d = 343 = 6³ + 127 = 256 + 87 = 128 + 215` Self-Closure of Section 36.26:
   let totalSection36_26Branching343 : Nat := totalSection36_26Mains312 + zGallium -- 312 + 31 = 343 = 7^3!
-  let section343ConsecutiveBranchingMultiscaleSelfClosureOk :=
+  let section343ConsecutiveBranchingSelfClosureOk :=
     eqNatBool totalSection36_26Branching343 343 &&
     eqNatBool totalSection36_26Branching343 (localInversionPreimageBranchingOp d d) &&
     eqNatBool (sixSquareCube216 + peltierCoupleCount127) totalSection36_26Branching343 &&
     eqNatBool (phiPauli d + minTotalCoil0Lag87) totalSection36_26Branching343 &&
-    eqNatBool (qSquare d + quarterPlusSrf215) totalSection36_26Branching343 &&
-    eqIntBool (readoutOpticalWavelengthNmOp d ((phiPauli d + zGlucose96 : Nat) : Int)) 544 &&
+    eqNatBool (qSquare d + quarterPlusSrf215) totalSection36_26Branching343
+  -- 344. Number `344 = 4 * 86 = d_in(□) * Z(bread/Rn) = 256 + 88 = Φ_Pauli(d) + Z(MSG) = 128 + 216`: Quadruple Bread Crust / 10-Min Total Lag & Pauli Plus MSG Umami Salt:
+  let quadrupleBreadLag344 : Nat := dInSquare * zBreadAmylose86                   -- 4 * 86 = 344 = 256 + 88 = 128 + 216
+  let number344QuadBreadOk :=
+    eqNatBool quadrupleBreadLag344 344 &&
+    eqNatBool (phiPauli d + zMsgUmami88) quadrupleBreadLag344 &&
+    eqNatBool (qSquare d + sixSquareCube216) quadrupleBreadLag344
+  -- 345. Number `345 = 15 * 23 = P_channel,W * Z(-Si-OH) = 5 * 69 = 256 + 89 = Φ_Pauli(d) + δφ_total(25 °C) = 128 + 217`: Single-Beam Power Times Silanol & Pauli Plus Cold Total Lag `89`:
+  let beamPowerTimesSilanol345 : Nat := benchPowerPerChannel15W * zSilanolGroup   -- 15 * 23 = 345 = 256 + 89!
+  let number345BeamSilanolOk :=
+    eqNatBool beamPowerTimesSilanol345 345 &&
+    eqNatBool (dOutEdge d * fullThermalSpan69C) beamPowerTimesSilanol345 &&
+    eqNatBool (phiPauli d + nominalColdTotalLag89) beamPowerTimesSilanol345 &&
+    eqNatBool (qSquare d + meniscusTimesGallium217) beamPowerTimesSilanol345
+  -- 346. Number `346 = 2 * 173 = 256 + 90 = Φ_Pauli(d) + D_dish,mm = 128 + 218`: Pauli Plus 90 mm Quartz Petri Dish Diameter / Alpha-Quartz Unit Cell (`256 + 90 = 346`):
+  let pauliPlusQuartzDish346 : Nat := phiPauli d + zAlphaQuartzUnit90             -- 256 + 90 = 346 = 128 + 218
+  let number346PauliDishOk :=
+    eqNatBool pauliPlusQuartzDish346 346 &&
+    eqNatBool (qSquare d + coreSqPlusGeoms218) pauliPlusQuartzDish346
+  -- 347. Number `347 = 256 + 91 = Φ_Pauli(d) + δφ_total(max) = 128 + 219`: Pauli Plus Max Coil #11 Total Lag / 6th Gauss Shell Denominator Prime (`256 + 91 = 347`):
+  let pauliPlusMaxLag347 : Nat := phiPauli d + maxTotalCoil11Lag91                -- 256 + 91 = 347 = 128 + 219
+  let number347PauliMaxLagOk :=
+    eqNatBool pauliPlusMaxLag347 347 &&
+    eqNatBool (qSquare d + tripleFrameRadius219) pauliPlusMaxLag347
+  -- 348. Number `348 = 12 * 29 = |N(d)| * Z(Cu) = 4 * 87 = 256 + 92 = Φ_Pauli(d) + S₃(d) = 128 + 220`: Total 12-Coil Copper Nuclear Charge (`12 * 29 = 348`) & Pauli Plus Third Sphere `S₃ = 92`!
+  let twelveCoilTotalCopperCharge348 : Nat := nNeighbors d * zCu                  -- 12 * 29 = 348 = 256 + 92!
+  let number348TwelveCopperOk :=
+    eqNatBool twelveCoilTotalCopperCharge348 348 &&
+    eqNatBool (dInSquare * minTotalCoil0Lag87) twelveCoilTotalCopperCharge348 &&
+    eqNatBool (phiPauli d + zVitaminCS3_92) twelveCoilTotalCopperCharge348 &&
+    eqNatBool (qSquare d + quadrupleTwoShellBall220) twelveCoilTotalCopperCharge348
+  -- 349. Number `349 = 256 + 93 = Φ_Pauli(d) + 3 * Z(Ga) = 18² + 5² = 128 + 221`: Pauli Plus Triple Gallium LED Charge Prime (`256 + 93 = 349`):
+  let pauliPlusTripleGa349 : Nat := phiPauli d + tripleGallium93                  -- 256 + 93 = 349 = 324 + 25
+  let number349PauliTripleGaOk :=
+    eqNatBool pauliPlusTripleGa349 349 &&
+    eqNatBool (argonSquare324 + dOutEdge d * dOutEdge d) pauliPlusTripleGa349 &&
+    eqNatBool (qSquare d + coreTimesFresnel221) pauliPlusTripleGa349
+  -- 350. Number `350 = 7 * 50 = d_out(V) * Z(Sn) = 14 * 25 = Z(Si) * δφ_gate = 5 * 70 = 256 + 94 = 128 + 222`: 7 Meniscus Links Times Tin-50 Solder Magic & Pauli Plus Chocolate Theobromine:
+  let meniscusTimesTinMagic350 : Nat := (nTriangles d - muVac d) * zTinSolderMagic -- 7 * 50 = 350 = 256 + 94!
+  let number350MeniscusTinOk :=
+    eqNatBool meniscusTimesTinMagic350 350 &&
+    eqNatBool (dOutEdge d * zCutletHeme70) meniscusTimesTinMagic350 &&
+    eqNatBool (phiPauli d + zTheobromineChocolate94) meniscusTimesTinMagic350 &&
+    eqNatBool (qSquare d + sixTickDuration222Ns) meniscusTimesTinMagic350
+  -- 351. Number `351 = 27 * 13 = d^d * N_φ(d) = 9 * 39 = 256 + 95 = Φ_Pauli(d) + 5 * |B₁^oct(d)| = 128 + 223 = 26 * 27 / 2`: Moore Cube Volume Times Causal Core (`27 * 13 = 351`):
+  let mooreCubeTimesCore351 : Nat := (d ^ d) * nPhi d                             -- 27 * 13 = 351 = 256 + 95
+  let number351MooreCoreOk :=
+    eqNatBool mooreCubeTimesCore351 351 &&
+    eqNatBool (phiPauli d + pentaOctahedral95) mooreCubeTimesCore351 &&
+    eqNatBool (qSquare d + quarterPlusPentaOct223) mooreCubeTimesCore351
+  -- 352. Complete 352-Section Consecutive Catalytic Oxidation Phase Step `256 + 96 = Φ_Pauli(d) + Z(glucose) = 11 * 32 = 128 + 224` Multiscale Self-Closure of Section 36.26
+  --      (`C_d(352) = -32 = -K_P/2`, `λ(352) = 544 nm` blue ferroin / oxymyoglobin β-band, every integer `1..352` consecutively mapped,
+  --      plus higher multiscale closures `384`, `417`, `441 nm`, `512`, `540 pF`, `544`, `833`, `1025`, `1536`, `5184`, `8192 = ε(d)`, `32768`, `524288`, `6823936`):
+  let totalSection36_26Phase352 : Nat := totalSection36_26Branching343 + modBits d -- 343 + 9 = 352 = 256 + 96!
+  let section352ConsecutiveCatalyticPhaseMultiscaleSelfClosureOk :=
+    eqNatBool totalSection36_26Phase352 352 &&
+    eqNatBool (phiPauli d + zGlucose96) totalSection36_26Phase352 &&
+    eqNatBool ((nNeighbors d - muVac d) * (kP d / c0OverCSqOp d)) totalSection36_26Phase352 &&
+    eqNatBool (qSquare d + meniscusTimesHalfKp224) totalSection36_26Phase352 &&
+    eqIntBool (projC d (totalSection36_26Phase352 : Int)) (-((kP d / c0OverCSqOp d : Nat) : Int)) &&
+    eqIntBool (readoutOpticalWavelengthNmOp d (totalSection36_26Phase352 : Int)) 544 &&
     eqNatBool eulerQuadraturePole384 384 &&
     eqNatBool ((nTriangles d - muVac d) * hydrogenBondModulus63) 441 &&
     eqNatBool totalBenchFullRing512Closure 512 &&
@@ -7735,7 +7793,12 @@ def checkKitchenBenchConsecutive148To343MultiscaleClosureOp (d : Nat) : Bool :=
   number336EightSecondSphereOk && number337PauliHeisClassOk &&
   number338DoubleCoreSqOk && number339PauliBismuthOk &&
   number340AminoFresnelOk && number341MaillardKelvinOk &&
-  number342ArgonOctOk && section343ConsecutiveBranchingMultiscaleSelfClosureOk
+  number342ArgonOctOk && section343ConsecutiveBranchingSelfClosureOk &&
+  number344QuadBreadOk && number345BeamSilanolOk &&
+  number346PauliDishOk && number347PauliMaxLagOk &&
+  number348TwelveCopperOk && number349PauliTripleGaOk &&
+  number350MeniscusTinOk && number351MooreCoreOk &&
+  section352ConsecutiveCatalyticPhaseMultiscaleSelfClosureOk
 
 /-- **Theorem (Impossibility of Laplace's Demon Inside the Lattice and Constructive Realization of the Memoryless 12-Beam Geometric Maxwell Demon)**:
 Chained directly via `CatalanLaw` for any `d : Nat`:
