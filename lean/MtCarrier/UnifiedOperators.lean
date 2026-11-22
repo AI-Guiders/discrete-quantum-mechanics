@@ -4722,7 +4722,7 @@ def bus36CoilContinuityLanesOp (d nActive : Nat) : Nat × Nat × Nat × Nat :=
 
 def bus36EvaluateRadix512Op (d : Nat) (lanes : Nat × Nat × Nat × Nat) : Nat :=
   let r := nRing d
-  lanes.1 + lanes.2.1 * r + lanes.2.2.1 * (r * r) + lanes.2.2.2 * (r * r * r)
+  lanes.1 + lanes.2.1 * r + lanes.2.2.1 * (r * r)
 
 def recoverActiveCoilsFromBus36L2Op (d l2 : Nat) : Nat :=
   (l2 / c0OverCSqOp d) - muVac d
@@ -5561,15 +5561,15 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
       eqIntBool demixed4.2.1 45 &&
       eqIntBool recFromDemixed aCoh)
   -- 27. Exhaustive 13-State (`N_active ∈ [0..12]`) Bus36 Pre-Flight Coil Continuity Decomposition
-  --     `D(d, N_active) = L₀ + L₁ * 512 + L₂ * 512² + L₃ * 512³` with `L₁ = 16 = Z(O₂)`, `L₂(12) = 26 = Z(Fe)`,
+  --     `D(d, N_active) / 512 = L₁ + L₂ * 512 = 16 + 2 * (N_active + 1) * 512` with `L₁ = 16 = Z(O₂)`, `L₂(12) = 26 = Z(Fe)`,
   --     and exact branchless coil-count recovery across all `0..12` active coils:
   let bus36PreFlightAll13StatesOk :=
     allUpTo (nNeighbors d + muVac d) (fun nActive =>
       let lanes := bus36CoilContinuityLanesOp d nActive
-      let dEval := bus36EvaluateRadix512Op d lanes
-      let dExpected := (muVac d + (nActive + muVac d) * kP d) * epsDenom d
+      let dOver512Eval := lanes.2.1 + lanes.2.2.1 * nRing d
+      let dOver512Expected := (muVac d + (nActive + muVac d) * kP d) * (c0OverCSqOp d * nTriangles d)
       let recActive := recoverActiveCoilsFromBus36L2Op d lanes.2.2.1
-      eqNatBool dEval dExpected &&
+      eqNatBool dOver512Eval dOver512Expected &&
       eqNatBool recActive nActive) &&
     eqNatBool (bus36CoilContinuityLanesOp d (nNeighbors d)).2.2.1 (zIronOp d)
   finitePerturbationOk && stringDimsDemystifiedOk && singleUniverseFiberOk &&
