@@ -526,6 +526,11 @@ class CuboctahedronHardwareController:
                 "usb_optocoupler_matches_kp_64": True,
                 "optocoupler_6n137_delay_ticks": 2,
                 "quartz_lid_condensate_mass_loss_g": 0.0,
+                "ambient_room_light_lockin_dc_sum": 0,
+                "twisted_pair_50cm_propagation_delay_ticks": 0,
+                "lead_free_solder_tin_magic_shell_z": 50,
+                "home_fdm_3d_printer_max_skew_ticks": 3,
+                "home_fdm_3d_printer_heisenberg_tolerance_mm": 2.2,
             },
             "calibration_result": {
                 "target_phase_in_dish_ticks": int(target_phase_ticks),
