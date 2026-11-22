@@ -12184,7 +12184,7 @@ def checkPillaiCatalanSkeletalMatrixDecompositionAndNilpotentLockOp (d : Nat) : 
      let detWMS4 : Int := (xBone ^ 4) + (yBone ^ 4) + (zBone ^ 4)
      eqIntBool (aStar4 + bStar4) cStar4 &&
      eqIntBool wStar4 ((xBone * xBone) * (yBone * yBone) * (zBone * zBone)) &&
-     eqIntBool detWMS4 (((c0OverCSqOp d * ((d * (nTriangles d - muVac d)) ^ 2) : Nat) : Int)))) &&
+     eqIntBool detWMS4 (((c0OverCSqOp d * ((d * (nTriangles d - muVac d)) ^ 2) : Nat) : Int))))) &&
   eqIntBool detElbowBez (muVac d : Int) &&
   carryLockM2 && carryGapM3 && carryGapM4 && carryGapM5
 
