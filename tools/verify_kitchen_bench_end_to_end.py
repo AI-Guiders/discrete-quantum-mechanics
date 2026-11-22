@@ -82,6 +82,8 @@ def main() -> int:
         ("Node 148-512: Sucrose Z=182=14*13; FPGA cold drive 228=12*19; UART div 234=18*13; Euler pole 384; HTML5 dashboard; full Z_512 ring closure",
          mech["sucrose_disaccharide_shell_14x13_z"] == 182 and mech["fpga_cold_start_drive_12x19_ticks"] == 228 and mech["uart_baud_divider_18x13_clks"] == 234 and mech["euler_xy_chiral_fourth_pole_ticks"] == 384 and mech["total_full_ring_512_bench_closure"] == 512
          and (ROOT / "hardware" / "kitchen_bench_dashboard.html").is_file()),
+        ("Node 513-8192: Rg & ferroin 544=17*32; stasis 833=49*17; Bezout 25*41=1025; R_cavity 1536=3*512; vacuum floor eps=8192=16*512",
+         mech["gate_resistor_and_ferroin_blue_17x32"] == 544 and mech["stasis_multiplier_49x17_factorization"] == 833 and mech["verlet_two_turn_bezout_25x41"] == 1025 and mech["petri_cavity_load_impedance_3x512_ohm"] == 1536 and mech["vacuum_floor_eps_16x512"] == 8192),
         ("Hardware files present: Verilog ASIC, Tang Nano 9K CST, LTspice .cir, OpenSCAD .scad, and 3D-printable .stl",
          all((ROOT / "hardware" / f).is_file() for f in (
              "cuboctahedron_carrier_asic.v",

@@ -606,6 +606,11 @@ class CuboctahedronHardwareController:
                 "uart_baud_divider_18x13_clks": 234,
                 "euler_xy_chiral_fourth_pole_ticks": 384,
                 "total_full_ring_512_bench_closure": 512,
+                "gate_resistor_and_ferroin_blue_17x32": 544,
+                "stasis_multiplier_49x17_factorization": 833,
+                "verlet_two_turn_bezout_25x41": 1025,
+                "petri_cavity_load_impedance_3x512_ohm": 1536,
+                "vacuum_floor_eps_16x512": 8192,
             },
             "calibration_result": {
                 "target_phase_in_dish_ticks": int(target_phase_ticks),

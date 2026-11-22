@@ -5426,6 +5426,23 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
     eqNatBool (eulerQuadraturePole384 + qSquare d) (nRing d) &&
     eqNatBool totalBenchFullRing512Closure (nRing d) &&
     eqNatBool totalBenchFullRing512Closure ((nTriangles d) ^ d)
+  -- 25. Gate Resistor & Blue Ferroin Wavelength Factorization (`544 = 17 * 32 = (9 + 8) * (K_P / 2) = 512 + 32`),
+  --     Stasis Impedance Multiplier Factorization (`833 = 1 + 13 * 64 = 7² * 17 = d_out(V)² * (modBits(d) + |△(d)|)`),
+  --     Two-Turn Symplectic Verlet Parabola Bezout Identity (`25 * 41 = 1025 = 1024 + 1 = 2 * N_ring(d) + 1`),
+  --     Petri Dish Cavity Load Impedance (`R_cavity = 1536 = 3 * 512 = d * N_ring(d)` Ohm),
+  --     and Vacuum Denominator Floor Closure (`ε(d) = 8192 = 16 * 512 = Z(O₂) * N_ring(d)`):
+  let gateResistorAndFerroin544 : Nat := fresnelSum17 * (kP d / c0OverCSqOp d)    -- 17 * 32 = 544 = 512 + 32
+  let stasisMultiplier833 : Nat := muVac d + nPhi d * kP d                        -- 1 + 13 * 64 = 833 = 49 * 17
+  let verletTwoTurnPeriod1024 : Nat := c0OverCSqOp d * nRing d                    -- 2 * 512 = 1024
+  let bezoutGateHeisenberg1025 : Nat := (dOutEdge d * dOutEdge d) * deltaPhiDisc d -- 25 * 41 = 1025 = 1024 + 1
+  let cavityLoadImpedance1536 : Nat := d * nRing d                                -- 3 * 512 = 1536 Ohm
+  let vacuumFloorEps8192 : Nat := zO2 * nRing d                                   -- 16 * 512 = 8192 = 2^13
+  let eps8192CompleteBenchClosureOk :=
+    eqNatBool gateResistorAndFerroin544 (nRing d + (kP d / c0OverCSqOp d)) &&
+    eqNatBool stasisMultiplier833 ((nTriangles d - muVac d) * (nTriangles d - muVac d) * fresnelSum17) &&
+    eqNatBool bezoutGateHeisenberg1025 (verletTwoTurnPeriod1024 + muVac d) &&
+    eqNatBool cavityLoadImpedance1536 (nSquares d * phiPauli d) &&
+    eqNatBool vacuumFloorEps8192 (epsDenom d)
   finitePerturbationOk && stringDimsDemystifiedOk && singleUniverseFiberOk &&
   mosfetCoilDishBridgeOk && kitchenWaterAndThermalDriftOk && complete10NodeBenchOk &&
   mutualInductanceDiagonalOk && flybackPiezoAndAdcOk && frameIsolationAndGeomagneticOk &&
@@ -5434,7 +5451,8 @@ def checkFinitePerturbationCalibrationAndStringMultiverseDemystificationOp (d : 
   glassCleaningAndPhotoLedOk && peltierPhAndStoichiometryOk && siliconFuseAnd36EdgeClosureOk &&
   gate0PolarizerRecipesAnd42ClosureOk && snellFresnelAnd55BallClosureOk &&
   verlet72CompleteBenchClosureOk && heisenberg81CompleteBenchClosureOk &&
-  ball147CompleteBenchClosureOk && ring512CompleteBenchClosureOk
+  ball147CompleteBenchClosureOk && ring512CompleteBenchClosureOk &&
+  eps8192CompleteBenchClosureOk
 
 /-- **Theorem (Impossibility of Laplace's Demon Inside the Lattice and Constructive Realization of the Memoryless 12-Beam Geometric Maxwell Demon)**:
 Chained directly via `CatalanLaw` for any `d : Nat`:
