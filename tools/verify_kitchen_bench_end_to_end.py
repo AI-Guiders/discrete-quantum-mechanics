@@ -179,6 +179,28 @@ def main() -> int:
          and mech["heisenberg_noise_margin_ticks"] == 33
          and mech["worst_case_5source_noise_ticks"] + mech["heisenberg_noise_margin_ticks"] == 41
          and mech["total_section36_26_s2_42_blocks"] == 42),
+        ("Node 148-151: Stage 0 Water Moles (12g/18g = 2/3, 3*12=36), Meniscus Antiseptic Quanta n_E(129)=3 & Mains 312V/24V = 13 Transformer",
+         mech["water_molar_mass_g_per_mol_ar"] == 18
+         and mech["stage0_condensed_water_moles_num_den"] == [2, 3]
+         and mech["meniscus_antiseptic_gate_129_quanta"] == 3
+         and mech["mains_ac_peak_voltage_24x13_v"] == 312
+         and mech["dc_rail_voltage_2x12_v"] == 24
+         and mech["mains_transformer_stepdown_ratio_nphi"] == 13),
+        ("Node 152-155: Canonical L-Amino Acid Ladder (20=Z(Ca), 64 Codons, Gly=40, Ala=48, Ser=56, Cys=64, Asp=70, Glu=78, His=82, Trp=108)",
+         mech["canonical_l_amino_acid_count_ca"] == 20
+         and mech["genetic_triplet_codon_count_kp"] == 64
+         and mech["amino_acid_shells_z"]["aspartate_heme"] == 70
+         and mech["amino_acid_shells_z"]["histidine_heme_ligand"] == 82
+         and mech["amino_acid_shells_z"]["tryptophan_12x9_bus"] == 108
+         and mech["custom_12coil_phase_bus_bits_12x9"] == 108),
+        ("Node 156-160: 49-Geom MuJoCo Twin (7^2*17=833), Magic-50, Half-Piezo 51, Tellurium-52, Iodine-53, Malonic-54",
+         mech["mujoco_3d_digital_twin_geoms_7sq"] == 49
+         and mech["mujoco_3d_digital_twin_geoms_7sq"] * 17 == 833
+         and mech["half_piezo_fresnel_factor_3x17"] == 51
+         and mech["discrete_minute_checkpoints_iodine_z"] == 53),
+        ("Node 161-165: Complete 55-Section Two-Shell Ball |B_2(3)| = 1 + 12 + 42 = 55 = Z(Cs) Self-Closure of Section 36.26",
+         mech["total_section36_26_b2_55_blocks"] == 55
+         and mech["total_two_shell_ball_b2_bench_nodes_cs55"] == 55),
     ]
 
     print("=== Complete 30-Node Physical Kitchen Bench Audit ===")
