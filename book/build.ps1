@@ -1,8 +1,8 @@
 #!/usr/bin/env pwsh
 # Build book/out/pdf/<volume>.pdf (XeLaTeX + biber until refs/cites resolve). Aux → book/out/work/. Default: construction.
 param(
-    [ValidateSet('construction', 'floors', 'cosmology', 'observer', 'chemistry', 'biology', 'compute', 'applied', 'monograph', 'course')]
-    [string]$Volume = 'construction',
+    [ValidateSet('construction', 'floors', 'cosmology', 'observer', 'chemistry', 'biology', 'compute', 'applied', 'monograph', 'laboratory', 'engineering', 'course')]
+    [string]$Volume = 'monograph',
     [switch]$RenderFigures,
     [switch]$SkipFloorsPrebuild,
     [switch]$SkipConstructionPrebuild
@@ -103,19 +103,24 @@ $OutWork = Join-Path $Root 'out/work'
 $OutLegacy = Join-Path $Root 'out'
 
 $VolumeMap = @{
-    construction = @{ Main = 'main-construction.tex'; Job = 'construction' }
-    floors       = @{ Main = 'main-floors.tex'; Job = 'floors' }
-    cosmology    = @{ Main = 'main-cosmology.tex'; Job = 'cosmology' }
-    observer     = @{ Main = 'main-observer.tex'; Job = 'observer' }
-    chemistry    = @{ Main = 'main-chemistry.tex'; Job = 'chemistry' }
-    biology      = @{ Main = 'main-biology.tex'; Job = 'biology' }
-    compute      = @{ Main = 'main-compute.tex'; Job = 'compute' }
-    applied      = @{ Main = 'main-applied.tex'; Job = 'applied' }
-    monograph    = @{ Main = 'main-monograph.tex'; Job = 'formal-foundations-monograph' }
-    course       = @{ Main = 'main-course.tex'; Job = 'natural-sciences-course' }
+    construction = @{ Main = 'main-construction.tex'; Job = 'construction'; SubDir = 'making-of' }
+    floors       = @{ Main = 'main-floors.tex'; Job = 'floors'; SubDir = 'making-of' }
+    cosmology    = @{ Main = 'main-cosmology.tex'; Job = 'cosmology'; SubDir = 'making-of' }
+    observer     = @{ Main = 'main-observer.tex'; Job = 'observer'; SubDir = 'making-of' }
+    chemistry    = @{ Main = 'main-chemistry.tex'; Job = 'chemistry'; SubDir = 'making-of' }
+    biology      = @{ Main = 'main-biology.tex'; Job = 'biology'; SubDir = 'making-of' }
+    compute      = @{ Main = 'main-compute.tex'; Job = 'compute'; SubDir = 'making-of' }
+    applied      = @{ Main = 'main-applied.tex'; Job = 'applied'; SubDir = 'making-of' }
+    monograph    = @{ Main = 'main-monograph.tex'; Job = 'formal-foundations-monograph'; SubDir = '' }
+    laboratory   = @{ Main = 'main-laboratory.tex'; Job = 'dqm-laboratory-manual'; SubDir = '' }
+    engineering  = @{ Main = 'main-engineering.tex'; Job = 'dqm-engineering-handbook'; SubDir = '' }
+    course       = @{ Main = 'main-course.tex'; Job = 'natural-sciences-course'; SubDir = '' }
 }
 $MainTex = $VolumeMap[$Volume].Main
 $JobName = $VolumeMap[$Volume].Job
+if (-not [string]::IsNullOrWhiteSpace($VolumeMap[$Volume].SubDir)) {
+    $OutPdf = Join-Path $OutPdf $VolumeMap[$Volume].SubDir
+}
 
 if (-not ('FileLockInspector' -as [type])) {
     Add-Type -TypeDefinition @'
