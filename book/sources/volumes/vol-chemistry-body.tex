@@ -502,7 +502,7 @@ $Z$ & Элемент & Канал & $Z_{\mathrm{eff}}^{\mathrm{pred}}$ & $IE_1^{
   R(\text{O}\cdots\text{O}) = (1 + 2)\,R(\text{O--H}) = d\cdot R(\text{O--H}) \approx 2{,}88\ \text{\normalfont\AA}
   \qquad\bigl(\text{в димере воды и ДНК: }2{,}80\text{--}2{,}90\ \text{\normalfont\AA}\bigr).
 \]
-Энергия одной водородной связи равна доле одной спиновой пары Паули ($\caKappaGeom^2 N_{\mathrm{shell}}(2)$ пар на второй координационной сфере $N_{\mathrm{shell}}(2)=(\geomNeighborTwelve-2)\cdot 2^2+2$) от ковалентного кванта $D_0(\text{H}_2)=BE_H/d$, причём водородный делитель удовлетворяет четырёхстороннему тождеству констант носителя:
+Энергия одной водородной связи равна доле одной спиновой пары Паули ($\caKappaGeom^2 N_{\mathrm{shell}}(2)$ пар на второй координационной сфере $N_{\mathrm{shell}}(2)=(\geomNeighborTwelve-2)\cdot 2^2+2$) от ковалентного кванта $D_0(\text{H}_2)=BE_H/d$, причём водородный делитель удовлетворяет четырёхстороннему тождеству констант ДКМ:
 \[
   N_{\mathrm{HB}}
   := d\,\caKappaGeom^2 N_{\mathrm{shell}}(2)
@@ -730,7 +730,7 @@ $Z$ & Элемент & Канал & $Z_{\mathrm{eff}}^{\mathrm{pred}}$ & $IE_1^{
     \mathrm{nLeadTerminalOp}(d) = \mathrm{c0OverCSqOp}(d)\cdot\mathrm{hBondDivisorOp}(d),\qquad
     \mathrm{aLeadTerminalOp}(d) = \mathrm{c0OverCSqOp}(d)\cdot |{\triangle}(d)|\cdot N_\varphi(d).
   \]
-\item \textbf{Межэтажный изоморфизм замкнутых оболочек носителя (\texttt{cross\_floor\_shell\_closure\_isomorphism\_operator}):}
+\item \textbf{Межэтажный изоморфизм замкнутых оболочек ДКМ (\texttt{cross\_floor\_shell\_closure\_isomorphism\_operator}):}
   каждая каноническая оболочка кубооктаэдра $O_2(d)$ связывает инварианты всех этажей единым операторным равенством:
   \begin{itemize}[noitemsep]
   \item оболочка $\mathrm{c0OverCSqOp}(d)$: квадрат отношения скоростей $(\caSignalSpeed/\speedC)^2$ $=$ шаг лестницы Белла--Цирельсона $\mathrm{tsirelsonQmSqOp}(d)/\mathrm{bellLhvSqOp}(d)$ $=$ число поляризаций гравитационной волны $|\square(d)|-d-\mu_{\mathrm{vac}}(d)$ $=$ первое ядерное магическое замыкание $\mathrm{zHeliumOp}(d)$ $=$ эйлерова характеристика альвеолярного пузырька $\mathrm{tissueEuler2DOp}(\mathrm{vesicleComplexOp}(d))$;

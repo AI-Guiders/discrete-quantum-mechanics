@@ -35,7 +35,7 @@
     \qquad
     N_{\mathrm{CMB}} = \left\lfloor\frac{t_{\mathrm{recomb}}}{\htick}\right\rfloor \approx 3{,}146\times 10^{56},
   \]
-  которые замкнуто выводятся непосредственно из тепловых квантов носителя $\Theta_{\mathrm{rec}}/E_0$ и $\Theta_{\mathrm{CMB}}/E_0$ (\cref{thm:cosmo-cmb-natural-scale}) без участия космологических подгоночных параметров через структурный множитель $\frac{|\mathrm{N12}|-\mu_{\mathrm{vac}}}{d_{\mathrm{out}}(E)\,|\triangle|} = \frac{11}{40}$ (\texttt{cosmoClockPrefactorRatOp}):
+  которые замкнуто выводятся непосредственно из тепловых квантов ДКМ $\Theta_{\mathrm{rec}}/E_0$ и $\Theta_{\mathrm{CMB}}/E_0$ (\cref{thm:cosmo-cmb-natural-scale}) без участия космологических подгоночных параметров через структурный множитель $\frac{|\mathrm{N12}|-\mu_{\mathrm{vac}}}{d_{\mathrm{out}}(E)\,|\triangle|} = \frac{11}{40}$ (\texttt{cosmoClockPrefactorRatOp}):
   \[
     N_{\mathrm{CMB}}^{\mathrm{alg}} = \frac{11}{40}\left(\frac{E_0}{\Theta_{\mathrm{rec}}}\right)^{\!2} = 3{,}140\times 10^{56}\;\;(379{,}32\text{ тыс. лет}),\qquad
     N_{\mathrm{today}}^{\mathrm{alg}} = \frac{11}{40}\left(\frac{E_0}{\Theta_{\mathrm{CMB}}}\right)^{\!2}\sqrt{\frac{\alpha_{\mathrm{fs}}}{|\triangle|}} = 1{,}140\times 10^{61}\;\;(13{,}769\text{ млрд лет},\;0{,}91\sigma\text{ Planck 2018}),
@@ -156,7 +156,7 @@
 \label{prop:cosmo-dm-baryon-ratio}
 Пусть носитель фиксирован единственным решением уравнения Каталана $d=3$ ($9$-битное кольцо $\mathbb{Z}_{512}$, кубооктаэдр $O_2$, пол вакуума $\mu_{\mathrm{vac}}=1$, потолок $K_P=64$, $\varepsilon=8192$). Тогда выполняются четыре точных свойства (доказанных и машинно проверенных в Lean~4 как теорема \texttt{no\_\allowbreak dark\_\allowbreak matter\_\allowbreak and\_\allowbreak vacuum\_\allowbreak holonomy\_\allowbreak halo} в модуле \texttt{UnifiedOperators.lean}):
 \begin{enumerate}[leftmargin=*]
-\item \textbf{Тождество полноты $4$-канального носителя и отсутствие «тёмного остатка» ($D_{\mathrm{dark}}\equiv 0$):}
+\item \textbf{Тождество полноты $4$-канальной ДКМ и отсутствие «тёмного остатка» ($D_{\mathrm{dark}}\equiv 0$):}
   в силу тождества чётной голономии $C(d\varphi_{xy}) + |A_{xy}| = 128$ (\texttt{even\_\allowbreak holonomy\_\allowbreak bohm\_\allowbreak deficit\_\allowbreak eq\_\allowbreak abs\_\allowbreak connection}, где $A_{xy} = \mathrm{wrap}_{512}(\varphi_y - \varphi_x)$) для любых целочисленных амплитуд $\mu_x,\mu_y\in\mathbb{Z}$ и любых фаз гравитационный знаменатель преломления фазовых часов $D(x) = \zeta_{\mathrm{real}}(x) + 128\,\mu_x^2 + 8192$ раскладывается \emph{тождественно и без остатка} на чисто барионный член и наблюдаемый в дисперсионном канале дефицит Бома $\delta K_{xy} = \mu_x\mu_y|A_{xy}|$:
   \begin{equation}
   \label{eq:cosmo-zero-dark-residual}
@@ -195,7 +195,7 @@
 
 Разделение уровней~$\Mlayer$ и~$\Tlayer$ устраняет смешение микроскопического кипения носителя с макроскопическим фотонным фоном пузыря и позволяет вычислить тепловой квант реликтового излучения непосредственно в безразмерной энергетической шкале лестницы (где постоянная Больцмана~$k_{\mathrm{B}}$ выступает исключительно коэффициентом перевода энергетических единиц в градусы Кельвина на приборном слое~$\Tlayer$):
 \begin{itemize}[leftmargin=*]
-\item \textbf{Микроскопический тепловой квант кипящего пола~$A_5$ в шкале носителя ($\Theta_{\Mlayer,\mathrm{vac}}/E_0$ без~$\pi$):}
+\item \textbf{Микроскопический тепловой квант кипящего пола~$A_5$ в шкале ДКМ ($\Theta_{\Mlayer,\mathrm{vac}}/E_0$ без~$\pi$):}
   при минимальном кванте амплитуды $z_{\min} = a_Q = 2^{-\mathrm{frac\_bits}}$ на каждой из $d-1$ компонент спинора фоновая плотность энергии океана равна $\rho_{E,\mathrm{vac}} = (d-1)a_Q^2 u_P = \frac{1}{d_{\mathrm{in}}(\square)\,\phaseRingCount}\,u_P$. Поскольку тактовый квант носителя равен $E_0 = s_0/\htick = \caKappaGeom E_P$ ($E_P^{d_{\mathrm{in}}(\square)} = d_{\mathrm{in}}(\square)\,E_0^{d_{\mathrm{in}}(\square)}$), в естественной шкале~$E_0$ множитель $d_{\mathrm{in}}(\square)$ сокращается нацело, давая чисто алгебраический инвариант кольца без~$\pi$:
   \[
     \frac{\rho_{E,\mathrm{vac}}}{E_0^{d_{\mathrm{in}}(\square)}/(\planckHbar c)^d} = \frac{1}{\phaseRingCount}
@@ -207,9 +207,9 @@
   длинноволновый бозевский газ свободных фотонов ($n=0$, $\omega = c|\mathbf{k}| \ll \omega_{\max}$) отделяется от барионной плазмы на такте рекомбинации~$N_{\mathrm{CMB}}$ и остывает при расширении каузального фронта пузыря до современного такта~$N_{\mathrm{today}}$.
 \end{itemize}
 
-\begin{theorem}[Алгебраический вывод тепловых квантов рекомбинации $\Theta_{\mathrm{rec}}$ и реликтового фона $\Theta_{\mathrm{CMB}}$ в шкале носителя без $\pi$, без $\ln$ и без $k_{\mathrm{B}}$]
+\begin{theorem}[Алгебраический вывод тепловых квантов рекомбинации $\Theta_{\mathrm{rec}}$ и реликтового фона $\Theta_{\mathrm{CMB}}$ в шкале ДКМ без $\pi$, без $\ln$ и без $k_{\mathrm{B}}$]
 \label{thm:cosmo-cmb-natural-scale}
-В естественной энергетической шкале носителя $T_{P,\Mlayer} := E_0 = s_0/\htick$ (без переводного коэффициента~$k_{\mathrm{B}}$, без~$\pi$ и без голых численных констант) тепловой квант отцепления фотонов при рекомбинации водорода~$\Theta_{\mathrm{rec}}$ и современный тепловой квант реликтового излучения~$\Theta_{\mathrm{CMB}}$ однозначно определяются комбинаторикой кубооктаэдра и постоянной тонкой структуры~$\alpha_{\mathrm{fs}}$:
+В естественной энергетической шкале ДКМ $T_{P,\Mlayer} := E_0 = s_0/\htick$ (без переводного коэффициента~$k_{\mathrm{B}}$, без~$\pi$ и без голых численных констант) тепловой квант отцепления фотонов при рекомбинации водорода~$\Theta_{\mathrm{rec}}$ и современный тепловой квант реликтового излучения~$\Theta_{\mathrm{CMB}}$ однозначно определяются комбинаторикой кубооктаэдра и постоянной тонкой структуры~$\alpha_{\mathrm{fs}}$:
 \begin{enumerate}[leftmargin=*]
 \item \textbf{Алгебраический порог отцепления Лайман-$\alpha$ и квант рекомбинации $\Theta_{\mathrm{rec}}$:}
   энергия главного дипольного перехода водорода равна $E_{\mathrm{Ly}\alpha} = \frac{d}{d_{\mathrm{in}}(\square)}\,E_{\mathrm{Ry}}$, где $E_{\mathrm{Ry}} = \frac{\alpha_{\mathrm{fs}}^{d-1}}{d-1}\,m_e c^2$.
@@ -223,7 +223,7 @@
     = \frac{d}{d_{\mathrm{in}}(\square)\,d_{\mathrm{out}}(E)\,\vevHierarchySteps}
     \approx 0{,}01875
   \end{equation}
-  (в континуальном описании Саха на~$\Tlayer$ тому же отношению отвечает логарифм барион-фотонного отношения $\bigl[\frac{d_{\mathrm{out}}(E)}{d-1}\ln(1/\eta_B)\bigr]^{-1} \approx 0{,}018857$ при $\eta_B^{-1} = \frac{(d-1)N_\varphi\vevHierarchySteps}{\lfloor\caBitBudget\rfloor d_{\mathrm{out}}(E)}\,\alpha_{\mathrm{fs}}^{-d_{\mathrm{in}}(\square)}$, сходящийся с алгебраическим отношением носителя~\eqref{eq:cosmo-theta-rec-natural} с точностью~$0{,}57\%$).
+  (в континуальном описании Саха на~$\Tlayer$ тому же отношению отвечает логарифм барион-фотонного отношения $\bigl[\frac{d_{\mathrm{out}}(E)}{d-1}\ln(1/\eta_B)\bigr]^{-1} \approx 0{,}018857$ при $\eta_B^{-1} = \frac{(d-1)N_\varphi\vevHierarchySteps}{\lfloor\caBitBudget\rfloor d_{\mathrm{out}}(E)}\,\alpha_{\mathrm{fs}}^{-d_{\mathrm{in}}(\square)}$, сходящийся с алгебраическим отношением ДКМ~\eqref{eq:cosmo-theta-rec-natural} с точностью~$0{,}57\%$).
   При переводе в шкалу Кельвина на приборном слое~$\Tlayer$ через $T_{\mathrm{Ry}} = E_{\mathrm{Ry}}/k_{\mathrm{B}}$ алгебраическая формула~\eqref{eq:cosmo-theta-rec-natural} даёт $T_{\mathrm{rec}}^{\mathrm{alg}} = 2960{,}39\ \mathrm{К}$, а логарифмическая проекция Саха — $T_{\mathrm{rec}} = 2977{,}35\ \mathrm{К}$ (наблюдение Planck~2018: $T_* = 2972{,}98\ \mathrm{К}$, отклонение $0{,}42\%$ и~$0{,}15\%$).
 \item \textbf{Коэффициент космологического остывания $1 + z_{\mathrm{CMB}}$ и современный квант $\Theta_{\mathrm{CMB}}$:}
   при расширении пузыря от такта~$N_{\mathrm{CMB}}$ до такта~$N_{\mathrm{today}}$ в размерности~$d$ тактовый фактор растяжения совпадает с отношением ступеней башни~$\vevHierarchySteps$ к~$\alpha_{\mathrm{fs}}$:

@@ -20,7 +20,7 @@
   \]
 \item \textbf{Квант водородной связи $E_{\mathrm{HB}}$ и четырёхстороннее тождество водородного делителя:}
   на одну спиновую пару Паули второй координационной сферы ($\caKappaGeom^2 N_{\mathrm{shell}}(2)$ пар при $N_{\mathrm{shell}}(2)=(\geomNeighborTwelve-2)\cdot 2^2+2$)
-  от ковалентной энергии $D_0(\text{H}_2)=BE_H/d$ приходится дискретный квант водородного замка, делитель которого удовлетворяет тождеству констант носителя:
+  от ковалентной энергии $D_0(\text{H}_2)=BE_H/d$ приходится дискретный квант водородного замка, делитель которого удовлетворяет тождеству констант ДКМ:
   \[
     N_{\mathrm{HB}}
     := d\,\caKappaGeom^2 N_{\mathrm{shell}}(2)
@@ -590,7 +590,7 @@ II (ядро $1$) & \texttt{Stop} & \texttt{UAA,UAG,UGA} (3) & --- & освоб�
   \begin{itemize}[noitemsep]
   \item при несовпадении среды растворителя ($\mathrm{envSolventMatchGateOp}=0$) либо в подпороговой голодной среде ($|\Phi_{\mathrm{env}}| < \Delta\varphi_{\mathrm{disc}}(d) \implies \mathrm{envMetabolicGateOp}=0$) оператор $\mathrm{ontogenyGenesisInEnvOp}$ удерживает организм в состоянии покоящейся зиготы/споры $\mathrm{zygoteDormantComplexOp}(d) = (\mu_{\mathrm{vac}}(d),0,0,0)$;
   \item при полном внутреннем запирании клетки соседями без контакта с внешней средой ($z_{\mathrm{int}} = |N(d)|$) граничный затвор среды закрывается ($\mathrm{envFreeSurfaceGateOp}(d,|N(d)|) = 0$), запуская кавитацию просвета (люмена);
-  \item в совместимой метаболически активной внешней среде ($\mathrm{envSolventMatchGateOp}\cdot\mathrm{envMetabolicGateOp}=1$) оператор $\mathrm{ontogenyGenesisInEnvOp}$ детерминированно порождает стадии морфогенеза, топологические инварианты которых выражаются исключительно через структурные операторы носителя:
+  \item в совместимой метаболически активной внешней среде ($\mathrm{envSolventMatchGateOp}\cdot\mathrm{envMetabolicGateOp}=1$) оператор $\mathrm{ontogenyGenesisInEnvOp}$ детерминированно порождает стадии морфогенеза, топологические инварианты которых выражаются исключительно через структурные операторы ДКМ:
     \begin{equation}
     \label{eq:ontogeny-genesis-operator-invariants}
     \begin{aligned}
@@ -663,7 +663,7 @@ II (ядро $1$) & \texttt{Stop} & \texttt{UAA,UAG,UGA} (3) & --- & освоб�
     \mathrm{corticalLongevityMultiplierOp}\bigl(d,\mu_{\mathrm{vac}}(d),\mu_{\mathrm{vac}}(d),0\bigr) = d.
   \]
 \item \textbf{Универсальный космобиологический оператор по всем трём планетарным окнам жизни $m_{\mathrm{env}}\in\{-\mu_{\mathrm{vac}}(d),\,0,\,+\mu_{\mathrm{vac}}(d)\}$ (\texttt{universal\_cosmobiology\_three\_planetary\_windows\_operator}):}
-  во всех трёх планетарных окнах жизни хребты биополимеров, ароматические гетероциклы среза $\{111\}$, фотонные шаги звезды, толщины мембран и каталитические металлоцентры однозначно выводятся из спектра замкнутых оболочек носителя:
+  во всех трёх планетарных окнах жизни хребты биополимеров, ароматические гетероциклы среза $\{111\}$, фотонные шаги звезды, толщины мембран и каталитические металлоцентры однозначно выводятся из спектра замкнутых оболочек ДКМ:
   \begin{enumerate}[label=\textbf{(\alph*)},leftmargin=*,noitemsep]
   \item \emph{Полимерные хребты и ароматические кольца $\{111\}$:} углерод-азотное звено $-\mathrm{C\text{--}N}-$ замыкает одетый кластер ($\mathrm{zPeptideBackboneLinkOp}(d) = N_\varphi(d)$), кремний-азотное силазановое звено $-\mathrm{Si\text{--}N}-$ замыкает смысловую полусферу кода ($\mathrm{zSilazaneBackboneLinkOp}(d) = \mathrm{aminoAcidClassesOp}(d)$ при $\mathrm{c0OverCSqOp}(d)\cdot\mathrm{zSilazaneBackboneLinkOp}(d) = \mathrm{cuboctShellSizeOp}(d,\mathrm{c0OverCSqOp}(d))$), а как органическое бензольное кольцо $\mathrm{C_6H_6}$, так и неорганическое боразиновое кольцо $\mathrm{B_3N_3H_6}$ замыкают вторую координационную сферу кубооктаэдра ($\mathrm{zBenzeneRingOp}(d) = \mathrm{zBorazineRingOp}(d) = \mathrm{cuboctShellSizeOp}(d,\mathrm{c0OverCSqOp}(d))$);
   \item \emph{Фотонные шаги звезды и мембраны трёх миров:} оператор фотонного резонанса $\mathrm{universalPhotonStepOp}(d,m_{\mathrm{env}})$ и оператор толщины мембраны $\mathrm{transmembraneThicknessOp}(d,m_{\mathrm{env}})$ дают в криогенном окне $m_{\mathrm{env}}=-\mu_{\mathrm{vac}}(d)$ значения $d\cdot\mathrm{cuboctBallOp}(d)$ и $\mathrm{synonymousTi3CodonsOp}(d)$, в водно-углеродном окне $m_{\mathrm{env}}=0$ --- значения $\mathrm{nLeadTerminalOp}(d)$ и $|\square(d)|\cdot |N(d)|$, а в термофильном окне $m_{\mathrm{env}}=+\mu_{\mathrm{vac}}(d)$ --- значения $\mathrm{hBondDivisorOp}(d)$ и $\mathrm{c0OverCSqOp}(d)\cdot\mathrm{cuboctShellSizeOp}(d,\mathrm{c0OverCSqOp}(d))$;

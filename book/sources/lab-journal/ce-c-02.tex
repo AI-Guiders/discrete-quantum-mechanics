@@ -7,7 +7,7 @@
 
 \textbf{Что проверяем.}
 \begin{enumerate}[label=\textbf{(\alph*)},leftmargin=*,itemsep=0.25em]
-\item Тождество полноты носителя $D(x) - (D_{\mathrm{baryon}}(\mu) - \delta K(x)) \equiv 0$ (нулевой «тёмный остаток» $D_{\mathrm{dark}}\equiv 0$), нетривиальный вакуумный импеданс $D_{\mathrm{vac}}(x) = 9856 - \sum_{O_2}|A_{xy}|$ на единичном полу вакуума $\mu_{\mathrm{vac}}=1$ и точное целочисленное отношение ёмкости ореола кубооктаэдра к $3\mathrm{D}$-ядру Вороного $W_{\mathrm{halo}}/W_{\mathrm{core}} = 2048/384 = V_{\mathrm{cuboct}}/dV_{\mathrm{Voronoi}} = 2\vevHierarchySteps/d = 16/3$ (\texttt{no\_\allowbreak dark\_\allowbreak matter\_\allowbreak and\_\allowbreak vacuum\_\allowbreak holonomy\_\allowbreak halo} в \texttt{UnifiedOperators.lean}).
+\item Тождество полноты ДКМ $D(x) - (D_{\mathrm{baryon}}(\mu) - \delta K(x)) \equiv 0$ (нулевой «тёмный остаток» $D_{\mathrm{dark}}\equiv 0$), нетривиальный вакуумный импеданс $D_{\mathrm{vac}}(x) = 9856 - \sum_{O_2}|A_{xy}|$ на единичном полу вакуума $\mu_{\mathrm{vac}}=1$ и точное целочисленное отношение ёмкости ореола кубооктаэдра к $3\mathrm{D}$-ядру Вороного $W_{\mathrm{halo}}/W_{\mathrm{core}} = 2048/384 = V_{\mathrm{cuboct}}/dV_{\mathrm{Voronoi}} = 2\vevHierarchySteps/d = 16/3$ (\texttt{no\_\allowbreak dark\_\allowbreak matter\_\allowbreak and\_\allowbreak vacuum\_\allowbreak holonomy\_\allowbreak halo} в \texttt{UnifiedOperators.lean}).
 \item Согласие модельных отношений $\Omega_{\mathrm{DM}}/\Omega_b = 16/3$, $\Omega_m/\Omega_b = 19/3$ и барионной доли $\Omega_b/\Omega_m = 3/19$ с данными Planck~2018 по критерию $|E_n| \le 1$ (\cref{ch:measurement-processing}).
 \end{enumerate}
 
@@ -35,7 +35,7 @@ $\Omega_{\mathrm{DM}}/\Omega_b$, $\Omega_m/\Omega_b$, $\Omega_b/\Omega_m$ и и�
 Воспроизведение: \texttt{python verify\_principles.py --suite sm} (модуль \texttt{mt\_ca/si\_sm\_rows.py}).
 
 \begin{enumerate}[label=\textbf{Шаг \arabic*:},leftmargin=*,itemsep=0.35em]
-\item Вычислить $dV_{\mathrm{Voronoi}}/a^3 = \caKappaGeom$ и $V_{\mathrm{cuboct}}/a^3 = (2\vevHierarchySteps/d)\caKappaGeom$ из констант носителя.
+\item Вычислить $dV_{\mathrm{Voronoi}}/a^3 = \caKappaGeom$ и $V_{\mathrm{cuboct}}/a^3 = (2\vevHierarchySteps/d)\caKappaGeom$ из констант ДКМ.
 \item Сопоставить отношения $16/3$, $19/3$ и $3/19$ с таблицей Planck~2018 ($\Omega_c h^2 = 0{,}1200\pm 0{,}0012$, $\Omega_b h^2 = 0{,}02237\pm 0{,}00015$).
 \item Рассчитать $|E_n| = |x_{\mathrm{model}} - x_{\mathrm{ref}}| / (2 u_{\mathrm{ref}})$ при коэффициенте охвата $k=2$.
 \end{enumerate}
