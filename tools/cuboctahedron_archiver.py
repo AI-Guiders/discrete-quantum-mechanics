@@ -269,7 +269,7 @@ def run_benchmark() -> None:
     for label, data in [
         ("64KB Rotator Acoustic/Phase Stream", wave_bytes),
         ("hardware/cuboctahedron_carrier_asic.v", Path("hardware/cuboctahedron_carrier_asic.v").read_bytes()),
-        ("lean/MtCarrier/UnifiedOperators.lean", Path("lean/MtCarrier/UnifiedOperators.lean").read_bytes()),
+        ("lean/MtCarrier/ContinuumPhysics.lean", Path("lean/MtCarrier/ContinuumPhysics.lean").read_bytes()),
     ]:
         sha_in = hashlib.sha256(data).hexdigest()
         arch, mode_used = compress_universal_cuboct(data)
