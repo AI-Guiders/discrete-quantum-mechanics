@@ -1,15 +1,72 @@
 /-!
-# Rule Z1 and Theorem 11.12 (`thm:catalan-uniqueness-d3`): Uniqueness of d = 3
+# Forced Deductive Chain from Elementary Volume Occupancy to `d = 3`, `ℤ₅₁₂`, and the Cuboctahedron `O₂(3)`
 
-Formal verification in Lean 4 of the discrete carrier invariants and the four
-Diophantine locks of Theorem 11.12 in Chapter 11 (`book/sources/chapters/08-invariant.tex`):
-1. Catalan / word-width lock: `1 + 2^d = d^2 ↔ d = 3`.
-2. Gaussian-Coulomb lock: `2^d * (2*d*(d-1) - 2 - 2^d) = 4*(d-1)^2 ↔ d = 3` (proved for ALL `d : Nat` via induction for `d ≥ 6`).
-3. Heisenberg divisibility lock: at `d = 3`, `N_φ(3) = 13` divides `512 + 13 + 8 = 533`, giving `Δφ_disc = 41`.
-4. Star-boolean & two-lane density lock: `2 * N_□(d) = N_neighbors(d) ↔ d = 3` (`K_P^2 = 2^12 = 4096`).
+Formal verification in Lean 4 of the closed deductive chain of Discrete Quantum Mechanics (DQM):
+0. **Indivisible elementary volume occupancy and gapless space-filling packing**:
+   A particle (excitation) occupies an entire elementary cell volume and cannot occupy it partially,
+   giving the single indivisible central self-occupancy state `centralOccupancyState d = (0, ..., 0)` (`1` state).
+   Because all elementary cells must be packed tightly without voids along each of the `d` orthogonal axes
+   (`elementaryAxisSigns = [-1, +1]`), the surrounding neighborhood consists of `|signedOctants d| = 2^d`
+   contiguous signed octants `{-1, +1}^d`, yielding `|cellBranchingStates d| = 1 + 2^d` indivisible cell states
+   matched against the `|axisTransitionPairs d| = d * d` ordered axis-transition pairs `(i, j) ∈ {0, ..., d-1}²`.
+1. **Catalan / word-width lock**: `|cellBranchingStates d| = |axisTransitionPairs d| ↔ 1 + 2^d = d^2 ↔ d = 3`.
+2. **Gaussian-Coulomb lock**: `2^d * (2*d*(d-1) - 2 - 2^d) = 4*(d-1)^2 ↔ d = 3` (proved for all `d : Nat` via induction for `d ≥ 6`).
+3. **Heisenberg divisibility lock**: at `d = 3`, `N_φ(3) = 13` divides `512 + 13 + 8 = 533`, giving `Δφ_disc = 41`.
+4. **Star-boolean & two-lane density lock**: `2 * N_□(d) = N_neighbors(d) ↔ d = 3` (`K_P^2 = 2^12 = 4096`).
+5. **Uniqueness of the 12-vertex cuboctahedron `O₂(3)`** among all non-empty `O_h`-isotropic shells in `{-1, 0, +1}³ \ {0}`.
 -/
 
 namespace MtCarrier
+
+/-- Binary direction signs `{-1, +1}` along each axis of a gaplessly packed lattice without partial cell occupancy. -/
+def elementaryAxisSigns : List Int := [-1, 1]
+
+/-- Single indivisible self-occupancy state `(0, ..., 0)` of the elementary cell volume:
+a particle occupies the entire elementary volume and cannot occupy it partially. -/
+def centralOccupancyState (d : Nat) : List Int :=
+  List.replicate d (0 : Int)
+
+/-- The `2^d` contiguous signed corner octants `{-1, +1}^d` surrounding an elementary `d`-dimensional cell
+in a gapless space-filling packing. -/
+def signedOctants : Nat → List (List Int)
+  | 0 => [[]]
+  | d + 1 =>
+    (signedOctants d).map (fun v => (-1 : Int) :: v) ++
+    (signedOctants d).map (fun v => (1 : Int) :: v)
+
+/-- The `1 + 2^d` indivisible branching states of a `d`-dimensional elementary cell volume:
+the single full-volume central self-occupancy state `centralOccupancyState d` plus the `2^d` contiguous signed octants `signedOctants d`. -/
+def cellBranchingStates (d : Nat) : List (List Int) :=
+  centralOccupancyState d :: signedOctants d
+
+theorem signedOctants_length (d : Nat) : (signedOctants d).length = 2 ^ d := by
+  induction d with
+  | zero => rfl
+  | succ k ih =>
+    dsimp [signedOctants]
+    rw [List.length_append, List.length_map, List.length_map, ih, Nat.pow_succ]
+    omega
+
+theorem cellBranchingStates_length (d : Nat) : (cellBranchingStates d).length = 1 + 2 ^ d := by
+  dsimp [cellBranchingStates]
+  rw [signedOctants_length]
+  omega
+
+/-- The `d × d` ordered axis-transition pairs `(i, j) ∈ {0, ..., d-1}²` of a `d`-dimensional cell. -/
+def axisTransitionPairs (d : Nat) : List (Nat × Nat) :=
+  (List.range d).flatMap (fun i => (List.range d).map (fun j => (i, j)))
+
+theorem axisTransitionPairs_length (d : Nat) : (axisTransitionPairs d).length = d * d := by
+  dsimp [axisTransitionPairs]
+  have hMap : ∀ (l : List Nat), (l.flatMap (fun i => (List.range d).map (fun j => (i, j)))).length = l.length * d := by
+    intro l
+    induction l with
+    | nil => simp [List.flatMap]
+    | cons hd tl ih =>
+      rw [List.flatMap_cons, List.length_append, List.length_map, List.length_range, ih]
+      simp [Nat.succ_mul]
+      omega
+  rw [hMap (List.range d), List.length_range]
 
 /-- Kissing-shell neighbor count `|N(d)| = 2 * d * (d - 1)` for the D_d root lattice. -/
 def nNeighbors (d : Nat) : Nat := 2 * d * (d - 1)
@@ -111,11 +168,20 @@ theorem pow2_gt_two_d_pred (k : Nat) : 2 ^ (k + 6) > 2 * (k + 6) * (k + 5) := by
     omega
 
 /-- Operator predicate of Lock 1 (`eq:catalan-lock`):
-self-duality between the `1 + 2^d` basis-vector choice states of a node (`1` rest state outside axes + `2^d` subset/sign combinations of the `d` unit vectors `e_1, ..., e_d`)
-and the `d * d = d^2` elementary transition pairs `(e_i → e_j)` between unit basis vectors
-(decomposing into `d` longitudinal pairs `e_i → e_i` and `d * (d - 1) = |N(d)| / 2` off-diagonal rotation pairs `e_i → e_j`, `i ≠ j`, which with signs generate the `2 * d * (d - 1) = 12` cuboctahedron vertices `±e_i ± e_j`). -/
+bijective closure between the `|cellBranchingStates d| = 1 + 2^d` indivisible states of an elementary cell volume
+(`1` full-volume central self-occupancy state `centralOccupancyState d` + `2^d` contiguous signed octants `signedOctants d`)
+and the `|axisTransitionPairs d| = d * d = d^2` ordered axis-transition pairs `(i, j) ∈ {0, ..., d-1}²`
+(decomposing into `d` longitudinal pairs `i = j` and `d * (d - 1) = |N(d)| / 2` off-diagonal rotation pairs `i ≠ j`,
+which with signs generate the `2 * d * (d - 1) = 12` cuboctahedron vertices `±e_i ± e_j`). -/
 abbrev CatalanLock (d : Nat) : Prop :=
   1 + 2 ^ d = d * d
+
+/-- Constructive equivalence of `CatalanLock d` (`1 + 2^d = d * d`) with equality of finite-set cardinalities
+`(cellBranchingStates d).length = (axisTransitionPairs d).length` for all `d : Nat`. -/
+theorem catalan_lock_eq_branching_axis_cardinalities (d : Nat) :
+    ((cellBranchingStates d).length = (axisTransitionPairs d).length) ↔ CatalanLock d := by
+  unfold CatalanLock
+  rw [cellBranchingStates_length, axisTransitionPairs_length]
 
 /-- Operator coupling any dimension-parameterized law `P : Nat → Prop` to `CatalanLock d`:
 `CatalanLaw P d` means `CatalanLock d ↔ (CatalanLock d ∧ P d)`. -/
@@ -347,64 +413,20 @@ def manhattanNorm3D (e : Int × Int × Int) : Nat :=
 def cubicOrbit3D (k : Nat) : List (Int × Int × Int) :=
   elementaryCube3D.filter (fun e => manhattanNorm3D e == k)
 
-/-- The `2^d` signed corner octants `{-1, +1}^d` of an elementary `d`-dimensional cell. -/
-def signedOctants : Nat → List (List Int)
-  | 0 => [[]]
-  | d + 1 =>
-    (signedOctants d).map (fun v => (-1 : Int) :: v) ++
-    (signedOctants d).map (fun v => (1 : Int) :: v)
-
-/-- The `1 + 2^d` spatial branching states of a `d`-dimensional cell:
-the central self-occupancy state `(0, ..., 0)` plus the `2^d` signed octants `{-1, +1}^d`. -/
-def cellBranchingStates (d : Nat) : List (List Int) :=
-  (List.replicate d (0 : Int)) :: signedOctants d
-
-theorem signedOctants_length (d : Nat) : (signedOctants d).length = 2 ^ d := by
-  induction d with
-  | zero => rfl
-  | succ k ih =>
-    dsimp [signedOctants]
-    rw [List.length_append, List.length_map, List.length_map, ih, Nat.pow_succ]
-    omega
-
-theorem cellBranchingStates_length (d : Nat) : (cellBranchingStates d).length = 1 + 2 ^ d := by
-  dsimp [cellBranchingStates]
-  rw [signedOctants_length]
-  omega
-
-/-- The `d × d` ordered axis-transition pairs `(i, j) ∈ {0, ..., d-1}²` of a `d`-dimensional cell. -/
-def axisTransitionPairs (d : Nat) : List (Nat × Nat) :=
-  (List.range d).flatMap (fun i => (List.range d).map (fun j => (i, j)))
-
-theorem axisTransitionPairs_length (d : Nat) : (axisTransitionPairs d).length = d * d := by
-  dsimp [axisTransitionPairs]
-  have hMap : ∀ (l : List Nat), (l.flatMap (fun i => (List.range d).map (fun j => (i, j)))).length = l.length * d := by
-    intro l
-    induction l with
-    | nil => simp [List.flatMap]
-    | cons hd tl ih =>
-      rw [List.flatMap_cons, List.length_append, List.length_map, List.length_range, ih]
-      simp [Nat.succ_mul]
-      omega
-  rw [hMap (List.range d), List.length_range]
-
-/-- Constructive equivalence of `CatalanLock d` (`1 + 2^d = d * d`) with equality of finite-set cardinalities
-`(cellBranchingStates d).length = (axisTransitionPairs d).length` for all `d : Nat`. -/
-theorem catalan_lock_eq_branching_axis_cardinalities (d : Nat) :
-    ((cellBranchingStates d).length = (axisTransitionPairs d).length) ↔ CatalanLock d := by
-  unfold CatalanLock
-  rw [cellBranchingStates_length, axisTransitionPairs_length]
-
 /-- Exact operator identities for the sizes of the three `O_h`-orbits in `{-1, 0, +1}³ \ {0}`
-and the constructive finite-set cardinalities `|cellBranchingStates(d)| = 1 + 2^d` and
-`|axisTransitionPairs(d)| = d * d` chained via `CatalanLaw` for any `d : Nat`:
+and the constructive finite-set cardinalities `|cellBranchingStates(d)| = 1 + 2^d`,
+`|axisTransitionPairs(d)| = d * d`, and `|[centralOccupancyState(d)]| = |axisTransitionPairs(d)| - |signedOctants(d)| = μ_vac(d)`
+chained via `CatalanLaw` for any `d : Nat`:
 `|O₁| = |□(d)|`, `|O₂| = |N(d)|`, `|O₃| = |△(d)|`, and `|O₁| + |O₂| + |O₃| = 2 * N_φ(d)`. -/
 theorem cubic_orbits_partition_26 (d : Nat) :
     CatalanLaw (fun d =>
+      elementaryAxisSigns.length = 2 ∧
+      ([centralOccupancyState d]).length = muVac d ∧
       (signedOctants d).length = nTriangles d ∧
       (cellBranchingStates d).length = 1 + 2 ^ d ∧
       (axisTransitionPairs d).length = d * d ∧
       (cellBranchingStates d).length = (axisTransitionPairs d).length ∧
+      (axisTransitionPairs d).length - (signedOctants d).length = ([centralOccupancyState d]).length ∧
       (cubicOrbit3D 1).length = nSquares d ∧
       (cubicOrbit3D (d - 1)).length = nNeighbors d ∧
       (cubicOrbit3D d).length = nTriangles d ∧
