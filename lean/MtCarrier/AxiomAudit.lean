@@ -14,6 +14,7 @@ namespace MtCarrier.Audit
 
 -- 1. Spec.lean (Rule Z1 & Theorem 11.12)
 #print axioms MtCarrier.catalan_lock_iff_d3
+#print axioms MtCarrier.catalan_lock_eq_branching_axis_cardinalities
 #print axioms MtCarrier.catalan_law_of_d3
 #print axioms MtCarrier.canonical_d3_constants
 #print axioms MtCarrier.gaussian_coulomb_lock_iff_d3

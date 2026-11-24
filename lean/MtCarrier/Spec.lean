@@ -347,11 +347,64 @@ def manhattanNorm3D (e : Int × Int × Int) : Nat :=
 def cubicOrbit3D (k : Nat) : List (Int × Int × Int) :=
   elementaryCube3D.filter (fun e => manhattanNorm3D e == k)
 
+/-- The `2^d` signed corner octants `{-1, +1}^d` of an elementary `d`-dimensional cell. -/
+def signedOctants : Nat → List (List Int)
+  | 0 => [[]]
+  | d + 1 =>
+    (signedOctants d).map (fun v => (-1 : Int) :: v) ++
+    (signedOctants d).map (fun v => (1 : Int) :: v)
+
+/-- The `1 + 2^d` spatial branching states of a `d`-dimensional cell:
+the central self-occupancy state `(0, ..., 0)` plus the `2^d` signed octants `{-1, +1}^d`. -/
+def cellBranchingStates (d : Nat) : List (List Int) :=
+  (List.replicate d (0 : Int)) :: signedOctants d
+
+theorem signedOctants_length (d : Nat) : (signedOctants d).length = 2 ^ d := by
+  induction d with
+  | zero => rfl
+  | succ k ih =>
+    dsimp [signedOctants]
+    rw [List.length_append, List.length_map, List.length_map, ih, Nat.pow_succ]
+    omega
+
+theorem cellBranchingStates_length (d : Nat) : (cellBranchingStates d).length = 1 + 2 ^ d := by
+  dsimp [cellBranchingStates]
+  rw [signedOctants_length]
+  omega
+
+/-- The `d × d` ordered axis-transition pairs `(i, j) ∈ {0, ..., d-1}²` of a `d`-dimensional cell. -/
+def axisTransitionPairs (d : Nat) : List (Nat × Nat) :=
+  (List.range d).flatMap (fun i => (List.range d).map (fun j => (i, j)))
+
+theorem axisTransitionPairs_length (d : Nat) : (axisTransitionPairs d).length = d * d := by
+  dsimp [axisTransitionPairs]
+  have hMap : ∀ (l : List Nat), (l.flatMap (fun i => (List.range d).map (fun j => (i, j)))).length = l.length * d := by
+    intro l
+    induction l with
+    | nil => simp [List.flatMap]
+    | cons hd tl ih =>
+      rw [List.flatMap_cons, List.length_append, List.length_map, List.length_range, ih]
+      simp [Nat.succ_mul]
+      omega
+  rw [hMap (List.range d), List.length_range]
+
+/-- Constructive equivalence of `CatalanLock d` (`1 + 2^d = d * d`) with equality of finite-set cardinalities
+`(cellBranchingStates d).length = (axisTransitionPairs d).length` for all `d : Nat`. -/
+theorem catalan_lock_eq_branching_axis_cardinalities (d : Nat) :
+    ((cellBranchingStates d).length = (axisTransitionPairs d).length) ↔ CatalanLock d := by
+  unfold CatalanLock
+  rw [cellBranchingStates_length, axisTransitionPairs_length]
+
 /-- Exact operator identities for the sizes of the three `O_h`-orbits in `{-1, 0, +1}³ \ {0}`
-chained via `CatalanLaw` for any `d : Nat`:
+and the constructive finite-set cardinalities `|cellBranchingStates(d)| = 1 + 2^d` and
+`|axisTransitionPairs(d)| = d * d` chained via `CatalanLaw` for any `d : Nat`:
 `|O₁| = |□(d)|`, `|O₂| = |N(d)|`, `|O₃| = |△(d)|`, and `|O₁| + |O₂| + |O₃| = 2 * N_φ(d)`. -/
 theorem cubic_orbits_partition_26 (d : Nat) :
     CatalanLaw (fun d =>
+      (signedOctants d).length = nTriangles d ∧
+      (cellBranchingStates d).length = 1 + 2 ^ d ∧
+      (axisTransitionPairs d).length = d * d ∧
+      (cellBranchingStates d).length = (axisTransitionPairs d).length ∧
       (cubicOrbit3D 1).length = nSquares d ∧
       (cubicOrbit3D (d - 1)).length = nNeighbors d ∧
       (cubicOrbit3D d).length = nTriangles d ∧
