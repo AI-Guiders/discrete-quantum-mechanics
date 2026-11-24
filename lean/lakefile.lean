@@ -5,6 +5,19 @@ package «mt-carrier» where
   version := v!"0.1.0"
 
 @[default_target]
+lean_lib «RotatorCalculusPaper» where
+  srcDir := "../papers"
+  roots := #[
+    `RotatorQuadrature,
+    `LogicCohomology,
+    `PillaiDiophantine,
+    `AbcPlanetaryWronskian,
+    `ModelTheoreticLimit,
+    `CollatzPlanetarySplice,
+    `RotatorCalculusPaper
+  ]
+
+@[default_target]
 lean_lib «MtCarrier» where
   roots := #[`MtCarrier]
 
