@@ -56,6 +56,15 @@ theorem cellBranchingStates_length (d : Nat) : (cellBranchingStates d).length = 
 def axisTransitionPairs (d : Nat) : List (Nat × Nat) :=
   (List.range d).flatMap (fun i => (List.range d).map (fun j => (i, j)))
 
+/-- The `d` longitudinal axis-transition pairs `(i, i)` (`i = j`) of a `d`-dimensional cell. -/
+def axisLongitudinalPairs (d : Nat) : List (Nat × Nat) :=
+  (axisTransitionPairs d).filter (fun p => p.1 == p.2)
+
+/-- The `d * (d - 1)` off-diagonal rotation axis-transition pairs `(i, j)` (`i ≠ j`) of a `d`-dimensional cell,
+which together with the `2` axis signs generate the `2 * d * (d - 1)` vertices of the cuboctahedral shell. -/
+def axisRotationPairs (d : Nat) : List (Nat × Nat) :=
+  (axisTransitionPairs d).filter (fun p => p.1 != p.2)
+
 theorem axisTransitionPairs_length (d : Nat) : (axisTransitionPairs d).length = d * d := by
   dsimp [axisTransitionPairs]
   have hMap : ∀ (l : List Nat), (l.flatMap (fun i => (List.range d).map (fun j => (i, j)))).length = l.length * d := by
@@ -425,6 +434,12 @@ theorem cubic_orbits_partition_26 (d : Nat) :
       (signedOctants d).length = nTriangles d ∧
       (cellBranchingStates d).length = 1 + 2 ^ d ∧
       (axisTransitionPairs d).length = d * d ∧
+      (axisLongitudinalPairs d).length = d ∧
+      (axisRotationPairs d).length = d * (d - 1) ∧
+      (axisLongitudinalPairs d).length + (axisRotationPairs d).length = (axisTransitionPairs d).length ∧
+      elementaryAxisSigns.length * (axisRotationPairs d).length = nNeighbors d ∧
+      (cellBranchingStates d).Nodup ∧
+      (axisTransitionPairs d).Nodup ∧
       (cellBranchingStates d).length = (axisTransitionPairs d).length ∧
       (axisTransitionPairs d).length - (signedOctants d).length = ([centralOccupancyState d]).length ∧
       (cubicOrbit3D 1).length = nSquares d ∧

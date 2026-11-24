@@ -573,7 +573,20 @@
   \label{eq:mono-alpha-fs}
   \bigl\lfloor \alpha_{\mathrm{fs}}^{-1} \bigr\rfloor \;=\; \hat{M}(3) + \bigl(\Delta\varphi_{\mathrm{disc}}(3) - 1\bigr) \;=\; 97 + 40 \;=\; 137 \;=\; Q_\square(3) + \mathrm{mod\_bits}(3),
 \end{equation}
-а на длине ребра кубооктаэдра $\|e\|_2 = \sqrt{d-1} = \sqrt{2}$ целочисленные операторы в кольце $\mathbb{Z}[\sqrt{2}]$
+а на длине ребра кубооктаэдра $\|e\|_2 = \sqrt{d-1} = \sqrt{2}$ и $|{\triangle}(d)| - 1 = 7$ открытых октантах вершины приведение четырёх последовательных порядков кулоновского фильтра $\hat{M}(d)^{-1}, \hat{M}(d)^{-2}, \hat{M}(d)^{-3}, \hat{M}(d)^{-4}$
+\[
+  \alpha_{\mathrm{fs}}^{-1}(d)
+  \;=\;
+  \frac{
+    1
+    \;-\; \dfrac{\sqrt{2}}{d_{\mathrm{in}}(\square)\bigl(|{\triangle}(d)|-1\bigr)\hat{M}(d)^3}
+    \;-\; \dfrac{|{\triangle}(d)|}{\bigl(|{\triangle}(d)|-1\bigr)^2\hat{M}(d)^4}
+  }{
+    \dfrac{\sqrt{2}}{2\,\hat{M}(d)}
+    \;+\; \dfrac{1}{2\bigl(|{\triangle}(d)|-1\bigr)\hat{M}(d)^2}
+  }
+\]
+к общему целому знаменателю $d_{\mathrm{in}}(\square)\bigl(|{\triangle}(d)|-1\bigr)^2\hat{M}(d)^4$ определяет целочисленные операторы в кольце $\mathbb{Z}[\sqrt{2}]$
 \begin{equation}
   \label{eq:mono-alpha-zsqrt2-coeffs}
   \begin{aligned}
@@ -583,7 +596,7 @@
     B_{\mathrm{den}}(d) &= -\bigl(|{\triangle}(d)|-1\bigr)\hat{M}(d) = -679
   \end{aligned}
 \end{equation}
-дают замкнутую алгебраическую формулу в поле $\mathbb{Q}(\sqrt{2})$ без участия трансцендентного числа~$\pi$ (\texttt{alpha\_fs\_exact\_z\_sqrt2\_canonical\_form\_and\_floor\_137} в \texttt{ContinuumPhysics.lean}):
+и даёт замкнутую алгебраическую формулу в поле $\mathbb{Q}(\sqrt{2})$ без участия трансцендентного числа~$\pi$ (\texttt{alpha\_fs\_exact\_z\_sqrt2\_canonical\_form\_and\_floor\_137} в \texttt{lean/MtCarrier/ContinuumPhysics.lean}):
 \begin{equation}
   \label{eq:mono-alpha-codata}
   \alpha_{\mathrm{fs}}^{-1}(d) \;=\; \frac{A_{\mathrm{den}}(d) + B_{\mathrm{den}}(d)\sqrt{2}}{A_{\mathrm{num}}(d) + B_{\mathrm{num}}(d)\sqrt{2}} \;=\; \frac{P_{\mathrm{rat}}(d) + Q_{\mathrm{rat}}(d)\sqrt{2}}{D_{\mathrm{rat}}(d)} \;=\; 137{,}035\,999\,187\dots
