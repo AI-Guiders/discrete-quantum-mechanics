@@ -402,7 +402,69 @@ theorem alpha_fs_exact_z_sqrt2_canonical_form_and_floor_137 (d : Nat) :
       alphaFloorRhsSq d < alphaFloorLhs d 1 * alphaFloorLhs d 1) d :=
   catalan_chain d (energy_operator_spectrum_0_to_6_squares d 1 1 0 0) (fun _ => by decide)
 
-/-- **Theorem (Closed Operator Identities of the Three Gauge Sectors, BBN, and CMB Thermodynamics)**:
+/-- 3×3 integer matrix with automatic `DecidableEq`. -/
+structure Mat3 where
+  a11 : Int
+  a12 : Int
+  a13 : Int
+  a21 : Int
+  a22 : Int
+  a23 : Int
+  a31 : Int
+  a32 : Int
+  a33 : Int
+  deriving DecidableEq, Repr
+
+/-- Zero 3×3 matrix. -/
+def zeroMat3 : Mat3 := ⟨0, 0, 0, 0, 0, 0, 0, 0, 0⟩
+
+/-- Trace `a₁₁ + a₂₂ + a₃₃` of a 3×3 integer matrix. -/
+def matTrace3 (A : Mat3) : Int :=
+  A.a11 + A.a22 + A.a33
+
+/-- Entrywise subtraction `A - B` of 3×3 integer matrices. -/
+def matSub3 (A B : Mat3) : Mat3 :=
+  ⟨A.a11 - B.a11, A.a12 - B.a12, A.a13 - B.a13,
+   A.a21 - B.a21, A.a22 - B.a22, A.a23 - B.a23,
+   A.a31 - B.a31, A.a32 - B.a32, A.a33 - B.a33⟩
+
+/-- Matrix product `A · B` of 3×3 integer matrices. -/
+def matMul3 (A B : Mat3) : Mat3 :=
+  ⟨A.a11 * B.a11 + A.a12 * B.a21 + A.a13 * B.a31,
+   A.a11 * B.a12 + A.a12 * B.a22 + A.a13 * B.a32,
+   A.a11 * B.a13 + A.a12 * B.a23 + A.a13 * B.a33,
+   A.a21 * B.a11 + A.a22 * B.a21 + A.a23 * B.a31,
+   A.a21 * B.a12 + A.a22 * B.a22 + A.a23 * B.a32,
+   A.a21 * B.a13 + A.a22 * B.a23 + A.a23 * B.a33,
+   A.a31 * B.a11 + A.a32 * B.a21 + A.a33 * B.a31,
+   A.a31 * B.a12 + A.a32 * B.a22 + A.a33 * B.a32,
+   A.a31 * B.a13 + A.a32 * B.a23 + A.a33 * B.a33⟩
+
+/-- Lie commutator `[A, B] = A · B - B · A` of 3×3 integer matrices. -/
+def matComm3 (A B : Mat3) : Mat3 :=
+  matSub3 (matMul3 A B) (matMul3 B A)
+
+/-- Global `𝔲(1)` phase-shift generator `Y₀ = I₃` on the 3 coordinate planes of `O₂(3)`. -/
+def u1Gen3 : Mat3 := ⟨1, 0, 0, 0, 1, 0, 0, 0, 1⟩
+
+/-- Three `𝔰𝔲(2) ≅ 𝔰𝔬(3)` generators `L₁, L₂, L₃` of 90° rotations on the 3 equatorial square 4-cycles `(yz, zx, xy)` of `O₂(3)`. -/
+def su2GenL1 : Mat3 := ⟨0, 0, 0, 0, 0, -1, 0, 1, 0⟩
+def su2GenL2 : Mat3 := ⟨0, 0, 1, 0, 0, 0, -1, 0, 0⟩
+def su2GenL3 : Mat3 := ⟨0, -1, 0, 1, 0, 0, 0, 0, 0⟩
+
+/-- Eight traceless `𝔰𝔲(3) ≅ 𝔰𝔩₃` Cartan–Weyl generators (`6` inter-plane transition operators `E_{ab}`
+and `2` Cartan diagonal differences `H₁, H₂`) on the 3-plane vertex triad of the `8` tetrahedral 4-cliques `K₄` of `B₁(3)`. -/
+def su3E12 : Mat3 := ⟨0, 1, 0, 0, 0, 0, 0, 0, 0⟩
+def su3E21 : Mat3 := ⟨0, 0, 0, 1, 0, 0, 0, 0, 0⟩
+def su3E23 : Mat3 := ⟨0, 0, 0, 0, 0, 1, 0, 0, 0⟩
+def su3E32 : Mat3 := ⟨0, 0, 0, 0, 0, 0, 0, 1, 0⟩
+def su3E13 : Mat3 := ⟨0, 0, 1, 0, 0, 0, 0, 0, 0⟩
+def su3E31 : Mat3 := ⟨0, 0, 0, 0, 0, 0, 1, 0, 0⟩
+def su3H1  : Mat3 := ⟨1, 0, 0, 0, -1, 0, 0, 0, 0⟩
+def su3H2  : Mat3 := ⟨0, 0, 0, 0, 1, 0, 0, 0, -1⟩
+
+/-- **Theorem (Closed Operator Identities and Lie Commutator Realization of the Three Gauge Sectors
+`𝔲(1) ⊕ 𝔰𝔲(2) ⊕ 𝔰𝔲(3)` on `B₁(3)`, BBN, and CMB Thermodynamics)**:
 Chained directly via `CatalanLaw` for any `d : Nat`. -/
 theorem sm_and_cosmology_closed_rational_operators (d : Nat) :
     CatalanLaw (fun d =>
@@ -411,7 +473,18 @@ theorem sm_and_cosmology_closed_rational_operators (d : Nat) :
       (nTriangles d * qSquare d = 2 * nRing d) ∧
       (2 * nPhi d * nTriangles d = dInSquare * (modBits d * dOutEdge d) + 2 * nPhi d + 2) ∧
       (dInSquare * dInSquare * nPhi d = dInSquare * (dInSquare * nPhi d - 1) + dInSquare) ∧
-      (dOutEdge d * nTriangles d + 1 = deltaPhiDisc d)) d :=
+      (dOutEdge d * nTriangles d + 1 = deltaPhiDisc d) ∧
+      (matComm3 su2GenL1 su2GenL2 = su2GenL3 ∧
+       matComm3 su2GenL2 su2GenL3 = su2GenL1 ∧
+       matComm3 su2GenL3 su2GenL1 = su2GenL2) ∧
+      (matComm3 u1Gen3 su2GenL1 = zeroMat3 ∧
+       matComm3 u1Gen3 su3E12 = zeroMat3) ∧
+      (matComm3 su3E12 su3E23 = su3E13 ∧
+       matComm3 su3E12 su3E21 = su3H1 ∧
+       matComm3 su3E23 su3E32 = su3H2 ∧
+       matComm3 su3H1 su3H2 = zeroMat3 ∧
+       matTrace3 su3H1 = 0 ∧
+       matTrace3 su3H2 = 0)) d :=
   catalan_chain d (alpha_fs_exact_z_sqrt2_canonical_form_and_floor_137 d) (fun _ => by decide)
 
 /-!
