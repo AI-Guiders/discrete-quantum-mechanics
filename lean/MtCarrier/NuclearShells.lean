@@ -376,7 +376,12 @@ theorem scale_cancellation_voronoi_hausdorff_and_fractal_subcascades
      rotatorExp2MantHomogQOp d qScale qScale =
        ((dInSquare * nTriangles d : Nat) : Int) * qScale * qScale * qScale ∧
      ka * rotatorLog2HomogQOp d qScale kb 0 =
-       kb * rotatorLog2HomogQOp d qScale ka 0) ∧
+       kb * rotatorLog2HomogQOp d qScale ka 0 ∧
+     rotatorLog2HomogQOp d 2 1 1 =
+       2 * (2 * 3 * ((dInSquare * nTriangles d : Nat) : Int) + ((nNeighbors d - muVac d : Nat) : Int)) ∧
+     (rotatorLog2IntOp 3 2 : Int) * ka - (rotatorLog2IntOp 3 3 : Int) * kb =
+       ((kP 3 - (nNeighbors 3 - muVac 3) : Nat) : Int) * (2 * ka - 3 * kb) -
+       2 * ((nNeighbors 3 - muVac 3 : Nat) : Int) * (2 * kb - ka)) ∧
     CatalanLaw (fun d =>
       -- 1. Bulk Voronoi cell count at K = 2, 3, 12, 137 satisfies N_pack(K) = K^3 (D_H = 3)
       voronoiFloorPackCountOp d 2 = 8 ∧
@@ -435,7 +440,8 @@ theorem scale_cancellation_voronoi_hausdorff_and_fractal_subcascades
   · rw [hGate.2.2.2.2.2.2.1, hGate.2.2.2.2.2.2.2]
     simp [Int.mul_assoc, Int.mul_left_comm, Int.mul_comm]
   · dsimp [rotatorFirstQuadCQOp, rotatorFirstQuadSQOp, rotatorLog2HomogQOp, rotatorExp2MantHomogQOp]
-    refine ⟨by omega, by omega, by omega, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;>
+    refine ⟨by omega, by omega, by omega, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, by omega,
+            by change (128 : Int) * ka - 203 * kb = 53 * (2 * ka - 3 * kb) - 2 * 11 * (2 * kb - ka); omega⟩ <;>
       (simp only [Int.mul_add, Int.add_mul, Int.mul_sub, Int.sub_mul, Int.mul_zero,
                   Int.add_zero, Int.sub_self, Int.mul_one,
                   Int.mul_assoc, Int.mul_comm, Int.mul_left_comm]; try omega)
