@@ -295,6 +295,32 @@ def rotatorLog2IntQOp (d qNat x : Nat) : Nat :=
 def rotatorLogBaseRatQOp (d qNat aBase bArg : Nat) : Nat × Nat :=
   reducedRatio (rotatorLog2IntQOp d qNat bArg) (rotatorLog2IntQOp d qNat aBase)
 
+/-- Scaled base-2 exponential operator `Exp2Scaled_{d,Q}(y) = (Q + Exp2Mant_{d,Q}(y % Q)) * 2^(y / Q)` on `ℤ_{4Q}` (representing `Q * 2^(y / Q)`). -/
+def rotatorExp2ScaledQOp (d qNat yCode : Nat) : Nat :=
+  (qNat + rotatorExp2MantQOp d qNat (yCode % qNat)) * (2 ^ (yCode / qNat))
+
+/-- Rational base-2 exponential operator `Exp2Rat_{d,Q}(y) = reduceRat(Exp2Scaled_{d,Q}(y), Q)` on `ℤ_{4Q}`. -/
+def rotatorExp2RatQOp (d qNat yCode : Nat) : Nat × Nat :=
+  reducedRatio (rotatorExp2ScaledQOp d qNat yCode) qNat
+
+/-- Quantized integer base-2 exponential operator `Exp2Int_{d,Q}(y) = round(2^(y / Q))` on `ℤ_{4Q}`. -/
+def rotatorExp2IntQOp (d qNat yCode : Nat) : Nat :=
+  (rotatorExp2ScaledQOp d qNat yCode + qNat / 2) / qNat
+
+/-- Scaled arbitrary rational power & root operator `PowScaled_{d,Q}(a, p, q) = Exp2Scaled_{d,Q}(round(p * Log2Rot_{d,Q}(a) / q))`
+(evaluating `Q * a^(p / q) = Q * 2^((p / q) * log₂ a)` on `ℤ_{4Q}`). -/
+def rotatorPowScaledQOp (d qNat aBase pNum qDen : Nat) : Nat :=
+  let yCode := (pNum * rotatorLog2IntQOp d qNat aBase + qDen / 2) / qDen
+  rotatorExp2ScaledQOp d qNat yCode
+
+/-- Rational arbitrary power & root operator `PowRat_{d,Q}(a, p, q) = reduceRat(PowScaled_{d,Q}(a, p, q), Q)` evaluating `a^(p / q)` on `ℤ_{4Q}`. -/
+def rotatorPowRatQOp (d qNat aBase pNum qDen : Nat) : Nat × Nat :=
+  reducedRatio (rotatorPowScaledQOp d qNat aBase pNum qDen) qNat
+
+/-- Integer arbitrary power & root operator `PowInt_{d,Q}(a, p, q) = round(a^(p / q))` on `ℤ_{4Q}`. -/
+def rotatorPowIntQOp (d qNat aBase pNum qDen : Nat) : Nat :=
+  (rotatorPowScaledQOp d qNat aBase pNum qDen + qNat / 2) / qNat
+
 /-- Canonical `ℤ_{N_ring(d)}` (`Q = Q_□(d) = 128` at `d = 3`) specialization of `rotatorLog2IntQOp`. -/
 def rotatorLog2IntOp (d x : Nat) : Nat :=
   rotatorLog2IntQOp d (qSquare d) x
@@ -302,6 +328,14 @@ def rotatorLog2IntOp (d x : Nat) : Nat :=
 /-- Canonical `ℤ_{N_ring(d)}` (`Q = Q_□(d) = 128` at `d = 3`) specialization of `rotatorLogBaseRatQOp`. -/
 def rotatorLogBaseRatOp (d aBase bArg : Nat) : Nat × Nat :=
   rotatorLogBaseRatQOp d (qSquare d) aBase bArg
+
+/-- Canonical `ℤ_{N_ring(d)}` (`Q = Q_□(d) = 128` at `d = 3`) specialization of `rotatorPowRatQOp` (`a^(p / q)`). -/
+def rotatorPowRatOp (d aBase pNum qDen : Nat) : Nat × Nat :=
+  rotatorPowRatQOp d (qSquare d) aBase pNum qDen
+
+/-- Canonical `ℤ_{N_ring(d)}` (`Q = Q_□(d) = 128` at `d = 3`) specialization of `rotatorPowIntQOp` (`round(a^(p / q))`). -/
+def rotatorPowIntOp (d aBase pNum qDen : Nat) : Nat :=
+  rotatorPowIntQOp d (qSquare d) aBase pNum qDen
 
 /-- **Theorem (Voronoi Space-Filling Self-Similarity `D_H = d = 3`, Exact `K²` Newtonian Gate Cancellation, Universal `ℤ_{4Q}` Rotator Logarithm/Exponential Calculus `log_a(b)`, and Sub-Cubic Natural Fractal Cascades `D_H = log_K N_sub < 3`)**:
 1. **Universal Multiplicative Voronoi Self-Similarity (`∀ d k1 k2 : Nat`):**
@@ -338,6 +372,9 @@ theorem scale_cancellation_voronoi_hausdorff_and_fractal_subcascades
        (kScale * kScale * kScale) * rotatorLog2HomogQOp d qScale kOct muPhase ∧
      rotatorExp2MantHomogQOp d (kScale * qScale) (kScale * muPhase) =
        (kScale * kScale * kScale) * rotatorExp2MantHomogQOp d qScale muPhase ∧
+     rotatorExp2MantHomogQOp d qScale 0 = 0 ∧
+     rotatorExp2MantHomogQOp d qScale qScale =
+       ((dInSquare * nTriangles d : Nat) : Int) * qScale * qScale * qScale ∧
      ka * rotatorLog2HomogQOp d qScale kb 0 =
        kb * rotatorLog2HomogQOp d qScale ka 0) ∧
     CatalanLaw (fun d =>
@@ -363,7 +400,7 @@ theorem scale_cancellation_voronoi_hausdorff_and_fractal_subcascades
       cuboctShellSizeOp d (c0OverCSqOp d) < cuboctBallOp d ∧
       cuboctBallOp d < voronoiFloorPackCountOp d 137 ∧
       reducedRatio (dInSquare - muVac d) dInSquare = (3, 4) ∧
-      -- 5. Arbitrary-base rotator logarithm log_a(b) and Moran–Hausdorff similarity dimensions D_H = log_K(N_sub)
+      -- 5. Arbitrary-base rotator logarithm log_a(b), rational power/root operator a^(p/q), and Moran–Hausdorff inversion K^(D_H) = N_sub
       (List.range 16).map (fun i => rotatorLog2IntOp d (i + 1)) =
         [0, 128, 203, 256, 297, 331, 359, 384, 406, 425, 443, 459, 474, 487, 500, 512] ∧
       rotatorExp2MantQOp d (qSquare d) (rotatorLog2IntOp d d - qSquare d) = kP d ∧
@@ -373,7 +410,24 @@ theorem scale_cancellation_voronoi_hausdorff_and_fractal_subcascades
       rotatorLogBaseRatOp d 2 d = (203, 128) ∧
       rotatorLogBaseRatOp d 2 (zNitrogenOp d) = (359, 128) ∧
       rotatorLogBaseRatOp d d (nPhi d) = (474, 203) ∧
-      rotatorLogBaseRatOp d 10 2 = (128, 425)) d := by
+      rotatorLogBaseRatOp d 10 2 = (128, 425) ∧
+      rotatorPowRatOp d 2 d 1 = (8, 1) ∧
+      rotatorPowRatOp d d d 1 = (27, 1) ∧
+      rotatorPowRatOp d 4 1 2 = (2, 1) ∧
+      rotatorPowRatOp d 9 1 2 = (3, 1) ∧
+      rotatorPowRatOp d 16 1 2 = (4, 1) ∧
+      rotatorPowRatOp d 8 1 d = (2, 1) ∧
+      rotatorPowRatOp d 27 1 d = (3, 1) ∧
+      rotatorPowRatOp d 8 2 d = (4, 1) ∧
+      rotatorPowRatOp d 9 d 2 = (27, 1) ∧
+      rotatorPowRatOp d 16 d dInSquare = (8, 1) ∧
+      rotatorPowRatOp d 2 1 2 = (181, 128) ∧
+      rotatorPowRatOp d d 1 2 = (111, 64) ∧
+      rotatorPowRatOp d 2 (rotatorLogBaseRatOp d 2 d).1 (rotatorLogBaseRatOp d 2 d).2 = (d, 1) ∧
+      rotatorPowIntOp d 2 (rotatorLogBaseRatOp d 2 (zNitrogenOp d)).1 (rotatorLogBaseRatOp d 2 (zNitrogenOp d)).2 =
+        zNitrogenOp d ∧
+      rotatorPowRatOp d d (rotatorLogBaseRatOp d d (nPhi d)).1 (rotatorLogBaseRatOp d d (nPhi d)).2 =
+        (nPhi d, 1)) d := by
   have hGate := scale_invariance_of_holonomy_and_gate_operators d kScale s mu sumMu 1 1 zr zi 1 0
   refine ⟨?_, ?_, ?_, ?_⟩
   · unfold voronoiFloorPackCountOp
@@ -381,7 +435,7 @@ theorem scale_cancellation_voronoi_hausdorff_and_fractal_subcascades
   · rw [hGate.2.2.2.2.2.2.1, hGate.2.2.2.2.2.2.2]
     simp [Int.mul_assoc, Int.mul_left_comm, Int.mul_comm]
   · dsimp [rotatorFirstQuadCQOp, rotatorFirstQuadSQOp, rotatorLog2HomogQOp, rotatorExp2MantHomogQOp]
-    refine ⟨by omega, by omega, by omega, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;>
+    refine ⟨by omega, by omega, by omega, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;>
       (simp only [Int.mul_add, Int.add_mul, Int.mul_sub, Int.sub_mul, Int.mul_zero,
                   Int.add_zero, Int.sub_self, Int.mul_one,
                   Int.mul_assoc, Int.mul_comm, Int.mul_left_comm]; try omega)
