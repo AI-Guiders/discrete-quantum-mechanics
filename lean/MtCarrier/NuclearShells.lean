@@ -230,24 +230,116 @@ def fractalSubcascadeActiveCountOp (nSub mFloors : Nat) : Nat :=
 def fractalSubcascadeVoidComplementOp (d kScale nSub mFloors : Nat) : Nat :=
   voronoiFloorPackCountOp d (kScale ^ mFloors) - fractalSubcascadeActiveCountOp nSub mFloors
 
-/-- **Theorem (Voronoi Space-Filling Self-Similarity `D_H = d = 3`, Exact `K²` Newtonian Gate Cancellation, and Sub-Cubic Natural Fractal Cascades `D_H = ln N / ln K < 3`)**:
+/-- First-quadrant cosine-like projection `𝒞_Q(μ) = Q - μ` on an arbitrary phase ring `ℤ_{4Q}`. -/
+def rotatorFirstQuadCQOp (qScale muPhase : Int) : Int :=
+  qScale - muPhase
+
+/-- First-quadrant sine-like projection `𝒮_Q(μ) = μ` on an arbitrary phase ring `ℤ_{4Q}`. -/
+def rotatorFirstQuadSQOp (muPhase : Int) : Int :=
+  muPhase
+
+/-- Universal homogeneous base-2 logarithm numerator operator `Log2̂_{d,Q}(k, μ)` on `ℤ_{4Q}` (scale `(d_in(□) * |Δ(d)|) * Q³ = 32 Q³` at `d = 3`):
+`Log2̂_{d,Q}(k, μ) = (d_in(□) * |Δ(d)|) Q² (k Q + 𝒮_Q(μ)) + 𝒞_Q(μ) 𝒮_Q(μ) ((|N₁₂(d)| - μ_vac(d)) Q + d (𝒞_Q(μ) - 𝒮_Q(μ)))`. -/
+def rotatorLog2HomogQOp (d : Nat) (qScale kOct muPhase : Int) : Int :=
+  let c := rotatorFirstQuadCQOp qScale muPhase
+  let s := rotatorFirstQuadSQOp muPhase
+  let scaleCoeff : Int := ((dInSquare * nTriangles d : Nat) : Int)
+  let archCoeff : Int := ((nNeighbors d - muVac d : Nat) : Int)
+  scaleCoeff * qScale * qScale * (kOct * qScale + s) +
+    c * s * (archCoeff * qScale + (d : Int) * (c - s))
+
+/-- Universal homogeneous inverse base-2 mantissa numerator operator `Exp2Mant̂_{d,Q}(r)` on `ℤ_{4Q}`:
+`Exp2Mant̂_{d,Q}(r) = (d_in(□) * |Δ(d)|) Q² 𝒮_Q(r) - 𝒞_Q(r) 𝒮_Q(r) ((|N₁₂(d)| - μ_vac(d)) Q - d (𝒞_Q(r) - 𝒮_Q(r)))`. -/
+def rotatorExp2MantHomogQOp (d : Nat) (qScale rPhase : Int) : Int :=
+  let c := rotatorFirstQuadCQOp qScale rPhase
+  let s := rotatorFirstQuadSQOp rPhase
+  let scaleCoeff : Int := ((dInSquare * nTriangles d : Nat) : Int)
+  let archCoeff : Int := ((nNeighbors d - muVac d : Nat) : Int)
+  scaleCoeff * qScale * qScale * s -
+    c * s * (archCoeff * qScale - (d : Int) * (c - s))
+
+/-- Quantized integer base-2 logarithm operator `Log2Rot_{d,Q}(k, μ)` on `ℤ_{4Q}` for any quarter-period `Q ≥ 1`. -/
+def rotatorLog2OctaveQOp (d qNat kOct muNat : Nat) : Nat :=
+  let qScale : Int := (qNat : Int)
+  let denom : Int := ((dInSquare * nTriangles d : Nat) : Int) * qScale * qScale
+  let halfDenom : Int := denom / 2
+  Int.toNat ((rotatorLog2HomogQOp d qScale (kOct : Int) (muNat : Int) + halfDenom) / denom)
+
+/-- Quantized integer inverse base-2 mantissa operator `Exp2Mant_{d,Q}(r)` on `ℤ_{4Q}` for any quarter-period `Q ≥ 1`. -/
+def rotatorExp2MantQOp (d qNat rNat : Nat) : Nat :=
+  let qScale : Int := (qNat : Int)
+  let denom : Int := ((dInSquare * nTriangles d : Nat) : Int) * qScale * qScale
+  let halfDenom : Int := denom / 2
+  Int.toNat ((rotatorExp2MantHomogQOp d qScale (rNat : Int) + halfDenom) / denom)
+
+/-- Structural recursion helper for `⌊log₂ x⌋` with fuel `fuel`. -/
+def floorLog2LoopOp : Nat → Nat → Nat
+  | 0, _ => 0
+  | _, 0 => 0
+  | _, 1 => 0
+  | fuel + 1, x => 1 + floorLog2LoopOp fuel (x / 2)
+
+/-- Constructive integer binary characteristic `k = ⌊log₂ x⌋` for `x ≥ 1`. -/
+def floorLog2NatOp (x : Nat) : Nat :=
+  floorLog2LoopOp x x
+
+/-- Integer base-2 logarithm operator `Log2Rot_{d,Q}(x)` for any positive integer `x ≥ 1` on `ℤ_{4Q}`. -/
+def rotatorLog2IntQOp (d qNat x : Nat) : Nat :=
+  let k := floorLog2NatOp x
+  let powK := 2 ^ k
+  let mu := ((x - powK) * qNat) / powK
+  rotatorLog2OctaveQOp d qNat k mu
+
+/-- Arbitrary-base rational logarithm operator `LogBaseRat_{d,Q}(a, b) = reduceRat(Log2Rot_{d,Q}(b), Log2Rot_{d,Q}(a))`
+(evaluating `log_a(b)` and Moran–Hausdorff similarity dimensions `D_H = log_K(N_sub)` on `ℤ_{4Q}`). -/
+def rotatorLogBaseRatQOp (d qNat aBase bArg : Nat) : Nat × Nat :=
+  reducedRatio (rotatorLog2IntQOp d qNat bArg) (rotatorLog2IntQOp d qNat aBase)
+
+/-- Canonical `ℤ_{N_ring(d)}` (`Q = Q_□(d) = 128` at `d = 3`) specialization of `rotatorLog2IntQOp`. -/
+def rotatorLog2IntOp (d x : Nat) : Nat :=
+  rotatorLog2IntQOp d (qSquare d) x
+
+/-- Canonical `ℤ_{N_ring(d)}` (`Q = Q_□(d) = 128` at `d = 3`) specialization of `rotatorLogBaseRatQOp`. -/
+def rotatorLogBaseRatOp (d aBase bArg : Nat) : Nat × Nat :=
+  rotatorLogBaseRatQOp d (qSquare d) aBase bArg
+
+/-- **Theorem (Voronoi Space-Filling Self-Similarity `D_H = d = 3`, Exact `K²` Newtonian Gate Cancellation, Universal `ℤ_{4Q}` Rotator Logarithm/Exponential Calculus `log_a(b)`, and Sub-Cubic Natural Fractal Cascades `D_H = log_K N_sub < 3`)**:
 1. **Universal Multiplicative Voronoi Self-Similarity (`∀ d k1 k2 : Nat`):**
-   `N_pack(d, k1 * k2) = N_pack(d, k1) * N_pack(d, k2) = (k1 * k2)^d`, establishing that the bulk FCC Voronoi tiling is strictly self-similar with integer Moran–Hausdorff dimension `D_H = ln(K^d) / ln K = d`.
+   `N_pack(d, k1 * k2) = N_pack(d, k1) * N_pack(d, k2) = (k1 * k2)^d`, establishing that the bulk FCC Voronoi tiling is strictly self-similar with integer Moran–Hausdorff dimension `D_H = log_K(K^d) = d`.
 2. **Exact Cross-Floor Gate Balance (`∀ d kScale s mu sumMu zr zi : Int`):**
    In Newton's Second Law on the carrier (`Δ²φ = ⌊N_torque / D(x)⌋`), the rescaled floor-`K` drive and denominator satisfy the exact cross-multiplied identity `N_torque^(K) * D^(1) = N_torque^(1) * D^(K)` for all integers without division remainder conditions (`K²` cancels identically).
-3. **Four Canonical Sub-Cubic Fractal Sub-Cascades (`1 < N_sub < K^d ⟹ 0 < D_H = ln N_sub / ln K < 3`) under `CatalanLaw` (`1 + 2^d = d²`):**
-   - **Channel-2 / 3-SAT Sierpiński–Post Octant Sponge (`K = 2`):** `N_sub = d_out(V)(d) = 7 < 8 = 2^3` with `1` excised vortex octant (`D_H = ln 7 / ln 2 ≈ 2.807355`);
-   - **Cuboctahedral Menger-Type Causal Cluster `𝒞₁₃` in the `3×3×3` Moore Cube (`K = d = 3`):** `N_sub = N_φ(d) = 13 < 27 = 3^3` (and surface shell `|O₂(d)| = 12 < 27`), with excised non-lightlike complement `27 - 13 = 14 = Z(Si)` (`D_H = ln 13 / ln 3 ≈ 2.334718` and `ln 12 / ln 3 ≈ 2.261860`);
-   - **Porous Atomic/Baryonic Matter Clustering on the Fine-Structure Floor (`K = ⌊α_fs⁻¹(d)⌋ = 137`):** `N_φ(d) = 13 < S₂(d) = 42 < B₃(d) = 147 < 137^3 = 2,571,353` (`D_H = ln N_sub / ln 137 < 3`);
-   - **Fractal Vascular & Bronchial Kleiber Allometry (`k = d_in(□) = 4`):** 4-fold square-face branching in `d = 3` space yields the exact metabolic scaling exponent `(d_in(□) - μ_vac(d)) / d_in(□) = 3 / 4`. -/
+3. **Universal Homogeneous Rotator Logarithm `Log2̂_{d,Q}` & Exponential Mantissa `Exp2Mant̂_{d,Q}` Laws on `ℤ_{4Q}` (`∀ d : Nat`, `∀ kScale qScale kOct dkOct muPhase ka kb : Int`):**
+   - first-quadrant partition of unity `𝒞_Q(μ) + 𝒮_Q(μ) = Q`, reflection duality `𝒞_Q(Q - μ) = 𝒮_Q(μ)`, and quarter-square arch factorization `(𝒞_Q(μ) + 𝒮_Q(μ))² - (𝒞_Q(μ) - 𝒮_Q(μ))² = 4 𝒞_Q(μ) 𝒮_Q(μ)`;
+   - exact octave boundary & continuity laws `Log2̂_{d,Q}(k, 0) = (d_in(□)*|Δ(d)|) Q³ k`, `Log2̂_{d,Q}(k, Q) = Log2̂_{d,Q}(k + 1, 0)`, and octave shift invariance `Log2̂_{d,Q}(k + Δk, μ) - Log2̂_{d,Q}(k, μ) = (d_in(□)*|Δ(d)|) Q³ Δk`;
+   - universal cubic `Q`-rescaling homogeneity `Log2̂_{d, K*Q}(k, K*μ) = K³ * Log2̂_{d,Q}(k, μ)` and `Exp2Mant̂_{d, K*Q}(K*μ) = K³ * Exp2Mant̂_{d,Q}(μ)`, so the ring scale `Q³` cancels identically in any change-of-base ratio `log_a(b) = Log2̂_{d,Q}(b) / Log2̂_{d,Q}(a)` (in particular `ka * Log2̂_{d,Q}(kb, 0) = kb * Log2̂_{d,Q}(ka, 0)` for all powers of two).
+4. **Four Canonical Sub-Cubic Fractal Sub-Cascades (`1 < N_sub < K^d ⟹ 0 < D_H = log_K N_sub < 3`) and Exact Integer Rotator Evaluation of `log_a(b)` under `CatalanLaw` (`1 + 2^d = d²`):**
+   - bit-exact evaluation of `round(128 * log₂ x)` for all `x ∈ {1, ..., 16}`, exact midpoint inversion `Exp2Mant_{3,128}(Log2Rot_{3,128}(3) - 128) = 64`, and exact integer change-of-base laws `log_2(8) = (3, 1)`, `log_3(9) = (2, 1)`, `log_10(100) = (2, 1)`;
+   - direct evaluation of the Moran–Hausdorff similarity dimensions `D_H = log_K(N_sub)` via `rotatorLogBaseRatOp d K N_sub`:
+     Sierpiński triangle / Karatsuba `log_2(3) = (203, 128)`, Channel-2 Sierpiński–Post octant sponge / Strassen `log_2(7) = (359, 128)`, Cuboctahedral Menger causal cluster `𝒞₁₃` `log_3(13) = (474, 203)`, decimal binary logarithm `log_10(2) = (128, 425)`, fine-structure matter clustering (`K = 137`), and Kleiber `3 / 4` vascular allometry. -/
 theorem scale_cancellation_voronoi_hausdorff_and_fractal_subcascades
-    (d k1 k2 : Nat) (kScale s mu sumMu zr zi : Int) :
+    (d k1 k2 : Nat) (kScale s mu sumMu zr zi qScale kOct dkOct muPhase ka kb : Int) :
     voronoiFloorPackCountOp d (k1 * k2) =
       voronoiFloorPackCountOp d k1 * voronoiFloorPackCountOp d k2 ∧
     signedGateDriveOp d s (kScale * mu) (kScale * sumMu) ((kScale * kScale) * zr) ((kScale * kScale) * zi) *
         rawGateDenomOp d mu zr =
       signedGateDriveOp d s mu sumMu zr zi *
         scaleFloorRawDenomOp d kScale (kScale * mu) ((kScale * kScale) * zr) ∧
+    (rotatorFirstQuadCQOp qScale muPhase + rotatorFirstQuadSQOp muPhase = qScale ∧
+     rotatorFirstQuadCQOp qScale (qScale - muPhase) = rotatorFirstQuadSQOp muPhase ∧
+     rotatorFirstQuadSQOp (qScale - muPhase) = rotatorFirstQuadCQOp qScale muPhase ∧
+     rotatorLog2HomogQOp d qScale kOct 0 =
+       ((dInSquare * nTriangles d : Nat) : Int) * qScale * qScale * qScale * kOct ∧
+     rotatorLog2HomogQOp d qScale kOct qScale =
+       rotatorLog2HomogQOp d qScale (kOct + 1) 0 ∧
+     rotatorLog2HomogQOp d qScale (kOct + dkOct) muPhase -
+       rotatorLog2HomogQOp d qScale kOct muPhase =
+       ((dInSquare * nTriangles d : Nat) : Int) * qScale * qScale * qScale * dkOct ∧
+     rotatorLog2HomogQOp d (kScale * qScale) kOct (kScale * muPhase) =
+       (kScale * kScale * kScale) * rotatorLog2HomogQOp d qScale kOct muPhase ∧
+     rotatorExp2MantHomogQOp d (kScale * qScale) (kScale * muPhase) =
+       (kScale * kScale * kScale) * rotatorExp2MantHomogQOp d qScale muPhase ∧
+     ka * rotatorLog2HomogQOp d qScale kb 0 =
+       kb * rotatorLog2HomogQOp d qScale ka 0) ∧
     CatalanLaw (fun d =>
       -- 1. Bulk Voronoi cell count at K = 2, 3, 12, 137 satisfies N_pack(K) = K^3 (D_H = 3)
       voronoiFloorPackCountOp d 2 = 8 ∧
@@ -270,13 +362,29 @@ theorem scale_cancellation_voronoi_hausdorff_and_fractal_subcascades
       nPhi d < cuboctShellSizeOp d (c0OverCSqOp d) ∧
       cuboctShellSizeOp d (c0OverCSqOp d) < cuboctBallOp d ∧
       cuboctBallOp d < voronoiFloorPackCountOp d 137 ∧
-      reducedRatio (dInSquare - muVac d) dInSquare = (3, 4)) d := by
+      reducedRatio (dInSquare - muVac d) dInSquare = (3, 4) ∧
+      -- 5. Arbitrary-base rotator logarithm log_a(b) and Moran–Hausdorff similarity dimensions D_H = log_K(N_sub)
+      (List.range 16).map (fun i => rotatorLog2IntOp d (i + 1)) =
+        [0, 128, 203, 256, 297, 331, 359, 384, 406, 425, 443, 459, 474, 487, 500, 512] ∧
+      rotatorExp2MantQOp d (qSquare d) (rotatorLog2IntOp d d - qSquare d) = kP d ∧
+      rotatorLogBaseRatOp d 2 (voronoiFloorPackCountOp d 2) = (3, 1) ∧
+      rotatorLogBaseRatOp d d (d * d) = (2, 1) ∧
+      rotatorLogBaseRatOp d 10 100 = (2, 1) ∧
+      rotatorLogBaseRatOp d 2 d = (203, 128) ∧
+      rotatorLogBaseRatOp d 2 (zNitrogenOp d) = (359, 128) ∧
+      rotatorLogBaseRatOp d d (nPhi d) = (474, 203) ∧
+      rotatorLogBaseRatOp d 10 2 = (128, 425)) d := by
   have hGate := scale_invariance_of_holonomy_and_gate_operators d kScale s mu sumMu 1 1 zr zi 1 0
-  refine ⟨?_, ?_, ?_⟩
+  refine ⟨?_, ?_, ?_, ?_⟩
   · unfold voronoiFloorPackCountOp
     exact Nat.mul_pow k1 k2 d
   · rw [hGate.2.2.2.2.2.2.1, hGate.2.2.2.2.2.2.2]
     simp [Int.mul_assoc, Int.mul_left_comm, Int.mul_comm]
+  · dsimp [rotatorFirstQuadCQOp, rotatorFirstQuadSQOp, rotatorLog2HomogQOp, rotatorExp2MantHomogQOp]
+    refine ⟨by omega, by omega, by omega, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;>
+      (simp only [Int.mul_add, Int.add_mul, Int.mul_sub, Int.sub_mul, Int.mul_zero,
+                  Int.add_zero, Int.sub_self, Int.mul_one,
+                  Int.mul_assoc, Int.mul_comm, Int.mul_left_comm]; try omega)
   · exact catalan_chain d (cross_floor_shell_closure_isomorphism_operator d)
       (fun _ => by decide)
 
