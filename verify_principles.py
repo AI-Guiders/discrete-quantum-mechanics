@@ -10,7 +10,10 @@ import argparse
 import json
 import sys
 
-import torch
+try:
+    import torch
+except ImportError:
+    torch = None  # type: ignore[assignment]
 
 from mt_ca.app.scenario import get_scenario
 from mt_ca.app.scenario_verify import (
@@ -72,8 +75,9 @@ def _print_row(row: dict) -> None:
 
 
 def main() -> int:
+    has_cuda = bool(torch is not None and torch.cuda.is_available())
     parser = argparse.ArgumentParser(description="First-principles verification (suites)")
-    parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
+    parser.add_argument("--device", default="cuda" if has_cuda else "cpu")
     parser.add_argument("--json", action="store_true")
     parser.add_argument("--list", action="store_true", help="List verify suites (like sim scenario list).")
     parser.add_argument(
@@ -137,8 +141,19 @@ def main() -> int:
     else:
         suite_ids = list(SUITE_ORDER)
 
-    if args.device == "cuda" and not torch.cuda.is_available():
+    if args.device == "cuda" and (torch is None or not torch.cuda.is_available()):
         args.device = "cpu"
+
+    if torch is None and any(sid != "gate" for sid in suite_ids):
+        print(
+            "Error: PyTorch (`torch`) is not installed in the active Python environment.\n"
+            "On a fresh clone, create and activate a virtual environment first:\n"
+            "  python3 -m venv .venv\n"
+            "  source .venv/bin/activate   # Windows PowerShell: .\\.venv\\Scripts\\Activate.ps1\n"
+            "  pip install -r requirements.txt",
+            file=sys.stderr,
+        )
+        return 1
 
     rows = run_suites(args.device, suite_ids)
     failed = failed_rows(rows)

@@ -56,16 +56,26 @@ Linked via the [`papers/`](papers) Git submodule ([`AI-Guiders/scientific-papers
 
 ---
 
-## 4. Verification Commands
+## 4. Environment Setup & Verification Commands
 
-```powershell
+```bash
+# 0. On a fresh clone: pull Git LFS assets and set up Python virtual environment
+git submodule update --init --recursive
+git lfs pull
+python3 -m venv .venv
+source .venv/bin/activate          # Linux / macOS
+# .\.venv\Scripts\Activate.ps1     # Windows PowerShell
+pip install -r requirements.txt
+
 # 1. Formal Lean 4 proof verification (38/38 build jobs, 0 sorryAx, 0 Classical.choice):
 cd lean
 lake build
 
-# 2. Full Python verification suite (69/69 checks across all suites):
+# 2. Full Python verification suite (list suites, run gate, or run all suites):
 cd ..
-python verify_principles.py --suite all
+python3 verify_principles.py --list
+python3 verify_principles.py --suite gate
+python3 verify_principles.py --ship
 
 # 3. Build the 4 core books of Unified Natural Science:
 pwsh -NoProfile -File book/build.ps1 -Volume monograph
