@@ -281,10 +281,14 @@
 
 \section{Затравочное состояние Каталана \texorpdfstring{$\mathrm{IV}(3) = 263$}{IV(3) = 263}, явные уравнения оператора эволюции поля \texorpdfstring{$\mathcal{G}_3$}{G3} и первое рождение вихря на тактах \texorpdfstring{$t = 0 \to 1 \to 2$}{t = 0 -> 1 -> 2}}
 
-Запишем в явном виде все уравнения трёхмерного оператора эволюции поля $\mathcal{G}_3$ (\texttt{fieldStepOp 3} в модуле \texttt{lean/MtCarrier/TrajectoryIV263.lean}). Состояние двухслойного спинорного поля на решётке $\mathbf{x} = (z, y, x) \in \mathbb{Z}^3$ в такт $t \in \mathbb{N}$ задаётся пятёркой целочисленных полей $\Psi^{(t)} = \bigl(\mu, \varphi_0^{(t)}, \varphi_1^{(t)}, \varphi_0^{(t-1)}, \varphi_1^{(t-1)}\bigr)$.
+Запишем в явном виде все уравнения трёхмерного оператора эволюции поля $\mathcal{G}_3$ (\texttt{fieldStepOp 3} в модуле \texttt{lean/\allowbreak MtCarrier/\allowbreak TrajectoryIV263.lean}). Состояние двухслойного спинорного поля на решётке $\mathbf{x} = (z, y, x) \in \mathbb{Z}^3$ в такт $t \in \mathbb{N}$ задаётся пятёркой целочисленных полей:
+\begin{equation}
+  \label{eq:mono-field-state-tuple}
+  \Psi^{(t)}(\mathbf{x}) \;=\; \Bigl(\mu(\mathbf{x}),\ \varphi_0^{(t)}(\mathbf{x}),\ \varphi_1^{(t)}(\mathbf{x}),\ \varphi_0^{(t-1)}(\mathbf{x}),\ \varphi_1^{(t-1)}(\mathbf{x})\Bigr).
+\end{equation}
 \begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
 \item \textbf{Начальное поле $\Psi^{(0)} = \mathrm{IV}(3)$ (\texttt{iv263InitialField 3}) в состоянии покоя $\varphi_c^{(0)} = \varphi_c^{(-1)}$:}
-  затравочное число Каталана $\mathrm{IV}(3) = 256 + 8 - 1 = 263$ имеет октантную маску $\mathrm{IV}(3) \bmod 256 = 7 = 2^3 - 1$. Для каждого узла $\mathbf{x} = (z, y, x) \in \mathbb{Z}^3$ индикатор шара нуклеации радиуса $|\square(3)| = 6$, номер октанта $\mathrm{oct}(\mathbf{x}) \in \{0,\dots,7\}$, спинорные биты маски $(b_0, b_1)$, амплитуда $\mu(\mathbf{x})$ и начальные фазы двух спинорных дорожек $\varphi_0^{(0)}(\mathbf{x}), \varphi_1^{(0)}(\mathbf{x})$ определяются формулами:
+  затравочное число Каталана $\mathrm{IV}(3) = 256 + 8 - 1 = 263$ имеет октантную маска $\mathrm{IV}(3) \bmod 256 = 7 = 2^3 - 1$. Для каждого узла $\mathbf{x} = (z, y, x) \in \mathbb{Z}^3$ индикатор шара нуклеации радиуса $|\square(3)| = 6$, номер октанта $\mathrm{oct}(\mathbf{x}) \in \{0,\dots,7\}$, спинорные биты маски $(b_0, b_1)$, амплитуда $\mu(\mathbf{x})$ и начальные фазы двух спинорных дорожек $\varphi_0^{(0)}(\mathbf{x}), \varphi_1^{(0)}(\mathbf{x})$ определяются формулами:
   \begin{align}
     \mathrm{inBall}(\mathbf{x}) &= \mathbf{1}_{\{z^2 + y^2 + x^2 \le 36\}} \in \{0, 1\}, \label{eq:mono-iv263-inball} \\
     \mu(\mathbf{x}) &= \mu_{\mathrm{vac}}(3) + |O_2(3)|\,\mathrm{inBall}(\mathbf{x}) \;=\; 1 + 12\,\mathrm{inBall}(\mathbf{x}) \in \{1, 13\}, \label{eq:mono-iv263-mu} \\
@@ -306,26 +310,14 @@
     \delta\mathcal{Z}_{\mathrm{real},c}(\mathbf{x}) &= 128\,\mu(\mathbf{x})\,\Sigma_\mu(\mathbf{x}) - \mathcal{Z}_{\mathrm{real},c}(\mathbf{x}), \label{eq:mono-field-deficit} \\
     z_{\mathrm{drive},c}(\mathbf{x}) &= \mathcal{Z}_{\mathrm{imag},c}(\mathbf{x}) + \mathrm{sgn}\bigl(\mathcal{Z}_{\mathrm{imag},c}(\mathbf{x})\bigr)\,\delta\mathcal{Z}_{\mathrm{real},c}(\mathbf{x}), \label{eq:mono-field-zdrive} \\
     D_{\mathrm{raw},c}(\mathbf{x}) &= \mathcal{Z}_{\mathrm{real},c}(\mathbf{x}) + 128\,\mu(\mathbf{x})^2 + 8\,192, \label{eq:mono-field-draw} \\
-    D_c(\mathbf{x}) &= \mathrm{clampDenomOp}_3\bigl(D_{\mathrm{raw},c}(\mathbf{x})\bigr) \;=\;
-    \begin{cases}
-      D_{\mathrm{raw},c}(\mathbf{x}), & D_{\mathrm{raw},c}(\mathbf{x}) \ge 1, \\
-      8\,192, & D_{\mathrm{raw},c}(\mathbf{x}) \le 0.
-    \end{cases} \label{eq:mono-field-dguard}
+    D_c(\mathbf{x}) &= \mathbf{1}_{\{D_{\mathrm{raw},c}(\mathbf{x}) \ge 1\}}\,D_{\mathrm{raw},c}(\mathbf{x}) + \mathbf{1}_{\{D_{\mathrm{raw},c}(\mathbf{x}) \le 0\}}\,8\,192. \label{eq:mono-field-dguard}
   \end{align}
 \item \textbf{Целочисленное деление с округлением вниз (\texttt{fdiv}), мёртвая зона Гейзенберга $\Delta\varphi_{\mathrm{disc}}(3) = 41$ и шаг Верле $\mathcal{G}_3$:}
   сырая фаза ворот $\Phi_{\mathrm{raw},c}(\mathbf{x})$ вычисляется делением с округлением вниз $\lfloor A / D \rfloor = \mathrm{fdiv}(A, D)$ со свёрткой $\mathrm{wrap}_{512}$ в полуинтервал $(-256, 256]$, проходит через фильтр мёртвой зоны Гейзенберга $|\Phi_{\mathrm{raw},c}| \ge 41$ и обновляет поле по схеме Верле:
   \begin{align}
     \Phi_{\mathrm{raw},c}(\mathbf{x}) &= \mathrm{wrap}_{512}\!\left(\left\lfloor \frac{64\,z_{\mathrm{drive},c}(\mathbf{x})}{D_c(\mathbf{x})} \right\rfloor\right), \label{eq:mono-field-phiraw} \\
-    \Phi_{\mathrm{lane},c}(\mathbf{x}) &=
-    \begin{cases}
-      \Phi_{\mathrm{raw},c}(\mathbf{x}), & |\Phi_{\mathrm{raw},c}(\mathbf{x})| \ge 41, \\
-      0, & |\Phi_{\mathrm{raw},c}(\mathbf{x})| \le 40,
-    \end{cases} \label{eq:mono-field-philane} \\
-    \Phi_{\mathrm{field}}(\mathbf{x}) &=
-    \begin{cases}
-      \Phi_{\mathrm{lane},1}(\mathbf{x}), & |\Phi_{\mathrm{lane},1}(\mathbf{x})| > |\Phi_{\mathrm{lane},0}(\mathbf{x})|, \\
-      \Phi_{\mathrm{lane},0}(\mathbf{x}), & |\Phi_{\mathrm{lane},1}(\mathbf{x})| \le |\Phi_{\mathrm{lane},0}(\mathbf{x})|,
-    \end{cases} \label{eq:mono-field-phifield} \\
+    \Phi_{\mathrm{lane},c}(\mathbf{x}) &= \mathbf{1}_{\{|\Phi_{\mathrm{raw},c}(\mathbf{x})| \ge 41\}}\,\Phi_{\mathrm{raw},c}(\mathbf{x}), \label{eq:mono-field-philane} \\
+    \Phi_{\mathrm{field}}(\mathbf{x}) &= \mathbf{1}_{\{|\Phi_{\mathrm{lane},1}| > |\Phi_{\mathrm{lane},0}|\}}\,\Phi_{\mathrm{lane},1}(\mathbf{x}) + \mathbf{1}_{\{|\Phi_{\mathrm{lane},1}| \le |\Phi_{\mathrm{lane},0}|\}}\,\Phi_{\mathrm{lane},0}(\mathbf{x}), \label{eq:mono-field-phifield} \\
     \varphi_c^{(t+1)}(\mathbf{x}) &= \bigl(2\varphi_c^{(t)}(\mathbf{x}) - \varphi_c^{(t-1)}(\mathbf{x}) + \Phi_{\mathrm{field}}^{(t)}(\mathbf{x})\bigr) \bmod 512. \label{eq:mono-field-step-g3}
   \end{align}
 \end{enumerate}
@@ -378,13 +370,26 @@
   \[
     \mathcal{Z}_{\mathrm{real},0}(2,2,2) \;=\; 13 \times \bigl(4\cdot 13\cdot 87 + 4\cdot 13\cdot 128 + 4\cdot 13\cdot 87\bigr) \;=\; 204\,152.
   \]
-  По формулам~\eqref{eq:mono-field-deficit}--\eqref{eq:mono-field-dguard} дефицит равен $\delta\mathcal{Z}_{\mathrm{real},0} = 128\cdot 13\cdot 156 - 204\,152 = 259\,584 - 204\,152 = 55\,432$, ведущий числитель при $\mathrm{sgn}(0) = +1$ равен $z_{\mathrm{drive},0} = +55\,432$, а знаменатель равен $D_0 = 204\,152 + 128\cdot 169 + 8\,192 = 233\,976$. Сырая фаза ворот~\eqref{eq:mono-field-phiraw} равна
-  \[
-    \Phi_{\mathrm{raw},0}(2,2,2) \;=\; \left\lfloor \frac{64 \times 55\,432}{233\,976} \right\rfloor \;=\; \left\lfloor \frac{3\,547\,648}{233\,976} \right\rfloor \;=\; +15.
-  \]
-  Так как $|\Phi_{\mathrm{raw},0}| = 15 < 41 = \Delta\varphi_{\mathrm{disc}}(3)$, фильтр Гейзенберга~\eqref{eq:mono-field-philane} даёт $\Phi_{\mathrm{field}}^{(0)}(2,2,2) = 0$. Если же снизить порог Гейзенберга до $15 = N_\varphi(3) + 2$ (\texttt{ablation\_\allowbreak heisenberg\_\allowbreak threshold\_\allowbreak 15\_\allowbreak breaks\_\allowbreak octant\_\allowbreak silence}), то $15 \ge 15$ проходит фильтр и нарушает покой внутри октанта.
+  По формулам~\eqref{eq:mono-field-deficit}--\eqref{eq:mono-field-phiraw} дефицит чётной голономии, ведущий числитель при $\mathrm{sgn}(0) = +1$, знаменатель и сырая фаза ворот равны:
+  \begin{align*}
+    \delta\mathcal{Z}_{\mathrm{real},0}(2,2,2) &= 128 \cdot 13 \cdot 156 - 204\,152 \;=\; 259\,584 - 204\,152 \;=\; 55\,432, \\
+    z_{\mathrm{drive},0}(2,2,2) &= +55\,432, \qquad
+    D_0(2,2,2) \;=\; 204\,152 + 128\cdot 169 + 8\,192 \;=\; 233\,976, \\
+    \Phi_{\mathrm{raw},0}(2,2,2) &= \left\lfloor \frac{64 \times 55\,432}{233\,976} \right\rfloor \;=\; \left\lfloor \frac{3\,547\,648}{233\,976} \right\rfloor \;=\; +15.
+  \end{align*}
+  Поскольку абсолютная величина $|\Phi_{\mathrm{raw},0}(2,2,2)| = 15 < 41 = \Delta\varphi_{\mathrm{disc}}(3)$, фильтр Гейзенберга~\eqref{eq:mono-field-philane} обращает шаг ворот в нуль: $\Phi_{\mathrm{field}}^{(0)}(2,2,2) = 0$. Если же снизить порог Гейзенберга до $15 = N_\varphi(3) + 2$ (\texttt{ablation\_\allowbreak heisenberg\_\allowbreak threshold\_\allowbreak 15\_\allowbreak breaks\_\allowbreak octant\_\allowbreak silence}), то $15 \ge 15$ проходит фильтр и нарушает покой внутри октанта.
 \item \emph{Киральный храповик доменной стенки в паре $(0, 2, 2)$ и $(-1, 2, 2)$ на такте $t = 0$ и Абляция~2:}
-  при переходе через плоскость $z = 0 \leftrightarrow z = -1$ знак координаты~$z$ меняется, переводя октант $\mathrm{oct}(0,2,2) = 7$ ($b_1 = 1$, $\varphi_1^{(0)}(0,2,2) = 41$) в $\mathrm{oct}(-1,2,2) = 3$ ($b_1 = 0$, $\varphi_1^{(0)}(-1,2,2) = 164$). Суммирование по $O_2(3)$ даёт одинаковую чётную голономию $\mathcal{Z}_{\mathrm{real},1} = 134\,862$ и одинаковый знаменатель $D_1 = 134\,862 + 21\,632 + 8\,192 = 164\,686$, но противоположные нечётные токи $\mathcal{Z}_{\mathrm{imag},1}(0,2,2) = +70\,980$ и $\mathcal{Z}_{\mathrm{imag},1}(-1,2,2) = -70\,980$, откуда $z_{\mathrm{drive},1}(\pm) = \pm(70\,980 + 124\,722) = \pm 195\,702$ и $64\,z_{\mathrm{drive},1}(\pm) = \pm 12\,524\,928$. Поскольку $12\,524\,928 = 76 \times 164\,686 + 8\,792$ с ненулевым остатком $8\,792 > 0$, деление с округлением вниз (\texttt{fdiv}) даёт:
+  при переходе через плоскость $z = 0 \leftrightarrow z = -1$ знак координаты~$z$ меняется, переводя октант $\mathrm{oct}(0,2,2) = 7$ ($b_1 = 1$) в октант $\mathrm{oct}(-1,2,2) = 3$ ($b_1 = 0$):
+  \begin{align*}
+    \varphi_1^{(0)}(0,2,2) &= 41, \qquad
+    \varphi_1^{(0)}(-1,2,2) \;=\; 164, \\
+    \mathcal{Z}_{\mathrm{real},1}(0,2,2) &= \mathcal{Z}_{\mathrm{real},1}(-1,2,2) \;=\; 134\,862, \qquad
+    D_1 \;=\; 134\,862 + 21\,632 + 8\,192 \;=\; 164\,686, \\
+    \mathcal{Z}_{\mathrm{imag},1}(0,2,2) &= +70\,980, \qquad
+    \mathcal{Z}_{\mathrm{imag},1}(-1,2,2) \;=\; -70\,980, \qquad
+    64\,z_{\mathrm{drive},1}(\pm) \;=\; \pm 12\,524\,928.
+  \end{align*}
+  Поскольку $12\,524\,928 = 76 \times 164\,686 + 8\,792$ с ненулевым остатком $8\,792 > 0$, деление с округлением вниз (\texttt{fdiv}) даёт:
   \begin{align*}
     \Phi_{\mathrm{field}}^{(0)}(0,2,2) &= \left\lfloor \frac{+12\,524\,928}{164\,686} \right\rfloor \;=\; +76, \\
     \Phi_{\mathrm{field}}^{(0)}(-1,2,2) &= \left\lfloor \frac{-12\,524\,928}{164\,686} \right\rfloor \;=\; -77,
@@ -416,24 +421,26 @@
 \caption{Пошаговая трассировка оператора эволюции поля $\Psi^{(t)} = \mathcal{G}_3^{[t]}(\mathrm{IV}(3))$ (\texttt{TrajectoryIV263.lean}): тишина октанта, киральный храповик доменной стенки, защита знаменателя и рождение вихря на такте $t = 2$.}
 \label{tab:mono-iv263-step-trace}
 \footnotesize
-\setlength{\tabcolsep}{3pt}
-\begin{tabular}{@{}p{0.19\textwidth}p{0.08\textwidth}p{0.12\textwidth}p{0.12\textwidth}p{0.14\textwidth}p{0.16\textwidth}@{}}
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}llllll@{}}
 \toprule
-\textbf{Узел $(z,y,x)$, такт} & \textbf{$\mu,\ \varphi_c^{(t)}$} & \textbf{$\mathcal{Z}_{\mathrm{real},c}$} & \textbf{$\mathcal{Z}_{\mathrm{imag},c}$} & \textbf{$z_{\mathrm{drive},c} / D_c$} & \textbf{$\Phi_{\mathrm{raw}} \to \Phi_{\mathrm{field}}$} \\
+\textbf{Узел $(z,y,x)$ и такт} & \textbf{$\mu,\ \varphi_c^{(t)}$} & \textbf{$\mathcal{Z}_{\mathrm{real},c}$} & \textbf{$\mathcal{Z}_{\mathrm{imag},c}$} & \textbf{$z_{\mathrm{drive},c} / D_c$} & \textbf{$\Phi_{\mathrm{raw}} \to \Phi_{\mathrm{field}}$} \\
 \midrule
-$(2,2,2)$, $t=0$ (дор.\ 0) & $13,\ 41$ & $+204\,152$ & $0$ & $\dfrac{+55\,432}{233\,976}$ & $+15 \to 0$ ($|15|<41$) \\
-\addlinespace[2pt]
-$(0,2,2)$, $t=0$ (дор.\ 1) & $13,\ 41$ & $+134\,862$ & $+70\,980$ & $\dfrac{+195\,702}{164\,686}$ & $+76 \to +76$ (\texttt{fdiv}) \\
-\addlinespace[2pt]
-$(-1,2,2)$, $t=0$ (дор.\ 1) & $13,\ 164$ & $+134\,862$ & $-70\,980$ & $\dfrac{-195\,702}{164\,686}$ & $-77 \to -77$ ($\Sigma = -1$) \\
-\addlinespace[2pt]
-$(-2,-1,-1)$, $t=1$ (дор.\ 0) & $13,\ 239$ & $-143\,650$ & $-57\,460$ & $\dfrac{-460\,694}{8\,192^*}$ & $-16 \to 0$ ($D_{\mathrm{raw}}<0$) \\
+$(2,2,2)$, $t=0$ (дор.\ 0) & $13,\ 41$ & $+204\,152$ & $0$ & $+55\,432 / 233\,976$ & $+15 \to 0$ ($|15|<41$) \\
+$(0,2,2)$, $t=0$ (дор.\ 1) & $13,\ 41$ & $+134\,862$ & $+70\,980$ & $+195\,702 / 164\,686$ & $+76 \to +76$ (\texttt{fdiv}) \\
+$(-1,2,2)$, $t=0$ (дор.\ 1) & $13,\ 164$ & $+134\,862$ & $-70\,980$ & $-195\,702 / 164\,686$ & $-77 \to -77$ ($\Sigma = -1$) \\
+$(-2,-1,-1)$, $t=1$ (дор.\ 0) & $13,\ 239$ & $-143\,650$ & $-57\,460$ & $-460\,694 / 8\,192^*$ & $-16 \to 0$ ($D_{\mathrm{raw}}<0$) \\
+\bottomrule
+\end{tabular}
+
+\vspace{4pt}
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Такт плакета $(-1,-1,0)$} & \textbf{Фазы 4 вершин $(A, B, C, D)$} & \textbf{Импульсы ворот $\Phi_{\mathrm{field}}^{(t)}$} & \textbf{Остатки $r_e^{(t)}$ и вихрь $w_{xy}^{(t)}$} \\
 \midrule
-\multicolumn{6}{@{}l@{}}{\textbf{Траектория 4 вершин плакета $A=(-1,-1,0),\ B=(-1,-1,1),\ C=(-1,0,1),\ D=(-1,0,0)$:}} \\
-\midrule
-Такт $t = 0$ & \multicolumn{3}{l}{$\varphi_0^{(0)} = (103, 123, 0, 492)$;\ $\Phi^{(0)} = (-131, -138, -63, -99)$} & \multicolumn{2}{l@{}}{$r_e^{(0)} = (20,-123,-20,123),\ w=0$} \\
-Такт $t = 1$ & \multicolumn{3}{l}{$\varphi_0^{(1)} = (484, 497, 449, 393)$;\ $\Phi^{(1)} = (198, 224, -230, 58)$} & \multicolumn{2}{l@{}}{$r_e^{(1)} = (13,-48,-56,91),\ w=0$} \\
-Такт $t = 2$ & \multicolumn{3}{l}{$\varphi_0^{(2)} = (39, 71, 156, 352)$;\ перенос $q_{DA}^{(2)} = -1$} & \multicolumn{2}{l@{}}{$r_e^{(2)} = (32,85,196,199),\ \mathcal{B}=512$} \\
+Такт $t = 0$ & $(103,\ 123,\ 0,\ 492)$ & $(-131,\ -138,\ -63,\ -99)$ & $(20, -123, -20, 123),\ w_{xy}^{(0)} = 0$ \\
+Такт $t = 1$ & $(484,\ 497,\ 449,\ 393)$ & $(+198,\ +224,\ -230,\ +58)$ & $(13, -48, -56, 91),\ w_{xy}^{(1)} = 0$ \\
+Такт $t = 2$ & $(39,\ 71,\ 156,\ 352)$ & перенос $q_{DA}^{(2)} = -1$ & $(32, 85, 196, 199),\ \mathcal{B}_{xy}^{(2)} = 512$ \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -610,16 +617,12 @@ $(-2,-1,-1)$, $t=1$ (дор.\ 0) & $13,\ 239$ & $-143\,650$ & $-57\,460$ & $\dfr
 На дискретном кольце $\mathbb{Z}_{512}$ гармонические функции континуума $\cos(2\pi\varphi/512)$ и $\sin(2\pi\varphi/512)$ принимают иррациональные значения и не могут вычисляться внутри 9-битного регистра без потери обратимости. Фундаментальный результат дискретного анализа на носителе состоит в том, что существует \textbf{единственная} кусочно-линейная целочисленная пара проекций $(\mathcal{C}_3(\varphi), \mathcal{S}_3(\varphi)) \in [-128, +128]^2$, сохраняющая все дифференциальные, когомологические и симплектические инварианты тригонометрии в точных целых числах.
 
 Представим любую 9-битную фазу $\varphi \in \{0, \dots, 511\}$ в виде $\varphi = 256\,b_8 + 128\,b_7 + m_7$, где $b_8, b_7 \in \{0,1\}$ --- два старших бита квадранта, а $m_7 \in \{0, \dots, 127\}$ --- 7-битная мантисса внутри четверти кольца $Q_\square = 128$. Введём комплементарную мантиссу $\overline{m}_7 = 128 - m_7$. Тогда чётная (косинусная) и нечётная (синусная) проекции ротатора определяются одной транспозицией бабочки по 2-битному коду Грея $(g_1, g_0) = (b_8, b_8 \oplus b_7)$:
-\begin{equation}
-  \label{eq:mono-rotator-def}
-  \bigl(\mathcal{C}_3(\varphi),\ \mathcal{S}_3(\varphi)\bigr) \;=\;
-  \begin{cases}
-    (+\overline{m}_7,\ +m_7), & (b_8, b_7) = (0, 0) \ (\text{I, Грей } 00), \\
-    (-m_7,\ +\overline{m}_7), & (b_8, b_7) = (0, 1) \ (\text{II, Грей } 01), \\
-    (-\overline{m}_7,\ -m_7), & (b_8, b_7) = (1, 0) \ (\text{III, Грей } 11), \\
-    (+m_7,\ -\overline{m}_7), & (b_8, b_7) = (1, 1) \ (\text{IV, Грей } 10).
-  \end{cases}
-\end{equation}
+\begin{align}
+  \bigl(\mathcal{C}_3(\varphi),\ \mathcal{S}_3(\varphi)\bigr) &= (+\overline{m}_7,\ +m_7) \qquad \text{при } (b_8, b_7) = (0, 0) \text{ (квадрант I, Грей } 00\text{)}, \label{eq:mono-rotator-def} \\
+  \bigl(\mathcal{C}_3(\varphi),\ \mathcal{S}_3(\varphi)\bigr) &= (-m_7,\ +\overline{m}_7) \qquad \text{при } (b_8, b_7) = (0, 1) \text{ (квадрант II, Грей } 01\text{)}, \nonumber \\
+  \bigl(\mathcal{C}_3(\varphi),\ \mathcal{S}_3(\varphi)\bigr) &= (-\overline{m}_7,\ -m_7) \qquad \text{при } (b_8, b_7) = (1, 0) \text{ (квадрант III, Грей } 11\text{)}, \nonumber \\
+  \bigl(\mathcal{C}_3(\varphi),\ \mathcal{S}_3(\varphi)\bigr) &= (+m_7,\ -\overline{m}_7) \qquad \text{при } (b_8, b_7) = (1, 1) \text{ (квадрант IV, Грей } 10\text{)}. \nonumber
+\end{align}
 
 \begin{theorem}[Постоянный разностный вронскиан, формула Эйлера и замкнутые дискретные интегралы]
 \label{thm:mono-wronskian-integrals}
@@ -651,7 +654,12 @@ $(-2,-1,-1)$, $t=1$ (дор.\ 0) & $13,\ 239$ & $-143\,650$ & $-57\,460$ & $\dfr
 \begin{proof}
 В пункте~(1) внутри каждого из четырёх квадрантов с локальной мантиссой $m_7 \in [0, 128]$ проекции равны $\pm(128 - m_7)$ и $\pm m_7$, сумма модулей которых тождественно равна $(128 - m_7) + m_7 = 128$. Сдвиг фазы на $+128$ переводит квадрант $(b_8, b_7)$ в следующий по коду Грея, заменяя $(\mathcal{C}_3, \mathcal{S}_3) \mapsto (-\mathcal{S}_3, +\mathcal{C}_3)$.
 
-В пункте~(2) внутри первого квадранта ($0 \le m < 128$) соседние значения равны $(128 - m, m)$ и $(127 - m, m + 1)$, откуда $\mathcal{W}_3(m) = (128 - m)(m + 1) - m(127 - m) = 128$. В угловой вершине $m = 128$, где наклон $\Delta\mathcal{C}_3$ меняет знак с $-1$ на $+1$, координата $\mathcal{C}_3(128) = 0$ обращается в нуль, поэтому $\mathcal{W}_3(128) = 0\cdot 127 - 128\cdot(-1) = 128$; по симметрии четверти оборота то же равенство выполняется во всех четырёх вершинах алмаза.
+В пункте~(2) внутри первого квадранта ($0 \le m < 128$) соседние значения равны $(128 - m, m)$ и $(127 - m, m + 1)$, а в угловой вершине $m = 128$, где наклон $\Delta\mathcal{C}_3$ меняет знак с $-1$ на $+1$, координата $\mathcal{C}_3(128) = 0$ обращается в нуль:
+\begin{align*}
+  \mathcal{W}_3(m) &= (128 - m)(m + 1) - m(127 - m) \;=\; 128 \qquad (0 \le m < 128), \\
+  \mathcal{W}_3(128) &= 0 \cdot 127 - 128 \cdot (-1) \;=\; 128;
+\end{align*}
+по симметрии четверти оборота то же равенство выполняется во всех четырёх вершинах алмаза.
 
 В пункте~(3) для суммы Френеля~\eqref{eq:mono-closed-integrals} разбиение $512$ вычетов $\varphi \in \{0,\dots,511\}$ по степени делимости на~$2$ показывает, что $256$ нечётных точек, $192$ точки $\varphi \equiv 2, 4, 6 \pmod 8$ и $32$ точки $\varphi \equiv 0 \pmod{16}$ попарно сокращаются при сдвиге квадратичной фазы на полупериод $+256$ ($\mathcal{E}_3(\psi + 256) = -\mathcal{E}_3(\psi)$), тогда как $32$ точки $\varphi = 8(2k + 1)$ дают $\varphi^2 \equiv 64 \pmod{512}$ на биссектрисе стационарной фазы $\psi = 64$, где $\mathcal{C}_3(64) = \mathcal{S}_3(64) = 64$, откуда сумма равна $32 \times 64 = 2\,048$. Для суммы Парсеваля~\eqref{eq:mono-parseval-sum} сумма квадратов по четырём квадрантам длины $Q = 128$ равна $2 Q^2 + 4\sum_{m=1}^{Q-1} m^2 = 4Q(2Q^2 + 1)/6$, откуда $6\sum \mathcal{C}_3(\varphi)^2 = 512(2\cdot 128^2 + 1) = 16\,777\,728$. Для суммы Бесселя~\eqref{eq:mono-bessel-sum} при $k = 0$ имеем $512\times 128 = 65\,536$, при $k = 1$ среднее значение $128 - |\mathcal{S}_3(\varphi)|$ равно $64$ ($512\times 64 = 32\,768$), а при $k = 4$ аргумент $4\mathcal{S}_3(\varphi)$ равномерно пробегает полные периоды кольца, давая $\mathcal{J}_0(4) = 0$.
 \end{proof}
@@ -684,12 +692,12 @@ $(-2,-1,-1)$, $t=1$ (дор.\ 0) & $13,\ 239$ & $-143\,650$ & $-57\,460$ & $\dfr
 \end{theorem}
 
 \begin{proof}
-Подставляя формулу суммы квадратов $6\sum_{k=1}^N k^2 = N(N+1)(2N+1) = 2N^3 + 3N^2 + N$ в определение $3 V_{O_2}(3, N) = 3 + 5\cdot 6\sum_{k=1}^N k^2 + 6N$, получаем $3 + 5(2N^3 + 3N^2 + N) + 6N = 10N^3 + 15N^2 + 11N + 3$, что доказывает~\eqref{eq:mono-ball-polynomial}. Деление $(V_{O_2}(3,N) - 1)$ на $10N^3$ даёт $\frac{1}{3} + \frac{1}{2N} + \frac{11}{30N^2} \\to \frac{1}{3}$ при $N \to \infty$, доказывая~\eqref{eq:mono-archimedes-limit}. Равенство~\eqref{eq:mono-newton-leibniz} следует из телескопического сокращения последовательных разностей $\Delta F(\varphi) = F(\varphi+1) - F(\varphi)$.
+Подставляя формулу суммы квадратов $6\sum_{k=1}^N k^2 = N(N+1)(2N+1) = 2N^3 + 3N^2 + N$ в определение $3 V_{O_2}(3, N) = 3 + 5\cdot 6\sum_{k=1}^N k^2 + 6N$, получаем $3 + 5(2N^3 + 3N^2 + N) + 6N = 10N^3 + 15N^2 + 11N + 3$, что доказывает~\eqref{eq:mono-ball-polynomial}. Деление $(V_{O_2}(3,N) - 1)$ на $10N^3$ даёт $\frac{1}{3} + \frac{1}{2N} + \frac{11}{30N^2} \to \frac{1}{3}$ при $N \to \infty$, доказывая~\eqref{eq:mono-archimedes-limit}. Равенство~\eqref{eq:mono-newton-leibniz} следует из телескопического сокращения последовательных разностей $\Delta F(\varphi) = F(\varphi+1) - F(\varphi)$.
 \end{proof}
 
-\section{Однородная проективная арифметика полей \texorpdfstring{$\mathbb{Q}(i)$ и $\mathbb{Q}(\sqrt{d-1})$}{Q(i) and Q(sqrt(d-1))}, башня производных отношения \texorpdfstring{$D^n(f/g) = N_n/G_n$}{D\^n(f/g) = N\_n/G\_n} и кубатура Симпсона в размерности \texorpdfstring{$d$}{d}}
+\section{Однородная проективная арифметика полей, башня производных отношения и многомерная кубатура Симпсона}
 
-\begin{theorem}[Однородная проективная арифметика в $\mathbb{Q}(i)$, $\mathbb{Q}(\sqrt{d-1})$ и $\mathbb{Q}(i,\sqrt{2}) = \mathbb{Q}(\zeta_8)$, башня разностных производных всех порядков и кубатура Симпсона на $O_2(d)$]
+\begin{theorem}[Однородная проективная арифметика в $\mathbb{Q}(i)$, $\mathbb{Q}(\sqrt{d-1})$ и $\mathbb{Q}(i,\sqrt{2}) = \mathbb{Q}(\zeta_8)$, башня разностных производных всех порядков и многомерная кубатура Симпсона на $O_2(d)$]
 \label{thm:mono-projective-fields-c-infinity-simpson}
 В модуле \texttt{papers/RotatorQuadrature.lean} (\texttt{thm34}, \texttt{thm35}, \texttt{thm38}, \texttt{thm39}) установлены следующие алгебраические и аналитические законы:
 \begin{enumerate}[label=\textbf{(\arabic*)},leftmargin=*]
@@ -697,8 +705,8 @@ $(-2,-1,-1)$, $t=1$ (дор.\ 0) & $13,\ 239$ & $-143\,650$ & $-57\,460$ & $\dfr
   на $L^1$-алмазе $|C| + |S| = Q \ge 1$ знаменатель Вейерштрасса $R_T = C^2 + S^2$ строго положителен, а однородные обратные в $\mathbb{Q}(i)$ и $\mathbb{Q}(\sqrt{m})$ задаются целочисленными тройками без деления:
   \begin{align}
     2(C^2 + S^2) &= (C + S)^2 + (C - S)^2 \;\ge\; Q^2 \;\ge\; 1, \label{eq:mono-diamond-no-zero-div} \\
-    \texttt{gaussFieldInv}(X, Y, R) &= (R X,\; -R Y,\; X^2 + Y^2), \label{eq:mono-gauss-inv} \\
-    \texttt{quadFieldInv}_m(a, b, D) &= (D a,\; -D b,\; a^2 - m b^2). \label{eq:mono-quad-inv}
+    \operatorname{gaussFieldInv}(X, Y, R) &= (R X,\; -R Y,\; X^2 + Y^2), \label{eq:mono-gauss-inv} \\
+    \operatorname{quadFieldInv}_m(a, b, D) &= (D a,\; -D b,\; a^2 - m b^2). \label{eq:mono-quad-inv}
   \end{align}
   При $d = 3$ ($m = 2$) первообразный корень $8$-й степени из единицы $\zeta_8 = (\sqrt{2} + i\sqrt{2})/2 \leftrightarrow (0, 1, 0, 1, 2) \in \mathbb{Q}(i, \sqrt{2})$ совпадает с биссектрисой стационарной фазы Френеля $\psi = K_P(3) = 64$ и удовлетворяет $\zeta_8^2 \sim i$, $\zeta_8^4 \sim -1$, $\zeta_8^8 \sim +1$, $\zeta_8\bar{\zeta}_8 \sim +1$.
 \item \textbf{Замкнутая башня производных отношения $D^n(f/g) = N_n(x)/G_n(x)$ во всех порядках $n \in \mathbb{N}$ и вариационная производная Эйлера--Лагранжа:}
@@ -725,7 +733,7 @@ $(-2,-1,-1)$, $t=1$ (дор.\ 0) & $13,\ 239$ & $-143\,650$ & $-57\,460$ & $\dfr
 \end{theorem}
 
 \begin{proof}
-В пункте~(1) при $|C| + |S| = Q \ge 1$ одно из чисел $|C + S|$ или $|C - S|$ равно $Q$, откуда $(C + S)^2 + (C - S)^2 \ge Q^2 \ge 1$, а перемножение $(a, b, D)\otimes_{\sqrt{m}}(Da, -Db, a^2 - m b^2) = (D(a^2 - m b^2), 0, D(a^2 - m b^2)) \sim (1, 0, 1)$ проверяется раскрытием скобок. В пункте~(2) индукцией по $n \in \mathbb{N}$ доказывается $G_n(x+1)g(x) = g(x+n+1)G_n(x) = G_{n+1}(x)$, подстановка которого в левую часть~\eqref{eq:mono-quotient-deriv-step} выносит общий множитель $G_n(x)$. В пункте~(3) раскрытие $2(d-1)(d-2) + 2(d-1)(6-d) = 2(d-1)(d - 2 + 6 - d) = 8(d-1)$ доказывает~\eqref{eq:mono-simpson-weights-d} при любом $d \\ge 2$.
+В пункте~(1) при $|C| + |S| = Q \ge 1$ одно из чисел $|C + S|$ или $|C - S|$ равно $Q$, откуда $(C + S)^2 + (C - S)^2 \ge Q^2 \ge 1$, а перемножение $(a, b, D)\otimes_{\sqrt{m}}(Da, -Db, a^2 - m b^2) = (D(a^2 - m b^2), 0, D(a^2 - m b^2)) \sim (1, 0, 1)$ проверяется раскрытием скобок. В пункте~(2) индукцией по $n \in \mathbb{N}$ доказывается $G_n(x+1)g(x) = g(x+n+1)G_n(x) = G_{n+1}(x)$, подстановка которого в левую часть~\eqref{eq:mono-quotient-deriv-step} выносит общий множитель $G_n(x)$. В пункте~(3) раскрытие $2(d-1)(d-2) + 2(d-1)(6-d) = 2(d-1)(d - 2 + 6 - d) = 8(d-1)$ доказывает~\eqref{eq:mono-simpson-weights-d} при любом $d \ge 2$.
 \end{proof}
 
 \section{Теорема о сокращении масштаба \texorpdfstring{$A = K\cdot h_L$}{A = K h\_L}, размерность Хаусдорфа--Морана и проективные операторы логарифма и рациональной степени на \texorpdfstring{$\mathbb{Z}_{4Q}$}{Z4Q}}
@@ -765,7 +773,13 @@ $(-2,-1,-1)$, $t=1$ (дор.\ 0) & $13,\ 239$ & $-143\,650$ & $-57\,460$ & $\dfr
 
 \section{Функционально полный базис Поста на двух каналах \texorpdfstring{$\mathbb{Z}_{512}$}{Z512} и полиномиальная редукция 3-SAT}
 
-На антиподальной подгруппе полюсов $\{0, \Phi_{\mathrm{Pauli}}(3)\} = \{0, 256\} \subset \mathbb{Z}_{512}$ ($\mathcal{C}_3(0) = +128$ кодирует булеву истину~$1$, $\mathcal{C}_3(256) = -128$ кодирует булеву ложь~$0$) 9-битный сумматор и кусочно-линейный ротатор разделяют вычисления на треугольных гранях $(\psi_1, \psi_2, \psi_3) \in \{0, 256\}^3$ на два ортогональных алгебраических канала:
+На антиподальной подгруппе полюсов $\{0, \Phi_{\mathrm{Pauli}}(3)\} = \{0, 256\} \subset \mathbb{Z}_{512}$ чётная проекция принимает противоположные граничные значения
+\begin{equation}
+  \label{eq:mono-boolean-poles}
+  \mathcal{C}_3(0) \;=\; +128 \quad (\text{булева истина } 1), \qquad
+  \mathcal{C}_3(256) \;=\; -128 \quad (\text{булева ложь } 0).
+\end{equation}
+На треугольных гранях $(\psi_1, \psi_2, \psi_3) \in \{0, 256\}^3$ девятибитный сумматор разделяет вычисления на два ортогональных алгебраических канала:
 \begin{enumerate}[leftmargin=*,noitemsep]
 \item \textbf{Канал~1 (аффинный линейный класс Поста~$L$ --- сложение фаз до оператора $\mathcal{C}_3$):}
   полупериодный сдвиг $\mathrm{NOT}(\psi) = (\psi + 256) \bmod 512$ меняет знак проекции ($\mathcal{C}_3(\psi + 256) = -\mathcal{C}_3(\psi)$), а сложение фаз по модулю $512$ задаёт трёхаргументную чётность $\mathrm{XOR}_3$ по мультипликативному тождеству
@@ -791,7 +805,12 @@ $(-2,-1,-1)$, $t=1$ (дор.\ 0) & $13,\ 239$ & $-143\,650$ & $-57\,460$ & $\dfr
     \label{eq:mono-3sat-sum-zero}
     \sum_{m=1}^M q_{\mathrm{OR}}(\psi_{m,1}, \psi_{m,2}, \psi_{m,3}) \;=\; 0.
   \end{equation}
-\item Прямое вычисление $q_{\mathrm{OR}} = \mathrm{tdiv}(\Delta_{\mathrm{3SAT}}, 512)$ отбрасывает трёхзначный остаток $r \in \{-256, 0, +256\}$ и склеивает $2^3 - 1 = 7$ различных выполняющих октантов в один выход $q_{\mathrm{OR}} = 0$, порождая на обратном конусе глубины $T$ шагов ветвление $7^T$ неразличимых прообразов вдоль каждого луча ($7^3 = 343$ при $T = 3$ на шаре объёма $V_{O_2}(3,3) = 147$).
+\item Прямое вычисление $q_{\mathrm{OR}} = \mathrm{tdiv}(\Delta_{\mathrm{3SAT}}, 512)$ отбрасывает трёхзначный остаток и склеивает $2^3 - 1 = 7$ различных выполняющих октантов в один выход $q_{\mathrm{OR}} = 0$, порождая на обратном конусе глубины $T$ шагов ветвление неразличимых прообразов вдоль каждого луча:
+  \begin{equation}
+    \label{eq:mono-3sat-7t-branching}
+    r(\Delta_{\mathrm{3SAT}}) \in \{-256,\ 0,\ +256\}, \qquad
+    N_{\mathrm{branch}}(T) \;=\; (2^3 - 1)^T \;=\; 7^T \quad \bigl(7^3 = 343 \text{ при } T = 3\bigr).
+  \end{equation}
 \item Для четвёрки дизъюнктов 3-SAT, кодирующей одно линейное уравнение чётности Канала~1 ($x_1 \oplus x_2 \oplus x_3 = 0$), сумма линейных проекций $\mathcal{C}_3$ по всем четырём дизъюнктам тождественно равна нулю во всех $8$~октантах ($\mathrm{xor4LinearGradientSum} \equiv 0$), образуя замкнутые ядра чётности с нулевым линейным откликом.
 \end{enumerate}
 \end{theorem}
@@ -816,9 +835,10 @@ $(-2,-1,-1)$, $t=1$ (дор.\ 0) & $13,\ 239$ & $-143\,650$ & $-57\,460$ & $\dfr
     \delta(d_1 r)_f &= 512\,\delta w_f \;\ne\; 0 \qquad (\text{IV. обратное действие при записи}). \label{eq:mono-barrier-backaction}
   \end{align}
 \item \textbf{Встроенный одноразовый блокнот Вернама Шеннона:}
-  поскольку внешнее наблюдение в пороговом $T$-канале извлекает лишь $1$~бит знака из $B_2(3) = 72$ бит ячейки Верле, тогда как остальные $71$~бит внутренней фазы на $M$-носителе $\mathbb{Z}_{512}$ (и трёхзначный остаток $r \in \{-256, 0, +256\}$ на ядрах чётности с нулевым линейным градиентом) остаются алгебраически ортогональными $T$-проекции и топологически защищёнными классом Черна $512\,w_f$, фазово-когерентный канал на $M$-носителе реализует одноразовый блокнот Вернама:
+  поскольку внешнее наблюдение в пороговом $T$-канале извлекает лишь $1$~бит знака из $B_2(3) = 72$ бит ячейки Верле, тогда как остальные $71$~бит внутренней фазы на $M$-носителе $\mathbb{Z}_{512}$ остаются алгебраически ортогональными $T$-проекции и топологически защищёнными вихревым потоком Черна, фазово-когерентный канал на $M$-носителе реализует одноразовый блокнот Вернама:
   \begin{equation}
     \label{eq:mono-vernam-entropy}
+    \Phi_f \;=\; (d_1 r)_f \;=\; 512\,w_f, \qquad
     H(M \mid T) \;=\; H(M),
   \end{equation}
   информационно-теоретическая стойкость которого по теореме Шеннона не зависит от предположений о сложности на внешних лентах Тьюринга.
@@ -926,7 +946,7 @@ $(-2,-1,-1)$, $t=1$ (дор.\ 0) & $13,\ 239$ & $-143\,650$ & $-57\,460$ & $\dfr
 \item Точная делимость $\phaseRingCount(d) + \Delta\varphi_{\mathrm{seam}}(d)$ на $N_\varphi(d) = 1 + 2d(d-1)$ при $2 \le d \le 8$ выполняется исключительно при $d = 3$ ($512 + 21 = 533 = 13\times 41$), фиксируя $\Delta\varphi_{\mathrm{disc}}(3) = 41$, подпороговый коридор нулевого тепловыделения $|\Phi| \le 40$ ($\hat{n}_E(\Phi) = 0$) и ультрафиолетовый потолок $\hat{n}_E(\Phi) \le \lfloor 256/41 \rfloor = 6 = |\square(3)|$.
 \item Поскольку каждое ребро кубооктаэдра $\mathbf{e} \in O_2(3)$ соединяет две координатные оси одновременно ($\|\mathbf{e}\|_2 = \sqrt{1^2 + 1^2 + 0^2}\,h_L = \sqrt{2}\,h_L$), микроскопическая скорость связи вдоль ребра и граница Цирельсона коррелятора Белла--CHSH для синглетной пары на биссектрисе стационарной фазы Френеля $\psi = K_P(3) = 64 \leftrightarrow \zeta_8 = (\sqrt{2}+i\sqrt{2})/2$ равны:
   \begin{align}
-    c_0 &= \sqrt{2}\,c \qquad \left(\frac{c_0^2}{c^2} = 2\right), \label{eq:mono-link-speed-c0} \\
+    c_0 &= \sqrt{2}\,c, \qquad c_0^2 \;=\; 2\,c^2, \label{eq:mono-link-speed-c0} \\
     \mathcal{S}_{\mathrm{CHSH}} &= 2\,\frac{c_0}{c} \;=\; 2\sqrt{2} \;>\; 2. \label{eq:mono-tsirelson-bound}
   \end{align}
 \item В проводниках с ГЦК-координацией $O_2(3)$ ($\mathrm{Al},\ Z=13$; $\mathrm{Cu},\ Z=29$; $\mathrm{Ag},\ Z=47$; $\mathrm{Au},\ Z=79$) напряжение звена $V(\Delta\varphi) = \mathcal{C}_3(\Delta\varphi) = 128 - \Delta\varphi$ и ток фазовой эстафеты $I(\Delta\varphi) = \mathcal{S}_3(\Delta\varphi) = \Delta\varphi$ при $\Delta\varphi \in [0, 128]$ удовлетворяют балансу грани, закону максимальной согласованной мощности при $\Delta\varphi^* = K_P(3) = 64$, ортогональности активной и реактивной мощностей и тождеству беспульсационного двухфазного квадратурного выпрямителя:
@@ -987,21 +1007,13 @@ $(-2,-1,-1)$, $t=1$ (дор.\ 0) & $13,\ 239$ & $-143\,650$ & $-57\,460$ & $\dfr
     \hat{M}(3) &= d_{\mathrm{in}}(\square)^2 + \mathrm{mod\_bits}(3)^2 \;=\; 4^2 + 9^2 \;=\; 16 + 81 \;=\; 97, \label{eq:mono-mhat-97} \\
     \bigl\lfloor \alpha_{\mathrm{fs}}^{-1} \bigr\rfloor &= \hat{M}(3) + \bigl(\Delta\varphi_{\mathrm{disc}}(3) - 1\bigr) \;=\; 97 + 40 \;=\; 137 \;=\; Q_\square(3) + \mathrm{mod\_bits}(3). \label{eq:mono-alpha-fs}
   \end{align}
-  При распространении электромагнитной петли вдоль диагонального ребра кубооктаэдра длины $\|e\|_2 = \sqrt{d-1} = \sqrt{2}$ с геометрическим проекционным фактором $\kappa_{\mathrm{geom}} = \sqrt{2}/2$ через $d_{\mathrm{out}}(V) = |{\triangle}(d)| - 1 = 7$ открытых внешних октантов вершины и $d_{\mathrm{in}}(\square) = 4$ узла квадратной грани четыре последовательных петлевых порядка по степеням $\hat{M}(d)^{-k}$ ($k = 1, 2, 3, 4$) образуют отношение:
-  \begin{equation}
-    \label{eq:mono-alpha-4loop-fraction}
-    \alpha_{\mathrm{fs}}^{-1}(d)
-    \;=\;
-    \frac{
-      1
-      \;-\; \dfrac{\sqrt{2}}{d_{\mathrm{in}}(\square)\bigl(|{\triangle}(d)|-1\bigr)\hat{M}(d)^3}
-      \;-\; \dfrac{|{\triangle}(d)|}{\bigl(|{\triangle}(d)|-1\bigr)^2\hat{M}(d)^4}
-    }{
-      \dfrac{\sqrt{2}}{2\,\hat{M}(d)}
-      \;+\; \dfrac{1}{2\bigl(|{\triangle}(d)|-1\bigr)\hat{M}(d)^2}
-    }.
-  \end{equation}
-  Приведение~\eqref{eq:mono-alpha-4loop-fraction} к общему целому знаменателю $d_{\mathrm{in}}(\square)\bigl(|{\triangle}(d)|-1\bigr)^2\hat{M}(d)^4$ определяет коэффициенты в кольце $\mathbb{Z}[\sqrt{2}]$:
+  При распространении электромагнитной петли вдоль диагонального ребра кубооктаэдра длины $\|e\|_2 = \sqrt{d-1} = \sqrt{2}$ с геометрическим проекционным фактором $\kappa_{\mathrm{geom}} = \sqrt{2}/2$ через $d_{\mathrm{out}}(V) = |{\triangle}(d)| - 1 = 7$ открытых внешних октантов вершины и $d_{\mathrm{in}}(\square) = 4$ узла квадратной грани числитель вакуумной экранировки $\mathcal{N}_\alpha(d)$ и знаменатель кулоновской проводимости $\mathcal{D}_\alpha(d)$ по четырём последовательным петлевым порядкам $\widehat{M}(d)^{-k}$ ($k = 1, 2, 3, 4$) имеют вид:
+  \begin{align}
+    \mathcal{N}_\alpha(d) &= 1 - \frac{\sqrt{2}}{d_{\mathrm{in}}(\square)\bigl(|{\triangle}(d)|-1\bigr)\widehat{M}(d)^3} - \frac{|{\triangle}(d)|}{\bigl(|{\triangle}(d)|-1\bigr)^2\widehat{M}(d)^4}, \label{eq:mono-alpha-4loop-num} \\
+    \mathcal{D}_\alpha(d) &= \frac{\sqrt{2}}{2\,\widehat{M}(d)} + \frac{1}{2\bigl(|{\triangle}(d)|-1\bigr)\widehat{M}(d)^2}, \label{eq:mono-alpha-4loop-den} \\
+    \alpha_{\mathrm{fs}}^{-1}(d) &= \frac{\mathcal{N}_\alpha(d)}{\mathcal{D}_\alpha(d)}. \label{eq:mono-alpha-4loop-fraction}
+  \end{align}
+  Приведение~\eqref{eq:mono-alpha-4loop-num}--\eqref{eq:mono-alpha-4loop-fraction} к общему целому знаменателю $d_{\mathrm{in}}(\square)\bigl(|{\triangle}(d)|-1\bigr)^2\widehat{M}(d)^4$ определяет коэффициенты в кольце $\mathbb{Z}[\sqrt{2}]$:
   \begin{align}
     A_{\mathrm{num}}(d) &= \tfrac{1}{2}d_{\mathrm{in}}(\square)\bigl(|{\triangle}(d)|-1\bigr)\hat{M}(d)^2 \;=\; 131\,726, \label{eq:mono-alpha-zsqrt2-coeffs} \\
     B_{\mathrm{num}}(d) &= \tfrac{1}{2}d_{\mathrm{in}}(\square)\bigl(|{\triangle}(d)|-1\bigr)^2\hat{M}(d)^3 \;=\; 89\,441\,954, \label{eq:mono-alpha-bnum} \\
@@ -1127,19 +1139,20 @@ $(-2,-1,-1)$, $t=1$ (дор.\ 0) & $13,\ 239$ & $-143\,650$ & $-57\,460$ & $\dfr
 \caption{Сводный атлас теоретических значений ДКМ на $O_2(3)\times\mathbb{Z}_{512}$ в сопоставлении с экспериментальными данными CODATA-2022 и PDG (при нуле подгоночных параметров).}
 \label{tab:mono-sm-codata-pdg-atlas}
 \footnotesize
-\setlength{\tabcolsep}{3pt}
-\begin{tabular}{@{}p{0.19\textwidth}p{0.18\textwidth}p{0.28\textwidth}p{0.13\textwidth}p{0.13\textwidth}@{}}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}llllr@{}}
 \toprule
 \textbf{Наблюдаемая величина} & \textbf{Структура на $O_2(3)\times\mathbb{Z}_{512}$} & \textbf{Замкнутая формула ДКМ} & \textbf{Теория ДКМ} & \textbf{CODATA / PDG} \\
 \midrule
-Постоянная $\alpha_{\mathrm{fs}}^{-1}$ & $4$ петли, $\widehat{M}(3)=97$ & $\dfrac{17\,351\,739\,044 - 679\sqrt{2}}{131\,726 + 89\,441\,954\sqrt{2}}$ & $137{,}03599919$ & $137{,}03599918$ \\
+Постоянная $\alpha_{\mathrm{fs}}^{-1}$ & $4$ петли, $\widehat{M}(3)=97$ & $(A_{\mathrm{den}} + B_{\mathrm{den}}\sqrt{2}) / (A_{\mathrm{num}} + B_{\mathrm{num}}\sqrt{2})$ & $137{,}035999187$ & $137{,}035999177$ \\
 Угол Вайнберга $\sin^2\theta_W(M_Z)$ & $d=3$ оси в $N_\varphi(3)=13$ & $3/13 + \alpha_{\mathrm{fs}}/16$ & $0{,}231225$ & $0{,}23122(4)$ \\
 Константа $\alpha_s(M_Z)$ & $|{\triangle}(3)|=8$ граней $K_3$ & Бегунок от $\frac{3}{2}\cdot\frac{41}{512}$ & $0{,}11788$ & $0{,}1179(9)$ \\
-Инвариант Койде и $m_{\mu,\tau}/m_e$ & $3$ стека, $\delta_0=2/9$ & $Q_{\mathrm{Koide}} = 2/3$ & $206{,}77;\ 3477{,}5$ & $206{,}77;\ 3477{,}2$ \\
+Койде $Q_{\mathrm{Koide}}$ и $m_{\mu,\tau}/m_e$ & $3$ стека, $\delta_0=2/9$ & $Q_{\mathrm{Koide}} = 2/3$ & $206{,}77;\ 3477{,}5$ & $206{,}77;\ 3477{,}2$ \\
 Углы PMNS $\sin^2\theta_{12,23,13}$ & Слои $(1,4,7)$ в $13$ и $92$ & $4/13,\quad 7/13,\quad 1/46$ & $0{,}308;\ 0{,}538$ & $0{,}307;\ 0{,}546$ \\
-Матрица CKM $(\lambda,A,\bar{\rho},\bar{\eta})$ & $\widehat{M}=4^2+9^2=97$ на $26$ & $35/156,\ 5/6,\ 2/13,\ 9/26$ & $0{,}224;\ 0{,}833$ & $0{,}225;\ 0{,}826$ \\
-Магнитный момент $\mu_p/\mu_N$ & Треугольник $K_3$, $\delta_{\mathrm{pack}}=1/24$ & $3 - 5/24 = 67/24$ & $+2{,}7917$ & $+2{,}7928$ \\
-Магнитный момент $\mu_n/\mu_N$ & Треугольник $K_3$ ($Q=0$) & $-2 + 2/24 = -23/12$ & $-1{,}9167$ & $-1{,}9130$ \\
+Параметры CKM $(\lambda,\ A)$ & $\widehat{M}=4^2+9^2=97$ на $156$ & $\lambda = 35/156,\quad A = 5/6$ & $0{,}224;\ 0{,}833$ & $0{,}225;\ 0{,}826$ \\
+Апекс CKM $(\bar{\rho},\ \bar{\eta})$ & $(4 + 9i)$ на $2 N_\varphi = 26$ & $\bar{\rho} = 2/13,\quad \bar{\eta} = 9/26$ & $0{,}154;\ 0{,}346$ & $0{,}159;\ 0{,}348$ \\
+Момент протона $\mu_p/\mu_N$ & Треугольник $K_3$, $\delta_{\mathrm{pack}}=1/24$ & $3 - 5/24 = 67/24$ & $+2{,}7917$ & $+2{,}7928$ \\
+Момент нейтрона $\mu_n/\mu_N$ & Треугольник $K_3$ ($Q=0$) & $-2 + 2/24 = -23/12$ & $-1{,}9167$ & $-1{,}9130$ \\
 Изоскаляр $(\mu_p+\mu_n)/\mu_N$ & Вычет $3\delta_{\mathrm{pack}} = 1/8$ & $1 - 1/8 = 7/8$ & $0{,}8750$ & $0{,}8798$ \\
 Аксиальная константа $g_A$ & $d_{\mathrm{out}}(E)/d_{\mathrm{in}}(\square) + 1/39$ & $5/4 + 1/39 = 199/156$ & $1{,}27564$ & $1{,}2754(13)$ \\
 Первичная доля гелия-4 $Y_p$ & $208 = 4\times 45 + 28$ на $t=2$ & $45 / (208 - 26) = 45/182$ & $0{,}24725$ & $0{,}245(3)$ \\
@@ -1163,11 +1176,7 @@ $(-2,-1,-1)$, $t=1$ (дор.\ 0) & $13,\ 239$ & $-143\,650$ & $-57\,460$ & $\dfr
   защищённый оператор фазового импеданса ворот (\texttt{gateDenomOp 3})
   \begin{equation}
     \label{eq:mono-gravity-denom}
-    D(\mathbf{x}) \;=\; \mathrm{clampDenomOp}_3\bigl(D_{\mathrm{raw}}(\mathbf{x})\bigr) \;=\;
-    \begin{cases}
-      D_{\mathrm{raw}}(\mathbf{x}), & D_{\mathrm{raw}}(\mathbf{x}) \ge 1, \\
-      \varepsilon(3) = 8\,192, & D_{\mathrm{raw}}(\mathbf{x}) \le 0
-    \end{cases}
+    D(\mathbf{x}) \;=\; \mathbf{1}_{\{D_{\mathrm{raw}}(\mathbf{x}) \ge 1\}}\,D_{\mathrm{raw}}(\mathbf{x}) + \mathbf{1}_{\{D_{\mathrm{raw}}(\mathbf{x}) \le 0\}}\,\varepsilon(3) \;\ge\; 1
   \end{equation}
   строго положителен при любых целочисленных значениях амплитуд и голономий ($D(\mathbf{x}) \ge 1$, причём на горизонте противофазного запирания Паули $D_{\mathrm{raw}}(\mathbf{x}) \le 0$ принимает точное значение вакуумного пола $D(\mathbf{x}) = \varepsilon(3) = 8\,192 > 0$). В однородном кластере максимальной плотности $\mu(\mathbf{x}) = \mu(\mathbf{x}-\mathbf{e}) = K_P(3) = 64$ при синфазном насыщении $\mathcal{C}_3(0) = +128$ по всем $12$ лучам импеданс достигает конечного целочисленного потолка стазиса Паули:
   \begin{equation}
@@ -1245,17 +1254,17 @@ $(-2,-1,-1)$, $t=1$ (дор.\ 0) & $13,\ 239$ & $-143\,650$ & $-57\,460$ & $\dfr
 \caption{Закон планетогенеза ДКМ: классификация 6 зон конденсации планетных ядер и мантий по замкнутым оболочкам кубооктаэдра $O_2(3)$.}
 \label{tab:mono-planetogenesis-zones}
 \footnotesize
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{@{}p{0.12\textwidth}p{0.25\textwidth}p{0.28\textwidth}p{0.29\textwidth}@{}}
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}llll@{}}
 \toprule
 \textbf{Зона диска} & \textbf{Планетный класс} & \textbf{Ядро / мантия / летучие фазы} & \textbf{Оболочечный инвариант ДКМ} \\
 \midrule
 Зона I & Газовые гиганты и кор.\ карлики & $\mathrm{H+He}$, синтез $\mathrm{Li+B}$ & $Z=1+2=3=d$;\quad $3+5=8=Z(\mathrm{O})$ \\
-Зона II & Ледяные гиганты и крио-льды & $\mathrm{CH_4},\ \mathrm{NH_3},\ \mathrm{H_2O}$;\quad $\mathrm{N_2},\ \mathrm{CO}$ & $Z=10=Z(\mathrm{Ne})$;\quad $Z=14=Z(\mathrm{Si})$ \\
-Зона III & Карбидные планеты ($n(\mathrm{C})>n(\mathrm{O})$) & Карбид кремния $\mathrm{SiC}$, графит & $Z(\mathrm{SiC})=14+6=20=Z(\mathrm{Ca})$ \\
-Зона IV & Земные планеты ($\mathrm{Fe}$--$\mathrm{Ni}$ ядро) & $\mathrm{Fe}_{26},\ \mathrm{Ni}_{28} \leftrightarrow \mathrm{Mg+Si},\ \mathrm{Mg+S}$ & $Z(\mathrm{Fe})=26=2 N_\varphi$;\ $Z(\mathrm{Ni})=28=2 Z(\mathrm{Si})$ \\
-Зона V & Сульфидно-силицидные ядра ($S_2$) & $\mathrm{FeS},\ \mathrm{NiSi}$ и карбонат $\mathrm{MgCO_3}$ & $Z=26+16=28+14=42=S_2(3)$ \\
-Зона VI & Сверхземли, перовскит, геодинамо & $\mathrm{Al_2O_3},\ \mathrm{MgSiO_3}$ ($50$);\ $\mathrm{Mg_2SiO_4}$ ($70$) & Магич.\ $50$;\ $70=K_P+6$;\ $^{238}_{92}\mathrm{U}\to{}^{208}_{82}\mathrm{Pb}$ \\
+Зона II & Ледяные гиганты и крио-льды & $\mathrm{CH_4},\ \mathrm{NH_3},\ \mathrm{H_2O}$ и $\mathrm{N_2},\ \mathrm{CO}$ & $Z=10=Z(\mathrm{Ne})$;\quad $Z=14=Z(\mathrm{Si})$ \\
+Зона III & Карбидные планеты ($n(\mathrm{C})>n(\mathrm{O})$) & Карбид кремния $\mathrm{SiC}$ и графит & $Z(\mathrm{SiC})=14+6=20=Z(\mathrm{Ca})$ \\
+Зона IV & Земные планеты ($\mathrm{Fe}$--$\mathrm{Ni}$ ядро) & $\mathrm{Fe}_{26},\ \mathrm{Ni}_{28} \leftrightarrow \mathrm{Mg+Si},\ \mathrm{Mg+S}$ & $Z(\mathrm{Fe})=26=2 N_\varphi$;\ $Z(\mathrm{Ni})=28$ \\
+Зона V & Сульфидно-силицидные ядра & $\mathrm{FeS},\ \mathrm{NiSi}$ и карбонат $\mathrm{MgCO_3}$ & $Z=26+16=28+14=42=S_2(3)$ \\
+Зона VI & Сверхземли, перовскит, геодинамо & $\mathrm{Al_2O_3},\ \mathrm{MgSiO_3}$ ($50$);\ $\mathrm{Mg_2SiO_4}$ ($70$) & Магич.\ $50$;\ $70=K_P+6$;\ $\mathrm{U}_{92}\to\mathrm{Pb}_{82}$ \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1327,13 +1336,14 @@ $(-2,-1,-1)$, $t=1$ (дор.\ 0) & $13,\ 239$ & $-143\,650$ & $-57\,460$ & $\dfr
 
 \begin{theorem}[Три планетарных фотонных окна биосферы, полимерные остовы, биометаллы и разрешение парадокса Левинталя за линейное время $O(L) \in \mathbf{P}$]
 \label{thm:mono-bio-windows-folding}
-При $d = 3$ выполняются следующие точные биофизические соотношения (\texttt{universal\_\allowbreak cosmobiology\_\allowbreak three\_\allowbreak planetary\_\allowbreak windows\_\allowbreak operator}, \texttt{closed\_\allowbreak form\_\allowbreak organism\_\allowbreak genesis\_\allowbreak in\_\allowbreak environment\_\allowbreak operator}, \texttt{inverse\_\allowbreak phenotype\_\allowbreak to\_\allowbreak genome\_\allowbreak compiler\_\allowbreak operator} в модуле \texttt{lean/MtCarrier/BioCosmology.lean}):
+При $d = 3$ выполняются следующие точные биофизические соотношения (\texttt{universal\_\allowbreak cosmobiology\_\allowbreak three\_\allowbreak planetary\_\allowbreak windows\_\allowbreak operator}, \texttt{closed\_\allowbreak form\_\allowbreak organism\_\allowbreak genesis\_\allowbreak in\_\allowbreak environment\_\allowbreak operator} в модуле \texttt{lean/\allowbreak MtCarrier/\allowbreak BioCosmology.lean}):
 \begin{enumerate}[label=\textbf{\arabic*.},noitemsep]
 \item \textbf{Три планетарных окна ($441 : 126 : 63 = 7 : 2 : 1$):}
-  квадрат шва грани кубооктаэдра $\Delta\varphi_{\mathrm{seam}}(3) = \lfloor 256/12 \rfloor = 21 = 3 \times 7$ задаёт синее окно фотосинтеза, удвоенный делитель водородной связи --- резонансный масштаб переноса протона в воде, а базовый делитель образует с ними целочисленную пропорцию:
+  квадрат шва грани кубооктаэдра $\Delta\varphi_{\mathrm{seam}}(3) = \lfloor 256/12 \rfloor = 21 = 3 \times 7$ задаёт синее окно фотосинтеза $441\text{ нм}$, удвоенный делитель водородной связи --- резонансный масштаб переноса протона в воде $126$, а базовый делитель $63$ образует с ними целочисленную пропорцию:
   \begin{equation}
     \label{eq:mono-three-bio-windows}
-    \bigl(\lambda_{\mathrm{blue}}(3),\ 2 N_{\mathrm{HB}}(3),\ N_{\mathrm{HB}}(3)\bigr) \;=\; (441,\ 126,\ 63) \;=\; 63 \times (7,\ 2,\ 1).
+    \Delta\varphi_{\mathrm{seam}}(3)^2 \;=\; 21^2 \;=\; 441 \;=\; 7 \times 63, \qquad
+    (441,\ 126,\ 63) \;=\; 63 \times (7,\ 2,\ 1).
   \end{equation}
 \item \textbf{Полимерные остовы и ароматические кольца $\{111\}$:}
   суммарный ядерный заряд углерод-азотного пептидного звена, кремний-азотного силазанового звена и шестичленных ароматических колец бензола и боразина в плоскости $\{111\}$ кубооктаэдра равны:
@@ -1363,16 +1373,16 @@ $(-2,-1,-1)$, $t=1$ (дор.\ 0) & $13,\ 239$ & $-143\,650$ & $-57\,460$ & $\dfr
 \caption{Автономное открытие 6 биометаллов металлоферментов (\texttt{discoverBioMetalInCageOp}) и сквозной межэтажный изоморфизм оболочек кубооктаэдра $\{2, 8, 26, 41, 42, 147\}$.}
 \label{tab:mono-biometals-isomorphism}
 \footnotesize
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{@{}p{0.18\textwidth}p{0.24\textwidth}p{0.23\textwidth}p{0.29\textwidth}@{}}
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}llll@{}}
 \toprule
 \textbf{Биометалл / Инвариант} & \textbf{Клетка / Квантовый этаж} & \textbf{Ядерный и планетный этаж} & \textbf{Биологическая функция и замыкание} \\
 \midrule
 Магний $\mathrm{Mg}$ ($Z=12$) & Тетрапиррол $\mathrm{N_4}$ ($Z=28$) & Мантия $\mathrm{Mg+Si}=26=Z(\mathrm{Fe})$ & Хлорофилл: $\mathrm{MgN_4}=40=\Delta\varphi_{\mathrm{disc}}-1$ \\
 Кобальт $\mathrm{Co}$ ($Z=27$) & Коррин $\mathrm{N_4}$ ($Z=28$) & Ряд $\mathrm{Fe}$--$\mathrm{Co}$--$\mathrm{Ni}$ & Витамин $\mathrm{B}_{12}$: $\mathrm{CoN_4}=55=V_{O_2}(3,2)$ \\
 Никель $\mathrm{Ni}$ ($Z=28$) & $\mathrm{N_4}$ ($28$), $\mathrm{C_2H_2}$ ($14$), $\mathrm{S_4}$ ($64$) & Магич.\ $Z=28=2 Z(\mathrm{Si})$ & $\mathrm{F}_{430}$ ($56$), крио ($42=S_2$), $\mathrm{NiS_4}$ ($92=S_3$) \\
-Железо $\mathrm{Fe}$ ($Z=26$) & Гем $\mathrm{N_4O_2}$ ($44$), $\mathrm{S}$ ($16$) & Ядро $Z(\mathrm{Fe})=26=2 N_\varphi$ & Гемоглобин ($70=64+6$), $\mathrm{FeS}=42=S_2$ \\
-Цинк $\mathrm{Zn}$ ($Z=30$) & $\mathrm{Cys_2His_2}$ ($\mathrm{S_2N_2}=46$) & Замыкание $3d^{10}4s^2$ ($Z=30$) & Цинковые пальцы ДНК: $76=64+12$ \\
+Железо $\mathrm{Fe}$ ($Z=26$) & Гем $\mathrm{N_4O_2}$ ($44$), сера $\mathrm{S}$ ($16$) & Ядро $Z(\mathrm{Fe})=26=2 N_\varphi$ & Гемоглобин ($70=64+6$), $\mathrm{FeS}=42=S_2$ \\
+Цинк $\mathrm{Zn}$ ($Z=30$) & Клетка $\mathrm{S_2N_2}$ ($Z=46$) & Замыкание $3d^{10}4s^2$ ($Z=30$) & Цинковые пальцы ДНК: $76=64+12$ \\
 Молибден $\mathrm{Mo}$ ($Z=42$) & Тетратиолат $\mathrm{S_4}$ ($Z=64$) & Сфера $Z(\mathrm{Mo})=42=S_2(3)$ & Нитрогеназа: $\mathrm{MoS_4}=106=64+42$ \\
 \midrule
 Изоморфизм $\{2,8,26\}$ & $(c_0/c)^2=2$;\ $|{\triangle}|=8$;\ $2 N_\varphi=26$ & Магич.\ $2,8$;\ $\mathrm{Fe}_{26}$;\ $86$ плакетов & Спираль ДНК ($2$);\ гистоны ($8$);\ гем $\mathrm{Fe}_{26}$ \\
@@ -1443,7 +1453,11 @@ $(-2,-1,-1)$, $t=1$ (дор.\ 0) & $13,\ 239$ & $-143\,650$ & $-57\,460$ & $\dfr
     \sum_{k=0}^{N-1}\bigl(F(k+1) - F(k)\bigr) &= F(N) - F(0). \label{eq:mono-boundary-telescoping}
   \end{align}
 \item \textbf{Конструктивная теорема о сжатии двусторонней вилки (\texttt{bracket\allowbreak FoldL}, \texttt{bracket\allowbreak FoldU}):}
-  для любого списка неотрицательных сужений стадий $w = [\delta_1, \dots, \delta_r]$ ($\delta_i \ge 0$) монотонно возрастающая нижняя граница $L_w = L_0 + \sum_i \delta_i$ и монотонно убывающая верхняя граница $U_w = U_0 - \sum_i \delta_i$, охватывающие предел $L_w \le X \le U_w$, при обращении ширины вилки в нуль ($U_w - L_w = 0$) однозначно фиксируют $L_w = X = U_w$ по антисимметрии порядка ($\le$) в~$\mathbb{Z}$.
+  для любого списка неотрицательных сужений стадий $w = [\delta_1, \dots, \delta_r]$ ($\delta_i \ge 0$) монотонно возрастающая нижняя граница $L_w = L_0 + \sum_i \delta_i$ и монотонно убывающая верхняя граница $U_w = U_0 - \sum_i \delta_i$, охватывающие предел $L_w \le X \le U_w$, при обращении ширины вилки в нуль однозначно фиксируют предел по антисимметрии целочисленного порядка в~$\mathbb{Z}$:
+  \begin{equation}
+    \label{eq:mono-bracket-squeeze}
+    L_w \le X \le U_w \;\land\; U_w - L_w = 0 \quad\Longrightarrow\quad L_w \;=\; X \;=\; U_w.
+  \end{equation}
 \item \textbf{Двусторонняя стереографическая эквивалентность бесконечного счётного носителя $\mathcal{M}$ и континуального носителя $\mathcal{T}$:}
   дискретный носитель~$\mathcal{M}$ есть бесконечное счётное индуктивное семейство колец $\mathbb{Z}_{4Q}$ по всем масштабам четверть-периода $Q = C + S$, всем виткам обмотки $q\in\mathbb{Z}$ и узлам $\mathbb{Z}^d$ (где на масштабе $K=1$ фактор-регистр одного оборота одной элементарной ячейки равен $\mathbb{Z}_{512}$). Рациональный стереографический подъём Вейерштрасса $\iota_{T\to M}(C,S) = (C^2-S^2,\ 2CS,\ C^2+S^2)$ и обратное проектирование $\pi_{M\to T}$ связывают $\mathcal{M}$ и $\mathcal{T}$ точным пифагоровым тождеством $(C^2-S^2)^2 + (2CS)^2 \equiv (C^2+S^2)^2$, постоянным разностным вронскианом $C\bigl((S+1)-S\bigr) - S\bigl((C-1)-C\bigr) \equiv C + S = Q$ и взаимно-обратными соотношениями $(C+S) + (C-S) = 2C$, $(C+S) - (C-S) = 2S$ на всех масштабах~$Q$.
 \end{enumerate}
@@ -1459,8 +1473,8 @@ $(-2,-1,-1)$, $t=1$ (дор.\ 0) & $13,\ 239$ & $-143\,650$ & $-57\,460$ & $\dfr
 \item \textbf{Полиморфная диагональная теорема Ловера--Гёделя--Тарского и теоретико-модельная невыразимость семантического оракула истинности формул:}
   для любого типа синтаксических кодов $\alpha : \mathrm{Type}$, любого типа семантических истинностных значений $\beta : \mathrm{Type}$, любого внутреннего вычислителя $\mathrm{eval} : \alpha \to (\alpha \to \beta)$ и любой семантической инверсии без неподвижных точек $\sigma : \beta \to \beta$ ($\forall b:\beta,\ \sigma(b) \ne b$), внешний семантический оракул $\mathrm{oracle}(x) := \sigma(\mathrm{eval}\ x\ x)$ строго невыразим никаким внутренним синтаксическим кодом $p : \alpha$, а для любого языка формул $\mathrm{Formula}$ с отрицанием $\mathrm{neg}$, подстановкой кодов $\mathrm{sub} : \mathrm{Code}\to\mathrm{Code}\to\mathrm{Formula}$ и внешним семантическим отношением истинности $\mathrm{oracleModels} : \mathrm{Formula}\to\mathrm{Prop}$ ($\forall\varphi,\ \mathrm{oracleModels}(\mathrm{neg}\,\varphi)\leftrightarrow\neg\mathrm{oracleModels}(\varphi)$) ни один внутренний предикат $\mathrm{internalEval}(c,\cdot)$, кодирующий диагональное отрицание, не может совпадать с внешним оракулом на $\mathrm{sub}(c,c)$:
   \begin{align}
-    \forall p : \alpha,\qquad \mathrm{eval}\ p\ p &\ne \mathrm{oracle}\ p, \label{eq:mono-lawvere-godel-tarski} \\
-    \neg\Bigl(\mathrm{internalEval}\ c\ (\mathrm{sub}\ c\ c) &\Longleftrightarrow \mathrm{oracleModels}(\mathrm{sub}\ c\ c)\Bigr). \label{eq:mono-tarski-undefinability}
+    \mathrm{eval}(p, p) &\ne \mathrm{oracle}(p) \qquad (\text{для любого } p : \alpha), \label{eq:mono-lawvere-godel-tarski} \\
+    \mathrm{internalEval}\bigl(c,\, \mathrm{sub}(c, c)\bigr) &\not\Longleftrightarrow \mathrm{oracleModels}\bigl(\mathrm{sub}(c, c)\bigr). \label{eq:mono-tarski-undefinability}
   \end{align}
 \end{enumerate}
 \end{theorem}
