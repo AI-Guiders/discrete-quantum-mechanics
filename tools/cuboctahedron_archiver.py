@@ -171,15 +171,40 @@ def decode_mode2_4d_spacetime_verlet(archive: bytes) -> torch.Tensor:
     return res_stack
 
 
+def probe_best_mode_heisenberg41(raw: bytes) -> int:
+    """Select the lowest-entropy predictor mode in O(1) time by probing residuals inside [-40, +40]."""
+    n = len(raw)
+    if n < 128:
+        return 0
+    step = max(1, (n - 8) // 256)
+    verlet_hits = 0
+    raw_hits = 0
+    total = 0
+    for i in range(4, n, step):
+        total += 1
+        b0 = wrap_signed_256(raw[i])
+        if -40 <= b0 <= 40:
+            raw_hits += 1
+        pred = (2 * raw[i - 1] - raw[i - 2]) & 0xFF
+        dv = wrap_signed_256(raw[i] - pred)
+        if -40 <= dv <= 40:
+            verlet_hits += 1
+    if verlet_hits > max(raw_hits + total // 4, (total * 3) // 4):
+        return 2
+    return 0
+
+
 def compress_universal_cuboct(raw: bytes) -> tuple[bytes, int]:
-    """Adaptive Minimum-Description-Length selector across Carrier-Direct (lc=d=3, nice=Phi_Pauli=256),
-    Mode 1 (Nilpotent-4Ch), and Mode 2 (Verlet-Heisenberg-41).
+    """Single-pass selector across Carrier-Direct (lc=d=3, nice=Phi_Pauli=256),
+    Mode 1 (Nilpotent-4Ch), and Mode 2 (Verlet-Heisenberg-41) using O(1) Heisenberg deadband probing.
     """
-    c_raw = carrier_entropy_compress(raw)
-    c_m0 = encode_mode0_nilpotent_4ch(raw)
-    c_m1 = encode_mode1_verlet_heisenberg41(raw)
-    candidates = [(0, c_raw), (1, c_m0), (2, c_m1)]
-    best_mode, best_payload = min(candidates, key=lambda item: len(item[1]))
+    best_mode = probe_best_mode_heisenberg41(raw)
+    if best_mode == 2:
+        best_payload = encode_mode1_verlet_heisenberg41(raw)
+    elif best_mode == 1:
+        best_payload = encode_mode0_nilpotent_4ch(raw)
+    else:
+        best_payload = carrier_entropy_compress(raw)
     header = struct.pack("<BII", best_mode, len(raw), len(best_payload))
     return header + best_payload, best_mode
 
