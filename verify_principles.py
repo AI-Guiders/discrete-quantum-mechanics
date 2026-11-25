@@ -145,14 +145,30 @@ def main() -> int:
         args.device = "cpu"
 
     if torch is None and any(sid != "gate" for sid in suite_ids):
-        print(
-            "Error: PyTorch (`torch`) is not installed in the active Python environment.\n"
-            "On a fresh clone, create and activate a virtual environment first:\n"
-            "  python3 -m venv .venv\n"
-            "  source .venv/bin/activate   # Windows PowerShell: .\\.venv\\Scripts\\Activate.ps1\n"
-            "  pip install -r requirements.txt",
-            file=sys.stderr,
-        )
+        import os
+        from pathlib import Path
+        import subprocess
+
+        repo_root = Path(__file__).resolve().parent
+        if os.environ.get("DQM_VENV_BOOTSTRAPPED") != "1":
+            venv_dir = repo_root / ".venv"
+            venv_py = (
+                venv_dir / "Scripts" / "python.exe"
+                if os.name == "nt"
+                else venv_dir / "bin" / "python3"
+            )
+            req_file = repo_root / "requirements.txt"
+            if not venv_py.is_file():
+                print(f"[dqm] Creating virtual environment in {venv_dir} ...", file=sys.stderr)
+                subprocess.check_call([sys.executable, "-m", "venv", str(venv_dir)])
+            if subprocess.call([str(venv_py), "-c", "import torch"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) != 0:
+                print(f"[dqm] Installing dependencies from {req_file.name} into .venv ...", file=sys.stderr)
+                subprocess.check_call([str(venv_py), "-m", "pip", "install", "--upgrade", "pip"])
+                subprocess.check_call([str(venv_py), "-m", "pip", "install", "-r", str(req_file)])
+            env = os.environ.copy()
+            env["DQM_VENV_BOOTSTRAPPED"] = "1"
+            return subprocess.call([str(venv_py), os.path.abspath(__file__)] + sys.argv[1:], env=env)
+        print("Error: failed to bootstrap .venv with PyTorch.", file=sys.stderr)
         return 1
 
     rows = run_suites(args.device, suite_ids)
