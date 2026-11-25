@@ -4,16 +4,41 @@
 Check bodies: verify_checks/*.py · grouping: verify_checks/suites.py (SSOT).
 """
 
-from __future__ import annotations
+import os
+import subprocess
+import sys
+
+if sys.version_info[0] < 3:
+    os.execvp("python3", ["python3", os.path.abspath(__file__)] + sys.argv[1:])
 
 import argparse
 import json
-import sys
+from pathlib import Path
+
+_REPO = Path(__file__).resolve().parent
 
 try:
     import torch
 except ImportError:
-    torch = None  # type: ignore[assignment]
+    if os.environ.get("DQM_VENV_BOOTSTRAPPED") != "1":
+        venv_dir = _REPO / ".venv"
+        venv_py = (
+            venv_dir / "Scripts" / "python.exe"
+            if os.name == "nt"
+            else venv_dir / "bin" / "python3"
+        )
+        req_file = _REPO / "requirements.txt"
+        if not venv_py.is_file():
+            print("[dqm] Creating virtual environment in {} ...".format(venv_dir), file=sys.stderr)
+            subprocess.check_call([sys.executable, "-m", "venv", str(venv_dir)])
+        if subprocess.call([str(venv_py), "-c", "import torch"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) != 0:
+            print("[dqm] Installing dependencies from {} into .venv ...".format(req_file.name), file=sys.stderr)
+            subprocess.check_call([str(venv_py), "-m", "pip", "install", "--upgrade", "pip"])
+            subprocess.check_call([str(venv_py), "-m", "pip", "install", "-r", str(req_file)])
+        env = os.environ.copy()
+        env["DQM_VENV_BOOTSTRAPPED"] = "1"
+        raise SystemExit(subprocess.call([str(venv_py), os.path.abspath(__file__)] + sys.argv[1:], env=env))
+    raise
 
 from mt_ca.app.scenario import get_scenario
 from mt_ca.app.scenario_verify import (
@@ -31,50 +56,50 @@ from verify_checks.suites import (
 )
 
 
-def cmd_list(_: argparse.Namespace) -> int:
-    print(f"{'suite':22}  {'ship':4}  description")
+def cmd_list(_):
+    print("{:<22}  {:<4}  description".format("suite", "ship"))
     print("-" * 88)
     for sid in SUITE_ORDER:
         spec = VERIFY_SUITES[sid]
         ship = "yes" if spec.ship else "no"
-        print(f"{sid:22}  {ship:4}  {spec.description}")
-    print("\nScenarios (same ids as `python -m mt_ca.app.cli run <id>`):")
-    print(f"{'scenario':26}  verify_suites")
+        print("{:<22}  {:<4}  {}".format(sid, ship, spec.description))
+    print("\nScenarios (same ids as `python3 -m mt_ca.app.cli run <id>`):")
+    print("{:<26}  verify_suites".format("scenario"))
     print("-" * 88)
     for spec in list_scenarios_with_verify():
         suites = ",".join(spec.verify_suites)
-        print(f"{spec.id:26}  {suites}")
-    print("\nRun: verify_principles.py --scenario floor0_planckon")
-    print("     verify_principles.py [--ship | --suite t_macro ...]")
+        print("{:<26}  {}".format(spec.id, suites))
+    print("\nRun: python3 verify_principles.py --scenario floor0_planckon")
+    print("     python3 verify_principles.py [--ship | --suite t_macro ...]")
     return 0
 
 
-def _print_results(device: str, rows: list[dict], *, by_suite: bool) -> None:
-    print(f"device={device}")
+def _print_results(device, rows, by_suite=False):
+    print("device={}".format(device))
     print("-" * 60)
     if not by_suite:
         for row in rows:
             _print_row(row)
         return
 
-    current: str | None = None
+    current = None
     for row in rows:
         sid = row.get("suite", "?")
         if sid != current:
             current = sid
             spec = VERIFY_SUITES.get(sid)
             desc = spec.description if spec else ""
-            print(f"\n=== {sid} ===  {desc}")
+            print("\n=== {} ===  {}".format(sid, desc))
         _print_row(row)
 
 
-def _print_row(row: dict) -> None:
+def _print_row(row):
     status = "PASS" if row["ok"] else "FAIL"
     payload = {k: v for k, v in row.items() if k not in ("id", "ok", "suite")}
-    print(f"{row['id']:22}  {status}  {payload}")
+    print("{:<22}  {}  {}".format(row["id"], status, payload))
 
 
-def main() -> int:
+def main():
     has_cuda = bool(torch is not None and torch.cuda.is_available())
     parser = argparse.ArgumentParser(description="First-principles verification (suites)")
     parser.add_argument("--device", default="cuda" if has_cuda else "cpu")
@@ -83,7 +108,7 @@ def main() -> int:
     parser.add_argument(
         "--ship",
         action="store_true",
-        help=f"Ship profile: {', '.join(SHIP_SUITE_IDS)} (excludes m_evolution_open, cosmology).",
+        help="Ship profile: {} (excludes m_evolution_open, cosmology).".format(", ".join(SHIP_SUITE_IDS)),
     )
     parser.add_argument(
         "--suite",
@@ -107,7 +132,7 @@ def main() -> int:
     if args.ship and (args.suites or args.scenarios):
         parser.error("--ship cannot be combined with --suite or --scenario")
 
-    scenario_ids: list[str] = []
+    scenario_ids = []
     if args.scenarios:
         for raw in args.scenarios:
             for part in raw.split(","):
@@ -128,7 +153,7 @@ def main() -> int:
                     if part:
                         get_suite(part)
                         extra.append(part)
-            suite_ids = list(order_suite_ids([*suite_ids, *extra]))
+            suite_ids = list(order_suite_ids(list(suite_ids) + extra))
     elif args.suites:
         suite_ids = []
         for raw in args.suites:
@@ -143,33 +168,6 @@ def main() -> int:
 
     if args.device == "cuda" and (torch is None or not torch.cuda.is_available()):
         args.device = "cpu"
-
-    if torch is None and any(sid != "gate" for sid in suite_ids):
-        import os
-        from pathlib import Path
-        import subprocess
-
-        repo_root = Path(__file__).resolve().parent
-        if os.environ.get("DQM_VENV_BOOTSTRAPPED") != "1":
-            venv_dir = repo_root / ".venv"
-            venv_py = (
-                venv_dir / "Scripts" / "python.exe"
-                if os.name == "nt"
-                else venv_dir / "bin" / "python3"
-            )
-            req_file = repo_root / "requirements.txt"
-            if not venv_py.is_file():
-                print(f"[dqm] Creating virtual environment in {venv_dir} ...", file=sys.stderr)
-                subprocess.check_call([sys.executable, "-m", "venv", str(venv_dir)])
-            if subprocess.call([str(venv_py), "-c", "import torch"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) != 0:
-                print(f"[dqm] Installing dependencies from {req_file.name} into .venv ...", file=sys.stderr)
-                subprocess.check_call([str(venv_py), "-m", "pip", "install", "--upgrade", "pip"])
-                subprocess.check_call([str(venv_py), "-m", "pip", "install", "-r", str(req_file)])
-            env = os.environ.copy()
-            env["DQM_VENV_BOOTSTRAPPED"] = "1"
-            return subprocess.call([str(venv_py), os.path.abspath(__file__)] + sys.argv[1:], env=env)
-        print("Error: failed to bootstrap .venv with PyTorch.", file=sys.stderr)
-        return 1
 
     rows = run_suites(args.device, suite_ids)
     failed = failed_rows(rows)
