@@ -23,16 +23,17 @@
 
 ---
 
-## 1. The Four Core Books of Unified Natural Science (`book/out/pdf/`)
+## 1. The Five Core Books: Unified Natural Science (Books I–IV) & Projective Manifold Mathematics (Book V) (`book/out/pdf/`)
 
-In Discrete Quantum Mechanics (DQM) on the two-sorted algebraic carrier structure $\langle\mathcal{M},\mathcal{T}\rangle$ (in the model-theoretic sense of A. I. Mal'cev), physics, chemistry, molecular biology, cosmology, and the physical realization of computation unify into a **single Natural Science (*Естествознание*)** presented in four non-duplicated, cross-referenced books:
+In Discrete Quantum Mechanics (DQM) on the two-sorted algebraic carrier structure $\langle\mathcal{M},\mathcal{T}\rangle$ (in the model-theoretic sense of A. I. Mal'cev), physics, chemistry, molecular biology, cosmology, and the physical realization of computation unify into a **single Natural Science (*Естествознание*, Books I–IV)**, while the pure constructive mathematics of the projective manifold $\mathbb{P}^1$ over $\mathbb{Z}_{4Q}$ and $\mathbb{Q}(i, \sqrt{d-1})$ is separated into a dedicated **Mathematical Monograph (Book V)**:
 
 | Book | Role & Scope | Compiled PDF (`book/out/pdf/`) | LaTeX Source (`book/sources/`) |
 | :--- | :--- | :--- | :--- |
-| **Book I — Theory** | **Formal Foundations of DQM:** $1 + 2^d = d^2 \implies d = 3$, cuboctahedral rotator calculus on $\mathbb{Z}_{512}$, Post completeness, de Rham cohomology, Born's rule, Maxwell electrodynamics, $\alpha_{\mathrm{fs}}^{-1}(3) = 137.035999187\dots$, atomic/nuclear shells of $O_2(3)$, molecular biophysics, and the model-theoretic limit $\lim M_n = \mathcal{M}$. | [`formal-foundations-monograph.pdf`](book/out/pdf/formal-foundations-monograph.pdf) | [`vol-formal-foundations-monograph.tex`](book/sources/volumes/vol-formal-foundations-monograph.tex) |
+| **Book I — Theory** | **Formal Foundations of DQM:** $1 + 2^d = d^2 \implies d = 3$, cuboctahedral rotator calculus on $\mathbb{Z}_{512}$, Post completeness, de Rham cohomology, Born's rule, Maxwell electrodynamics, $\alpha_{\mathrm{fs}}^{-1}(3) = 137.035999187\dots$, atomic/nuclear shells of $O_2(3)$, molecular biophysics, 3-stage passive & $833:1$ active radiation shielding, and the model-theoretic limit $\lim M_n = \mathcal{M}$. | [`formal-foundations-monograph.pdf`](book/out/pdf/formal-foundations-monograph.pdf) | [`vol-formal-foundations-monograph.tex`](book/sources/volumes/vol-formal-foundations-monograph.tex) |
 | **Book II — Laboratory** | **Laboratory Manual & Cleanroom Protocols:** 4-layer phonon-free singlet-fission silicon heterojunction ($Z(\mathrm{C_{18}H_{12}})+Z(\mathrm{O}) = 120+8 = 128 = Q_\square(3)$, Pauli passivation barrier $45^2 < 2048 < 46^2$), Pauli gate A/B falsification ($Z=45$ vs. $Z=46$), signatures `M1`–`M4`, pre-emptive troubleshooting matrix `F1`–`F6`, and critical experiment registry (`CE-M`, `CE-F`, `CE-A`, `CE-RD`). | [`dqm-laboratory-manual.pdf`](book/out/pdf/dqm-laboratory-manual.pdf) | [`vol-laboratory-manual.tex`](book/sources/volumes/vol-laboratory-manual.tex) |
-| **Book III — Engineering** | **Engineering Handbook:** Phase-relay electrical engineering on FCC cuboctahedra ($V = \mathcal{C}_3(\Delta\varphi),\ I = \mathcal{S}_3(\Delta\varphi)$), DC MPPT ($P \le 64^2 = 4096$), $0\%$-ripple capacitor-free quadrature rectifiers ($|\mathcal{C}_3|+|\mathcal{S}_3|\equiv 128$), Landauer-free reversible computing ($|\Delta\varphi|\le 40 < 41$), branchless silicon stack (`Ring9 / Bus36 / VerletCell72`), and 12-coil $O_2(3)$ reactors. | [`dqm-engineering-handbook.pdf`](book/out/pdf/dqm-engineering-handbook.pdf) | [`vol-engineering-handbook.tex`](book/sources/volumes/vol-engineering-handbook.tex) |
+| **Book III — Engineering** | **Engineering Handbook:** Phase-relay electrical engineering on FCC cuboctahedra ($V = \mathcal{C}_3(\Delta\varphi),\ I = \mathcal{S}_3(\Delta\varphi)$), DC MPPT ($P \le 64^2 = 4096$), $0\%$-ripple capacitor-free quadrature rectifiers ($|\mathcal{C}_3|+|\mathcal{S}_3|\equiv 128$), Landauer-free reversible computing ($|\Delta\varphi|\le 40 < 41$), branchless silicon stack (`Ring9 / Bus36 / VerletCell72`), 12-coil $O_2(3)$ reactors, and 3-stage graded + $833:1$ active radiation shielding. | [`dqm-engineering-handbook.pdf`](book/out/pdf/dqm-engineering-handbook.pdf) | [`vol-engineering-handbook.tex`](book/sources/volumes/vol-engineering-handbook.tex) |
 | **Book IV — Popular Science Guide (*Powered by Dr. STONE*)** | **The Complete Popular Course of Unified Natural Science (*Powered by Dr. STONE — 10,000,000,000%*):** Conversational 7-stage roadmap crafting the entire scientific tree from $1 + 2^3 = 3^2$ to living cells and silicon hardware. | [`natural-sciences-course.pdf`](book/out/pdf/natural-sciences-course.pdf) | [`vol-natural-sciences-course.tex`](book/sources/volumes/vol-natural-sciences-course.tex) |
+| **Book V — Mathematics** | **Mathematics of the Projective Manifold:** Pure constructive mathematics over $\mathbb{Z}_{4Q}$ and $\mathbb{Q}(i, \sqrt{d-1})$ (`lean/Constructive/`, `0 sorryAx`, `0 Classical.choice`, `0 Prop premises` under `AxiomGuard.lean`): pole-free quotient derivative towers $D^n(f/g)=N_n/G_n$, $\mathrm{SL}_2(\mathbb{Z})$ isotropic cones and Padé approximant towers, root-free cubic Padé compression, three-shaft planetary differentials $\mathcal{A}+\mathcal{B}=\mathcal{C}$ with Mason–Stothers Wronskians, multi-screw cascade monoids with $S_A$ extremal drift envelopes, and 2D counter-wave Gram-matrix cancellation with Model 1 / Model 2 independence theorems. | [`projective-manifold-mathematics.pdf`](book/out/pdf/projective-manifold-mathematics.pdf) | [`vol-projective-manifold-mathematics.tex`](book/sources/volumes/vol-projective-manifold-mathematics.tex) |
 
 ---
 
@@ -106,9 +107,10 @@ python3 verify_principles.py --list
 python3 verify_principles.py --suite gate
 python3 verify_principles.py --ship
 
-# 3. Build the 4 core books of Unified Natural Science:
+# 3. Build the 5 core books (Books I-IV Natural Science + Book V Projective Manifold Mathematics):
 pwsh -NoProfile -File book/build.ps1 -Volume monograph
 pwsh -NoProfile -File book/build.ps1 -Volume laboratory
 pwsh -NoProfile -File book/build.ps1 -Volume engineering
 pwsh -NoProfile -File book/build.ps1 -Volume course
+pwsh -NoProfile -File book/build.ps1 -Volume mathematics
 ```

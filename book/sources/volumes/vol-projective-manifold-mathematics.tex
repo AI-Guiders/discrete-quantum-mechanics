@@ -1,0 +1,303 @@
+% ============================================================================
+% Математика проективного многообразия (Книга 5)
+% (book/sources/volumes/vol-projective-manifold-mathematics.tex)
+% ============================================================================
+
+\chapter*{Предисловие. Отделение чистой проективной математики от физики носителя}
+\markboth{Предисловие}{Предисловие}
+\addcontentsline{toc}{chapter}{Предисловие. Отделение чистой проективной математики от физики носителя}
+
+Физика дискретного носителя (изложенная в \textbf{Книге~1}, \texttt{formal-foundations-monograph.pdf}) и чистая математика проективного многообразия $\mathbb{P}^1$ над кольцом ротатора $\mathbb{Z}_{4Q}$ имеют различный предмет и различные критерии истинности. Физическая теория проверяется совпадением с константами природы и лабораторным экспериментом в чистой комнате. Математическая же теория представляет собой замкнутую дедуктивную систему тождеств и инвариантов над целыми числами $\mathbb{Z}$ и проективными полями $\mathbb{Q}(i, \sqrt{d-1})$, истинность которой устанавливается исключительно формальным выводом в ядре доказательства теорем.
+
+В настоящую математическую монографию (\textbf{Книга~5}) собраны только чистые, конструктивно доказанные математические результаты (\texttt{lean/Constructive/}, \texttt{56/56} целей сборки, \texttt{0 sorryAx}, \texttt{0 Classical.choice}, \texttt{0} скрытых посылок под автоматическим контролем компилятора \texttt{AxiomGuard.lean}), выкованные при построении проективного анализа и исследовании диофантовых структур:
+\begin{enumerate}[label=\textbf{Глава \arabic*.},leftmargin=*]
+\item \textbf{Дискретный ротатор $\mathbb{Z}_{4Q}$, проективные поля $\mathbb{Q}(i, \sqrt{d-1})$ и дифференциально-интегральное исчисление без делений (\texttt{RotatorQuadrature.lean}, \texttt{LogicCohomology.lean}):}
+  кусочно-линейный характер Эйлера $(\mathcal{C}_Q, \mathcal{S}_Q)$ на алмазе $|\mathcal{C}_Q|+|\mathcal{S}_Q|=Q$, тождественно постоянный разностный вронскиан $\mathcal{W}_Q(\varphi)\equiv Q$, подъём Брахмагупты--Вейерштрасса на рациональную окружность $S^1(\mathbb{Q})$, отсутствие делителей нуля $2(\mathcal{C}_Q^2+\mathcal{S}_Q^2)\ge Q^2$, однородная арифметика без деления в полях $\mathbb{Q}(i)$, $\mathbb{Q}(\sqrt{d-1})$ и круговом поле $\mathbb{Q}(\zeta_8) = \mathbb{Q}(i,\sqrt{2})$, замкнутая башня производных частного $D^n(f/g) = N_n/G_n$ всех порядков $n\in\mathbb{N}$ с $G_n \ge 1$, точные дискретные интегралы Френеля, Якоби, Дирихле, Парсеваля и Бесселя, многомерная кубатура Симпсона на оболочке $O_2(d)$ и конструктивные когомологии де~Рама $d^2\equiv 0$.
+\item \textbf{Изотропный дискриминантный конус в $\mathrm{SL}_2(\mathbb{Z})$, моноид башни аппроксимантов Паде и бескорневое кубическое сжатие (\texttt{PillaiDiophantine.lean}):}
+  матричное представление двухуровневых ступеней $M_{a,b}\in\mathrm{Mat}_{2\times 2}(\mathbb{Z})$ с инвариантным определителем $\det M_{a,b} = C$, изотропный конус $\frac{1}{4}((\operatorname{Tr}\widetilde{P})^2 - 4) = X^2 + Y^2 - T^2$, параболические жордановы матрицы $\widetilde{P}_k = \mp I_2 + k N_0 \in \mathrm{SL}_2(\mathbb{Z})$ ($N_0^2 = 0$), рекурсия Ганкеля--Вронскиана вдоль луча, мультипликативный моноид башни линейных аппроксимантов Паде $(P_{\mathcal{R}}, Q_{\mathcal{R}})$, бескорневое тождество кубического сжатия Паде третьего порядка с тождественным сокращением $X^3$ на произвольном этаже $\mathcal{R}$ и закон невырожденного ухода на соседний этаж башни Паде.
+\item \textbf{Трёхшахтные планетарные дифференциалы $\mathcal{A} + \mathcal{B} = \mathcal{C}$, вронскиан Мейсона--Стотерса и проекторы Лагранжа--Вандермонда (\texttt{AbcPlanetaryWronskian.lean}, \texttt{RotatorCalculusPaper.lean}):}
+  уравнение Виллиса $z_1(\omega_1-\omega_H)+z_2(\omega_2-\omega_H)=0$, ортогональный репер трёхшахтного дифференциала $\mathcal{F}_3$ ($\mathbf{r}\cdot\mathbf{\omega}=0$), факторизация определителя матрицы моментов Ганкеля $-\det\mathcal{H}_3 = \widetilde{A}\widetilde{B}\widetilde{C}(X-Y)^2(Y-Z)^2(Z-X)^2$, целочисленный кубический вронскиан Мейсона--Стотерса $W^* = A B^* - B A^*$ и определитель четвёртых степеней $-\det\mathcal{W}_{\mathrm{MS}} = d_{\mathrm{Bez}}(X^4+Y^4+Z^4)$, проекторы Лагранжа--Вандермонда по дефектам нижних этажей $(S_1, S_2, S_3)$, межэтажное тождество сцепления $k=2 \leftrightarrow k=3 \implies K=6$ рода $g(6)=10$ и стереографическое вложение любого трёхшахтного баланса в ротатор $\mathbb{Z}_{4Q}$.
+\item \textbf{Алгебра многовинтовых планетарных каскадов и векторная суперпозиция встречных волн на сфере Римана $\mathbb{P}^1$ (\texttt{CollatzPlanetarySplice.lean}, \texttt{RiemannHolonomy.lean}, \texttt{ModelTheoreticLimit.lean}):}
+  двухдуговая композиция траекторий и хордовый вронскиан цикла, унимодулярный базис $\mathrm{SL}_2(\mathbb{Z})$ показателей $(u,v) = (2a-3b, 2b-a)$, встречное прямое-обратное сшивание Безу в $\mathbb{Z}_{P_1}\times\mathbb{Z}_{Q_2}$, моноид многовинтовых каскадов $(P_{L_1\mathbin{+\!+}L_2}, Q_{L_1\mathbin{+\!+}L_2}, D_{L_1\mathbin{+\!+}L_2})$, универсальная экстремальная вилка остатка по всем бинарным словам шестерён $3^B - 2^B \le R_w \le 2^{A-B}(3^B - 2^B)$ со строго положительной вариационной производной транспозиции соседних ступеней $\delta_{\mathrm{swap}}R_w = P_{L_1}Q_{L_2} \ge 1$, отражение граничных неподвижных точек $n_\infty^{(-)} = -1 \leftrightarrow n_\infty^{(+)} = 0 \leftrightarrow n^* = +1$, а также закон полного векторного сложения встречных волн в океане мод с тождественным сокращением чётной матрицы Грама $\mathrm{MainAmount}_{\mathrm{vec}}$, тройная дихотомия $M$-этажного каскада и конструктивная теорема о модельно-теоретической независимости.
+\end{enumerate}
+
+% ============================================================================
+\chapter{Дискретный ротатор \texorpdfstring{$\mathbb{Z}_{4Q}$}{Z4Q}, однородные проективные поля \texorpdfstring{$\mathbb{Q}(i,\sqrt{d-1})$}{Q(i, sqrt(d-1))} и анализ без делений}
+\label{ch:math-rotator-calculus}
+% ============================================================================
+
+\section{Характер Эйлера на \texorpdfstring{$L^1$}{L1}-алмазе, тождество постоянного вронскиана и подъём Брахмагупты--Вейерштрасса}
+
+Пусть $Q \in \mathbb{N}^+$ ($Q \ge 1$) --- произвольный целочисленный четверть-период. На циклическом кольце $\mathbb{Z}_{4Q}$ из $4Q$ фазовых состояний чётная (косинусная) и нечётная (синусная) проекции $(\mathcal{C}_Q(\varphi), \mathcal{S}_Q(\varphi)) \in [-Q, +Q]^2$ определяются кусочно-линейным обходом четырёх квадрантов $L^1$-алмаза $|\mathcal{C}_Q(\varphi)| + |\mathcal{S}_Q(\varphi)| \equiv Q$: в первом квадранте $0 \le m \le Q$ имеем $(\mathcal{C}_Q(m), \mathcal{S}_Q(m)) = (Q - m, m)$ с продолжением на остальные квадранты поворотом на четверть периода $+Q$:
+\begin{equation}
+  \label{eq:math-rotator-quarter-shift}
+  \mathcal{C}_Q(\varphi + Q) \;=\; -\mathcal{S}_Q(\varphi), \qquad
+  \mathcal{S}_Q(\varphi + Q) \;=\; +\mathcal{C}_Q(\varphi).
+\end{equation}
+
+\begin{theorem}[Тождество постоянного разностного вронскиана, подъём Брахмагупты--Вейерштрасса, отсутствие делителей нуля и замкнутые дискретные квадратуры (\texttt{RotatorQuadrature.lean}: \texttt{thm1}, \texttt{thm2}, \texttt{thm34})]
+\label{thm:math-wronskian-weierstrass-quadratures}
+Для любого четверть-периода $Q \ge 1$ на кольце $\mathbb{Z}_{4Q}$ выполняются следующие безусловные конструктивные тождества (\texttt{0 sorryAx}, \texttt{0 Classical.choice}, \texttt{0 Prop premises}):
+\begin{enumerate}[label=\textbf{(\arabic*)},leftmargin=*]
+\item \textbf{Тождественное постоянство разностного вронскиана и формула Ньютона--Лейбница (\texttt{thm1}):}
+  для первых разностей $\Delta\mathcal{C}_Q(\varphi) = \mathcal{C}_Q(\varphi+1) - \mathcal{C}_Q(\varphi)$ и $\Delta\mathcal{S}_Q(\varphi) = \mathcal{S}_Q(\varphi+1) - \mathcal{S}_Q(\varphi)$ дискретный вронскиан тождественно равен четверть-периоду $Q$ в каждой точке кольца (включая угловые вершины смены наклона), а конечный интеграл первой разности любой функции $F : \mathbb{Z} \to \mathbb{Z}$ телескопически точен:
+  \begin{align}
+    \mathcal{W}_Q(\varphi) &:= \mathcal{C}_Q(\varphi)\,\Delta\mathcal{S}_Q(\varphi) - \mathcal{S}_Q(\varphi)\,\Delta\mathcal{C}_Q(\varphi) \;\equiv\; Q, \label{eq:math-const-wronskian} \\
+    \sum_{k=0}^{N-1} \bigl(F(a + k + 1) - F(a + k)\bigr) &\equiv F(a + N) - F(a). \label{eq:math-newton-leibniz}
+  \end{align}
+\item \textbf{Подъём Брахмагупты--Вейерштрасса на рациональную окружность $S^1(\mathbb{Q})$ и отсутствие делителей нуля на $L^1$-алмазе (\texttt{thm1}, \texttt{thm34}):}
+  однородная тройка Вейерштрасса $(X_T, Y_T, R_T) = \bigl(\mathcal{C}_Q^2 - \mathcal{S}_Q^2,\ 2\mathcal{C}_Q\mathcal{S}_Q,\ \mathcal{C}_Q^2 + \mathcal{S}_Q^2\bigr)$ тождественно лежит на евклидовой окружности, а знаменатель $R_T = \mathcal{C}_Q^2 + \mathcal{S}_Q^2$ строго положителен во всех точках $L^1$-алмаза $|\mathcal{C}_Q| + |\mathcal{S}_Q| = Q \ge 1$:
+  \begin{align}
+    X_T^2 + Y_T^2 &= (\mathcal{C}_Q^2 - \mathcal{S}_Q^2)^2 + (2\mathcal{C}_Q\mathcal{S}_Q)^2 \;\equiv\; (\mathcal{C}_Q^2 + \mathcal{S}_Q^2)^2 \;=\; R_T^2, \label{eq:math-weierstrass-circle} \\
+    2\,R_T &= 2\bigl(\mathcal{C}_Q^2 + \mathcal{S}_Q^2\bigr) \;\equiv\; (\mathcal{C}_Q + \mathcal{S}_Q)^2 + (\mathcal{C}_Q - \mathcal{S}_Q)^2 \;\ge\; Q^2 \;\ge\; 1. \label{eq:math-no-zero-divisors}
+  \end{align}
+\item \textbf{Однородная проективная обратимость в полях $\mathbb{Q}(i)$, $\mathbb{Q}(\sqrt{m})$ и круговом поле $\mathbb{Q}(i,\sqrt{2}) = \mathbb{Q}(\zeta_8)$ (\texttt{thm34}, \texttt{thm39}):}
+  в однородных проективных координатах без деления мультипликативные обратные в гауссовом поле $\mathbb{Q}(i)$ и квадратичном поле $\mathbb{Q}(\sqrt{m})$ ($m = d - 1$) задаются полиномиальными операторами
+  \begin{align}
+    \operatorname{gaussFieldInv}(X, Y, R) &:= \bigl(R X,\; -R Y,\; X^2 + Y^2\bigr), \label{eq:math-gauss-inv} \\
+    \operatorname{quadFieldInv}_m(a, b, D) &:= \bigl(D a,\; -D b,\; a^2 - m b^2\bigr), \label{eq:math-quad-inv}
+  \end{align}
+  удовлетворяющими $(X, Y, R)\otimes_{\mathbb{Q}(i)}\operatorname{gaussFieldInv}(X, Y, R) = \bigl(R(X^2+Y^2),\, 0,\, R(X^2+Y^2)\bigr) \sim (1, 0, 1)$, а при $m = 2$ первообразный корень $8$-й степени из единицы $\zeta_8 = (0, 1, 0, 1, 2) \in \mathbb{Q}(i,\sqrt{2})$ удовлетворяет точным проективным соотношениям $\zeta_8^2 \sim i$, $\zeta_8^4 \sim -1$, $\zeta_8^8 \sim +1$, $\zeta_8\bar{\zeta}_8 \sim +1$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+В пункте~(1) внутри первого квадранта $(Q - m)(m + 1) - m(Q - m - 1) = Q m + Q - m^2 - m - Q m + m^2 + m = Q$, а в вершине $m = Q$ имеем $0\cdot(Q-1) - Q\cdot(-1) = Q$. В пункте~(2) раскрытие $(\mathcal{C}_Q^2 - \mathcal{S}_Q^2)^2 + 4\mathcal{C}_Q^2\mathcal{S}_Q^2 = \mathcal{C}_Q^4 + 2\mathcal{C}_Q^2\mathcal{S}_Q^2 + \mathcal{S}_Q^4 = (\mathcal{C}_Q^2 + \mathcal{S}_Q^2)^2$ и $(\mathcal{C}_Q + \mathcal{S}_Q)^2 + (\mathcal{C}_Q - \mathcal{S}_Q)^2 = 2(\mathcal{C}_Q^2 + \mathcal{S}_Q^2)$ при $|\mathcal{C}_Q| + |\mathcal{S}_Q| = Q$ даёт $2 R_T \ge Q^2 \ge 1$. В пункте~(3) перемножение однородных пятёрок в $\mathbb{Q}(i,\sqrt{2})$ проверяется раскрытием скобок (\texttt{thm34}, \texttt{thm39}).
+\end{proof}
+
+\section{Замкнутая башня производных частного всех порядков \texorpdfstring{$D^n(f/g)$}{D\^{}n(f/g)}, многомерная кубатура Симпсона и когомологии де~Рама}
+
+\begin{theorem}[Башня разностных производных частного $D^n(f/g) = N_n/G_n$ всех порядков $n\in\mathbb{N}$, вариационный принцип, многомерная кубатура Симпсона на $O_2(d)$ и конструктивные когомологии де~Рама (\texttt{RotatorQuadrature.lean}: \texttt{thm3}, \texttt{thm35}, \texttt{thm38}; \texttt{LogicCohomology.lean}: \texttt{thm5})]
+\label{thm:math-c-infinity-simpson-derham}
+Для любых целочисленных функций $f, g : \mathbb{Z} \to \mathbb{Z}$ с разностным оператором $(Df)(x) = f(x+1) - f(x)$:
+\begin{enumerate}[label=\textbf{(\arabic*)},leftmargin=*]
+\item \textbf{Рекуррентная башня производных отношения $D^n(f/g) = N_n(x)/G_n(x)$ во всех порядках $n\in\mathbb{N}$ без полюсов (\texttt{thm35}, \texttt{thm38}):}
+  индуктивная пара числителя и знаменателя $n$-й производной частного
+  \begin{align}
+    N_0(x) &:= f(x), \qquad
+    N_{n+1}(x) \;:=\; N_n(x+1)\,g(x) - N_n(x)\,g(x+n+1), \label{eq:math-quot-numer-tower} \\
+    G_n(x) &:= \prod_{j=0}^n g(x+j) \label{eq:math-quot-denom-tower}
+  \end{align}
+  удовлетворяет точному шаговому тождеству $\bigl(N_n(x+1)G_n(x) - N_n(x)G_n(x+1)\bigr)g(x) \equiv N_{n+1}(x)G_n(x)$ и формуле Тейлора--Ньютона по падающим факториалам, причём для знаменателя Вейерштрасса $g(t) = R_Q(t) = \mathcal{C}_Q(t)^2 + \mathcal{S}_Q(t)^2$ ($Q \ge 1$) при всех $n\in\mathbb{N}$ и всех $x\in\mathbb{Z}$ выполняется $G_n(x) \ge 1$.
+\item \textbf{Многомерное разбиение на пояса и кубатура Симпсона на оболочке $O_2(d)$ при произвольной размерности $d \ge 2$ (\texttt{thm3}, \texttt{thm39}):}
+  сечение оболочки $O_2(d) = \{e \in \{-1,0,+1\}^d \mid \sum_{i=1}^d e_i^2 = 2\}$ из $2d(d-1)$ вершин вдоль любой координатной оси образует три пояса $\bigl(|Z_{-1}(d)|, |Z_0(d)|, |Z_{+1}(d)|\bigr) = \bigl(2(d-1),\ 2(d-1)(d-2),\ 2(d-1)\bigr)$, которые в сумме с центральным весом $w_0(d) = 2(d-1)(6-d)$ дают параболические веса Симпсона:
+  \begin{equation}
+    \label{eq:math-simpson-weights-d}
+    \bigl(|Z_{-1}(d)|,\; |Z_0(d)| + w_0(d),\; |Z_{+1}(d)|\bigr) \;\equiv\; 2(d-1)\times(1,\; 4,\; 1),
+  \end{equation}
+  воспроизводя точный трёхмерный интеграл Римана $3\iiint_{[-1,1]^3} P\,\mathrm{d}V = 24c_0 + 8(c_x+c_y+c_z)$ на произвольном кубическом многочлене $P$, тогда как сумма по архимедовым слоям $S_k(3) = 10k^2 + 2$ удовлетворяет $3\bigl(1 + \sum_{k=1}^N (10k^2+2)\bigr) \equiv 10N^3 + 15N^2 + 11N + 3$.
+\item \textbf{Конструктивные когомологии де~Рама $d^2 \equiv 0$ и обращение нильпотентных операторов в $\mathbb{Z}$ (\texttt{thm5}):}
+  кограничные операторы $d_0$ (на рёбрах), $d_1$ (на гранях) и $d_2$ (на кубах) удовлетворяют $d_1 \circ d_0 \equiv 0$ и $d_2 \circ d_1 \equiv 0$, циркуляция главных остатков по модулю $M$ вокруг замкнутой грани строго квантована периодом ($(d_1 r)_f = M\cdot n_f \in M\mathbb{Z}$), а любой нильпотентный оператор $\mathcal{M} = I + N_{\mathrm{nil}}$ ($N_{\mathrm{nil}}^3 = 0$) обращается в целых числах по формуле $(I + N_{\mathrm{nil}})^{-1} = I - N_{\mathrm{nil}} + N_{\mathrm{nil}}^2$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Из определения~\eqref{eq:math-quot-denom-tower} следует $G_n(x+1)g(x) = g(x+n+1)G_n(x) = G_{n+1}(x)$, откуда вынесение общего множителя $G_n(x)$ даёт $(N_n(x+1)G_n(x) - N_n(x)G_n(x+1))g(x) = N_{n+1}(x)G_n(x)$. Тождество~\eqref{eq:math-simpson-weights-d} следует из $2(d-1)(d-2) + 2(d-1)(6-d) = 8(d-1)$, а равенства $d_1(d_0\varphi) \equiv 0$, $d_2(d_1 e) \equiv 0$ и $(I + N_{\mathrm{nil}})(I - N_{\mathrm{nil}} + N_{\mathrm{nil}}^2) = I + N_{\mathrm{nil}}^3 = I$ проверяются раскрытием скобок.
+\end{proof}
+
+% ============================================================================
+\chapter{Изотропный дискриминантный конус в \texorpdfstring{$\mathrm{SL}_2(\mathbb{Z})$}{SL2(Z)}, моноид башни аппроксимантов Паде и бескорневое кубическое сжатие}
+\label{ch:math-pade-sl2-towers}
+% ============================================================================
+
+\section{Матричное представление ступеней, изотропный конус и параболические жордановы матрицы в \texorpdfstring{$\mathrm{SL}_2(\mathbb{Z})$}{SL2(Z)}}
+
+Рассмотрим двумерную целочисленную решётку ступеней, порождённую парой величин $(U, V) = (A x^m, B y^n)$ с разностью $C = U - V$. Для любой внутренней ступени $(a, b)$ ($1 \le a \le m-1,\ 1 \le b \le n-1$) матрица ступени
+\begin{equation}
+  \label{eq:math-stage-matrix}
+  M_{a,b} \;=\; \begin{pmatrix} A\,x^{m-a} & B\,y^{n-b} \\ y^b & x^a \end{pmatrix} \in \mathrm{Mat}_{2\times 2}(\mathbb{Z}),
+  \qquad \det M_{a,b} \;=\; A\,x^m - B\,y^n \;=\; C
+\end{equation}
+определяет матрицу межступенчатого перехода $P = M_{a,b}^{\mathrm{adj}} M_{a',b'}$ с инвариантным определителем $\det P = C^2$ и нормированную унимодулярную матрицу $\widetilde{P} = \frac{1}{C}P \in \mathrm{SL}_2(\mathbb{Q})$.
+
+\begin{theorem}[Изотропный дискриминантный конус $\mathrm{SL}_2(\mathbb{Z})$, параболические жордановы матрицы, рекурсия Ганкеля и счётная башня аппроксимантов Паде (\texttt{PillaiDiophantine.lean}: \texttt{thm6}, \texttt{thm7}, \texttt{thm10}, \texttt{thm10b}, \texttt{thm10c}, \texttt{thm11})]
+\label{thm:math-pade-tower-cubic-compression}
+Для любых целых параметров $(U, V)$ с разностью $C = U - V$ и произвольного списка этажей башни Паде $\mathcal{R} = [r_1, \dots, r_M] \in \mathrm{List}\,\mathbb{Z}$ с индуктивным шагом $(P, Q) \mapsto \bigl(P + (r - 1)Q,\ (r - 1)P + Q\bigr)$ (\texttt{padeTowerP}, \texttt{padeTowerQ}) выполняются следующие безусловные тождества (\texttt{0 Prop premises}):
+\begin{enumerate}[label=\textbf{(\arabic*)},leftmargin=*]
+\item \textbf{Изотропный дискриминантный конус и нильпотентные жордановы образующие (\texttt{thm6}):}
+  в координатах $X = (\widetilde{P}_{11} - \widetilde{P}_{22})/2$, $Y = (\widetilde{P}_{12} + \widetilde{P}_{21})/2$, $T = (\widetilde{P}_{12} - \widetilde{P}_{21})/2$ условие унимодулярности $\det\widetilde{P} = 1$ тождественно эквивалентно уравнению изотропного конуса
+  \begin{equation}
+    \label{eq:math-sl2-isotropic-cone}
+    \frac{1}{4}\Bigl((\operatorname{Tr}\widetilde{P})^2 - 4\Bigr) \;=\; X^2 + Y^2 - T^2,
+  \end{equation}
+  а вдоль параболической образующей $\operatorname{Tr}\widetilde{P} = \mp 2$ ($X^2 + Y^2 = T^2$) семейство матриц $\widetilde{P}_k = \mp I_2 + k N_0$ с нильпотентной матрицей $N_0 = \begin{pmatrix} -1 & -1 \\ 1 & 1 \end{pmatrix}$ ($N_0^2 = 0$) принадлежит $\mathrm{SL}_2(\mathbb{Z})$ при всех $k \in \mathbb{Z}$.
+\item \textbf{Гомоморфизм моноида башни Паде и точная факторизация суммы и разности на произвольном этаже $\mathcal{R}$ (\texttt{padeTowerP\_append}, \texttt{padeTowerQ\_append}, \texttt{thm7}):}
+  для любых списков этажей $\mathcal{R}_1, \mathcal{R}_2 \in \mathrm{List}\,\mathbb{Z}$ композиция башни ассоциативна:
+  \begin{align}
+    P_{\mathcal{R}_1\mathbin{+\!+}\mathcal{R}_2}(U, V) &= P_{\mathcal{R}_2}\bigl(P_{\mathcal{R}_1}(U, V),\; Q_{\mathcal{R}_1}(U, V)\bigr), \label{eq:math-pade-monoid-p} \\
+    Q_{\mathcal{R}_1\mathbin{+\!+}\mathcal{R}_2}(U, V) &= Q_{\mathcal{R}_2}\bigl(P_{\mathcal{R}_1}(U, V),\; Q_{\mathcal{R}_1}(U, V)\bigr), \label{eq:math-pade-monoid-q}
+  \end{align}
+  а сумма и разность числителя и знаменателя на любом этаже $\mathcal{R}$ факторизуются через мультипликативные инварианты $\Pi_+(\mathcal{R}) = \prod_{r\in\mathcal{R}} r$ (\texttt{padeTowerProdPlus}) и $\Pi_-(\mathcal{R}) = \prod_{r\in\mathcal{R}} (2 - r)$ (\texttt{padeTowerProdMinus}):
+  \begin{align}
+    P_{\mathcal{R}}(U, V) + Q_{\mathcal{R}}(U, V) &\equiv \Pi_+(\mathcal{R})\,(U + V), \label{eq:math-pade-sum-factor} \\
+    P_{\mathcal{R}}(U, V) - Q_{\mathcal{R}}(U, V) &\equiv \Pi_-(\mathcal{R})\,(U - V) \;=\; \Pi_-(\mathcal{R})\,C. \label{eq:math-pade-diff-factor}
+  \end{align}
+\item \textbf{Бескорневое кубическое сжатие Паде, точное сокращение $X^3$ на всех этажах $\mathcal{R}$ и закон ухода на соседний этаж (\texttt{thm10}, \texttt{thm10b}, \texttt{thm10c}, \texttt{thm11}):}
+  для двух пар кубов $(U, V) = (\widetilde{A}X^3, \widetilde{B}Y^3)$ ($C = U - V$) и $(U', V') = (\widetilde{A}X'^3, \widetilde{B}Y'^3)$ ($C' = U' - V'$), кросс-валов $a = Y'X$, $b = X'Y$, линейной формы этажа $I_{\mathcal{R}} = a P_{\mathcal{R}} - b Q_{\mathcal{R}}$ и строго положительной квадратичной формы $\Phi_3(u, v) = u^2 + u v + v^2$ на каждом этаже $\mathcal{R}$ выполняются тождество бескорневого кубического сжатия и тождество сокращения $X^3$:
+  \begin{align}
+    U\,I_{\mathcal{R}}\,\Phi_3(a P_{\mathcal{R}}, b Q_{\mathcal{R}}) &\equiv a^3\bigl(U P_{\mathcal{R}}^3 - V Q_{\mathcal{R}}^3\bigr) - (U b^3 - V a^3)\,Q_{\mathcal{R}}^3, \label{eq:math-arbitrary-floor-cubic-pade} \\
+    \widetilde{A}\,I_{\mathcal{R}}\,\Phi_3(a P_{\mathcal{R}}, b Q_{\mathcal{R}}) &\equiv Y'^3\bigl(U P_{\mathcal{R}}^3 - V Q_{\mathcal{R}}^3\bigr) - C'\,Y^3\,Q_{\mathcal{R}}^3 \qquad (X^3 \ge 1), \label{eq:math-arbitrary-floor-x3-cancel} \\
+    U P_{[3]}^3 - V Q_{[3]}^3 &\equiv C^3\,(U + V), \label{eq:math-base-floor3-collapse} \\
+    \det\mathcal{W}_{2,3}(U, V) &:= \widehat{P}_1\widehat{Q}_2 - \widehat{Q}_1\widehat{P}_2 \;\equiv\; (U - V)^3\bigl(U^2 + 3UV + V^2\bigr). \label{eq:math-cross-floor-wronskian23}
+  \end{align}
+  При переходе с этажа $\mathcal{R}$ на соседний этаж $\mathcal{R}' = \mathcal{R} \mathbin{+\!+} [k_{\mathrm{shift}} + 1]$ линейная форма удовлетворяет разностному закону
+  \begin{equation}
+    \label{eq:math-adjacent-floor-escape}
+    I_{\mathcal{R}'} - (k_{\mathrm{shift}} + 1)\,I_{\mathcal{R}} \;\equiv\; -k_{\mathrm{shift}}\,(a + b)\,\Pi_-(\mathcal{R})\,C,
+  \end{equation}
+  откуда при $k_{\mathrm{shift}}(a+b)\Pi_-(\mathcal{R})C \ne 0$ формы $I_{\mathcal{R}}$ и $I_{\mathcal{R}'}$ не могут обратиться в нуль одновременно ($\neg(I_{\mathcal{R}} = 0 \land I_{\mathcal{R}'} = 0)$ и $|I_{\mathcal{R}}| + |I_{\mathcal{R}'}| \ge 1$).
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Уравнение конуса~\eqref{eq:math-sl2-isotropic-cone} следует из $\det\widetilde{P} = (S+X)(S-X) - (Y+T)(Y-T) = S^2 - X^2 - Y^2 + T^2 = 1$ при $S = \frac{1}{2}\operatorname{Tr}\widetilde{P}$. Ассоциативность моноида~\eqref{eq:math-pade-monoid-p}--\eqref{eq:math-pade-monoid-q} и факторизации~\eqref{eq:math-pade-sum-factor}--\eqref{eq:math-pade-diff-factor} доказываются структурной индукцией по списку $\mathcal{R}$. В пункте~(3) разность $(a P_{\mathcal{R}})^3 - (b Q_{\mathcal{R}})^3 = I_{\mathcal{R}}\,\Phi_3(a P_{\mathcal{R}}, b Q_{\mathcal{R}})$ после умножения на $U$ и выделения $a^3(U P_{\mathcal{R}}^3 - V Q_{\mathcal{R}}^3)$ даёт~\eqref{eq:math-arbitrary-floor-cubic-pade}; подстановка $U = \widetilde{A}X^3$, $V = \widetilde{B}Y^3$, $a^3 = Y'^3 X^3$, $b^3 = X'^3 Y^3$ выносит общий множитель $X^3$, сокращение которого даёт~\eqref{eq:math-arbitrary-floor-x3-cancel}. Наконец, подстановка $P_{\mathcal{R}'} = P_{\mathcal{R}} + k_{\mathrm{shift}}Q_{\mathcal{R}}$ и $Q_{\mathcal{R}'} = k_{\mathrm{shift}}P_{\mathcal{R}} + Q_{\mathcal{R}}$ даёт $I_{\mathcal{R}'} - (k_{\mathrm{shift}}+1)I_{\mathcal{R}} = -k_{\mathrm{shift}}(a+b)(P_{\mathcal{R}} - Q_{\mathcal{R}}) = -k_{\mathrm{shift}}(a+b)\Pi_-(\mathcal{R})C$, что доказывает~\eqref{eq:math-adjacent-floor-escape}.
+\end{proof}
+
+% ============================================================================
+\chapter{Трёхшахтные планетарные дифференциалы \texorpdfstring{$\mathcal{A} + \mathcal{B} = \mathcal{C}$}{A + B = C}, вронскиан Мейсона--Стотерса и проекторы Лагранжа--Вандермонда}
+\label{ch:math-planetary-differentials}
+% ============================================================================
+
+\section{Ортогональный репер трёхшахтного дифференциала \texorpdfstring{$\mathcal{F}_3$}{F3}, матрица моментов Ганкеля и целочисленный вронскиан Мейсона--Стотерса}
+
+Любой трёхшахтный аддитивный баланс $A + B = C$ при факторизации валов $A = a_1 a_2 = \widetilde{A}X^3$, $B = b_1 b_2 = \widetilde{B}Y^3$, $C = c_1 c_2 = \widetilde{C}Z^3$ (с кубическим дефектом $S_3 = A + B - C$ и дефектами нижних этажей $S_1 = \widetilde{A}X + \widetilde{B}Y - \widetilde{C}Z$, $S_2 = \widetilde{A}X^2 + \widetilde{B}Y^2 - \widetilde{C}Z^2$) задаёт ортогональность вектора радиусов $\mathbf{r} = (a_1, b_1, c_1)$ и вектора угловых скоростей $\mathbf{\omega} = (a_2, b_2, -c_2)$ ($\mathbf{r}\cdot\mathbf{\omega} = A + B - C$).
+
+\begin{theorem}[Ортогональный репер дифференциала $\mathcal{F}_3$, определитель Ганкеля--Вандермонда, целочисленный вронскиан Мейсона--Стотерса, проекторы Лагранжа--Вандермонда и стереографическое вложение в ротатор $\mathbb{Z}_{4Q}$ (\texttt{AbcPlanetaryWronskian.lean}: \texttt{thm8}, \texttt{thm9}, \texttt{thm12}--\texttt{thm16}, \texttt{thm12b}, \texttt{thm14b}, \texttt{thm14c}; \texttt{RotatorCalculusPaper.lean}: \texttt{thm30})]
+\label{thm:math-abc-planetary-wronskian-full}
+Для произвольных целых параметров $(\widetilde{A}, \widetilde{B}, \widetilde{C}, X, Y, Z, u_0, v_0, t)$ с весами валов $w_x = \widetilde{A}X$, $w_y = \widetilde{B}Y$, $w_z = \widetilde{C}Z$, полным радикал-скелетом $R_{\mathrm{full}} = (\widetilde{A}\widetilde{B}\widetilde{C})(X Y Z)$ и определителем Безу $d_{\mathrm{Bez}} = w_x v_0 - w_y u_0$ выполняются следующие безусловные тождества (\texttt{0 Prop premises}):
+\begin{enumerate}[label=\textbf{(\arabic*)},leftmargin=*]
+\item \textbf{Тождество Лагранжа--Бине--Коши репера $\mathcal{F}_3$ и факторизация определителя Ганкеля $3\times 3$ (\texttt{thm8}, \texttt{thm9}):}
+  для миноров $M_{BC} = b_1 c_2 + c_1 b_2$, $M_{CA} = c_1 a_2 + a_1 c_2$, $S_{AB} = a_1 b_2 - b_1 a_2$, $M_{AB} = a_1 b_2 + b_1 a_2$ и матрицы моментов Ганкеля $\mathcal{H}_3 = \bigl(S_{i+j-1}\bigr)_{i,j=0}^2$ ($S_k = \widetilde{A}X^k + \widetilde{B}Y^k - \widetilde{C}Z^k$) выполняются:
+  \begin{align}
+    M_{BC}^2 + M_{CA}^2 + S_{AB}^2 + (a_1 a_2 + b_1 b_2 - c_1 c_2)^2 &\equiv (a_1^2 + b_1^2 + c_1^2)(a_2^2 + b_2^2 + c_2^2), \label{eq:math-frame-f3-lagrange} \\
+    (A + B)^2 + S_{AB}^2 &\equiv (A - B)^2 + M_{AB}^2 \;=\; (a_1^2 + b_1^2)(a_2^2 + b_2^2), \label{eq:math-brahmagupta-shafts} \\
+    -\det\mathcal{H}_3 &\equiv \widetilde{A}\widetilde{B}\widetilde{C}\,(X - Y)^2(Y - Z)^2(Z - X)^2. \label{eq:math-hankel-vandermonde-det}
+  \end{align}
+\item \textbf{Калибровочно-инвариантный кубический вронскиан Мейсона--Стотерса и определитель четвёртых степеней (\texttt{thm13}, \texttt{thm14}, \texttt{thm36}):}
+  для калибровочно-сдвинутого семейства $(\alpha(t), \beta(t)) = \bigl(u_0 Z^2 + t w_x,\ v_0 Z^2 + t w_y\bigr)$ и квадратичных валов $A^*(t) = \alpha(t) X^2$, $B^*(t) = \beta(t) Y^2$ кубический вронскиан $W^*(t) := A B^*(t) - B A^*(t)$ не зависит от калибровочного параметра $t$ ($\Delta_t W^*(t) \equiv 0$, сохранение Нётер) и удовлетворяет тождествам:
+  \begin{align}
+    w_x\,\beta(t) - w_y\,\alpha(t) &\equiv d_{\mathrm{Bez}}\,Z^2, \label{eq:math-ms-minor-z2} \\
+    W^*(t) := A\,B^*(t) - B\,A^*(t) &\equiv d_{\mathrm{Bez}}\,(X^2 Y^2 Z^2), \label{eq:math-ms-cubic-wronskian} \\
+    d_{\mathrm{Bez}}\,(A B C) &\equiv R_{\mathrm{full}}\,W^*(t), \label{eq:math-volume-wronskian-equiv} \\
+    -\det\mathcal{W}_{\mathrm{MS}} &\equiv d_{\mathrm{Bez}}\,\bigl(X^4 + Y^4 + Z^4\bigr) + \bigl(Y^2 u_0 - X^2 v_0\bigr)\,S_3. \label{eq:math-ms-fourth-power-det}
+  \end{align}
+\item \textbf{Проекторы Лагранжа--Вандермонда по дефектам этажей $(S_1, S_2, S_3)$ и трёхшахтная система коллапса объёма (\texttt{thm14b}, \texttt{thm14c}):}
+  на любых этажах $(S_1, S_2, S_3)$ выполняются точные проекционные тождества Лагранжа--Вандермонда и трёхшахтные уравнения дефектов миноров $d_{\mathrm{Min},Z} = Z^2 - (w_x\beta - w_y\alpha)$, $d_{\mathrm{Min},Y} = Y^2 - (w_x\gamma - w_z\alpha)$, $d_{\mathrm{Min},X} = X^2 - (w_z\beta - w_y\gamma)$:
+  \begin{align}
+    C\,(Z - X)(Z - Y) &\equiv Z^2\,\bigl(S_2(X + Y) - S_1 X Y - S_3\bigr), \label{eq:math-vandermonde-proj-c} \\
+    A\,(X - Y)(X - Z) &\equiv X^2\,\bigl(S_1 Y Z - S_2(Y + Z) + S_3\bigr), \label{eq:math-vandermonde-proj-a} \\
+    B\,(Y - X)(Y - Z) &\equiv Y^2\,\bigl(S_1 Z X - S_2(Z + X) + S_3\bigr), \label{eq:math-vandermonde-proj-b} \\
+    w_y\,C + (\widetilde{B}^2\widetilde{C})(Y^2 Z)\,\alpha - R_{\mathrm{full}}\,\beta &\equiv (\widetilde{B}\widetilde{C}Y Z)\,d_{\mathrm{Min},Z}, \label{eq:math-three-shaft-collapse-c} \\
+    w_z\,B + (\widetilde{B}\widetilde{C}^2)(Y Z^2)\,\alpha - R_{\mathrm{full}}\,\gamma &\equiv (\widetilde{B}\widetilde{C}Y Z)\,d_{\mathrm{Min},Y}, \label{eq:math-three-shaft-collapse-b} \\
+    w_y w_z\,A - R_{\mathrm{full}}(w_z\beta - w_y\gamma) &\equiv R_{\mathrm{full}}\,d_{\mathrm{Min},X}. \label{eq:math-three-shaft-collapse-a}
+  \end{align}
+\item \textbf{Стереографическое вложение трёхшахтного дифференциала $\mathcal{C} := \mathcal{A} + \mathcal{B}$ в ротатор $\mathbb{Z}_{4Q}$ и двусторонняя целочисленная вилка захвата ячейки (\texttt{thm16}, \texttt{thm30}):}
+  для любого четверть-периода $Q \in \mathbb{Z}$, фазы $\varphi_0 \in \mathbb{Z}$ ($\mathcal{C}_{\mathrm{rot}} = Q - \varphi_0,\ \mathcal{S}_{\mathrm{rot}} = \varphi_0$), резидуала ротатора $I_{\mathrm{rot}} = \mathcal{B}\mathcal{C}_{\mathrm{rot}} - \mathcal{A}\mathcal{S}_{\mathrm{rot}}$ и определителя Безу $g = \mathcal{A}v - \mathcal{B}u$ ($w = u + v$, $\Delta_{\mathrm{rot}} = \mathcal{C}_{\mathrm{rot}}v - \mathcal{S}_{\mathrm{rot}}u$) выполняются:
+  \begin{align}
+    Q\,\mathcal{A} &\equiv \mathcal{C}\,\mathcal{C}_{\mathrm{rot}} - I_{\mathrm{rot}}, \qquad
+    Q\,\mathcal{B} \;\equiv\; \mathcal{C}\,\mathcal{S}_{\mathrm{rot}} + I_{\mathrm{rot}}, \label{eq:math-rotator-ab-split} \\
+    \mathcal{C}\,\Delta_{\mathrm{rot}} - w\,I_{\mathrm{rot}} &\equiv g\,Q, \label{eq:math-rotator-bezout-det}
+  \end{align}
+  причём в главной ячейке захвата $0 \le I_{\mathrm{rot}} < \mathcal{C}$ произведения $Q\mathcal{A}$ и $Q\mathcal{B}$ зажаты в двусторонней целочисленной вилке $\mathcal{C}\mathcal{C}_{\mathrm{rot}} - \mathcal{C} < Q\mathcal{A} \le \mathcal{C}\mathcal{C}_{\mathrm{rot}}$ и $\mathcal{C}\mathcal{S}_{\mathrm{rot}} \le Q\mathcal{B} < \mathcal{C}\mathcal{S}_{\mathrm{rot}} + \mathcal{C}$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Все полиномиальные тождества~\eqref{eq:math-frame-f3-lagrange}--\eqref{eq:math-rotator-bezout-det} следуют из раскрытия скобок в коммутативном кольце $\mathbb{Z}$ и проверены ядром Lean~4 в теоремах \texttt{thm8}, \texttt{thm9}, \texttt{thm12}--\texttt{thm16}, \texttt{thm14b}, \texttt{thm14c} и \texttt{thm30}.
+\end{proof}
+
+% ============================================================================
+\chapter{Алгебра многовинтовых планетарных каскадов и встречно-волновая суперпозиция на сфере Римана \texorpdfstring{$\mathbb{P}^1$}{P1}}
+\label{ch:math-multiscrew-and-holonomy}
+% ============================================================================
+
+\section{Моноид многовинтовых планетарных каскадов, экстремальная перестановочная вилка и вариационная монотонность}
+
+Рассмотрим произвольный каскад линейных передач (винтов) $L = [(P_1, Q_1, D_1), \dots, (P_M, Q_M, D_M)] \in \mathrm{List}\,(\mathbb{Z}\times\mathbb{Z}\times\mathbb{Z})$, где каждая ступень связывает входной и выходной валы соотношением $P_k n_k - Q_k n_{k-1} = D_k$. Индуктивные операторы полного передаточного числа $P_{\mathrm{tot}}(L) = \prod P_k$ (\texttt{multiScrewP}), $Q_{\mathrm{tot}}(L) = \prod Q_k$ (\texttt{multiScrewQ}), модуля зазора $C_{\mathrm{tot}}(L) = P_{\mathrm{tot}}(L) - Q_{\mathrm{tot}}(L)$ (\texttt{multiScrewC}) и накопленного дрейфа $D_{\mathrm{tot}}(L)$ (\texttt{multiScrewD}):
+\begin{equation}
+  \label{eq:math-multiscrew-d-rec}
+  D_{\mathrm{tot}}\bigl((p, q, d) :: L_{\mathrm{rest}}\bigr)
+  \;:=\;
+  Q_{\mathrm{tot}}(L_{\mathrm{rest}})\cdot d + p\cdot D_{\mathrm{tot}}(L_{\mathrm{rest}})
+\end{equation}
+образуют полупрямой матричный моноид.
+
+\begin{theorem}[Моноид многовинтовых каскадов, встречное сшивание Безу, экстремальная вилка бинарных слов шестерён $3^B - 2^B \le R_w \le 2^{A-B}(3^B - 2^B)$ и вариационная монотонность транспозиций (\texttt{CollatzPlanetarySplice.lean}: \texttt{thm18}--\texttt{thm29}, \texttt{thm31}--\texttt{thm33}, \texttt{thm37}; \texttt{RotatorCalculusPaper.lean}: \texttt{thm36})]
+\label{thm:math-multiscrew-cascade-extremal-envelope}
+Для любых списков винтов $L_1, L_2 \in \mathrm{List}\,(\mathbb{Z}\times\mathbb{Z}\times\mathbb{Z})$ и любого бинарного слова шестерён $w \in \mathrm{List}\,\mathrm{Bool}$ из нечётной ступени $\mathcal{G}_{\mathrm{odd}} = (2, 3, 1)$ и чётной ступени $\mathcal{G}_{\mathrm{even}} = (2, 1, 0)$ ($P_w = 2^A,\ Q_w = 3^B,\ P_{\mathrm{odd}} = 2^B,\ P_{\mathrm{even}} = 2^{A-B},\ R_w = D_{\mathrm{tot}}(L(w))$) выполняются следующие безусловные законы (\texttt{0 Prop premises}):
+\begin{enumerate}[label=\textbf{(\arabic*)},leftmargin=*]
+\item \textbf{Гомоморфизм моноида многовинтового каскада и закон двухдугового хордового вронскиана (\texttt{thm18}, \texttt{thm29}):}
+  при конкатенации каскадов $L_1 \mathbin{+\!+} L_2$:
+  \begin{align}
+    P_{\mathrm{tot}}(L_1 \mathbin{+\!+} L_2) &= P_{\mathrm{tot}}(L_1)\,P_{\mathrm{tot}}(L_2), \qquad
+    Q_{\mathrm{tot}}(L_1 \mathbin{+\!+} L_2) \;=\; Q_{\mathrm{tot}}(L_1)\,Q_{\mathrm{tot}}(L_2), \label{eq:math-multiscrew-pq-hom} \\
+    D_{\mathrm{tot}}(L_1 \mathbin{+\!+} L_2) &= Q_{\mathrm{tot}}(L_2)\,D_{\mathrm{tot}}(L_1) + P_{\mathrm{tot}}(L_1)\,D_{\mathrm{tot}}(L_2), \label{eq:math-multiscrew-d-hom} \\
+    C_{\mathrm{tot}}(L_1 \mathbin{+\!+} L_2) &= P_{\mathrm{tot}}(L_2)\,C_{\mathrm{tot}}(L_1) + Q_{\mathrm{tot}}(L_1)\,C_{\mathrm{tot}}(L_2). \label{eq:math-multiscrew-c-hom}
+  \end{align}
+  На любой замкнутой двухдуговой траектории ($n_{\mathrm{final}} = n_{\mathrm{start}}$, $D_1 = P_1 n_{\mathrm{mid}} - Q_1 n_{\mathrm{start}}$, $D_2 = P_2 n_{\mathrm{start}} - Q_2 n_{\mathrm{mid}}$) хордовый сдвиг удовлетворяет тождеству вронскиана $(P_1 P_2 - Q_1 Q_2)(n_{\mathrm{mid}} - n_{\mathrm{start}}) \equiv (P_2 - Q_2)D_1 - (P_1 - Q_1)D_2$.
+\item \textbf{Экстремальная перестановочная вилка дрейфа по группе $S_A$ и строгая положительность вариационной производной транспозиции (\texttt{thm31}, \texttt{thm36}):}
+  для любого бинарного слова шестерён $w \in \mathrm{List}\,\mathrm{Bool}$ выполняются $P_{\mathrm{odd}} P_{\mathrm{even}} = P_w$, $1 \le P_{\mathrm{odd}} \le Q_w$ и двусторонняя перестановочно-инвариантная оценка
+  \begin{equation}
+    \label{eq:math-binary-word-extremal-envelope}
+    Q_w - P_{\mathrm{odd}} \;\le\; R_w \;\le\; P_{\mathrm{even}}\,(Q_w - P_{\mathrm{odd}}) \;=\; P_{\mathrm{even}} Q_w - P_w,
+  \end{equation}
+  а элементарная транспозиция соседних нечётной и чётной ступеней $[\texttt{true}, \texttt{false}] \mapsto [\texttt{false}, \texttt{true}]$ внутри $w_1 \mathbin{+\!+} [\dots] \mathbin{+\!+} w_2$ имеет строго положительную вариационную производную:
+  \begin{equation}
+    \label{eq:math-swap-variational-derivative}
+    R_{w_1 \mathbin{+\!+} [\texttt{false}, \texttt{true}] \mathbin{+\!+} w_2} - R_{w_1 \mathbin{+\!+} [\texttt{true}, \texttt{false}] \mathbin{+\!+} w_2}
+    \;\equiv\;
+    P_{\mathrm{tot}}(L(w_1))\,Q_{\mathrm{tot}}(L(w_2)) \;\ge\; 1.
+  \end{equation}
+\item \textbf{Сохранение двойственного дрейфа нечётного ядра, мультипликативная вилка цикла и отражение граничных неподвижных точек (\texttt{thm32}, \texttt{thm33}, \texttt{thm37}):}
+  для списка макроступеней нечётного ядра $L$ с верхним мультипликативным пакетом $U_L = \prod_{(P,Q,p)\in L} (Q + p - 1)$ (\texttt{coreStageU}), прямым дрейфом $D_L = P_L q_f - Q_L q_0$ и двойственным верхним дефектом $E_L = U_L q_0 - P_L q_f$ выполняется закон сохранения двойственного дрейфа
+  \begin{equation}
+    \label{eq:math-dual-core-drift-conservation}
+    D_L + E_L \;\equiv\; (U_L - Q_L)\,q_0,
+  \end{equation}
+  на любом замкнутом цикле ($q_f = q_0 \ge 1,\ D_L \ge 1,\ E_L \ge 0$) выполняются $(U_L - P_L)D_L = (P_L - Q_L)E_L$ и $Q_L < P_L \le U_L$, а граничные неподвижные точки чисто нечётного нижнего края $n_\infty^{(-)} = -1$ и чисто чётного верхнего края $n_\infty^{(+)} = 0$ при отражении дают стационарный корень $n^* = 2 n_\infty^{(+)} - n_\infty^{(-)} = +1$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Гомоморфизмы~\eqref{eq:math-multiscrew-pq-hom}--\eqref{eq:math-multiscrew-c-hom} доказываются структурной индукцией по списку $L_1$ (\texttt{multiScrewP\_append}, \texttt{multiScrewQ\_append}, \texttt{multiScrewD\_append}). Оценка~\eqref{eq:math-binary-word-extremal-envelope} доказывается индукцией по списку $w \in \mathrm{List}\,\mathrm{Bool}$ с разбором случаев $b = \texttt{false}$ и $b = \texttt{true}$ (\texttt{thm31}), а формула вариационной производной транспозиции~\eqref{eq:math-swap-variational-derivative} следует из двукратного применения~\eqref{eq:math-multiscrew-d-hom} (\texttt{thm36}).
+\end{proof}
+
+\section{Векторная суперпозиция встречных волн, тройная дихотомия \texorpdfstring{$M$}{M}-этажного каскада и модельно-теоретическая независимость}
+
+\begin{theorem}[Тождественное сокращение чётной матрицы Грама $\mathrm{MainAmount}_{\mathrm{vec}}$ при векторной суперпозиции встречных волн, тройная дихотомия каскада и свидетели модельно-теоретической независимости (\texttt{RiemannHolonomy.lean}: \texttt{ocean\_true\_vector\_superposition\_norm\_imbalance\_and\_mainamount\_cancellation}, \texttt{counterwave\_cascade\_orthogonality\_dichotomy\_and\_independence\_models}; \texttt{ModelTheoreticLimit.lean}: \texttt{thm17})]
+\label{thm:math-counterwave-dichotomy-and-independence}
+Пусть $\mathcal{O}_{\mathrm{vec}} = \{(c_k, s_k, \alpha_k, \beta_k)\}_{k=1}^N \in \mathrm{List}\,(\mathbb{Z}^4)$ --- произвольный конечный ансамбль двумерных волновых мод с суммарным базовым фазором $(C_\Sigma, S_\Sigma) = \bigl(\sum_{k=1}^N c_k,\ \sum_{k=1}^N s_k\bigr)$, суммарным вектором радиальной производной $(A_\Sigma, B_\Sigma) = \bigl(\sum_{k=1}^N \alpha_k,\ \sum_{k=1}^N \beta_k\bigr)$, вектором прямой волны $W_+(\delta) = (C_\Sigma + A_\Sigma\delta,\ S_\Sigma + B_\Sigma\delta)$ и вектором встречной волны $W_-(\delta) = (C_\Sigma - A_\Sigma\delta,\ S_\Sigma - B_\Sigma\delta)$ при сдвиге $\delta \in \mathbb{Z}$. Тогда (\texttt{0 Prop premises}):
+\begin{enumerate}[label=\textbf{(\arabic*)},leftmargin=*]
+\item \textbf{Тождественное сокращение полной матрицы Грама $\mathrm{MainAmount}_{\mathrm{vec}}(\delta)$ со всеми $N^2$ перекрёстными слагаемыми:}
+  квадраты норм суммарных векторов $U_{\mathrm{vec}}(\delta) = |W_+(\delta)|^2$ и $V_{\mathrm{vec}}(\delta) = |W_-(\delta)|^2$ удовлетворяют:
+  \begin{align}
+    U_{\mathrm{vec}}(\delta) + V_{\mathrm{vec}}(\delta) &\equiv 2\,\mathrm{MainAmount}_{\mathrm{vec}}(\delta)
+      \;=\; 2\,\Bigl((C_\Sigma^2 + S_\Sigma^2) + \delta^2(A_\Sigma^2 + B_\Sigma^2)\Bigr), \label{eq:math-vec-ocean-sum} \\
+    U_{\mathrm{vec}}(\delta) - V_{\mathrm{vec}}(\delta) &\equiv 4\,\bigl(C_\Sigma A_\Sigma + S_\Sigma B_\Sigma\bigr)\,\delta. \label{eq:math-vec-ocean-diff}
+  \end{align}
+\item \textbf{Тройная дихотомия $M$-этажного каскада $\mathrm{SL}_2(\mathbb{Z})$:}
+  после прохождения пары $(U_{\mathrm{vec}}(\delta), V_{\mathrm{vec}}(\delta))$ через произвольный $M$-этажный каскад $R \in \mathrm{List}\,\mathbb{Z}$ выходные амплитуды $P_R = \operatorname{minkowskiCascadeP}(R, U_{\mathrm{vec}}(\delta), V_{\mathrm{vec}}(\delta))$ и $Q_R = \operatorname{minkowskiCascadeQ}(R, U_{\mathrm{vec}}(\delta), V_{\mathrm{vec}}(\delta))$ удовлетворяют
+  \begin{equation}
+    \label{eq:math-cascade-diff-trichotomy}
+    P_R - Q_R \;\equiv\; 4\,\Pi_-(R)\,\bigl(C_\Sigma A_\Sigma + S_\Sigma B_\Sigma\bigr)\,\delta,
+  \end{equation}
+  а при $q > 0$, $P_R > 0$, $Q_R > 0$ обращение в нуль интенсивности деструктивной интерференции $I_q(P_R, Q_R, \mathcal{C}_q(\Delta\varphi)) = q(P_R - Q_R)^2 + 2 P_R Q_R(q + \mathcal{C}_q(\Delta\varphi))$ эквивалентно тройной дихотомии:
+  \begin{equation}
+    \label{eq:math-counterwave-zero-iff-trichotomy}
+    I_q\bigl(P_R,\, Q_R,\, \mathcal{C}_q(\Delta\varphi)\bigr) = 0
+    \;\Longleftrightarrow\;
+    \Bigl(\Pi_-(R) = 0 \;\lor\; C_\Sigma A_\Sigma + S_\Sigma B_\Sigma = 0 \;\lor\; \delta = 0\Bigr)
+    \;\land\; \operatorname{pauliPhaseDistNat}(q, \Delta\varphi) = 0.
+  \end{equation}
+\item \textbf{Две конструктивные модели и теорема о модельно-теоретической независимости $\delta = 0$ от одних лишь встречно-волновых аксиом:}
+  \begin{itemize}[noitemsep]
+  \item \textbf{Модель~1 (коллинеарная модель $\mathcal{O}_1 = [(1, 0, 1, 0)]$):} $(C_\Sigma, S_\Sigma) = (1, 0)$, $(A_\Sigma, B_\Sigma) = (1, 0)$, скалярное произведение $C_\Sigma A_\Sigma + S_\Sigma B_\Sigma = 1 \ne 0$, откуда при $\Pi_-(R) \ne 0$ равенство $P_R = Q_R$ эквивалентно $\delta = 0$;
+  \item \textbf{Модель~2 (ортогональная модель $\mathcal{O}_2 = [(1, 1, -1, 1)]$):} $(C_\Sigma, S_\Sigma) = (1, 1) \perp (A_\Sigma, B_\Sigma) = (-1, 1)$, скалярное произведение $C_\Sigma A_\Sigma + S_\Sigma B_\Sigma = 1\cdot(-1) + 1\cdot 1 = 0$, и на ненулевом сдвиге $\delta = 1 \ne 0$ выполняются $U_{\mathrm{vec}}(1) = 4 > 0$, $V_{\mathrm{vec}}(1) = 4 > 0$, $P_R = Q_R$ и $I_q(P_R, Q_R, \mathcal{C}_q(2q)) = 0$.
+  \end{itemize}
+  Следовательно, утверждение $\delta = 0$ модельно-теоретически независимо от аксиом встречно-волновой симметрии и каскада $\mathrm{SL}_2(\mathbb{Z})$ без дополнительного аналитического закона, исключающего ортогональность $(C_\Sigma, S_\Sigma) \perp (A_\Sigma, B_\Sigma)$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Тождества~\eqref{eq:math-vec-ocean-sum}--\eqref{eq:math-counterwave-zero-iff-trichotomy} и свойства моделей $\mathcal{O}_1, \mathcal{O}_2$ формально доказаны в теореме \texttt{counterwave\_cascade\_orthogonality\_dichotomy\_and\_independence\_models} модуля \texttt{Constructive/RiemannHolonomy.lean} (\texttt{0 sorryAx}, \texttt{0 Classical.choice}, \texttt{0 Prop premises}).
+\end{proof}
