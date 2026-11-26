@@ -1,6 +1,0 @@
-import MtCarrier.ContinuumPhysics
-import MtCarrier.BioCosmology
-import MtCarrier.NuclearShells
-import MtCarrier.ParticleMaterials
-import MtCarrier.ReversibleCalculus
-import MtCarrier.HardwarePhotovoltaics

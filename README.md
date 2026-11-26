@@ -51,7 +51,20 @@ The historical 8-volume expedition chronicle showing how the eight traditional s
 
 ---
 
-## 3. Standalone Scientific Papers (`papers/` Submodule → `AI-Guiders/scientific-papers`) & Dedicated Lean 4 Modules
+## 3. Modular Workspace Architecture: Four Specialized Submodules (`.gitmodules`)
+
+To allow mathematicians, Lean 4 formalists, CAS developers, and `.NET` / GPU systems engineers to clone and develop each engine independently, this workspace connects four specialized Git submodules alongside the core books (`book/`), hardware blueprints (`hardware/`), and Python reference lab (`mt_ca/`):
+
+| Submodule Path | Upstream Repository | Role & Architecture |
+| :--- | :--- | :--- |
+| **[`lean/`](lean)** | [`AI-Guiders/dqm-lean`](https://github.com/AI-Guiders/dqm-lean) | **Two-Contour Lean 4 Formalization:**<br>• **Contour 1 (`Constructive/` & `MtCarrier/`):** Pure constructive mathematics and DQM core (`53/53` build jobs, `0 external dependencies`, `0 sorryAx`, `0 Classical.choice`).<br>• **Contour 2 (`MathlibBridge/`):** Separate Lake package with standard `mathlib4` dependency for bridging constructive theorems to classical `Mathlib` definitions. |
+| **[`papers/`](papers)** | [`AI-Guiders/scientific-papers`](https://github.com/AI-Guiders/scientific-papers) | Standalone bilingual preprints (`mathematics/`, `theory/`, `laboratory/`, `engineering/`) and paper-by-paper Lean 4 modules (`RotatorQuadrature.lean`, `LogicCohomology.lean`, `PillaiDiophantine.lean`, `AbcPlanetaryWronskian.lean`, `ModelTheoreticLimit.lean`, `CollatzPlanetarySplice.lean`, `RiemannHolonomy.lean`). |
+| **[`mathematics/`](mathematics)** | [`AI-Guiders/guiders-mathematics`](https://github.com/AI-Guiders/guiders-mathematics) | Exact Projective Computer Algebra System over $\mathbb{Q}(i, \sqrt{d-1})$ and $\mathbb{P}^1(\mathbb{C})$ (`guiders_math/`) + pure Wolfram Language suite (`wolfram/Core/ProjectiveCalculus.wl`, `CarrierAutomaton3D.wl`, and `wolfram/Lab/`). |
+| **[`physics/`](physics)** | [`AI-Guiders/guiders-physics`](https://github.com/AI-Guiders/guiders-physics) | Native `.NET 11` + `AVX2/AVX-512` + `CUDA PTX` cellular automaton kernel (`Guiders.Physics.Core`: `Ring9`, `Bus36`, `VerletCell72`, `CuboctahedronCarrier`, `CuboctahedronAutomatonKernel`), lossless archiver, 4D media codec, and 3D world engine. |
+
+---
+
+## 4. Standalone Scientific Papers (`papers/` Submodule → `AI-Guiders/scientific-papers`) & Dedicated Lean 4 Modules
 
 Linked via the [`papers/`](papers) Git submodule ([`AI-Guiders/scientific-papers`](https://github.com/AI-Guiders/scientific-papers)), organized into **Pure Mathematics (`papers/mathematics/`)** and **Unified Natural Science (`papers/theory/`, `papers/laboratory/`, `papers/engineering/`)**, each backed by its own standalone Lean 4 module (`0 sorryAx`, `0 Classical.choice`):
 
