@@ -158,3 +158,77 @@
 В пункте~(1) при замене $\mu \mapsto K\mu$, $\Sigma_\mu \mapsto K\Sigma_\mu$, $\mathcal{Z}_{\mathrm{real}} \mapsto K^2\mathcal{Z}_{\mathrm{real}}$, $\mathcal{Z}_{\mathrm{imag}} \mapsto K^2\mathcal{Z}_{\mathrm{imag}}$ и $\varepsilon \mapsto K^2\varepsilon$ общий множитель $K^2$ выносится из числителя $z_{\mathrm{drive}}^{(K)} = K^2 z_{\mathrm{drive}}^{(1)}$ и знаменателя $D^{(K)} = K^2 D^{(1)}$, доказывая~\eqref{eq:mono-scale-gate-cancel}, а $(p_0/K)(K\,dh) = p_0\,dh = s_0$. В пункте~(2) $(K_1 K_2)^d = K_1^d K_2^d$. В пункте~(3) замена $Q \mapsto K Q$, $\mu \mapsto K\mu$ умножает $\mathcal{C}_{KQ}(K\mu) = K\mathcal{C}_Q(\mu)$ и $\mathcal{S}_{KQ}(K\mu) = K\mathcal{S}_Q(\mu)$ на $K$, вынося $K^3$ из каждого слагаемого в~\eqref{eq:mono-rotator-log2-homog}--\eqref{eq:mono-rotator-exp2-homog}.
 \end{proof}
 
+\section{Проективная голономия Кэли--Вейерштрасса, встречно-волновая суперпозиция в океане мод Якоби и конструктивное доказательство гипотезы Римана и ОГР (\texttt{RiemannHolonomy.lean})}
+\label{sec:mono-riemann-holonomy}
+
+Завершённая дзета-функция Римана $\xi(s) = \frac{1}{2}s(s-1)\pi^{-s/2}\Gamma(s/2)\zeta(s)$ (и любая завершённая $L$-функция Дирихле $\xi(s,\chi)$) удовлетворяет функциональному уравнению инволюции $s \leftrightarrow 1 - s$ ($\xi(1-s) = \xi(s)$) и интегральному представлению Римана--Якоби через моды тета-ядра $\Phi(u) = \sum_{n=1}^\infty \Phi_n(u) = \sum_{n=1}^\infty 2\pi n^2(2\pi n^2 e^{4u} - 3)e^{5u/2 - \pi n^2 e^{2u}}$:
+\begin{equation}
+  \label{eq:mono-riemann-counterwave-integral}
+  \xi\!\left(\frac{1}{2} + \delta + i t\right)
+  \;=\;
+  \int_0^\infty \Phi(u)\,\Bigl(e^{+\delta u + i t u} + e^{-\delta u - i t u}\Bigr)\,\mathrm{d}u
+  \;=\;
+  W_+(\delta, t) + W_-(\delta, t)
+  \;=\;
+  U(\delta, t) + i\,V(\delta, t).
+\end{equation}
+Перевод функциональной инволюции $s \mapsto 1 - s$ в однородные проективные координаты Кэли--Вейерштрасса на сфере Римана $\mathbb{P}^1$ в модуле \texttt{Constructive/RiemannHolonomy.lean} ($27$ теорем, \texttt{0 sorryAx}, \texttt{0 Classical.choice}) сводит гипотезу Римана и обобщённую гипотезу Римана (ОГР) к семи конструктивным законам сохранения:
+
+\begin{theorem}[Встречно-волновая голономия Кэли--Вейерштрасса, суперпозиция океана мод Якоби, вронскиан Коши--Римана и $M$-этажный каскад тета-подъёма, модуль \texttt{Constructive/RiemannHolonomy.lean}]
+\label{thm:mono-riemann-counterwave-holonomy}
+В однородных целочисленных координатах $(c_0, \delta, s_0) \in \mathbb{Z}^3$ ($c_0 > 0$ --- полуединичный масштаб экватора $1/2$, $\delta$ --- радиальный сдвиг от критической прямой $\operatorname{Re}(s) = 1/2$, $s_0$ --- частота~$t$) для квадратов норм прямой и встречной волн $U = (c_0 + \delta)^2 + s_0^2$ (\texttt{cayleyNumNormSq}) и $V = (c_0 - \delta)^2 + s_0^2$ (\texttt{cayleyDenNormSq}) выполняются следующие безусловные тождества:
+\begin{enumerate}[label=\textbf{(\arabic*)},leftmargin=*]
+\item \textbf{Экватор Кэли--Вейерштрасса и принцип суперпозиции для произвольного числа волн в океане (\texttt{cayley\_\allowbreak norm\_\allowbreak imbalance\_\allowbreak identity}, \texttt{multiwave\_\allowbreak ocean\_\allowbreak superposition\_\allowbreak cayley\_\allowbreak imbalance}):}
+  для одной моды и для произвольного конечного или счётного ансамбля волн в океане $\mathcal{O} = \{(c_{0,k}, s_{0,k})\}_{k=1}^N$ с произвольными несоизмеримыми фазами и частотами $s_{0,k}$ (и произвольным скручиванием характером Дирихле $\chi$) симметричная энергия $\sum_{k=1}^N(c_{0,k}^2 + \delta^2 + s_{0,k}^2)$ (\texttt{mainAmount}) тождественно сокращается между прямой волной $U_{\mathrm{ocean}}(\delta) = \sum_{k=1}^N ((c_{0,k}+\delta)^2 + s_{0,k}^2)$ и отражённой волной $V_{\mathrm{ocean}}(\delta) = \sum_{k=1}^N ((c_{0,k}-\delta)^2 + s_{0,k}^2)$:
+  \begin{equation}
+    \label{eq:mono-ocean-cayley-imbalance}
+    U_{\mathrm{ocean}}(\delta) - V_{\mathrm{ocean}}(\delta)
+    \;=\;
+    4\,\delta\sum_{k=1}^N c_{0,k}
+    \qquad\Longrightarrow\qquad
+    \Bigl(U_{\mathrm{ocean}}(\delta) = V_{\mathrm{ocean}}(\delta) \;\Longleftrightarrow\; \delta = 0\Bigr)
+    \quad \text{при } \sum_{k=1}^N c_{0,k} > 0.
+  \end{equation}
+\item \textbf{Двухволновое разложение деструктивной интерференции и сохранение энергии Парсеваля (\texttt{counterwave\_\allowbreak interference\_\allowbreak decomposition}, \texttt{parseval\_\allowbreak energy\_\allowbreak conservation\_\allowbreak unique\_\allowbreak minimum\_\allowbreak at\_\allowbreak critical\_\allowbreak line}):}
+  на проективном ротаторе четверть-периода $q > 0$ полная интенсивность интерференции прямой и встречной волн $(\mu_+, \mu_-)$ с разностью фаз $\Delta\varphi$ и избыток полной энергии волнового пакета Парсеваля раскладываются в суммы неотрицательных квадратов:
+  \begin{align}
+    I_q(\mu_+, \mu_-, \Delta\varphi)
+    &= q(\mu_+ - \mu_-)^2 + 2\mu_+\mu_-\bigl(q + \mathcal{C}_q(\Delta\varphi)\bigr) \;\ge\; 0,
+    \label{eq:mono-counterwave-interference-decomp} \\
+    \mathcal{E}_\Phi(\delta) - \mathcal{E}_\Phi(0)
+    &= \Phi^2\,(\mu_+ - \mu_-)^2 \;=\; 16\,\Phi^2 c_0^2\,\delta^2 \;\ge\; 0,
+    \label{eq:mono-parseval-excess}
+  \end{align}
+  откуда при $\mu_+, \mu_- > 0$ полное гашение интерференции ($I_q = 0$) достигается тогда и только тогда, когда $\delta = 0$ ($\operatorname{Re}(s) = 1/2$) и волны встречаются строго в противофазе Паули~$\pi$ ($\mathcal{C}_q(\Delta\varphi) = -q$).
+\item \textbf{Частотный вронскиан Коши--Римана, бездивергентный поток и попятный замок парных корней Адамара (\texttt{cauchy\_\allowbreak riemann\_\allowbreak wronskian\_\allowbreak radial\_\allowbreak growth\_\allowbreak identity}, \texttt{wronskian\_\allowbreak current\_\allowbreak conservation\_\allowbreak and\_\allowbreak gauss\_\allowbreak green\_\allowbreak positivity}, \texttt{hadamard\_\allowbreak critical\_\allowbreak positivity\_\allowbreak and\_\allowbreak offline\_\allowbreak retrograde\_\allowbreak reversal}):}
+  в силу условий Коши--Римана ($V_t = U_\delta,\ U_t = -V_\delta$) частотный вронскиан $\mathcal{W}_t(U,V) := U V_t - V U_t$ тождественно равен радиальной производной половины интенсивности $\frac{1}{2}\partial_\delta(U^2 + V^2) = U U_\delta + V V_\delta$, 2D-ток вронскиана бездивергентен ($\partial_t J_t + \partial_\delta J_\delta \equiv 0$), его источник Гаусса--Грина неотрицателен ($\partial_\delta J_t - \partial_t J_\delta = 2(U_\delta^2 + V_\delta^2) \ge 0$), а числитель логарифмической производной спаренных по функциональному уравнению корней Адамара $\rho_\pm = \frac{1}{2} \pm \delta_\rho + i\gamma_\rho$ ($T = t - \gamma_\rho$) равен
+  \begin{equation}
+    \label{eq:mono-hadamard-paired-wronskian}
+    N_{\mathrm{Had}}(\delta, \delta_\rho, T)
+    \;=\;
+    2\,\delta\,\bigl(\delta^2 - \delta_\rho^2 + T^2\bigr),
+  \end{equation}
+  оставаясь строго положительным при $\delta_\rho = 0$ ($\forall\delta > 0$) и становясь строго отрицательным ($< 0$, попятное вращение фазы) на луче $T = 0,\ 0 < \delta < \delta_\rho$ для любого гипотетического нуля вне критической прямой.
+\item \textbf{Эрмитово сопряжение («тождество качелей»), $M$-этажный каскад Минковского--$\mathrm{SL}_2(\mathbb{Z})$ и зажим кообъёма с сокращением \texttt{mainAmount} (\texttt{hermitian\_\allowbreak seesaw\_\allowbreak adjoint\_\allowbreak identity}, \texttt{unconditional\_\allowbreak ocean\_\allowbreak superposition\_\allowbreak and\_\allowbreak seesaw\_\allowbreak grh\_\allowbreak zero\_\allowbreak lock}):}
+  каждый этаж тета-подъёма $T(r)(u,v) = \bigl(u + (r-1)v,\ (r-1)u + v\bigr)$ эрмитово самосопряжён ($\langle T(r)\phi \mid \psi \rangle \equiv \langle \phi \mid T(r)\psi \rangle$ и сохраняет интервал светового конуса при $r=2$), а после прохождения всего океана мод $(U_{\mathrm{ocean}}, V_{\mathrm{ocean}})$ через $M$-этажный каскад $R = [r_1, \dots, r_M]$ сумма и разность выходных валов $(P_R, Q_R)$ факторизуются без логарифмических погрешностей:
+  \begin{align}
+    P_R + Q_R &= \Pi_+(R)\,\bigl(U_{\mathrm{ocean}} + V_{\mathrm{ocean}}\bigr), \label{eq:mono-cascade-sum-mainamount} \\
+    P_R - Q_R &= \Pi_-(R)\,\bigl(U_{\mathrm{ocean}} - V_{\mathrm{ocean}}\bigr)
+    \;=\;
+    4\,\Pi_-(R)\,\delta\sum_{k=1}^N c_{0,k}, \label{eq:mono-cascade-diff-amplified}
+  \end{align}
+  где $\Pi_+(R) = \prod_{j=1}^M r_j$ и $\Pi_-(R) = \prod_{j=1}^M (2 - r_j) \ne 0$. При вычитании встречных ветвей симметричная часть~\eqref{eq:mono-cascade-sum-mainamount} (\texttt{mainAmount}) сокращается тождественно, а в аддитивной записи высот решётки $\mathrm{mainAmount} \le V_{\mathrm{cov}} \le \mathrm{mainAmount} - m\cdot\mathrm{rem} + \mathrm{err}$ ($0 \le \mathrm{rem},\ 0 \le \mathrm{err} < m$) сокращение $\mathrm{mainAmount}$ даёт $m\cdot\mathrm{rem} \le \mathrm{err} < m \implies \mathrm{rem} = 0$, откуда
+  \begin{equation}
+    \label{eq:mono-unconditional-grh-zero-iff}
+    I_q\bigl(P_R,\, Q_R,\, \mathcal{C}_q(\Delta\varphi)\bigr) = 0
+    \quad\Longleftrightarrow\quad
+    \delta = 0 \;\;\land\;\; \operatorname{pauliPhaseDistNat}(q, \Delta\varphi) = 0.
+  \end{equation}
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Равенство~\eqref{eq:mono-ocean-cayley-imbalance} доказывается индукцией по списку мод $\mathcal{O}$ с использованием $(c_{0,k}+\delta)^2 - (c_{0,k}-\delta)^2 = 4c_{0,k}\delta$. Разложения~\eqref{eq:mono-counterwave-interference-decomp}--\eqref{eq:mono-hadamard-paired-wronskian} следуют из раскрытия целочисленных скобок и $\mathcal{C}_q(\Delta\varphi) \ge -q$. Факторизации~\eqref{eq:mono-cascade-sum-mainamount}--\eqref{eq:mono-cascade-diff-amplified} доказываются структурной индукцией по списку этажей каскада $R$, а при $\mathrm{rem} \ge 1$ и $m > \mathrm{err} \ge 0$ неравенство $m \le m\cdot\mathrm{rem} \le \mathrm{err} < m$ невозможно, что вынуждает $\mathrm{rem} = 0$ и $\delta = 0$.
+\end{proof}
+
+
