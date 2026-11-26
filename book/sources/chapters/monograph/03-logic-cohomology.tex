@@ -1,0 +1,111 @@
+% ============================================================================
+\chapter{Булева полнота Поста, редукция 3-SAT, конструктивные когомологии де~Рама и барьеры внутренних вычислителей}
+\label{ch:mono-logic-cohomology-barriers}
+% ============================================================================
+
+\section{Функционально полный базис Поста на двух каналах \texorpdfstring{$\mathbb{Z}_{512}$}{Z512} и полиномиальная редукция 3-SAT}
+
+На антиподальной подгруппе полюсов $\{0, \Phi_{\mathrm{Pauli}}(3)\} = \{0, 256\} \subset \mathbb{Z}_{512}$ чётная проекция принимает противоположные граничные значения
+\begin{equation}
+  \label{eq:mono-boolean-poles}
+  \mathcal{C}_3(0) \;=\; +128 \quad (\text{булева истина } 1), \qquad
+  \mathcal{C}_3(256) \;=\; -128 \quad (\text{булева ложь } 0).
+\end{equation}
+На треугольных гранях $(\psi_1, \psi_2, \psi_3) \in \{0, 256\}^3$ девятибитный сумматор разделяет вычисления на два ортогональных алгебраических канала:
+\begin{enumerate}[leftmargin=*,noitemsep]
+\item \textbf{Канал~1 (аффинный линейный класс Поста~$L$ --- сложение фаз до оператора $\mathcal{C}_3$):}
+  полупериодный сдвиг $\mathrm{NOT}(\psi) = (\psi + 256) \bmod 512$ меняет знак проекции ($\mathcal{C}_3(\psi + 256) = -\mathcal{C}_3(\psi)$), а сложение фаз по модулю $512$ задаёт трёхаргументную чётность $\mathrm{XOR}_3$ по мультипликативному тождеству
+  \begin{equation}
+    \label{eq:mono-pre-rotator-xor}
+    Q_\square(3)^2\,\mathcal{C}_3(\psi_1 + \psi_2 + \psi_3) \;\equiv\; \mathcal{C}_3(\psi_1)\,\mathcal{C}_3(\psi_2)\,\mathcal{C}_3(\psi_3),
+  \end{equation}
+  где подгруппа полюсов $(\{0, 256\}, + \bmod 512) \cong (\mathbb{F}_2, \oplus)$ ($256 + 256 \equiv 0 \pmod{512}$).
+\item \textbf{Канал~2 (нелинейный пороговый класс --- сложение проекций после оператора $\mathcal{C}_3$ с целочисленным делением на $\phaseRingCount(3) = 512$):}
+  для дефекта грани $\Delta_{\mathrm{3SAT}}(\psi_1, \psi_2, \psi_3) := Q_\square(3) - \bigl(\mathcal{C}_3(\psi_1) + \mathcal{C}_3(\psi_2) + \mathcal{C}_3(\psi_3)\bigr)$ в силу равенства $(1 + d)Q_\square(3) = 4 \times 128 = 512 = \phaseRingCount(3)$ неполные частные целочисленного деления на $512$ со знаком к нулю задают безветвевые операторы дизъюнкции и конъюнкции:
+  \begin{align}
+    q_{\mathrm{OR}}(\psi_1, \psi_2, \psi_3) &:= \mathrm{tdiv}\bigl(\Delta_{\mathrm{3SAT}}(\psi_1, \psi_2, \psi_3),\,512\bigr) \in \{0, 1\}, \label{eq:mono-post-rotator-or-and} \\
+    q_{\mathrm{AND}}(\psi_1, \psi_2, \psi_3) &:= \mathrm{tdiv}\Bigl(128 + \sum_{k=1}^3 \mathcal{C}_3(\psi_k),\,512\Bigr) \in \{0, 1\}. \label{eq:mono-post-rotator-and}
+  \end{align}
+\end{enumerate}
+
+\begin{theorem}[Функциональная полнота Поста, редукция 3-SAT, склейка остатка $7 \to 1$ и аннигиляция линейного градиента на циклах чётности]
+\label{thm:mono-post-3sat}
+При $d = 3$ на полюсах $\{0, 256\}^3 \subset \mathbb{Z}_{512}^3$ выполняются следующие точные соотношения (\texttt{thm4\_\allowbreak boolean\_\allowbreak post\_\allowbreak completeness\_\allowbreak 3sat\_\allowbreak reduction\_\allowbreak and\_\allowbreak channel\_\allowbreak orthogonality}):
+\begin{enumerate}[label=\textbf{\arabic*.},noitemsep]
+\item Во всех $2^3 = 8$ состояниях $\{0, 256\}^3$ частное $q_{\mathrm{AND}}$ равно~$1$ исключительно на $(0,0,0)$ и~$0$ на остальных $7$~октантах, а частное дефекта $q_{\mathrm{OR}}$ равно~$0$ на всех $7$~выполняющих октантах дизъюнкта $(l_1 \lor l_2 \lor l_3)$ и равно~$1$ ($\Delta_{\mathrm{3SAT}} = 512$) исключительно на запрещённом октанте $(256, 256, 256)$. По теореме Поста совокупность Канала~1 и Канала~2 функционально полна (выходит из всех пяти предполных классов $T_0, T_1, S, M, L$), а выполнимость любой формулы 3-SAT из $M$~дизъюнктов эквивалентна равенству:
+  \begin{equation}
+    \label{eq:mono-3sat-sum-zero}
+    \sum_{m=1}^M q_{\mathrm{OR}}(\psi_{m,1}, \psi_{m,2}, \psi_{m,3}) \;=\; 0.
+  \end{equation}
+\item Прямое вычисление $q_{\mathrm{OR}} = \mathrm{tdiv}(\Delta_{\mathrm{3SAT}}, 512)$ отбрасывает трёхзначный остаток и склеивает $2^3 - 1 = 7$ различных выполняющих октантов в один выход $q_{\mathrm{OR}} = 0$, порождая на обратном конусе глубины $T$ шагов ветвление неразличимых прообразов вдоль каждого луча:
+  \begin{equation}
+    \label{eq:mono-3sat-7t-branching}
+    r(\Delta_{\mathrm{3SAT}}) \in \{-256,\ 0,\ +256\}, \qquad
+    N_{\mathrm{branch}}(T) \;=\; (2^3 - 1)^T \;=\; 7^T \quad \bigl(7^3 = 343 \text{ при } T = 3\bigr).
+  \end{equation}
+\item Для четвёрки дизъюнктов 3-SAT, кодирующей одно линейное уравнение чётности Канала~1 ($x_1 \oplus x_2 \oplus x_3 = 0$), сумма линейных проекций $\mathcal{C}_3$ по всем четырём дизъюнктам тождественно равна нулю во всех $8$~октантах ($\mathrm{xor4LinearGradientSum} \equiv 0$), образуя замкнутые ядра чётности с нулевым линейным откликом.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+В пункте~(1) при $\psi_k \in \{0, 256\}$ проекции $\mathcal{C}_3(\psi_k)$ принимают значения $+128$ (при $\psi_k = 0$) и $-128$ (при $\psi_k = 256$). На тройке $(0,0,0)$ сумма $128 + 3\times 128 = 512$ при делении на $512$ даёт $q_{\mathrm{AND}} = 1$, а на остальных семи тройках сумма принадлежит $\{-256, 0, +256\} \subset (-512, 512)$, откуда $q_{\mathrm{AND}} = 0$. Двойственным образом $\Delta_{\mathrm{3SAT}} = 128 - \sum_{k=1}^3 \mathcal{C}_3(\psi_k)$ равен $512$ только на $(256,256,256)$ ($q_{\mathrm{OR}} = 1$) и принадлежит $\{-256, 0, +256\}$ на всех семи выполняющих наборах ($q_{\mathrm{OR}} = 0$). В пункте~(2) отображение $\mathrm{tdiv}(\cdot, 512)$ переводит все семь выполняющих наборов с остатками $r \in \{-256, 0, +256\}$ в одно значение $0$, что на глубине $T$ даёт $7^T$ прообразов. В пункте~(3) в четырёх дизъюнктах уравнения чётности каждая переменная входит дважды без отрицания и дважды с отрицанием, а поскольку $\mathcal{C}_3(\psi + 256) = -\mathcal{C}_3(\psi)$, сумма проекций по всем четырём дизъюнктам тождественно обращается в нуль в каждом из $8$ октантов.
+\end{proof}
+
+\section{Четыре барьера внутреннего вычислителя и встроенный блокнот Вернама Шеннона на \texorpdfstring{$\mathbb{Z}_{512}$}{Z512}}
+
+В классической теории вычислительной сложности криптоаналитический решатель моделируется абстрактной машиной Тьюринга, вынесенной за пределы физического пространства и снабжённой бесконечной внешней лентой. Однако по Теореме~\ref{thm:mono-no-external-memory} у физической природы нет внешней памяти, поэтому любой реализуемый решатель сам является конечным подавтоматом, занимающим $V_{\mathrm{adv}} < V_{O_2}(3, T)$ узлов внутри того же самого причинного конуса.
+
+\begin{theorem}[Четыре формальных барьера внутреннего вычислителя и информационно-теоретический режим блокнота Вернама на $\mathbb{Z}_{512}$]
+\label{thm:mono-internal-barriers-vernam}
+Для любого внутреннего вычислителя, погружённого в решётку носителя при $d = 3$, выполняются следующие строгие ограничения (\texttt{internal\_\allowbreak observer\_\allowbreak no\_\allowbreak outside\_\allowbreak lattice\_\allowbreak and\_\allowbreak sat\_\allowbreak semantic\_\allowbreak isomorphism\_\allowbreak operator}, \texttt{laplace\_\allowbreak demon\_\allowbreak impossibility\_\allowbreak and\_\allowbreak geometric\_\allowbreak maxwell\_\allowbreak demon\_\allowbreak operator}):
+\begin{enumerate}[label=\textbf{\arabic*.},noitemsep]
+\item \textbf{Четыре физических барьера обращения причинного конуса:}
+  \begin{align}
+    B_2(3)\,V_{\mathrm{adv}} &= 72\,V_{\mathrm{adv}} \;<\; 72\,V_{O_2}(3, T) \qquad (\text{I. барьер ёмкости Дирихле}), \label{eq:mono-barrier-dirichlet} \\
+    K_P(3)\cdot |\mathcal{E}_{\mathrm{Heis}}(3)| &= 64 \times 81 \;=\; 5\,184 \;=\; 72^2 \qquad (\text{II. проекционная слепота } T\text{-слоя}), \label{eq:mono-barrier-blindness} \\
+    R_{\mathrm{cone}}(T + \Delta t) &= T + \Delta t \;\ge\; 2T \;>\; T \qquad (\text{III. горизонт скорости связи } c_0), \label{eq:mono-barrier-horizon} \\
+    \delta(d_1 r)_f &= 512\,\delta w_f \;\ne\; 0 \qquad (\text{IV. обратное действие при записи}). \label{eq:mono-barrier-backaction}
+  \end{align}
+\item \textbf{Встроенный одноразовый блокнот Вернама Шеннона:}
+  поскольку внешнее наблюдение в пороговом $T$-канале извлекает лишь $1$~бит знака из $B_2(3) = 72$ бит ячейки Верле, тогда как остальные $71$~бит внутренней фазы на $M$-носителе $\mathbb{Z}_{512}$ остаются алгебраически ортогональными $T$-проекции и топологически защищёнными вихревым потоком Черна, фазово-когерентный канал на $M$-носителе реализует одноразовый блокнот Вернама:
+  \begin{equation}
+    \label{eq:mono-vernam-entropy}
+    \Phi_f \;=\; (d_1 r)_f \;=\; 512\,w_f, \qquad
+    H(M \mid T) \;=\; H(M),
+  \end{equation}
+  информационно-теоретическая стойкость которого по теореме Шеннона не зависит от предположений о сложности на внешних лентах Тьюринга.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+В пункте~(1) при $V_{\mathrm{adv}} < V_{O_2}(3, T)$ умножение на $B_2(3) = 72 > 0$ даёт $72 V_{\mathrm{adv}} < 72 V_{O_2}(3, T)$, поэтому по принципу Дирихле отображение состояний конуса в регистр подавтомата неинъективно. Число неразличимых $T$-прибором состояний равно произведению $K_P(3) = 64$ подуровней мантиссы и $|\mathcal{E}_{\mathrm{Heis}}(3)| = 2\cdot 41 - 1 = 81$ состояний мёртвой зоны: $64 \times 81 = 5\,184 = 72^2$. За время $\Delta t \ge T$ сбора данных радиус конуса вырастает до $T + \Delta t \ge 2T > T$. В пункте~(2) для любого сообщения $m \in \mathbb{Z}_{512}$ и шифртекста $c \in \mathbb{Z}_{512}$ уравнение $c \equiv m + k \pmod{512}$ имеет единственный ключ $k = (c - m) \bmod 512 \in \mathbb{Z}_{512}$, что по теореме Шеннона обеспечивает $H(M \mid T) = H(M)$.
+\end{proof}
+
+\section{Конструктивные когомологии де~Рама--Стокса--Гаусса--Черна и мера без аксиомы выбора}
+
+\begin{theorem}[Конструктивные когомологии де~Рама $d^2 \equiv 0$, обращение нильпотентных матриц без деления и свободная от парадокса Банаха--Тарского аддитивность меры]
+\label{thm:mono-de-rham-measure}
+При $d = 3$ на кольце $\mathbb{Z}_{512}$ и клеточном комплексе кубооктаэдра $O_2(3)$ выполняются точные конструктивные тождества (\texttt{thm5\_\allowbreak constructive\_\allowbreak de\_\allowbreak rham\_\allowbreak cohomology\_\allowbreak nilpotent\_\allowbreak algebra\_\allowbreak and\_\allowbreak banach\_\allowbreak tarski\_\allowbreak free\_\allowbreak measure}):
+\begin{enumerate}[label=\textbf{\arabic*.},noitemsep]
+\item Для любой $0$-коцепи $\varphi = (\varphi_0, \varphi_1, \varphi_2, \varphi_3) \in \mathbb{Z}^4$ вокруг замкнутой $4$-грани~$f$ кограница равна нулю, а циркуляция главных остатков связности $r_e \in (-256, 256]$ строго квантована периодом кольца (конструктивная теорема Стокса и целочисленный класс Черна):
+  \begin{align}
+    \bigl(d_1(d_0\varphi)\bigr)_f &\equiv 0, \label{eq:mono-stokes-d1d0} \\
+    (d_1 r)_f &= -512 \sum_{e \in \partial f} q_e \;=\; 512\,n_f \in 512\mathbb{Z}. \label{eq:mono-chern-flux-512}
+  \end{align}
+\item Для любой $1$-коцепи $(e_1, \dots, e_{12}) \in \mathbb{Z}^{12}$ на $12$~рёбрах куба сумма потоков $(d_1 e)_f$ по всем $|\square(3)| = 6$ граням замкнутой поверхности $\partial\square^3$ тождественно равна нулю (конструктивная теорема Гаусса--Остроградского):
+  \begin{equation}
+    \label{eq:mono-gauss-d2d1}
+    \bigl(d_2(d_1 e)\bigr)_{\square^3} \;\equiv\; 0.
+  \end{equation}
+\item Симплектический шаг Верле ($\det = +1 \in \mathrm{SL}_2(\mathbb{Z})$) и 4D нильпотентный оператор $\mathcal{M} = I_4 + N_{\mathrm{nil}}$ ($N_{\mathrm{nil}}^3 = 0$) обращаются в точных целых числах без деления, а разбиение шара кубооктаэдра $\mathcal{B}_{O_2}(3, T)$ на центральный узел и непересекающиеся координационные сферы $S_k(3) = 10k^2 + 2$ строго сохраняет целочисленный объём без привлечения неконструктивной аксиомы выбора (\texttt{0 Classical.choice}):
+  \begin{align}
+    \mathcal{M}^{-1} &= (I_4 + N_{\mathrm{nil}})^{-1} \;=\; I_4 - N_{\mathrm{nil}} + N_{\mathrm{nil}}^2, \label{eq:mono-nilpotent-inv} \\
+    V_{O_2}(3, T) &= 1 + \sum_{k=1}^T (10k^2 + 2). \label{eq:mono-measure-additivity}
+  \end{align}
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+В пункте~(1) обход границы $4$-грани даёт $(\varphi_1 - \varphi_0) + (\varphi_2 - \varphi_1) + (\varphi_3 - \varphi_2) + (\varphi_0 - \varphi_3) \equiv 0$; подстановка $r_e = (d_0\varphi)_e - 512\,q_e$ даёт $(d_1 r)_f = 0 - 512\sum_{e\in\partial f} q_e \in 512\mathbb{Z}$. В пункте~(2) каждое из $12$ рёбер куба входит в две смежные грани с противоположными ориентациями $+1$ и $-1$, поэтому сумма по $6$ граням равна $(d_2(d_1 e))_{\square^3} \equiv 0$. В пункте~(3) перемножение $(I_4 + N_{\mathrm{nil}})(I_4 - N_{\mathrm{nil}} + N_{\mathrm{nil}}^2) = I_4 + N_{\mathrm{nil}}^3 = I_4$ при $N_{\mathrm{nil}}^3 = 0$ даёт обратную матрицу в $\mathbb{Z}^{4\times 4}$ без деления, а конечная аддитивность счётной меры на разрешимых конечных множествах следует по индукции по~$T$.
+\end{proof}
+

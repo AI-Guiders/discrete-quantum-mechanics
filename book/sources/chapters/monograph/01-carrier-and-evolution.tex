@@ -1,0 +1,538 @@
+% ============================================================================
+\chapter{Вывод дискретной квантовой механики (ДКМ) из неделимости элементарного объёма, отсутствия внешней памяти у природы и уравнения Каталана}
+\label{ch:mono-axioms}
+% ============================================================================
+
+\section{Доказательство отсутствия внешней памяти у физической природы и невозможности континуального регистра внутри неделимой ячейки}
+
+В классической теоретической физике пространственно-временной фон традиционно вводится как гладкий континуум~$\mathbb{R}^{d,1}$, в каждой точке которого поле задаётся вещественными числами бесконечной двоичной разрядности. Покажем, что такая континуальная запись неявно требует существования бесконечной внешней памяти за пределами физической среды, и строго докажем, почему у физической природы внешней памяти быть не может.
+
+\begin{theorem}[Отсутствие внешней памяти у физической природы и конечность регистра неделимой элементарной ячейки]
+\label{thm:mono-no-external-memory}
+Пусть $\mathfrak{U}$ --- совокупная физическая природа (множество всех физически взаимодействующих подсистем), и пусть элементарный объём ячейки физически неделим (частица занимает весь элементарный объём ячейки целиком и не может занимать его частично). Тогда (\texttt{internal\_\allowbreak observer\_\allowbreak no\_\allowbreak outside\_\allowbreak lattice\_\allowbreak and\_\allowbreak sat\_\allowbreak semantic\_\allowbreak isomorphism\_\allowbreak operator}, \texttt{thm17\_\allowbreak model\_\allowbreak theoretic\_\allowbreak termination\_\allowbreak kernel\_\allowbreak annihilation\_\allowbreak and\_\allowbreak godel\_\allowbreak tarski\_\allowbreak oracle\_\allowbreak necessity}):
+\begin{enumerate}[label=\textbf{(\arabic*)},leftmargin=*]
+\item \textbf{Отсутствие внешней памяти у природы:}
+  не существует никакого внешнего по отношению к $\mathfrak{U}$ запоминающего устройства $E_{\mathrm{ext}} \notin \mathfrak{U}$, способного записывать, хранить или передавать информацию о состоянии любой физической ячейки $S \in \mathfrak{U}$. Всякая степень свободы из гипотетического внешнего ядра $\ker\pi$ за пределами носителя тождественно аннигилирует во всех физических потоках и наблюдаемых:
+  \begin{align}
+    d_1\bigl(r + d_0(\delta\chi)\bigr) &\equiv d_1(r), \label{eq:mono-no-ext-memory-kernel} \\
+    d_2\bigl(n + d_1(\delta q)\bigr) &\equiv d_2(n). \label{eq:mono-no-ext-memory-kernel-d2}
+  \end{align}
+\item \textbf{Невозможность континуальной записи $\mathbb{R}$ и конечность локального регистра ячейки:}
+  поскольку внутри неделимого элементарного объёма нет бесконечной последовательности независимых подъячеек, а внешней памяти вне среды не существует, состояние одного оборота каждой элементарной ячейки $\mathbf{x} \in \mathbb{Z}^d$ на такте $t \in \mathbb{Z}$ не может кодироваться вещественным числом бесконечной разрядности ($\aleph_0$ бит), а обязано кодироваться конечным двоичным словом фиксированной разрядности $\mathrm{mod\_bits}(d)$ на замкнутом циклическом кольце вычетов $\mathbb{Z}_{\phaseRingCount(d)}$:
+  \begin{equation}
+    \label{eq:mono-nring-power-two}
+    \phaseRingCount(d) \;=\; 2^{\mathrm{mod\_bits}(d)}.
+  \end{equation}
+\item \textbf{Двусортное представление $\langle \mathcal{M}, \mathcal{T};\,\pi_{M\to T},\,\iota_{T\to M} \rangle$ по А.\,И.~Мальцеву:}
+  связь дискретной динамики клеток с макроскопическими непрерывными полями описывается двусортной алгебраической системой $\langle \mathcal{M}, \mathcal{T};\,\pi_{M\to T},\,\iota_{T\to M} \rangle$ с \textbf{дискретным носителем~$M$} ($\mathcal{M}$ --- счётное индуктивное семейство целочисленных фазовых колец $\mathbb{Z}_{4Q}$ на $\mathbb{Z}^d$ с однооборотным регистром ячейки $\mathbb{Z}_{512}$ при $K=1$) и \textbf{непрерывным носителем~$T$} ($\mathcal{T}$ --- континуальный сорт наблюдаемых траекторий и интегралов Римана, связанный с~$\mathcal{M}$ двусторонним проективно-ретракционным соответствием Вейерштрасса $\pi_{M\to T} \leftrightarrow \iota_{T\to M}$).
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Докажем пункты~(1)--(3).
+
+\emph{Пункт~(1).} Предположим, что существует некоторый регистр памяти $E$, который считывает состояние физической ячейки $S \in \mathfrak{U}$ или воздействует на её шаг эволюции. Любая передача информации $S \leftrightarrow E$ есть физическое причинное взаимодействие. По определению совокупной физической природы $\mathfrak{U}$ как замкнутого по взаимодействиям графа, всякий объект $E$, физически взаимодействующий с $S \in \mathfrak{U}$, сам принадлежит физической природе ($E \in \mathfrak{U}$) и занимает её собственные локальные ячейки. Напротив, если гипотетический объект $E_{\mathrm{ext}} \notin \mathfrak{U}$ не вступает в физическое взаимодействие с $\mathfrak{U}$ (или принадлежит ядру проекции $\ker\pi$ гипотетического внешнего уширения $\pi : M_{\mathrm{ext}} \twoheadrightarrow \mathcal{M}$), то в силу нильпотентности кограницы $d_1 \circ d_0 \equiv 0$ и $d_2 \circ d_1 \equiv 0$ выполняется~\eqref{eq:mono-no-ext-memory-kernel}: вклад любых внешних калибровочных степеней свободы из $\ker\pi$ во все наблюдаемые физические потоки тождественно равен нулю. Следовательно, внешней памяти у физической природы не существует.
+
+\emph{Пункт~(2).} Запись одного произвольного вещественного числа $x \in \mathbb{R}$ требует актуально бесконечной последовательности независимых двоичных разрядов $\{b_k\}_{k=1}^\infty$ ($\aleph_0$ бит). По условию физической неделимости элементарного объёма частица (возбуждение) занимает весь элементарный объём ячейки целиком и не может занимать его частично; это означает, что элементарный объём не содержит внутри себя бесконечного множества физически независимых подъячеек. Поскольку ни внутри самой ячейки, ни вне её (по пункту~1) нет бесконечного хранилища разрядов, состояние одного оборота ячейки обязано принадлежать конечному кольцу вычетов $\mathbb{Z}_{\phaseRingCount(d)}$ фиксированной битовой разрядности $\mathrm{mod\_bits}(d) < \infty$.
+
+\emph{Пункт~(3).} Поскольку любой макроскопический прибор сам состоит из конечного числа $N$ ячеек носителя~$\mathcal{M}$, его показания на континуальном сорте~$\mathcal{T}$ получаются рациональным проективным подъёмом Вейерштрасса $\pi_{M\to T}(C, S) = (C^2-S^2 : 2CS : C^2+S^2)$ со строго положительным знаменателем $C^2+S^2 \ge 1$ и линейной ретракцией $\iota_{T\to M}$, не требующими выхода за пределы целых регистров~$\mathcal{M}$.
+\end{proof}
+
+\section{Последовательный вывод размерности \texorpdfstring{$d=3$}{d=3}, кольца \texorpdfstring{$\mathbb{Z}_{512}$}{Z512}, кубооктаэдра \texorpdfstring{$O_2(3)$}{O2(3)} и шага Верле}
+
+Проследим шаг за шагом, как неделимость элементарного объёма, плотное заполнение всех ячеек и отсутствие внешней памяти фиксируют все параметры носителя:
+
+\begin{enumerate}[label=\textbf{Шаг \arabic*.},leftmargin=*]
+\item \textbf{Почему пространство трёхмерно ($d = 3$) и откуда возникает 9-битный регистр $\mathbb{Z}_{512}$ (от неделимой занятости элементарного объёма и плотной упаковки без пустот к уравнению Каталана $1 + 2^d = d^2$):}
+  рассмотрим элементарную ячейку решётки $\mathbf{x} \in \mathbb{Z}^d$.
+  \begin{itemize}[noitemsep]
+  \item \emph{Неделимость элементарного объёма (происхождение бита собственной занятости $1$):} частица (возбуждение) занимает весь элементарный объём ячейки целиком и не может занимать его частично. Отсутствие частичной занятости означает, что у самого центра элементарного объёма существует ровно одно неделимое состояние собственной занятости $\mathbf{0} = (0, \dots, 0)$ (\texttt{centralOccupancyState d} в \texttt{lean/MtCarrier/Spec.lean}).
+  \item \emph{Плотное заполнение всех ячеек без пустот (происхождение $2^d$ сомкнутых октантов и $1 + 2^d$ состояний ветвления ячейки):} поскольку все элементарные ячейки пространства обязаны быть заполнены вплотную без зазоров, вдоль каждой из $d$~ортогональных осей существуют ровно два плотно сомкнутых противоположных направления $\{-1, +1\}$ (\texttt{elementaryAxisSigns}). Их прямое произведение по всем $d$~осям образует ровно $|\texttt{signedOctants}(d)| = 2^d$ сомкнутых знаковых октантов $\{-1, +1\}^d$, плотно окружающих центральную ячейку. Вместе с неделимым состоянием собственной занятости самой центральной ячейки $(0, \dots, 0)$ это даёт ровно
+  \[
+    |\texttt{cellBranchingStates}(d)| \;=\; 1 + 2^d
+  \]
+  неделимых состояний ветвления элементарного объёма.
+  \item \emph{Матрица осевых переходов внутри ячейки (происхождение $d \times d = d^2$):} передача состояния внутри элементарного объёма между $d$~ортогональными пространственными осями определяется множеством всех упорядоченных пар осей $(i, j) \in \{0, \dots, d-1\}^2$ (\texttt{axisTransitionPairs d}), число которых равно
+  \[
+    |\texttt{axisTransitionPairs}(d)| \;=\; d \times d \;=\; d^2
+  \]
+  (и раскладывается на $d$ продольных пар $i = j$ и $d(d - 1) = |N(d)|/2$ внедиагональных плоскостей вращения $i \ne j$, которые с выбором знаков порождают $2d(d - 1)$ диагональных рёберных вершин).
+  \end{itemize}
+  Для того чтобы элементарная ячейка кодировала свои состояния ветвления собственными осевыми переходами взаимно-однозначно --- без информационного дефицита (когда пар осевых переходов $d^2$ не хватает для кодирования всех $1 + 2^d$ состояний плотно заполненной ячейки) и без вырожденных висячих состояний --- мощности обоих конечных множеств обязаны совпадать (\texttt{catalan\_lock\_eq\_branching\_axis\_cardinalities}):
+  \begin{equation}
+    \label{eq:mono-catalan-lock}
+    |\texttt{cellBranchingStates}(d)| \;=\; |\texttt{axisTransitionPairs}(d)|
+    \qquad\Longleftrightarrow\qquad
+    1 + 2^d \;=\; d^2.
+  \end{equation}
+  Вычисление обеих частей~\eqref{eq:mono-catalan-lock} при $d \in \{0, 1, 2, 3, 4\}$ даёт:
+  \[
+    \begin{aligned}
+      d &= 0: &\quad 1 + 2^0 &= 2 \ne 0^2 = 0, \\
+      d &= 1: &\quad 1 + 2^1 &= 3 > 1^2 = 1, \\
+      d &= 2: &\quad 1 + 2^2 &= 5 > 2^2 = 4, \\
+      \mathbf{d} &\;=\; \mathbf{3}: &\quad \mathbf{1 + 2^3} &\;=\; \mathbf{1 + 8 \;=\; 9 \;=\; 3^2}, \\
+      d &= 4: &\quad 1 + 2^4 &= 17 > 4^2 = 16.
+    \end{aligned}
+  \]
+  При $d = 1$ и $d = 2$ разрядности регистра $d^2$ недостаточно для кодирования $1 + 2^d$ направлений без внешней памяти. При $\mathbf{d = 3}$ достигается точное равенство $1 + 2^3 = 9 = 3^2$, тогда как для всех $d \ge 4$ по индукции выполняется строгое неравенство $2^d \ge d^2$ (база $d = 4$: $2^4 = 16 = 4^2$; индукционный шаг при $d \ge 4$: $2^{d+1} = 2\cdot 2^d \ge 2d^2 = d^2 + d\cdot d \ge d^2 + 4d > d^2 + 2d + 1 = (d+1)^2$), откуда $1 + 2^d > d^2$ для всех $d \ge 4$. Тем самым уравнение~\eqref{eq:mono-catalan-lock} ($d^2 - 2^d = 1$, частный случай уравнения Каталана--Михайлеску $x^a - y^b = 1$) имеет в натуральных числах единственное решение $\mathbf{d = 3}$. Подстановка $d = 3$ определяет разрядность регистра $\mathrm{mod\_bits}(3) = d^2 = 9\text{ бит}$, модуль фазового кольца $\phaseRingCount(3) = 2^9 = 8^3 = 512$ и фундаментальный вакуумный квант амплитуды (арифметическую единицу носителя) как разность Каталана:
+  \[
+    \mu_{\mathrm{vac}}(3) \;=\; d^2 - 2^d \;=\; 9 - 8 \;=\; 1.
+  \]
+
+\item \textbf{Почему координационная сфера решётки --- именно 12-вершинный кубооктаэдр $O_2(3)$ и три плоскости углов Эйлера ($\dim\mathrm{SO}(d) = d(d-1)/2 = d \iff d = 3$):}
+  разложим правую часть уравнения Каталана $d^2 = 9$~\eqref{eq:mono-catalan-lock} на $d = 3$ продольные пары осей $(i = j)$ и $d(d-1) = 6$ внедиагональных поворотных пар $(i \ne j)$:
+  \[
+    d^2 \;=\; d + d(d - 1) \;=\; 3 + 6 \;=\; 9.
+  \]
+  По правилу «один такт равен одному ребру» поворот с оси~$\mathbf{e}_i$ на ось~$\mathbf{e}_j$ ($i \ne j$) за один такт обязан осуществляться вдоль диагонального ребра $\mathbf{e} = \pm\mathbf{e}_i \pm\mathbf{e}_j$ ($1 \le i < j \le d$). Число независимых плоскостей вращения и наклона --- число \textbf{углов Эйлера} $\dim\mathrm{SO}(d) = d(d-1)/2$ --- совпадает с числом пространственных осей~$d$ исключительно при $\mathbf{d = 3}$ ($\frac{3\cdot 2}{2} = 3$): это три взаимно ортогональные координатные плоскости $(xy, xz, yz)$, в каждой из которых лежат $d_{\mathrm{in}}(\square) = 4$ вершины экваториального квадрата $\pm\mathbf{e}_i \pm\mathbf{e}_j$ ($3 \times 4 = 12$ вершин кубооктаэдра $O_2(3)$), тогда как $8$~треугольных граней связывают по одной вершине из плоскостей $xy$, $xz$ и $yz$, задавая углы наклона между ортогональными плоскостями Эйлера ($\mathcal{R}_{\mathrm{Euler}}(\varphi_1, \varphi_2, \varphi_3)$ при $(\varphi_1, \varphi_2, \varphi_3) \in \mathbb{Z}_{512}^3$). В элементарном кубе Мура $\{-1, 0, +1\}^3$ ($3^3 - 1 = 26$ ненулевых соседей) под действием группы~$O_h$ эти $26$ узлов распадаются на три сферические орбиты по квадрату длины связи $|\mathbf{e}|^2 = e_x^2 + e_y^2 + e_z^2$:
+  \begin{itemize}[noitemsep]
+  \item $O_1(3)$ ($|\mathbf{e}|^2 = 1$, $6$~центров квадратных граней куба~$\square$: $(\pm 1,0,0)$, $(0,\pm 1,0)$, $(0,0,\pm 1)$): имеет диагональный второй момент $\sum_{\mathbf{e}\in O_1} e_\alpha e_\beta = 2\delta_{\alpha\beta}$, но все смешанные четвёртые моменты на ней тождественно равны нулю ($\sum_{\mathbf{e}\in O_1} e_x^2 e_y^2 = 0$), вследствие чего осевые волны не сцепляются между различными координатными осями;
+  \item $O_3(3)$ ($|\mathbf{e}|^2 = 3$, $8$~угловых вершин октантов~$\triangle$: $(\pm 1,\pm 1,\pm 1)$): имеет $e_x^2 = e_y^2 = e_z^2 = 1$ во всех $8$ вершинах ($\sum_{\mathbf{e}\in O_3} e_x^4 = \sum_{\mathbf{e}\in O_3} e_x^2 e_y^2 = 8$), не содержит ни одного вектора с нулевой координатой ($e_\alpha = 0$) и потому не образует планарных 4-циклов в координатных плоскостях $(xy, yz, zx)$;
+  \item $\mathbf{O_2(3)}$ ($|\mathbf{e}|^2 = d - 1 = 2$, $\mathbf{12}$~\textbf{рёберных диагональных соседей} $(\pm 1,\pm 1,0)$, $(\pm 1,0,\pm 1)$, $(0,\pm 1,\pm 1)$ --- архимедов \textbf{кубооктаэдр}): в каждой координатной плоскости содержит ровно $4$ вершины экваториального квадрата, а вдоль каждой оси $e_\alpha$ имеет $8$ вершин с $e_\alpha = \pm 1$ и $4$ вершины с $e_\alpha = 0$, что даёт изотропный тензор второго момента
+    \begin{equation}
+      \label{eq:mono-isotropy-tensor}
+      M_{\alpha\beta} \;=\; \sum_{\mathbf{e} \in O_2(3)} e_\alpha e_\beta \;=\; (4 + 4)\,\delta_{\alpha\beta} \;=\; 8\,\delta_{\alpha\beta} \;=\; |{\triangle}(3)|\,\delta_{\alpha\beta}
+    \end{equation}
+    и ненулевое межосевое сцепление $\sum_{\mathbf{e}\in O_2(3)} e_x^2 e_y^2 = 4 = \frac{1}{2}\sum_{\mathbf{e}\in O_2(3)} e_x^4$, благодаря чему оператор $\frac{1}{4}\sum_{\mathbf{e}\in O_2(3)}(f(\mathbf{e}) - f(\mathbf{0}))$ точно равна непрерывному лапласиану $\Delta f(\mathbf{0})$ на всех квадратичных полиномах.
+  \end{itemize}
+
+\item \textbf{Почему закон эволюции во времени --- именно двухшаговая симплектическая схема Верле с коэффициентами $(2, -1)$:}
+  поскольку за пределами носителя нет внешнего резервуара («свалки») для сброса стёртых состояний, отображение эволюции на конечном множестве состояний обязано быть взаимно-однозначным (обратимым во времени $t \leftrightarrow -t$) и сохранять симплектический фазовый объём ($\det J = +1$). Для определения скорости (разности фаз $\varphi(t) - \varphi(t-1)$) без внешней памяти минимальная локальная рекурсия должна опираться на два последовательных такта $(\varphi(t-1), \varphi(t)) \mapsto (\varphi(t), \varphi(t+1))$:
+  \[
+    \varphi(t+1) \;\equiv\; \alpha\,\varphi(t) + \beta\,\varphi(t-1) + \Phi_{\mathrm{gate}} \pmod{512}.
+  \]
+  Условие сохранения фазового объёма $\det J = -\beta = +1$ однозначно требует $\mathbf{\beta = -1}$. В то же время на замкнутом циклическом кольце $\mathbb{Z}_{512}$ все узлы равноправны и не существует внешнего абсолютного начала отсчёта фазы, поэтому одновременный глобальный сдвиг всех фаз $\varphi \mapsto \varphi + c \pmod{512}$ обязан оставлять свободное уравнение движения ($\Phi_{\mathrm{gate}} = 0$) инвариантным ($c = \alpha c + \beta c \implies \alpha + \beta = 1$), что при $\beta = -1$ однозначно фиксирует $\mathbf{\alpha = 2 = (c_0/c)^2}$.
+
+\item \textbf{Почему существуют потолок Паули $\Phi_{\mathrm{Pauli}} = 256$ и порог Гейзенберга $\Delta\varphi_{\mathrm{disc}} = 41$:}
+  на конечном кольце длины $\phaseRingCount(3) = 512$ любое направленное смещение со знаком однозначно определено лишь в пределах полупериода $|\Phi_{\mathrm{gate}}| \le \Phi_{\mathrm{Pauli}}(3) = 512 / 2 = \mathbf{256}$. При этом полный фазовый бюджет одетого 13-узлового причинного ядра кубооктаэдра $B_1(3) = \{\mathbf{0}\} \cup O_2(3)$ ($N_\varphi(3) = 1 + 12 = 13$ узлов) вместе с рёберным швом одной грани $\Delta\varphi_{\mathrm{seam}}(3) = \lfloor 256 / 12 \rfloor = 21$ составляет $512 + 21 = 533$, что при равномерном распределении между $13$ узлами ядра делится нацело ($533 = 13 \times 41$) и однозначно определяет минимальный целочисленный порог излучения дискретного кванта энергии в наблюдаемый $T$-слой: $\Delta\varphi_{\mathrm{disc}}(3) = 533 / 13 = \mathbf{41}$.
+\end{enumerate}
+
+\section{Теоремы единственности: размерность \texorpdfstring{$d=3$}{d=3}, кубооктаэдр \texorpdfstring{$O_2(3)$}{O2(3)} и шаг Верле}
+
+\begin{theorem}[Единственность размерности $d=3$ и параметров кольца $\mathbb{Z}_{512}$]
+\label{thm:mono-d3-uniqueness}
+Условие самозамкнутости регистра~\eqref{eq:mono-catalan-lock} выполняется тогда и только тогда, когда размерность пространства равна $d = 3$. При этом все структурные константы носителя определяются однозначно без свободных параметров:
+\begin{align}
+  d &= 3, \label{eq:mono-d3-constants} \\
+  |\square(3)| &= 2d = 6, \label{eq:mono-d3-squares} \\
+  |{\triangle}(3)| &= 2^d = 8, \label{eq:mono-d3-triangles} \\
+  \mathrm{mod\_bits}(3) &= d^2 = 9, \label{eq:mono-d3-modbits} \\
+  \phaseRingCount(3) &= 2^9 = 8^3 = 512, \label{eq:mono-d3-nring} \\
+  \mu_{\mathrm{vac}}(3) &= d^2 - 2^d = 1, \label{eq:mono-d3-muvac} \\
+  Q_\square(3) &= 2^{d^2-2} = 128, \label{eq:mono-d3-qsquare} \\
+  \Phi_{\mathrm{Pauli}}(3) &= 2 Q_\square(3) = 256, \label{eq:mono-d3-pauli} \\
+  K_P(3) &= 2^{2d} = 64. \label{eq:mono-d3-kp}
+\end{align}
+\emph{Формальная верификация:} теоремы \texttt{catalan\_\allowbreak lock\_\allowbreak eq\_\allowbreak branch\allowbreak ing\_\allowbreak axis\_\allowbreak cardi\allowbreak nalities}, \texttt{catalan\_\allowbreak lock\_\allowbreak iff\_\allowbreak d3} и \texttt{canonical\_\allowbreak d3\_\allowbreak constants} в модуле \texttt{lean/\allowbreak MtCarrier/\allowbreak Spec.lean}.
+\end{theorem}
+
+\begin{proof}
+Прямое вычисление для $d \in \{0, 1, 2, 3, 4\}$ даёт:
+\begin{align*}
+  1 + 2^0 &= 2 \ne 0^2, \\
+  1 + 2^1 &= 3 \ne 1^2, \\
+  1 + 2^2 &= 5 \ne 2^2, \\
+  1 + 2^3 &= 9 = 3^2, \\
+  1 + 2^4 &= 17 > 4^2.
+\end{align*}
+Для всех $d \ge 4$ индукцией по~$d$ выполняется строгое неравенство $2^d \ge d^2$, так как
+\[
+  2^{d+1} \;=\; 2\cdot 2^d \;\ge\; 2d^2 \;=\; d^2 + d\cdot d \;\ge\; d^2 + 4d \;>\; d^2 + 2d + 1 \;=\; (d+1)^2.
+\]
+Следовательно, $d=3$ --- единственное решение в~$\mathbb{N}$, а разность $d^2 - 2^d = 9 - 8 = 1$ задаёт неделимый вакуумный квант амплитуды $\mu_{\mathrm{vac}}(3) = 1$.
+\end{proof}
+
+\begin{theorem}[Единственность симплектического закона Верле]
+\label{thm:mono-verlet-uniqueness}
+Среди всех линейных двухшаговых рекурсий $\varphi(t+1) \equiv \alpha\,\varphi(t) + \beta\,\varphi(t-1) + \Phi_{\mathrm{gate}} \pmod{\phaseRingCount(d)}$ физические следствия обратимости без внешней памяти (единичный симплектический якобиан $\det J = -\beta = 1$ и обратимость во времени) и отсутствия внешней точки отсчёта на кольце (коммутация со сдвигом $\varphi \mapsto \varphi + c$, требующая $\alpha + \beta = 1$) однозначно фиксируют коэффициенты
+\begin{align}
+  \alpha &= 2 = \left(\frac{c_0}{c}\right)^2, \label{eq:mono-verlet-alpha} \\
+  \beta &= -1, \label{eq:mono-verlet-beta} \\
+  \varphi(t+1) &\equiv \bigl(2\varphi(t) - \varphi(t-1) + \Phi_{\mathrm{gate}}\bigr) \bmod 512. \label{eq:mono-verlet-law}
+\end{align}
+Отображение~\eqref{eq:mono-verlet-law} является биекцией на 72-битном двухтактовом фазовом пространстве ячейки $B_2(3) = 2 \times 36 = 72\text{ бит}$ и обращается без потери истории тем же самым оператором при перестановке текущего и прошлого регистров:
+\begin{equation}
+  \label{eq:mono-verlet-reverse}
+  \varphi(t-1) \;\equiv\; \bigl(2\varphi(t) - \varphi(t+1) + \Phi_{\mathrm{gate}}\bigr) \bmod 512.
+\end{equation}
+\emph{Формальная верификация:} теоремы \texttt{verlet\_\allowbreak coefficients\_\allowbreak uniqueness\_\allowbreak from\_\allowbreak a13}, \texttt{a13\_\allowbreak verlet\_\allowbreak from\_\allowbreak clock\_\allowbreak shift\_\allowbreak and\_\allowbreak unit\_\allowbreak symplectic\_\allowbreak det} и \texttt{polar\_\allowbreak step\_\allowbreak reverse\_\allowbreak exact} в модуле \texttt{lean/\allowbreak MtCarrier/\allowbreak TrajectoryIV263.lean}.
+\end{theorem}
+
+\begin{proof}
+Матрица перехода одного шага $(\varphi(t), \varphi(t-1)) \mapsto (\alpha\varphi(t) + \beta\varphi(t-1), \varphi(t))$ имеет определитель $\det J = \alpha\cdot 0 - \beta\cdot 1 = -\beta$. Условие $-\beta = 1$ однозначно даёт $\beta = -1$, а условие коммутации с глобальным сдвигом фазы $\alpha + \beta = 1$ даёт $\alpha = 1 - (-1) = 2$. При замене направления времени $\varphi(t+1) \leftrightarrow \varphi(t-1)$ симметричная сумма
+\[
+  \varphi(t+1) + \varphi(t-1) \;\equiv\; 2\varphi(t) + \Phi_{\mathrm{gate}} \pmod{512}
+\]
+остаётся инвариантной, откуда следует формула обращения~\eqref{eq:mono-verlet-reverse}.
+\end{proof}
+
+\begin{theorem}[Единственность изотропной кубооктаэдрической оболочки $O_2(3)$]
+\label{thm:mono-cuboct-uniqueness}
+В трёхмерном кубе Мура $\{-1, 0, +1\}^3$ ($3^3 - 1 = 26$ ненулевых соседей, разбитых на три $O_h$-орбиты: $6$~граневых центров $|\mathbf{e}|^2=1$, $12$~рёберных центров $|\mathbf{e}|^2=2$ и $8$~углов $|\mathbf{e}|^2=3$) единственной минимальной оболочкой, одновременно обеспечивающей изотропию второго момента~\eqref{eq:mono-isotropy-tensor} ($M_{\alpha\beta} = 8\,\delta_{\alpha\beta}$), планарную замкнутость 4-циклов в трёх координатных плоскостях ($xy, yz, zx$) и точное воспроизведение непрерывного оператора Лапласа $\Delta f(\mathbf{0}) = \frac{1}{4}\sum_{\mathbf{e}\in O_2}(f(\mathbf{e}) - f(\mathbf{0}))$ на всех квадратичных полиномах, является 12-вершинный \textbf{кубооктаэдр}:
+\begin{align}
+  O_2(3) &= \bigl\{\mathbf{e} \in \{-1, 0, +1\}^3 \;\big|\; e_x^2 + e_y^2 + e_z^2 = 2\bigr\}, \label{eq:mono-cuboct-def} \\
+  |N(3)| &= |O_2(3)| \;=\; 12. \label{eq:mono-cuboct-card}
+\end{align}
+Вместе с центральным узлом покоя оболочка~\eqref{eq:mono-cuboct-def} образует 13-узловое причинное ядро $B_1(3) = \{\mathbf{0}\} \cup O_2(3)$ мощности $N_\varphi(3) = 1 + |N(3)| = 13$, а радиальные слои растут по квадратичному закону:
+\begin{align}
+  S_k(3) &= 10k^2 + 2 \quad (k \ge 1), \label{eq:mono-cuboct-shells} \\
+  (S_1, S_2, S_3, S_4) &= (12, 42, 92, 162). \label{eq:mono-cuboct-shells-1234}
+\end{align}
+\emph{Формальная верификация:} теоремы \texttt{cubic\_\allowbreak orbits\_\allowbreak partition\_\allowbreak 26}, \texttt{cuboctahedron\_\allowbreak unique\_\allowbreak isotropic\_\allowbreak shell\_\allowbreak d3}, \texttt{cuboctahedron\_\allowbreak second\_\allowbreak moment\_\allowbreak isotropy\_\allowbreak tensor} и \texttt{laplacian\_\allowbreak O2\_\allowbreak exact\_\allowbreak on\_\allowbreak quadratic\_\allowbreak polynomial} в модулях \texttt{lean/\allowbreak MtCarrier/\allowbreak Spec.lean} и \texttt{lean/\allowbreak MtCarrier/\allowbreak ContinuumPhysics.lean}.
+\end{theorem}
+
+\begin{proof}
+Из трёх непустых $O_h$-орбит куба Мура $\{-1,0,+1\}^3\setminus\{\mathbf{0}\}$ орбита $O_1(3)$ ($6$ вершин) имеет нулевой смешанный четвёртый момент $\sum e_x^2 e_y^2 = 0$, оставляя координатные оси несцепленными; орбита $O_3(3)$ ($8$ вершин $(\pm 1,\pm 1,\pm 1)$) не содержит ни одной вершины с нулевой координатой и потому не образует $4$-циклов в координатных плоскостях $(xy, yz, zx)$. Только орбита $O_2(3)$ ($12$ вершин) содержит три экваториальных квадрата по $4$ вершины в координатных плоскостях и имеет моменты $\sum e_i^2 = 8$ и $\sum_{i\ne j} e_i^2 e_j^2 = 4$, обеспечивая~\eqref{eq:mono-isotropy-tensor} и тождество $\frac{1}{4}\sum_{\mathbf{e}\in O_2(3)}(f(\mathbf{e}) - f(\mathbf{0})) = \Delta f(\mathbf{0})$ на всех квадратичных формах.
+\end{proof}
+
+\section{Переход к естественным полярным координатам \texorpdfstring{$(\mu, \varphi_{\mathrm{disc}})$}{(mu, phi\_disc)}, затравочное состояние Каталана \texorpdfstring{$\mathrm{IV}(3) = 263$}{IV(3) = 263} и уравнения оператора эволюции \texorpdfstring{$\mathcal{G}_3$}{G3}}
+
+Покажем, каким образом двухкомпонентный спинорный закон эволюции $g$ на решётке ГЦК ($O_2(3)$, аксиомы A3, A5, A7, A9 канонической модели \texttt{MODEL}: двухкомпонентный спинор $z = (z_0, z_1)$ с полом вакуумной занятости $\mu \ge \mu_{\mathrm{vac}} = 1$, насыщающимся фазовым откликом и порогом разрешения Гейзенберга) приводится к \textbf{естественным полярным координатам носителя~$\mathcal{M}$} и даёт целочисленный оператор $\mathcal{G}_3$ (\texttt{fieldStepOp 3} в модуле \texttt{lean/\allowbreak MtCarrier/\allowbreak TrajectoryIV263.lean}):
+\begin{itemize}[leftmargin=*,noitemsep]
+\item \textbf{Устранение декартовой деградации $\mathbb{Z}_4$ и ортогональное расщепление голономии в полярном регистре $(\mu, \varphi_c) \in \{1,\dots,K_P(3)\}\times\mathbb{Z}_{512}$:}
+  при декартовой записи компоненты спинора $z_c = u_c + i v_c$ на целочисленной сетке точные повороты без округления вырождаются в четыре угла $\mathbb{Z}_4$, а кольцевой квадрат $u_c^2 + v_c^2$ дрейфует при шаге переноса. Переход к полярной форме $z_c(\mathbf{x}) = \mu(\mathbf{x})\,\mathcal{E}_3\bigl(\varphi_c(\mathbf{x})\bigr)$ превращает любой фазовый поворот в точный биективный сдвиг на кольце $\varphi_c \mapsto (\varphi_c + \Delta\varphi) \bmod 512$, а умножение уравнения эволюции $i(\partial_t z_c) = -\gamma\Delta_{\mathrm{disc}}z_c$ на сопряжённую амплитуду $z_c^*(\mathbf{x})$ ортогонально расщепляет голономию звезды $\zeta_c(\mathbf{x}) = \sum_{\mathbf{e}\in O_2(3)} z_c(\mathbf{x}-\mathbf{e})z_c^*(\mathbf{x}) = \mathcal{Z}_{\mathrm{real},c}(\mathbf{x}) + i\,\mathcal{Z}_{\mathrm{imag},c}(\mathbf{x})$ на чётную (действительную) и нечётную (мнимую) части:
+  \begin{equation}
+    \label{eq:mono-holonomy-polar-split}
+    i\,(\partial_t z_c)\,z_c^* \;=\; \underbrace{-\mu^2\,\partial_t\varphi_c}_{\text{чётный канал фазы }\mathcal{C}_3} \;+\; i\,\underbrace{\frac{1}{2}\,\partial_t(\mu^2)}_{\text{нечётный канал потока }\mathcal{S}_3} \;=\; -\gamma\Bigl(\bigl(\mathcal{Z}_{\mathrm{real},c} - |O_2(3)|\,Q_\square\,\mu^2\bigr) + i\,\mathcal{Z}_{\mathrm{imag},c}\Bigr).
+  \end{equation}
+  Из~\eqref{eq:mono-holonomy-polar-split} следует, что чётный дефицит голономии $\delta\mathcal{Z}_{\mathrm{real},c} = Q_\square\mu(\mathbf{x})\Sigma_\mu(\mathbf{x}) - \mathcal{Z}_{\mathrm{real},c}$ управляет частотой вращения фазы $\varphi_c$, а нечётная голономия $\mathcal{Z}_{\mathrm{imag},c}$ задаёт дивергенцию антисимметричного рёберного потока $J_c(\mathbf{x}\to\mathbf{y}) = -J_c(\mathbf{y}\to\mathbf{x})$ с тождественно нулевым глобальным источником $\sum_{\mathbf{x}}\mathcal{Z}_{\mathrm{imag},c}(\mathbf{x}) \equiv 0$.
+\item \textbf{Единые естественные координаты и единственная механическая шкала ячейки:}
+  таким образом, естественный набор координат ДКМ на носителе~$\mathcal{M}$ состоит из дискретных координат узла и такта $(\mathbf{x}, t) \in \mathbb{Z}^3 \times \mathbb{Z}$ (с тремя плоскостями углов Эйлера $(xy, xz, yz)$ на $O_2(3)$ и элементарными шагами $dh = 1,\ dt = 1,\ dV = \kappa_{\mathrm{geom}}\,dh^3$) и полярных регистров ячейки $(\mu, \varphi_0, \varphi_1) \in \{1,\dots,64\}\times\mathbb{Z}_{512}^2$ на единственной естественной механической шкале ($dh = 1,\ dt = 1,\ s_0 = 1/2$):
+  \begin{equation}
+    \label{eq:mono-natural-scale-ladder}
+    c_0 = \frac{dh}{dt} = 1, \quad
+    c = \kappa_{\mathrm{geom}}\,c_0 = \frac{1}{\sqrt{2}}, \quad
+    E_0 = \frac{s_0}{dt} = \frac{1}{2}, \quad
+    p_0 = \frac{s_0}{dh} = \frac{1}{2}, \quad
+    F_0 = \frac{s_0}{dh\cdot dt} = \frac{1}{2}, \quad
+    m_{\mathrm{arg}} = \frac{2 s_0\,dt}{dh^2} = 1.
+  \end{equation}
+\end{itemize}
+В этих естественных полярных координатах двухшаговый оператор эволюции $\mathcal{G}_3$ (\texttt{fieldStepOp 3} в модуле \texttt{lean/\allowbreak MtCarrier/\allowbreak TrajectoryIV263.lean}) действует на пятёрку целочисленных полей:
+\begin{equation}
+  \label{eq:mono-field-state-tuple}
+  \Psi^{(t)}(\mathbf{x}) \;=\; \Bigl(\mu(\mathbf{x}),\ \varphi_0^{(t)}(\mathbf{x}),\ \varphi_1^{(t)}(\mathbf{x}),\ \varphi_0^{(t-1)}(\mathbf{x}),\ \varphi_1^{(t-1)}(\mathbf{x})\Bigr).
+\end{equation}
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \textbf{Начальное поле $\Psi^{(0)} = \mathrm{IV}(3)$ (\texttt{iv263InitialField 3}) в состоянии покоя $\varphi_c^{(0)} = \varphi_c^{(-1)}$:}
+  затравочное число Каталана $\mathrm{IV}(3) = 256 + 8 - 1 = 263$ имеет октантную маска $\mathrm{IV}(3) \bmod 256 = 7 = 2^3 - 1$. Для каждого узла $\mathbf{x} = (z, y, x) \in \mathbb{Z}^3$ индикатор шара нуклеации радиуса $|\square(3)| = 6$, номер октанта $\mathrm{oct}(\mathbf{x}) \in \{0,\dots,7\}$, спинорные биты маски $(b_0, b_1)$, амплитуда $\mu(\mathbf{x})$ и начальные фазы двух спинорных дорожек $\varphi_0^{(0)}(\mathbf{x}), \varphi_1^{(0)}(\mathbf{x})$ определяются формулами:
+  \begin{align}
+    \mathrm{inBall}(\mathbf{x}) &= \mathbf{1}_{\{z^2 + y^2 + x^2 \le 36\}} \in \{0, 1\}, \label{eq:mono-iv263-inball} \\
+    \mu(\mathbf{x}) &= \mu_{\mathrm{vac}}(3) + |O_2(3)|\,\mathrm{inBall}(\mathbf{x}) \;=\; 1 + 12\,\mathrm{inBall}(\mathbf{x}) \in \{1, 13\}, \label{eq:mono-iv263-mu} \\
+    \varphi_{\mathrm{bg}}(x) &= \Bigl(\bigl((x + 12) \bmod 13\bigr) \times 41\Bigr) \bmod 512, \label{eq:mono-iv263-bg} \\
+    \mathrm{oct}(\mathbf{x}) &= 4\,\mathbf{1}_{\{z \ge 0\}} + 2\,\mathbf{1}_{\{y \ge 0\}} + \mathbf{1}_{\{x \ge 0\}} \in \{0, \dots, 7\}, \label{eq:mono-iv263-oct} \\
+    b_0(\mathbf{x}) &= \bigl\lfloor 7 / 2^{\mathrm{oct}(\mathbf{x})} \bigr\rfloor \bmod 2, \qquad
+    b_1(\mathbf{x}) \;=\; \bigl\lfloor 7 / 2^{\mathrm{oct}(\mathbf{x}) \oplus 3} \bigr\rfloor \bmod 2, \label{eq:mono-iv263-bits} \\
+    \varphi_c^{(0)}(\mathbf{x}) &= \bigl(\varphi_{\mathrm{bg}}(x) + 3 \times 41\,\mathrm{inBall}(\mathbf{x})\,b_c(\mathbf{x})\bigr) \bmod 512 \qquad (c \in \{0, 1\}). \label{eq:mono-iv263-phi0}
+  \end{align}
+\item \textbf{Операторы чётной и нечётной голономии оболочки $O_2(3)$ и защищённого фазового импеданса ворот:}
+  для каждой спинорной дорожки $c \in \{0, 1\}$ сумма амплитуд соседей $\Sigma_\mu(\mathbf{x})$, чётная голономия $\mathcal{Z}_{\mathrm{real},c}(\mathbf{x})$ и нечётный ток голономии $\mathcal{Z}_{\mathrm{imag},c}(\mathbf{x})$ по $12$ векторам кубооктаэдра $\mathbf{e} \in O_2(3)$ равны:
+  \begin{align}
+    \Sigma_\mu(\mathbf{x}) &= \sum_{\mathbf{e} \in O_2(3)} \mu(\mathbf{x} - \mathbf{e}), \label{eq:mono-field-summu} \\
+    \mathcal{Z}_{\mathrm{real},c}(\mathbf{x}) &= \mu(\mathbf{x}) \sum_{\mathbf{e} \in O_2(3)} \mu(\mathbf{x} - \mathbf{e})\,\mathcal{C}_3\bigl((\varphi_c(\mathbf{x} - \mathbf{e}) - \varphi_c(\mathbf{x})) \bmod 512\bigr), \label{eq:mono-field-zr} \\
+    \mathcal{Z}_{\mathrm{imag},c}(\mathbf{x}) &= \mu(\mathbf{x}) \sum_{\mathbf{e} \in O_2(3)} \mu(\mathbf{x} - \mathbf{e})\,\mathcal{S}_3\bigl((\varphi_c(\mathbf{x} - \mathbf{e}) - \varphi_c(\mathbf{x})) \bmod 512\bigr). \label{eq:mono-field-zi}
+  \end{align}
+  Дефицит чётной голономии $\delta\mathcal{Z}_{\mathrm{real},c}(\mathbf{x})$, ведущий числитель момента $z_{\mathrm{drive},c}(\mathbf{x})$ (где безветвевой знак $\mathrm{sgn}(u) = +1$ при $u \ge 0$ и $-1$ при $u < 0$), сырой знаменатель $D_{\mathrm{raw},c}(\mathbf{x})$ и защищённый вакуумным полом $\varepsilon(3) = 8\,192$ знаменатель импеданса $D_c(\mathbf{x})$ (\texttt{gateDenomOp 3}) имеют вид:
+  \begin{align}
+    \delta\mathcal{Z}_{\mathrm{real},c}(\mathbf{x}) &= 128\,\mu(\mathbf{x})\,\Sigma_\mu(\mathbf{x}) - \mathcal{Z}_{\mathrm{real},c}(\mathbf{x}), \label{eq:mono-field-deficit} \\
+    z_{\mathrm{drive},c}(\mathbf{x}) &= \mathcal{Z}_{\mathrm{imag},c}(\mathbf{x}) + \mathrm{sgn}\bigl(\mathcal{Z}_{\mathrm{imag},c}(\mathbf{x})\bigr)\,\delta\mathcal{Z}_{\mathrm{real},c}(\mathbf{x}), \label{eq:mono-field-zdrive} \\
+    D_{\mathrm{raw},c}(\mathbf{x}) &= \mathcal{Z}_{\mathrm{real},c}(\mathbf{x}) + 128\,\mu(\mathbf{x})^2 + 8\,192, \label{eq:mono-field-draw} \\
+    D_c(\mathbf{x}) &= \mathbf{1}_{\{D_{\mathrm{raw},c}(\mathbf{x}) \ge 1\}}\,D_{\mathrm{raw},c}(\mathbf{x}) + \mathbf{1}_{\{D_{\mathrm{raw},c}(\mathbf{x}) \le 0\}}\,8\,192. \label{eq:mono-field-dguard}
+  \end{align}
+\item \textbf{Целочисленное деление с округлением вниз (\texttt{fdiv}), мёртвая зона Гейзенберга $\Delta\varphi_{\mathrm{disc}}(3) = 41$ и шаг Верле $\mathcal{G}_3$:}
+  сырая фаза ворот $\Phi_{\mathrm{raw},c}(\mathbf{x})$ вычисляется делением с округлением вниз $\lfloor A / D \rfloor = \mathrm{fdiv}(A, D)$ со свёрткой $\mathrm{wrap}_{512}$ в полуинтервал $(-256, 256]$, проходит через фильтр мёртвой зоны Гейзенберга $|\Phi_{\mathrm{raw},c}| \ge 41$ и обновляет поле по схеме Верле:
+  \begin{align}
+    \Phi_{\mathrm{raw},c}(\mathbf{x}) &= \mathrm{wrap}_{512}\!\left(\left\lfloor \frac{64\,z_{\mathrm{drive},c}(\mathbf{x})}{D_c(\mathbf{x})} \right\rfloor\right), \label{eq:mono-field-phiraw} \\
+    \Phi_{\mathrm{lane},c}(\mathbf{x}) &= \mathbf{1}_{\{|\Phi_{\mathrm{raw},c}(\mathbf{x})| \ge 41\}}\,\Phi_{\mathrm{raw},c}(\mathbf{x}), \label{eq:mono-field-philane} \\
+    \Phi_{\mathrm{field}}(\mathbf{x}) &= \mathbf{1}_{\{|\Phi_{\mathrm{lane},1}| > |\Phi_{\mathrm{lane},0}|\}}\,\Phi_{\mathrm{lane},1}(\mathbf{x}) + \mathbf{1}_{\{|\Phi_{\mathrm{lane},1}| \le |\Phi_{\mathrm{lane},0}|\}}\,\Phi_{\mathrm{lane},0}(\mathbf{x}), \label{eq:mono-field-phifield} \\
+    \varphi_c^{(t+1)}(\mathbf{x}) &= \bigl(2\varphi_c^{(t)}(\mathbf{x}) - \varphi_c^{(t-1)}(\mathbf{x}) + \Phi_{\mathrm{field}}^{(t)}(\mathbf{x})\bigr) \bmod 512. \label{eq:mono-field-step-g3}
+  \end{align}
+\end{enumerate}
+
+\begin{theorem}[Затравочное состояние Каталана $\mathrm{IV}(3) = 263$, первое рождение вихря на такте $t = 2$, три теоремы абляции, бариогенезис $\eta_B$ и первичный нуклеосинтез $Y_p = 45/182$]
+\label{thm:mono-first-vortex-birth-iv263}
+На трёхмерной решётке $\mathbb{Z}^3$ под действием оператора эволюции поля $\mathcal{G}_3$~\eqref{eq:mono-iv263-inball}--\eqref{eq:mono-field-step-g3} (\texttt{fieldStepOp 3} в модуле \texttt{lean/MtCarrier/TrajectoryIV263.lean}) выполняются следующие законы (\texttt{a15\_\allowbreak iv263\_\allowbreak unique\_\allowbreak 9bit\_\allowbreak catalan\_\allowbreak seed\_\allowbreak decomposition}, \texttt{iv263\_\allowbreak interior\_\allowbreak octant\_\allowbreak silence\_\allowbreak t0}, \texttt{iv263\_\allowbreak flat\_\allowbreak domain\_\allowbreak wall\_\allowbreak asymmetry\_\allowbreak t0}, \texttt{iv263\_\allowbreak central\_\allowbreak k3\_\allowbreak plaquette\_\allowbreak birth\_\allowbreak t0\_\allowbreak t1\_\allowbreak t2}, \texttt{iv263\_\allowbreak full\_\allowbreak 3d\_\allowbreak lattice\_\allowbreak t0\_\allowbreak t1\_\allowbreak t2\_\allowbreak census}, \texttt{t2\_\allowbreak vortex\_\allowbreak loop\_\allowbreak census\_\allowbreak and\_\allowbreak eta\_\allowbreak b\_\allowbreak rational}):
+\begin{enumerate}[label=\textbf{(\arabic*)},leftmargin=*]
+\item \textbf{Единственное 9-битное затравочное число Каталана $\mathrm{IV}(3) = 263$ при $t = 0$:}
+  сумма потолка Паули $\Phi_{\mathrm{Pauli}}(3) = 256$ и числа октантов $|{\triangle}(3)| = 8$ за вычетом вакуумного кванта центра $\mu_{\mathrm{vac}}(3) = 1$ определяет простое 9-битное затравочное число
+  \begin{equation}
+    \label{eq:mono-iv263-seed-def}
+    \mathrm{IV}(3) \;=\; \Phi_{\mathrm{Pauli}}(3) + |{\triangle}(3)| - \mu_{\mathrm{vac}}(3) \;=\; 256 + 8 - 1 \;=\; 263,
+  \end{equation}
+  старший бит которого равен $\Phi_{\mathrm{Pauli}}(3) = 256$, а младшая октантная маска равна $\mathrm{IV}(3) \bmod 256 = 7 = 2^3 - 1$.
+\item \textbf{Тишина внутри октантов, киральный храповик доменной стенки на $t = 0$ и три теоремы абляции:}
+  на начальном поле $\Psi^{(0)} = \mathrm{IV}(3)$ внутри однородного октанта в узле $(2, 2, 2)$ нечётный ток голономии равен нулю ($\mathcal{Z}_{\mathrm{imag},0} = 0$), а сырая фаза ворот равна $\Phi_{\mathrm{raw},0}(2,2,2) = +15 < 41$, вследствие чего мёртвая зона Гейзенберга обращает шаг ворот в точный нуль ($\Phi_{\mathrm{field}}^{(0)}(2,2,2) = 0$). Поперёк плоской доменной стенки $z = 0 \leftrightarrow z = -1$ в паре узлов $(0, 2, 2)$ и $(-1, 2, 2)$ чётные голономии совпадают ($\mathcal{Z}_{\mathrm{real},1} = 134\,862$), нечётные токи противоположны ($\mathcal{Z}_{\mathrm{imag},1} = \pm 70\,980$), а целочисленное деление с округлением вниз (\texttt{fdiv}) даёт $\Phi_{\mathrm{field}}^{(0)}(0,2,2) = +76$ и $\Phi_{\mathrm{field}}^{(0)}(-1,2,2) = -77$, порождая ненулевую киральную сумму:
+  \begin{equation}
+    \label{eq:mono-domain-wall-chiral}
+    \Phi_{\mathrm{field}}^{(0)}(0, 2, 2) + \Phi_{\mathrm{field}}^{(0)}(-1, 2, 2) \;=\; 76 + (-77) \;=\; -1 \;\ne\; 0.
+  \end{equation}
+  Три теоремы абляции (\texttt{ablation\_\allowbreak heisenberg\_\allowbreak threshold\_\allowbreak 15\_\allowbreak breaks\_\allowbreak octant\_\allowbreak silence}, \texttt{ablation\_\allowbreak tdiv\_\allowbreak destroys\_\allowbreak domain\_\allowbreak wall\_\allowbreak chiral\_\allowbreak asymmetry}, \texttt{ablation\_\allowbreak no\_\allowbreak denom\_\allowbreak guard\_\allowbreak corrupts\_\allowbreak t2\_\allowbreak vortex\_\allowbreak pair}) доказывают, что: (а)~снижение порога Гейзенберга с $41$ до $15$ пропускает $\Phi_{\mathrm{raw},0}(2,2,2) = 15$ и разрушает тишину внутри октантов; (б)~замена \texttt{fdiv} на усечение к нулю \texttt{tdiv} заменяет $-77$ на $-76$, обнуляет сумму~\eqref{eq:mono-domain-wall-chiral} и уничтожает киральную асимметрию; (в)~удаление защиты вакуумного пола $\varepsilon(3) = 8\,192$ в~\eqref{eq:mono-field-dguard} приводит на такте $t = 1$ в узле $(-2, -1, -1)$ к делению на отрицательный сырой знаменатель $D_{\mathrm{raw},0}(-2,-1,-1) = -113\,826 < 0$ и разрушает рождение вихревой пары.
+\item \textbf{Первое рождение вихревого плакета $K_3$ на такте $t = 2$, перепись $86$ вихревых плакетов, бариогенезис $\eta_B$ и первичный нуклеосинтез (BBN):}
+  на центральном трёхоктантном плакете с вершинами $A=(-1,-1,0)$, $B=(-1,-1,1)$, $C=(-1,0,1)$, $D=(-1,0,0)$ вихревое число обмотки равно нулю на тактах $t = 0$ и $t = 1$, а на втором такте $\Psi^{(2)} = \mathcal{G}_3^{[2]}(\mathrm{IV}(3))$ скачок ветви Паули рождает первый единичный квантовый вихрь:
+  \begin{align}
+    w_{xy}^{(0)}(-1,-1,0) &= 0, \qquad
+    w_{xy}^{(1)}(-1,-1,0) \;=\; 0, \label{eq:mono-first-vortex-t01} \\
+    w_{xy}^{(2)}(-1,-1,0) &= +1, \qquad
+    \mathcal{B}_{xy}^{(2)}(-1,-1,0) \;=\; 512. \label{eq:mono-first-vortex-t2}
+  \end{align}
+  Полная трёхмерная перепись решётки на такте $t = 2$ (\texttt{runFull3DCensusIV263 3}) фиксирует рождение $2 N_\varphi(3) = 26$ вихревых плакетов в плоскости $xy$, $2 N_\varphi(3) = 26$ в плоскости $yz$ и $2 N_\varphi(3) + |{\triangle}(3)| = 26 + 8 = 34$ в плоскости $xz$ --- суммарно
+  \begin{equation}
+    \label{eq:mono-t2-86-plaquettes}
+    N_{\mathrm{vortex}}^{(t=2)}(3) \;=\; 26 + 26 + 34 \;=\; 86 \;=\; |\square(3)|\,N_\varphi(3) + |{\triangle}(3)| \;=\; Z(\mathrm{Rn})
+  \end{equation}
+  вихревых плакетов с тождественно нулевой кубической дивергенцией магнитных монополей ($\sum_{f\in\partial C_3} w_f = 0$) во всех узлах решётки. На $2 N_\varphi(3) |{\triangle}(3)| = 208$ спинор-октантных каналах и $\mathrm{mod\_bits}(3)\,d_{\mathrm{out}}(E) = 9\times 5 = 45$ активных модах барионная асимметрия $\eta_B$ и первичная массовая доля гелия-4 ($Y_p$) равны:
+  \begin{align}
+    \eta_B &= \frac{45}{208}\,\alpha_{\mathrm{fs}}^4 \;\approx\; 6{,}12\times 10^{-10}, \label{eq:mono-eta-b} \\
+    208 &= 4 \times 45 + 28, \label{eq:mono-bbn-div} \\
+    Y_p &= \frac{45}{208 - 26} \;=\; \frac{45}{182} \;\approx\; 0{,}24725. \label{eq:mono-eta-b-bbn-yp}
+  \end{align}
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Проведём явный пошаговый расчёт по формулам~\eqref{eq:mono-iv263-inball}--\eqref{eq:mono-field-step-g3} (сводка промежуточных величин приведена в Таблице~\ref{tab:mono-iv263-step-trace}):
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \emph{Тишина внутри октанта в узле $(2, 2, 2)$ на такте $t = 0$ и Абляция~1:}
+  узел $(2,2,2)$ и все его $12$ соседей лежат внутри шара нуклеации ($2^2+2^2+2^2 = 12 \le 36$, $\mu = 13$, $\Sigma_\mu = 12\times 13 = 156$) в одном и том же положительном октанте $\mathrm{oct}(2,2,2) = 7$ ($b_0 = 0$). Вдоль оси~$x$ фоновая фаза~\eqref{eq:mono-iv263-bg} линейна с шагом $+41$, поэтому четыре соседа с $\Delta x = +1$, четыре с $\Delta x = 0$ и четыре с $\Delta x = -1$ дают по нечётной проекции $\mathcal{S}_3(\pm 41) = \pm 41$ взаимное сокращение $\mathcal{Z}_{\mathrm{imag},0}(2,2,2) = 0$, а по чётной проекции $\mathcal{C}_3(\pm 41) = 87$ и $\mathcal{C}_3(0) = 128$ дают
+  \[
+    \mathcal{Z}_{\mathrm{real},0}(2,2,2) \;=\; 13 \times \bigl(4\cdot 13\cdot 87 + 4\cdot 13\cdot 128 + 4\cdot 13\cdot 87\bigr) \;=\; 204\,152.
+  \]
+  По формулам~\eqref{eq:mono-field-deficit}--\eqref{eq:mono-field-phiraw} дефицит чётной голономии, ведущий числитель при $\mathrm{sgn}(0) = +1$, знаменатель и сырая фаза ворот равны:
+  \begin{align*}
+    \delta\mathcal{Z}_{\mathrm{real},0}(2,2,2) &= 128 \cdot 13 \cdot 156 - 204\,152 \;=\; 259\,584 - 204\,152 \;=\; 55\,432, \\
+    z_{\mathrm{drive},0}(2,2,2) &= +55\,432, \qquad
+    D_0(2,2,2) \;=\; 204\,152 + 128\cdot 169 + 8\,192 \;=\; 233\,976, \\
+    \Phi_{\mathrm{raw},0}(2,2,2) &= \left\lfloor \frac{64 \times 55\,432}{233\,976} \right\rfloor \;=\; \left\lfloor \frac{3\,547\,648}{233\,976} \right\rfloor \;=\; +15.
+  \end{align*}
+  Поскольку абсолютная величина $|\Phi_{\mathrm{raw},0}(2,2,2)| = 15 < 41 = \Delta\varphi_{\mathrm{disc}}(3)$, фильтр Гейзенберга~\eqref{eq:mono-field-philane} обращает шаг ворот в нуль: $\Phi_{\mathrm{field}}^{(0)}(2,2,2) = 0$. Если же снизить порог Гейзенберга до $15 = N_\varphi(3) + 2$ (\texttt{ablation\_\allowbreak heisenberg\_\allowbreak threshold\_\allowbreak 15\_\allowbreak breaks\_\allowbreak octant\_\allowbreak silence}), то $15 \ge 15$ проходит фильтр и нарушает покой внутри октанта.
+\item \emph{Киральный храповик доменной стенки в паре $(0, 2, 2)$ и $(-1, 2, 2)$ на такте $t = 0$ и Абляция~2:}
+  при переходе через плоскость $z = 0 \leftrightarrow z = -1$ знак координаты~$z$ меняется, переводя октант $\mathrm{oct}(0,2,2) = 7$ ($b_1 = 1$) в октант $\mathrm{oct}(-1,2,2) = 3$ ($b_1 = 0$):
+  \begin{align*}
+    \varphi_1^{(0)}(0,2,2) &= 41, \qquad
+    \varphi_1^{(0)}(-1,2,2) \;=\; 164, \\
+    \mathcal{Z}_{\mathrm{real},1}(0,2,2) &= \mathcal{Z}_{\mathrm{real},1}(-1,2,2) \;=\; 134\,862, \qquad
+    D_1 \;=\; 164\,686, \\
+    \mathcal{Z}_{\mathrm{imag},1}(\pm) &= \pm 70\,980, \qquad
+    64\,z_{\mathrm{drive},1}(\pm) \;=\; \pm 12\,524\,928.
+  \end{align*}
+  Поскольку $12\,524\,928 = 76 \times 164\,686 + 8\,792$ с ненулевым остатком $8\,792 > 0$, деление с округлением вниз (\texttt{fdiv}) даёт:
+  \begin{align*}
+    \Phi_{\mathrm{field}}^{(0)}(0,2,2) &= \left\lfloor \frac{+12\,524\,928}{164\,686} \right\rfloor \;=\; +76, \\
+    \Phi_{\mathrm{field}}^{(0)}(-1,2,2) &= \left\lfloor \frac{-12\,524\,928}{164\,686} \right\rfloor \;=\; -77,
+  \end{align*}
+  откуда $\Phi_{\mathrm{field}}^{(0)}(0,2,2) + \Phi_{\mathrm{field}}^{(0)}(-1,2,2) = 76 - 77 = -1 \ne 0$. При замене \texttt{fdiv} на усечение к нулю \texttt{tdiv} (\texttt{ablation\_\allowbreak tdiv\_\allowbreak destroys\_\allowbreak domain\_\allowbreak wall\_\allowbreak chiral\_\allowbreak asymmetry}) отрицательное частное становится равным $-76$, и киральная сумма обращается в $76 + (-76) = 0$.
+\item \emph{Защита знаменателя в узле $(-2, -1, -1)$ на такте $t = 1$ (Абляция~3):}
+  на такте $t = 1$ в узле $(-2,-1,-1)$ ($\mu = 13$, $\varphi_0^{(1)} = 239$) противофазная интерференция даёт $\mathcal{Z}_{\mathrm{real},0} = -143\,650$ и $\mathcal{Z}_{\mathrm{imag},0} = -57\,460$, вследствие чего сырой знаменатель~\eqref{eq:mono-field-draw} становится отрицательным:
+  \[
+    D_{\mathrm{raw},0}(-2,-1,-1) \;=\; -143\,650 + 21\,632 + 8\,192 \;=\; -113\,826 \;<\; 0.
+  \]
+  Защитный оператор~\eqref{eq:mono-field-dguard} удерживает знаменатель на вакуумном полу $D_0 = \varepsilon(3) = 8\,192 > 0$ ($\Phi_{\mathrm{raw},0} = -16$, $|\Phi_{\mathrm{raw},0}| < 41 \implies \Phi_{\mathrm{lane},0} = 0$), тогда как без защиты деление на $-113\,826 < 0$ инвертирует знак фазы ворот.
+\item \emph{Рождение первого вихря $w_{xy}^{(2)} = +1$ на центральном плакете $(-1,-1,0)$ на такте $t = 2$:}
+  четыре вершины ориентированного $xy$-плакета $A=(-1,-1,0)$, $B=(-1,-1,1)$, $C=(-1,0,1)$, $D=(-1,0,0)$ проходят по формуле Верле~\eqref{eq:mono-field-step-g3} траекторию, приведённую в нижней части Таблицы~\ref{tab:mono-iv263-step-trace}. На тактах $t = 0$ и $t = 1$ сумма главных остатков $r_e = \mathrm{wrap}_{512}(\Delta\varphi_e)$ вдоль четырёх рёбер контура равна нулю:
+  \begin{align*}
+    \mathcal{B}_{xy}^{(0)}(-1,-1,0) &= (+20) + (-123) + (-20) + (+123) \;=\; 0 \quad (w_{xy}^{(0)} = 0), \\
+    \mathcal{B}_{xy}^{(1)}(-1,-1,0) &= (+13) + (-48) + (-56) + (+91) \;=\; 0 \quad (w_{xy}^{(1)} = 0),
+  \end{align*}
+  а на втором такте $t = 2$ фазы четырёх вершин равны $\varphi_0^{(2)} = (39, 71, 156, 352)$, где на замыкающем ребре $D \to A$ разность $39 - 352 = -313 = -512 + 199$ пересекает границу ветви Паули ($q_{DA}^{(2)} = -1$, $r_{DA}^{(2)} = +199$), давая
+  \[
+    \mathcal{B}_{xy}^{(2)}(-1,-1,0) \;=\; 32 + 85 + 196 + 199 \;=\; 512 \;=\; 512 \times (+1), \qquad
+    w_{xy}^{(2)}(-1,-1,0) \;=\; +1.
+  \]
+\end{enumerate}
+Суммирование по всем плакетам 3D-решётки при $t = 2$ даёт $26 + 26 + 34 = 86$ вихревых плакетов при нулевой дивергенции в каждом кубе, а арифметические тождества $2\times 13\times 8 = 208 = 4\times 45 + 28$ и $208 - 26 = 182$ доказывают~\eqref{eq:mono-eta-b}--\eqref{eq:mono-eta-b-bbn-yp}.
+\end{proof}
+
+\begin{table}[htbp]
+\centering
+\caption{Пошаговая трассировка оператора эволюции поля $\Psi^{(t)} = \mathcal{G}_3^{[t]}(\mathrm{IV}(3))$ (\texttt{TrajectoryIV263.lean}): тишина октанта, киральный храповик доменной стенки, защита знаменателя и рождение вихря на такте $t = 2$.}
+\label{tab:mono-iv263-step-trace}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}llllll@{}}
+\toprule
+\textbf{Узел $(z,y,x)$ и такт} & \textbf{$\mu,\ \varphi_c^{(t)}$} & \textbf{$\mathcal{Z}_{\mathrm{real},c}$} & \textbf{$\mathcal{Z}_{\mathrm{imag},c}$} & \textbf{$z_{\mathrm{drive},c} / D_c$} & \textbf{$\Phi_{\mathrm{raw}} \to \Phi_{\mathrm{field}}$} \\
+\midrule
+$(2,2,2)$, $t=0$ (дор.\ 0) & $13,\ 41$ & $+204\,152$ & $0$ & $+55\,432 / 233\,976$ & $+15 \to 0$ ($|15|<41$) \\
+$(0,2,2)$, $t=0$ (дор.\ 1) & $13,\ 41$ & $+134\,862$ & $+70\,980$ & $+195\,702 / 164\,686$ & $+76 \to +76$ (\texttt{fdiv}) \\
+$(-1,2,2)$, $t=0$ (дор.\ 1) & $13,\ 164$ & $+134\,862$ & $-70\,980$ & $-195\,702 / 164\,686$ & $-77 \to -77$ ($\Sigma = -1$) \\
+$(-2,-1,-1)$, $t=1$ (дор.\ 0) & $13,\ 239$ & $-143\,650$ & $-57\,460$ & $-460\,694 / 8\,192^*$ & $-16 \to 0$ ($D_{\mathrm{raw}}<0$) \\
+\bottomrule
+\end{tabular}%
+}
+
+\vspace{4pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Такт плакета $(-1,-1,0)$} & \textbf{Фазы 4 вершин $(A, B, C, D)$} & \textbf{Импульсы ворот $\Phi_{\mathrm{field}}^{(t)}$} & \textbf{Остатки $r_e^{(t)}$ и вихрь $w_{xy}^{(t)}$} \\
+\midrule
+Такт $t = 0$ & $(103,\ 123,\ 0,\ 492)$ & $(-131,\ -138,\ -63,\ -99)$ & $(20, -123, -20, 123),\ w_{xy}^{(0)} = 0$ \\
+Такт $t = 1$ & $(484,\ 497,\ 449,\ 393)$ & $(+198,\ +224,\ -230,\ +58)$ & $(13, -48, -56, 91),\ w_{xy}^{(1)} = 0$ \\
+Такт $t = 2$ & $(39,\ 71,\ 156,\ 352)$ & перенос $q_{DA}^{(2)} = -1$ & $(32, 85, 196, 199),\ \mathcal{B}_{xy}^{(2)} = 512$ \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\section{Матричное разложение Каталана--Пиллаи по ступеням степенной башни и нильпотентный жорданов замок в \texorpdfstring{$\mathrm{SL}_2(\mathbb{Z})$}{SL2(Z)}}
+
+Покажем, каким образом уравнение самозамкнутости~\eqref{eq:mono-catalan-lock} ($3^2 - 2^3 = 1$) и общее диофантово уравнение Пиллаи
+\begin{equation}
+  \label{eq:mono-pillai-general}
+  A\,x^m - B\,y^n \;=\; C \qquad \bigl(A, B, C \in \mathbb{N}^+,\ x, y \ge 2,\ m, n \ge 2,\ (m,n) \ne (2,2)\bigr)
+\end{equation}
+формулируются в терминах произведения аффинных матриц двух сопряжённых решёток (матричной кинематики ступеней степенных башен).
+
+Для любой внутренней пары показателей («ступени») $1 \le a \le m-1$ и $1 \le b \le n-1$ сопоставим уравнению~\eqref{eq:mono-pillai-general} целочисленную матрицу решётки размера $2 \times 2$:
+\begin{equation}
+  \label{eq:mono-pillai-joint-matrix}
+  M_{a,b} \;=\; \begin{pmatrix} A\,x^{m-a} & B\,y^{n-b} \\ y^b & x^a \end{pmatrix} \in \mathrm{Mat}_{2\times 2}(\mathbb{Z}),
+  \qquad \det M_{a,b} \;=\; A\,x^m - B\,y^n \;=\; C.
+\end{equation}
+Число таких внутренних матриц ступеней равно $(m-1)(n-1)$.
+\begin{itemize}[leftmargin=*,noitemsep]
+\item В вырожденном случае $(m, n) = (2, 2)$ (уравнение Пелля $A x^2 - B y^2 = C$) существует ровно $(2-1)(2-1) = 1$ внутренняя матрица $M_{1,1}$, поэтому межуровневых связей внутри башни не возникает, и гиперболический оператор Пелля порождает бесконечную серию решений.
+\item Как только $(m, n) \ne (2, 2)$ ($m, n \ge 2$), число внутренних матриц удовлетворяет неравенству $(m-1)(n-1) \ge 2$, а матрица перехода между любыми двумя ступенями $P = M_{a,b}^{\mathrm{adj}}\,M_{a',b'}$ ($\Delta a = a' - a,\ \Delta b = b' - b$) обязана иметь фиксированный определитель $\det P = C^2$ при аффинной диагонали:
+  \begin{align}
+    P_{11} &= -A\,x^{m-\Delta a}\bigl(x^{\Delta a}y^{\Delta b} - 1\bigr) + C\,y^{\Delta b}, \label{eq:mono-pillai-affine-diag} \\
+    P_{22} &= +B\,y^{n-\Delta b}\bigl(x^{\Delta a}y^{\Delta b} - 1\bigr) + C\,x^{\Delta a}. \label{eq:mono-pillai-affine-diag-22}
+  \end{align}
+\end{itemize}
+
+\begin{theorem}[Изотропный дискриминантный конус Пиллаи, квартет жордановых замков $\mathrm{SL}_2(\mathbb{Z})$ и бескорневая башня Паде--Туэ, модуль \texttt{PillaiDiophantine.lean}]
+\label{thm:mono-pillai-catalan-jordan}
+Для показательного уравнения $A x^m - B y^n = C$ ($m,n\ge 2$) матрицы ступеней $M_{a,b}$~\eqref{eq:mono-pillai-joint-matrix} определяют нормированный переход $\widetilde{P} = \frac{1}{C} M_{a,b}^{\mathrm{adj}} M_{a',b'} \in \mathrm{SL}_2(\mathbb{Q})$, удовлетворяющий следующим тождествам:
+\begin{enumerate}[label=\textbf{(\arabic*)},leftmargin=*]
+\item \textbf{Изотропный дискриминантный конус и квартет параболических жордановых замков (\texttt{thm6}):}
+  в координатах полуразности диагонали $X = (\widetilde{P}_{11} - \widetilde{P}_{22})/2$, симметричной внедиагонали $Y = (\widetilde{P}_{12} + \widetilde{P}_{21})/2$ и кососимметричной компоненты $T = (\widetilde{P}_{12} - \widetilde{P}_{21})/2$ условие $\det\widetilde{P} = 1$ задаёт изотропный дискриминантный конус:
+  \begin{equation}
+    \label{eq:mono-pillai-cone}
+    \frac{1}{4}\Bigl((\operatorname{Tr}\widetilde{P})^2 - 4\Bigr) \;=\; X^2 + Y^2 - T^2.
+  \end{equation}
+  Вдоль параболических образующих конуса $\operatorname{Tr}\widetilde{P} = \mp 2$ ($X^2 + Y^2 = T^2$) целочисленные жордановы матрицы $\widetilde{P}_k = \mp I_2 + k N_0 \in \mathrm{SL}_2(\mathbb{Z})$ с нильпотентным генератором $N_0 = \begin{pmatrix} -1 & -1 \\ 1 & 1 \end{pmatrix}$ ($N_0^2 = 0$) высекают четыре канонических замка:
+  \begin{equation}
+    \label{eq:mono-pillai-triptych}
+    \begin{aligned}
+      3^2 - 2^3 &= 1 = \mu_{\mathrm{vac}}(3) &\implies k &= 6 = |\square(3)|, &\quad \widetilde{P}_{\mathrm{I}} &= \begin{pmatrix} -7 & -6 \\ 6 & 5 \end{pmatrix}, \\
+      2^5 - 3^3 &= 5 = d_{\mathrm{out}}(E) &\implies k &= 12 = |N(3)|, &\quad \widetilde{P}_{\mathrm{II}} &= \begin{pmatrix} -13 & -12 \\ 12 & 11 \end{pmatrix}, \\
+      5^3 - 3^4 &= 44 = S_2(3) + (c_0/c)^2 &\implies k &= 15 = d\cdot d_{\mathrm{out}}(E), &\quad \widetilde{P}_{\mathrm{III}} &= \begin{pmatrix} -16 & -15 \\ 15 & 14 \end{pmatrix}, \\
+      2^{10} - 5^4 &= 399 = 133\times 3 &\implies k &= 40 = \Delta\varphi_{\mathrm{disc}}(3) - 1, &\quad \widetilde{P}_{\mathrm{IV}} &= \begin{pmatrix} -39 & -40 \\ 40 & 41 \end{pmatrix}.
+    \end{aligned}
+  \end{equation}
+\item \textbf{Рекурсия Ганкеля--Вронскиана вдоль луча, моноид башни Паде и кубическое сжатие Паде--Туэ (\texttt{thm7}, \texttt{thm10}, \texttt{thm11}):}
+  вдоль любого луча $(k,j)$ разности $C_t = A x^{m-tk} - B y^{n-tj}$ ($t = 0, 1, 2$) и индуктивная башня линейных аппроксимантов Паде $(\widehat{P}_u(U,V), \widehat{Q}_u(U,V)) = \bigl(u U + (u+1)V,\ (u+1)U + u V\bigr)$ вдоль слова этажей $w = [u_1, \dots, u_r]$ удовлетворяют тождествам:
+  \begin{align}
+    C_0 - (x^k + y^j)\,C_1 + x^k y^j\,C_2 &= 0, \label{eq:mono-pillai-ray-rec} \\
+    C_1^2 - C_0 C_2 &= A B\,x^{m-2k}y^{n-2j}(x^k - y^j)^2, \label{eq:mono-pillai-hankel} \\
+    \widehat{P}_{w_1\mathbin{+\!+}w_2}(U,V) &= \widehat{P}_{w_2}\bigl(\widehat{P}_{w_1}(U,V),\ \widehat{Q}_{w_1}(U,V)\bigr), \label{eq:mono-pade-monoid} \\
+    \widehat{P}_w(U,V) + \widehat{Q}_w(U,V) &= \prod_{i=1}^r (2u_i + 1)\,(U + V), \label{eq:mono-pade-sum-inv} \\
+    \widehat{P}_w(U,V) - \widehat{Q}_w(U,V) &= (-1)^r (U - V). \label{eq:mono-pade-diff-inv}
+  \end{align}
+  На кубическом этаже ($U = \widetilde{A}X^3,\ V = \widetilde{B}Y^3$) для аппроксимантов первого порядка $(\widehat{P}_1, \widehat{Q}_1) = (U + 2V,\ 2U + V)$, линейной формы $I_1 = b\widehat{Q}_1 - a\widehat{P}_1$ и кубического resolvent-полинома $\Phi_3(p,q) = U p^3 + 3V p^2 q - 3U p q^2 - V q^3$ выполняются бескорневое тождество кубического сжатия Паде--Туэ и факторизация межэтажного вронскиана с квадратичными аппроксимантами $(\widehat{P}_2, \widehat{Q}_2) = (2U^2 - UV + 2V^2,\ 2U^2 + 5UV - V^2)$:
+  \begin{align}
+    U\,I_1\,\Phi_3(a\widehat{P}_1, b\widehat{Q}_1) &\equiv a^3(U - V)^3(U + V) - (U b^3 - V a^3)\,\widehat{Q}_1^3, \label{eq:mono-pade-cubic-collapse} \\
+    \det\mathcal{W}_{2,3} := \widehat{P}_1\widehat{Q}_2 - \widehat{Q}_1\widehat{P}_2 &\equiv (U - V)^3\bigl(U^2 + 3UV + V^2\bigr). \label{eq:mono-pade-wronskian-23}
+  \end{align}
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Докажем все соотношения пошагово.
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \emph{Вывод уравнения изотропного конуса~\eqref{eq:mono-pillai-cone} и замков~\eqref{eq:mono-pillai-triptych}:}
+  обозначим $S = (\widetilde{P}_{11} + \widetilde{P}_{22})/2 = \frac{1}{2}\operatorname{Tr}\widetilde{P}$. Тогда элементы матрицы $\widetilde{P}$ выражаются через $(S, X, Y, T)$ как $\widetilde{P}_{11} = S + X$, $\widetilde{P}_{22} = S - X$, $\widetilde{P}_{12} = Y + T$, $\widetilde{P}_{21} = Y - T$. Вычисляя определитель $\det\widetilde{P} = \widetilde{P}_{11}\widetilde{P}_{22} - \widetilde{P}_{12}\widetilde{P}_{21} = 1$, получаем:
+  \[
+    1 \;=\; (S + X)(S - X) - (Y + T)(Y - T) \;=\; S^2 - X^2 - Y^2 + T^2,
+  \]
+  откуда $S^2 - 1 = \frac{1}{4}\bigl((\operatorname{Tr}\widetilde{P})^2 - 4\bigr) = X^2 + Y^2 - T^2$, что доказывает~\eqref{eq:mono-pillai-cone}. Для матриц $\widetilde{P}_k = \mp I_2 + k N_0$ с $N_0^2 = 0$ и $\operatorname{Tr} N_0 = 0$ имеем $\operatorname{Tr}\widetilde{P}_k = \mp 2$ и $\det\widetilde{P}_k = (\mp 1 \mp k)(\mp 1 \pm k) + k^2 = 1 - k^2 + k^2 = 1$ при всех $k \in \mathbb{Z}$, а подстановка пар степеней в~\eqref{eq:mono-pillai-affine-diag} даёт $k \in \{6, 12, 15, 40\}$.
+\item \emph{Вывод рекурсии Ганкеля~\eqref{eq:mono-pillai-ray-rec}--\eqref{eq:mono-pillai-hankel} и инвариантов моноида Паде~\eqref{eq:mono-pade-monoid}--\eqref{eq:mono-pade-diff-inv}:}
+  полагая $\alpha = A x^m$, $\beta = B y^n$, $u = x^{-k}$, $v = y^{-j}$, имеем $C_t = \alpha u^t - \beta v^t$. Так как $(1 - x^k u) = (1 - y^j v) = 0$, линейная комбинация $C_0 - (x^k+y^j)C_1 + x^k y^j C_2 = \alpha(1 - x^k u)(1 - y^j u) - \beta(1 - x^k v)(1 - y^j v) = 0$, а разность $C_1^2 - C_0 C_2 = (\alpha u - \beta v)^2 - (\alpha - \beta)(\alpha u^2 - \beta v^2) = \alpha\beta(u - v)^2 = A B x^{m-2k}y^{n-2j}(x^k - y^j)^2$. Для одного шага башни Паде $\widehat{P}_u(U,V) = u U + (u+1)V$ и $\widehat{Q}_u(U,V) = (u+1)U + u V$ сложение и вычитание дают:
+  \[
+    \widehat{P}_u(U,V) + \widehat{Q}_u(U,V) \;=\; (2u + 1)(U + V), \qquad
+    \widehat{P}_u(U,V) - \widehat{Q}_u(U,V) \;=\; -(U - V),
+  \]
+  откуда по индукции по длине списка $w = [u_1, \dots, u_r]$ следуют~\eqref{eq:mono-pade-monoid}--\eqref{eq:mono-pade-diff-inv}.
+\item \emph{Вывод кубического сжатия Паде--Туэ~\eqref{eq:mono-pade-cubic-collapse} и вронскиана~\eqref{eq:mono-pade-wronskian-23}:}
+  выражая $a\widehat{P}_1 = b\widehat{Q}_1 - I_1$ и подставляя в $U I_1 \Phi_3(b\widehat{Q}_1 - I_1, b\widehat{Q}_1)$ при $\widehat{Q}_1 = 2U + V$ и $\widehat{Q}_1 - \widehat{P}_1 = U - V$, получаем, что коэффициенты при $b\widehat{Q}_1$ и $b^2\widehat{Q}_1^2$ тождественно сокращаются, оставляя $a^3(U-V)^3(U+V) - (U b^3 - V a^3)\widehat{Q}_1^3$. Аналогично, прямое вычисление определителя
+  \begin{align*}
+    \det\mathcal{W}_{2,3} &= (U + 2V)(2U^2 + 5UV - V^2) - (2U + V)(2U^2 - UV + 2V^2) \\
+      &= (U - V)^3\bigl(U^2 + 3UV + V^2\bigr)
+  \end{align*}
+  доказывает~\eqref{eq:mono-pade-wronskian-23}.
+\end{enumerate}
+\end{proof}
+
+\begin{theorem}[Планетарный дифференциал $A + B = C$, целочисленный вронскиан Мейсона--Стотерса--Безу, понижение степени на круге, замок рода $g(6)=10$, погружение в $\mathbb{Z}_{4Q}$ и многовинтовой каскад $3n+1$, модули \texttt{AbcPlanetaryWronskian.lean} и \texttt{CollatzPlanetarySplice.lean}]
+\label{thm:mono-abc-planetary-wronskian}
+Для любой тройки $A + B = C$ ($A = a_1 a_2 = \widetilde{A}X^3,\ B = b_1 b_2 = \widetilde{B}Y^3,\ C = c_1 c_2 = \widetilde{C}Z^3$):
+\begin{enumerate}[label=\textbf{(\arabic*)},leftmargin=*]
+\item \textbf{Ортогональный репер дифференциала $\mathcal{F}_3$ и матрица Ганкеля $\mathcal{H}_3$ (\texttt{thm8}, \texttt{thm9}):}
+  вектор радиусов $\mathbf{r} = (a_1,b_1,c_1)$ и вектор оборотов $\mathbf{\omega} = (a_2,b_2,-c_2)$ ортогональны ($\mathbf{r}\cdot\mathbf{\omega} = 0$), а миноры $M_{BC} = b_1 c_2 + c_1 b_2$, $M_{CA} = c_1 a_2 + a_1 c_2$, $S_{AB} = a_1 b_2 - b_1 a_2$, $M_{AB} = a_1 b_2 + b_1 a_2$ и матрица моментов Ганкеля $\mathcal{H}_3$ удовлетворяют тождествам:
+  \begin{align}
+    \det\mathcal{F}_3 &= M_{BC}^2 + M_{CA}^2 + S_{AB}^2 \;\equiv\; \|\mathbf{r}\|_2^2\,\|\mathbf{\omega}\|_2^2, \label{eq:mono-abc-frame-det} \\
+    C^2 + S_{AB}^2 &= (A - B)^2 + M_{AB}^2 \;\equiv\; (a_1^2 + b_1^2)(a_2^2 + b_2^2), \label{eq:mono-abc-brahmagupta} \\
+    -\det\mathcal{H}_3 &\equiv \widetilde{A}\widetilde{B}\widetilde{C}\,(X - Y)^2(Y - Z)^2(Z - X)^2. \label{eq:mono-abc-hankel-det}
+  \end{align}
+\item \textbf{Обратная аннигиляция Паде--Безу, вронскиан Мейсона--Стотерса и понижение степени на круге (\texttt{thm12}--\texttt{thm14}, \texttt{thm12b}, \texttt{thm14b}, \texttt{thm14c}):}
+  для соотношения Безу $\widetilde{A}X v_0 - \widetilde{B}Y u_0 = 1$ производная квадратичная тройка $A^* + B^* = C^*$ ($A^* = \alpha X^2,\ B^* = \beta Y^2,\ C^* = \gamma Z^2$ при $\widetilde{A}X\beta - \widetilde{B}Y\alpha = Z^2$) и полный радикал-скелет $R_{\mathrm{full}} = (\widetilde{A}\widetilde{B}\widetilde{C})(X Y Z)$ удовлетворяют тождествам:
+  \begin{align}
+    W^* &:= A B^* - B A^* \;\equiv\; X^2 Y^2 Z^2, \label{eq:mono-abc-wronskian-wstar} \\
+    -\det\mathcal{W}_{\mathrm{MS}} &\equiv X^4 + Y^4 + Z^4, \label{eq:mono-abc-ms-quartic} \\
+    (\widetilde{B}Y)\,C + (\widetilde{B}^2\widetilde{C})(Y^2 Z)\,\alpha &\equiv R_{\mathrm{full}}\,\beta \qquad \bigl(0 \le \alpha < \widetilde{A}X \implies (\widetilde{B}Y)C \le R_{\mathrm{full}}\beta\bigr). \label{eq:mono-abc-circle-lowering}
+  \end{align}
+\item \textbf{Межэтажный замок рода $g(6)=10$, погружение в $\mathbb{Z}_{4Q}$ и многовинтовой каскад из двух шестерён $\mathcal{G}_{\mathrm{odd}}=(2,3,1)$, $\mathcal{G}_{\mathrm{even}}=(2,1,0)$ (\texttt{thm15}, \texttt{thm16}, \texttt{thm18}--\texttt{thm29}, \texttt{thm31}--\texttt{thm33}, \texttt{thm37}):}
+  сцепление сферического этажа $k=2$ ($\chi = +2$) и торового этажа $k=3$ ($\chi = 0$) в силу $3 - 2 = +1$ поднимает валы на кривую 6-й степени Ферма--Сельмера рода $g(6) = (6-1)(6-2)/2 = 10 \ge 2$ ($\chi(\mathcal{C}_6) = -18 < 0$). Для любого четверть-модуля $Q \ge 1$ на первом квадранте кольца $\mathbb{Z}_{4Q}$ ($\mathcal{C}_{4Q}(\varphi_0) + \mathcal{S}_{4Q}(\varphi_0) = Q$) и пары Безу $A v - B u = 1$ ($w = u + v$) определим фазовый ток зацепления $I_{\mathrm{rot},Q}(\varphi_0)$ и дифференциальную фазу Безу $\Delta_{\mathrm{rot},Q}(\varphi_0)$:
+  \begin{align}
+    I_{\mathrm{rot},Q}(\varphi_0) &:= B\,\mathcal{C}_{4Q}(\varphi_0) - A\,\mathcal{S}_{4Q}(\varphi_0), \label{eq:mono-irotq-def} \\
+    \Delta_{\mathrm{rot},Q}(\varphi_0) &:= v\,\mathcal{C}_{4Q}(\varphi_0) - u\,\mathcal{S}_{4Q}(\varphi_0). \label{eq:mono-deltarotq-def}
+  \end{align}
+  Тогда при всех $\varphi_0$ в первом квадранте выполняются точные проективные инварианты:
+  \begin{align}
+    Q\,A &= C\,\mathcal{C}_{4Q}(\varphi_0) - I_{\mathrm{rot},Q}(\varphi_0), \qquad
+    Q\,B \;=\; C\,\mathcal{S}_{4Q}(\varphi_0) + I_{\mathrm{rot},Q}(\varphi_0), \label{eq:mono-rotq-ab} \\
+    C\,\Delta_{\mathrm{rot},Q}(\varphi_0) - w\,I_{\mathrm{rot},Q}(\varphi_0) &\equiv Q\,(A v - B u) \;=\; Q. \label{eq:mono-rotq-bezout}
+  \end{align}
+  Для многовинтового каскада $3n+1$, порождённого нечётной шестернёй $\mathcal{G}_{\mathrm{odd}} = (2, 3, 1)$ ($2 n_{\mathrm{next}} = 3n + 1$) и чётной шестернёй $\mathcal{G}_{\mathrm{even}} = (2, 1, 0)$ ($2 n_{\mathrm{next}} = n$), композиция любого конечного слова шестерён $w \in \{\mathcal{G}_{\mathrm{odd}}, \mathcal{G}_{\mathrm{even}}\}^A$ длины $A$ с $B$ нечётными ступенями ($D_w = 2^A,\ N_w = 3^B$) удовлетворяет закону моноида, двусторонней вилке остатка и уравнению зацепления в центрированной координате $u(n) = 2n + 1$:
+  \begin{align}
+    (D_{w_1\mathbin{+\!+}w_2},\ N_{w_1\mathbin{+\!+}w_2},\ R_{w_1\mathbin{+\!+}w_2}) &= \bigl(D_{w_1}D_{w_2},\; N_{w_1}N_{w_2},\; N_{w_2}R_{w_1} + D_{w_1}R_{w_2}\bigr), \label{eq:mono-collatz-monoid} \\
+    3^B - 2^B &\le R_w \;\le\; 2^{A-B}(3^B - 2^B), \label{eq:mono-collatz-bracket} \\
+    D_w\,u(n) - N_w\,u(m) &= (D_w - N_w) + 2 R_w. \label{eq:mono-collatz-centered}
+  \end{align}
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+В пункте~(1) из $a_1 a_2 + b_1 b_2 = c_1 c_2$ следует $\mathbf{r}\cdot\mathbf{\omega} = a_1 a_2 + b_1 b_2 - c_1 c_2 = 0$, поэтому по тождеству Лагранжа $\|\mathbf{r}\times\mathbf{\omega}\|_2^2 = \|\mathbf{r}\|_2^2\|\mathbf{\omega}\|_2^2 - (\mathbf{r}\cdot\mathbf{\omega})^2 = \|\mathbf{r}\|_2^2\|\mathbf{\omega}\|_2^2$, а тождество Брахмагупты--Фибоначчи даёт~\eqref{eq:mono-abc-brahmagupta}. Факторизация матрицы Ганкеля $\mathcal{H}_3 = V^T \operatorname{diag}(\widetilde{A}X, \widetilde{B}Y, -\widetilde{C}Z) V$ через матрицу Вандермонда $V$ с $\det V = (X-Y)(Y-Z)(Z-X)$ при $\widetilde{A}X^3 + \widetilde{B}Y^3 - \widetilde{C}Z^3 = 0$ даёт~\eqref{eq:mono-abc-hankel-det}.
+
+В пункте~(2) подстановка $A = \widetilde{A}X^3$, $B = \widetilde{B}Y^3$, $A^* = \alpha X^2$, $B^* = \beta Y^2$ при $\widetilde{A}X\beta - \widetilde{B}Y\alpha = Z^2$ даёт $W^* = A B^* - B A^* = X^2 Y^2(\widetilde{A}X\beta - \widetilde{B}Y\alpha) = X^2 Y^2 Z^2$. Умножение $\widetilde{A}X\beta - \widetilde{B}Y\alpha = Z^2$ на $\widetilde{B}\widetilde{C}Y^2 Z$ и замена $\widetilde{C}Z^3 = C = \widetilde{A}X^3 + \widetilde{B}Y^3$ дают $(\widetilde{B}Y)C + (\widetilde{B}^2\widetilde{C})(Y^2 Z)\alpha = R_{\mathrm{full}}\beta$.
+
+В пункте~(3) подстановка определений~\eqref{eq:mono-irotq-def}--\eqref{eq:mono-deltarotq-def} и $C = A + B$, $w = u + v$, $\mathcal{C}_{4Q}(\varphi_0) + \mathcal{S}_{4Q}(\varphi_0) = Q$ даёт:
+\begin{align*}
+  C\,\mathcal{C}_{4Q} - I_{\mathrm{rot},Q} &= (A + B)\mathcal{C}_{4Q} - (B\mathcal{C}_{4Q} - A\mathcal{S}_{4Q}) \;=\; A(\mathcal{C}_{4Q} + \mathcal{S}_{4Q}) \;=\; Q\,A, \\
+  C\,\Delta_{\mathrm{rot},Q} - w\,I_{\mathrm{rot},Q} &= (A v - B u)(\mathcal{C}_{4Q} + \mathcal{S}_{4Q}) \;=\; Q\,(A v - B u) \;=\; Q.
+\end{align*}
+Для каскада шестерён одношаговое соотношение $D_g n_{\mathrm{next}} = N_g n + R_g$ при композиции двух ступеней $D_1 n_1 = N_1 n_0 + R_1$ и $D_2 n_2 = N_2 n_1 + R_2$ даёт $D_1 D_2 n_2 = N_2(N_1 n_0 + R_1) + D_1 R_2 = N_1 N_2 n_0 + (N_2 R_1 + D_1 R_2)$, что доказывает закон моноида~\eqref{eq:mono-collatz-monoid}. Докажем вилку остатка~\eqref{eq:mono-collatz-bracket} индукцией по длине слова $A$: для пустого слова ($A=B=0$) имеем $R_\varnothing = 0 = 3^0 - 2^0$; при приписывании справа чётной шестерни $\mathcal{G}_{\mathrm{even}} = (2, 1, 0)$ ($A \mapsto A+1$, $B \mapsto B$, $D_w = 2^A$) по формуле~\eqref{eq:mono-collatz-monoid} остаток не меняется ($R_{w\cdot\mathrm{even}} = 1\cdot R_w + 2^A\cdot 0 = R_w$), сохраняя обе границы~\eqref{eq:mono-collatz-bracket}; при приписывании нечётной шестерни $\mathcal{G}_{\mathrm{odd}} = (2, 3, 1)$ ($A \mapsto A+1$, $B \mapsto B+1$, $D_w = 2^A \ge 2^B$) получаем $R_{w\cdot\mathrm{odd}} = 3 R_w + 2^A$, откуда:
+\begin{align*}
+  3(3^B - 2^B) + 2^B &= 3^{B+1} - 2^{B+1} \;\le\; 3 R_w + 2^A \\
+  &\le 3\cdot 2^{A-B}(3^B - 2^B) + 2^{A-B}\cdot 2^B \;=\; 2^{(A+1)-(B+1)}(3^{B+1} - 2^{B+1}),
+\end{align*}
+что завершает индукцию. Наконец, подстановка $2n = u(n) - 1$ и $2m = u(m) - 1$ в $D_w m - N_w n = R_w$ даёт~\eqref{eq:mono-collatz-centered}.
+\end{proof}
+
+\section{Физическое единство структурных порогов дискретной квантовой механики и межэтажный резонанс \texorpdfstring{$k=2 \leftrightarrow k=3$}{k=2 <-> k=3}}
+
+Развитый в Теоремах~\ref{thm:mono-pillai-catalan-jordan} и~\ref{thm:mono-abc-planetary-wronskian} диофантов матричный аппарат играет фундаментальную физическую роль во всех последующих главах монографии:
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=*]
+\item \textbf{Единое алгебраическое происхождение структурных констант ДКМ из квартета жордановых замков $\mathrm{SL}_2(\mathbb{Z})$:}
+  все ключевые структурные пороги носителя --- вакуумная единица $\mu_{\mathrm{vac}} = 1$ и $|\square(3)| = 6$ квадратных граней (Замок~I: $3^2 - 2^3 = 1,\ k_{\mathrm{I}} = 6$), внешний индекс ребра $d_{\mathrm{out}}(E) = 5$ и $|O_2(3)| = 12$ вершин кубооктаэдра (Замок~II: $2^5 - 3^3 = 5,\ k_{\mathrm{II}} = 12$, гауссов определитель кубов $\det\mathcal{K}_{\mathrm{Bezout}} = 4^3 - 3^3 = 37$), число межслойных синаптических связей $k_{\mathrm{III}} = d\cdot d_{\mathrm{out}}(E) = 15$ (Замок~III: $5^3 - 3^4 = 44 = S_2(3) + 2$), а также граница мёртвой зоны Гейзенберга $k_{\mathrm{IV}} = 40 = \Delta\varphi_{\mathrm{disc}}(3) - 1$, порог квантования $41$ и разность кубов $5^3 - 5 = 2^7 - 2^3 = 120$ на четверти кольца $2^7 = 128 = Q_\square(3)$ (Замок~IV) --- высекаются единым условием целочисленности параболических матриц $\widetilde{P}_k = \mp I_2 + k N_0 \in \mathrm{SL}_2(\mathbb{Z})$ ($N_0^2 = 0$) на изотропном дискриминантном конусе~\eqref{eq:mono-pillai-cone}.
+\item \textbf{Топологический механизм Пуанкаре--Хегора и трихотомия эйлеровой характеристики $\chi(\mathcal{C}_k) = k(3-k)$ при сцеплении поверхностного ($k=2$) и объёмного ($k=3$) этажей (\texttt{thm12}, \texttt{thm15}):}
+  эйлерова характеристика гладкой плоской проективной кривой степени $k$ равна
+  \begin{equation}
+    \label{eq:mono-euler-curve-k}
+    \chi(\mathcal{C}_k) \;=\; 2 - 2g(k) \;=\; 2 - (k - 1)(k - 2) \;\equiv\; k(3 - k),
+  \end{equation}
+  обращаясь в нуль при $k = d = 3$ в соответствии с симплициальным разложением Пуанкаре--Хегора односвязной 3-сферы $S^3 = \mathcal{C}_{13}^{(+)}\cup_{O_2(3)}\mathcal{C}_{13}^{(-)}$ ($\chi(\mathcal{C}_{13}) = +1$, $\chi(O_2(3)) = +2 = \chi(\mathcal{C}_2)$, $\chi(S^3) = 1 + 1 - 2 = 0 = \chi(\mathcal{C}_3)$). В односвязном 3D-шаре кубооктаэдра $\mathcal{C}_{13}$ внутренний объём ($k = 3$) сцеплен со своей граничной сферой ($k = 2$) на одних и тех же валах ($A = A_2 X_2^2 = A_3 X_3^3$), и взаимная простота показателей Безу $3 - 2 = +1$ переводит систему на кривую 6-й степени рода $g(6) = 10 \ge 2$ с отрицательной эйлеровой характеристикой $\chi(\mathcal{C}_6) = 6(3 - 6) = -18 < 0$, запирая свободное скольжение и превращая спектр устойчивых связанных оболочек в конечный дискретный набор.
+\item \textbf{Матричное правило согласования безразмерных импедансов через репер дифференциала $\mathcal{F}_3$ и вронскиан $\mathcal{W}_{\mathrm{MS}}$:}
+  на верхнем этаже Замка~IV ($3\cdot 1^3 + 1\cdot 5^3 = 2\cdot 4^3 = 128 = Q_\square(3)$) квадрат нормы вектора радиусов равен $\|\mathbf{r}\|_2^2 = 1^2 + 5^2 + 4^2 = 42 = S_2(3)$ (мощность второй координационной сферы кубооктаэдра), кососимметрический минор равен $S_{AB} = 10 = S_1(3) - 2$, а симметрический минор $M_{AB} = 40 = \Delta\varphi_{\mathrm{disc}}(3) - 1 < 41$ удерживает обмен внутри бесфононного коридора Гейзенберга.
+\end{enumerate}
+

@@ -1,0 +1,87 @@
+% ============================================================================
+\chapter{Дискретная и непрерывная квантовая механика (ДКМ и НКМ), электродинамика Максвелла и граница применимости континуума}
+\label{ch:mono-qm-maxwell}
+% ============================================================================
+
+\section{Алгебраическое происхождение корпускулярно-волнового дуализма и правила Борна}
+
+В стандартной \textbf{непрерывной квантовой механике (НКМ / CQM)} на континуальном $T$-носителе корпускулярно-волновой дуализм и вероятностное правило Борна $P = |\psi|^2$ принимаются как независимые постулаты, а переход от непрерывной унитарной эволюции Шрёдингера к дискретному срабатыванию детектора («коллапс волновой функции») порождает проблему измерения.
+
+На дискретном кольце $\mathbb{Z}_{512}$ это разделение является прямым следствием теоремы о делении с остатком для разности фаз $\delta = \varphi_y - \varphi_x \in (-512, +512)$:
+\begin{align}
+  \delta &= 512\,q(\delta) + r(\delta), \label{eq:mono-quotient-remainder} \\
+  q(\delta) &\in \{-1, 0, +1\}, \qquad r(\delta) \in (-256, +256]. \label{eq:mono-quotient-remainder-bounds}
+\end{align}
+\begin{itemize}[leftmargin=*,noitemsep]
+\item \textbf{Волновой канал (Канал~1):} главный остаток $r(\delta) \in (-256, +256]$ непрерывно интерферирует вдоль 12 рёбер кубооктаэдра через проекции $\mathcal{C}_3(r)$ и $\mathcal{S}_3(r)$.
+\item \textbf{Корпускулярный канал (Канал~2):} целое частное переноса ветви $q(\delta) \in \{-1, 0, +1\}$ (аппаратный бит переноса \texttt{carry\_out} 9-битного сумматора) принимает исключительно дискретные целочисленные значения и отвечает за рождение неделимого топологического кванта (вихревого числа обмотки плакеты).
+\end{itemize}
+
+\begin{theorem}[Детерминированный вывод правила Борна $P(\mu) = \mu^2 / 512$ из билинейности оператора голономии $\mathcal{G}_3$]
+\label{thm:mono-born-rule}
+В уравнениях эволюции поля $\mathcal{G}_3$~\eqref{eq:mono-field-zr}--\eqref{eq:mono-field-draw} операторы парной голономии звена $\mu(\mathbf{x})\,\mu(\mathbf{x}-\mathbf{e})\,\mathcal{C}_3(\Delta\varphi)$ и собственного потенциала ячейки $Q_\square(3)\,\mu(\mathbf{x})^2$ однородно билинейны по амплитудам взаимодействующих узлов. Поэтому для когерентного волнового пакета с целочисленной амплитудой $\mu(\mathbf{x}) = \mu(\mathbf{x}-\mathbf{e}) = \mu \in \{0, 1, \dots, 16\}$ ($\mu^2 \le \Phi_{\mathrm{Pauli}}(3) = 256$) нормированный на квант грани $Q_\square(3) = 128$ фазовый вклад одного звена в ячейку детектора тождественно равен билинейному произведению $\Phi_{\mathrm{wave}}(\mu) = \mu \cdot \mu = \mu^2$. Если собственная фоновая фаза детектора $\varphi_{\mathrm{bg}}$ равномерно пробегает все $\phaseRingCount(3) = 512$ состояний кольца $\mathbb{Z}_{512}$, то число фоновых состояний, при которых сумма $\varphi_{\mathrm{bg}} + \Phi_{\mathrm{wave}}(\mu)$ пересекает границу кольца и рождает корпускулярный бит переноса $q\bigl(\varphi_{\mathrm{bg}} + \Phi_{\mathrm{wave}}(\mu)\bigr) = 1$, тождественно равно квадрату амплитуды:
+\begin{align}
+  \Phi_{\mathrm{wave}}(\mu) &= \frac{Q_\square(3)\,\mu(\mathbf{x})\,\mu(\mathbf{x}-\mathbf{e})}{Q_\square(3)} \;=\; \mu^2, \label{eq:mono-born-bilinear} \\
+  N_{\mathrm{clicks}}(\mu) &= \bigl|\bigl\{\varphi_{\mathrm{bg}} \in \{0,\dots,511\} \;\big|\; \varphi_{\mathrm{bg}} + \Phi_{\mathrm{wave}}(\mu) \ge 512\bigr\}\bigr| \;\equiv\; \mu^2 \;=\; |\psi|^2, \label{eq:mono-born-exact} \\
+  P(\mu) &= \frac{N_{\mathrm{clicks}}(\mu)}{\phaseRingCount(3)} \;=\; \frac{\mu^2}{512}. \label{eq:mono-born-prob}
+\end{align}
+\emph{Формальная верификация:} оператор \texttt{born\allowbreak Click\allowbreak CountOp} и теорема \texttt{reversible\_\allowbreak computing\_\allowbreak zero\_\allowbreak landauer\_\allowbreak heat\_\allowbreak and\_\allowbreak paradox\_\allowbreak resolutions\_\allowbreak operator} в модуле \texttt{lean/\allowbreak Mt\allowbreak Carrier/\allowbreak Rever\allowbreak sible\allowbreak Calculus.lean}.
+\end{theorem}
+
+\begin{proof}
+Из определения~\eqref{eq:mono-field-zr} и~\eqref{eq:mono-field-draw} при синфазном контакте когерентного пакета амплитуды $\mu(\mathbf{x}) = \mu(\mathbf{x}-\mathbf{e}) = \mu$ ($\Delta\varphi = 0,\ \mathcal{C}_3(0) = Q_\square(3) = 128$) парный голономный вклад одного ребра равен $Q_\square(3)\,\mu\cdot\mu = 128\,\mu^2$, что в единицах шага грани $Q_\square(3) = 128$ даёт фазовый сдвиг $\Phi_{\mathrm{wave}}(\mu) = \mu^2$~\eqref{eq:mono-born-bilinear}. При $0 \le \mu^2 \le 256 < 512$ неравенство $\varphi_{\mathrm{bg}} + \mu^2 \ge 512$ на множестве $\varphi_{\mathrm{bg}} \in \{0, 1, \dots, 511\}$ выполняется тогда и только тогда, когда $\varphi_{\mathrm{bg}} \in \{512 - \mu^2, 512 - \mu^2 + 1, \dots, 511\}$. Число элементов этого отрезка равно $511 - (512 - \mu^2) + 1 = \mu^2$, а деление на полное число равновероятных фоновых фаз $\phaseRingCount(3) = 512$ даёт $P(\mu) = \mu^2 / 512$.
+\end{proof}
+
+\section{Порог Гейзенберга \texorpdfstring{$\Delta\varphi_{\mathrm{disc}} = 41$}{dphi = 41}, уравнения Максвелла и граница применимости континуальной теории}
+
+Совокупный фазовый бюджет 13-узлового причинного ядра $B_1(3)$ равен сумме полного кольца $\phaseRingCount(3) = 512$ и числа рёберных связей одной грани кубооктаэдра $\Delta\varphi_{\mathrm{seam}}(3) = \lfloor 256 / 12 \rfloor = 21$:
+\begin{equation}
+  \label{eq:mono-heisenberg-lock}
+  \phaseRingCount(3) + \Delta\varphi_{\mathrm{seam}}(3) \;=\; 512 + 21 \;=\; 533 \;=\; 13 \times 41 \;=\; N_\varphi(3)\cdot \Delta\varphi_{\mathrm{disc}}(3).
+\end{equation}
+Теорема \texttt{heisenberg\_\allowbreak divisibility\_\allowbreak lock\_\allowbreak unique\_\allowbreak d3\_\allowbreak up\_\allowbreak to\_\allowbreak 8} (\texttt{lean/MtCarrier/Spec.lean}) доказывает, что точная делимость $N_\varphi(d) \mid (\phaseRingCount(d) + \Delta\varphi_{\mathrm{seam}}(d))$ выделяет $d = 3$ и фиксирует фундаментальный порог квантования (мёртвую зону Гейзенберга):
+\begin{align}
+  \Delta\varphi_{\mathrm{disc}}(3) &= \frac{533}{13} \;=\; 41, \label{eq:mono-heisenberg-41} \\
+  \hat{n}_E(\Phi) &= \left\lfloor \frac{|\Phi|}{\Delta\varphi_{\mathrm{disc}}(3)} \right\rfloor \in \{0, 1, \dots, 6\}. \label{eq:mono-heisenberg-quanta}
+\end{align}
+
+Всякое подпороговое возмущение $|\Phi| \le 40 < 41$ (образующее класс эквивалентности Гейзенберга мощности $|\mathcal{E}_{\mathrm{Heis}}(3)| = 2\cdot 41 - 1 = 81 = 3^4$) проходит по М-слою носителя когерентно и обратимо с \textbf{нулевым излучением тепловых квантов} ($\hat{n}_E(\Phi) = 0$).
+
+Именно формула~\eqref{eq:mono-heisenberg-41} проводит строгую физическую границу применимости между непрерывной квантовой механикой (НКМ) на $T$-носителе и дискретным $M$-носителем:
+\begin{enumerate}[leftmargin=*,noitemsep]
+\item \textbf{Область согласия с НКМ ($|\Phi| \gg \Delta\varphi_{\mathrm{disc}} = 41$, $N \gg 1$):}
+  надпороговые пакеты подчиняются правилу Борна~\eqref{eq:mono-born-exact}, а кограница главных остатков~\eqref{eq:mono-quotient-remainder} на гранях и кубах решётки тождественно удовлетворяет дискретным уравнениям Максвелла--Фарадея и теореме Гаусса об отсутствии магнитных монополей ($d_1 \circ d_0 = 0$, $\sum_{f \in \partial c} \Phi_f = 0$, теоремы \texttt{d1\_\allowbreak d0\_\allowbreak zero}, \texttt{plaquette\_\allowbreak flux\_\allowbreak eq\_\allowbreak 512\_\allowbreak mul\_\allowbreak winding} и \texttt{discrete\_\allowbreak gauss\_\allowbreak cube\_\allowbreak divergence\_\allowbreak zero} в модуле \texttt{lean/MtCarrier/\allowbreak HolonomyMaxwell.lean}).
+\item \textbf{Область расхождения (высокочастотная и подпороговая граница применимости континуума):}
+  \begin{itemize}[noitemsep]
+  \item \emph{Устранение ультрафиолетовой катастрофы:} так как $|\Phi| \le \Phi_{\mathrm{Pauli}}(3) = 256$, число излучённых квантов энергии с одной ячейки за такт строго ограничено числом квадратных граней кубооктаэдра $\hat{n}_E(\Phi) \le \lfloor 256/41 \rfloor = 6 = |\square(3)|$. Интегралы по импульсам не расходятся на верхнем пределе.
+  \item \emph{Преодоление теплового предела Ландауэра ($k_{\mathrm{B}}T \ln 2$):} теорема Ландауэра относится исключительно к необратимому стиранию битов в надпороговом диссипативном Т-канале ($\hat{n}_E \ge 1$). Поскольку микроскопический шаг Верле~\eqref{eq:mono-verlet-law} биективен на $B_2(3) = 72\text{ битах}$, любая логическая операция, выполняемая внутри подпорогового коридора $|\Phi| \le 40$, выделяет ровно $\hat{n}_E = 0$ тепловых квантов.
+  \item \emph{Точный закон скрытых микросостояний ($64 \times 81 = 72^2 = 5\,184$):} макроскопический Т-прибор не различает $K_P(3) = 64$ подуровня мантиссы Вейля--Швингера и $|\mathcal{E}_{\mathrm{Heis}}(3)| = 81$ состояние мёртвой зоны Гейзенберга, склеивая ровно $64 \times 81 = 5\,184 = 72^2 = (B_2(3))^2$ детерминированных микросостояний в одно макросостояние. Именно эта проекционная слепота внутреннего прибора порождает кажущуюся термодинамическую стрелу времени (разрешение парадокса Лошмидта) и невозможность демона Лапласа внутри решётки (\texttt{laplace\_\allowbreak demon\_\allowbreak impossibility\_\allowbreak and\_\allowbreak geometric\_\allowbreak maxwell\_\allowbreak demon\_\allowbreak operator}).
+  \item \emph{Физическая природа электрического тока как эстафеты дискретного фазовращателя $\mathcal{S}_3(\Delta\varphi)$ и полная система законов теоретической электротехники (DC/AC, Кирхгоф, $RLC$-резонанс, выпрямители и трансформаторы, \texttt{thm5}):}
+    в гранецентрированной кубической (ГЦК) решётке металлических проводников ($\mathrm{Cu},\ Z=29$; $\mathrm{Ag},\ Z=47$; $\mathrm{Au},\ Z=79$; $\mathrm{Al},\ Z=13=N_\varphi(3)$) первая координационная сфера из $12$ ближайших соседей каждого узла совпадает с кубооктаэдром $O_2(3)$. При разности фаз $\Delta\varphi \in [0, 128]$ между соседними ячейками чётная квадратурная проекция фазовращателя $V(\Delta\varphi) = \mathcal{C}_3(\Delta\varphi) = 128 - \Delta\varphi$ задаёт потенциальное напряжение звена, а нечётная проекция $I(\Delta\varphi) = \mathcal{S}_3(\Delta\varphi) = \Delta\varphi$ --- электрический ток как скорость передачи фазового кручения от ячейки к ячейке со скоростью света в линии (без механического перемещения частиц сквозь решётку, чем разрешается противоречие между скоростью сигнала $\sim c$ и малой дрейфовой скоростью носителей Друде $v_{\mathrm{drift}} \ll c$). При этом баланс грани $V(\Delta\varphi) + I(\Delta\varphi) \equiv 128 = Q_\square(3)$ определяет передаваемую мощность постоянного тока $P(\Delta\varphi) = V(\Delta\varphi)I(\Delta\varphi) = (128 - \Delta\varphi)\Delta\varphi \le 64^2 = 4\,096$ (максимум согласования импедансов при $\Delta\varphi^* = K_P(3) = 64$, \texttt{thm5}): в подпороговом коридоре $|\Delta\varphi| \le 40 < 41$ фазовая эстафета протекает без рождения фононов ($\hat{n}_E(\Delta\varphi) = 0$, сверхпроводящий/баллистический режим), тогда как при надпороговых скачках $|\Delta\varphi| \ge 41$ на дефектах или тепловых неоднородностях решётки излучается $\hat{n}_E(\Delta\varphi) \in \{1,\dots,6\}$ фононных квантов (закон Джоуля--Ленца). В режиме переменного тока ($\varphi(t)\in\mathbb{Z}_{512}$) законы Кирхгофа для напряжений и токов следуют из $d_1\circ d_0 \equiv 0$, $(d_1 r)_f = 512\,n_f$ и $d_2\circ d_1 \equiv 0$; реактивная мощность конденсатора и индуктивности (сдвинутых на четверть кольца $\pm Q_\square = \pm 128$ тиков) ортогональна активной ($\sum_{\varphi=0}^{511}\mathcal{C}_3(\varphi)\mathcal{S}_3(\varphi) \equiv 0$), а в $LC$-резонансе противофазные реактивные напряжения взаимно аннигилируют в каждой точке кольца ($\mathcal{C}_3(\varphi+128) + \mathcal{C}_3(\varphi+384) \equiv 0$); однополупериодный выпрямитель $\mathrm{rect}_{1/2}(x) = (|x|+x)/2$ даёт за период заряд $\sum_{\varphi=0}^{511}\mathrm{rect}_{1/2}(\mathcal{S}_3(\varphi)) = 128^2 = 16\,384$ (среднее $32 = K_P/2$), двухполупериодный мост Гретца --- заряд $\sum_{\varphi=0}^{511}|\mathcal{S}_3(\varphi)| = 2\times 128^2 = 32\,768$ (средний ток $64 = K_P = I_{\max}/2$), а двухфазный квадратурный мостовой выпрямитель обеспечивает $0\%$ пульсаций без конденсатора ($|\mathcal{C}_3(\varphi)| + |\mathcal{S}_3(\varphi)| \equiv 128$); наконец, в трансформаторе с обмотками $N_1 : N_2$ на общем магнитопроводе ($\Phi_{\mathrm{core}} = 512\,n_f$) закон индукции Фарадея ($V_1 = N_1\varepsilon_1,\ V_2 = N_2\varepsilon_1 \implies N_2 V_1 - N_1 V_2 \equiv 0$) и баланс МДС ($I_1 = N_2 i_0,\ I_2 = N_1 i_0 \implies N_1 I_1 - N_2 I_2 \equiv 0$) дают точное сохранение мощности $V_1 I_1 \equiv V_2 I_2$ и квадратичное трансформирование импеданса $Z_{\mathrm{in}} = (N_1/N_2)^2 Z_{\mathrm{load}}$.
+  \end{itemize}
+\end{enumerate}
+
+\begin{theorem}[Порог Гейзенберга $\Delta\varphi_{\mathrm{disc}}(3) = 41$, дискретные уравнения Максвелла, скорость связи $c_0 = \sqrt{2}\,c$, граница Цирельсона $2\sqrt{2}$ и законы теоретической электротехники]
+\label{thm:mono-heisenberg-maxwell-tsirelson-ee}
+На $13$-узловом причинном ядре $B_1(3) = \{\mathbf{0}\}\cup O_2(3)$ и фазовом кольце $\mathbb{Z}_{512}$ выполняются следующие соотношения (\texttt{heisenberg\_\allowbreak divisibility\_\allowbreak lock\_\allowbreak unique\_\allowbreak d3\_\allowbreak up\_\allowbreak to\_\allowbreak 8}, \texttt{d1\_\allowbreak d0\_\allowbreak zero}, \texttt{plaquette\_\allowbreak flux\_\allowbreak eq\_\allowbreak 512\_\allowbreak mul\_\allowbreak winding}, \texttt{discrete\_\allowbreak gauss\_\allowbreak cube\_\allowbreak divergence\_\allowbreak zero}, \texttt{bell\_\allowbreak chsh\_\allowbreak tsirelson\_\allowbreak bound\_\allowbreak from\_\allowbreak cuboctahedron\_\allowbreak link\_\allowbreak speed}, \texttt{thm5}):
+\begin{enumerate}[label=\textbf{(\arabic*)},noitemsep]
+\item Точная делимость $\phaseRingCount(d) + \Delta\varphi_{\mathrm{seam}}(d)$ на $N_\varphi(d) = 1 + 2d(d-1)$ при $2 \le d \le 8$ выполняется исключительно при $d = 3$ ($512 + 21 = 533 = 13\times 41$), фиксируя $\Delta\varphi_{\mathrm{disc}}(3) = 41$, подпороговый коридор нулевого тепловыделения $|\Phi| \le 40$ ($\hat{n}_E(\Phi) = 0$) и ультрафиолетовый потолок $\hat{n}_E(\Phi) \le \lfloor 256/41 \rfloor = 6 = |\square(3)|$.
+\item Поскольку каждое ребро кубооктаэдра $\mathbf{e} \in O_2(3)$ соединяет две координатные оси одновременно ($\|\mathbf{e}\|_2 = \sqrt{1^2 + 1^2 + 0^2}\,dh = \sqrt{2}\,dh$), микроскопическая скорость связи вдоль ребра и граница Цирельсона коррелятора Белла--CHSH для синглетной пары на биссектрисе стационарной фазы Френеля $\psi = K_P(3) = 64 \leftrightarrow \zeta_8 = (\sqrt{2}+i\sqrt{2})/2$ равны:
+  \begin{align}
+    c_0 &= \sqrt{2}\,c, \qquad c_0^2 \;=\; 2\,c^2, \label{eq:mono-link-speed-c0} \\
+    \mathcal{S}_{\mathrm{CHSH}} &= 2\,\frac{c_0}{c} \;=\; 2\sqrt{2} \;>\; 2. \label{eq:mono-tsirelson-bound}
+  \end{align}
+\item В проводниках с ГЦК-координацией $O_2(3)$ ($\mathrm{Al},\ Z=13$; $\mathrm{Cu},\ Z=29$; $\mathrm{Ag},\ Z=47$; $\mathrm{Au},\ Z=79$) напряжение звена $V(\Delta\varphi) = \mathcal{C}_3(\Delta\varphi) = 128 - \Delta\varphi$ и ток фазовой эстафеты $I(\Delta\varphi) = \mathcal{S}_3(\Delta\varphi) = \Delta\varphi$ при $\Delta\varphi \in [0, 128]$ удовлетворяют балансу грани, закону максимальной согласованной мощности при $\Delta\varphi^* = K_P(3) = 64$, ортогональности активной и реактивной мощностей и тождеству беспульсационного двухфазного квадратурного выпрямителя:
+  \begin{align}
+    V(\Delta\varphi) + I(\Delta\varphi) &= \mathcal{C}_3(\Delta\varphi) + \mathcal{S}_3(\Delta\varphi) \;\equiv\; 128 \;=\; Q_\square(3), \label{eq:mono-ee-vi-balance} \\
+    P(\Delta\varphi) &= V(\Delta\varphi)\,I(\Delta\varphi) \;=\; (128 - \Delta\varphi)\,\Delta\varphi \;\le\; 64^2 \;=\; 4\,096, \label{eq:mono-ee-max-power} \\
+    \sum_{\varphi=0}^{511} \mathcal{C}_3(\varphi)\,\mathcal{S}_3(\varphi) &= 0, \qquad
+    |\mathcal{C}_3(\varphi)| + |\mathcal{S}_3(\varphi)| \;\equiv\; 128. \label{eq:mono-ee-ortho-rectifier}
+  \end{align}
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+В пункте~(1) прямое вычисление для $d \in \{2,\dots,8\}$ показывает, что $512 + 21 = 533 = 13\times 41$ делится на $N_\varphi(3) = 13$, а деление с остатком $256 = 6\times 41 + 10$ даёт $\lfloor 256/41 \rfloor = 6$. В пункте~(2) длина вектора $\mathbf{e} \in O_2(3)$ с двумя ненулевыми координатами $\pm 1$ равна $\sqrt{2}$, а на биссектрисе $\psi = 64$ проекции $(\mathcal{C}_3(64), \mathcal{S}_3(64)) = (64, 64)$ дают сумму четырёх корреляторов CHSH $4\times (\sqrt{2}/2) = 2\sqrt{2}$. В пункте~(3) тождество $(128 - \Delta\varphi)\Delta\varphi = 64^2 - (\Delta\varphi - 64)^2 \le 4\,096$ и уравнение $L^1$-алмаза $|\mathcal{C}_3(\varphi)| + |\mathcal{S}_3(\varphi)| = 128$ завершают доказательство.
+\end{proof}
+

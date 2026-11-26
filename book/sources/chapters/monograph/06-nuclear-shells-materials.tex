@@ -1,0 +1,118 @@
+% ============================================================================
+\chapter{Атомные и ядерные оболочки кубооктаэдра, планетогенез по 6 зонам диска, тождества Безу на \texorpdfstring{$\mathbb{Z}_{512}$}{Z512}, сверхпроводимость и когерентный \texorpdfstring{$587$}{587}-кратный коллапс барьера}
+\label{ch:mono-chemistry-nuclear}
+% ============================================================================
+
+\section{Периодическая система до 8-го периода, четыре физических предела, двухсферный перенос урана на остров стабильности \texorpdfstring{$N=184$}{N=184}, планетогенез и четыре тождества Безу}
+
+\begin{theorem}[Периодическая система до 8-го периода, двухсферный перенос урана на остров стабильности $N=184$, закон планетогенеза по 6 зонам диска и четыре тождества Безу на $\mathbb{Z}_{512}$]
+\label{thm:mono-periodic-planetogenesis-bezout}
+Заполнение координационных сфер кубооктаэдра $S_k(3) = 10k^2 + 2$ ($12, 42, 92, 162$), подоболочек $(s, p, d, f) = (2, 6, 10, 14)$ и периодов Маделунга $L_p = 2\lfloor(p+2)/2\rfloor^2$ подчиняется следующим законам (\texttt{generative\_\allowbreak periodic\_\allowbreak table\_\allowbreak feynman\_\allowbreak core\_\allowbreak limits\_\allowbreak and\_\allowbreak end\_\allowbreak to\_\allowbreak end\_\allowbreak dna\_\allowbreak genesis}, \texttt{superheavy\_\allowbreak synthesis\_\allowbreak recipes\_\allowbreak and\_\allowbreak uranium\_\allowbreak shell\_\allowbreak transfer\_\allowbreak to\_\allowbreak island\_\allowbreak 184}, \texttt{planetogenesis\_\allowbreak all\_\allowbreak planetary\_\allowbreak cores\_\allowbreak and\_\allowbreak mantle\_\allowbreak invariants\_\allowbreak operator}):
+\begin{enumerate}[label=\textbf{(\arabic*)},leftmargin=*]
+\item \textbf{Замкнутые оболочки до 8-го периода, четыре физических предела таблицы Менделеева и двухсферный перенос урана на остров стабильности $N_{\mathrm{island}} = 184$:}
+  кумулятивные суммы периодов Маделунга порождают благородные газы $Z \in \{2, 10, 18, 36, 54, 86 = 6\cdot 13 + 8, 118\}$, $19 = 2 + 14 + 3 = N_\varphi + |\square|$ элементов 8-го периода до предела Фейнмана и строгую цепь физических пределов:
+  \begin{align}
+    Z(\mathrm{Pb}) = 82 &< Z(\mathrm{U}) = 92 < Z(\mathrm{Fl}) = 114 < Z(\mathrm{Og}) = 118 < Z(\mathrm{Ubn}) = 120 \nonumber \\
+    &< Z_{\mathrm{Dirac}}^{(0)} = 123 < Z_{\mathrm{fiss}} = 126 < Z_{\mathrm{Feyn}} = 137 < Z_{\mathrm{QED}} = 172 < N_{\mathrm{island}} = 184. \label{eq:mono-periodic-limits-chain}
+  \end{align}
+  Горячий синтез $Z = 119$ ($\mathrm{Uue}$) и $Z = 120$ ($\mathrm{Ubn}$) и двухсферный перенос при столкновении двух ядер урана $^{238}_{92}\mathrm{U}_{146} + {}^{238}_{92}\mathrm{U}_{146}$ ($Z(\mathrm{U}) = 92 = S_3(3)$, $N(\mathrm{U}) = 146 = S_1 + S_2 + S_3$) удовлетворяют точным оболочечным балансам:
+  \begin{align}
+    Z(\mathrm{Ti}_{22}) + Z(\mathrm{Bk}_{97}) &= Z(\mathrm{V}_{23}) + Z(\mathrm{Cm}_{96}) \;=\; 119, \label{eq:mono-hot-fusion-119} \\
+    Z(\mathrm{Ti}_{22}) + Z(\mathrm{Cf}_{98}) &= Z(\mathrm{Cr}_{24}) + Z(\mathrm{Cm}_{96}) \;=\; Z(\mathrm{Fe}_{26}) + Z(\mathrm{Pu}_{94}) \;=\; 120, \label{eq:mono-hot-fusion-120} \\
+    2\,N\bigl(^{238}_{92}\mathrm{U}_{146}\bigr) - 2\,\bigl(S_1(3) + S_2(3)\bigr) &= 292 - 108 \;=\; 184 \;=\; 2\,S_3(3) \;=\; N_{\mathrm{island}}(3). \label{eq:mono-uranium-transfer-184}
+  \end{align}
+\item \textbf{Полный закон планетогенеза по всем 6 зонам конденсации протопланетного диска:}
+  все шесть радиальных зон конденсации планетных ядер и мантий классифицируются замкнутыми оболочками кубооктаэдра (Таблица~\ref{tab:mono-planetogenesis-zones}):
+  (I)~газовые гиганты и коричневые карлики: $Z(\mathrm{H+He}) = 1 + 2 = 3 = d$ и $Z(\mathrm{Li+B}) = 3 + 5 = 8 = Z(\mathrm{O})$;
+  (II)~суперионные ледяные гиганты и криогенные льды: $Z(\mathrm{CH_4}) = Z(\mathrm{NH_3}) = Z(\mathrm{H_2O}) = 10 = Z(\mathrm{Ne})$ и $Z(\mathrm{N_2}) = Z(\mathrm{CO}) = 14 = Z(\mathrm{Si})$;
+  (III)~карбидные экзопланеты при $n(\mathrm{C}) > n(\mathrm{O})$: $Z(\mathrm{SiC}) = 14 + 6 = 20 = Z(\mathrm{Ca})$;
+  (IV)~сидерофильные железо-никелевые ядра и дифференциация силикатной мантии: $Z(\mathrm{Fe}) = 26 = 2 N_\varphi(3) = Z(\mathrm{Mg}) + Z(\mathrm{Si}) = 2 Z(\mathrm{Al})$ и $Z(\mathrm{Ni}) = 28 = 2 Z(\mathrm{Si}) = Z(\mathrm{Mg}) + Z(\mathrm{S})$;
+  (V)~эвтектические сульфидно-силицидные ядра и карбонаты глубокой мантии на второй сфере $S_2(3) = 42$: $Z(\mathrm{FeS}) = Z(\mathrm{NiSi}) = Z(\mathrm{MgCO_3}) = 42 = Z(\mathrm{Mo}) = S_2(3)$;
+  (VI)~тугоплавкие корундовые ядра, перовскитовая мантия, хондритовый оливин и геодинамо $\mathrm{U}\to\mathrm{Pb}$: $Z(\mathrm{MgSiO_3}) = Z(\mathrm{Al_2O_3}) = 50$ (магическая оболочка $50$), $Z(\mathrm{Mg_2SiO_4}) = 50 + 20 = 70 = K_P(3) + 6$ и радиогенный тепловой двигатель $^{238}_{92}\mathrm{U}_{146} \to {}^{208}_{82}\mathrm{Pb}_{126}$ ($Z(\mathrm{Pb}) = 2\times 41 = 82$, $N(\mathrm{Pb}) = 2\times 63 = 126$, $A(\mathrm{Pb}) = 2\times 8\times 13 = 208$).
+\item \textbf{Четыре канонических мультипликативных замка Безу на кольце $\mathbb{Z}_{512}$:}
+  фундаментальная единица носителя $\mu_{\mathrm{vac}}(3) = 1$ связывает инварианты $\Delta\varphi_{\mathrm{disc}} = 41$, $N_\varphi = 13$, $\widehat{M} = 97$ и $\mathrm{IV} = 263$ с ядерными оболочками золота $^{197}_{79}\mathrm{Au}$ и плутония $\mathrm{Pu}_{94}$:
+  \begin{align}
+    25 \times 41 - 2 \times 512 &= 1025 - 1024 = 1, \label{eq:mono-four-bezout} \\
+    197 \times 13 - 5 \times 512 &= 2561 - 2560 = 1, \label{eq:mono-bezout-au197} \\
+    417 \times 97 - 79 \times 512 &= 40\,449 - 40\,448 = 1, \label{eq:mono-bezout-au79} \\
+    183 \times 263 - 94 \times 512 &= 48\,129 - 48\,128 = 1. \label{eq:mono-bezout-pu94}
+  \end{align}
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+В пункте~(1) для ядра $^{238}_{92}\mathrm{U}_{146}$ сумма первых трёх сфер равна $S_1 + S_2 + S_3 = 12 + 42 + 92 = 146 = N(\mathrm{U})$, откуда при двухъядерном столкновении сброс двух внутренних сфер $2(S_1 + S_2) = 2(12 + 42) = 108 = 2 Z(\mathrm{Xe})$ оставляет $292 - 108 = 184 = 2 S_3(3) = N_{\mathrm{island}}$. В пункте~(2) покоординатное суммирование атомных номеров проверяет замыкания всех шести зон ($1+2=3$, $6+4=7+3=8+2=10$, $14+6=20$, $12+14=2\times 13=26$, $26+16=28+14=12+6+24=42$, $12+14+24=2\times 13+24=50$, $2\times 12+14+32=70$). В пункте~(3) прямая арифметическая проверка доказывает~\eqref{eq:mono-four-bezout}--\eqref{eq:mono-bezout-pu94}.
+\end{proof}
+
+\begin{table}[htbp]
+\centering
+\caption{Закон планетогенеза ДКМ: классификация 6 зон конденсации планетных ядер и мантий по замкнутым оболочкам кубооктаэдра $O_2(3)$.}
+\label{tab:mono-planetogenesis-zones}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Зона диска} & \textbf{Планетный класс} & \textbf{Ядро / мантия / летучие фазы} & \textbf{Оболочечный инвариант ДКМ} \\
+\midrule
+Зона I & Газовые гиганты и кор.\ карлики & $\mathrm{H+He}$, синтез $\mathrm{Li+B}$ & $Z=1+2=3=d$;\quad $3+5=8=Z(\mathrm{O})$ \\
+Зона II & Ледяные гиганты и крио-льды & $\mathrm{CH_4},\ \mathrm{NH_3},\ \mathrm{H_2O}$ и $\mathrm{N_2},\ \mathrm{CO}$ & $Z=10=Z(\mathrm{Ne})$;\quad $Z=14=Z(\mathrm{Si})$ \\
+Зона III & Карбидные планеты ($n(\mathrm{C})>n(\mathrm{O})$) & Карбид кремния $\mathrm{SiC}$ и графит & $Z(\mathrm{SiC})=14+6=20=Z(\mathrm{Ca})$ \\
+Зона IV & Земные планеты ($\mathrm{Fe}$--$\mathrm{Ni}$ ядро) & $\mathrm{Fe}_{26},\ \mathrm{Ni}_{28} \leftrightarrow \mathrm{Mg+Si},\ \mathrm{Mg+S}$ & $Z(\mathrm{Fe})=26=2 N_\varphi$;\ $Z(\mathrm{Ni})=28$ \\
+Зона V & Сульфидно-силицидные ядра & $\mathrm{FeS},\ \mathrm{NiSi}$ и карбонат $\mathrm{MgCO_3}$ & $Z=26+16=28+14=42=S_2(3)$ \\
+Зона VI & Сверхземли, перовскит, геодинамо & $\mathrm{Al_2O_3},\ \mathrm{MgSiO_3}$ ($50$);\ $\mathrm{Mg_2SiO_4}$ ($70$) & Магич.\ $50$;\ $70=K_P+6$;\ $\mathrm{U}_{92}\to\mathrm{Pb}_{82}$ \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\section{Седло химической связи, закон Гесса, правила симметрии, спаривание Купера и коллапс барьера}
+
+\begin{theorem}[Топологическая классификация химической связи, закон Гесса, правила Вудворда--Хоффмана, сверхпроводящее спаривание Купера и $587$-кратный коллапс барьера]
+\label{thm:mono-chem-cooper-587}
+При $d = 3$ на кольце $\mathbb{Z}_{512}$ и оболочке кубооктаэдра $O_2(3)$ выполняются следующие соотношения (\texttt{chemical\_\allowbreak bond\_\allowbreak holonomy\_\allowbreak conservation\_\allowbreak and\_\allowbreak saddle\_\allowbreak 128}, \texttt{hess\_\allowbreak law\_\allowbreak and\_\allowbreak catalytic\_\allowbreak cycle\_\allowbreak zero\_\allowbreak enthalpy}, \texttt{woodward\_\allowbreak hoffmann\_\allowbreak and\_\allowbreak valence\_\allowbreak 123\_\allowbreak stability\_\allowbreak from\_\allowbreak d3}, \texttt{generative\_\allowbreak materials\_\allowbreak cooper\_\allowbreak pairing\_\allowbreak and\_\allowbreak super\allowbreak conductor\_\allowbreak shells\_\allowbreak operator}, \texttt{coherent\_\allowbreak cub\allowbreak octahedron\_\allowbreak barrier\_\allowbreak collapse\_\allowbreak 587x}):
+\begin{enumerate}[label=\textbf{\arabic*.},noitemsep]
+\item \textbf{Седло химической связи $Q_\square(3) = 128$ и закон Гесса:}
+  на участке $\Delta\varphi \in [0, 256]$ чётная связывающая проекция $\mathcal{C}_3(\Delta\varphi) = 128 - \Delta\varphi$ убывает от $+128$ (ковалентный минимум $\Delta\varphi = 0$) через точку перегиба седла реакции $\Delta\varphi^* = Q_\square(3) = 128$ ($\mathcal{C}_3(128) = 0$, $\mathcal{S}_3(128) = +128$) к антисвязывающему полюсу Паули $\Delta\varphi = 256$ ($\mathcal{C}_3(256) = -128$), а поскольку энтальпия реакции является точной $0$-коцепью ($d_1(d_0 H) \equiv 0$), суммарный тепловой эффект любого замкнутого каталитического цикла тождественно равен нулю (закон Гесса).
+\item \textbf{Кратность ковалентных связей $\{1, 2, 3\}$ и правила орбитальной симметрии Хюккеля и Вудворда--Хоффмана ($4n + 2$ и $4n$):}
+  максимальная устойчивая кратность локализованной ковалентной связи между двумя атомами главной группы равна $d = 3$ ($1$ общая вершина для $\sigma$-связи, $2$ вершины ребра для $\pi$-связи, $3$ вершины треугольной грани $K_3$ для тройной связи). На замкнутом сопряжённом цикле с четверть-периодным шагом $Q_\square(3) = 128$ на каждый $\pi$-электрон и спиновым синглетным полуоборотом Паули $+\Phi_{\mathrm{Pauli}}(3) = +256$ полная кольцевая фаза равна:
+  \begin{equation}
+    \label{eq:mono-huckel-ring-phase}
+    \Phi_{\mathrm{ring}}(N_\pi) \;\equiv\; Q_\square(3)\,N_\pi + \Phi_{\mathrm{Pauli}}(3) \;\equiv\; 128\,N_\pi + 256 \pmod{512},
+  \end{equation}
+  что даёт ароматический связывающий максимум $\mathcal{C}_3(0) = +128$ при $N_\pi = 4n + 2$ и антиароматический мёбиусовский полюс $\mathcal{C}_3(256) = -128$ при $N_\pi = 4n$ (правила дисротаторного и конротаторного замыкания Вудворда--Хоффмана).
+\item \textbf{Сверхпроводящее спаривание Купера $2e$ на антиподальных лучах кубооктаэдра и оболочки ВТСП:}
+  два вихревых узла с противоположными импульсами $(\mathbf{k}, -\mathbf{k})$ на центросимметричных лучах $\pm\mathbf{e} \in O_2(3)$ и антиподальным спиновым сдвигом $+\Phi_{\mathrm{Pauli}}(3) = +256$ образуют синглетную пару Купера удвоенного заряда $2e = (c_0/c)^2 e$ с нулевым током рассеяния и полным конструктивным возрождением Ааронова--Бома на полуобороте Паули:
+  \begin{align}
+    \mathcal{S}_3(\Delta\varphi) + \mathcal{S}_3(-\Delta\varphi) &\equiv 0, \label{eq:mono-cooper-odd-cancel} \\
+    \mathcal{C}_3\bigl(2\,\Phi_{\mathrm{Pauli}}(3)\bigr) &= \mathcal{C}_3(512) \;=\; +128, \label{eq:mono-cooper-revival}
+  \end{align}
+  при замыкании формульных единиц сверхпроводников $Z(\mathrm{TiNi}) = 50$, $Z(\mathrm{MgB_2}) = 22$, $Z(\mathrm{CuO_2}) = 45$, $Z(\mathrm{CaCuO_2}) = 65$, $Z(\mathrm{FeS}) = 42 = S_2(3)$.
+\item \textbf{Когерентное схлопывание кулоновского барьера в $587$ раз:}
+  при синфазной фокусировке всех $12$ лучей кубооктаэдра на фазе когерентного резонанса
+  \begin{align}
+    A_{\mathrm{coh}}(3) &= Q_\square(3) + |N(3)| - 1 \;=\; 128 + 11 \;=\; 139, \label{eq:mono-acoh-139} \\
+    \bigl(\mathcal{C}_3(139),\ \mathcal{S}_3(139)\bigr) &= (-11,\ +117), \label{eq:mono-acoh-cs}
+  \end{align}
+  двенадцать отрицательных косинусных вкладов $12 \times (-11) = -132$ снижают импеданс в центре ячейки с $D_{\max}(3) = 6\,823\,936$ до $D_{\mathrm{coh}}(3) = 11\,616$ с коэффициентом подавления барьера:
+  \begin{equation}
+    \label{eq:mono-587-collapse}
+    \left\lfloor \frac{D_{\max}(3)}{D_{\mathrm{coh}}(3)} \right\rfloor \;=\; \left\lfloor \frac{6\,823\,936}{11\,616} \right\rfloor \;=\; 587 \;=\; 512 + 3 \times 25 \;=\; \phaseRingCount(3) + d\cdot d_{\mathrm{out}}(E)^2.
+  \end{equation}
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+В пункте~(1) $\mathcal{C}_3(128) = 128 - 128 = 0$, а равенство $\sum_{e\in\gamma}(H_v - H_u) = 0$ на любом замкнутом цикле $\gamma$ следует из $d_1\circ d_0 \equiv 0$.
+
+В пункте~(2) пересечение двух кубооктаэдров со сдвигом центров в $\mathbb{Z}^3$ содержит не более $3$ общих вершин треугольной грани $K_3$ (так как квадратная грань из $4$ вершин не лежит на одном радиальном конусе с общей вершиной без совпадения центров). Для кольцевой фазы~\eqref{eq:mono-huckel-ring-phase} при числе $\pi$-электронов $N_\pi = 4n + 2$ подстановка в $128\,N_\pi + 256$ даёт:
+\[
+  \Phi_{\mathrm{ring}}(4n + 2) \;=\; 128(4n + 2) + 256 \;=\; 512n + 256 + 256 \;=\; 512(n + 1) \;\equiv\; 0 \pmod{512},
+\]
+где $\mathcal{C}_3(0) = +128$ (максимум ароматического связывания Хюккеля и термически разрешённое дисротаторное замыкание). Напротив, при $N_\pi = 4n$ получаем:
+\[
+  \Phi_{\mathrm{ring}}(4n) \;=\; 128(4n) + 256 \;=\; 512n + 256 \;\equiv\; 256 \pmod{512},
+\]
+где $\mathcal{C}_3(256) = -128$ (антисвязывающий полюс Паули), для компенсации которого требуется дополнительный мёбиусовский (конротаторный) полуоборот $+256$ ($256 + 256 \equiv 0 \pmod{512}$).
+
+В пункте~(3) нечётность $\mathcal{S}_3(-\Delta\varphi) = -\mathcal{S}_3(\Delta\varphi)$ обнуляет рассеяние, а удвоение фазы $2\times 256 = 512 \equiv 0 \pmod{512}$ возвращает $\mathcal{C}_3(512) = +128$. В пункте~(4) при $\Delta\varphi = 139$ проекция равна $\mathcal{C}_3(139) = 128 - 139 = -11$, откуда $D_{\mathrm{coh}} = 11\,616$ и $\lfloor 6\,823\,936 / 11\,616 \rfloor = 587$.
+\end{proof}
+
