@@ -14,6 +14,7 @@ lean_lib «RotatorCalculusPaper» where
     `AbcPlanetaryWronskian,
     `ModelTheoreticLimit,
     `CollatzPlanetarySplice,
+    `RiemannHolonomy,
     `RotatorCalculusPaper
   ]
 
