@@ -178,17 +178,15 @@
 \label{thm:mono-riemann-counterwave-holonomy}
 В однородных целочисленных координатах $(c_0, \delta, s_0) \in \mathbb{Z}^3$ ($c_0 > 0$ --- полуединичный масштаб экватора $1/2$, $\delta$ --- радиальный сдвиг от критической прямой $\operatorname{Re}(s) = 1/2$, $s_0$ --- частота~$t$) для квадратов норм прямой и встречной волн $U = (c_0 + \delta)^2 + s_0^2$ (\texttt{cayleyNumNormSq}) и $V = (c_0 - \delta)^2 + s_0^2$ (\texttt{cayleyDenNormSq}) выполняются следующие безусловные тождества:
 \begin{enumerate}[label=\textbf{(\arabic*)},leftmargin=*]
-\item \textbf{Экватор Кэли--Вейерштрасса и принцип суперпозиции для произвольного числа волн в океане (\texttt{cayley\_\allowbreak norm\_\allowbreak imbalance\_\allowbreak identity}, \texttt{multiwave\_\allowbreak ocean\_\allowbreak superposition\_\allowbreak cayley\_\allowbreak imbalance}):}
-  для одной моды и для произвольного конечного или счётного ансамбля волн в океане $\mathcal{O} = \{(c_{0,k}, s_{0,k})\}_{k=1}^N$ с произвольными несоизмеримыми фазами и частотами $s_{0,k}$ (и произвольным скручиванием характером Дирихле $\chi$) симметричная энергия $\sum_{k=1}^N(c_{0,k}^2 + \delta^2 + s_{0,k}^2)$ (\texttt{mainAmount}) тождественно сокращается между прямой волной $U_{\mathrm{ocean}}(\delta) = \sum_{k=1}^N ((c_{0,k}+\delta)^2 + s_{0,k}^2)$ и отражённой волной $V_{\mathrm{ocean}}(\delta) = \sum_{k=1}^N ((c_{0,k}-\delta)^2 + s_{0,k}^2)$:
-  \begin{equation}
-    \label{eq:mono-ocean-cayley-imbalance}
-    U_{\mathrm{ocean}}(\delta) - V_{\mathrm{ocean}}(\delta)
-    \;=\;
-    4\,\delta\sum_{k=1}^N c_{0,k}
-    \qquad\Longrightarrow\qquad
-    \Bigl(U_{\mathrm{ocean}}(\delta) = V_{\mathrm{ocean}}(\delta) \;\Longleftrightarrow\; \delta = 0\Bigr)
-    \quad \text{при } \sum_{k=1}^N c_{0,k} > 0.
-  \end{equation}
+\item \textbf{Экватор Кэли--Вейерштрасса и принцип полного векторного сложения для произвольного числа волн в океане со всеми перекрёстными членами (\texttt{cayley\_\allowbreak norm\_\allowbreak imbalance\_\allowbreak identity}, \texttt{ocean\_\allowbreak true\_\allowbreak vector\_\allowbreak superposition\_\allowbreak norm\_\allowbreak imbalance\_\allowbreak and\_\allowbreak mainamount\_\allowbreak cancellation}):}
+  для произвольного ансамбля двумерных волновых векторов в океане $\mathcal{O}_{\mathrm{vec}} = \{(c_k, s_k, \alpha_k, \beta_k)\}_{k=1}^N$ с суммарным вектором прямой волны $W_+(\delta) = \bigl(\sum_{k=1}^N(c_k + \alpha_k\delta),\ \sum_{k=1}^N(s_k + \beta_k\delta)\bigr) = (C_\Sigma + A_\Sigma\delta,\ S_\Sigma + B_\Sigma\delta)$ и суммарным вектором встречной волны $W_-(\delta) = (C_\Sigma - A_\Sigma\delta,\ S_\Sigma - B_\Sigma\delta)$ квадраты норм суммарных векторов $U_{\mathrm{vec}}(\delta) = |W_+(\delta)|^2$ и $V_{\mathrm{vec}}(\delta) = |W_-(\delta)|^2$ содержат все $N^2$ диагональных и попарных перекрёстных ($j \ne k$) слагаемых. При этом вся чётная матрица Грама $\mathrm{MainAmount}_{\mathrm{vec}}(\delta) = (C_\Sigma^2 + S_\Sigma^2) + \delta^2(A_\Sigma^2 + B_\Sigma^2)$ тождественно сокращается в разности норм без каких-либо внешних гипотез:
+  \begin{align}
+    U_{\mathrm{vec}}(\delta) + V_{\mathrm{vec}}(\delta) &= 2\,\mathrm{MainAmount}_{\mathrm{vec}}(\delta), \label{eq:mono-ocean-vec-sum} \\
+    U_{\mathrm{vec}}(\delta) - V_{\mathrm{vec}}(\delta) &= 4\,\bigl(C_\Sigma A_\Sigma + S_\Sigma B_\Sigma\bigr)\,\delta
+    \;\;\Longrightarrow\;\;
+    \Bigl(U_{\mathrm{vec}}(\delta) = V_{\mathrm{vec}}(\delta) \;\Longleftrightarrow\; \delta = 0\Bigr)
+    \quad \text{при } C_\Sigma A_\Sigma + S_\Sigma B_\Sigma \ne 0. \label{eq:mono-ocean-cayley-imbalance}
+  \end{align}
 \item \textbf{Двухволновое разложение деструктивной интерференции и сохранение энергии Парсеваля (\texttt{counterwave\_\allowbreak interference\_\allowbreak decomposition}, \texttt{parseval\_\allowbreak energy\_\allowbreak conservation\_\allowbreak unique\_\allowbreak minimum\_\allowbreak at\_\allowbreak critical\_\allowbreak line}):}
   на проективном ротаторе четверть-периода $q > 0$ полная интенсивность интерференции прямой и встречной волн $(\mu_+, \mu_-)$ с разностью фаз $\Delta\varphi$ и избыток полной энергии волнового пакета Парсеваля раскладываются в суммы неотрицательных квадратов:
   \begin{align}
