@@ -2,6 +2,9 @@
 
 This document provides the complete engineering blueprint to build the **12-Beam Cuboctahedron (`O_2(3)`) Resonator** and **`ℤ_512` Reversible Phase Driver** from standard commercial off-the-shelf (COTS) components without expensive laboratory instruments or proprietary EDA licenses.
 
+> **Honest Engineering Disclaimer & Community Invitation:**
+> These blueprints, BOM tables, PCB files, and SPICE/Verilog models are open research prototypes verified in digital (`Icarus Verilog`) and circuit (`LTspice`) simulation. **They may contain errors, inaccuracies, or practical assembly pitfalls, and may not work out-of-the-box without bench debugging, re-calibration, or hardware revisions.** Even for one person working with AI agents, verifying every physical tier alone is impossible. Everything is open like Wikipedia — we invite hardware engineers, makers, and university labs worldwide to verify, critique, fix errors, and improve these designs together.
+
 ---
 
 ## 1. The Four Hardware Tiers: What Can Be Built at Each Frequency & Budget Scale

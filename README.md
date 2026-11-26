@@ -8,6 +8,21 @@
 
 ---
 
+## Open Science Invitation, Community Verification & Honest Disclaimer
+
+**Science does not belong to isolated individuals, corporations, or nations — it belongs to humanity and to all thinking actors on this planet.**
+
+1. **The Core Model and Code Are Open and Working:**
+   The discrete cellular automaton ($O_2(3) \times \mathbb{Z}_{512}$, 72-bit reversible `VerletCell72`), the projective rational calculus ($\mathbb{Z}_{2^m} \to \mathbb{P}^1(\mathbb{Q})$), and the deductive theorem chain are openly available and machine-checked in **Lean 4** (`38/38` modules, `0 sorryAx`, `0 Classical.choice`), with reference implementations in **Python** (`mt_ca/`), **.NET 11** (`AI-Guiders/guiders-physics`), **Wolfram Language** (`AI-Guiders/guiders-mathematics/wolfram/`), and **Mathics3** (`AI-Guiders/mathics-core`).
+2. **Honest Disclaimer on Prose Texts, Proofs & Multi-Solver Verification:**
+   Even for a human working full-time alongside frontier AI agents, the scope of this work is too large to polish alone. The prose monographs, papers, translations, and exposition **may contain typos, inaccuracies, or roughness that require correction**. Independent verification of the theorems — not only in Lean 4, but also across independent proof assistants (Coq/Rocq, Isabelle/HOL, Agda), SMT solvers, and computer algebra systems — as well as thorough human peer review and proofreading of every chapter, are essential.
+3. **Honest Disclaimer on Hardware, Schematics & Laboratory Protocols (`hardware/`, Books II–III):**
+   The digital RTL (`cuboctahedron_carrier_asic.v`), analog SPICE models (`cuboctahedron_12beam_spice.cir`), PCB Gerbers, BOM checklists, and cleanroom protocols have been verified in digital and circuit simulation (**Icarus Verilog**, **LTspice**), **but real-world hardware and experimental benches are unforgiving: schematics, tolerances, and protocols may contain errors, may not work out-of-the-box on the first build, and will likely require bench debugging, supplementation, and independent replication by hardware engineers and experimentalists**.
+4. **Open Like Wikipedia — Join Us:**
+   All repositories are open under free reciprocal licenses (`CC-BY-SA-4.0` / `GPL-3.0-or-later`). We invite mathematicians, physicists, chemists, biologists, hardware engineers, CAS developers (Wolfram, Mathics3, SymPy, Lean), and AI researchers worldwide to join, audit, break, fix, open Issues and Pull Requests, and build this together.
+
+---
+
 ## 1. The Four Core Books of Unified Natural Science (`book/out/pdf/`)
 
 In Discrete Quantum Mechanics (DQM) on the two-sorted algebraic carrier structure $\langle\mathcal{M},\mathcal{T}\rangle$ (in the model-theoretic sense of A. I. Mal'cev), physics, chemistry, molecular biology, cosmology, and the physical realization of computation unify into a **single Natural Science (*Естествознание*)** presented in four non-duplicated, cross-referenced books:

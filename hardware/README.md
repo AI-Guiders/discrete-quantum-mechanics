@@ -2,6 +2,12 @@
 
 This directory contains the gate-level digital RTL implementation (**Verilog IEEE 1364-2005**, verified with **Icarus Verilog 12.0**) and the 3D 13-node / 36-branch analog LC/RF circuit simulation (**SPICE**, verified with **Analog Devices LTspice 26.1.1**) of the cuboctahedral rotator and phase bridge.
 
+> ### Honest Engineering Disclaimer & Open Call for Bench Verification
+> While the digital RTL (`cuboctahedron_carrier_asic.v`), analog SPICE models (`cuboctahedron_12beam_spice.cir`, `kitchen_bench_mosfet_coil.cir`), PCB Gerbers, and BOM specifications pass logic and circuit simulation, **simulation is not physical silicon or a physical bench**.
+> - These schematics, PCB layouts, coil parameters, and build guides **may contain errors, unaccounted parasitic couplings, or tolerance issues, and may not work on the first physical assembly**.
+> - Something may need to be corrected, supplemented, re-tuned, or redesigned during physical prototyping.
+> - **Science and engineering belong to all humanity and all thinking actors on this planet.** Everything in `hardware/` is open-source (`GPL-3.0-or-later` / `CC-BY-SA-4.0`). We invite hardware engineers, RF/FPGA designers, and experimentalists worldwide to audit these designs, test them on real benches, report bugs, and submit fixes via Issues and Pull Requests.
+
 ---
 
 ## 1. Digital Gate-Level ASIC / FPGA Core (`cuboctahedron_carrier_asic.v`)
