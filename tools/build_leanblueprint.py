@@ -129,7 +129,7 @@ def prepare_blueprint_latex(raw_tex: str, lean_index: dict[str, str]) -> str:
     text = raw_tex
 
     # 0. Remove authoring template section "Как вести этот раздел"
-    text = re.sub(r"\\section\{Как вести этот раздел\}[\s\S]*?\\end\{labrecord\}", "", text)
+    text = re.sub(r"\\section\{Как вести этот раздел\}[\s\S]*?(?=\\chapter|\\end\{document\}|$)", "", text)
 
     # 1. Strip \allowbreak and normalize \~{}
     text = re.sub(r"\\allowbreak\s*", "", text)
@@ -149,19 +149,26 @@ def prepare_blueprint_latex(raw_tex: str, lean_index: dict[str, str]) -> str:
     text = text.replace(r"\latGCKshort", "ГЦК")
     text = re.sub(r"\\Axref\{ax:A([^}]+)\}", r"$A_{\1}$", text)
 
-    # 3. Convert labseries / labrecord into sections and theorem-like records so they appear in the blueprint
+    # 3. Convert labseries / labrecord into sections and theorem-like records (converting inner \subsubsection* to \textbf so plasTeX doesn't split the theorem!)
+    text = re.sub(r"\\subsubsection\*?\{(" + BRACE4 + r")\}", r"\n\n\\textbf{\1.}\n", text)
     text = re.sub(
         r"\\begin\{labseries\}\{(" + BRACE4 + r")\}\{([^}]*)\}",
         r"\\section{\1}\\label{\2}",
         text,
     )
     text = re.sub(r"\\end\{labseries\}", "", text)
+
+    def labrecord_to_theorem(m: re.Match) -> str:
+        title = m.group(1).replace("[", "(").replace("]", ")")
+        lbl = m.group(2).strip()
+        return f"\\begin{{theorem}}[{title}]\n\\label{{{lbl}}}\n\\leanok\n"
+
     text = re.sub(
         r"\\begin\{labrecord\}\{(" + BRACE4 + r")\}\{([^}]*)\}",
-        r"\\begin{theorem}[\1]\\label{\2}\\leanok",
+        labrecord_to_theorem,
         text,
     )
-    text = re.sub(r"\\end\{labrecord\}", r"\\end{theorem}", text)
+    text = re.sub(r"\\end\{labrecord\}", r"\n\\end{theorem}", text)
 
     # 4. Normalize \texttt{...} content
     texttt_inner_pat = r"(?:\\\{|\\\}|[^{}])*"
@@ -231,9 +238,10 @@ def prepare_blueprint_latex(raw_tex: str, lean_index: dict[str, str]) -> str:
             thm_counter += 1
             lbl = f"thm:auto-{thm_counter:03d}"
 
-        # Clean code references from opt_title
+        # Clean code references and inner square brackets from opt_title (inner `]` breaks plasTeX `[...]`)
         clean_title = re.sub(r"\s*\((?:[^()]*?\\texttt\{[^{}]*\}[^()]*)\)", "", opt_title).strip()
         clean_title = re.sub(r"\\texttt\{[^{}]*\}", "", clean_title).strip()
+        clean_title = clean_title.replace("[", "(").replace("]", ")")
         title_part = f"[{clean_title}]" if clean_title else ""
 
         uses_list: list[str] = []
