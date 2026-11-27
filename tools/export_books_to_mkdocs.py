@@ -66,7 +66,6 @@ def expand_inputs(rel_path: str) -> str:
     if not p.exists():
         return f"% [Missing input: {clean_rel}]\n"
     text = p.read_text(encoding="utf-8")
-    # Strip full-line comments
     lines = [
         line
         for line in text.splitlines()
@@ -76,10 +75,12 @@ def expand_inputs(rel_path: str) -> str:
     return re.sub(r"\\input\{([^}]+)\}", lambda m: expand_inputs(m.group(1)), joined)
 
 
+BRACE4 = r"(?:[^{}]|\{(?:[^{}]|\{(?:[^{}]|\{[^{}]*\})*\})*\})*"
+
+
 def unwrap_texorpdfstring(text: str) -> str:
-    """Replace \\texorpdfstring{A}{B} with A (handles up to 3 levels of nested braces)."""
-    brace3 = r"(?:[^{}]|\{(?:[^{}]|\{[^{}]*\})*\})*"
-    pattern = re.compile(r"\\texorpdfstring\{(" + brace3 + r")\}\{(" + brace3 + r")\}")
+    """Replace \\texorpdfstring{A}{B} with A (handles up to 4 levels of nested braces)."""
+    pattern = re.compile(r"\\texorpdfstring\{(" + BRACE4 + r")\}\{(" + BRACE4 + r")\}")
     prev = None
     while prev != text:
         prev = text
@@ -88,12 +89,69 @@ def unwrap_texorpdfstring(text: str) -> str:
 
 
 def replace_paired_command(text: str, cmd: str, wrapper_left: str, wrapper_right: str) -> str:
-    """Replace \\cmd{content} with wrapper_left + content + wrapper_right supporting nested braces."""
-    pat = re.compile(r"\\" + cmd + r"\{((?:[^{}]|\{[^{}]*\})*)\}")
+    """Replace \\cmd{content} with wrapper_left + content + wrapper_right supporting up to 4 nested braces."""
+    pat = re.compile(r"\\" + cmd + r"\{(" + BRACE4 + r")\}")
     prev = None
     while prev != text:
         prev = text
         text = pat.sub(lambda m: f"{wrapper_left}{m.group(1)}{wrapper_right}", text)
+    return text
+
+
+def clean_texttt_and_monster_ids(text: str) -> str:
+    """
+    1. Remove \\allowbreak and any trailing whitespace after it (fixes `\\_\\allowbreak ` -> `\\_`).
+    2. Inside math blocks ($...$, \\[...\\], equation/align), convert \\texttt{...} -> \\mathtt{...}
+       so backticks never appear inside MathJax.
+    3. Strip parenthetical monster snake_case theorem dumps (e.g. `(\\texttt{internal_observer_...}, \\texttt{thm17_...})`)
+       from prose so sentences don't contain 100-character snake_case incantations.
+    4. Convert remaining prose \\texttt{...} into clean Markdown code spans `...` with `\\_` unescaped to `_`.
+    """
+    # 1. Strip \allowbreak and spaces immediately following it, and normalize \~{} -> ~
+    text = re.sub(r"\\allowbreak\s*", "", text)
+    text = text.replace(r"\~{}", "~")
+
+    # 2. Normalize \texttt{...} content: unescape \_, \{, \}, \&, \textbackslash inside \texttt
+    texttt_inner_pat = r"(?:\\\{|\\\}|[^{}])*"
+
+    def normalize_texttt_arg(m: re.Match) -> str:
+        inner = m.group(1)
+        inner = inner.replace(r"\_", "_").replace(r"\&", "&")
+        inner = inner.replace(r"\{", "(").replace(r"\}", ")")
+        inner = re.sub(r"\\textbackslash\s*", r"\\", inner)
+        inner = inner.replace(r"\ {}", "~")
+        inner = re.sub(r"\s+", " ", inner).strip()
+        return r"\texttt{" + inner + "}"
+
+    text = re.sub(r"\\texttt\{(" + texttt_inner_pat + r")\}", normalize_texttt_arg, text)
+
+    # 3. Remove parenthetical blocks containing long snake_case theorem identifiers (3+ underscores)
+    # e.g. ` (\texttt{internal_observer_...}, \texttt{thm17_...})` or ` (\texttt{thm1_...}: \texttt{...})`
+    monster_id = r"\\texttt\{[a-zA-Z0-9_]*_[a-zA-Z0-9_]*_[a-zA-Z0-9_]*_[a-zA-Z0-9_.]*\}"
+    text = re.sub(
+        r"\s*\((?:[^()]*?" + monster_id + r"[^()]*)\)",
+        "",
+        text,
+    )
+
+    # 4. Inside inline math $...$ and display math \[...\], convert \texttt{foo_bar} -> \mathtt{foo\_bar}
+    def fix_texttt_in_math(math_str: str) -> str:
+        return re.sub(
+            r"\\texttt\{([^{}]*)\}",
+            lambda m: r"\mathtt{" + m.group(1).replace("_", r"\_") + "}",
+            math_str,
+        )
+
+    text = re.sub(r"\\\[[\s\S]*?\\\]", lambda m: fix_texttt_in_math(m.group(0)), text)
+    text = re.sub(
+        r"\\begin\{(?:equation\*?|align\*?)\}[\s\S]*?\\end\{(?:equation\*?|align\*?)\}",
+        lambda m: fix_texttt_in_math(m.group(0)),
+        text,
+    )
+    text = re.sub(r"\$[^$\n]+\$", lambda m: fix_texttt_in_math(m.group(0)), text)
+
+    # 5. Convert remaining prose \texttt{...} to Markdown backticks `...`
+    text = re.sub(r"\\texttt\{([^{}]*)\}", lambda m: f"`{m.group(1)}`", text)
     return text
 
 
@@ -121,12 +179,14 @@ def convert_tabular(match: re.Match) -> str:
 
 
 def convert_lists(text: str) -> str:
-    """Convert itemize, enumerate, and description environments into Markdown lists."""
-    # Remove optional enumitem args like [label=...]
+    """
+    Convert itemize, enumerate, and description environments into properly spaced
+    and 4-space-indented Markdown lists so Python-Markdown never glues items together.
+    """
     text = re.sub(r"\\begin\{(enumerate|itemize|description)\}\s*\[[^\]]*\]", r"\\begin{\1}", text)
 
     lines = text.splitlines()
-    out_lines = []
+    out_lines: list[str] = []
     stack: list[str] = []
     enum_counters: list[int] = []
 
@@ -136,10 +196,12 @@ def convert_lists(text: str) -> str:
         if m_begin:
             kind = m_begin.group(1)
             rest = m_begin.group(2).strip()
+            if out_lines and out_lines[-1].strip() != "":
+                out_lines.append("")
             stack.append(kind)
             enum_counters.append(0)
             if rest:
-                out_lines.append(rest)
+                out_lines.append("    " * len(stack) + rest)
             continue
 
         m_end = re.match(r"^\\end\{(enumerate|itemize|description)\}(.*)$", stripped)
@@ -147,22 +209,31 @@ def convert_lists(text: str) -> str:
             if stack:
                 stack.pop()
                 enum_counters.pop()
+            if out_lines and out_lines[-1].strip() != "":
+                out_lines.append("")
             rest = m_end.group(2).strip()
             if rest:
-                out_lines.append(rest)
-            out_lines.append("")
+                out_lines.append("    " * len(stack) + rest)
             continue
 
         if stack and stripped.startswith(r"\item"):
-            indent = "  " * (len(stack) - 1)
+            indent = "    " * (len(stack) - 1)
             kind = stack[-1]
             rest = stripped[len(r"\item"):].strip()
+            if out_lines and out_lines[-1].strip() != "":
+                out_lines.append("")
             m_opt = re.match(r"^\[((?:[^\[\]]|\[[^\[\]]*\])*)\]\s*(.*)$", rest)
-            if m_opt:
+            if m_opt and kind == "description":
+                label_txt = m_opt.group(1).strip()
+                item_body = m_opt.group(2).strip()
+                out_lines.append(f"{indent}- **{label_txt}** {item_body}")
+            elif m_opt and kind != "enumerate":
                 label_txt = m_opt.group(1).strip()
                 item_body = m_opt.group(2).strip()
                 out_lines.append(f"{indent}- **{label_txt}** {item_body}")
             else:
+                if m_opt:
+                    rest = m_opt.group(2).strip()
                 if kind == "enumerate":
                     enum_counters[-1] += 1
                     idx = enum_counters[-1]
@@ -170,9 +241,12 @@ def convert_lists(text: str) -> str:
                 else:
                     out_lines.append(f"{indent}- {rest}")
         else:
-            if stack and stripped and not stripped.startswith(("$$", "\\begin{", "\\end{")):
-                indent = "  " * len(stack)
-                out_lines.append(f"{indent}{stripped}")
+            if stack:
+                if stripped == "":
+                    out_lines.append("")
+                else:
+                    indent = "    " * len(stack)
+                    out_lines.append(f"{indent}{stripped}")
             else:
                 out_lines.append(line)
 
@@ -180,7 +254,7 @@ def convert_lists(text: str) -> str:
 
 
 def convert_admonition_envs(text: str) -> str:
-    """Convert theorem, definition, remark, proof, quote, center environments to MkDocs admonitions."""
+    """Convert theorem, definition, remark, proof environments to MkDocs admonitions."""
     env_map = {
         "theorem": ("note", "Теорема"),
         "definition": ("info", "Определение"),
@@ -200,7 +274,7 @@ def convert_admonition_envs(text: str) -> str:
             header_title = header_title.replace('"', "'")
             marker = "???+ " if env_name == "proof" else "!!! "
             indented = "\n".join("    " + ln if ln.strip() else "" for ln in body.splitlines())
-            return f'\n\n{marker}{adm_type} "{header_title}"\n{indented}\n\n'
+            return f'\n\n{marker}{adm_type} "{header_title}"\n\n{indented}\n\n'
 
         text = pattern.sub(repl, text)
 
@@ -212,43 +286,62 @@ def latex_to_markdown(tex: str) -> str:
 
     # 1. Strip layout-only boilerplate
     text = re.sub(r"\\(?:markboth|addcontentsline)\{[^}]*\}\{[^}]*\}(?:\{[^}]*\})?", "", text)
-    text = re.sub(r"\\(?:noindent|sloppy|bigskip|medskip|smallskip|allowbreak|centering)\b", "", text)
+    text = re.sub(r"\\(?:noindent|sloppy|bigskip|medskip|smallskip|centering)\b", "", text)
     text = re.sub(r"\\(?:vspace|setlength)\*?\{[^}]*\}(?:\{[^}]*\})?", "", text)
     text = re.sub(r"\\rule\{[^}]*\}\{[^}]*\}", "\n---\n", text)
 
-    # 2. Expand custom macros
+    # 2. Expand semantic notation macros to their exact LaTeX symbols (glossary/notation-entries.tex)
     text = text.replace(r"\caSignalSpeed", "c_0")
     text = text.replace(r"\speedC", "c")
-    text = text.replace(r"\geomNeighborTwelve", "12")
-    text = text.replace(r"\phaseRingCount", "512")
+    text = text.replace(r"\geomNeighborTwelve", "N_{12}")
+    text = text.replace(r"\phaseRingCount", r"N_{\mathrm{ring}}")
+    text = text.replace(r"\caPlanckCell", "V_P")
+    text = text.replace(r"\PlanckCell", "V_P")
+    text = text.replace(r"\caStepSpace", "a")
+    text = text.replace(r"\caStepTime", r"\Delta t")
+    text = text.replace(r"\caKappaGeom", r"\kappa")
     text = text.replace(r"\latGCKshort", "ГЦК")
     text = re.sub(r"\\Axref\{ax:A([^}]+)\}", r"$A_{\1}$", text)
 
     # 3. Unwrap \texorpdfstring{math}{plain} -> math
     text = unwrap_texorpdfstring(text)
 
-    # 4. Lab environments -> sections/subsections
+    # 4. Clean \texttt, \allowbreak, and strip monster snake_case incantations
+    text = clean_texttt_and_monster_ids(text)
+
+    # 5. Lab environments -> sections/subsections
     text = re.sub(
-        r"\\begin\{labseries\}\{((?:[^{}]|\{[^{}]*\})*)\}\{([^}]*)\}",
+        r"\\begin\{labseries\}\{(" + BRACE4 + r")\}\{([^}]*)\}",
         r"\\section{\1}",
         text,
     )
     text = re.sub(r"\\end\{labseries\}", "", text)
     text = re.sub(
-        r"\\begin\{labrecord\}\{((?:[^{}]|\{[^{}]*\})*)\}\{([^}]*)\}",
+        r"\\begin\{labrecord\}\{(" + BRACE4 + r")\}\{([^}]*)\}",
         r"\\subsection{\1}",
         text,
     )
     text = re.sub(r"\\end\{labrecord\}", "", text)
 
-    # 5. Protect display math environments (`equation`, `align`, `align*`) inside $$ ... $$
+    # 6. Number equations per chapter and convert display math (`equation`, `align`, `\[...\]`) to $$ ... $$
+    eq_counter = 0
+    eq_labels: dict[str, int] = {}
+
     def wrap_display_math(m: re.Match) -> str:
+        nonlocal eq_counter
         env = m.group(1)
         content = m.group(2).strip()
+        found_labels = re.findall(r"\\label\{([^}]+)\}", content)
         content = re.sub(r"\\label\{([^}]+)\}", "", content).strip()
+        tag_str = ""
+        if found_labels:
+            eq_counter += 1
+            for lbl in found_labels:
+                eq_labels[lbl] = eq_counter
+            tag_str = f" \\tag{{{eq_counter}}}"
         if env in ("align", "align*"):
-            return f"\n\n$$\n\\begin{{aligned}}\n{content}\n\\end{{aligned}}\n$$\n\n"
-        return f"\n\n$$\n{content}\n$$\n\n"
+            return f"\n\n$$\n\\begin{{aligned}}\n{content}\n\\end{{aligned}}{tag_str}\n$$\n\n"
+        return f"\n\n$$\n{content}{tag_str}\n$$\n\n"
 
     text = re.sub(
         r"\\begin\{(equation\*?|align\*?)\}([\s\S]*?)\\end\{\1\}",
@@ -256,44 +349,59 @@ def latex_to_markdown(tex: str) -> str:
         text,
     )
 
-    # 6. Convert tables (`\begin{table}...\end{table}` and `\begin{tabular}{...}...\end{tabular}`)
+    def wrap_bracket_math(m: re.Match) -> str:
+        content = m.group(1).strip()
+        content = re.sub(r"\\label\{([^}]+)\}", "", content).strip()
+        return f"\n\n$$\n{content}\n$$\n\n"
+
+    text = re.sub(r"\\\[([\s\S]*?)\\\]", wrap_bracket_math, text)
+
+    # 7. Convert tables (`\begin{table}...\end{table}` and `\begin{tabular}{...}...\end{tabular}`)
     text = re.sub(r"\\begin\{table\}(?:\[[^\]]*\])?", "", text)
     text = re.sub(r"\\end\{table\}", "", text)
     text = re.sub(r"\\resizebox\{[^}]*\}\{[^}]*\}\{", "", text)
-    text = re.sub(r"\\caption\{((?:[^{}]|\{[^{}]*\})*)\}", r"\n*\1*\n", text)
+    text = re.sub(r"\\caption\{(" + BRACE4 + r")\}", r"\n*\1*\n", text)
     text = re.sub(
-        r"\\begin\{tabular\}\{[^}]*\}([\s\S]*?)\\end\{tabular\}",
+        r"\\begin\{tabular\}\{" + BRACE4 + r"\}([\s\S]*?)\\end\{tabular\}",
         convert_tabular,
         text,
     )
 
-    # 7. Convert section headers
-    text = re.sub(r"\\part\*?\{((?:[^{}]|\{[^{}]*\})*)\}", r"\n## Часть: \1\n", text)
-    text = re.sub(r"\\section\*?\{((?:[^{}]|\{[^{}]*\})*)\}", r"\n## \1\n", text)
-    text = re.sub(r"\\subsection\*?\{((?:[^{}]|\{[^{}]*\})*)\}", r"\n### \1\n", text)
-    text = re.sub(r"\\subsubsection\*?\{((?:[^{}]|\{[^{}]*\})*)\}", r"\n#### \1\n", text)
-    text = re.sub(r"\\paragraph\*?\{((?:[^{}]|\{[^{}]*\})*)\}", r"\n**\1**\n", text)
+    # 8. Convert section headers
+    text = re.sub(r"\\part\*?\{(" + BRACE4 + r")\}", r"\n## Часть: \1\n", text)
+    text = re.sub(r"\\section\*?\{(" + BRACE4 + r")\}", r"\n## \1\n", text)
+    text = re.sub(r"\\subsection\*?\{(" + BRACE4 + r")\}", r"\n### \1\n", text)
+    text = re.sub(r"\\subsubsection\*?\{(" + BRACE4 + r")\}", r"\n#### \1\n", text)
+    text = re.sub(r"\\paragraph\*?\{(" + BRACE4 + r")\}", r"\n**\1**\n", text)
 
-    # 8. Convert lists before admonitions so nested lists inside theorems/proofs indent cleanly
-    text = convert_lists(text)
-
-    # 9. Convert inline formatting (\textbf, \emph, \texttt, \url)
+    # 9. Convert inline formatting (\textbf, \emph, \textit, \url)
     text = replace_paired_command(text, "textbf", "**", "**")
     text = replace_paired_command(text, "emph", "*", "*")
     text = replace_paired_command(text, "textit", "*", "*")
-    text = replace_paired_command(text, "texttt", "`", "`")
     text = replace_paired_command(text, "url", "<", ">")
 
-    # 10. Cross-references & labels
+    # 10. Resolve cross-references (\eqref, \ref, \cref)
     text = re.sub(r"\\label\{[^}]+\}", "", text)
-    text = re.sub(r"\\(?:eqref|ref|cref|bcref|CiteConstruction)\{([^}]+)\}", r"`[\1]`", text)
 
-    # 11. Convert theorem/definition/remark/proof environments to MkDocs Admonitions
+    def resolve_ref(m: re.Match) -> str:
+        lbl = m.group(1).strip()
+        if lbl in eq_labels:
+            return f"({eq_labels[lbl]})"
+        # Clean human fallback for cross-chapter refs
+        short = lbl.split(":")[-1]
+        return f"({short})"
+
+    text = re.sub(r"\\(?:eqref|ref|cref|bcref|CiteConstruction)\{([^}]+)\}", resolve_ref, text)
+
+    # 11. Convert lists with 4-space indentation and blank-line separation
+    text = convert_lists(text)
+
+    # 12. Convert theorem/definition/remark/proof environments to MkDocs Admonitions
     text = convert_admonition_envs(text)
     text = re.sub(r"\\begin\{(?:center|quote)\}", "\n", text)
     text = re.sub(r"\\end\{(?:center|quote)\}", "\n", text)
 
-    # 12. Typography cleanup outside math
+    # 13. Typography cleanup
     text = text.replace("---", "—").replace("--", "–").replace("~", " ")
     text = re.sub(r"\n{3,}", "\n\n", text)
     return text.strip() + "\n"
@@ -313,7 +421,7 @@ def split_into_chapters(full_tex: str, default_title: str) -> list[tuple[str, st
 
     for idx, m in enumerate(matches):
         raw_title = unwrap_texorpdfstring(m.group(1)).strip()
-        raw_title = replace_paired_command(raw_title, "texttt", "`", "`")
+        raw_title = clean_texttt_and_monster_ids(raw_title)
         raw_title = replace_paired_command(raw_title, "textbf", "", "")
         raw_title = replace_paired_command(raw_title, "emph", "", "")
         raw_title = raw_title.replace("---", "—").replace("--", "–").replace("~", " ")
@@ -397,11 +505,9 @@ def main() -> None:
         nav_books_en.append((book["title_en"], book["title_ru"], book_nav_items))
         nav_books_ru_translations[book["title_en"]] = book["title_ru"]
 
-    # Update mkdocs.yml navigation deterministically
     mkdocs_yml = REPO_ROOT / "mkdocs.yml"
     yml_text = mkdocs_yml.read_text(encoding="utf-8")
 
-    # Build nav_translations block
     trans_lines = [
         "          nav_translations:",
         "            Overview & 5 Books: Обзор и 5 книг",
@@ -412,7 +518,6 @@ def main() -> None:
     for title_en, title_ru in nav_books_ru_translations.items():
         trans_lines.append(f'            "{title_en}": "{title_ru}"')
 
-    # Build nav block
     nav_lines = [
         "nav:",
         "  - Overview & 5 Books: index.md",
