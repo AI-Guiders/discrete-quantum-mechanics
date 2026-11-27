@@ -31,7 +31,7 @@ jobs:
 
       - name: Run Pytest Suite
         run: |
-          pytest -q
+          python -m pytest -q
 
       - name: Verify SSOT 5-Book Export (43 chapters) & Strict MkDocs Compilation
         run: |
