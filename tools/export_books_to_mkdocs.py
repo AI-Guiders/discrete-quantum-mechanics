@@ -3,12 +3,13 @@
 SSOT Book Exporter: Compiles all 5 core books from LaTeX SSOT (`book/sources/`)
 into full chapter-by-chapter MkDocs Material pages (`docs/books/<book_slug>/`).
 
-Rule:
-  - The chapter body is 100% pure human text and mathematical notation (zero code
-    identifiers, zero `.lean`/`.py` paths or `snake_case`/`camelCase` tokens in the reading flow).
-  - All Lean 4 modules, theorem names, and verification scripts referenced in the LaTeX SSOT
-    are automatically extracted into a collapsible "💿 Сопроводительный код главы (Code Located In)"
-    card at the bottom of the chapter (like the companion CD-ROM of a book).
+Rules enforced:
+  1. Pure human prose & math in chapter body (zero inline code identifiers or `.lean` paths).
+  2. All companion code links extracted to bottom collapsible "Code Located In" card.
+  3. Zero stray LaTeX backslashes (`\\,`, `\\ `, `\\%`, `\\small`, `\\footnotesize`) outside math.
+  4. Zero "communal apartment" walls of text: multi-step inline formula chains and dense
+     multi-sentence paragraphs are automatically unpacked into airy paragraphs and display blocks.
+  5. Real `$ ... $` formulas preserved in sidebar navigation for MathJax rendering.
 """
 
 from __future__ import annotations
@@ -28,6 +29,7 @@ BOOKS = [
         "slug": "book1-monograph",
         "entry": "volumes/vol-formal-foundations-monograph.tex",
         "pdf": "formal-foundations-monograph.pdf",
+        "blueprint": "blueprint-book1",
         "title_ru": "Книга I. Формальные основания (Монография)",
         "title_en": "Book I. Formal Foundations (Monograph)",
     },
@@ -35,6 +37,7 @@ BOOKS = [
         "slug": "book2-laboratory",
         "entry": "volumes/vol-laboratory-manual.tex",
         "pdf": "dqm-laboratory-manual.pdf",
+        "blueprint": "blueprint-book2",
         "title_ru": "Книга II. Лабораторный практикум",
         "title_en": "Book II. Laboratory & Simulation Manual",
     },
@@ -42,6 +45,7 @@ BOOKS = [
         "slug": "book3-engineering",
         "entry": "volumes/vol-engineering-handbook.tex",
         "pdf": "dqm-engineering-handbook.pdf",
+        "blueprint": "blueprint-book3",
         "title_ru": "Книга III. Инженерный справочник",
         "title_en": "Book III. Engineering & Applied Design Handbook",
     },
@@ -49,6 +53,7 @@ BOOKS = [
         "slug": "book4-course",
         "entry": "volumes/vol-natural-sciences-course.tex",
         "pdf": "natural-sciences-course.pdf",
+        "blueprint": "blueprint-book4",
         "title_ru": "Книга IV. Курс единого естествознания",
         "title_en": "Book IV. Unified Natural Sciences Course",
     },
@@ -56,12 +61,12 @@ BOOKS = [
         "slug": "book5-mathematics",
         "entry": "volumes/vol-projective-manifold-mathematics.tex",
         "pdf": "projective-manifold-mathematics.pdf",
+        "blueprint": "blueprint-book5",
         "title_ru": "Книга V. Математика проективного многообразия",
         "title_en": "Book V. Projective Manifold Mathematics",
     },
 ]
 
-# Known Lean modules in dqm-lean for clickable links in "Code Located In"
 CONSTRUCTIVE_MODULES = {
     "AxiomGuard.lean",
     "BipyramidGeometry.lean",
@@ -88,7 +93,6 @@ def expand_inputs(rel_path: str) -> str:
     for line in text.splitlines():
         if line.lstrip().startswith("%"):
             continue
-        # Strip trailing unescaped LaTeX comment %
         line = re.sub(r"(?<!\\)%.*$", "", line)
         lines.append(line)
     joined = "\n".join(lines)
@@ -116,14 +120,12 @@ def replace_paired_command(text: str, cmd: str, wrapper_left: str, wrapper_right
 
 
 def extract_companion_code(raw_tex: str) -> tuple[list[str], list[str]]:
-    """
-    Scan a chapter's raw LaTeX for all referenced Lean modules (.lean), code files,
-    and formal theorem/operator identifiers so they can be placed in the bottom
-    'Code Located In' card while keeping the chapter text 100% prose + math.
-    """
     cleaned = re.sub(r"\\allowbreak\s*", "", raw_tex)
     texttt_inner_pat = r"(?:\\\{|\\\}|[^{}])*"
     tokens = re.findall(r"\\texttt\{(" + texttt_inner_pat + r")\}", cleaned)
+    for lean_arg in re.findall(r"\\lean\{([^}]*)\}", cleaned):
+        for item in lean_arg.split(","):
+            tokens.append(item.strip())
 
     modules: list[str] = []
     theorems: list[str] = []
@@ -166,9 +168,11 @@ def format_module_link(mod: str) -> str:
     return f"`{clean}`"
 
 
-def build_companion_code_footer(modules: list[str], theorems: list[str], lang: str = "ru") -> str:
-    if not modules and not theorems:
-        return ""
+def build_companion_code_footer(
+    modules: list[str], theorems: list[str], blueprint_id: str, lang: str = "ru"
+) -> str:
+    bp_url = f"https://ai-guiders.github.io/discrete-quantum-mechanics/{blueprint_id}/"
+    graph_url = f"https://ai-guiders.github.io/discrete-quantum-mechanics/{blueprint_id}/dep_graph_document.html"
     mod_links = []
     for m in modules:
         lnk = format_module_link(m)
@@ -178,7 +182,8 @@ def build_companion_code_footer(modules: list[str], theorems: list[str], lang: s
     if lang == "ru":
         lines = [
             "\n\n---\n",
-            '??? abstract "Сопроводительный код и формализация к главе (Code Located In)"',
+            '??? abstract "Сопроводительный код и Lean 4 Blueprint к главе (Code Located In)"',
+            f"    - **Интерактивный Lean 4 Blueprint и граф теорем тома:** [Открыть Blueprint (`L∃∀N`)]({bp_url}) · [Интерактивный граф зависимостей]({graph_url})",
         ]
         if mod_links:
             lines.append("    - **Файлы и модули верификации:** " + ", ".join(mod_links))
@@ -189,7 +194,8 @@ def build_companion_code_footer(modules: list[str], theorems: list[str], lang: s
     else:
         lines = [
             "\n\n---\n",
-            '??? abstract "Companion Code & Formalization (Code Located In)"',
+            '??? abstract "Companion Code & Lean 4 Blueprint (Code Located In)"',
+            f"    - **Interactive Lean 4 Blueprint & Theorem Graph:** [Open Blueprint (`L∃∀N`)]({bp_url}) · [Interactive Dependency Graph]({graph_url})",
         ]
         if mod_links:
             lines.append("    - **Verification Modules & Files:** " + ", ".join(mod_links))
@@ -200,22 +206,16 @@ def build_companion_code_footer(modules: list[str], theorems: list[str], lang: s
 
 
 def purify_prose_and_math(text: str) -> str:
-    """
-    Remove all code identifiers, filenames, and CLI commands from the narrative prose
-    and mathematical formulas so the chapter reads as a pure book.
-    """
-    # 0. Remove internal authoring section "Как вести этот раздел" + template labrecord
-    text = re.sub(
-        r"\\section\{Как вести этот раздел\}[\s\S]*?\\end\{labrecord\}",
-        "",
-        text,
-    )
+    # 0. Remove authoring section "Как вести этот раздел" and leanblueprint tags (\lean, \leanok, \uses)
+    text = re.sub(r"\\section\{Как вести этот раздел\}[\s\S]*?\\end\{labrecord\}", "", text)
+    text = re.sub(r"\\(?:lean|uses|proves|discussion)\{[^}]*\}\s*", "", text)
+    text = re.sub(r"\\(?:leanok|mathlibok|notready)\b\s*", "", text)
 
-    # 1. Strip \allowbreak and spaces immediately following it, and normalize \~{} -> ~
+    # 1. Strip \allowbreak and normalize \~{} -> ~
     text = re.sub(r"\\allowbreak\s*", "", text)
     text = text.replace(r"\~{}", "~")
 
-    # 2. Normalize \texttt{...} arguments so we can match them cleanly
+    # 2. Normalize \texttt{...} arguments
     texttt_inner_pat = r"(?:\\\{|\\\}|[^{}])*"
 
     def normalize_texttt_arg(m: re.Match) -> str:
@@ -260,7 +260,7 @@ def purify_prose_and_math(text: str) -> str:
     for old_tok, new_prose in prose_replacements.items():
         text = text.replace(old_tok, new_prose)
 
-    # 6. Strip inline phrases referencing Lean theorems/modules in prose
+    # 7. Strip inline phrases referencing Lean theorems/modules in prose
     text = re.sub(r"\s*в модулях\s+\\texttt\{[^{}]*\}\s+и\s+\\texttt\{[^{}]*\}", "", text)
     text = re.sub(r"\s*в модуле\s+\\texttt\{[^{}]*\}", "", text)
     text = re.sub(r"\s*в каталоге\s+\\texttt\{[^{}]*\}", "", text)
@@ -268,17 +268,91 @@ def purify_prose_and_math(text: str) -> str:
     text = re.sub(r"теорема\s+\\texttt\{[^{}]*\}", "теорема", text)
     text = re.sub(r"оператор\s+\\texttt\{[^{}]*\}", "оператор", text)
 
-    # 7. Convert any remaining \texttt{...} (such as biological codons ATG, CpG, logic gates NOT, XOR, AND)
-    # into clean mathematical/roman text without code backticks!
     def texttt_to_clean_prose(m: re.Match) -> str:
         val = m.group(1).strip()
-        # If it's a long snake_case/camelCase identifier or file path that survived outside parentheses, drop it
         if ".lean" in val or ".pdf" in val or ".py" in val or val.count("_") >= 2:
             return ""
         return f"**{val}**" if val in ("NOT", "XOR", "OR", "AND", "ATG", "CpG") else val
 
     text = re.sub(r"\\texttt\{([^{}]*)\}", texttt_to_clean_prose, text)
     return text
+
+
+def clean_prose_outside_math_and_unpack_walls(text: str) -> str:
+    """
+    1. Split text by math blocks (`$$...$$` and `$...$`).
+    2. In non-math prose chunks:
+       - Remove all LaTeX spacing/escaping backslashes (`\\,`, `\\ `, `\\;`, `\\:`, `\\!`, `\\%`, `\\&`, `\\dots`, `\\LaTeX`).
+       - Break dense wall-of-text paragraphs at natural logical transitions so every paragraph breathes.
+    3. For long inline math chains (`$...$` with >= 2 relational operators and length >= 45 chars),
+       give them breathing room so they don't pack into a cramped wall of text.
+    """
+    math_token_pat = re.compile(r"(\$\$[\s\S]*?\$\$|\$[^$\n]+\$)")
+    parts = math_token_pat.split(text)
+
+    cleaned_parts: list[str] = []
+    for idx, part in enumerate(parts):
+        if idx % 2 == 1:
+            # Math block ($...$ or $$...$$)
+            if part.startswith("$") and not part.startswith("$$"):
+                inner = part[1:-1].strip()
+                rel_count = len(
+                    re.findall(r"(?:=|\\ge|\\le|\\equiv|\\implies|\\iff|\\approx|<|>)", inner)
+                )
+                # If it's a long multi-step derivation chain (like the induction step in the screenshot),
+                # put it on its own centered display line if at top level, or surround with line breaks
+                if len(inner) >= 48 and rel_count >= 3:
+                    cleaned_parts.append(f"\n\n$$\n{inner}\n$$\n\n")
+                    continue
+            cleaned_parts.append(part)
+        else:
+            # Prose chunk outside math!
+            p = part
+            p = p.replace(r"\,", " ")
+            p = p.replace(r"\;", " ")
+            p = p.replace(r"\:", " ")
+            p = p.replace(r"\!", "")
+            p = re.sub(r"\\\s+", " ", p)
+            p = p.replace(r"\%", "%")
+            p = p.replace(r"\&", "&")
+            p = p.replace(r"\#", "#")
+            p = p.replace(r"\_", "_")
+            p = re.sub(r"\\LaTeX(?:\{\})?", "LaTeX", p)
+            p = re.sub(r"\\(?:dots|ldots)(?:\{\})?", "…", p)
+            p = re.sub(r"\\(?:small|footnotesize|large|Large|sloppy|par|quad|qquad)\b\s*", " ", p)
+            cleaned_parts.append(p)
+
+    joined = "".join(cleaned_parts)
+
+    # Unpack dense "communal apartment" paragraphs: insert a paragraph break (preserving indentation)
+    # before logical transition sentences inside long paragraphs.
+    transitions = (
+        r"При \$\\mathbf\{d = 3\}\$",
+        r"Тем самым ",
+        r"Следовательно, ",
+        r"Подстановка ",
+        r"В частности, ",
+        r"Напротив, ",
+        r"Отсюда ",
+        r"При этом ",
+        r"В результате ",
+        r"С другой стороны, ",
+        r"Таким образом, ",
+    )
+    trans_rx = re.compile(r"([.!?])\s+(" + "|".join(transitions) + r")")
+
+    out_lines: list[str] = []
+    for line in joined.splitlines():
+        # Only split prose lines that are long (> 220 chars) and not table rows or headings
+        stripped = line.lstrip()
+        if len(stripped) > 220 and not stripped.startswith(("|", "#", "!", "?", "$$")):
+            indent = line[: len(line) - len(stripped)]
+            expanded = trans_rx.sub(lambda m: f"{m.group(1)}\n\n{indent}{m.group(2)}", line)
+            out_lines.append(expanded)
+        else:
+            out_lines.append(line)
+
+    return "\n".join(out_lines)
 
 
 def convert_tabular(match: re.Match) -> str:
@@ -305,10 +379,6 @@ def convert_tabular(match: re.Match) -> str:
 
 
 def convert_lists(text: str) -> str:
-    """
-    Convert itemize, enumerate, and description environments into properly spaced
-    and 4-space-indented Markdown lists so Python-Markdown never glues items together.
-    """
     text = re.sub(r"\\begin\{(enumerate|itemize|description)\}\s*\[[^\]]*\]", r"\\begin{\1}", text)
 
     lines = text.splitlines()
@@ -376,7 +446,6 @@ def convert_lists(text: str) -> str:
 
 
 def convert_admonition_envs(text: str) -> str:
-    """Convert theorem, definition, remark, proof environments to MkDocs admonitions."""
     env_map = {
         "theorem": ("note", "Теорема"),
         "definition": ("info", "Определение"),
@@ -412,7 +481,7 @@ def latex_to_markdown(tex: str) -> str:
     text = re.sub(r"\\(?:vspace|setlength)\*?\{[^}]*\}(?:\{[^}]*\})?", "", text)
     text = re.sub(r"\\rule\{[^}]*\}\{[^}]*\}", "\n---\n", text)
 
-    # 2. Expand semantic notation macros to their exact LaTeX symbols (glossary/notation-entries.tex)
+    # 2. Expand semantic notation macros to their exact LaTeX symbols
     text = text.replace(r"\caSignalSpeed", "c_0")
     text = text.replace(r"\speedC", "c")
     text = text.replace(r"\geomNeighborTwelve", "N_{12}")
@@ -446,6 +515,7 @@ def latex_to_markdown(tex: str) -> str:
     text = re.sub(r"\\end\{labrecord\}", "", text)
 
     # 6. Number equations per chapter and convert display math (`equation`, `align`, `\[...\]`) to $$ ... $$
+    #    IMPORTANT: Strip blank lines inside `$$ ... $$` so pymdownx.arithmatex never aborts a math block!
     eq_counter = 0
     eq_labels: dict[str, int] = {}
 
@@ -455,6 +525,8 @@ def latex_to_markdown(tex: str) -> str:
         content = m.group(2).strip()
         found_labels = re.findall(r"\\label\{([^}]+)\}", content)
         content = re.sub(r"\\label\{([^}]+)\}", "", content).strip()
+        non_empty_lines = [ln.strip() for ln in content.splitlines() if ln.strip()]
+        content = "\n".join(non_empty_lines)
         tag_str = ""
         if found_labels:
             eq_counter += 1
@@ -474,6 +546,8 @@ def latex_to_markdown(tex: str) -> str:
     def wrap_bracket_math(m: re.Match) -> str:
         content = m.group(1).strip()
         content = re.sub(r"\\label\{([^}]+)\}", "", content).strip()
+        non_empty_lines = [ln.strip() for ln in content.splitlines() if ln.strip()]
+        content = "\n".join(non_empty_lines)
         return f"\n\n$$\n{content}\n$$\n\n"
 
     text = re.sub(r"\\\[([\s\S]*?)\\\]", wrap_bracket_math, text)
@@ -481,7 +555,7 @@ def latex_to_markdown(tex: str) -> str:
     # 7. Convert typography dashes & ~ before tables so Markdown table separators `| --- |` are preserved
     text = text.replace("---", "—").replace("--", "–").replace("~", " ")
 
-    # 8. Convert tables (`\begin{table}...\end{table}` and `\begin{tabular}{...}...\end{tabular}`)
+    # 8. Convert tables
     text = re.sub(r"\\begin\{table\}(?:\[[^\]]*\])?", "", text)
     text = re.sub(r"\\end\{table\}", "", text)
     text = re.sub(r"\\resizebox\{[^}]*\}\{[^}]*\}\{([\s\S]*?\\end\{tabular\})\s*\}", r"\1", text)
@@ -516,15 +590,18 @@ def latex_to_markdown(tex: str) -> str:
 
     text = re.sub(r"\\(?:eqref|ref|cref|bcref|CiteConstruction)\{([^}]+)\}", resolve_ref, text)
 
-    # 12. Convert lists with 4-space indentation and blank-line separation
+    # 12. Clean all stray LaTeX backslashes outside math AND unpack dense "communal apartment" paragraphs/chains
+    text = clean_prose_outside_math_and_unpack_walls(text)
+
+    # 13. Convert lists with 4-space indentation and blank-line separation
     text = convert_lists(text)
 
-    # 13. Convert theorem/definition/remark/proof environments to MkDocs Admonitions
+    # 14. Convert theorem/definition/remark/proof environments to MkDocs Admonitions
     text = convert_admonition_envs(text)
     text = re.sub(r"\\begin\{(?:center|quote)\}", "\n", text)
     text = re.sub(r"\\end\{(?:center|quote)\}", "\n", text)
 
-    # 14. Final whitespace cleanup
+    # 15. Final whitespace cleanup
     text = re.sub(r" +([,.;:])", r"\1", text)
     text = re.sub(r"\n{3,}", "\n\n", text)
     return text.strip() + "\n"
@@ -548,6 +625,7 @@ def split_into_chapters(full_tex: str, default_title: str) -> list[tuple[str, st
         raw_title = replace_paired_command(raw_title, "textbf", "", "")
         raw_title = replace_paired_command(raw_title, "emph", "", "")
         raw_title = raw_title.replace("---", "—").replace("--", "–").replace("~", " ")
+        raw_title = clean_prose_outside_math_and_unpack_walls(raw_title).strip()
         start = m.end()
         end = matches[idx + 1].start() if idx + 1 < len(matches) else len(full_tex)
         body = full_tex[start:end].strip()
@@ -556,16 +634,14 @@ def split_into_chapters(full_tex: str, default_title: str) -> list[tuple[str, st
     return chapters
 
 
-def clean_nav_label(title: str) -> str:
-    """Create a clean sidebar label without raw LaTeX backslashes."""
-    s = title
-    s = re.sub(r"\\(?:mathbb|mathcal|mathrm|mathbf|operatorname)\{([^}]*)\}", r"\1", s)
-    s = s.replace(r"\implies", "=>").replace(r"\iff", "<=>").replace(r"\to", "->")
-    s = s.replace(r"\times", "×").replace(r"\cdot", "·").replace(r"\le", "≤").replace(r"\ge", "≥")
-    s = re.sub(r"\\sqrt\{([^}]*)\}", r"sqrt(\1)", s)
-    s = re.sub(r"\\([a-zA-Z]+)", r"\1", s)
-    s = s.replace("\\", "").replace("$", "").replace("{", "").replace("}", "")
-    s = re.sub(r"\s+", " ", s).strip()
+def format_nav_title_with_math(title: str) -> str:
+    """
+    Preserve `$ ... $` formulas inside sidebar labels so MathJax typesets them cleanly
+    in the left sidebar! Escape `\\` -> `\\\\` and `"` -> `'` for YAML double-quoted strings.
+    """
+    s = re.sub(r"\s+", " ", title).strip()
+    s = s.replace('"', "'")
+    s = s.replace("\\", "\\\\")
     return s
 
 
@@ -594,11 +670,15 @@ def main() -> None:
             modules, theorems = extract_companion_code(ch_body)
             md_body = latex_to_markdown(ch_body)
 
-            footer_ru = build_companion_code_footer(modules, theorems, lang="ru")
-            footer_en = build_companion_code_footer(modules, theorems, lang="en")
+            footer_ru = build_companion_code_footer(
+                modules, theorems, book["blueprint"], lang="ru"
+            )
+            footer_en = build_companion_code_footer(
+                modules, theorems, book["blueprint"], lang="en"
+            )
 
-            header_ru = f"# {ch_title}\n\n"
-            header_en = f"# {ch_title}\n\n"
+            header_ru = f"# {idx}. {ch_title}\n\n"
+            header_en = f"# {idx}. {ch_title}\n\n"
 
             (book_dir / f"{ch_file_stem}.ru.md").write_text(
                 header_ru + md_body + footer_ru, encoding="utf-8", newline="\n"
@@ -607,10 +687,7 @@ def main() -> None:
                 header_en + md_body + footer_en, encoding="utf-8", newline="\n"
             )
 
-            short_title = clean_nav_label(ch_title)
-            if len(short_title) > 78:
-                short_title = short_title[:75] + "..."
-            nav_label = f"{idx}. {short_title}"
+            nav_label = format_nav_title_with_math(f"{idx}. {ch_title}")
             book_nav_items.append((nav_label, f"books/{slug}/{ch_file_stem}.md"))
 
         nav_books_en.append((book["title_en"], book["title_ru"], book_nav_items))
@@ -639,8 +716,7 @@ def main() -> None:
     for title_en, _title_ru, items in nav_books_en:
         nav_lines.append(f'  - "{title_en}":')
         for label, rel_md in items:
-            safe_label = label.replace('"', "'")
-            nav_lines.append(f'      - "{safe_label}": {rel_md}')
+            nav_lines.append(f'      - "{label}": {rel_md}')
 
     yml_text = re.sub(
         r"          nav_translations:[\s\S]*?(?=\n\nmarkdown_extensions:)",
