@@ -296,13 +296,14 @@ def clean_prose_outside_math_and_unpack_walls(text: str) -> str:
             # Math block ($...$ or $$...$$)
             if part.startswith("$") and not part.startswith("$$"):
                 inner = part[1:-1].strip()
+                # Strip subscripts _{...} before counting top-level relational operators
+                no_sub = re.sub(r"_\{[^{}]*\}", "", inner)
                 rel_count = len(
-                    re.findall(r"(?:=|\\ge|\\le|\\equiv|\\implies|\\iff|\\approx|<|>)", inner)
+                    re.findall(r"(?:=|\\ge|\\le|\\equiv|\\implies|\\iff|\\approx|<|>)", no_sub)
                 )
-                # If it's a long multi-step derivation chain (like the induction step in the screenshot),
-                # put it on its own centered display line if at top level, or surround with line breaks
-                if len(inner) >= 48 and rel_count >= 3:
-                    cleaned_parts.append(f"\n\n$$\n{inner}\n$$\n\n")
+                # Only unpack multi-step derivation chains (>= 4 top-level relations and length >= 65)
+                if len(inner) >= 65 and rel_count >= 4:
+                    cleaned_parts.append(f"$$\n{inner}\n$$")
                     continue
             cleaned_parts.append(part)
         else:
@@ -601,8 +602,8 @@ def latex_to_markdown(tex: str) -> str:
     text = re.sub(r"\\begin\{(?:center|quote)\}", "\n", text)
     text = re.sub(r"\\end\{(?:center|quote)\}", "\n", text)
 
-    # 15. Final whitespace cleanup
-    text = re.sub(r" +([,.;:])", r"\1", text)
+    # 15. Final whitespace cleanup (never strip leading indentation at start of line!)
+    text = re.sub(r"(?<=\S) +([,.;:])", r"\1", text)
     text = re.sub(r"\n{3,}", "\n\n", text)
     return text.strip() + "\n"
 
@@ -677,8 +678,26 @@ def main() -> None:
                 modules, theorems, book["blueprint"], lang="en"
             )
 
-            header_ru = f"# {idx}. {ch_title}\n\n"
-            header_en = f"# {idx}. {ch_title}\n\n"
+            bp_url = f"https://ai-guiders.github.io/discrete-quantum-mechanics/{book['blueprint']}/"
+            graph_url = f"https://ai-guiders.github.io/discrete-quantum-mechanics/{book['blueprint']}/dep_graph_document.html"
+            pdf_url = f"https://github.com/AI-Guiders/discrete-quantum-mechanics/raw/main/book/out/pdf/{book['pdf']}"
+
+            header_ru = (
+                f"# {idx}. {ch_title}\n\n"
+                f"**Режим чтения:** Текущий (MkDocs) · "
+                f"[Интерактивный Lean 4 Blueprint (`L∃∀N`)]({bp_url}) · "
+                f"[Граф зависимостей теорем]({graph_url}) · "
+                f"[Скачать PDF тома (`{book['pdf']}`)]({pdf_url})\n\n"
+                f"---\n\n"
+            )
+            header_en = (
+                f"# {idx}. {ch_title}\n\n"
+                f"**Reading Mode:** Current (MkDocs) · "
+                f"[Interactive Lean 4 Blueprint (`L∃∀N`)]({bp_url}) · "
+                f"[Theorem Dependency Graph]({graph_url}) · "
+                f"[Download Volume PDF (`{book['pdf']}`)]({pdf_url})\n\n"
+                f"---\n\n"
+            )
 
             (book_dir / f"{ch_file_stem}.ru.md").write_text(
                 header_ru + md_body + footer_ru, encoding="utf-8", newline="\n"
