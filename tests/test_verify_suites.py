@@ -22,10 +22,11 @@ def test_no_duplicate_checks_across_suites() -> None:
         seen.add(name)
 
 
-def test_ship_excludes_evolution_open() -> None:
+def test_ship_profile_suites() -> None:
     from verify_checks.suites import SHIP_SUITE_IDS
 
-    assert "m_evolution_open" not in SHIP_SUITE_IDS
+    assert "cosmology" not in SHIP_SUITE_IDS
+    assert "m_evolution_open" in SHIP_SUITE_IDS
     assert "gate" in SHIP_SUITE_IDS
     assert "t_macro" in SHIP_SUITE_IDS
 
