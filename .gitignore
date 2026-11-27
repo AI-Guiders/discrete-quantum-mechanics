@@ -57,3 +57,6 @@ hardware/*.db
 
 # --- Verilog waveform dumps ---
 *.vcd
+
+# --- MkDocs build output ---
+site/

@@ -1,0 +1,67 @@
+site_name: Discrete Quantum Mechanics & Projective Manifold Mathematics
+site_url: https://ai-guiders.github.io/discrete-quantum-mechanics/
+site_description: Constructive 12-Ray Cuboctahedral Lattice Physics, Engineering CAD, and Lean 4 Verified Projective Manifold Mathematics
+repo_url: https://github.com/AI-Guiders/discrete-quantum-mechanics
+repo_name: AI-Guiders/discrete-quantum-mechanics
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+  palette:
+    - scheme: slate
+      primary: indigo
+      accent: cyan
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+    - scheme: default
+      primary: indigo
+      accent: cyan
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+plugins:
+  - search
+  - i18n:
+      docs_structure: suffix
+      languages:
+        - locale: en
+          default: true
+          name: English
+          build: true
+        - locale: ru
+          name: Русский
+          build: true
+          site_name: Дискретная квантовая механика и проективная математика
+          nav_translations:
+            Overview & 5 Books: Обзор и 5 книг
+            For Engineers, Shipbuilders & CAD: Инженерам, корабелам и САПР
+            For Mathematicians & Lean 4: Математикам и Lean 4
+            For Physicists & Natural Science: Физикам и естествоиспытателям
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.arithmatex:
+      generic: true
+  - tables
+  - toc:
+      permalink: true
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+
+nav:
+  - Overview & 5 Books: index.md
+  - For Engineers, Shipbuilders & CAD: engineering.md
+  - For Mathematicians & Lean 4: mathematics.md
+  - For Physicists & Natural Science: physics.md

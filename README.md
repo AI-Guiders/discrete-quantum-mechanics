@@ -4,7 +4,8 @@
 
 **Author:** Dmitrii A. Karataev (Д. А. Каратаев)  
 **Formal Verification Partner:** Luch (Луч, AI-Guiders)  
-**License:** Strong Reciprocal Copyleft — CC-BY-SA-4.0 (books, papers, documentation) / GPL-3.0-or-later (Lean 4, Python, Verilog, C# code)
+**License:** Strong Reciprocal Copyleft — CC-BY-SA-4.0 (books, papers, documentation) / GPL-3.0-or-later (Lean 4, Python, Verilog, C# code)  
+**Documentation Portal (Bilingual Wiki / MkDocs):** **[English Portal](https://ai-guiders.github.io/discrete-quantum-mechanics/)** · **[Русский портал (инженерам, корабелам, математикам, физикам)](https://ai-guiders.github.io/discrete-quantum-mechanics/ru/)**
 
 ---
 
@@ -13,7 +14,7 @@
 **Science does not belong to isolated individuals, corporations, or nations — it belongs to humanity and to all thinking actors on this planet.**
 
 1. **The Core Model and Code Are Open and Working:**
-   The discrete cellular automaton ($O_2(3) \times \mathbb{Z}_{512}$, 72-bit reversible `VerletCell72`), the projective rational calculus ($\mathbb{Z}_{2^m} \to \mathbb{P}^1(\mathbb{Q})$), and the deductive theorem chain are openly available and machine-checked in **Lean 4** (`38/38` modules, `0 sorryAx`, `0 Classical.choice`), with reference implementations in **Python** (`mt_ca/`), **.NET 11** (`AI-Guiders/guiders-physics`), **Wolfram Language** (`AI-Guiders/guiders-mathematics/wolfram/`), and **Mathics3** (`AI-Guiders/mathics-core`).
+   The discrete cellular automaton ($O_2(3) \times \mathbb{Z}_{512}$, 72-bit reversible `VerletCell72`), the projective rational calculus ($\mathbb{Z}_{2^m} \to \mathbb{P}^1(\mathbb{Q})$), and the deductive theorem chain are openly available and machine-checked in **Lean 4** (`68/68` targets under `AxiomGuard.lean`, `0 sorryAx`, `0 Classical.choice`), with reference implementations in **Python** (`mt_ca/`), **.NET 11** (`AI-Guiders/guiders-physics`), **Wolfram Language** (`AI-Guiders/guiders-mathematics/wolfram/`), and **Mathics3** (`AI-Guiders/mathics-core`).
 2. **Honest Disclaimer on Prose Texts, Proofs & Multi-Solver Verification:**
    Even for a human working full-time alongside frontier AI agents, the scope of this work is too large to polish alone. The prose monographs, papers, translations, and exposition **may contain typos, inaccuracies, or roughness that require correction**. Independent verification of the theorems — not only in Lean 4, but also across independent proof assistants (Coq/Rocq, Isabelle/HOL, Agda), SMT solvers, and computer algebra systems — as well as thorough human peer review and proofreading of every chapter, are essential.
 3. **Honest Disclaimer on Hardware, Schematics & Laboratory Protocols (`hardware/`, Books II–III):**
