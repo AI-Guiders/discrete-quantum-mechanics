@@ -85,3 +85,59 @@
 В пункте~(1) прямое вычисление для $d \in \{2,\dots,8\}$ показывает, что $512 + 21 = 533 = 13\times 41$ делится на $N_\varphi(3) = 13$, а деление с остатком $256 = 6\times 41 + 10$ даёт $\lfloor 256/41 \rfloor = 6$. В пункте~(2) длина вектора $\mathbf{e} \in O_2(3)$ с двумя ненулевыми координатами $\pm 1$ равна $\sqrt{2}$, а на биссектрисе $\psi = 64$ проекции $(\mathcal{C}_3(64), \mathcal{S}_3(64)) = (64, 64)$ дают сумму четырёх корреляторов CHSH $4\times (\sqrt{2}/2) = 2\sqrt{2}$. В пункте~(3) тождество $(128 - \Delta\varphi)\Delta\varphi = 64^2 - (\Delta\varphi - 64)^2 \le 4\,096$ и уравнение $L^1$-алмаза $|\mathcal{C}_3(\varphi)| + |\mathcal{S}_3(\varphi)| = 128$ завершают доказательство.
 \end{proof}
 
+\section{Нелинейная механика маятника на произвольных углах, четырёхрежимная теория упругости за пределами закона Гука и предел усталостной выносливости металла (\texttt{MechanicsElasticity.lean})}
+\label{sec:mono-mechanics-elasticity-fatigue}
+
+В классической механике и сопротивлении материалов задачи о маятнике и пружине традиционно разделяются двумя искусственными линеаризациями: для маятника постулируется «тонкая нерастяжимая нить» и малость угла ($\sin\varphi \approx \varphi$), а для пружины --- линейный закон Гука $F = k\,\Delta x$, не содержащий ни предела прочности, ни внутреннего трения, ни порога усталостной долговечности металла. В модуле \texttt{lean/MtCarrier/MechanicsElasticity.lean} (\texttt{nonlinear\_\allowbreak elasticity\_\allowbreak four\_\allowbreak regimes\_\allowbreak metal\_\allowbreak fatigue\_\allowbreak and\_\allowbreak coupled\_\allowbreak pendulum\_\allowbreak operator}) доказано, что на дискретном носителе $O_2(3)\times\mathbb{Z}_{512}$ обе задачи описываются единым оператором ротатора $(\mathcal{C}_3, \mathcal{S}_3)$ без малых приближений:
+
+\begin{theorem}[Четыре режима упругости пружины, предел неограниченной выносливости $\Delta\varphi_{\mathrm{disc}}(3)=41$, дислокационный скачок Бюргерса на потолке Паули $\Phi_{\mathrm{Pauli}}(3)=256$ и связанный упругий маятник на произвольных углах, \texttt{MechanicsElasticity.lean}]
+\label{thm:mono-mechanics-elasticity-four-regimes}
+При $d = 3$ для любой межатомной связи или упругого подвеса с фазовой деформацией $\Delta\varphi \in \mathbb{Z}$, возвращающей силой $F_{\mathrm{spring}}(k, \Delta\varphi) = k\,\mathcal{S}_3(\Delta\varphi)$, потенциальной энергией деформации $U_{\mathrm{spring}}(k, \Delta\varphi) = k\bigl(Q_\square(3) - \mathcal{C}_3(\Delta\varphi)\bigr)$ и оператором внутреннего решёточного трения $\Phi_{\mathrm{fric}}(\Delta\varphi) = \operatorname{heisenbergDeadbandOp}(3, \Delta\varphi)$ выполняются следующие четыре режима (\texttt{0 sorryAx}, \texttt{0 Classical.choice}, \texttt{0 Prop premises}):
+\begin{enumerate}[label=\textbf{(\arabic*)},leftmargin=*]
+\item \textbf{Режим~I --- Идеально упругий коридор Гука и предел неограниченной усталостной выносливости ($0 \le \Delta\varphi \le \Delta\varphi_{\mathrm{disc}}(3) - 1 = 40$):}
+  внутри мёртвой зоны Гейзенберга возвращающая сила и потенциальная энергия строго линейны без приближения Тейлора, а внутреннее трение (возбуждение решётки) и перенос ветви тождественно равны нулю:
+  \begin{align}
+    F_{\mathrm{spring}}(1, \Delta\varphi) &= \Delta\varphi, \qquad
+    U_{\mathrm{spring}}(1, \Delta\varphi) \;=\; \Delta\varphi, \qquad
+    \Phi_{\mathrm{fric}}(\Delta\varphi) \;\equiv\; 0, \label{eq:mono-hooke-lossless} \\
+    D_{\mathrm{fatigue}}(N_{\mathrm{cycles}}, 40) &:= N_{\mathrm{cycles}}\cdot|\Phi_{\mathrm{fric}}(40)| \;\equiv\; 0 \qquad (\forall\,N_{\mathrm{cycles}} \in \mathbb{N}), \label{eq:mono-infinite-fatigue-endurance}
+  \end{align}
+  что определяет строгий модельный порог неограниченной усталостной выносливости ($\sigma_{-1} \leftrightarrow \Delta\varphi_{\mathrm{disc}} = 41$), ниже которого усталостное повреждение не накапливается при сколь угодно большом числе циклов нагружения.
+\item \textbf{Режим~II --- Неупругое внутреннее трение и абсолютный предел прочности на четверти оборота ($41 \le \Delta\varphi \le Q_\square(3) = 128$):}
+  при $\Delta\varphi \ge 41$ открывается пороговый вентиль $\Phi_{\mathrm{fric}}(\Delta\varphi) = \Delta\varphi \ne 0$ ($\hat{n}_E(\Delta\varphi) = \lfloor\Delta\varphi/41\rfloor \ge 1$), переводящий часть энергии каждого цикла качания во внутреннее дрожание атомов кристаллической решётки (внутреннее трение и акустическую эмиссию в металле даже в полном вакууме), а в седловой точке $\Delta\varphi = Q_\square(3) = 128$ возвращающая сила достигает глобального максимума по всему кольцу (предела упругой прочности связи):
+  \begin{equation}
+    \label{eq:mono-uts-peak-128}
+    F_{\mathrm{spring}}(1, 128) \;=\; Q_\square(3) \;=\; 128 \;\ge\; F_{\mathrm{spring}}(1, \varphi) \quad (\forall\,\varphi \in \mathbb{Z}_{512}), \qquad
+    \mathcal{C}_3(128) \;=\; 0.
+  \end{equation}
+\item \textbf{Режим~III --- Зона разупрочнения и образования шейки ($128 < \Delta\varphi < \Phi_{\mathrm{Pauli}}(3) = 256$):}
+  за перевалом четверти оборота $\mathcal{C}_3(\Delta\varphi) < 0$ (антисвязывающая ветвь), а наклон возвращающей силы меняет знак на отрицательный ($\Delta\mathcal{S}_3 = -1 < 0$), так что при дальнейшем росте удлинения сила сопротивления падает от $F_{\mathrm{spring}}(1, 129) = 127$ до $F_{\mathrm{spring}}(1, 255) = 1$.
+\item \textbf{Режим~IV --- Потолок текучести/разрыва Паули ($\Delta\varphi = 256$) и рождение квантованной дислокации Бюргерса ($\Delta\varphi = 257$):}
+  на антиподальном потолке Паули $\Delta\varphi = \Phi_{\mathrm{Pauli}}(3) = 256$ возвращающая сила обращается в нуль ($F_{\mathrm{spring}}(1, 256) = 0,\ U_{\mathrm{spring}}(1, 256) = 256$), а переход через границу ветви $\Delta\varphi = 257$ вызывает скачок частного переноса $q_e : 0 \to +1$ и рождение в плакете решётки топологического вихря (дислокации с целочисленным вектором Бюргерса):
+  \begin{equation}
+    \label{eq:mono-burgers-dislocation-jump}
+    q_e(256) \;=\; 0 \;\longrightarrow\; q_e(257) \;=\; +1, \qquad
+    w_f(0, 128, 256, 257) \;=\; +1, \qquad
+    \mathcal{B}_f \;=\; 512.
+  \end{equation}
+\item \textbf{Связанный упругий маятник на произвольных углах от $0^\circ$ до $360^\circ$ без приближения $\sin\varphi \approx \varphi$:}
+  продольное натяжение упругого подвеса $T_{\mathrm{long}}(g, \varphi) = g\,\mathcal{C}_3(\varphi)$ (растягивающее нить по закону Режимов~I--IV) и поперечная возвращающая сила $F_{\mathrm{trans}}(g, \varphi) = g\,\mathcal{S}_3(\varphi)$ при любом угле отклонения $\varphi \in \mathbb{Z}_{512}$ удовлетворяют точному закону сохранения $L^1$-нормы и постоянству разностного вронскиана:
+  \begin{align}
+    |T_{\mathrm{long}}(1, \varphi)| + |F_{\mathrm{trans}}(1, \varphi)| &\equiv Q_\square(3) \;=\; 128, \label{eq:mono-pendulum-l1-conservation} \\
+    \bigl(T_{\mathrm{long}}(g, 0),\ F_{\mathrm{trans}}(g, 0)\bigr) &= (128g,\ 0), \qquad
+    \bigl(T_{\mathrm{long}}(g, 128),\ F_{\mathrm{trans}}(g, 128)\bigr) \;=\; (0,\ 128g), \nonumber \\
+    \bigl(T_{\mathrm{long}}(g, 256),\ F_{\mathrm{trans}}(g, 256)\bigr) &= (-128g,\ 0), \qquad
+    \mathcal{K}_{\mathrm{ell}}(1, 1) \;=\; 2\,\Phi_{\mathrm{Pauli}}(3)\,Q_\square(3) \;=\; 65\,536. \label{eq:mono-pendulum-jacobi-period}
+  \end{align}
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Все утверждения Теоремы~\ref{thm:mono-mechanics-elasticity-four-regimes} формально проверены ядром Lean~4 в теореме \texttt{nonlinear\_elasticity\_four\_regimes\_metal\_fatigue\_and\_coupled\_pendulum\_operator} модуля \texttt{lean/MtCarrier/MechanicsElasticity.lean}.
+\end{proof}
+
+\begin{quote}
+\small\textbf{Методологическое примечание о границе между формальной моделью и натурными испытаниями материалов.}
+Соотношения~\eqref{eq:mono-hooke-lossless}--\eqref{eq:mono-pendulum-jacobi-period} строго доказаны в ядре Lean~4 как точные алгебраические свойства дискретной модели $O_2(3)\times\mathbb{Z}_{512}$. При этом прямой пересчёт модельных порогов одной связи ($\Delta\varphi_{\mathrm{disc}} = 41$, $Q_\square = 128$, $\Phi_{\mathrm{Pauli}} = 256$) в макроскопические инженерные напряжения ($\sigma_{-1}, \sigma_{0{,}2}, \sigma_{\mathrm{B}}$ в МПа) и кривые усталости Вёлера конкретных поликристаллических авиационных и конструкционных сплавов (с учётом границ зёрен, легирования и концентрации напряжений) \textbf{ещё не проходил независимой внешней экспериментальной проверки} и составляет открытую программу стендовых испытаний на вибростендах в вакууме с синхронной регистрацией акустической эмиссии и тепловыделения.
+\end{quote}
+
