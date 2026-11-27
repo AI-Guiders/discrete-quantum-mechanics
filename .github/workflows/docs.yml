@@ -1,10 +1,12 @@
-name: Deploy MkDocs Documentation to GitHub Pages
+name: Deploy SSOT 5 Books & MkDocs Portal to GitHub Pages
 
 on:
   push:
     branches:
       - main
     paths:
+      - "book/sources/**"
+      - "tools/export_books_to_mkdocs.py"
       - "mkdocs.yml"
       - "docs/**"
       - ".github/workflows/docs.yml"
@@ -15,6 +17,7 @@ permissions:
 
 jobs:
   deploy:
+    name: Export 5 Books from LaTeX SSOT & Deploy MkDocs
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -29,6 +32,14 @@ jobs:
         run: |
           pip install "mkdocs<2.0" "mkdocs-material>=9.5,<10.0" "mkdocs-static-i18n>=1.2,<2.0"
 
-      - name: Build and deploy to gh-pages branch
+      - name: Export full 5 books (43 chapters) from book/sources/ SSOT
+        run: |
+          python tools/export_books_to_mkdocs.py
+
+      - name: Verify strict MkDocs build
+        run: |
+          mkdocs build --strict
+
+      - name: Deploy to gh-pages branch
         run: |
           mkdocs gh-deploy --force --clean

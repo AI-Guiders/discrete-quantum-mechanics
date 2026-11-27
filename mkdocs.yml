@@ -45,6 +45,11 @@ plugins:
             For Engineers, Shipbuilders & CAD: Инженерам, корабелам и САПР
             For Mathematicians & Lean 4: Математикам и Lean 4
             For Physicists & Natural Science: Физикам и естествоиспытателям
+            "Book I. Formal Foundations (Monograph)": "Книга I. Формальные основания (Монография)"
+            "Book II. Laboratory & Simulation Manual": "Книга II. Лабораторный практикум"
+            "Book III. Engineering & Applied Design Handbook": "Книга III. Инженерный справочник"
+            "Book IV. Unified Natural Sciences Course": "Книга IV. Курс единого естествознания"
+            "Book V. Projective Manifold Mathematics": "Книга V. Математика проективного многообразия"
 
 markdown_extensions:
   - admonition
@@ -65,3 +70,51 @@ nav:
   - For Engineers, Shipbuilders & CAD: engineering.md
   - For Mathematicians & Lean 4: mathematics.md
   - For Physicists & Natural Science: physics.md
+  - "Book I. Formal Foundations (Monograph)":
+      - "1. Предисловие. Предмет монографии и дедуктивное строение теории снизу вверх": books/book1-monograph/ch01.md
+      - "2. Вывод дискретной квантовой механики (ДКМ) из неделимости элементарного объё...": books/book1-monograph/ch02.md
+      - "3. Дискретная экспонента Эйлера на Z_512, однородная проективная арифметика на...": books/book1-monograph/ch03.md
+      - "4. Булева полнота Поста, редукция 3-SAT, конструктивные когомологии де Рама и ...": books/book1-monograph/ch04.md
+      - "5. Дискретная и непрерывная квантовая механика (ДКМ и НКМ), электродинамика Ма...": books/book1-monograph/ch05.md
+      - "6. Калибровочная группа Стандартной модели, гравитационное преломление и космо...": books/book1-monograph/ch06.md
+      - "7. Атомные и ядерные оболочки кубооктаэдра, планетогенез по 6 зонам диска, тож...": books/book1-monograph/ch07.md
+      - "8. Молекулярная биофизика, планетарные фотонные окна, генетический код ДНК, фо...": books/book1-monograph/ch08.md
+      - "9. Бесфононный кремниевый гетеропереход 120 + 8 = 128, общая конструкция преде...": books/book1-monograph/ch09.md
+  - "Book II. Laboratory & Simulation Manual":
+      - "1. Введение. Лабораторный арбитраж в едином Естествознании и связь четырёх книг": books/book2-laboratory/ch01.md
+      - "2. Бесфононная кремниевая фотовольтаика (441text нм -> 2× 882text нм < 1107tex...": books/book2-laboratory/ch02.md
+      - "3. Сводный реестр критических экспериментов и лабораторно-вычислительных гейто...": books/book2-laboratory/ch03.md
+      - "4. Обработка результатов измерений": books/book2-laboratory/ch04.md
+      - "5. Вычислительная лаборатория серии": books/book2-laboratory/ch05.md
+  - "Book III. Engineering & Applied Design Handbook":
+      - "1. Введение. Инженерная ветвь единого Естествознания: Трёхзаконная целочисленн...": books/book3-engineering/ch01.md
+      - "2. Теоретическая электротехника фазовой эстафеты на ГЦК-кубооктаэдрах (V=C_3, ...": books/book3-engineering/ch02.md
+      - "3. Физическая реализация вычислений без тепла Ландауэра и кремниевая архитекту...": books/book3-engineering/ch03.md
+      - "4. Масштабная инвариантность кубооктаэдра O_2: что физически разрешено и что з...": books/book3-engineering/ch04.md
+      - "5. Когерентное схлопывание импеданса барьера в 12-лучевом кубооктаэдре: решёто...": books/book3-engineering/ch05.md
+      - "6. Квантовый фазовый храповик на доменной стенке и топологический аккумулятор ...": books/book3-engineering/ch06.md
+      - "7. Четырёхканальная голономная томография сред и фазовое геодинамо ядер планет": books/book3-engineering/ch07.md
+      - "8. Аналитические операторы химических реакций, седловая точка переходного сост...": books/book3-engineering/ch08.md
+      - "9. Практическое применение тактовой скорости звена caSignalSpeed = caKappaGeom...": books/book3-engineering/ch09.md
+      - "10. Генеративное материаловедение, куперовский возврат 2e на полупериоде Паули ...": books/book3-engineering/ch10.md
+      - "11. Прикладная биоинженерия (Bio-CAD), сквозной компилятор ДНК и терапевтическо...": books/book3-engineering/ch11.md
+      - "12. Обратимая вычислительная техника без теплового предела Ландауэра (A_13) и р...": books/book3-engineering/ch12.md
+      - "13. Вычислительная лаборатория серии": books/book3-engineering/ch13.md
+      - "14. Обработка результатов измерений": books/book3-engineering/ch14.md
+      - "15. Критические эксперименты и инженерные гейты верификации (серия CE-RD)": books/book3-engineering/ch15.md
+  - "Book IV. Unified Natural Sciences Course":
+      - "1. Введение. Главный квест этой Вселенной и почему у решётки нет «балкона»": books/book4-course/ch01.md
+      - "2. Ступень I. Устройство носителя и рождение трёхмерного пространства (1 + 2^d...": books/book4-course/ch02.md
+      - "3. Ступень II. Математика и информатика внутри носителя": books/book4-course/ch03.md
+      - "4. Ступень III. Квантовая механика, электродинамика Максвелла и демоны Лапласа...": books/book4-course/ch04.md
+      - "5. Ступень IV. Элементарные частицы, ядра, гравитация и космология": books/book4-course/ch05.md
+      - "6. Ступень V. Химия, таблица Менделеева и дизайн материалов": books/book4-course/ch06.md
+      - "7. Ступень VI. Биология, генетический код ДНК и морфогенез органов": books/book4-course/ch07.md
+      - "8. Ступень VII. Кремниевый чип и инженерные установки своими руками": books/book4-course/ch08.md
+      - "9. Эпилог. Дорожная карта замкнута: от уравнения самозамкнутости к единому Ест...": books/book4-course/ch09.md
+  - "Book V. Projective Manifold Mathematics":
+      - "1. Предисловие. Отделение чистой проективной математики от физики носителя": books/book5-mathematics/ch01.md
+      - "2. Дискретный ротатор Z_4Q, однородные проективные поля Q(i,sqrt(d-1)) и анали...": books/book5-mathematics/ch02.md
+      - "3. Изотропный дискриминантный конус в SL_2(Z), моноид башни аппроксимантов Пад...": books/book5-mathematics/ch03.md
+      - "4. Трёхшахтные планетарные дифференциалы A + B = C, вронскиан Мейсона–Стотерса...": books/book5-mathematics/ch04.md
+      - "5. Алгебра многовинтовых планетарных каскадов и встречно-волновая суперпозиция...": books/book5-mathematics/ch05.md

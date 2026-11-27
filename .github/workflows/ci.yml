@@ -1,0 +1,55 @@
+name: DQM Automated Verification & SSOT Books CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verify-gates-and-books:
+    name: Python Gate Suites, Pytest & SSOT 5-Book Export
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install CPU PyTorch, NumPy, Pytest & MkDocs
+        run: |
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install numpy pytest "mkdocs<2.0" "mkdocs-material>=9.5,<10.0" "mkdocs-static-i18n>=1.2,<2.0"
+
+      - name: Run First-Principles Gate & Core Verification Suites
+        run: |
+          python verify_principles.py --device cpu --suite gate --suite floor0 --suite alpha --suite units --suite carrier --suite qm
+
+      - name: Run Pytest Suite
+        run: |
+          pytest -q
+
+      - name: Verify SSOT 5-Book Export (43 chapters) & Strict MkDocs Compilation
+        run: |
+          python tools/export_books_to_mkdocs.py
+          mkdocs build --strict
+
+  verilog-rtl:
+    name: Icarus Verilog RTL Verification (72-bit Reversible Carrier)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Icarus Verilog
+        run: |
+          sudo apt-get update && sudo apt-get install -y iverilog
+
+      - name: Compile and run cuboctahedron_carrier_asic.v testbench
+        run: |
+          iverilog -g2012 -o /tmp/carrier_tb.vvp hardware/cuboctahedron_carrier_asic.v
+          vvp /tmp/carrier_tb.vvp

@@ -58,5 +58,6 @@ hardware/*.db
 # --- Verilog waveform dumps ---
 *.vcd
 
-# --- MkDocs build output ---
+# --- MkDocs build output & SSOT-generated book chapters (SSOT = book/sources/) ---
 site/
+docs/books/
