@@ -99,7 +99,7 @@
   Z = U + iV \in \spaceZ_{\phaseRingCount}[i]
 \]
 возникает при поосевом считывании фазы и амплитуды; четыре девятибитные дорожки ($4\times 9 = 36$ бит) соответствуют четырём чтениям одного регистра на связях квадратной грани, тогда как внутри самой ячейки хранится одно девятибитное слово, согласованное с проверкой Бекенштейна $9 \le B_{\hv}\approx 9{,}065$.
-Если теперь разделить текущую фазу $\phaseVarphi_{\mathrm{disc}}\in\{0,\ldots,511\}$ с остатком на порог Гейзенберга $\symCapitalDelta\symPhi_{\mathrm{disc}} = 41$:
+Если теперь разделить текущую фазу $\phaseVarphi_{\mathrm{disc}}\in\{0,\ldots,511\}$ с остатком на порог дискретности $\symCapitalDelta\symPhi_{\mathrm{disc}} = 41$:
 \[
   \phaseVarphi_{\mathrm{disc}} \equiv k_{\symPhi}\cdot\symCapitalDelta\symPhi_{\mathrm{disc}} + \phaseVarphi_{\mathrm{f}}
   \pmod{\phaseRingCount},
