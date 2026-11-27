@@ -1,4 +1,4 @@
-name: Deploy SSOT 5 Books & MkDocs Portal to GitHub Pages
+name: Deploy Lean 4 Blueprints, SSOT 5 Books & MkDocs Portal to GitHub Pages
 
 on:
   push:
@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - "book/sources/**"
+      - "tools/build_leanblueprint.py"
       - "tools/export_books_to_mkdocs.py"
       - "mkdocs.yml"
       - "docs/**"
@@ -17,22 +18,32 @@ permissions:
 
 jobs:
   deploy:
-    name: Export 5 Books from LaTeX SSOT & Deploy MkDocs
+    name: Build Lean 4 Blueprints (plasTeX + leanblueprint + Graphviz) & Deploy
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout repository with submodules
         uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Install Graphviz & TeX kpsewhich
+        run: |
+          sudo apt-get update && sudo apt-get install -y graphviz texlive-base
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      - name: Install MkDocs Material & i18n
+      - name: Install leanblueprint & MkDocs Material
         run: |
-          pip install "mkdocs<2.0" "mkdocs-material>=9.5,<10.0" "mkdocs-static-i18n>=1.2,<2.0"
+          pip install leanblueprint "mkdocs<2.0" "mkdocs-material>=9.5,<10.0" "mkdocs-static-i18n>=1.2,<2.0"
 
-      - name: Export full 5 books (43 chapters) from book/sources/ SSOT
+      - name: Build official Lean 4 Blueprints & Dependency Graphs (Books I-V)
+        run: |
+          python tools/build_leanblueprint.py
+
+      - name: Export full 5 books (43 chapters) from book/sources/ SSOT to MkDocs
         run: |
           python tools/export_books_to_mkdocs.py
 
