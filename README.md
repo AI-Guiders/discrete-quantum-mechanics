@@ -21,6 +21,23 @@
 4. **Open Like Wikipedia — Join Us:**
    All repositories are open under free reciprocal licenses (`CC-BY-SA-4.0` / `GPL-3.0-or-later`). We invite mathematicians, physicists, chemists, biologists, hardware engineers, CAS developers (Wolfram, Mathics3, SymPy, Lean), and AI researchers worldwide to join, audit, break, fix, open Issues and Pull Requests, and build this together.
 
+### Verification Status Legend & Current Audit Matrix
+
+To prevent conflating internal model theorems with independent external peer review or physical bench replication, every domain in this repository is explicitly tagged with four verification markers:
+- **✅ Lean 4 Kernel-Verified (Constructive Contour 1):** Proved in `lean/` with `0 sorryAx`, `0 Classical.choice`, and `0 smuggled Prop premises` enforced automatically at compile time by [`AxiomGuard.lean`](lean/Constructive/AxiomGuard.lean).
+- **🧪 Digital / Circuit / Numerical Simulation:** Verified in Python (`verify_principles.py`), `.NET 11` (`xUnit`), Icarus Verilog (`iverilog`), or LTspice (`cuboctahedron_12beam_spice.cir`).
+- **⬜ Pending External Experimental / Bench Confirmation:** Physical/engineering predictions (cleanroom silicon photovoltaics `M1`–`M4`, 12-beam barrier collapse, cyclic metal fatigue limit $\sigma_{-1} \leftrightarrow \Delta\varphi_{\mathrm{disc}}=41$) that have not yet been independently tested on physical laboratory benches.
+- **★ Independent Outside Confirmation:** Reserved exclusively for theorems or experimental protocols that have received documented independent review or laboratory replication by external researchers.
+
+| Domain / Module | Lean 4 Kernel (`AxiomGuard`) | Simulation (`Python / Verilog / SPICE`) | External Review / Lab Bench |
+| :--- | :---: | :---: | :---: |
+| **1. Carrier Geometry ($1+2^d=d^2 \implies d=3$, $O_2(3)$, $\mathbb{Z}_{512}$)** (`MtCarrier/Spec.lean`, `FaceAlgebra.lean`) | ✅ | 🧪 | ⬜ |
+| **2. Projective Manifold Calculus, Padé–$\mathrm{SL}_2(\mathbb{Z})$ Towers, Planetary Differentials & Multi-Screw Cascades** (`Constructive/*.lean`, Book V) | ✅ | 🧪 | ⬜ |
+| **3. Discrete Holonomy, Maxwell Electrodynamics, Fine-Structure $\alpha_{\mathrm{fs}}^{-1}$ & Particle/Nuclear Shells** (`HolonomyMaxwell.lean`, `ContinuumPhysics.lean`, `NuclearShells.lean`) | ✅ | 🧪 | ⬜ |
+| **4. 4-Regime Spring Elasticity, Infinite Fatigue Endurance Limit ($\Delta\varphi_{\mathrm{disc}}=41$), Burgers Dislocation ($256$) & Coupled Elastic Pendulum** (`MtCarrier/MechanicsElasticity.lean`) | ✅ | 🧪 | ⬜ |
+| **5. 4-Layer Phonon-Free Singlet-Fission Silicon Heterojunction (`M1`–`M4`) & 3-Stage + $833:1$ Radiation Shielding** (`HardwarePhotovoltaics.lean`, Books II–III) | ✅ | 🧪 | ⬜ |
+| **6. Reversible 72-Bit Silicon Stack (`Ring9 / Bus36 / VerletCell72`) & 12-Beam $O_2(3)$ LC Lattice** (`hardware/*.v`, `hardware/*.cir`, `physics/`) | ✅ | 🧪 | ⬜ |
+
 ---
 
 ## 1. The Five Core Books: Unified Natural Science (Books I–IV) & Projective Manifold Mathematics (Book V) (`book/out/pdf/`)
