@@ -3,10 +3,12 @@
 SSOT Book Exporter: Compiles all 5 core books from LaTeX SSOT (`book/sources/`)
 into full chapter-by-chapter MkDocs Material pages (`docs/books/<book_slug>/`).
 
-Single Source of Truth (SSOT):
-  Edit only `book/sources/**/*.tex`.
-  - PDF export: `pwsh -NoProfile -File book/build.ps1 -Volume <volume>`
-  - Web/MkDocs export: `python tools/export_books_to_mkdocs.py && python -m mkdocs build --strict`
+Rule:
+  - The chapter body is 100% pure human text and mathematical notation (zero code
+    identifiers, zero `.lean`/`.py` paths or `snake_case`/`camelCase` tokens in the reading flow).
+  - All Lean 4 modules, theorem names, and verification scripts referenced in the LaTeX SSOT
+    are automatically extracted into a collapsible "💿 Сопроводительный код главы (Code Located In)"
+    card at the bottom of the chapter (like the companion CD-ROM of a book).
 """
 
 from __future__ import annotations
@@ -18,6 +20,8 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 BOOK_SOURCES = REPO_ROOT / "book" / "sources"
 DOCS_BOOKS = REPO_ROOT / "docs" / "books"
+
+BRACE4 = r"(?:[^{}]|\{(?:[^{}]|\{(?:[^{}]|\{[^{}]*\})*\})*\})*"
 
 BOOKS = [
     {
@@ -57,6 +61,20 @@ BOOKS = [
     },
 ]
 
+# Known Lean modules in dqm-lean for clickable links in "Code Located In"
+CONSTRUCTIVE_MODULES = {
+    "AxiomGuard.lean",
+    "BipyramidGeometry.lean",
+    "RotatorQuadrature.lean",
+    "LogicCohomology.lean",
+    "PillaiDiophantine.lean",
+    "AbcPlanetaryWronskian.lean",
+    "ModelTheoreticLimit.lean",
+    "CollatzPlanetarySplice.lean",
+    "RiemannHolonomy.lean",
+    "RotatorCalculusPaper.lean",
+}
+
 
 def expand_inputs(rel_path: str) -> str:
     clean_rel = rel_path.strip()
@@ -64,18 +82,17 @@ def expand_inputs(rel_path: str) -> str:
     if not p.exists() and not clean_rel.endswith(".tex"):
         p = BOOK_SOURCES / (clean_rel + ".tex")
     if not p.exists():
-        return f"% [Missing input: {clean_rel}]\n"
+        return ""
     text = p.read_text(encoding="utf-8")
-    lines = [
-        line
-        for line in text.splitlines()
-        if not line.lstrip().startswith("%")
-    ]
+    lines = []
+    for line in text.splitlines():
+        if line.lstrip().startswith("%"):
+            continue
+        # Strip trailing unescaped LaTeX comment %
+        line = re.sub(r"(?<!\\)%.*$", "", line)
+        lines.append(line)
     joined = "\n".join(lines)
     return re.sub(r"\\input\{([^}]+)\}", lambda m: expand_inputs(m.group(1)), joined)
-
-
-BRACE4 = r"(?:[^{}]|\{(?:[^{}]|\{(?:[^{}]|\{[^{}]*\})*\})*\})*"
 
 
 def unwrap_texorpdfstring(text: str) -> str:
@@ -98,20 +115,107 @@ def replace_paired_command(text: str, cmd: str, wrapper_left: str, wrapper_right
     return text
 
 
-def clean_texttt_and_monster_ids(text: str) -> str:
+def extract_companion_code(raw_tex: str) -> tuple[list[str], list[str]]:
     """
-    1. Remove \\allowbreak and any trailing whitespace after it (fixes `\\_\\allowbreak ` -> `\\_`).
-    2. Inside math blocks ($...$, \\[...\\], equation/align), convert \\texttt{...} -> \\mathtt{...}
-       so backticks never appear inside MathJax.
-    3. Strip parenthetical monster snake_case theorem dumps (e.g. `(\\texttt{internal_observer_...}, \\texttt{thm17_...})`)
-       from prose so sentences don't contain 100-character snake_case incantations.
-    4. Convert remaining prose \\texttt{...} into clean Markdown code spans `...` with `\\_` unescaped to `_`.
+    Scan a chapter's raw LaTeX for all referenced Lean modules (.lean), code files,
+    and formal theorem/operator identifiers so they can be placed in the bottom
+    'Code Located In' card while keeping the chapter text 100% prose + math.
     """
+    cleaned = re.sub(r"\\allowbreak\s*", "", raw_tex)
+    texttt_inner_pat = r"(?:\\\{|\\\}|[^{}])*"
+    tokens = re.findall(r"\\texttt\{(" + texttt_inner_pat + r")\}", cleaned)
+
+    modules: list[str] = []
+    theorems: list[str] = []
+
+    ignore_tokens = {
+        "0 sorryAx", "0 Classical.choice", "0", "56/56", "68/68",
+        "fdiv", "tdiv", "Int.fdiv", "Int.tdiv", "isZeroNat",
+        "true", "false", "if", "NOT", "XOR", "OR", "AND", "ATG", "CpG",
+        "M1", "M2", "M3", "M4", "F1", "F2", "F3", "F4", "F5", "F6",
+        "CE-M", "CE-F", "CE-A", "CE-RD", "S", "MODEL",
+        "Ring9", "Bus36", "VerletCell72", "Ring9/Bus36/VerletCell72",
+        "signedOctants", "cellBranchingStates", "axisTransitionPairs",
+    }
+
+    for raw_tok in tokens:
+        tok = raw_tok.replace(r"\_", "_").strip()
+        tok = re.sub(r"\s+", " ", tok)
+        if not tok or tok in ignore_tokens or tok.endswith(".pdf") or tok.endswith(".tex"):
+            continue
+        if ".lean" in tok or ".py" in tok or ".v" in tok:
+            if tok not in modules:
+                modules.append(tok)
+        elif ("_" in tok or any(c.isupper() for c in tok[1:])) and re.match(r"^[a-zA-Z0-9_. ]+$", tok):
+            base_id = tok.split()[0]
+            if len(base_id) >= 4 and base_id not in ignore_tokens and base_id not in theorems:
+                theorems.append(base_id)
+
+    return modules, theorems
+
+
+def format_module_link(mod: str) -> str:
+    clean = mod.strip().strip("/")
+    basename = clean.split("/")[-1]
+    if basename in CONSTRUCTIVE_MODULES:
+        url = f"https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/{basename}"
+        return f"[`Constructive/{basename}`]({url})"
+    if basename.endswith(".lean"):
+        url = f"https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/{basename}"
+        return f"[`MtCarrier/{basename}`]({url})"
+    return f"`{clean}`"
+
+
+def build_companion_code_footer(modules: list[str], theorems: list[str], lang: str = "ru") -> str:
+    if not modules and not theorems:
+        return ""
+    mod_links = []
+    for m in modules:
+        lnk = format_module_link(m)
+        if lnk not in mod_links:
+            mod_links.append(lnk)
+
+    if lang == "ru":
+        lines = [
+            "\n\n---\n",
+            '??? abstract "Сопроводительный код и формализация к главе (Code Located In)"',
+        ]
+        if mod_links:
+            lines.append("    - **Файлы и модули верификации:** " + ", ".join(mod_links))
+        if theorems:
+            thm_list = ", ".join(f"`{t}`" for t in theorems)
+            lines.append("    - **Верифицированные теоремы и операторы:** " + thm_list)
+        return "\n".join(lines) + "\n"
+    else:
+        lines = [
+            "\n\n---\n",
+            '??? abstract "Companion Code & Formalization (Code Located In)"',
+        ]
+        if mod_links:
+            lines.append("    - **Verification Modules & Files:** " + ", ".join(mod_links))
+        if theorems:
+            thm_list = ", ".join(f"`{t}`" for t in theorems)
+            lines.append("    - **Verified Theorems & Operators:** " + thm_list)
+        return "\n".join(lines) + "\n"
+
+
+def purify_prose_and_math(text: str) -> str:
+    """
+    Remove all code identifiers, filenames, and CLI commands from the narrative prose
+    and mathematical formulas so the chapter reads as a pure book.
+    """
+    # 0. Remove internal authoring section "Как вести этот раздел" + template labrecord
+    text = re.sub(
+        r"\\section\{Как вести этот раздел\}[\s\S]*?\\end\{labrecord\}",
+        "",
+        text,
+    )
+
     # 1. Strip \allowbreak and spaces immediately following it, and normalize \~{} -> ~
     text = re.sub(r"\\allowbreak\s*", "", text)
     text = text.replace(r"\~{}", "~")
 
-    # 2. Normalize \texttt{...} content: unescape \_, \{, \}, \&, \textbackslash inside \texttt
+    # 2. Normalize \texttt{...} arguments so we can match them cleanly
     texttt_inner_pat = r"(?:\\\{|\\\}|[^{}])*"
 
     def normalize_texttt_arg(m: re.Match) -> str:
@@ -125,33 +229,55 @@ def clean_texttt_and_monster_ids(text: str) -> str:
 
     text = re.sub(r"\\texttt\{(" + texttt_inner_pat + r")\}", normalize_texttt_arg, text)
 
-    # 3. Remove parenthetical blocks containing long snake_case theorem identifiers (3+ underscores)
-    # e.g. ` (\texttt{internal_observer_...}, \texttt{thm17_...})` or ` (\texttt{thm1_...}: \texttt{...})`
-    monster_id = r"\\texttt\{[a-zA-Z0-9_]*_[a-zA-Z0-9_]*_[a-zA-Z0-9_]*_[a-zA-Z0-9_.]*\}"
-    text = re.sub(
-        r"\s*\((?:[^()]*?" + monster_id + r"[^()]*)\)",
-        "",
-        text,
-    )
+    # 3. Strip standalone "Формальная верификация: ..." paragraphs
+    text = re.sub(r"\\emph\{Формальная верификация:\}[^\n]+\n?", "", text)
 
-    # 4. Inside inline math $...$ and display math \[...\], convert \texttt{foo_bar} -> \mathtt{foo\_bar}
-    def fix_texttt_in_math(math_str: str) -> str:
-        return re.sub(
-            r"\\texttt\{([^{}]*)\}",
-            lambda m: r"\mathtt{" + m.group(1).replace("_", r"\_") + "}",
-            math_str,
-        )
+    # 4. Replace code function names inside math with pure mathematical symbols first
+    in_math_replacements = {
+        r"\texttt{signedOctants}": r"\mathcal{O}_{\mathrm{oct}}",
+        r"\texttt{cellBranchingStates}": r"\mathcal{B}_{\mathrm{cell}}",
+        r"\texttt{axisTransitionPairs}": r"\mathcal{A}_{\mathrm{axis}}",
+    }
+    for old_tok, new_math in in_math_replacements.items():
+        text = text.replace(old_tok, new_math)
 
-    text = re.sub(r"\\\[[\s\S]*?\\\]", lambda m: fix_texttt_in_math(m.group(0)), text)
-    text = re.sub(
-        r"\\begin\{(?:equation\*?|align\*?)\}[\s\S]*?\\end\{(?:equation\*?|align\*?)\}",
-        lambda m: fix_texttt_in_math(m.group(0)),
-        text,
-    )
-    text = re.sub(r"\$[^$\n]+\$", lambda m: fix_texttt_in_math(m.group(0)), text)
+    # 5. Strip parenthetical blocks that contain any \texttt{...} code reference
+    text = re.sub(r"\s*\((?:[^()]*?\\texttt\{[^{}]*\}[^()]*)\)", "", text)
 
-    # 5. Convert remaining prose \texttt{...} to Markdown backticks `...`
-    text = re.sub(r"\\texttt\{([^{}]*)\}", lambda m: f"`{m.group(1)}`", text)
+    # 6. Replace remaining prose code tokens with clean Russian mathematical prose
+    prose_replacements = {
+        r"\texttt{Ring9/Bus36/VerletCell72}": "9/36/72-битного регистра Верле",
+        r"\texttt{Ring9}": r"$\mathbb{Z}_{512}$",
+        r"\texttt{Bus36}": "36-битной шины полушага",
+        r"\texttt{VerletCell72}": "72-битной ячейки Верле",
+        r"\texttt{Int.fdiv}": r"$\lfloor\cdot\rfloor$",
+        r"\texttt{fdiv}": r"$\lfloor\cdot\rfloor$",
+        r"\texttt{Int.tdiv}": r"$\operatorname{trunc}(\cdot)$",
+        r"\texttt{tdiv}": r"$\operatorname{trunc}(\cdot)$",
+        r"\texttt{isZeroNat}": r"$\delta_{k,0}$",
+        r"\texttt{denomRaw.toNat}": r"$\max(D_{\mathrm{raw}}, 0)$",
+    }
+    for old_tok, new_prose in prose_replacements.items():
+        text = text.replace(old_tok, new_prose)
+
+    # 6. Strip inline phrases referencing Lean theorems/modules in prose
+    text = re.sub(r"\s*в модулях\s+\\texttt\{[^{}]*\}\s+и\s+\\texttt\{[^{}]*\}", "", text)
+    text = re.sub(r"\s*в модуле\s+\\texttt\{[^{}]*\}", "", text)
+    text = re.sub(r"\s*в каталоге\s+\\texttt\{[^{}]*\}", "", text)
+    text = re.sub(r"теоремы\s+\\texttt\{[^{}]*\}", "теоремы", text)
+    text = re.sub(r"теорема\s+\\texttt\{[^{}]*\}", "теорема", text)
+    text = re.sub(r"оператор\s+\\texttt\{[^{}]*\}", "оператор", text)
+
+    # 7. Convert any remaining \texttt{...} (such as biological codons ATG, CpG, logic gates NOT, XOR, AND)
+    # into clean mathematical/roman text without code backticks!
+    def texttt_to_clean_prose(m: re.Match) -> str:
+        val = m.group(1).strip()
+        # If it's a long snake_case/camelCase identifier or file path that survived outside parentheses, drop it
+        if ".lean" in val or ".pdf" in val or ".py" in val or val.count("_") >= 2:
+            return ""
+        return f"**{val}**" if val in ("NOT", "XOR", "OR", "AND", "ATG", "CpG") else val
+
+    text = re.sub(r"\\texttt\{([^{}]*)\}", texttt_to_clean_prose, text)
     return text
 
 
@@ -223,11 +349,7 @@ def convert_lists(text: str) -> str:
             if out_lines and out_lines[-1].strip() != "":
                 out_lines.append("")
             m_opt = re.match(r"^\[((?:[^\[\]]|\[[^\[\]]*\])*)\]\s*(.*)$", rest)
-            if m_opt and kind == "description":
-                label_txt = m_opt.group(1).strip()
-                item_body = m_opt.group(2).strip()
-                out_lines.append(f"{indent}- **{label_txt}** {item_body}")
-            elif m_opt and kind != "enumerate":
+            if m_opt and kind != "enumerate":
                 label_txt = m_opt.group(1).strip()
                 item_body = m_opt.group(2).strip()
                 out_lines.append(f"{indent}- **{label_txt}** {item_body}")
@@ -306,8 +428,8 @@ def latex_to_markdown(tex: str) -> str:
     # 3. Unwrap \texorpdfstring{math}{plain} -> math
     text = unwrap_texorpdfstring(text)
 
-    # 4. Clean \texttt, \allowbreak, and strip monster snake_case incantations
-    text = clean_texttt_and_monster_ids(text)
+    # 4. Purify prose and math: remove all code identifiers/filenames from reading flow
+    text = purify_prose_and_math(text)
 
     # 5. Lab environments -> sections/subsections
     text = re.sub(
@@ -356,10 +478,13 @@ def latex_to_markdown(tex: str) -> str:
 
     text = re.sub(r"\\\[([\s\S]*?)\\\]", wrap_bracket_math, text)
 
-    # 7. Convert tables (`\begin{table}...\end{table}` and `\begin{tabular}{...}...\end{tabular}`)
+    # 7. Convert typography dashes & ~ before tables so Markdown table separators `| --- |` are preserved
+    text = text.replace("---", "—").replace("--", "–").replace("~", " ")
+
+    # 8. Convert tables (`\begin{table}...\end{table}` and `\begin{tabular}{...}...\end{tabular}`)
     text = re.sub(r"\\begin\{table\}(?:\[[^\]]*\])?", "", text)
     text = re.sub(r"\\end\{table\}", "", text)
-    text = re.sub(r"\\resizebox\{[^}]*\}\{[^}]*\}\{", "", text)
+    text = re.sub(r"\\resizebox\{[^}]*\}\{[^}]*\}\{([\s\S]*?\\end\{tabular\})\s*\}", r"\1", text)
     text = re.sub(r"\\caption\{(" + BRACE4 + r")\}", r"\n*\1*\n", text)
     text = re.sub(
         r"\\begin\{tabular\}\{" + BRACE4 + r"\}([\s\S]*?)\\end\{tabular\}",
@@ -367,42 +492,40 @@ def latex_to_markdown(tex: str) -> str:
         text,
     )
 
-    # 8. Convert section headers
+    # 9. Convert section headers
     text = re.sub(r"\\part\*?\{(" + BRACE4 + r")\}", r"\n## Часть: \1\n", text)
     text = re.sub(r"\\section\*?\{(" + BRACE4 + r")\}", r"\n## \1\n", text)
     text = re.sub(r"\\subsection\*?\{(" + BRACE4 + r")\}", r"\n### \1\n", text)
     text = re.sub(r"\\subsubsection\*?\{(" + BRACE4 + r")\}", r"\n#### \1\n", text)
     text = re.sub(r"\\paragraph\*?\{(" + BRACE4 + r")\}", r"\n**\1**\n", text)
 
-    # 9. Convert inline formatting (\textbf, \emph, \textit, \url)
+    # 10. Convert inline formatting (\textbf, \emph, \textit, \url)
     text = replace_paired_command(text, "textbf", "**", "**")
     text = replace_paired_command(text, "emph", "*", "*")
     text = replace_paired_command(text, "textit", "*", "*")
     text = replace_paired_command(text, "url", "<", ">")
 
-    # 10. Resolve cross-references (\eqref, \ref, \cref)
+    # 11. Resolve cross-references (\eqref, \ref, \cref)
     text = re.sub(r"\\label\{[^}]+\}", "", text)
 
     def resolve_ref(m: re.Match) -> str:
         lbl = m.group(1).strip()
         if lbl in eq_labels:
             return f"({eq_labels[lbl]})"
-        # Clean human fallback for cross-chapter refs
-        short = lbl.split(":")[-1]
-        return f"({short})"
+        return ""
 
     text = re.sub(r"\\(?:eqref|ref|cref|bcref|CiteConstruction)\{([^}]+)\}", resolve_ref, text)
 
-    # 11. Convert lists with 4-space indentation and blank-line separation
+    # 12. Convert lists with 4-space indentation and blank-line separation
     text = convert_lists(text)
 
-    # 12. Convert theorem/definition/remark/proof environments to MkDocs Admonitions
+    # 13. Convert theorem/definition/remark/proof environments to MkDocs Admonitions
     text = convert_admonition_envs(text)
     text = re.sub(r"\\begin\{(?:center|quote)\}", "\n", text)
     text = re.sub(r"\\end\{(?:center|quote)\}", "\n", text)
 
-    # 13. Typography cleanup
-    text = text.replace("---", "—").replace("--", "–").replace("~", " ")
+    # 14. Final whitespace cleanup
+    text = re.sub(r" +([,.;:])", r"\1", text)
     text = re.sub(r"\n{3,}", "\n\n", text)
     return text.strip() + "\n"
 
@@ -421,7 +544,7 @@ def split_into_chapters(full_tex: str, default_title: str) -> list[tuple[str, st
 
     for idx, m in enumerate(matches):
         raw_title = unwrap_texorpdfstring(m.group(1)).strip()
-        raw_title = clean_texttt_and_monster_ids(raw_title)
+        raw_title = purify_prose_and_math(raw_title).strip()
         raw_title = replace_paired_command(raw_title, "textbf", "", "")
         raw_title = replace_paired_command(raw_title, "emph", "", "")
         raw_title = raw_title.replace("---", "—").replace("--", "–").replace("~", " ")
@@ -467,33 +590,21 @@ def main() -> None:
         for idx, (ch_title, ch_body) in enumerate(chapters, start=1):
             total_chapters += 1
             ch_file_stem = f"ch{idx:02d}"
+
+            modules, theorems = extract_companion_code(ch_body)
             md_body = latex_to_markdown(ch_body)
 
-            pdf_url = f"https://github.com/AI-Guiders/discrete-quantum-mechanics/raw/main/book/out/pdf/{book['pdf']}"
-            ssot_url = f"https://github.com/AI-Guiders/discrete-quantum-mechanics/blob/main/book/sources/{book['entry']}"
+            footer_ru = build_companion_code_footer(modules, theorems, lang="ru")
+            footer_en = build_companion_code_footer(modules, theorems, lang="en")
 
-            header_ru = (
-                f"# {ch_title}\n\n"
-                f"!!! abstract \"Автоматический экспорт из LaTeX SSOT (`book/sources/`)\"\n"
-                f"    - **Том:** {book['title_ru']}\n"
-                f"    - **PDF-версия тома:** [Скачать `{book['pdf']}`]({pdf_url})\n"
-                f"    - **Исходник SSOT:** [`book/sources/{book['entry']}`]({ssot_url})\n\n"
-                f"---\n\n"
-            )
-            header_en = (
-                f"# {ch_title}\n\n"
-                f"!!! abstract \"Automated Export from LaTeX SSOT (`book/sources/`)\"\n"
-                f"    - **Volume:** {book['title_en']} (Full canonical text in Russian; math & Lean 4 identifiers are universal)\n"
-                f"    - **PDF Volume Download:** [Download `{book['pdf']}`]({pdf_url})\n"
-                f"    - **SSOT Source:** [`book/sources/{book['entry']}`]({ssot_url})\n\n"
-                f"---\n\n"
-            )
+            header_ru = f"# {ch_title}\n\n"
+            header_en = f"# {ch_title}\n\n"
 
             (book_dir / f"{ch_file_stem}.ru.md").write_text(
-                header_ru + md_body, encoding="utf-8", newline="\n"
+                header_ru + md_body + footer_ru, encoding="utf-8", newline="\n"
             )
             (book_dir / f"{ch_file_stem}.md").write_text(
-                header_en + md_body, encoding="utf-8", newline="\n"
+                header_en + md_body + footer_en, encoding="utf-8", newline="\n"
             )
 
             short_title = clean_nav_label(ch_title)
