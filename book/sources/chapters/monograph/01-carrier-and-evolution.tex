@@ -381,5 +381,53 @@ $(-2,-1,-1)$, $t=1$ (дор.\ 0) & $13,\ 239$ & $-143\,650$ & $-57\,460$ & $-460
   \label{eq:mono-euler-curve-k}
   \chi(\mathcal{C}_k) \;=\; 2 - 2g(k) \;=\; 2 - (k - 1)(k - 2) \;\equiv\; k(3 - k),
 \end{equation}
-обращаясь в нуль при $k = d = 3$ в точном соответствии с симплициальным разложением Пуанкаре--Хегора односвязной 3-сферы $S^3 = \mathcal{C}_{13}^{(+)}\cup_{O_2(3)}\mathcal{C}_{13}^{(-)}$ ($\chi(\mathcal{C}_{13}) = +1$, $\chi(O_2(3)) = +2 = \chi(\mathcal{C}_2)$, $\chi(S^3) = 1 + 1 - 2 = 0 = \chi(\mathcal{C}_3)$). Отдельное развитие чистой проективной математики, порождённой этим носителем (башни аппроксимантов Паде--$\mathrm{SL}_2(\mathbb{Z})$, трёхшахтные планетарные дифференциалы и многовинтовые каскады), вынесено в самостоятельную математическую монографию \textbf{Книга~5} (\texttt{projective-manifold-mathematics.pdf}).
+обращаясь в нуль при $k = d = 3$ в точном соответствии с симплициальным разложением Пуанкаре--Хегора односвязной 3-сферы $S^3 = \mathcal{C}_{13}^{(+)}\cup_{O_2(3)}\mathcal{C}_{13}^{(-)}$ ($\chi(\mathcal{C}_{13}) = +1$, $\chi(O_2(3)) = +2 = \chi(\mathcal{C}_2)$, $\chi(S^3) = 1 + 1 - 2 = 0 = \chi(\mathcal{C}_3)$). Отдельное развитие чистой проективной математики, порождённой этим носителем (башни аппроксимантов Паде--$\mathrm{SL}_2(\mathbb{Z})$, трёхшахтные планетарные дифференциалы и многовинтовые каскады), вынесено в самостоятельную математическую монографию \textbf{Книга~5}.
+
+\section{Полевой Лагранжиан \texorpdfstring{$\mathcal{L}_{\mathrm{world}}$}{L\_world}, Гамильтониан \texorpdfstring{$\mathcal{H}_{\mathrm{world}}$}{H\_world}, 13-узловое разложение знаменателя \texorpdfstring{$\mathcal{C}_{13}$}{C13} и тетраэдральное действие Верле}
+\label{sec:mono-world-lagrangian-hamiltonian}
+
+Для мирового уравнения поля $\Psi^{(t+1)} = \mathcal{G}_3(\Psi^{(t)})$ в каждом узле $(\mathbf{x}, t) \in \mathbb{Z}^3 \times \mathbb{N}$ определим временну́ю кинетическую плотность $\mathcal{T}_{\mathrm{time},c}$ (взвешенную квадратом амплитуды ячейки $M(\mathbf{x})^2$) и пространственную градиентную плотность $\mathcal{U}_{\mathrm{grad},c}$ по $12$ связям кубооктаэдра $O_2(3)$:
+\begin{align}
+  \mathcal{T}_{\mathrm{time},c}(\Psi)(\mathbf{x}) &:= M(\mathbf{x})^2\,\Bigl(128 - \mathcal{C}_3\bigl((P_c(\mathbf{x}) - Q_c(\mathbf{x})) \bmod 512\bigr)\Bigr), \label{eq:mono-field-temporal-kinetic} \\
+  \mathcal{U}_{\mathrm{grad},c}(\Psi)(\mathbf{x}) &:= 128\,M(\mathbf{x})\,\Sigma_\mu(\mathbf{x}) - \mathcal{Z}_{\mathrm{real},c}(\Psi)(\mathbf{x}). \label{eq:mono-field-spatial-potential}
+\end{align}
+
+\begin{theorem}[Полевой Лагранжиан $\mathcal{L}_{\mathrm{world}}$, Гамильтониан $\mathcal{H}_{\mathrm{world}}$, 13-узловая звезда $\mathcal{C}_{13} = \{\mathbf{0}\}\cup O_2(3)$, баланс потенциала и знаменателя вдоль мировой линии и тетраэдральное действие Верле]
+\label{thm:mono-world-lagrangian-hamiltonian}
+\lean{tetrahedral_action_sum_exact, world_field_lagrangian_hamiltonian_and_worldline_denom_balance_operator}
+\leanok
+Для трёхмерного поля $\Psi^{(t)} = \mathcal{G}_3^{[t]}(\mathrm{IV}(3))$ на решётке $\mathbb{Z}^3 \times \mathbb{N}$ выполняются следующие точные законы:
+\begin{enumerate}[label=\textbf{(\arabic*)},leftmargin=*]
+\item \textbf{Геометрическое разложение знаменателя $D_{\mathrm{raw},c}(\mathbf{x})$ по 13-узловой причинной звезде $\mathcal{C}_{13} = \{\mathbf{0}\}\cup O_2(3)$:}
+  включение центрального узла $\mathbf{e} = \mathbf{0}$ ($\Delta\varphi_{\mathbf{0}} = 0$, $\mathcal{S}_3(0) = 0$, $\mathcal{C}_3(0) = 128$) в сумму голономии не меняет нечётный числитель и порождает слагаемое $128\,M(\mathbf{x})^2$ в чётном знаменателе:
+  \begin{align}
+    \mathcal{Z}_{\mathrm{imag},c}^{\mathcal{C}_{13}}(\mathbf{x}) &:= M(\mathbf{x})^2\,\mathcal{S}_3(0) + \mathcal{Z}_{\mathrm{imag},c}^{O_2}(\mathbf{x}) \;\equiv\; \mathcal{Z}_{\mathrm{imag},c}^{O_2}(\mathbf{x}), \label{eq:mono-c13-odd} \\
+    \mathcal{Z}_{\mathrm{real},c}^{\mathcal{C}_{13}}(\mathbf{x}) &:= M(\mathbf{x})^2\,\mathcal{C}_3(0) + \mathcal{Z}_{\mathrm{real},c}^{O_2}(\mathbf{x}) \;\equiv\; 128\,M(\mathbf{x})^2 + \mathcal{Z}_{\mathrm{real},c}^{O_2}(\mathbf{x}), \label{eq:mono-c13-even} \\
+    D_{\mathrm{raw},c}(\mathbf{x}) &\equiv \mathcal{Z}_{\mathrm{real},c}^{\mathcal{C}_{13}}(\mathbf{x}) + \varepsilon(3) \;=\; \mathcal{Z}_{\mathrm{real},c}^{\mathcal{C}_{13}}(\mathbf{x}) + 8\,192. \label{eq:mono-c13-denom}
+  \end{align}
+\item \textbf{Инвариантный баланс градиентного потенциала и знаменателя ворот вдоль мировой линии каждого узла $\mathbf{x} \in \mathbb{Z}^3$:}
+  сумма потенциальной плотности фазового градиента $\mathcal{U}_{\mathrm{grad},c}(\Psi^{(t)})(\mathbf{x})$ и сырого знаменателя ворот $D_{\mathrm{raw},c}(\Psi^{(t)})(\mathbf{x})$ не зависит от времени $t \in \mathbb{N}$:
+  \begin{equation}
+    \label{eq:mono-worldline-denom-balance}
+    \mathcal{U}_{\mathrm{grad},c}\bigl(\Psi^{(t)}\bigr)(\mathbf{x}) + D_{\mathrm{raw},c}\bigl(\Psi^{(t)}\bigr)(\mathbf{x})
+    \;\equiv\;
+    128\,M(\mathbf{x})\bigl(\Sigma_\mu(\mathbf{x}) + M(\mathbf{x})\bigr) + 8\,192
+    \;=\; \mathrm{const}(t).
+  \end{equation}
+\item \textbf{Плотности полевого Лагранжиана $\mathcal{L}_{\mathrm{world},c} = \mathcal{T}_{\mathrm{time},c} - \mathcal{U}_{\mathrm{grad},c}$ и Гамильтониана $\mathcal{H}_{\mathrm{world},c} = \mathcal{T}_{\mathrm{time},c} + \mathcal{U}_{\mathrm{grad},c}$:}
+  в начальном состоянии покоя $t = 0$ ($\Psi^{(0)} = \mathrm{IV}(3)$, $\mathcal{T}_{\mathrm{time},c}^{(0)} \equiv 0$) во всех узлах решётки $\mathcal{H}_{\mathrm{world},c}^{(0)}(\mathbf{x}) = -\mathcal{L}_{\mathrm{world},c}^{(0)}(\mathbf{x}) = \mathcal{U}_{\mathrm{grad},c}^{(0)}(\mathbf{x})$ (в частности, в узле $(2,2,2)$ имеем $\mathcal{H}_{\mathrm{world},0}^{(0)} = \mathcal{H}_{\mathrm{world},0}^{(1)} = +55\,432$, $\mathcal{L}_{\mathrm{world},0}^{(0)} = -55\,432$), тогда как на доменной стенке $(0,2,2) \leftrightarrow (-1,2,2)$ на такте $t = 1$ градиентный потенциал переходит в положительную кинетическую плотность ($\mathcal{T}_{\mathrm{time},1}^{(1)} > 0$).
+\item \textbf{Сохранение взвешенного Гамильтониана параболы, тетраэдральное действие и башня производных по времени ($D_t^1, D_t^2, D_t^3$):}
+  на замкнутой параболе $\varphi(t) = \varphi(0) + \frac{t(t+1)}{2}\Phi_0$ с весом $M_{\mathrm{eff}}$ симметричная по времени кинетическая энергия $T(t) = \frac{1}{2}M_{\mathrm{eff}}\,v_{-}(t)v_{+}(t)$ и потенциал $U(t) = -M_{\mathrm{eff}}\Phi_0(\varphi(t)-\varphi(0))$ дают тождественное сохранение Гамильтониана $T(t) + U(t) \equiv 0$ на каждом такте $t \in \mathbb{N}$, а сумма Лагранжиана $\mathcal{L}(t) = T(t) - U(t) = M_{\mathrm{eff}}\Phi_0^2 t(t+1)$ за $N$ тактов равна тетраэдральному числу с точным делением на размерность пространства $d = 3$:
+  \begin{equation}
+    \label{eq:mono-tetrahedral-action}
+    3 \sum_{t=1}^{N} \mathcal{L}(t) \;\equiv\; M_{\mathrm{eff}}\,\Phi_0^2\,N(N+1)(N+2),
+  \end{equation}
+  при этом вдоль траектории Верле $\varphi^{(t+1)} = 2\varphi^{(t)} - \varphi^{(t-1)} + F^{(t)}$ вторая разность по времени равна силе ($D_t^2\varphi^{(t)} = D_t^1\varphi^{(t)} - D_t^1\varphi^{(t-1)} = F^{(t)}$), а третья разность (рывок) равна приращению силы ($D_t^3\varphi^{(t)} = D_t^2\varphi^{(t+1)} - D_t^2\varphi^{(t)} = F^{(t+1)} - F^{(t)}$).
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\leanok
+Тождества~(1)--(2) следуют из $\mathcal{S}_3(0) = 0$, $\mathcal{C}_3(0) = 128$ и сокращения $\mp\mathcal{Z}_{\mathrm{real},c}(\mathbf{x})$ при сложении~\eqref{eq:mono-field-deficit} и~\eqref{eq:mono-field-draw}. В пункте~(4) равенство $v_{-}(t)v_{+}(t) = t(t+1)\Phi_0^2 = 2\Phi_0(\varphi(t)-\varphi(0))$ обращает $2(T(t)+U(t))$ в нуль, а индукция по $N$ даёт $N(N+1)(N+2) + 3(N+1)(N+2) = (N+1)(N+2)(N+3)$.
+\end{proof}
 
