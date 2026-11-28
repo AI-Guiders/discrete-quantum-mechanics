@@ -181,13 +181,13 @@
     S_{\mathrm{high},2}(p, q) &:= \frac{p^3\,(3080\,q^8 - 220\,p^4 q^4 + 7\,p^8)}{9240\,q^{11}}, \label{eq:math-cornu-sin-bracket}
   \end{align}
   приведённые числители ширины которых тождественно равны одночленам $5\,p^9$ (над знаменателем $1080\,q^9$) и $7\,p^{11}$ (над знаменателем $9240\,q^{11}$); в частности, при $x = 1$ ($p = q = 1$) имеем $C(1) \in \bigl[\frac{9}{10},\, \frac{977}{1080}\bigr] = [0{,}90000,\, 0{,}90463]$ и $S(1) \in \bigl[\frac{13}{42},\, \frac{2867}{9240}\bigr] \approx [0{,}30952,\, 0{,}31028]$.
-\item \textbf{Симметрия стационарной фазы $(1 + i)$ на кольце $\mathbb{Z}_{512}$ и точное сокращение масштаба $\sqrt{N}$ при переходе к $\frac{1+i}{2}\sqrt{\frac{\pi}{2}}$:}
-  на дискретном кольце $\mathbb{Z}_{512}$ ($Q = 128$, октантный шаг $\varphi_{\mathrm{oct}} = 64 \leftrightarrow \pi/4$, где $\mathcal{C}_{128}(64) = \mathcal{S}_{128}(64) = 64$) полные квадратичные суммы косинуса и синуса Френеля строго равны друг другу:
+\item \textbf{Симметрия стационарной фазы биссектрисы $\pi/4$ ($32 \times 64 = 2048$) на $\mathbb{Z}_{512}$ и точное сокращение масштаба $\sqrt{N}$ при переходе к $\frac{1+i}{2}\sqrt{\frac{\pi}{2}}$:}
+  при разбиении $512$ элементов кольца $\mathbb{Z}_{512}$ по $2$-адической фильтрации ($256$ нечётных $\varphi = 2k+1$, $128$ чисел $2(2k+1)$, $64$ числа $4(2k+1)$ и $32$ числа $16k$) их квадратичные образы $\varphi^2 \bmod 512$ попарно аннулируются полупериодным сдвигом $\mathcal{E}_3(\psi + 256) = -\mathcal{E}_3(\psi)$, и выживают ровно $32$ элемента $\varphi = 8(2k+1)$, каждый из которых в силу $(2k+1)^2 \equiv 1 \pmod 8$ попадает в стационарную точку биссектрисы $45^\circ$ ($\varphi^2 \equiv 64 = K_P(3) \pmod{512} \leftrightarrow \pi/4$, где $\mathcal{C}_{128}(64) = \mathcal{S}_{128}(64) = 64$):
   \begin{equation}
     \label{eq:math-discrete-fresnel-symmetry}
-    \sum_{\varphi=0}^{511} \mathcal{C}_{128}(\varphi^2) \;=\; \sum_{\varphi=0}^{511} \mathcal{S}_{128}(\varphi^2) \;=\; 2\,048 \;=\; 16\,Q.
+    \sum_{\varphi=0}^{511} \mathcal{C}_{128}(\varphi^2) \;=\; \sum_{\varphi=0}^{511} \mathcal{S}_{128}(\varphi^2) \;=\; 32 \times 64 \;=\; 2\,048 \;=\; 16\,Q.
   \end{equation}
-  В проективном поле Гаусса $\mathbb{Q}(i)$ бимодальный множитель стационарной фазы $1 + i \leftrightarrow (1, 1, 1)$ имеет квадрат $(1, 1, 1)\otimes_{\mathbb{Q}(i)}(1, 1, 1) = (0, 2, 1)$ и норму $(1, 1, 1)\otimes_{\mathbb{Q}(i)}(1, -1, 1) = (2, 0, 1)$, поэтому при умножении квадрата модуля суммы Гаусса $|G(N)|^2 = 2N$ на квадрат континуального шага сетки $(\Delta t)^2 = 2\pi / N$ число узлов $N$ сокращается тождественно ($\frac{1}{16}|G(N)\,\Delta t|^2 = \frac{\pi}{8}$, откуда $C(\infty) = S(\infty) = \frac{1}{2}\sqrt{\frac{\pi}{2}}$ вычисляется через рациональную вилку Архимеда--Гюйгенса--Снеллиуса для $\pi$ и башню Паде для квадратного корня).
+  В поле $\mathbb{Q}(i)$ эта выживающая биссектриса $\pi/4$ отвечает множителю $1 + i \leftrightarrow (1, 1, 1)$ с квадратом $(1, 1, 1)\otimes_{\mathbb{Q}(i)}(1, 1, 1) = (0, 2, 1)$ и нормой $(1, 1, 1)\otimes_{\mathbb{Q}(i)}(1, -1, 1) = (2, 0, 1)$ ($\cos(\pi/4) = \sin(\pi/4) = 1/\sqrt{\|\mathbf{e}\|_2^2} = 1/\sqrt{2}$), а при умножении квадрата модуля суммы Гаусса $|G(N)|^2 = 2N$ на квадрат шага сетки $(\Delta t)^2 = 2\pi / N$ число узлов $N$ сокращается тождественно ($\frac{1}{16}|G(N)\,\Delta t|^2 = \frac{\pi}{8}$, откуда $C(\infty) = S(\infty) = \frac{1}{\sqrt{2}}\frac{\sqrt{\pi}}{2} = \frac{1}{2}\sqrt{\frac{\pi}{2}}$).
 \item \textbf{Рациональные асимптотические огибающие спирали Корню $(f_1(x), g_1(x))$ при $x \gg 1$:}
   двукратное интегрирование по частям выражает хвост спирали Корню через рациональные функции $f_1(p/q) = \frac{q(4p^4 - 3q^4)}{8p^5}$ и $g_1(p/q) = \frac{q^3(4p^4 - 15q^4)}{16p^7}$ (в частности, при $x = 2$ имеем $f_1(2) = \frac{61}{256}$ и $g_1(2) = \frac{49}{2048}$).
 \end{enumerate}
@@ -421,16 +421,16 @@
 Тождества~\eqref{eq:math-vec-ocean-sum}--\eqref{eq:math-counterwave-zero-iff-trichotomy} и свойства моделей $\mathcal{O}_1, \mathcal{O}_2$ следуют из билинейности скалярного произведения и факторизации разности башни Паде.
 \end{proof}
 
-\section{Бритва Оккама--Мальцева (элиминация актуально-бесконечного континуума \texorpdfstring{$\mathbb{R},\,\mathbb{C}$}{R, C}): конечные проективные вилки Штерна--Броко--\texorpdfstring{$\mathrm{SL}_2(\mathbb{Z})$}{SL2(Z)}, биекция \texorpdfstring{$L^1(\mathbb{Z}_{4Q}) \leftrightarrow S^1(\mathbb{Q})$}{L1 <-> S1(Q)} и обрыв проективной башни}
+\section{Конструктивное построение \texorpdfstring{$\mathbb{R}$ и $\mathbb{C}$}{R and C}, биективный изоморфизм \texorpdfstring{$L^1(\mathbb{Z}_{4Q}) \leftrightarrow S^1(\mathbb{C})$}{L1 <-> S1(C)} и бритва Оккама--Мальцева}
 
-\begin{theorem}[Бритва Оккама--Мальцева об элиминации континуума: конечные проективные вилки Штерна--Броко--$\mathrm{SL}_2(\mathbb{Z})$, биективный стереографический изоморфизм $L^1(\mathbb{Z}_{4Q}) \leftrightarrow S^1(\mathbb{Q})$ и обрыв проективной башни носителей]
+\begin{theorem}[Конструктивное построение полей $\mathbb{R}$ и $\mathbb{C}$ через вилки Штерна--Броко--$\mathrm{SL}_2(\mathbb{Z})$, биективный стереографический изоморфизм с $S^1(\mathbb{C})$ и теорема Мальцева об изоморфизме элементарной теории]
 \label{thm:math-constructive-reals-s1-malcev-limit}
 \lean{thm17_model_theoretic_termination_kernel_annihilation_and_godel_tarski_oracle_necessity, thm41_constructive_projective_real_intervals_stern_brocot_and_s1_isomorphism}
 \uses{thm:math-wronskian-weierstrass-quadratures, thm:math-counterwave-dichotomy-and-independence}
 \leanok
-Введение отдельного актуально-бесконечного континуума вещественных или комплексных чисел (с аксиомой выбора \texttt{Classical.choice} и дедекиндовыми сечениями) является избыточным: все операции анализа, геометрии окружности и приближения любой наперёд заданной точности исчерпываются конечными этажами проективной башни $(M_n, \Pi_{n\to 0})$, рациональными вилками над $\mathbb{Z}$ и проективными полями $\mathbb{Q}$, $\mathbb{Q}(i)$, $\mathbb{Q}(\sqrt{m})$, $\mathbb{Q}(i,\sqrt{2})$:
+Поля $\mathbb{Q}$, $\mathbb{R}$ и $\mathbb{C}$ (включая единичную окружность $S^1(\mathbb{C})$) строятся полностью конструктивно (\texttt{0 Classical.choice}) как проективный предел вложенных рациональных вилок и счётной башни носителей $(M_n, \Pi_{n\to 0})$. В силу изоморфизма фактор-системы по ядру гомоморфизма Мальцева $\ker\pi$ и совпадения элементарной теории первого порядка $\mathrm{Th}(M_{\mathrm{ext}}) \equiv \mathrm{Th}(M_{\mathrm{base}})$, по бритве Оккама не требуется вводить никаких отдельных искусственных семейств вроде <<$\mathbb{R}_{\mathrm{proj}}$>> или <<$\mathbb{C}_{\mathrm{proj}}$>> --- построенные объекты изоморфны обычным $\mathbb{Q}$, $\mathbb{R}$ и $\mathbb{C}$, которыми мы и оперируем напрямую:
 \begin{enumerate}[label=\textbf{(\arabic*)},leftmargin=*]
-\item \textbf{Конечные проективные вилки над $\mathbb{Z}$, инвариантность вронскиана медианты Штерна--Броко и действие $\mathrm{SL}_2(\mathbb{Z})$:}
+\item \textbf{Конструктивное представление чисел из $\mathbb{R}$ через вилки Штерна--Броко и действие $\mathrm{SL}_2(\mathbb{Z})$:}
   каждая рациональная вилка $I = [p_L/q_L,\, p_R/q_R]$ ($q_L, q_R > 0$) характеризуется целочисленным вронскианом (определителем) $\Delta(p_L, q_L, p_R, q_R) := p_R q_L - p_L q_R \ge 0$. Деление вилки медиантой Штерна--Броко $(p_M, q_M) = (p_L + p_R,\ q_L + q_R)$ тождественно сохраняет вронскиан обеих дочерних вилок:
   \begin{equation}
     \label{eq:math-stern-brocot-wronskian}
@@ -441,15 +441,15 @@
     \label{eq:math-sl2-interval-wronskian}
     \Delta(p_L', q_L', p_R', q_R') \;\equiv\; (a d - b c)\,\Delta(p_L, q_L, p_R, q_R),
   \end{equation}
-  при этом вдоль любого конечного слова уточнений $w \in \mathrm{List}\,\mathbb{Z}$ свёрнутая вилка $[L_w, U_w] = \operatorname{bracketFold}(l_0, u_0, w)$ монотонно зажимает целевую величину ($l_0 \le L_w \le X \le U_w \le u_0$, $0 \le U_w - L_w \le u_0 - l_0$) и однозначно определяет её при смыкании ($U_w - L_w = 0 \implies L_w = U_w = X$).
-\item \textbf{Биективный стереографический изоморфизм носителей $L^1(\mathbb{Z}_{4Q}) \leftrightarrow S^1(\mathbb{Q})$ на всех масштабах $Q \in \mathbb{Z}$:}
-  для любой точки ротатора $(C, S)$ с $C + S = Q$ прямой проективный подъём Вейерштрасса $(X, Y, R) = (C^2 - S^2,\ 2CS,\ C^2 + S^2)$ лежит на рациональной единичной окружности $X^2 + Y^2 = R^2$ ($R + Y = Q^2$) и биективно обращается без извлечения квадратных корней по линейным формулам:
+  при этом вдоль любого слова уточнений $w \in \mathrm{List}\,\mathbb{Z}$ свёрнутая вилка $[L_w, U_w] = \operatorname{bracketFold}(l_0, u_0, w)$ монотонно зажимает вещественное значение $X \in \mathbb{R}$ ($l_0 \le L_w \le X \le U_w \le u_0$, $0 \le U_w - L_w \le u_0 - l_0$) и однозначно определяет его при смыкании ($U_w - L_w = 0 \implies L_w = U_w = X$).
+\item \textbf{Биективный стереографический изоморфизм $L^1(\mathbb{Z}_{4Q}) \leftrightarrow S^1(\mathbb{C})$ на всех масштабах $Q \in \mathbb{Z}$:}
+  для любой точки ротатора $(C, S)$ с $C + S = Q$ прямой проективный подъём Вейерштрасса $(X, Y, R) = (C^2 - S^2,\ 2CS,\ C^2 + S^2)$ лежит на единичной окружности $X^2 + Y^2 = R^2$ в $\mathbb{C}$ ($R + Y = Q^2$) и биективно обращается без извлечения квадратных корней по линейным формулам:
   \begin{equation}
     \label{eq:math-weierstrass-bijection-inverse}
     Q^2 + X \;\equiv\; 2\,Q\,C, \qquad Q^2 - X \;\equiv\; 2\,Q\,S.
   \end{equation}
-\item \textbf{Обрыв проективной башни носителей по теореме Мальцева и элиминация актуально-бесконечной надстройки:}
-  для любой счётной проективной башни носителей $M_{k+1} \xrightarrow{\pi_k} M_k$ проекция $\Pi_{n \to 0} : M_n \to M_0$ сохраняет все согласованные наблюдаемые ($\operatorname{obs}_0(\Pi_{n \to 0}(x_n)) = \operatorname{obs}_n(x_n)$); для любого сюръективного расширения носителя $\pi : M_{\mathrm{ext}} \twoheadrightarrow M_{\mathrm{base}}$ с сечением $\mathrm{sect} : M_{\mathrm{base}} \hookrightarrow M_{\mathrm{ext}}$ ($\pi(\mathrm{sect}(m)) = m$) вся бесконечная надстройка аннулируется конгруэнцией ядра $\ker\pi$ ($M_{\mathrm{ext}}/\ker\pi \cong M_{\mathrm{base}}$), а элементарные теории первого порядка тождественно совпадают:
+\item \textbf{Теорема Мальцева об изоморфизме элементарной теории $\mathrm{Th}(M_{\mathrm{ext}}) \equiv \mathrm{Th}(M_{\mathrm{base}})$ (бритва Оккама для $\mathbb{R}$ и $\mathbb{C}$):}
+  для любой счётной проективной башни носителей $M_{k+1} \xrightarrow{\pi_k} M_k$ проекция $\Pi_{n \to 0} : M_n \to M_0$ сохраняет все согласованные наблюдаемые ($\operatorname{obs}_0(\Pi_{n \to 0}(x_n)) = \operatorname{obs}_n(x_n)$); для любого сюръективного гомоморфизма алгебраических систем Мальцева $\pi : M_{\mathrm{ext}} \twoheadrightarrow M_{\mathrm{base}}$ с сечением $\mathrm{sect} : M_{\mathrm{base}} \hookrightarrow M_{\mathrm{ext}}$ ($\pi(\mathrm{sect}(m)) = m$) фактор по конгруэнции ядра $\ker\pi$ изоморфен $M_{\mathrm{base}}$, а элементарные теории первого порядка тождественно совпадают:
   \begin{equation}
     \label{eq:math-malcev-elementary-equivalence}
     \forall\,\phi \in \mathrm{Formula}, \qquad
