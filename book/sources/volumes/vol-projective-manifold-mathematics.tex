@@ -161,7 +161,7 @@
 В пункте~(1) при $X = \lambda(Q - \varphi) \ge 0$ и $Y = \lambda\varphi \ge 0$ имеем $|X| + |Y| = \lambda Q$, откуда $Q Y / (\lambda Q) = \varphi$ и $Q X / (\lambda Q) = Q - \varphi$. В пункте~(2) раскрытие скобок даёт $(c^2+s^2)^2 - (2cs)^2 = c^4 - 2c^2s^2 + s^4 = (c^2-s^2)^2$ и $c^2 + s^2 + 2|c||s| = (|c|+|s|)^2 = Q^2$. В пункте~(3) $(c^2+s^2) + 2cs - (c^2-s^2) = 2s^2 + 2cs = 2s(c+s) = 2Q\varphi$, а $(U+V \pm (U-V)) = (2U, 2V)$.
 \end{proof}
 
-\section{Конструктивный переход от квадратичных сумм на кольце \texorpdfstring{$\mathbb{Z}_{4Q}$}{Z\_4Q} к непрерывным интегралам Френеля--Корню на \texorpdfstring{$\mathbb{R}$ ($\mathbb{C}$)}{R (C)} без таблиц}
+\section{Конструктивный переход от квадратичных сумм на кольце \texorpdfstring{$\mathbb{Z}_{4Q}$}{Z\_4Q} к интегралам Френеля--Корню в \texorpdfstring{$\mathbb{Q}$ и $\mathbb{Q}(i)$}{Q and Q(i)} без таблиц}
 
 Для вычисления классических непрерывных интегралов Френеля (спирали Корню) $C(x) = \int_0^x \cos(t^2)\,dt$ и $S(x) = \int_0^x \sin(t^2)\,dt$ при произвольном рациональном аргументе $x = p/q \in \mathbb{Q}$ и в пределе $x \to \infty$ без табличных значений используются три взаимно согласованных конструктивных оператора:
 
@@ -421,16 +421,16 @@
 Тождества~\eqref{eq:math-vec-ocean-sum}--\eqref{eq:math-counterwave-zero-iff-trichotomy} и свойства моделей $\mathcal{O}_1, \mathcal{O}_2$ следуют из билинейности скалярного произведения и факторизации разности башни Паде.
 \end{proof}
 
-\section{Конструктивное проективное поле вещественных чисел \texorpdfstring{$\mathbb{R}_{\mathrm{proj}}$}{R\_proj}, биективный изоморфизм \texorpdfstring{$L^1(\mathbb{Z}_{4Q}) \leftrightarrow S^1(\mathbb{C})$}{L1 <-> S1(C)} и теорема Мальцева о проективном пределе башни носителей}
+\section{Бритва Оккама--Мальцева (элиминация актуально-бесконечного континуума \texorpdfstring{$\mathbb{R},\,\mathbb{C}$}{R, C}): конечные проективные вилки Штерна--Броко--\texorpdfstring{$\mathrm{SL}_2(\mathbb{Z})$}{SL2(Z)}, биекция \texorpdfstring{$L^1(\mathbb{Z}_{4Q}) \leftrightarrow S^1(\mathbb{Q})$}{L1 <-> S1(Q)} и обрыв проективной башни}
 
-\begin{theorem}[Конструктивные вещественные интервалы $\mathbb{R}_{\mathrm{proj}}$ через дерево Штерна--Броко и матрицы $\mathrm{SL}_2(\mathbb{Z})$, биективный стереографический изоморфизм с $S^1(\mathbb{C})$ и теорема Мальцева--Тарского--Гёделя о проективном пределе башни]
+\begin{theorem}[Бритва Оккама--Мальцева об элиминации континуума: конечные проективные вилки Штерна--Броко--$\mathrm{SL}_2(\mathbb{Z})$, биективный стереографический изоморфизм $L^1(\mathbb{Z}_{4Q}) \leftrightarrow S^1(\mathbb{Q})$ и обрыв проективной башни носителей]
 \label{thm:math-constructive-reals-s1-malcev-limit}
 \lean{thm17_model_theoretic_termination_kernel_annihilation_and_godel_tarski_oracle_necessity, thm41_constructive_projective_real_intervals_stern_brocot_and_s1_isomorphism}
 \uses{thm:math-wronskian-weierstrass-quadratures, thm:math-counterwave-dichotomy-and-independence}
 \leanok
-Конструктивная проективная вещественная прямая $\mathbb{R}_{\mathrm{proj}}$ и единичная окружность $S^1(\mathbb{C})$ определяются без аксиомы выбора (\texttt{0 Classical.choice}) и без дедекиндовых сечений по актуальной бесконечности как проективный предел вложенных рациональных вилок и счётной башни носителей:
+Введение отдельного актуально-бесконечного континуума вещественных или комплексных чисел (с аксиомой выбора \texttt{Classical.choice} и дедекиндовыми сечениями) является избыточным: все операции анализа, геометрии окружности и приближения любой наперёд заданной точности исчерпываются конечными этажами проективной башни $(M_n, \Pi_{n\to 0})$, рациональными вилками над $\mathbb{Z}$ и проективными полями $\mathbb{Q}$, $\mathbb{Q}(i)$, $\mathbb{Q}(\sqrt{m})$, $\mathbb{Q}(i,\sqrt{2})$:
 \begin{enumerate}[label=\textbf{(\arabic*)},leftmargin=*]
-\item \textbf{Проективные интервалы $\mathbb{R}_{\mathrm{proj}}$, инвариантность вронскиана медианты Штерна--Броко и действие $\mathrm{SL}_2(\mathbb{Z})$:}
+\item \textbf{Конечные проективные вилки над $\mathbb{Z}$, инвариантность вронскиана медианты Штерна--Броко и действие $\mathrm{SL}_2(\mathbb{Z})$:}
   каждая рациональная вилка $I = [p_L/q_L,\, p_R/q_R]$ ($q_L, q_R > 0$) характеризуется целочисленным вронскианом (определителем) $\Delta(p_L, q_L, p_R, q_R) := p_R q_L - p_L q_R \ge 0$. Деление вилки медиантой Штерна--Броко $(p_M, q_M) = (p_L + p_R,\ q_L + q_R)$ тождественно сохраняет вронскиан обеих дочерних вилок:
   \begin{equation}
     \label{eq:math-stern-brocot-wronskian}
@@ -441,15 +441,15 @@
     \label{eq:math-sl2-interval-wronskian}
     \Delta(p_L', q_L', p_R', q_R') \;\equiv\; (a d - b c)\,\Delta(p_L, q_L, p_R, q_R),
   \end{equation}
-  при этом вдоль любого конечного слова уточнений $w \in \mathrm{List}\,\mathbb{Z}$ свёрнутая вилка $[L_w, U_w] = \operatorname{bracketFold}(l_0, u_0, w)$ монотонно зажимает предел ($l_0 \le L_w \le X \le U_w \le u_0$, $0 \le U_w - L_w \le u_0 - l_0$) и однозначно определяет его при смыкании ($U_w - L_w = 0 \implies L_w = U_w = X$).
-\item \textbf{Биективный стереографический изоморфизм носителей $L^1(\mathbb{Z}_{4Q}) \leftrightarrow S^1(\mathbb{C})$ на всех масштабах $Q \in \mathbb{Z}$:}
-  для любой точки ротатора $(C, S)$ с $C + S = Q$ прямой проективный подъём Вейерштрасса $(X, Y, R) = (C^2 - S^2,\ 2CS,\ C^2 + S^2)$ лежит на единичной окружности $X^2 + Y^2 = R^2$ ($R + Y = Q^2$) и биективно обращается без извлечения квадратных корней по линейным формулам:
+  при этом вдоль любого конечного слова уточнений $w \in \mathrm{List}\,\mathbb{Z}$ свёрнутая вилка $[L_w, U_w] = \operatorname{bracketFold}(l_0, u_0, w)$ монотонно зажимает целевую величину ($l_0 \le L_w \le X \le U_w \le u_0$, $0 \le U_w - L_w \le u_0 - l_0$) и однозначно определяет её при смыкании ($U_w - L_w = 0 \implies L_w = U_w = X$).
+\item \textbf{Биективный стереографический изоморфизм носителей $L^1(\mathbb{Z}_{4Q}) \leftrightarrow S^1(\mathbb{Q})$ на всех масштабах $Q \in \mathbb{Z}$:}
+  для любой точки ротатора $(C, S)$ с $C + S = Q$ прямой проективный подъём Вейерштрасса $(X, Y, R) = (C^2 - S^2,\ 2CS,\ C^2 + S^2)$ лежит на рациональной единичной окружности $X^2 + Y^2 = R^2$ ($R + Y = Q^2$) и биективно обращается без извлечения квадратных корней по линейным формулам:
   \begin{equation}
     \label{eq:math-weierstrass-bijection-inverse}
     Q^2 + X \;\equiv\; 2\,Q\,C, \qquad Q^2 - X \;\equiv\; 2\,Q\,S.
   \end{equation}
-\item \textbf{Проективный предел башни носителей $\varprojlim M_n$, теорема Мальцева об элементарной эквивалентности и диагональная лемма Ловера--Тарского--Гёделя:}
-  для любой счётной проективной башни носителей $M_{k+1} \xrightarrow{\pi_k} M_k$ проекция $\Pi_{n \to 0} : M_n \to M_0$ сохраняет все согласованные наблюдаемые ($\operatorname{obs}_0(\Pi_{n \to 0}(x_n)) = \operatorname{obs}_n(x_n)$); для любого сюръективного гомоморфизма алгебраических систем Мальцева $\pi : M_{\mathrm{ext}} \twoheadrightarrow M_{\mathrm{base}}$ с сечением $\mathrm{sect} : M_{\mathrm{base}} \hookrightarrow M_{\mathrm{ext}}$ ($\pi(\mathrm{sect}(m)) = m$) фактор по конгруэнции ядра $\ker\pi$ изоморфен $M_{\mathrm{base}}$, а их элементарные теории первого порядка тождественно совпадают:
+\item \textbf{Обрыв проективной башни носителей по теореме Мальцева и элиминация актуально-бесконечной надстройки:}
+  для любой счётной проективной башни носителей $M_{k+1} \xrightarrow{\pi_k} M_k$ проекция $\Pi_{n \to 0} : M_n \to M_0$ сохраняет все согласованные наблюдаемые ($\operatorname{obs}_0(\Pi_{n \to 0}(x_n)) = \operatorname{obs}_n(x_n)$); для любого сюръективного расширения носителя $\pi : M_{\mathrm{ext}} \twoheadrightarrow M_{\mathrm{base}}$ с сечением $\mathrm{sect} : M_{\mathrm{base}} \hookrightarrow M_{\mathrm{ext}}$ ($\pi(\mathrm{sect}(m)) = m$) вся бесконечная надстройка аннулируется конгруэнцией ядра $\ker\pi$ ($M_{\mathrm{ext}}/\ker\pi \cong M_{\mathrm{base}}$), а элементарные теории первого порядка тождественно совпадают:
   \begin{equation}
     \label{eq:math-malcev-elementary-equivalence}
     \forall\,\phi \in \mathrm{Formula}, \qquad
