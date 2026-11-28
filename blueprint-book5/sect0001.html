@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Предисловие. Отделение чистой проективной математики от физики носителя</title>
+<link rel="next" href="ch-math-rotator-calculus.html" title="Дискретный ротатор Z4Q, однородные проективные поля Q(i,d-1) и анализ без делений" />
+<link rel="prev" href="index.html" title="Книга V. Математика проективного многообразия (Lean 4 Blueprint)" />
+<link rel="up" href="index.html" title="Книга V. Математика проективного многообразия (Lean 4 Blueprint)" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга V. Математика проективного многообразия (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class=" active current">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Предисловие. Отделение чистой проективной математики от физики носителя</span></a>
+ </li>
+<li class="">
+  <a href="ch-math-rotator-calculus.html"><span class="toc_ref">1</span> <span class="toc_entry">Дискретный ротатор \(\mathbb {Z}_{4Q}\), однородные проективные поля \(\mathbb {Q}(i,\sqrt{d-1})\) и анализ без делений</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Характер Эйлера на \(L^1\)-алмазе, тождество постоянного вронскиана и подъём Брахмагупты–Вейерштрасса</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Замкнутая башня производных частного всех порядков \(D^n(f/g)\), многомерная кубатура Симпсона и когомологии де&#160;Рама</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Биекция полярных и декартовых координат \((M,\varphi )\leftrightarrow (X,Y)\) без корней, точное обращение \(\operatorname {atan}_{L^1},\, \operatorname {acot}_{L^1}\) и гиперболическое исчисление Гудермана–Минковского</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">1.4</span> <span class="toc_entry">Конструктивный переход от квадратичных сумм на кольце \(\mathbb {Z}_{4Q}\) к интегралам Френеля на \(\mathbb {R}\) (\(\mathbb {C}\)) без рядов Тейлора и без таблиц</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-math-pade-sl2-towers.html"><span class="toc_ref">2</span> <span class="toc_entry">Изотропный дискриминантный конус в \(\mathrm{SL}_2(\mathbb {Z})\), моноид башни аппроксимантов Паде и бескорневое кубическое сжатие</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0006.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Матричное представление ступеней, изотропный конус и параболические жордановы матрицы в \(\mathrm{SL}_2(\mathbb {Z})\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-math-planetary-differentials.html"><span class="toc_ref">3</span> <span class="toc_entry">Трёхшахтные планетарные дифференциалы \(\mathcal{A} + \mathcal{B} = \mathcal{C}\), вронскиан Мейсона–Стотерса и проекторы Лагранжа–Вандермонда</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0007.html"><span class="toc_ref">3.1</span> <span class="toc_entry">Ортогональный репер трёхшахтного дифференциала \(\mathcal{F}_3\), матрица моментов Ганкеля и целочисленный вронскиан Мейсона–Стотерса</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-math-multiscrew-and-holonomy.html"><span class="toc_ref">4</span> <span class="toc_entry">Алгебра многовинтовых планетарных каскадов и встречно-волновая суперпозиция на сфере Римана \(\mathbb {P}^1\)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0008.html"><span class="toc_ref">4.1</span> <span class="toc_entry">Моноид многовинтовых планетарных каскадов, экстремальная перестановочная вилка и вариационная монотонность</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html"><span class="toc_ref">4.2</span> <span class="toc_entry">Векторная суперпозиция встречных волн, тройная дихотомия \(M\)-этажного каскада и модельно-теоретическая независимость</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html"><span class="toc_ref">4.3</span> <span class="toc_entry">Конструктивное построение \(\mathbb {R}\) и \(\mathbb {C}\), биективный изоморфизм \(L^1(\mathbb {Z}_{4Q}) \leftrightarrow S^1(\mathbb {C})\) и бритва Оккама–Мальцева</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000002">Предисловие. Отделение чистой проективной математики от физики носителя</h1>
+
+<p>Физика дискретного носителя (изложенная в <b class="bfseries">Книге&#160;1</b>) и чистая математика на полярном фазовом кольце \(\mathbb {Z}_{4Q}\) имеют различный предмет и различные критерии истинности. Физическая теория проверяется совпадением с константами природы и лабораторным экспериментом в чистой комнате. Математическая же теория представляет собой замкнутую дедуктивную систему тождеств и инвариантов над целыми числами \(\mathbb {Z}\) и полями \(\mathbb {Q}\), \(\mathbb {R}\), \(\mathbb {C}\), истинность которой устанавливается исключительно формальным выводом в ядре доказательства теорем. </p>
+<p>Естественными координатами как в физике носителя, так и во всей настоящей математической монографии являются **целочисленные полярные координаты \((M, \varphi ) \in \mathbb {N}^+ \times \mathbb {Z}_{4Q}\)** — радиус (амплитуда) \(M \ge 1\) и полярный фазовый угол \(\varphi \in \{ 0, 1, \dots , 4Q-1\} \). На ротаторе \(|\mathcal{C}_Q(\varphi )| + |\mathcal{S}_Q(\varphi )| \equiv Q\) переход от полярных координат \((M, \varphi )\) к декартовым проекциям \((X, Y) = \bigl(M\mathcal{C}_Q(\varphi ),\;  M\mathcal{S}_Q(\varphi )\bigr)\) и обратный переход к полярному радиусу и углу </p>
+<div class="displaymath" id="a0000000012">
+  \[  M \; =\;  \frac{|X| + |Y|}{Q}, \qquad \varphi \; =\;  \operatorname {atan2}_{L^1}(Y, X) \; =\;  \frac{Q\, Y}{|X| + |Y|} \quad (0 \le \varphi \le Q)  \]
+</div>
+<p> осуществляются **взаимно однозначно (биективно) в чистых целых числах** — без извлечения квадратного корня \(\sqrt{X^2+Y^2}\) и без бесконечных рядов Тейлора. Любые дробные отношения (тангенс \(\mathcal{S}_Q/\mathcal{C}_Q\), точки единичной окружности Вейерштрасса \((X/R,\;  Y/R)\), башни производных частных \(D^n(f/g) = N_n/G_n\) и аппроксиманты Паде \(P/Q\)) хранятся парами целых чисел \(\text{(числитель, знаменатель)}\) без преждевременного деления в плавающей точке и без потери остатка, представляя обычные числа из стандартных полей \(\mathbb {Q} \subset \mathbb {R} \subset \mathbb {C}\). </p>
+<p>В настоящую математическую монографию (<b class="bfseries">Книга&#160;5</b>) собраны только чистые, конструктивно доказанные математические результаты (без неконструктивных аксиом выбора и без скрытых посылок в заголовках теорем): </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Дискретный ротатор \(\mathbb {Z}_{4Q}\), проективные поля \(\mathbb {Q}(i, \sqrt{d-1})\) и дифференциально-интегральное исчисление без делений:</b> кусочно-линейный характер Эйлера \((\mathcal{C}_Q, \mathcal{S}_Q)\) на алмазе \(|\mathcal{C}_Q|+|\mathcal{S}_Q|=Q\), тождественно постоянный разностный вронскиан \(\mathcal{W}_Q(\varphi )\equiv Q\), подъём Брахмагупты–Вейерштрасса на рациональную окружность \(S^1(\mathbb {Q})\), отсутствие делителей нуля \(2(\mathcal{C}_Q^2+\mathcal{S}_Q^2)\ge Q^2\), однородная арифметика без деления в полях \(\mathbb {Q}(i)\), \(\mathbb {Q}(\sqrt{d-1})\) и круговом поле \(\mathbb {Q}(\zeta _8) = \mathbb {Q}(i,\sqrt{2})\), замкнутая башня производных частного \(D^n(f/g) = N_n/G_n\) всех порядков \(n\in \mathbb {N}\) с \(G_n \ge 1\), точные дискретные интегралы Френеля, Якоби, Дирихле, Парсеваля и Бесселя, многомерная кубатура Симпсона на оболочке \(O_2(d)\) и конструктивные когомологии де&#160;Рама \(d^2\equiv 0\). </p>
+</li>
+  <li><p><b class="bfseries">Изотропный дискриминантный конус в \(\mathrm{SL}_2(\mathbb {Z})\), моноид башни аппроксимантов Паде и бескорневое кубическое сжатие:</b> матричное представление двухуровневых ступеней \(M_{a,b}\in \mathrm{Mat}_{2\times 2}(\mathbb {Z})\) с инвариантным определителем \(\det M_{a,b} = C\), изотропный конус \(\frac{1}{4}((\operatorname {Tr}\widetilde{P})^2 - 4) = X^2 + Y^2 - T^2\), параболические жордановы матрицы \(\widetilde{P}_k = \mp I_2 + k N_0 \in \mathrm{SL}_2(\mathbb {Z})\) (\(N_0^2 = 0\)), рекурсия Ганкеля–Вронскиана вдоль луча, мультипликативный моноид башни линейных аппроксимантов Паде \((P_{\mathcal{R}}, Q_{\mathcal{R}})\), бескорневое тождество кубического сжатия Паде третьего порядка с тождественным сокращением \(X^3\) на произвольном этаже \(\mathcal{R}\) и закон невырожденного ухода на соседний этаж башни Паде. </p>
+</li>
+  <li><p><b class="bfseries">Трёхшахтные планетарные дифференциалы \(\mathcal{A} + \mathcal{B} = \mathcal{C}\), вронскиан Мейсона–Стотерса и проекторы Лагранжа–Вандермонда:</b> уравнение Виллиса \(z_1(\omega _1-\omega _H)+z_2(\omega _2-\omega _H)=0\), ортогональный репер трёхшахтного дифференциала \(\mathcal{F}_3\) (\(\mathbf{r}\cdot \mathbf{\omega }=0\)), факторизация определителя матрицы моментов Ганкеля \(-\det \mathcal{H}_3 = \widetilde{A}\widetilde{B}\widetilde{C}(X-Y)^2(Y-Z)^2(Z-X)^2\), целочисленный кубический вронскиан Мейсона–Стотерса \(W^* = A B^* - B A^*\) и определитель четвёртых степеней \(-\det \mathcal{W}_{\mathrm{MS}} = d_{\mathrm{Bez}}(X^4+Y^4+Z^4)\), проекторы Лагранжа–Вандермонда по дефектам нижних этажей \((S_1, S_2, S_3)\), межэтажное тождество сцепления \(k=2 \leftrightarrow k=3 \implies K=6\) рода \(g(6)=10\) и стереографическое вложение любого трёхшахтного баланса в ротатор \(\mathbb {Z}_{4Q}\). </p>
+</li>
+  <li><p><b class="bfseries">Алгебра многовинтовых планетарных каскадов и векторная суперпозиция встречных волн на сфере Римана \(\mathbb {P}^1\):</b> двухдуговая композиция траекторий и хордовый вронскиан цикла, унимодулярный базис \(\mathrm{SL}_2(\mathbb {Z})\) показателей \((u,v) = (2a-3b, 2b-a)\), встречное прямое-обратное сшивание Безу в \(\mathbb {Z}_{P_1}\times \mathbb {Z}_{Q_2}\), моноид многовинтовых каскадов \((P_{L_1\mathbin {+\! +}L_2}, Q_{L_1\mathbin {+\! +}L_2}, D_{L_1\mathbin {+\! +}L_2})\), универсальная экстремальная вилка остатка по всем бинарным словам шестерён \(3^B - 2^B \le R_w \le 2^{A-B}(3^B - 2^B)\) со строго положительной вариационной производной транспозиции соседних ступеней \(\delta _{\mathrm{swap}}R_w = P_{L_1}Q_{L_2} \ge 1\), отражение граничных неподвижных точек \(n_\infty ^{(-)} = -1 \leftrightarrow n_\infty ^{(+)} = 0 \leftrightarrow n^* = +1\), а также закон полного векторного сложения встречных волн в океане мод с тождественным сокращением чётной матрицы Грама \(\mathrm{MainAmount}_{\mathrm{vec}}\), тройная дихотомия \(M\)-этажного каскада и конструктивная теорема о модельно-теоретической независимости. </p>
+</li>
+</ol>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="index.html" title="Книга V. Математика проективного многообразия (Lean 4 Blueprint)"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="index.html" title="Книга V. Математика проективного многообразия (Lean 4 Blueprint)"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="ch-math-rotator-calculus.html" title="Дискретный ротатор \(\mathbb {Z}_{4Q}\), однородные проективные поля \(\mathbb {Q}(i,\sqrt{d-1})\) и анализ без делений"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

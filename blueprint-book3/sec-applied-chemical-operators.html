@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Замкнутая алгебра ковалентной связи, реакционного тока и седловой точки переходного состояния</title>
+<link rel="next" href="ch-applied-c0-lossless-transmission.html" title="Практическое применение тактовой скорости звена c0 = κ(d)-1c, баллистическая передача энергии и информации без потерь и инкапсулированный автомат" />
+<link rel="prev" href="ch-applied-chemical-reactions-catalysis.html" title="Аналитические операторы химических реакций, седловая точка переходного состояния |A‡|=128, селективность Вудворда–Хоффмана и гетерогенный катализ на кубооктаэдре O2" />
+<link rel="up" href="ch-applied-chemical-reactions-catalysis.html" title="Аналитические операторы химических реакций, седловая точка переходного состояния |A‡|=128, селективность Вудворда–Хоффмана и гетерогенный катализ на кубооктаэдре O2" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга III. Инженерный справочник (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Введение. Инженерная ветвь единого Естествознания: Трёхзаконная целочисленная механика Ньютона и пять порогов кольца \(\mathbb {Z}_{512}\)</span></a>
+ </li>
+<li class="">
+  <a href="ch-eng-electrical-engineering.html"><span class="toc_ref">1</span> <span class="toc_entry">Теоретическая электротехника фазовой эстафеты на ГЦК-кубооктаэдрах (\(V=\mathcal{C}_3,\  I=\mathcal{S}_3\))</span></a>
+ </li>
+<li class="">
+  <a href="ch-eng-silicon-architecture.html"><span class="toc_ref">2</span> <span class="toc_entry">Физическая реализация вычислений без тепла Ландауэра и кремниевая архитектура</span></a>
+ </li>
+<li class=" active">
+  <a href="sect0002.html"><span class="toc_ref">1</span> <span class="toc_entry">Прикладная механика кубооктаэдра, фазовое согласование импеданса и голономные технологии</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="ch-applied-scale-invariance-and-bounds.html"><span class="toc_ref">3</span> <span class="toc_entry">Масштабная инвариантность кубооктаэдра \(O_2\): что физически разрешено и что запрещено законами сохранения</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-coherent-barrier-collapse.html"><span class="toc_ref">4</span> <span class="toc_entry">Когерентное схлопывание импеданса барьера в 12-лучевом кубооктаэдре: решёточный синтез против теплового нагрева</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-phase-ratchet-and-vortex-battery.html"><span class="toc_ref">5</span> <span class="toc_entry">Квантовый фазовый храповик на доменной стенке и топологический аккумулятор \(B_f = 512\, n_f\)</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-tomography-and-planetary-cores.html"><span class="toc_ref">6</span> <span class="toc_entry">Четырёхканальная голономная томография сред и фазовое геодинамо ядер планет</span></a>
+ </li>
+<li class=" active">
+  <a href="ch-applied-chemical-reactions-catalysis.html"><span class="toc_ref">7</span> <span class="toc_entry">Аналитические операторы химических реакций, седловая точка переходного состояния \(|A^\ddagger |=128\), селективность Вудворда–Хоффмана и гетерогенный катализ на кубооктаэдре \(O_2\)</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-c0-lossless-transmission.html"><span class="toc_ref">8</span> <span class="toc_entry">Практическое применение тактовой скорости звена \(c_0 = \kappa (d)^{-1}c\), баллистическая передача энергии и информации без потерь и инкапсулированный автомат</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-materials-cad-superconductivity.html"><span class="toc_ref">9</span> <span class="toc_entry">Генеративное материаловедение, куперовский возврат \(2e\) на полупериоде противофазы и конструирование функциональных сплавов и сверхпроводников</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-bio-cad-therapy.html"><span class="toc_ref">10</span> <span class="toc_entry">Прикладная биоинженерия (<em>Bio-CAD</em>), сквозной компилятор ДНК и терапевтическое управление клеточной средой</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-reversible-computing-and-paradoxes.html"><span class="toc_ref">11</span> <span class="toc_entry">Обратимая вычислительная техника без теплового предела Ландауэра (\(A_{13}\)) и разрешение фундаментальных парадоксов</span></a>
+ </li>
+<li class="">
+  <a href="ch-computational-laboratory.html"><span class="toc_ref">12</span> <span class="toc_entry">Вычислительная лаборатория серии</span></a>
+ </li>
+<li class="">
+  <a href="ch-measurement-processing.html"><span class="toc_ref">13</span> <span class="toc_entry">Обработка результатов измерений</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-critical-experiments.html"><span class="toc_ref">14</span> <span class="toc_entry">Критические эксперименты и инженерные гейты верификации (серия CE-RD)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="sec:applied-chemical-operators">7.1 Замкнутая алгебра ковалентной связи, реакционного тока и седловой точки переходного состояния</h1>
+
+<p>Пусть ковалентная связь кратности \(b \in \{ 1, 2, 3\} \) (\(b=1\): одиночное ребро&#160;\(K_2\), \(\sigma \)-связь; \(b=2\): общая треугольная грань&#160;\(K_3\), \(\sigma +\pi \); \(b=3\): тетраэдрическая клика&#160;\(K_4\) кубооктаэдра&#160;\(O_2\), \(\sigma +2\pi \)) соединяет узлы с валентными амплитудами \(\mu _x,\mu _y \in \{ 1,\dots ,64\} \) и относительной фазой \(d\varphi \in \mathbb {Z}\) (\(A_{xy} = \mathrm{wrap}_{512}(d\varphi ) \in (-256, 256]\)). Определим четыре аналитических оператора химической реакции: </p>
+<div class="displaymath" id="eq:applied-chem-bond-ops">
+  \begin{align}  \label{eq:applied-chem-bond-ops} \mathcal{E}_{\mathrm{bond}}(b,\mu _x,\mu _y,d\varphi ) & \; :=\;  b\, (\mu _x\mu _y)\, C(d\varphi ), &  \delta K_{\mathrm{bond}}(b,\mu _x,\mu _y,d\varphi ) & \; :=\;  b\, (\mu _x\mu _y)\, |\mathrm{wrap}_{512}(d\varphi )|, \\ \label{eq:applied-chem-current-enthalpy-ops} \mathcal{J}_{\mathrm{rxn}}(b,\mu _x,\mu _y,d\varphi ) & \; :=\;  b\, (\mu _x\mu _y)\, S(d\varphi ), &  \Delta H_{\mathrm{rxn}}(H_{\mathrm{R}}, H_{\mathrm{P}}) & \; :=\;  H_{\mathrm{R}} - H_{\mathrm{P}}. \end{align}
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:applied-chemical-reactions-and-catalysis">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Теорема
+    </span>
+    <span class="theorem_thmlabel">7.1</span>
+    <span class="theorem_thmtitle">Аналитические теоремы химической кинетики, переходного состояния \(|A^\ddagger |=128\), селективности Вудворда–Хоффмана и катализа на кубооктаэдре&#160;\(O_2\)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-applied-chemical-operators.html#thm:applied-chemical-reactions-and-catalysis">#</a>
+    
+    <a class="icon proof" href="sec-applied-chemical-operators.html#a0000000007"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-applied-thermal-vs-coherent.html#thm:applied-barrier-collapse">Теорема 4.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/Spec.lean#L204" class="lean_decl">catalan_lock_iff_d3</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/UnifiedOperators.lean" class="lean_decl">UnifiedOperators.lean</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ChemicalBonding.lean#L39" class="lean_decl">chemical_bond_holonomy_conservation_and_saddle_128</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ChemicalBonding.lean#L64" class="lean_decl">hess_law_and_catalytic_cycle_zero_enthalpy</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ChemicalBonding.lean#L77" class="lean_decl">woodward_hoffmann_and_valence_123_stability_from_d3</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ChemicalBonding.lean#L29" class="lean_decl">hex111RingSize</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ChemicalBonding.lean#L94" class="lean_decl">catalytic_reaction_gate_opening_on_cuboctahedron</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>    Все четыре операторных свойства химической реакции выводятся по цепочке из теоремы Каталана без единого параметра, без условных ветвлений if, без локальных связок let и без аксиомы выбора Classical.choice: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Сохранение бюджета связи и седловая точка переходного состояния \(|A^\ddagger | = Q_\square (d) = 128\):</b> для всех \((b,\mu _x,\mu _y,d\varphi )\in \mathbb {Z}^4\) выполняются точные инварианты вдоль координаты реакции: </p>
+<div class="equation" id="eq:applied-bond-budget-and-l1">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:applied-bond-budget-and-l1} \mathcal{E}_{\mathrm{bond}} + \delta K_{\mathrm{bond}} \; =\;  128\, b\, \mu _x\mu _y, \qquad |\mathcal{E}_{\mathrm{bond}}(1,1,1,d\varphi )| + |\mathcal{J}_{\mathrm{rxn}}(1,1,1,d\varphi )| \; =\;  128. \end{equation}
+  </div>
+  <span class="equation_label">7.3</span>
+</p>
+</div>
+<p> В минимуме реагентов (\(d\varphi =0\)) связывающая энергия максимальна (\(C(0)=+128\)), а реакционный ток равен нулю (\(S(0)=0\)). В седловой точке переходного состояния \(\mathrm{TS}^\ddagger \) (\(|d\varphi ^\ddagger | = Q_\square (d) = 128\) тиков) связывающая проекция разрываемой связи <em>обращается строго в нуль</em> (\(C(\pm 128) = 0\), связь полностью разблокирована), тогда как реакционный ток переноса электронной плотности достигает абсолютного максимума \(|S(\pm 128)| = 128 = Q_\square (d)\), а при \(|d\varphi | {\gt} 128\) проекция \(C(d\varphi ) {\lt} 0\) становится разрыхляющей (\(\sigma ^*/\pi ^*\)) вплоть до спинового переворота Паули при \(|d\varphi | = \Phi _{\mathrm{Pauli}}(d) = 256\) (\(C(256) = -128,\  S(256) = 0\)). </p>
+</li>
+  <li><p><b class="bfseries">Точный целочисленный закон Гесса и нулевая энтальпия каталитического цикла:</b> для любой многостадийной цепочки интермедиатов и переходных состояний \(H_0 \to H_1 \to H_2 \to H_3\) сумма энтальпий стадий тождественно равна прямой энтальпии \(\Delta H_{\mathrm{rxn}}(H_0,H_1) + \Delta H_{\mathrm{rxn}}(H_1,H_2) + \Delta H_{\mathrm{rxn}}(H_2,H_3) \equiv \Delta H_{\mathrm{rxn}}(H_0,H_3)\), а для любого замкнутого каталитического цикла (\(H_3 = H_0\)) суммарное изменение энтальпии катализатора тождественно равно нулю (\(\Delta H_{\mathrm{cycle}} \equiv 0\)). </p>
+</li>
+  <li><p><b class="bfseries">Стабильность валентного триплета \(3\Delta \varphi _{\mathrm{disc}}(d) = 123 {\lt} 128\), порог \(4\)-квантовой активации \(164 {\gt} 128\) и правило Вудворда–Хоффмана \([4+2]\) против \([2+2]\):</b> из \(1+2^d=d^2\) следует: </p>
+<ul class="itemize">
+  <li><p>трёхквантовый валентный/октантный сдвиг \(d\cdot \Delta \varphi _{\mathrm{disc}}(d) = 3\times 41 = 123 {\lt} Q_\square (d) = 128\) лежит строго внутри связывающей ямы с положительным остатком связывания \(C(123) = +5 = d_{\mathrm{out}}(E)(d) {\gt} 0\); </p>
+</li>
+  <li><p>добавление четвёртого (\(d_{\mathrm{in}}(\square )=4\)) порогового кванта \(4\Delta \varphi _{\mathrm{disc}}(d) = 4\times 41 = 164 {\gt} Q_\square (d) = 128\) перебрасывает связь через седловую точку \(C(128)=0\) в антисвязывающий режим разрыва \(C(164) = -36 {\lt} 0\); </p>
+</li>
+  <li><p>\(6\)-центровый перициклический переход \([4+2]\) Дильса–Альдера изоморфен плоскому \(6\)-вершинному гексагональному сечению \(\{ 111\} \) кубооктаэдра&#160;\(O_2\) (\(\text{hex111RingSize} = |\square (d)| = 6\)) с нулевым вихревым зарядом \(n_f = 0\) (термически разрешён без пересечения разреза Паули \(|A|=256\)), тогда как \(4\)-центровое \([2+2]\)-циклоприсоединение на квадратной грани \(\square \) с перебросом ветви \(\Delta k_e = \pm 1\) несёт топологический противофазный барьер \((d_1 A)_\square = 512 = N_{\mathrm{ring}}(d)\), требующий поглощения всех \(\widehat{n}_E(\Phi _{\mathrm{Pauli}}(d)) = |\square (d)| = 6\) фотонных пороговых квантов. </p>
+</li>
+</ul>
+</li>
+  <li><p><b class="bfseries">Аналитическое открытие ворот реакции в координационной полости кубооктаэдра катализатора&#160;\(O_2\):</b> для реагирующего узла (\(\mu = N_\phi (d) = 13\)) при нулевом внешнем токе (\(z_i = 0\)): </p>
+<ul class="itemize">
+  <li><p>в некоординированной тепловой оболочке (\(|A_{\mathrm{env}}| = \Delta \varphi _{\mathrm{disc}}(d) = 41\), \(C(41) = +87 {\gt} 0\)) высокий импеданс \(D_{\mathrm{uncat}} = 206\, 260\) удерживает сырой фазовый сдвиг \(\Phi _{\mathrm{raw}} = +25\) строго ниже порога дискретности (\(\Phi _{\mathrm{raw}} {\lt} 41\)), поэтому затвор ворот <em>закрыт</em> (\(\Phi _{\mathrm{gate}} = 0\), \(\widehat{n}_E = 0\) — реакция заблокирована); </p>
+</li>
+  <li><p>в координационной полости кубооктаэдра&#160;\(O_2\) катализатора (ГЦК-металлы \(\mathrm{Pt}, \mathrm{Pd}, \mathrm{Ni}, \mathrm{Cu}, \mathrm{Au}\) или активный центр фермента, создающие противофазную поляризацию \(|A_{\mathrm{cat}}| = \mathrm{coherentThresholdTicks}(d) = 139\), \(C(139) = -11 {\lt} 0\)) отрицательная голономия окружения снижает импеданс в \(27{,}4\) раза до \(D_{\mathrm{cat}} = 7\, 516\), и при том же \(z_i = 0\) затвор ворот открывается до \(\Phi _{\mathrm{gate}} = -160\) тиков (\(|\Phi _{\mathrm{gate}}| = 160 {\gt} Q_\square (d) = 128\)), за один такт перебрасывая связь через седловую точку переходного состояния \(128\) непосредственно в область разрыва и перестройки связей \(C(-160) = -32 {\lt} 0\)! </p>
+</li>
+</ul>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000007">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Пункты&#160;1–4 проверены ядром Lean&#160;4 в теоремах , , и . </p>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="ch-applied-chemical-reactions-catalysis.html" title="Аналитические операторы химических реакций, седловая точка переходного состояния \(|A^\ddagger |=128\), селективность Вудворда–Хоффмана и гетерогенный катализ на кубооктаэдре \(O_2\)"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-applied-chemical-reactions-catalysis.html" title="Аналитические операторы химических реакций, седловая точка переходного состояния \(|A^\ddagger |=128\), селективность Вудворда–Хоффмана и гетерогенный катализ на кубооктаэдре \(O_2\)"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="ch-applied-c0-lossless-transmission.html" title="Практическое применение тактовой скорости звена \(c_0 = \kappa (d)^{-1}c\), баллистическая передача энергии и информации без потерь и инкапсулированный автомат"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

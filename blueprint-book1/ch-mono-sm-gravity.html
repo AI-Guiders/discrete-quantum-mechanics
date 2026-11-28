@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Калибровочная группа Стандартной модели, гравитационное преломление и космология</title>
+<link rel="next" href="sect0019.html" title="Симплициальный комплекс C13, матричные коммутаторы алгебры Ли u(1)⊕su(2)⊕su(3) и четырёхпетлевой вывод постоянной тонкой структуры" />
+<link rel="prev" href="sec-mono-mechanics-elasticity-fatigue.html" title="Нелинейная механика маятника на произвольных углах, четырёхрежимная теория упругости за пределами закона Гука и предел усталостной выносливости металла" />
+<link rel="up" href="index.html" title="Книга I. Формальные основания ДКМ (Lean 4 Blueprint)" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга I. Формальные основания ДКМ (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Предисловие. Предмет монографии и дедуктивное строение теории снизу вверх</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref"></span> <span class="toc_entry">§ 0.1. Метод построения: восхождение снизу вверх без постулатов</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref"></span> <span class="toc_entry">§ 0.2. Четыре методологических опоры монографии</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref"></span> <span class="toc_entry">§ 0.3. Двусортное проективно-ретракционное соответствие оснований естественных наук: Трёхзаконная целочисленная механика Ньютона</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-axioms.html"><span class="toc_ref">1</span> <span class="toc_entry">Вывод дискретной квантовой механики (ДКМ) из неделимости элементарного объёма, отсутствия внешней памяти у природы и уравнения Каталана</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0005.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Доказательство отсутствия внешней памяти у физической природы и невозможности континуального регистра внутри неделимой ячейки</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Последовательный вывод размерности \(d=3\), кольца \(\mathbb {Z}_{512}\), кубооктаэдра \(O_2(3)\) и шага Верле</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Теоремы единственности: размерность \(d=3\), кубооктаэдр \(O_2(3)\) и шаг Верле</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">1.4</span> <span class="toc_entry">Переход к естественным полярным координатам \((\mu , \varphi _{\mathrm{disc}})\), затравочное состояние Каталана \(\mathrm{IV}(3) = 263\) и уравнения оператора эволюции \(\mathcal{G}_3\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html"><span class="toc_ref">1.5</span> <span class="toc_entry">Симплициальное разложение Пуанкаре–Хегора и структурные пороги носителя при \(d = 3\)</span></a>
+ </li>
+<li class="">
+  <a href="sec-mono-world-lagrangian-hamiltonian.html"><span class="toc_ref">1.6</span> <span class="toc_entry">Полевой Лагранжиан \(\mathcal{L}_{\mathrm{world}}\), Гамильтониан \(\mathcal{H}_{\mathrm{world}}\), 13-узловое разложение знаменателя \(\mathcal{C}_{13}\) и тетраэдральное действие Верле</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-rotator-calculus.html"><span class="toc_ref">2</span> <span class="toc_entry">Дискретная экспонента Эйлера на \(\mathbb {Z}_{512}\), однородная проективная арифметика над \(\mathbb {Q}(i,\sqrt{2})\) и выход в непрерывный анализ</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0010.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Дискретная экспонента Эйлера, код Грея, соотношения Коши–Римана и тождество постоянного вронскиана</span></a>
+ </li>
+<li class="">
+  <a href="sect0011.html"><span class="toc_ref">2.2</span> <span class="toc_entry">Вывод классического интеграла Римана и формулы Ньютона–Лейбница в макропределе \(N \to \infty \)</span></a>
+ </li>
+<li class="">
+  <a href="sect0012.html"><span class="toc_ref">2.3</span> <span class="toc_entry">Однородная проективная арифметика полей, башня производных отношения и многомерная кубатура Симпсона</span></a>
+ </li>
+<li class="">
+  <a href="sect0013.html"><span class="toc_ref">2.4</span> <span class="toc_entry">Теорема о сокращении масштаба \(A = K\cdot dh\), размерность Хаусдорфа–Морана и проективные операторы логарифма и рациональной степени на \(\mathbb {Z}_{4Q}\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-logic-cohomology-barriers.html"><span class="toc_ref">3</span> <span class="toc_entry">Булева полнота Поста, редукция 3-SAT, конструктивные когомологии де&#160;Рама и барьеры внутренних вычислителей</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0014.html"><span class="toc_ref">3.1</span> <span class="toc_entry">Функционально полный базис Поста на двух каналах \(\mathbb {Z}_{512}\) и полиномиальная редукция 3-SAT</span></a>
+ </li>
+<li class="">
+  <a href="sect0015.html"><span class="toc_ref">3.2</span> <span class="toc_entry">Четыре барьера внутреннего вычислителя и встроенный блокнот Вернама Шеннона на \(\mathbb {Z}_{512}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0016.html"><span class="toc_ref">3.3</span> <span class="toc_entry">Конструктивные когомологии де&#160;Рама–Стокса–Гаусса–Черна и мера без аксиомы выбора</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-qm-maxwell.html"><span class="toc_ref">4</span> <span class="toc_entry">Дискретная и непрерывная квантовая механика (ДКМ и НКМ), электродинамика Максвелла и граница применимости континуума</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0017.html"><span class="toc_ref">4.1</span> <span class="toc_entry">Алгебраическое происхождение корпускулярно-волнового дуализма и правила Борна</span></a>
+ </li>
+<li class="">
+  <a href="sect0018.html"><span class="toc_ref">4.2</span> <span class="toc_entry">Порог дискретности \(\Delta \varphi _{\mathrm{disc}} = 41\), уравнения Максвелла и граница применимости континуальной теории</span></a>
+ </li>
+<li class="">
+  <a href="sec-mono-mechanics-elasticity-fatigue.html"><span class="toc_ref">4.3</span> <span class="toc_entry">Нелинейная механика маятника на произвольных углах, четырёхрежимная теория упругости за пределами закона Гука и предел усталостной выносливости металла</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active current">
+  <a href="ch-mono-sm-gravity.html"><span class="toc_ref">5</span> <span class="toc_entry">Калибровочная группа Стандартной модели, гравитационное преломление и космология</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0019.html"><span class="toc_ref">5.1</span> <span class="toc_entry">Симплициальный комплекс \(\mathcal{C}_{13}\), матричные коммутаторы алгебры Ли \(\mathfrak {u}(1)\oplus \mathfrak {su}(2)\oplus \mathfrak {su}(3)\) и четырёхпетлевой вывод постоянной тонкой структуры</span></a>
+ </li>
+<li class="">
+  <a href="sect0020.html"><span class="toc_ref">5.2</span> <span class="toc_entry">Структура 13-узлового ротора электрона, полное квантование восьми наблюдаемых и единый вихревой атлас Стандартной модели на кликах \(\mathcal{C}_{13}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0021.html"><span class="toc_ref">5.3</span> <span class="toc_entry">Гравитация как преломление на импедансе ворот без сингулярности \(1/0\), ряд сжатия Гаусса–Грина, кавитированные гиперъядра и фазы нейтронной пасты</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-chemistry-nuclear.html"><span class="toc_ref">6</span> <span class="toc_entry">Атомные и ядерные оболочки кубооктаэдра, планетогенез по 6 зонам диска, тождества Безу на \(\mathbb {Z}_{512}\), сверхпроводимость и когерентный \(587\)-кратный коллапс барьера</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0022.html"><span class="toc_ref">6.1</span> <span class="toc_entry">Периодическая система до 8-го периода, четыре физических предела, двухсферный перенос урана на остров стабильности \(N=184\), планетогенез и четыре тождества Безу</span></a>
+ </li>
+<li class="">
+  <a href="sect0023.html"><span class="toc_ref">6.2</span> <span class="toc_entry">Седло химической связи, закон Гесса, правила симметрии, спаривание Купера и коллапс барьера</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-biology.html"><span class="toc_ref">7</span> <span class="toc_entry">Молекулярная биофизика, планетарные фотонные окна, генетический код ДНК, фолдинг белков и морфогенез</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0024.html"><span class="toc_ref">7.1</span> <span class="toc_entry">Делитель водородной связи \(N_{\mathrm{HB}} = 63\) и три планетарных фотонных окна (\(441 : 126 : 63 = 7 : 2 : 1\))</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sec-mono-epistemological-closure.html"><span class="toc_ref">8</span> <span class="toc_entry">Бесфононный кремниевый гетеропереход \(120 + 8 = 128\), общая конструкция предела по счётным моноидам стадий и гёделевская неизбежность лабораторного арбитража</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0025.html"><span class="toc_ref">8.1</span> <span class="toc_entry">Бесфононный кремниевый гетеропереход \(120 + 8 = 128\), барьер оболочечной пассивации \(45^2 {\lt} 2\, 048 {\lt} 46^2\) и вычисления без тепла Ландауэра</span></a>
+ </li>
+<li class="">
+  <a href="sect0026.html"><span class="toc_ref">8.2</span> <span class="toc_entry">Общий оператор предела по счётным моноидам стадий, проективные башни Мальцева и двусторонняя эквивалентность носителей \(\mathcal{M} \leftrightarrow \mathcal{T}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0027.html"><span class="toc_ref">8.3</span> <span class="toc_entry">Конструктивная непротиворечивость и теорема Ловера–Гёделя–Тарского</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="ch:mono-sm-gravity">5 Калибровочная группа Стандартной модели, гравитационное преломление и космология</h1>
+
+
+</div> <!--main-text -->
+<nav class=local_toc>
+<ul>
+  <li>  
+  <a href="sect0019.html"><span class="toc_ref">5.1</span> <span class="toc_entry">Симплициальный комплекс \(\mathcal{C}_{13}\), матричные коммутаторы алгебры Ли \(\mathfrak {u}(1)\oplus \mathfrak {su}(2)\oplus \mathfrak {su}(3)\) и четырёхпетлевой вывод постоянной тонкой структуры</span></a>
+  </li>
+  <li>  
+  <a href="sect0020.html"><span class="toc_ref">5.2</span> <span class="toc_entry">Структура 13-узлового ротора электрона, полное квантование восьми наблюдаемых и единый вихревой атлас Стандартной модели на кликах \(\mathcal{C}_{13}\)</span></a>
+        <ul>
+                   <li>  
+  <a href="sect0020.html#a0000000067"><span class="toc_ref"></span> <span class="toc_entry">Единственный проектор перевода из естественной шкалы ДКМ в единицы СИ (\(\pi _{\mathcal{M}\to \mathrm{SI}}\)).</span></a>
+  </li>
+
+        </ul>
+  </li>
+  <li>  
+  <a href="sect0021.html"><span class="toc_ref">5.3</span> <span class="toc_entry">Гравитация как преломление на импедансе ворот без сингулярности \(1/0\), ряд сжатия Гаусса–Грина, кавитированные гиперъядра и фазы нейтронной пасты</span></a>
+  </li>
+</ul>
+</nav>
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sec-mono-mechanics-elasticity-fatigue.html" title="Нелинейная механика маятника на произвольных углах, четырёхрежимная теория упругости за пределами закона Гука и предел усталостной выносливости металла"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="index.html" title="Книга I. Формальные основания ДКМ (Lean 4 Blueprint)"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0019.html" title="Симплициальный комплекс \(\mathcal{C}_{13}\), матричные коммутаторы алгебры Ли \(\mathfrak {u}(1)\oplus \mathfrak {su}(2)\oplus \mathfrak {su}(3)\) и четырёхпетлевой вывод постоянной тонкой структуры"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

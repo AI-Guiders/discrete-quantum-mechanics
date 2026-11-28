@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Нелинейная механика маятника на произвольных углах, четырёхрежимная теория упругости за пределами закона Гука и предел усталостной выносливости металла</title>
+<link rel="next" href="ch-mono-sm-gravity.html" title="Калибровочная группа Стандартной модели, гравитационное преломление и космология" />
+<link rel="prev" href="sect0018.html" title="Порог дискретности Δϕdisc = 41, уравнения Максвелла и граница применимости континуальной теории" />
+<link rel="up" href="ch-mono-qm-maxwell.html" title="Дискретная и непрерывная квантовая механика (ДКМ и НКМ), электродинамика Максвелла и граница применимости континуума" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга I. Формальные основания ДКМ (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Предисловие. Предмет монографии и дедуктивное строение теории снизу вверх</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref"></span> <span class="toc_entry">§ 0.1. Метод построения: восхождение снизу вверх без постулатов</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref"></span> <span class="toc_entry">§ 0.2. Четыре методологических опоры монографии</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref"></span> <span class="toc_entry">§ 0.3. Двусортное проективно-ретракционное соответствие оснований естественных наук: Трёхзаконная целочисленная механика Ньютона</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-axioms.html"><span class="toc_ref">1</span> <span class="toc_entry">Вывод дискретной квантовой механики (ДКМ) из неделимости элементарного объёма, отсутствия внешней памяти у природы и уравнения Каталана</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0005.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Доказательство отсутствия внешней памяти у физической природы и невозможности континуального регистра внутри неделимой ячейки</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Последовательный вывод размерности \(d=3\), кольца \(\mathbb {Z}_{512}\), кубооктаэдра \(O_2(3)\) и шага Верле</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Теоремы единственности: размерность \(d=3\), кубооктаэдр \(O_2(3)\) и шаг Верле</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">1.4</span> <span class="toc_entry">Переход к естественным полярным координатам \((\mu , \varphi _{\mathrm{disc}})\), затравочное состояние Каталана \(\mathrm{IV}(3) = 263\) и уравнения оператора эволюции \(\mathcal{G}_3\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html"><span class="toc_ref">1.5</span> <span class="toc_entry">Симплициальное разложение Пуанкаре–Хегора и структурные пороги носителя при \(d = 3\)</span></a>
+ </li>
+<li class="">
+  <a href="sec-mono-world-lagrangian-hamiltonian.html"><span class="toc_ref">1.6</span> <span class="toc_entry">Полевой Лагранжиан \(\mathcal{L}_{\mathrm{world}}\), Гамильтониан \(\mathcal{H}_{\mathrm{world}}\), 13-узловое разложение знаменателя \(\mathcal{C}_{13}\) и тетраэдральное действие Верле</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-rotator-calculus.html"><span class="toc_ref">2</span> <span class="toc_entry">Дискретная экспонента Эйлера на \(\mathbb {Z}_{512}\), однородная проективная арифметика над \(\mathbb {Q}(i,\sqrt{2})\) и выход в непрерывный анализ</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0010.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Дискретная экспонента Эйлера, код Грея, соотношения Коши–Римана и тождество постоянного вронскиана</span></a>
+ </li>
+<li class="">
+  <a href="sect0011.html"><span class="toc_ref">2.2</span> <span class="toc_entry">Вывод классического интеграла Римана и формулы Ньютона–Лейбница в макропределе \(N \to \infty \)</span></a>
+ </li>
+<li class="">
+  <a href="sect0012.html"><span class="toc_ref">2.3</span> <span class="toc_entry">Однородная проективная арифметика полей, башня производных отношения и многомерная кубатура Симпсона</span></a>
+ </li>
+<li class="">
+  <a href="sect0013.html"><span class="toc_ref">2.4</span> <span class="toc_entry">Теорема о сокращении масштаба \(A = K\cdot dh\), размерность Хаусдорфа–Морана и проективные операторы логарифма и рациональной степени на \(\mathbb {Z}_{4Q}\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-logic-cohomology-barriers.html"><span class="toc_ref">3</span> <span class="toc_entry">Булева полнота Поста, редукция 3-SAT, конструктивные когомологии де&#160;Рама и барьеры внутренних вычислителей</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0014.html"><span class="toc_ref">3.1</span> <span class="toc_entry">Функционально полный базис Поста на двух каналах \(\mathbb {Z}_{512}\) и полиномиальная редукция 3-SAT</span></a>
+ </li>
+<li class="">
+  <a href="sect0015.html"><span class="toc_ref">3.2</span> <span class="toc_entry">Четыре барьера внутреннего вычислителя и встроенный блокнот Вернама Шеннона на \(\mathbb {Z}_{512}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0016.html"><span class="toc_ref">3.3</span> <span class="toc_entry">Конструктивные когомологии де&#160;Рама–Стокса–Гаусса–Черна и мера без аксиомы выбора</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active">
+  <a href="ch-mono-qm-maxwell.html"><span class="toc_ref">4</span> <span class="toc_entry">Дискретная и непрерывная квантовая механика (ДКМ и НКМ), электродинамика Максвелла и граница применимости континуума</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0017.html"><span class="toc_ref">4.1</span> <span class="toc_entry">Алгебраическое происхождение корпускулярно-волнового дуализма и правила Борна</span></a>
+ </li>
+<li class="">
+  <a href="sect0018.html"><span class="toc_ref">4.2</span> <span class="toc_entry">Порог дискретности \(\Delta \varphi _{\mathrm{disc}} = 41\), уравнения Максвелла и граница применимости континуальной теории</span></a>
+ </li>
+<li class=" active current">
+  <a href="sec-mono-mechanics-elasticity-fatigue.html"><span class="toc_ref">4.3</span> <span class="toc_entry">Нелинейная механика маятника на произвольных углах, четырёхрежимная теория упругости за пределами закона Гука и предел усталостной выносливости металла</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-sm-gravity.html"><span class="toc_ref">5</span> <span class="toc_entry">Калибровочная группа Стандартной модели, гравитационное преломление и космология</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0019.html"><span class="toc_ref">5.1</span> <span class="toc_entry">Симплициальный комплекс \(\mathcal{C}_{13}\), матричные коммутаторы алгебры Ли \(\mathfrak {u}(1)\oplus \mathfrak {su}(2)\oplus \mathfrak {su}(3)\) и четырёхпетлевой вывод постоянной тонкой структуры</span></a>
+ </li>
+<li class="">
+  <a href="sect0020.html"><span class="toc_ref">5.2</span> <span class="toc_entry">Структура 13-узлового ротора электрона, полное квантование восьми наблюдаемых и единый вихревой атлас Стандартной модели на кликах \(\mathcal{C}_{13}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0021.html"><span class="toc_ref">5.3</span> <span class="toc_entry">Гравитация как преломление на импедансе ворот без сингулярности \(1/0\), ряд сжатия Гаусса–Грина, кавитированные гиперъядра и фазы нейтронной пасты</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-chemistry-nuclear.html"><span class="toc_ref">6</span> <span class="toc_entry">Атомные и ядерные оболочки кубооктаэдра, планетогенез по 6 зонам диска, тождества Безу на \(\mathbb {Z}_{512}\), сверхпроводимость и когерентный \(587\)-кратный коллапс барьера</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0022.html"><span class="toc_ref">6.1</span> <span class="toc_entry">Периодическая система до 8-го периода, четыре физических предела, двухсферный перенос урана на остров стабильности \(N=184\), планетогенез и четыре тождества Безу</span></a>
+ </li>
+<li class="">
+  <a href="sect0023.html"><span class="toc_ref">6.2</span> <span class="toc_entry">Седло химической связи, закон Гесса, правила симметрии, спаривание Купера и коллапс барьера</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-biology.html"><span class="toc_ref">7</span> <span class="toc_entry">Молекулярная биофизика, планетарные фотонные окна, генетический код ДНК, фолдинг белков и морфогенез</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0024.html"><span class="toc_ref">7.1</span> <span class="toc_entry">Делитель водородной связи \(N_{\mathrm{HB}} = 63\) и три планетарных фотонных окна (\(441 : 126 : 63 = 7 : 2 : 1\))</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sec-mono-epistemological-closure.html"><span class="toc_ref">8</span> <span class="toc_entry">Бесфононный кремниевый гетеропереход \(120 + 8 = 128\), общая конструкция предела по счётным моноидам стадий и гёделевская неизбежность лабораторного арбитража</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0025.html"><span class="toc_ref">8.1</span> <span class="toc_entry">Бесфононный кремниевый гетеропереход \(120 + 8 = 128\), барьер оболочечной пассивации \(45^2 {\lt} 2\, 048 {\lt} 46^2\) и вычисления без тепла Ландауэра</span></a>
+ </li>
+<li class="">
+  <a href="sect0026.html"><span class="toc_ref">8.2</span> <span class="toc_entry">Общий оператор предела по счётным моноидам стадий, проективные башни Мальцева и двусторонняя эквивалентность носителей \(\mathcal{M} \leftrightarrow \mathcal{T}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0027.html"><span class="toc_ref">8.3</span> <span class="toc_entry">Конструктивная непротиворечивость и теорема Ловера–Гёделя–Тарского</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="sec:mono-mechanics-elasticity-fatigue">4.3 Нелинейная механика маятника на произвольных углах, четырёхрежимная теория упругости за пределами закона Гука и предел усталостной выносливости металла</h1>
+
+<p>В классической механике и сопротивлении материалов задачи о маятнике и пружине традиционно разделяются двумя искусственными линеаризациями: для маятника постулируется «тонкая нерастяжимая нить» и малость угла (\(\sin \varphi \approx \varphi \)), а для пружины — линейный закон Гука \(F = k\, \Delta x\), не содержащий ни предела прочности, ни внутреннего трения, ни порога усталостной долговечности металла. В модуле доказано, что на дискретном носителе \(O_2(3)\times \mathbb {Z}_{512}\) обе задачи описываются единым оператором ротатора \((\mathcal{C}_3, \mathcal{S}_3)\) без малых приближений: </p>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:mono-mechanics-elasticity-four-regimes">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Теорема
+    </span>
+    <span class="theorem_thmlabel">4.3</span>
+    <span class="theorem_thmtitle">Четыре режима упругости пружины, предел неограниченной выносливости \(\Delta \varphi _{\mathrm{disc}}(3)=41\), дислокационный скачок Бюргерса на противофазном потолке \(\Phi _{\mathrm{Pauli}}(3)=256\) и связанный упругий маятник на произвольных углах,</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-mono-mechanics-elasticity-fatigue.html#thm:mono-mechanics-elasticity-four-regimes">#</a>
+    
+    <a class="icon proof" href="sec-mono-mechanics-elasticity-fatigue.html#a0000000062"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0018.html#thm:mono-heisenberg-maxwell-tsirelson-ee">Теорема 4.2</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/MechanicsElasticity.lean" class="lean_decl">MechanicsElasticity.lean</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>    При \(d = 3\) для любой межатомной связи или упругого подвеса с фазовой деформацией \(\Delta \varphi \in \mathbb {Z}\), возвращающей силой \(F_{\mathrm{spring}}(k, \Delta \varphi ) = k\, \mathcal{S}_3(\Delta \varphi )\), потенциальной энергией деформации \(U_{\mathrm{spring}}(k, \Delta \varphi ) = k\bigl(Q_\square (3) - \mathcal{C}_3(\Delta \varphi )\bigr)\) и оператором внутреннего решёточного трения \(\Phi _{\mathrm{fric}}(\Delta \varphi ) = \operatorname {heisenbergDeadbandOp}(3, \Delta \varphi )\) выполняются следующие четыре режима: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Режим&#160;I — Идеально упругий коридор Гука и предел неограниченной усталостной выносливости (\(0 \le \Delta \varphi \le \Delta \varphi _{\mathrm{disc}}(3) - 1 = 40\)):</b> внутри мёртвой зоны затвора возвращающая сила и потенциальная энергия строго линейны без приближения Тейлора, а внутреннее трение (возбуждение решётки) и перенос ветви тождественно равны нулю: </p>
+<div class="displaymath" id="eq:mono-hooke-lossless">
+  \begin{align}  F_{\mathrm{spring}}(1, \Delta \varphi ) & = \Delta \varphi , \qquad U_{\mathrm{spring}}(1, \Delta \varphi ) \; =\;  \Delta \varphi , \qquad \Phi _{\mathrm{fric}}(\Delta \varphi ) \; \equiv \;  0, \label{eq:mono-hooke-lossless} \\ D_{\mathrm{fatigue}}(N_{\mathrm{cycles}}, 40) & := N_{\mathrm{cycles}}\cdot |\Phi _{\mathrm{fric}}(40)| \; \equiv \;  0 \qquad (\forall \, N_{\mathrm{cycles}} \in \mathbb {N}), \label{eq:mono-infinite-fatigue-endurance} \end{align}
+</div>
+<p> что определяет строгий модельный порог неограниченной усталостной выносливости (\(\sigma _{-1} \leftrightarrow \Delta \varphi _{\mathrm{disc}} = 41\)), ниже которого усталостное повреждение не накапливается при сколь угодно большом числе циклов нагружения. </p>
+</li>
+  <li><p><b class="bfseries">Режим&#160;II — Неупругое внутреннее трение и абсолютный предел прочности на четверти оборота (\(41 \le \Delta \varphi \le Q_\square (3) = 128\)):</b> при \(\Delta \varphi \ge 41\) открывается пороговый вентиль \(\Phi _{\mathrm{fric}}(\Delta \varphi ) = \Delta \varphi \ne 0\) (\(\hat{n}_E(\Delta \varphi ) = \lfloor \Delta \varphi /41\rfloor \ge 1\)), переводящий часть энергии каждого цикла качания во внутреннее дрожание атомов кристаллической решётки (внутреннее трение и акустическую эмиссию в металле даже в полном вакууме), а в седловой точке \(\Delta \varphi = Q_\square (3) = 128\) возвращающая сила достигает глобального максимума по всему кольцу (предела упругой прочности связи): </p>
+<div class="equation" id="eq:mono-uts-peak-128">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-uts-peak-128} F_{\mathrm{spring}}(1, 128) \; =\;  Q_\square (3) \; =\;  128 \; \ge \;  F_{\mathrm{spring}}(1, \varphi ) \quad (\forall \, \varphi \in \mathbb {Z}_{512}), \qquad \mathcal{C}_3(128) \; =\;  0. \end{equation}
+  </div>
+  <span class="equation_label">4.16</span>
+</p>
+</div>
+</li>
+  <li><p><b class="bfseries">Режим&#160;III — Зона разупрочнения и образования шейки (\(128 {\lt} \Delta \varphi {\lt} \Phi _{\mathrm{Pauli}}(3) = 256\)):</b> за перевалом четверти оборота \(\mathcal{C}_3(\Delta \varphi ) {\lt} 0\) (антисвязывающая ветвь), а наклон возвращающей силы меняет знак на отрицательный (\(\Delta \mathcal{S}_3 = -1 {\lt} 0\)), так что при дальнейшем росте удлинения сила сопротивления падает от \(F_{\mathrm{spring}}(1, 129) = 127\) до \(F_{\mathrm{spring}}(1, 255) = 1\). </p>
+</li>
+  <li><p><b class="bfseries">Режим&#160;IV — Полупериодный потолок разрыва связи (\(\Delta \varphi = 256\)) и рождение квантованной дислокации Бюргерса (\(\Delta \varphi = 257\)):</b> на антиподальном противофазном потолке \(\Delta \varphi = 256\) возвращающая сила обращается в нуль (\(F_{\mathrm{spring}}(1, 256) = 0,\  U_{\mathrm{spring}}(1, 256) = 256\)), а переход через границу ветви \(\Delta \varphi = 257\) вызывает скачок частного переноса \(q_e : 0 \to +1\) и рождение в плакете решётки топологического вихря (дислокации с целочисленным вектором Бюргерса): </p>
+<div class="equation" id="eq:mono-burgers-dislocation-jump">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-burgers-dislocation-jump} q_e(256) \; =\;  0 \; \longrightarrow \;  q_e(257) \; =\;  +1, \qquad w_f(0, 128, 256, 257) \; =\;  +1, \qquad \mathcal{B}_f \; =\;  512. \end{equation}
+  </div>
+  <span class="equation_label">4.17</span>
+</p>
+</div>
+</li>
+  <li><p><b class="bfseries">Связанный упругий маятник на произвольных углах от \(0^\circ \) до \(360^\circ \) и масштабирование предельных напряжений и скоростей удара через фазовый объём \(\mathcal{K}_{\mathrm{ell}}(1,1) = 65\, 536\):</b> продольное натяжение упругого подвеса \(T_{\mathrm{long}}(g, \varphi ) = g\, \mathcal{C}_3(\varphi )\) и поперечная возвращающая сила \(F_{\mathrm{trans}}(g, \varphi ) = g\, \mathcal{S}_3(\varphi )\) при любом угле отклонения \(\varphi \in \mathbb {Z}_{512}\) удовлетворяют закону сохранения \(L^1\)-нормы \(|T_{\mathrm{long}}(1, \varphi )| + |F_{\mathrm{trans}}(1, \varphi )| \equiv 128\) с полным двумерным фазовым объёмом ячейки \(\mathcal{K}_{\mathrm{ell}}(1, 1) = 512 \times 128 = 65\, 536 = 8\, \varepsilon (3)\), что определяет безразмерные пороги деформации \(\varepsilon (\Delta \varphi ) = \Delta \varphi / 65\, 536\), напряжения \(\sigma (\Delta \varphi ) = E\, \varepsilon (\Delta \varphi )\) и критической скорости волнового удара \(v(\Delta \varphi ) = c_s\, \varepsilon (\Delta \varphi )\) через модуль Юнга \(E\) и продольную скорость звука \(c_s = \sqrt{E/\rho }\): </p>
+<div class="equation" id="eq:mono-metal-velocity-scaling">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-metal-velocity-scaling} \sigma _{-1} = \frac{5\, E}{8\, 192}, \qquad v_{-1} = \frac{5\, c_s}{8\, 192}, \qquad \sigma _{\mathrm{B}} = \frac{E}{512}, \qquad v_{128} = \frac{c_s}{512}, \qquad v_{\mathrm{Karman}} = \frac{c_s}{256}. \end{equation}
+  </div>
+  <span class="equation_label">4.18</span>
+</p>
+</div>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000062">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Все утверждения Теоремы&#160;<a href="sec-mono-mechanics-elasticity-fatigue.html#thm:mono-mechanics-elasticity-four-regimes">4.3</a> формально проверены ядром Lean&#160;4. </p>
+
+  </div>
+</div>
+<div class="table"  id="tab:mono-eight-metals-karman">
+   <div class="centered"><figcaption>
+  <span class="caption_title">Table</span> 
+  <span class="caption_ref">4.1</span> 
+  <span class="caption_text">Масштабирование предела усталости \(\sigma _{-1} = 5E/8192\), предела прочности чистых поликристаллических металлов \(\sigma _{\mathrm{B}} = E/512\) (правило Эшби), скорости упругого удара \(v_{-1} = 5c_s/8192\) и критической скорости ударного разрыва фон Кармана \(v_{\mathrm{Karman}} = c_s/256\) по 8 металлам.</span> 
+</figcaption>  <small class="small"><table class="tabular">
+  <tr>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">Металл</b> </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">\(E\) (ГПа)</b> </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">\(c_s\) (м/с)</b> </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">\(\sigma _{-1}\) мод.</b> </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">\(\sigma _{-1}\) эксп.</b> </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">\(\sigma _{\mathrm{B}}\) мод.</b> </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">\(v_{-1}\) (м/с)</b> </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">\(v_{\mathrm{Karman}}\) мод. / эксп.</b> </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p>\(\mathrm{Pb}\) (ГЦК) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(16\) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(2\, 160\) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(9{,}8\) МПа </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(7\text{--}9\) МПа </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(31{,}2\) МПа </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(1{,}32\) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(8{,}44\) / \(\sim 8{,}4\) м/с </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p>\(\mathrm{Al}\) (ГЦК) </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> \(70\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(6\, 420\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(42{,}7\) МПа </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(34\text{--}45\) МПа </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(136{,}7\) МПа </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(3{,}92\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(25{,}08\) / \(\sim 25{,}0\) м/с </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p>\(\mathrm{Ti}\) (ГПУ) </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> \(116\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(6\, 070\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(70{,}8\) МПа </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(75\text{--}100\) МПа </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(226{,}6\) МПа </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(3{,}70\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(23{,}71\) / \(\sim 24{,}0\) м/с </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p>\(\mathrm{Cu}\) (ГЦК) </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> \(130\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(4\, 760\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(79{,}3\) МПа </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(70\text{--}80\) МПа </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(253{,}9\) МПа </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(2{,}91\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(18{,}59\) / \(\sim 18{,}5\) м/с </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p>\(\mathrm{Ni}\) (ГЦК) </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> \(200\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(6\, 040\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(122{,}1\) МПа </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(110\text{--}125\) МПа </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(390{,}6\) МПа </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(3{,}69\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(23{,}59\) / \(\sim 23{,}5\) м/с </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p>\(\mathrm{Fe}\) (ОЦК) </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> \(211\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(5\, 960\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(128{,}8\) МПа </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(130\text{--}140\) МПа </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(412{,}1\) МПа </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(3{,}64\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(23{,}28\) / \(\sim 23{,}0\) м/с </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p>\(\mathrm{Mo}\) (ОЦК) </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> \(329\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(6\, 250\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(200{,}8\) МПа </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(200\text{--}220\) МПа </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(642{,}6\) МПа </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(3{,}81\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(24{,}41\) / \(\sim 24{,}5\) м/с </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p>\(\mathrm{W}\) (ОЦК) </p>
+
+    </td>
+    <td  style="border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(411\) </p>
+
+    </td>
+    <td  style="text-align:left; border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(5\, 220\) </p>
+
+    </td>
+    <td  style="text-align:left; border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(250{,}9\) МПа </p>
+
+    </td>
+    <td  style="text-align:left; border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(250\text{--}270\) МПа </p>
+
+    </td>
+    <td  style="text-align:left; border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(802{,}7\) МПа </p>
+
+    </td>
+    <td  style="text-align:left; border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(3{,}19\) </p>
+
+    </td>
+    <td  style="text-align:left; border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(20{,}39\) / \(\sim 20{,}4\) м/с </p>
+
+    </td>
+  </tr>
+</table> </small></div>
+</div>
+<blockquote class="quote"> <small class="small"><b class="bfseries">Методологическое примечание о границе между формальной моделью и натурными испытаниями материалов.</b> Соотношения&#160;<a href="sec-mono-mechanics-elasticity-fatigue.html#eq:mono-hooke-lossless" class="eqref">4.14</a>–<a href="sec-mono-mechanics-elasticity-fatigue.html#eq:mono-metal-velocity-scaling" class="eqref">4.18</a> строго доказаны в ядре Lean&#160;4 как точные алгебраические свойства дискретной модели \(O_2(3)\times \mathbb {Z}_{512}\). При этом прямой пересчёт модельных порогов одной связи (\(\Delta \varphi _{\mathrm{disc}} = 41\), \(Q_\square = 128\), \(\Delta \varphi _{\max } = 256\)) в макроскопические инженерные напряжения (\(\sigma _{-1}, \sigma _{0{,}2}, \sigma _{\mathrm{B}}\) в МПа) и кривые усталости Вёлера конкретных поликристаллических авиационных, судостроительных и конструкционных сплавов (с учётом границ зёрен, легирования и концентрации напряжений) <b class="bfseries">ещё не проходил независимой внешней экспериментальной проверки</b> и составляет открытую программу стендовых испытаний на вибростендах в вакууме с синхронной регистрацией акустической эмиссии и тепловыделения. </small></blockquote>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sect0018.html" title="Порог дискретности \(\Delta \varphi _{\mathrm{disc}} = 41\), уравнения Максвелла и граница применимости континуальной теории"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-mono-qm-maxwell.html" title="Дискретная и непрерывная квантовая механика (ДКМ и НКМ), электродинамика Максвелла и граница применимости континуума"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="ch-mono-sm-gravity.html" title="Калибровочная группа Стандартной модели, гравитационное преломление и космология"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

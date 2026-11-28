@@ -1,0 +1,2214 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dependency graph</title>
+  <meta name="generator" content="plasTeX" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles/theme-white.css" />
+  <link rel="stylesheet" href="styles/dep_graph.css" />
+  
+  <script type="text/x-mathjax-config">
+  
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+  
+  </script>
+
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">  </script>
+
+
+</head>
+
+<body>
+<header>
+  <a class="toc" href="index.html">Home</a>
+  <h1 id="doc_title">Dependencies</h1>
+</header>
+<div class="wrapper">
+<div class="content">
+  <div id="Legend">
+    <span id="legend_title" class="title">Legend
+    <div class="btn">
+       <div class="bar"></div>
+       <div class="bar"></div>
+       <div class="bar"></div>
+    </div></span> 
+    <dl class="legend">
+      
+      <dt>Boxes</dt><dd>definitions</dd>
+      
+      <dt>Ellipses</dt><dd>theorems and lemmas</dd>
+      
+      <dt>Blue border</dt><dd>the <em>statement</em> of this result is ready to be formalized; all prerequisites are done</dd>
+      
+      <dt>Orange border</dt><dd>the <em>statement</em> of this result is not ready to be formalized; the blueprint needs more work</dd>
+      
+      <dt>Blue background</dt><dd>the <em>proof</em> of this result is ready to be formalized; all prerequisites are done</dd>
+      
+      <dt>Green border</dt><dd>the <em>statement</em> of this result is formalized</dd>
+      
+      <dt>Green background</dt><dd>the <em>proof</em> of this result is formalized</dd>
+      
+      <dt>Dark green background</dt><dd>the <em>proof</em> of this result and all its ancestors are formalized</dd>
+      
+      <dt>Dark green border</dt><dd>this is in Mathlib</dd>
+      
+    </dl>
+  </div>
+    <div id="graph"></div>
+<div id="statements">
+
+    
+    <div class="dep-modal-container" id="def:sample-stats_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="def:sample-stats" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Определение
+      </span>
+      <span class="definition_thmlabel">13.4</span><span class="definition_thmtitle">Выборочные оценки</span></div>
+    <div class="thm_thmcontent"><p>   Наилучшая оценка среднего \(\bar x = \frac{1}{n}\sum _i x_i\). Несмещённая выборочная дисперсия \(s^2 = \frac{1}{n-1}\sum _i (x_i-\bar x)^2\), стандартная ошибка среднего \(\mathrm{SE}(\bar x) = s/\sqrt{n}\). </p>
+</div>
+
+    <a class="latex_link" href="sec-student.html#def:sample-stats">LaTeX</a>
+    
+    
+  
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="exp:cerd01_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="exp:cerd01" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">14.1</span><span class="theorem_thmtitle">CE-RD-01 · Когерентное схлопывание импеданса барьера \(D(x)\to \varepsilon =8\, 192\) в 12-лучевом кубооктаэдре (\(25\times \text{--}587\times \))</span></div>
+    <div class="thm_thmcontent">
+<p><b class="bfseries">Постановка.</b> </p>
+<p><b class="bfseries">Физический вопрос.</b> Во сколько раз когерентная противофазная накачка \(12\) вершин кубооктаэдра&#160;\(O_2\) во втором квадранте фазового кольца (\(139 \le |A_{xy}| \le 256\), \(C(A_{xy}) \le -11\)) снижает реактивный знаменатель барьера \(D(x) = \zeta _{\mathrm{real}}(x) + 128\mu (x)^2 + \varepsilon \) по сравнению с некогерентным тепловым режимом (\(|A_{xy}| \le 41\), \(C(A_{xy}) \ge +87\)), и разрушается ли рождение вихревой пары на такте \(t=2\) при отключении защитного пола \(D \le 0 \mapsto \varepsilon = 8\, 192\)? </p>
+<p><b class="bfseries">Что проверяем.</b> </p>
+<ol class="enumerate">
+  <li><p>Точные целочисленные значения импеданса \(D_{\mathrm{thermal}}(13) = 206\, 260\), \(D_{\mathrm{thermal}}(64) = 4\, 808\, 704\) и \(D_{\max }(64) = 6\, 823\, 936\) в первом квадранте. </p>
+</li>
+  <li><p>Схлопывание знаменателя \(D_{\mathrm{coherent}}(64) = \varepsilon = 8\, 192\) при \(|A_{xy}| = 139\) (\(C(139) = -11\), \(D_{\mathrm{raw}} = -8\, 192 \le 0\)) и отношения барьеров \(25\times \), \(587\times \) и \(833\times \). </p>
+</li>
+  <li><p>Реальное срабатывание порога \(D_{\mathrm{raw}} = -113\, 826 \le 0 \mapsto D = 8\, 192\) в узле \((-2,-1,-1)\) на такте \(t=1\) эволюции \(\mathrm{IV}(3)=263\). </p>
+</li>
+</ol>
+<p><b class="bfseries">Рабочая гипотеза.</b> Когерентная противофазная накачка по \(12\) направлениям кубооктаэдра снижает знаменатель барьера ровно в \(25\) раз при \(\mu =13\) и в \(587\) раз при \(\mu =64\) (\(833\) раза относительно синфазного потолка), а снятие защитного пола \(D{\gt}0\) роняет число рождённых \(xy\)-вихрей на \(t=2\) с \(26\) до \(24\). </p>
+<p><b class="bfseries">Наблюдаемые.</b> Знаменатели \(D_{\mathrm{thermal}}(\mu )\), \(D_{\mathrm{coherent}}(\mu )\), коэффициенты редукции барьера \(K_{13}, K_{64}, K_{\max }\) и число рождённых \(xy\)-вихрей \(N_{xy}(t=2)\) (табл.&#160;<a href="sec-lab-series-ce-rd.html#tab:exp-ce-rd-01">14.1</a>). </p>
+<p><b class="bfseries">Критерий согласия с теорией.</b> Точные целочисленные равенства \(K_{13} = 25\), \(K_{64} = 587\), \(K_{\max } = 833\) и \(N_{xy}(t=2) = 26\) (тип&#160;B, машинная верификация в Lean&#160;4). </p>
+<p><b class="bfseries">Теоретическая часть.</b> </p>
+<p>По теореме&#160;<a href="sec-applied-thermal-vs-coherent.html#thm:applied-barrier-collapse">4.1</a> при \(|A_{xy}| = 139\) тиков проекция грани равна \(C(139) = 128 - 139 = -11\), так что сумма по \(12\) соседям кубооктаэдра \(\zeta _{\mathrm{real}} = -132\mu ^2\) компенсирует собственный барьер \(+128\mu ^2\), переводя знаменатель&#160;\(D\) на вакуумный пол \(\varepsilon = 8\, 192\). </p>
+<p><b class="bfseries">Проверка размерностей.</b> В естественных единицах ядра&#160;\(\Mlayer \) амплитуда \(\mu \in \{ 1,\dots ,64\} \) измеряется в квантах, проекция грани \(C(A)\in [-128,128]\) — в долях \(Q_\square =128\), а все слагаемые знаменателя&#160;\(D\) (\(\zeta _{\mathrm{real}}\), \(128\mu ^2\) и \(\varepsilon = 64\times 128 = 8\, 192\)) имеют единую размерность \(\mathrm{кванты}^2\cdot Q_\square \), поэтому отношение \(K = D_{\mathrm{thermal}}/D_{\mathrm{coherent}}\) строго безразмерно (\([K] = 1\)). </p>
+<p><b class="bfseries">Ход эксперимента.</b> </p>
+<p><p>Воспроизведение: lake build в lean/ и .</p>
+ </p>
+<ol class="enumerate">
+  <li><p>Вычислить в целочисленной арифметике \(D_{\mathrm{thermal}}(\mu )\) при \(|A_{xy}|=41\) и \(D_{\mathrm{coherent}}(\mu )\) при \(|A_{xy}|=139\) для \(\mu \in \{ 13, 64\} \). </p>
+</li>
+  <li><p>Проверить срабатывание условия \(D_{\mathrm{raw}} \le 0 \mapsto \varepsilon = 8\, 192\) на такте \(t=1\) траектории \(g^t(\mathrm{IV}(3)=263)\) в узле \((-2,-1,-1)\). </p>
+</li>
+  <li><p>Сравнить полный 3D-ценз вихревых плакетов при \(t=2\) с защитным полом \(D{\gt}0\) и при его отключении. </p>
+</li>
+</ol>
+<div class="table"  id="tab:exp-ce-rd-01">
+   <div class="centered"><small class="footnotesize"> <figcaption>
+  <span class="caption_title">Table</span> 
+  <span class="caption_ref">14.1</span> 
+  <span class="caption_text">Верификация когерентного схлопывания барьера кубооктаэдра (CE-RD-01)</span> 
+</figcaption>  <table class="tabular">
+  <tr>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> Гейт / Наблюдаемое </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> Теоретическая формула </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Значение (Lean 4 / Python) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Допуск </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> Статус </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p>Тепловой барьер \(D_{\mathrm{thermal}}(13)\) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(1172\cdot 13^2 + 8192\) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(206\, 260\) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(0\) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> PASS </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p>Тепловой барьер \(D_{\mathrm{thermal}}(64)\) </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> \(1172\cdot 64^2 + 8192\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(4\, 808\, 704\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(0\) </p>
+
+    </td>
+    <td  style="text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> PASS </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p>Когерентный пол \(D_{\mathrm{coherent}}(64)\) </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> \(|A|=139 \implies \varepsilon \) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(8\, 192\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(0\) </p>
+
+    </td>
+    <td  style="text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> PASS </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p>Выигрыш барьера \((K_{13}, K_{64}, K_{\max })\) </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> \(\lfloor D / 8192\rfloor \) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \((25\times ,\  587\times ,\  833\times )\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(0\) </p>
+
+    </td>
+    <td  style="text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> PASS </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p>Абляция защиты \(D{\gt}0\) на \(t=1\to 2\) </p>
+
+    </td>
+    <td  style="border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(N_{xy}(2)\colon 26 \to 24\) </p>
+
+    </td>
+    <td  style="text-align:left; border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(D_{\mathrm{raw}}=-113\, 826,\  26\ne 24\) </p>
+
+    </td>
+    <td  style="text-align:left; border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(0\) </p>
+
+    </td>
+    <td  style="text-align:right; border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> PASS </p>
+
+    </td>
+  </tr>
+</table> </small></div>
+</div>
+<p><b class="bfseries">Анализ, расчёт погрешности и выводы.</b> </p>
+<p>Все вычисления выполнены в точной целочисленной арифметике \(\mathbb {Z}\) без погрешности округления (\(\Delta = 0\), тип&#160;B) и проверены ядром Lean&#160;4 без использования аксиом (‘does not depend on any axioms‘). </p>
+<p><b class="bfseries">Вывод.</b> Перевод \(12\) лучей кубооктаэдра во второй квадрант фазового кольца (\(|A_{xy}|\ge 139\) тиков) компенсирует собственный барьер узла \(+128\mu ^2\) отрицательной продольной голономией \(\zeta _{\mathrm{real}}\le -132\mu ^2\) и снижает порог топологического пробоя смены ветви в \(25\text{--}587\) раз без теплового разогрева числителя. <b class="bfseries">Статус записи:</b> опыт закрыт по табл.&#160;<a href="sec-lab-series-ce-rd.html#tab:exp-ce-rd-01">14.1</a>. </p>
+</div>
+
+    <a class="latex_link" href="sec-lab-series-ce-rd.html#exp:cerd01">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ContinuumPhysics.lean#L524" class="lean_decl">coherent_cuboctahedron_barrier_collapse_587x</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/WorldTrajectory.lean#L444" class="lean_decl">ablation_no_denom_guard_corrupts_t2_vortex_pair</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/UnifiedOperators.lean" class="lean_decl">UnifiedOperators.lean</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/WorldTrajectory.lean" class="lean_decl">WorldTrajectory.lean</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="exp:cerd02_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="exp:cerd02" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">14.2</span><span class="theorem_thmtitle">CE-RD-02 · Квантовый фазовый храповик \(-1\) тик на доменной стенке и топологический сброс \(512\, n_f\)</span></div>
+    <div class="thm_thmcontent">
+<p><b class="bfseries">Постановка.</b> </p>
+<p><b class="bfseries">Физический вопрос.</b> Порождает ли целочисленное деление с остатком вниз \(\lfloor u/D\rfloor \) в законе ворот&#160;\(\Phi \) неустранимую киральную асимметрию \(-1\) тик между противоположными берегами плоской доменной стенки при симметричном по модулю возбуждении \(\pm u\), и сохраняется ли строго сумма топологических зарядов \(\Delta n_{f_+} + \Delta n_{f_-} = 0\) при каждом сбросе \(512\) тиков связности через общее ребро? </p>
+<p><b class="bfseries">Что проверяем.</b> </p>
+<ol class="enumerate">
+  <li><p>Асимметрию импульсов \(\Phi _+ = +76\) и \(\Phi _- = -77\) тиков (\(\Phi _+ + \Phi _- = -1\) тик) на плоской доменной стенке \(\mathrm{IV}(3)=263\) при \(t=0\). </p>
+</li>
+  <li><p>Полное исчезновение кирального эффекта (\(\Phi _+^{\mathrm{tdiv}} + \Phi _-^{\mathrm{tdiv}} = +76 + (-76) = 0\)) при замене деления вниз \(\lfloor \cdot \rfloor \) на усечение к нулю \(\operatorname {trunc}(\cdot )\). </p>
+</li>
+  <li><p>Точное равенство \((d_1 A)_f = 512\, n_f\) и сохранение заряда \(\Delta n_{f_+} + \Delta n_{f_-} = 0\) при перебросе общего ребра на \(\Delta k_e = \pm 1\). </p>
+</li>
+</ol>
+<p><b class="bfseries">Рабочая гипотеза.</b> Деление с остатком вниз \(\lfloor u/D\rfloor \) действует как точный квантовый храповик с шагом \(-1\) тик за такт на любой доменной стенке с \(u\bmod D\ne 0\), а каждый переход ребра через разрез Паули \(\pm 256\) высвобождает или запасает ровно \(512\) тиков фазовой связности при нулевом изменении суммарного топологического заряда. </p>
+<p><b class="bfseries">Наблюдаемые.</b> Импульсы \(\Phi _+, \Phi _-\), сумма храповика \(\Delta \Phi _{\mathrm{ratchet}} = \Phi _+ + \Phi _-\), результат абляции \(\Delta \Phi _{\mathrm{tdiv}}\) и квант сброса потока \(\Delta B_f\) (табл.&#160;<a href="sec-lab-series-ce-rd.html#tab:exp-ce-rd-02">14.2</a>). </p>
+<p><b class="bfseries">Критерий согласия с теорией.</b> Точные целочисленные равенства \(\Delta \Phi _{\mathrm{ratchet}} = -1\), \(\Delta \Phi _{\mathrm{tdiv}} = 0\), \(\Delta B_f = 512\, \Delta n_f\) и \(\Delta n_{f_+} + \Delta n_{f_-} = 0\) (тип&#160;B, нулевой допуск). </p>
+<p><b class="bfseries">Теоретическая часть.</b> </p>
+<p>Для любого целого числителя \(u = qD + r\) с остатком \(0 {\lt} r {\lt} D\) имеем \(\lfloor +u/D\rfloor = q\), тогда как \(-u = -(q+1)D + (D-r)\) даёт \(\lfloor -u/D\rfloor = -(q+1)\), откуда \(\lfloor +u/D\rfloor + \lfloor -u/D\rfloor = -1\) независимо от величины&#160;\(q\). </p>
+<p><b class="bfseries">Проверка размерностей.</b> Фазовые импульсы \(\Phi _\pm \), реберная связность \(A_e \in (-256,256]\) и плакетный поток \(B_f = 512\, n_f\) измеряются в безразмерных тиках кольца \(\mathbb {Z}_{512}\) (\([\Phi ] = [B_f] = 1\  \text{тик}\)), которым на макроуровне&#160;\(\Tlayer \) отвечает квант действия \(s_0 = h / 512\). </p>
+<p><b class="bfseries">Ход эксперимента.</b> </p>
+<p><p>Воспроизведение: lake build в lean/ и .</p>
+ </p>
+<ol class="enumerate">
+  <li><p>Вычислить голономии \((\zeta _{\mathrm{real}},\zeta _{\mathrm{imag}}) = (134\, 862,\  \pm 70\, 980)\) на противоположных сторонах плоской стенки октантов \(\mathrm{IV}(3)=263\). </p>
+</li>
+  <li><p>Сравнить выход ворот при делении вниз \(\lfloor \cdot \rfloor \) (\(+76\) и \(-77\)) и при усечении к нулю \(\operatorname {trunc}(\cdot )\) (\(+76\) и \(-76\)). </p>
+</li>
+  <li><p>Проверить рождение первого вихревого плакета \(B_f(2) = 32 + 85 + 196 + 199 = 512\) (\(n_f(2) = +1\)) в центральном углу&#160;\(K_3\) на такте \(t=2\). </p>
+</li>
+</ol>
+<div class="table"  id="tab:exp-ce-rd-02">
+   <div class="centered"><small class="footnotesize"> <figcaption>
+  <span class="caption_title">Table</span> 
+  <span class="caption_ref">14.2</span> 
+  <span class="caption_text">Верификация квантового фазового храповика и топологического сброса \(512\, n_f\) (CE-RD-02)</span> 
+</figcaption>  <table class="tabular">
+  <tr>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> Гейт / Наблюдаемое </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> Теоретическая формула </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Значение (Lean 4 / Python) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Допуск </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> Статус </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p>Импульсы стенки \((\Phi _+, \Phi _-)\) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(\lfloor \pm 12\, 524\, 928 / 164\, 686\rfloor \) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \((+76,\  -77)\) тиков </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(0\) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> PASS </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p>Шаг фазового храповика \(\Phi _+ + \Phi _-\) </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> \(\lfloor +u/D\rfloor + \lfloor -u/D\rfloor \) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(-1\) тик </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(0\) </p>
+
+    </td>
+    <td  style="text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> PASS </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p>Абляция \(\operatorname {trunc}(\cdot )\) (\(\Phi _+^{\mathrm{tdiv}} + \Phi _-^{\mathrm{tdiv}}\)) </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> \(76 + (-76)\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(0\) (эффект исчезает) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(0\) </p>
+
+    </td>
+    <td  style="text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> PASS </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p>Квант плакетного потока \(B_f(t=2)\) </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> \((d_1 A)_f = 512\, n_f\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(32+85+196+199 = 512\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(0\) </p>
+
+    </td>
+    <td  style="text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> PASS </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p>Закон сохранения на общем ребре </p>
+
+    </td>
+    <td  style="border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(\Delta n_{f_+} + \Delta n_{f_-}\) </p>
+
+    </td>
+    <td  style="text-align:left; border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(0\) (тождественно) </p>
+
+    </td>
+    <td  style="text-align:left; border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(0\) </p>
+
+    </td>
+    <td  style="text-align:right; border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> PASS </p>
+
+    </td>
+  </tr>
+</table> </small></div>
+</div>
+<p><b class="bfseries">Анализ, расчёт погрешности и выводы.</b> </p>
+<p>Арифметика целочисленного деления с остатком точна (\(\Delta = 0\), тип&#160;B); обе теоремы в не зависят ни от одной аксиомы Lean&#160;4. </p>
+<p><b class="bfseries">Вывод.</b> Сдвиг округления вниз \(\lfloor u/D\rfloor \) на доменной стенке формирует точный однонаправленный фазовый храповик в \(-1\) тик за такт, а переброс ребра через разрез Паули \(\pm 256\) квантует запас и сброс вихревого потока порциями ровно по \(512\) тиков. <b class="bfseries">Статус записи:</b> опыт закрыт по табл.&#160;<a href="sec-lab-series-ce-rd.html#tab:exp-ce-rd-02">14.2</a>. </p>
+</div>
+
+    <a class="latex_link" href="sec-lab-series-ce-rd.html#exp:cerd02">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/WorldTrajectory.lean#L259" class="lean_decl">iv263_flat_domain_wall_asymmetry_t0</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/WorldTrajectory.lean#L430" class="lean_decl">ablation_tdiv_destroys_domain_wall_chiral_asymmetry</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HolonomyMaxwell.lean#L91" class="lean_decl">plaquette_flux_eq_512_mul_winding</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HolonomyMaxwell.lean#L118" class="lean_decl">shared_edge_charge_conservation</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/WorldTrajectory.lean" class="lean_decl">WorldTrajectory.lean</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HolonomyMaxwell.lean" class="lean_decl">HolonomyMaxwell.lean</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="exp:cerd03_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="exp:cerd03" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">14.3</span><span class="theorem_thmtitle">CE-RD-03 · Четырёхканальная голономная томография \(\mathcal{M}(x,t,N)\) и устойчивость геодинамо при \(D(x)\ge 8\, 192\)</span></div>
+    <div class="thm_thmcontent">
+<p><b class="bfseries">Постановка.</b> </p>
+<p><b class="bfseries">Физический вопрос.</b> Выполняются ли для замкнутого \(4\)-канального оператора измерения макроприбора \(\mathcal{M}(x,t,N) = \mathcal{B}_N[\mathcal{O}(\Psi ^t)](x)\) при любом конечном окне \(N\ge 1\) точные тождества голономной томографии (\(\delta K_{xy} = \mu _x\mu _y|A_{xy}|\), \(J_{xy}+J_{yx}=0\), \((d_1\mathcal{B}_N[A])_f = 512\, \mathcal{B}_N[n_f]\), \(\operatorname {div}_{\mathrm{cube}}\mathcal{B}_N[n_f]\equiv 0\)) и строгая положительность оптического знаменателя \(D(x,t) \ge 8\, 192 {\gt} 0\), исключающая сингулярность \(g_{00}^{(N)}\to 0\) в сжатых ядрах планет? </p>
+<p><b class="bfseries">Что проверяем.</b> 
+<ol class="enumerate">
+  <li><p>Замкнутую линейную формулу для чётного дефицита Бома \(\delta K_{xy} = 128\mu _x\mu _y - \mu _x\mu _y C(d\varphi ) = \mu _x\mu _y|\mathrm{wrap}_{512}(d\varphi )|\) и антисимметрию тока \(J_{xy}+J_{yx}=0\) на всех \(512\) углах кольца. </p>
+</li>
+  <li><p>Точную коммутацию оператора прибора&#160;\(\mathcal{B}_N\) с уравнениями Максвелла–Гаусса–Фарадея при любом конечном&#160;\(N\ge 1\). </p>
+</li>
+  <li><p>Строгую нижнюю границу \(D(x,t) {\gt} 0\) (\(D\ge 8\, 192\)), тождество полноты ДКМ без тёмного остатка \(D_{\mathrm{dark}} \equiv D - (D_{\mathrm{baryon}} - \delta K) \equiv 0\) (\(D_{\mathrm{vac}}(0)=9\, 856\), \(D_{\mathrm{vac}}(41)=9\, 364\), \(W_{\mathrm{halo}}/W_{\mathrm{core}} = 2\, 048/384 = 16/3\)) и нулевую дивергенцию куба \(\max |\operatorname {div}_{\mathrm{cube}} n_f| = 0\) на \(86\) вихревых плакетах 3D-решётки \(\mathrm{IV}(3)=263\). </p>
+</li>
+</ol>
+ </p>
+<p><b class="bfseries">Рабочая гипотеза.</b> На любом конечном масштабе прибора \(N\ge 1\) все четыре канала измерения \(\mathcal{M}(x,t,N)\) связаны безынтегральными алгебраическими тождествами с нулевой погрешностью (\(\Delta \equiv 0\)). </p>
+<p><b class="bfseries">Наблюдаемые.</b> Погрешность линейной реконструкции дефицита Бома \(\Delta _{\mathrm{Bohm}}\), невязка тока \(\Delta _J = \max |J_{xy}+J_{yx}|\), максимальная дивергенция куба \(\max |\operatorname {div}_{\mathrm{cube}}\mathcal{B}_N[n_f]|\), полный вихревой поток \(\sum |B_f(t=2)|\) и минимум знаменателя \(\min D(x,t)\) (табл.&#160;<a href="sec-lab-series-ce-rd.html#tab:exp-ce-rd-03">14.3</a>). </p>
+<p><b class="bfseries">Критерий согласия с теорией.</b> Точные равенства \(\Delta _{\mathrm{Bohm}} = 0\), \(\Delta _J = 0\), \(\max |\operatorname {div}_{\mathrm{cube}}\mathcal{B}_N[n_f]| = 0\), \(\sum |B_f(2)| = 44\, 032\) тика и \(\min D \ge 8\, 192 {\gt} 0\) (тип&#160;B). </p>
+<p><b class="bfseries">Теоретическая часть.</b> </p>
+<p>Поскольку \(C(d\varphi ) = 128 - |\mathrm{wrap}_{512}(d\varphi )|\), сумма \(C(d\varphi ) + |\mathrm{wrap}_{512}(d\varphi )| \equiv 128\) позволяет однозначно разделять плотностной множитель \(\mu _x\mu _y\) и фазовый разрыв \(|A_{xy}|\) по совместному замеру продольной задержки&#160;\(D\) и дисперсионного дефицита&#160;\(\delta K_{xy}\). </p>
+<p><b class="bfseries">Проверка размерностей.</b> Оператор окна прибора \(W_N(z) = 12^{-2N}\# \{ \gamma \in O_2^{2N}\} \) безразмерен и нормирован на единицу (\(\sum _z W_N(z) = 1\)), поэтому все сглаженные наблюдаемые \(\mathcal{B}_N[F]\) сохраняют точную физическую размерность исходных решёточных полей&#160;\(F\). </p>
+<p><b class="bfseries">Ход эксперимента.</b> </p>
+<p><p>Воспроизведение: lake build в lean/ и .</p>
+ </p>
+<ol class="enumerate">
+  <li><p>Проверить тождества \(128 - C(r) = |r|\) и \(S(r) + S((512-r)\bmod 512) = 0\) по всем \(512\) остаткам кольца \(\mathbb {Z}_{512}\). </p>
+</li>
+  <li><p>Вычислить 3D-эволюцию \(\symCapitalPsi ^t = g^t(\mathrm{IV}(3)=263)\) при \(t=0,1,2\) и измерить полный вихревой поток \(512\times (26_{xy}+26_{yz}+34_{xz})\) и дивергенцию во всех элементарных кубах. </p>
+</li>
+  <li><p>Проверить выполнение коммутационных тождеств прибора&#160;\(\mathcal{B}_N\) для произвольного конечного списка весов&#160;\(w_i\in \mathbb {Z}\). </p>
+</li>
+</ol>
+<div class="table"  id="tab:exp-ce-rd-03">
+   <div class="centered"><small class="footnotesize"> <figcaption>
+  <span class="caption_title">Table</span> 
+  <span class="caption_ref">14.3</span> 
+  <span class="caption_text">Верификация 4-канальной голономной томографии и регулярности ядра (CE-RD-03)</span> 
+</figcaption>  <table class="tabular">
+  <tr>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> Гейт / Наблюдаемое </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> Теоретическая формула </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Значение (Lean 4 / Python) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Допуск </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> Статус </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p>Линейная формула Бома \(\delta K_{xy}\) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(\mu _x\mu _y(128 - C) = \mu _x\mu _y|A|\) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(\Delta _{\mathrm{Bohm}} = 0\) (\(\forall \mu ,d\varphi \in \mathbb {Z}\)) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(0\) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> PASS </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p>Антисимметрия тока \(J_{xy}+J_{yx}\) </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> \(\mu _x\mu _y(S(r)+S(-r))\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(0\) (на всех \(512\) углах) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(0\) </p>
+
+    </td>
+    <td  style="text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> PASS </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p>Поток вихревого ядра \(\sum |B_f(2)|\) </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> \(512\times (26+26+34)\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(44\, 032\) тика (\(86\) плакетов) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(0\) </p>
+
+    </td>
+    <td  style="text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> PASS </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p>Дивергенция под прибором \(\mathcal{B}_N\) </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> \(\operatorname {div}_{\mathrm{cube}}\mathcal{B}_N[n_f]\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(0\) (\(\forall N\ge 1\)) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(0\) </p>
+
+    </td>
+    <td  style="text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> PASS </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p>Нижняя грань импеданса \(\min D(x,t)\) </p>
+
+    </td>
+    <td  style="border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(\max (D_{\mathrm{raw}}, \varepsilon )\) </p>
+
+    </td>
+    <td  style="text-align:left; border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(\ge 8\, 192 {\gt} 0\) (\(g_{00}^{(N)} {\gt} 0\)) </p>
+
+    </td>
+    <td  style="text-align:left; border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(0\) </p>
+
+    </td>
+    <td  style="text-align:right; border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> PASS </p>
+
+    </td>
+  </tr>
+</table> </small></div>
+</div>
+<p><b class="bfseries">Анализ, расчёт погрешности и выводы.</b> </p>
+<p>Все пять операторных тождеств доказаны в Lean&#160;4 для произвольных целочисленных входов без аппроксимаций (\(\Delta = 0\), тип&#160;B). </p>
+<p><b class="bfseries">Вывод.</b> Замкнутая 4-канальная формула \(\mathcal{M}(x,t,N)\) обеспечивает точную алгебраическую реконструкцию внутренних профилей плотности и фазовой связности при любом конечном окне прибора \(N\ge 1\) и гарантирует отсутствие сингулярностей в сверхплотных ядрах. <b class="bfseries">Статус записи:</b> опыт закрыт по табл.&#160;<a href="sec-lab-series-ce-rd.html#tab:exp-ce-rd-03">14.3</a>. </p>
+</div>
+
+    <a class="latex_link" href="sec-lab-series-ce-rd.html#exp:cerd03">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ContinuumPhysics.lean#L208" class="lean_decl">even_holonomy_bohm_deficit_eq_abs_connection</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ContinuumPhysics.lean#L221" class="lean_decl">odd_holonomy_current_pairwise_conservation_all_512</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HolonomyMaxwell.lean#L174" class="lean_decl">instrument_convolution_plaquette_flux_exact</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HolonomyMaxwell.lean#L211" class="lean_decl">instrument_convolution_gauss_monopole_free_exact</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/WorldTrajectory.lean#L463" class="lean_decl">gravity_denominator_strictly_positive_floor_8192</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/CosmologyHalo.lean#L87" class="lean_decl">no_dark_matter_and_vacuum_holonomy_halo</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/WorldTrajectory.lean#L482" class="lean_decl">closed_form_unified_4channel_measurement_iv263_t2</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/UnifiedOperators.lean" class="lean_decl">UnifiedOperators.lean</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HolonomyMaxwell.lean" class="lean_decl">HolonomyMaxwell.lean</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/WorldTrajectory.lean" class="lean_decl">WorldTrajectory.lean</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="exp:cerd04_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="exp:cerd04" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">14.4</span><span class="theorem_thmtitle">CE-RD-04 · Аналитические операторы химических реакций, седловая точка \(|A^\ddagger |=128\), селективность Вудворда–Хоффмана и катализ на кубооктаэдре \(O_2\)</span></div>
+    <div class="thm_thmcontent">
+<p><b class="bfseries">Постановка.</b> </p>
+<p><b class="bfseries">Физический вопрос.</b> Позволяет ли сквозная цепочка целочисленных операторов от единственного корня уравнения Каталана \(1+2^d=d^2 \iff d=3\) выписать и аналитически доказать без континуального многоэлектронного уравнения Шрёдингера и без эмпирических функционалов плотности (DFT) точные операторы энергии ковалентной связи \(\mathcal{E}_{\mathrm{bond}}\), деформации Бома \(\delta K_{\mathrm{bond}}\), реакционного тока переноса \(\mathcal{J}_{\mathrm{rxn}}\), седловой точки переходного состояния \(|A^\ddagger | = Q_\square (d) = 128\), закона Гесса, стабильности валентного триплета \(3\Delta \varphi _{\mathrm{disc}}(d) = 123 {\lt} 128\), порога \(4\)-квантовой активации \(4\Delta \varphi _{\mathrm{disc}}(d) = 164 {\gt} 128\), селективности Вудворда–Хоффмана \([4+2]\) против \([2+2]\) и открытия ворот реакции в кубооктаэдральной полости катализатора&#160;\(O_2\) (<a href="sec-applied-chemical-operators.html#thm:applied-chemical-reactions-and-catalysis">теорема 7.1</a>)? </p>
+<p><b class="bfseries">Что проверяем.</b> 
+<ol class="enumerate">
+  <li><p>Точное сохранение полного бюджета связи \(\mathcal{E}_{\mathrm{bond}} + \delta K_{\mathrm{bond}} = 128\, b\, \mu _x\mu _y\), \(\ell _1\)-инвариантность \(|\mathcal{E}_{\mathrm{bond}}| + |\mathcal{J}_{\mathrm{rxn}}| = 128\, b\, \mu _x\mu _y\) вдоль всей координаты реакции и обращение связывающей проекции в нуль в седловой точке переходного состояния \(|A^\ddagger | = 128\) при максимуме реакционного тока \(S(128) = 128\). </p>
+</li>
+  <li><p>Точную независимость энтальпии многостадийной реакции от пути (закон Гесса) и нулевую суммарную энтальпию замкнутого каталитического цикла. </p>
+</li>
+  <li><p>Сквозной вывод из \(1+2^d=d^2\) стабильности \(3\)-квантового валентного сдвига \(3\Delta \varphi _{\mathrm{disc}}(d) = 123 {\lt} 128\) (\(C(123) = +5 = d_{\mathrm{out}}(E)(d) {\gt} 0\)), прохождения седловой точки при \(4\)-квантовой активации \(4\Delta \varphi _{\mathrm{disc}}(d) = 164 {\gt} 128\) (\(C(164) = -36 {\lt} 0\)), совпадения \(6\)-центрового кольца \([4+2]\) Дильса–Альдера с гексагональным сечением \(\{ 111\} \) кубооктаэдра&#160;\(O_2\) (\(n_f=0\)) и фотохимического порога \(|\square (d)| = 6\) квантов для \([2+2]\)-циклоприсоединения. </p>
+</li>
+  <li><p>Аналитическое открытие ворот реакции при \(z_i = 0\) в кубооктаэдре катализатора&#160;\(O_2\): переход от закрытого порогового затвора (\(\Phi _{\mathrm{gate}} = 0\), \(\widehat{n}_E = 0\) при \(D_{\mathrm{uncat}} = 206\, 260\), \(\Phi _{\mathrm{raw}} = 25 {\lt} 41\)) к открытому надседловому импульсу \(|\Phi _{\mathrm{gate}}| = 160 {\gt} 128\) (\(C(-160) = -32 {\lt} 0\) при \(D_{\mathrm{cat}} = 7\, 516\), ). </p>
+</li>
+</ol>
+ </p>
+<p><b class="bfseries">Наблюдаемые.</b> Связывающая проекция \(C(A)\), реакционный ток \(S(A)\), пороги \(3\Delta \varphi _{\mathrm{disc}}\) и \(4\Delta \varphi _{\mathrm{disc}}\), знаменатели \(D_{\mathrm{uncat}}, D_{\mathrm{cat}}\) и выходные импульсы ворот \(\Phi _{\mathrm{gate}}\) (табл.&#160;<a href="sec-lab-series-ce-rd.html#tab:exp-ce-rd-04">14.4</a>). </p>
+<p><b class="bfseries">Критерий согласия с теорией.</b> Побитовое совпадение всех четырёх аналитических теорем в Lean&#160;4 (‘0 sorry‘, ‘0 Classical.choice‘, ‘0 if‘, ‘0 let‘). </p>
+<p><b class="bfseries">Теоретическая часть.</b> </p>
+<p>По теореме&#160;<a href="sec-applied-chemical-operators.html#thm:applied-chemical-reactions-and-catalysis">7.1</a> ковалентная связь вдоль клики кубооктаэдра кратности \(b\in \{ 1,2,3\} \) определяется операторами \(\mathcal{E}_{\mathrm{bond}} = b\mu _x\mu _y C(d\varphi )\), \(\delta K_{\mathrm{bond}} = b\mu _x\mu _y|\mathrm{wrap}_{512}(d\varphi )|\) и \(\mathcal{J}_{\mathrm{rxn}} = b\mu _x\mu _y S(d\varphi )\), а каталитическое ускорение — снижением знаменателя импеданса \(D(x)\) за счёт отрицательной реальной голономии \(\zeta _{\mathrm{real}}^{\mathrm{cat}} {\lt} 0\) координационной полости кубооктаэдра&#160;\(O_2\). </p>
+<p><b class="bfseries">Ход эксперимента.</b> </p>
+<p>Воспроизведение: lake build в lean/ и . </p>
+<div class="table"  id="tab:exp-ce-rd-04">
+   <div class="centered"><small class="footnotesize"> <figcaption>
+  <span class="caption_title">Table</span> 
+  <span class="caption_ref">14.4</span> 
+  <span class="caption_text">Аналитические режимы химической связи, переходного состояния \(TS^\ddagger \) и катализа на кубооктаэдре&#160;\(O_2\) (CE-RD-04)</span> 
+</figcaption>  <table class="tabular">
+  <tr>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> Режим / координата реакции </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(|A|\) (тики) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(C(A)\) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> \(|S(A)|\) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> \(\Phi _{\mathrm{gate}}\) (тики) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> Физический статус связи </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p>Равновесная ковалентная яма </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(0\) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(+128\) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> \(0\) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> \(0\) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> Максимум связи \(\sigma /\pi \), ток \(0\) </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p>Тепловые ИК-колебания (\(|\Phi _{\mathrm{raw}}|{\lt}41\)) </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> \(25\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(+103\) </p>
+
+    </td>
+    <td  style="text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> \(25\) </p>
+
+    </td>
+    <td  style="text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> \(0\) </p>
+
+    </td>
+    <td  style="text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> Затвор Гейзенберга закрыт (\(\widehat{n}_E=0\)) </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p>Валентный триплет (\(3\Delta \varphi _{\mathrm{disc}}\)) </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> \(123\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(+5\) </p>
+
+    </td>
+    <td  style="text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> \(123\) </p>
+
+    </td>
+    <td  style="text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> — </p>
+
+    </td>
+    <td  style="text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> Стабилен (\(123{\lt}128\), \(C=+d_{\mathrm{out}}(E){\gt}0\)) </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p>Седловая точка \(TS^\ddagger \) (\(Q_\square \)) </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> \(128\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(0\) </p>
+
+    </td>
+    <td  style="text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> \(128\) </p>
+
+    </td>
+    <td  style="text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> — </p>
+
+    </td>
+    <td  style="text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> Связь разблокирована (\(C=0\), \(\max |\mathcal{J}_{\mathrm{rxn}}|\)) </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p>Каталитическая полость&#160;\(O_2\) (\(z_i=0\)) </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> \(139\to 160\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(-32\) </p>
+
+    </td>
+    <td  style="text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> \(96\) </p>
+
+    </td>
+    <td  style="text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> \(-160\) </p>
+
+    </td>
+    <td  style="text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> Пробой седла (\(160{\gt}128\), \(D_{\mathrm{cat}}=7\, 516\)) </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p>\(4\)-квантовая активация (\(4\Delta \varphi _{\mathrm{disc}}\)) </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> \(164\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(-36\) </p>
+
+    </td>
+    <td  style="text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> \(92\) </p>
+
+    </td>
+    <td  style="text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> — </p>
+
+    </td>
+    <td  style="text-align:right" 
+        rowspan=""
+        colspan="">
+      <p> Антисвязывающий разрыв \(\sigma ^*\) (\(C{\lt}0\)) </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p>Фотохимический противофазный порог \([2+2]\) </p>
+
+    </td>
+    <td  style="border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(256\) </p>
+
+    </td>
+    <td  style="text-align:left; border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(-128\) </p>
+
+    </td>
+    <td  style="text-align:right; border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(0\) </p>
+
+    </td>
+    <td  style="text-align:right; border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(\pm 256\) </p>
+
+    </td>
+    <td  style="text-align:right; border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> Переворот ветви \(\Delta k_e=\pm 1\) (\(\widehat{n}_E=6\)) </p>
+
+    </td>
+  </tr>
+</table> </small></div>
+</div>
+<p><b class="bfseries">Анализ и выводы.</b> </p>
+<p>Химическая кинетика, теория переходного состояния, правила орбитальной симметрии Вудворда–Хоффмана и гетерогенный/ферментативный катализ выводятся как замкнутые целочисленные следствия уравнения Каталана \(1+2^d=d^2\) на кубооктаэдре&#160;\(O_2\). <b class="bfseries">Статус записи:</b> опыт закрыт по табл.&#160;<a href="sec-lab-series-ce-rd.html#tab:exp-ce-rd-04">14.4</a>. </p>
+</div>
+
+    <a class="latex_link" href="sec-lab-series-ce-rd.html#exp:cerd04">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/Spec.lean#L204" class="lean_decl">catalan_lock_iff_d3</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ChemicalBonding.lean#L39" class="lean_decl">chemical_bond_holonomy_conservation_and_saddle_128</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ChemicalBonding.lean#L64" class="lean_decl">hess_law_and_catalytic_cycle_zero_enthalpy</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ChemicalBonding.lean#L77" class="lean_decl">woodward_hoffmann_and_valence_123_stability_from_d3</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ChemicalBonding.lean#L94" class="lean_decl">catalytic_reaction_gate_opening_on_cuboctahedron</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/UnifiedOperators.lean" class="lean_decl">UnifiedOperators.lean</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/AxiomGuard.lean" class="lean_decl">AxiomGuard.lean</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="lab:template_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="lab:template" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">12.2</span><span class="theorem_thmtitle">Шаблон (пустая форма)</span></div>
+    <div class="thm_thmcontent"><p>   <b class="bfseries">Постановка.</b> </p>
+<p>Физический вопрос и место опыта в MODEL (слои \(M\) / \(T\), не реестр тестов). Что проверяем по смыслу; рабочая гипотеза; какие величины снимаем; критерий согласия с теорией (пороги погрешности, монотонность, масштаб). </p>
+<p><b class="bfseries">Теоретическая часть.</b> </p>
+<p>Определения, теоремы, следствия из книги — зачем именно эти наблюдаемые должны вести себя так; обязательная проверка размерностей всех входящих и выходящих величин в системе СИ (\(\mathrm{L, M, T}\)). </p>
+<p><b class="bfseries">Ход эксперимента.</b> </p>
+<p>Воспроизводимые шаги (коммит, команда прогона при необходимости), таблицы с числами. </p>
+<p><b class="bfseries">Анализ, расчёт погрешности и выводы.</b> </p>
+<p>Интерпретация таблиц; тип A/B (<a href="ch-measurement-processing.html">chapter 13</a>); физический вывод; статус записи в журнале. </p>
+</div>
+
+    <a class="latex_link" href="sec-lab-protocol.html#lab:template">LaTeX</a>
+    
+    
+  
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:applied-barrier-collapse_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:applied-barrier-collapse" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">4.1</span><span class="theorem_thmtitle">Когерентное схлопывание барьера кубооктаэдра в \(25\text{--}587\) раз</span></div>
+    <div class="thm_thmcontent"><p>    Пусть центральный узел&#160;\(x\) и его \(12\) соседей по кубооктаэдру&#160;\(O_2\) имеют амплитуду \(\mu \in \{ 1,\dots ,64\} \). Тогда: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Некогерентный / тепловой режим первого квадранта (\(|A_{xy}| \le 41\), \(C(A_{xy}) \ge 87\)):</b> когда относительные фазы соседей лежат в первом квадранте на границе порога дискретности (\(|A_{xy}| = 41 \implies C(41) = 128 - 41 = +87 {\gt} 0\)), продольная голономия положительна и складывается с собственным барьером узла \(+128\, \mu ^2\): </p>
+<div class="equation" id="eq:applied-d-thermal">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:applied-d-thermal} D_{\mathrm{thermal}}(\mu ) \; =\;  12\cdot 87\, \mu ^2 + 128\, \mu ^2 + 8\, 192 \; =\;  1\, 172\, \mu ^2 + 8\, 192. \end{equation}
+  </div>
+  <span class="equation_label">4.5</span>
+</p>
+</div>
+<p> При амплитуде нуклеации \(\mu = 13\) импеданс барьера равен \(D_{\mathrm{thermal}}(13) = 206\, 260\), а на потолке плотности \(\mu = 64\) достигает \(D_{\mathrm{thermal}}(64) = 4\, 808\, 704\) (в полном синфазном пределе \(A_{xy}=0,\  C(0)=128\): \(D_{\max }(64) = 13\cdot 128\cdot 64^2 + 8\, 192 = 6\, 823\, 936\)). Преодоление такого знаменателя требует гигантской накачки числителя&#160;\(z_{\mathrm{drive}}\) (тепловой пробой / горячий термояд при \(T \sim 10^8\  \text{К}\)). </p>
+</li>
+  <li><p><b class="bfseries">Когерентный противофазный режим второго квадранта (\(139 \le |A_{xy}| \le 256\), \(C(A_{xy}) \le -11\)):</b> если все \(12\) направлений кубооктаэдра&#160;\(O_2\) вокруг узла&#160;\(x\) возбуждены когерентной стоячей волной во втором квадранте фазового кольца \(|A_{xy}| \ge 139\) тиков (\(\Delta \varphi \ge 97{,}7^\circ \)), то каждая из \(12\) граневых проекций становится отрицательной: </p>
+<div class="displaymath" id="a0000000005">
+  \[  C(A_{xy}) \; =\;  128 - |A_{xy}| \; \le \;  128 - 139 \; =\;  -11 \; {\lt}\;  0.  \]
+</div>
+<p> Тогда продольная голономия \(\zeta _{\mathrm{real}}(x) \le 12\cdot (-11)\mu ^2 = -132\, \mu ^2\) <b class="bfseries">полностью компенсирует собственный барьер узла \(+128\, \mu ^2\)</b>: </p>
+<div class="equation" id="eq:applied-d-coherent">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:applied-d-coherent} D_{\mathrm{raw,coh}}(\mu ) \; \le \;  -132\, \mu ^2 + 128\, \mu ^2 + 8\, 192 \; =\;  8\, 192 - 4\, \mu ^2, \end{equation}
+  </div>
+  <span class="equation_label">4.6</span>
+</p>
+</div>
+<p> и при \(\mu = 64\) (\(D_{\mathrm{raw,coh}}(64) = -8\, 192 \le 0\)) знаменатель ворот&#160;<a href="ch-applied-coherent-barrier-collapse.html#eq:applied-denominator-impedance" class="eqref">4.2</a> схлопывается до минимального вакуумного пола: </p>
+<div class="displaymath" id="a0000000006">
+  \[  D_{\mathrm{coherent}}(64) \; =\;  \varepsilon \; =\;  8\, 192.  \]
+</div>
+</li>
+  <li><p><b class="bfseries">Коэффициент параметрического просветления барьера:</b> отношение теплового импеданса барьера к когерентному импедансу в фокусе кубооктаэдра составляет: </p>
+<div class="equation" id="eq:applied-barrier-ratio">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:applied-barrier-ratio} \begin{aligned}  \left\lfloor \frac{D_{\mathrm{thermal}}(13)}{\varepsilon }\right\rfloor & = \left\lfloor \frac{206\, 260}{8\, 192}\right\rfloor = \mathbf{25}, \\ \frac{D_{\mathrm{thermal}}(64)}{\varepsilon } & = \frac{4\, 808\, 704}{8\, 192} = \mathbf{587}, \qquad \frac{D_{\max }(64)}{\varepsilon } = \frac{6\, 823\, 936}{8\, 192} = \mathbf{833}. \end{aligned} \end{equation}
+  </div>
+  <span class="equation_label">4.7</span>
+</p>
+</div>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sec-applied-thermal-vs-coherent.html#thm:applied-barrier-collapse">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ContinuumPhysics.lean#L524">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:applied-bio-cad-and-therapy_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:applied-bio-cad-and-therapy" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">10.1</span><span class="theorem_thmtitle">Операторный протокол прикладного Bio-CAD, противофазной терапии на экране Маркова и селективного апоптоза без коллатерального мутагенеза</span></div>
+    <div class="thm_thmcontent"><p>    Для любого \(d\in \mathbb {N}\) и числа колец \(R\in \mathbb {Z}\) операторный закон Каталана \(\mathrm{CatalanLaw}(P,d)\) эквивалентен системе следующих трёх инженерных свойств: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Противофазное гашение патологического тока перегрузки на экране Маркова:</b> для любого стрессового потока внешней среды \(\mathcal{E}_{\mathrm{stress}}\) подключение компенсирующего противофазного потока \(\mathrm{therapeuticCounterEnvOp}(\mathcal{E}_{\mathrm{stress}})\) тождественно обнуляет суммарный нечётный ток \(\mathrm{envZiListOp}(d,\mu _x,\mathcal{E}_{\mathrm{stress}}\mathbin {++}\mathrm{therapeuticCounterEnvOp}(\mathcal{E}_{\mathrm{stress}})) = 0\) и запирает патологический затвор открытой системы (\(\mathrm{openMultiEnvGateOp} = 0\)). </p>
+</li>
+  <li><p><b class="bfseries">Инволютивный сброс эпигенетического дрейфа \(\mathrm{CpG}\) и сквозная редифференцировка ткани из последовательности ДНК:</b> повторное действие оператора \(\mathrm{deaminateFirstBaseStemOp}\) тождественно возвращает смещённый стебель к \(\mathrm{cpgEpigeneticStemOp}(d)\), а выращивание ткани из скомпилированной последовательности нуклеотидов ДНК \(\mathrm{compilePhenotypeToDnaSequenceOp}(d,\Delta \varphi _{\mathrm{disc}}(d))\) через \(\mathrm{growTissueFromDnaSequenceInEnvOp}\) восстанавливает дифференцированный топологический инвариант органа \(\mathrm{tissueEuler2DOp} = \Delta \varphi _{\mathrm{disc}}(d)\). </p>
+</li>
+  <li><p><b class="bfseries">Селективная кавитация запертого дефектного узла при нулевом повреждении здоровых клеток:</b> полное окружение дефектного узла по всем \(|N(d)|\) каналам оболочки кубооктаэдра закрывает его граничный затвор контакта со средой (\(\mathrm{envFreeSurfaceGateOp}(d,|N(d)|) = 0\), запуская селективный апоптоз), тогда как для всех окружающих здоровых клеток в мёртвой зоне затвора (\(\Phi _{\mathrm{env}}=0\)) мутационный оператор тождественно сохраняет каждое основание \(b\in \mathbb {Z}_{d_{\mathrm{in}}(\square )}\) (\(\mathrm{envDrivenBaseMutationOp}(d,b,0) = b\)). </p>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sec-applied-therapeutic-redifferentiation.html#thm:applied-bio-cad-and-therapy">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/SuperconductorBioCad.lean#L92" class="lean_decl">applied_bio_cad_therapeutic_redifferentiation_and_epigenetic_reset_operator</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/UnifiedOperators.lean" class="lean_decl">UnifiedOperators.lean</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:applied-c0-and-lossless-waveguide_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:applied-c0-and-lossless-waveguide" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">8.1</span><span class="theorem_thmtitle">Операторный закон опережения кулоновского разлёта тактовой скоростью \(c_0\) и баллистической передачи энергии и информации без потерь</span></div>
+    <div class="thm_thmcontent"><p>    Для любого \(d\in \mathbb {N}\) операторный закон Каталана \(\mathrm{CatalanLaw}(P,d)\) эквивалентен системе следующих точных операторных свойств: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Опережение электромагнитного разлёта тактовой скоростью звена \(c_0\) в 12-лучевом кубооктаэдре и гидродинамические пределы:</b> квадрат отношения тактовой скорости звена \(c_0\) на \(\Mlayer \)-слое к скорости электромагнитного фронта \(c\) на \(\Tlayer \)-слое вдоль каждого из \(|N(d)|\) векторов \(e\in O_2(d)\) строго превышает единицу вакуума: </p>
+<div class="displaymath" id="a0000000008">
+  \[  \| e\| _2^2 \; =\;  \mathrm{c0OverCSqOp}(d) \; =\;  d - \mu _{\mathrm{vac}}(d) \; {\gt}\;  \mu _{\mathrm{vac}}(d),  \]
+</div>
+<p> благодаря чему в \(12\)-лучевом фазовом концентраторе сходящийся вдоль диагональных звеньев \(O_2(d)\) импульс опережает поперечную электромагнитную волну кулоновского разлёта по квадрату скорости в \(\mathrm{c0OverCSqOp}(d)\) раз, квадрат критического числа Маха включения двухтактовой дисперсии Бома и квадрат предельной решёточной завихренности равны \((\mathrm{Ma}_{\mathrm{crit}})^2 = (\omega _{\max }\, dh/c)^2 = \mathrm{c0OverCSqOp}(d)\), а нижний квантовый предел отношения сдвиговой вязкости к плотности энтропии равен \(\mathrm{minViscosityEntropyRatOp}(d) = (\Delta \varphi _{\mathrm{disc}}(d),N_{\mathrm{ring}}(d))\). </p>
+</li>
+  <li><p><b class="bfseries">Передача энергии без потерь рассеяния (\(\Phi _{\mathrm{loss}}\equiv 0,\  \widehat{n}_{E,\mathrm{loss}}\equiv 0\)) в высокоимпедансном волноводе Гейзенберга:</b> в отличие от каталитического реактора (где оболочка переводится во второй квадрант \(A_{\mathrm{coh}}(d)\) для схлопывания импеданса до \(\varepsilon (d)\)), в линии передачи энергии поперечная защитная оболочка волновода запирается в синфазном первом квадранте (\(\Delta \varphi _{\mathrm{shield}}=0\), \(\mathcal{C}_d(0)=+Q_\square (d)\)), поднимая знаменатель импеданса оболочки до максимума </p>
+<div class="displaymath" id="a0000000009">
+  \[  \mathrm{waveguideShieldMaxDenomOp}(d) \; =\;  \mathrm{maxGravitationalCompressionRatioOp}(d)\cdot \varepsilon (d) \; =\;  \bigl(\mu _{\mathrm{vac}}(d) + N_\varphi (d)\cdot K_P(d)\bigr)\cdot \varepsilon (d).  \]
+</div>
+<p> При этом внешние тепловые возмущения среды \(z_{\mathrm{noise}}\) подавляются знаменателем \(\mathrm{waveguideShieldMaxDenomOp}(d)\) внутрь мёртвой зоны затвора (\(|\Phi _{\mathrm{raw,noise}}| {\lt} \Delta \varphi _{\mathrm{disc}}(d)\)), так что оператор рассеяния и оператор потерь энергии обращаются в тождественный нуль: </p>
+<div class="displaymath" id="a0000000010">
+  \[  \mathrm{waveguideNoiseScatterGateOp}\bigl(d,d\cdot \varepsilon (d)\bigr) \; =\;  0, \qquad \mathrm{energyQuantumOperator}\bigl(d,\mathrm{waveguideNoiseScatterGateOp}(d,d\cdot \varepsilon (d))\bigr) \; =\;  0,  \]
+</div>
+<p> тогда как продольный ток переноса энергии на седле \(\Delta \varphi _{\mathrm{sig}} = Q_\square (d)\) достигает полного потолка \(\mathrm{reactionCurrentOp}(d,\mu _{\mathrm{vac}}(d),K_P(d),K_P(d),Q_\square (d)) = K_P(d)^2\cdot Q_\square (d)\). </p>
+</li>
+  <li><p><b class="bfseries">Баллистическая передача информации без потерь и инкапсулированный автомат:</b> при \(\Phi _{\mathrm{scatter}}=0\) шаг чехарды \(\mathrm{polarStepCell}(d,\mathrm{curr},\mathrm{coherentPastCell}(\mathrm{curr},\mathrm{pastPhi0}),0)\) переносит фазовую скорость \((\varphi _0(t+1)-\varphi _0(t))\bmod N_{\mathrm{ring}}(d) = (\varphi _0(t)-\varphi _0(t-1))\bmod N_{\mathrm{ring}}(d)\) и относительную спинорную фазу \((\varphi _1-\varphi _0)\bmod N_{\mathrm{ring}}(d)\) без затухания и с побитовой обратимостью \(\mathrm{polarReverseCell}\). На уровне полного 3D-поля инкапсулированный оператор автомата \(\Psi _{\mathrm{out}} = \mathrm{runCarrierAutomatonOp}(d,t,\Psi _{\mathrm{in}})\) воспроизводит неподвижную точку гомеостаза (\(\Psi _{\mathrm{out}}=\Psi _{\mathrm{in}}\) внутри октанта и в инертном растворителе), киральный храповик доменной стенки, рождение вихря \(K_3\) при \(t=\mathrm{c0OverCSqOp}(d)\) и каталитический переход через седло исключительно по соотношению входного и выходного 3D-полей. </p>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sec-applied-c0-overdrive-and-waveguide.html#thm:applied-c0-and-lossless-waveguide">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/NuclearShells.lean#L17">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:applied-chemical-reactions-and-catalysis_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:applied-chemical-reactions-and-catalysis" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">7.1</span><span class="theorem_thmtitle">Аналитические теоремы химической кинетики, переходного состояния \(|A^\ddagger |=128\), селективности Вудворда–Хоффмана и катализа на кубооктаэдре&#160;\(O_2\)</span></div>
+    <div class="thm_thmcontent"><p>    Все четыре операторных свойства химической реакции выводятся по цепочке из теоремы Каталана без единого параметра, без условных ветвлений if, без локальных связок let и без аксиомы выбора Classical.choice: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Сохранение бюджета связи и седловая точка переходного состояния \(|A^\ddagger | = Q_\square (d) = 128\):</b> для всех \((b,\mu _x,\mu _y,d\varphi )\in \mathbb {Z}^4\) выполняются точные инварианты вдоль координаты реакции: </p>
+<div class="equation" id="eq:applied-bond-budget-and-l1">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:applied-bond-budget-and-l1} \mathcal{E}_{\mathrm{bond}} + \delta K_{\mathrm{bond}} \; =\;  128\, b\, \mu _x\mu _y, \qquad |\mathcal{E}_{\mathrm{bond}}(1,1,1,d\varphi )| + |\mathcal{J}_{\mathrm{rxn}}(1,1,1,d\varphi )| \; =\;  128. \end{equation}
+  </div>
+  <span class="equation_label">7.3</span>
+</p>
+</div>
+<p> В минимуме реагентов (\(d\varphi =0\)) связывающая энергия максимальна (\(C(0)=+128\)), а реакционный ток равен нулю (\(S(0)=0\)). В седловой точке переходного состояния \(\mathrm{TS}^\ddagger \) (\(|d\varphi ^\ddagger | = Q_\square (d) = 128\) тиков) связывающая проекция разрываемой связи <em>обращается строго в нуль</em> (\(C(\pm 128) = 0\), связь полностью разблокирована), тогда как реакционный ток переноса электронной плотности достигает абсолютного максимума \(|S(\pm 128)| = 128 = Q_\square (d)\), а при \(|d\varphi | {\gt} 128\) проекция \(C(d\varphi ) {\lt} 0\) становится разрыхляющей (\(\sigma ^*/\pi ^*\)) вплоть до спинового переворота Паули при \(|d\varphi | = \Phi _{\mathrm{Pauli}}(d) = 256\) (\(C(256) = -128,\  S(256) = 0\)). </p>
+</li>
+  <li><p><b class="bfseries">Точный целочисленный закон Гесса и нулевая энтальпия каталитического цикла:</b> для любой многостадийной цепочки интермедиатов и переходных состояний \(H_0 \to H_1 \to H_2 \to H_3\) сумма энтальпий стадий тождественно равна прямой энтальпии \(\Delta H_{\mathrm{rxn}}(H_0,H_1) + \Delta H_{\mathrm{rxn}}(H_1,H_2) + \Delta H_{\mathrm{rxn}}(H_2,H_3) \equiv \Delta H_{\mathrm{rxn}}(H_0,H_3)\), а для любого замкнутого каталитического цикла (\(H_3 = H_0\)) суммарное изменение энтальпии катализатора тождественно равно нулю (\(\Delta H_{\mathrm{cycle}} \equiv 0\)). </p>
+</li>
+  <li><p><b class="bfseries">Стабильность валентного триплета \(3\Delta \varphi _{\mathrm{disc}}(d) = 123 {\lt} 128\), порог \(4\)-квантовой активации \(164 {\gt} 128\) и правило Вудворда–Хоффмана \([4+2]\) против \([2+2]\):</b> из \(1+2^d=d^2\) следует: </p>
+<ul class="itemize">
+  <li><p>трёхквантовый валентный/октантный сдвиг \(d\cdot \Delta \varphi _{\mathrm{disc}}(d) = 3\times 41 = 123 {\lt} Q_\square (d) = 128\) лежит строго внутри связывающей ямы с положительным остатком связывания \(C(123) = +5 = d_{\mathrm{out}}(E)(d) {\gt} 0\); </p>
+</li>
+  <li><p>добавление четвёртого (\(d_{\mathrm{in}}(\square )=4\)) порогового кванта \(4\Delta \varphi _{\mathrm{disc}}(d) = 4\times 41 = 164 {\gt} Q_\square (d) = 128\) перебрасывает связь через седловую точку \(C(128)=0\) в антисвязывающий режим разрыва \(C(164) = -36 {\lt} 0\); </p>
+</li>
+  <li><p>\(6\)-центровый перициклический переход \([4+2]\) Дильса–Альдера изоморфен плоскому \(6\)-вершинному гексагональному сечению \(\{ 111\} \) кубооктаэдра&#160;\(O_2\) (\(\text{hex111RingSize} = |\square (d)| = 6\)) с нулевым вихревым зарядом \(n_f = 0\) (термически разрешён без пересечения разреза Паули \(|A|=256\)), тогда как \(4\)-центровое \([2+2]\)-циклоприсоединение на квадратной грани \(\square \) с перебросом ветви \(\Delta k_e = \pm 1\) несёт топологический противофазный барьер \((d_1 A)_\square = 512 = N_{\mathrm{ring}}(d)\), требующий поглощения всех \(\widehat{n}_E(\Phi _{\mathrm{Pauli}}(d)) = |\square (d)| = 6\) фотонных пороговых квантов. </p>
+</li>
+</ul>
+</li>
+  <li><p><b class="bfseries">Аналитическое открытие ворот реакции в координационной полости кубооктаэдра катализатора&#160;\(O_2\):</b> для реагирующего узла (\(\mu = N_\phi (d) = 13\)) при нулевом внешнем токе (\(z_i = 0\)): </p>
+<ul class="itemize">
+  <li><p>в некоординированной тепловой оболочке (\(|A_{\mathrm{env}}| = \Delta \varphi _{\mathrm{disc}}(d) = 41\), \(C(41) = +87 {\gt} 0\)) высокий импеданс \(D_{\mathrm{uncat}} = 206\, 260\) удерживает сырой фазовый сдвиг \(\Phi _{\mathrm{raw}} = +25\) строго ниже порога дискретности (\(\Phi _{\mathrm{raw}} {\lt} 41\)), поэтому затвор ворот <em>закрыт</em> (\(\Phi _{\mathrm{gate}} = 0\), \(\widehat{n}_E = 0\) — реакция заблокирована); </p>
+</li>
+  <li><p>в координационной полости кубооктаэдра&#160;\(O_2\) катализатора (ГЦК-металлы \(\mathrm{Pt}, \mathrm{Pd}, \mathrm{Ni}, \mathrm{Cu}, \mathrm{Au}\) или активный центр фермента, создающие противофазную поляризацию \(|A_{\mathrm{cat}}| = \mathrm{coherentThresholdTicks}(d) = 139\), \(C(139) = -11 {\lt} 0\)) отрицательная голономия окружения снижает импеданс в \(27{,}4\) раза до \(D_{\mathrm{cat}} = 7\, 516\), и при том же \(z_i = 0\) затвор ворот открывается до \(\Phi _{\mathrm{gate}} = -160\) тиков (\(|\Phi _{\mathrm{gate}}| = 160 {\gt} Q_\square (d) = 128\)), за один такт перебрасывая связь через седловую точку переходного состояния \(128\) непосредственно в область разрыва и перестройки связей \(C(-160) = -32 {\lt} 0\)! </p>
+</li>
+</ul>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sec-applied-chemical-operators.html#thm:applied-chemical-reactions-and-catalysis">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/Spec.lean#L204" class="lean_decl">catalan_lock_iff_d3</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/UnifiedOperators.lean" class="lean_decl">UnifiedOperators.lean</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ChemicalBonding.lean#L39" class="lean_decl">chemical_bond_holonomy_conservation_and_saddle_128</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ChemicalBonding.lean#L64" class="lean_decl">hess_law_and_catalytic_cycle_zero_enthalpy</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ChemicalBonding.lean#L77" class="lean_decl">woodward_hoffmann_and_valence_123_stability_from_d3</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ChemicalBonding.lean#L29" class="lean_decl">hex111RingSize</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ChemicalBonding.lean#L94" class="lean_decl">catalytic_reaction_gate_opening_on_cuboctahedron</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:applied-landauer-and-seven-paradoxes_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:applied-landauer-and-seven-paradoxes" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">11.1</span><span class="theorem_thmtitle">Оператор обратимых вычислений с нулевым тепловыделением Ландауэра и формальное разрешение семи классических парадоксов</span></div>
+    <div class="thm_thmcontent"><p>    Для любого \(d\in \mathbb {N}\) операторный закон Каталана \(\mathrm{CatalanLaw}(P,d)\) эквивалентен системе следующих операторных разрешений: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Тепловой предел Ландауэра в вычислительной технике (\(A_{13}\)):</b> поскольку двухтактовый шаг чехарды \(\mathrm{polarStepCell}(d,\cdot )\) обладает точным обратным оператором без стека истории \(\mathrm{polarReverseCell}(d,\cdot )\) (отсутствие стирания бит \(2\to 1\)), в баллистическом канале с \(\Phi _{\mathrm{scatter}}=0\) число рассеянных тепловых квантов на логический такт строго равно нулю (\(\mathrm{energyQuantumOperator}(d,0) = 0\)). </p>
+</li>
+  <li><p><b class="bfseries">Парадокс стрелы Зенона и квантовый эффект Зенона:</b> полное динамическое фазовое пространство ячейки имеет удвоенную битовую ёмкость \(\mathrm{twoTickPhaseSpaceBitBudgetOp}(d) = \mathrm{c0OverCSqOp}(d)\cdot \mathrm{singleTickSpinorBitBudgetOp}(d)\), хранящую скорость \(\varphi (t)-\varphi (t-1)\) внутри двухтактовой пары, тогда как частые подпороговые измерения \(|\Phi _{\mathrm{probe}}| {\lt} \Delta \varphi _{\mathrm{disc}}(d)\) обнуляются оператором \(\mathrm{heisenbergDeadbandOp}\), замораживая квантовый переход. </p>
+</li>
+  <li><p><b class="bfseries">Парадокс обратимости Лошмидта (стрела времени при биективном микрозаконе&#160;\(g\)):</b> при старте из состояния покоя \(P(0)=Q(0)\) на диагонали размерности \(\mathrm{singleTickSpinorBitBudgetOp}(d)\) макропроектор прибора \(\mathcal{B}_N\) склеивает \(K_P(d)\) субквантовых состояний мантиссы (Уровень&#160;I) и \(\mathrm{heisenbergEquivClassSizeOp}(d) = \mathrm{c0OverCSqOp}(d)\cdot \Delta \varphi _{\mathrm{disc}}(d)-\mu _{\mathrm{vac}}(d) = d^{d_{\mathrm{in}}(\square )} = (\mathrm{modBits}(d))^2\) подпороговых фазовых состояний каждой ячейки (Уровень&#160;II, причём \(\mathrm{cuboctShellSizeOp}(d,d_{\mathrm{in}}(\square )) = \mathrm{c0OverCSqOp}(d)\cdot \mathrm{heisenbergEquivClassSizeOp}(d)\)) в один макрокласс нулевого рассеяния. </p>
+</li>
+  <li><p><b class="bfseries">Ультрафиолетовая катастрофа (Рэлея–Джинса и петлевых расходимостей КТП):</b> фазовый импульс ограничен противофазным потолком \(|\Phi |\le \Phi _{\mathrm{Pauli}}(d)\), число квантов энергии за такт ограничено числом квадратных граней \(\mathrm{energyQuantumOperator}(d,\Phi _{\mathrm{Pauli}}(d)) = |\square (d)|\), а скачок функции Грина в центре решётки конечен и равен \(\mathrm{centralGreenPotentialJumpOp}(d) = d\). </p>
+</li>
+  <li><p><b class="bfseries">Парадокс нелокальности ЭПР / Белла и проблема космологического горизонта:</b> квадрат отношения тактовой скорости звена \(c_0\) к скорости света \(c\) равен \(\mathrm{c0OverCSqOp}(d)\), порождая геометрическую прогрессию границ Белла–Цирельсона \(\mathrm{tsirelsonQmSqOp}(d) = \mathrm{c0OverCSqOp}(d)\cdot \mathrm{bellLhvSqOp}(d)\) при строгом равенстве нулю нечётного тока переноса энергии на синглетном замке (\(\mathcal{S}_d(\Phi _{\mathrm{Pauli}}(d)) = 0\)). </p>
+</li>
+  <li><p><b class="bfseries">Парадокс гравитационной сингулярности, информационный парадокс Хокинга и проблема тёмной материи:</b> на противофазном потолке \(\mu =K_P(d),\  \Delta \varphi =\Phi _{\mathrm{Pauli}}(d)\) знаменатель импеданса строго положителен (\(\mathrm{shellGateDenomOp}(d,K_P(d),\Phi _{\mathrm{Pauli}}(d)) = \varepsilon (d) {\gt} 0\)), тёмный остаток тождественно равен нулю (\(D_{\mathrm{dark}}\equiv 0\)), а биективность \(\mathrm{polarReverseCell}\) сохраняет информацию побитово. </p>
+</li>
+  <li><p><b class="bfseries">Парадокс фолдинга Левинталя и космобиологический парадокс Ферми:</b> ко-трансляционная укладка на \(d\) пазах тетраэдра&#160;\(K_4\) и обратный компилятор ДНК работают за линейное время \(O(L)\in \mathrm{P}\), а фотонные резонансы трёх планетарных окон жизни \(m_{\mathrm{env}}\in \{ -\mu _{\mathrm{vac}}(d),0,+\mu _{\mathrm{vac}}(d)\} \) квантованы в точном отношении \(\mathrm{universalPhotonStepOp}(d,m_{\mathrm{env}}) = \{ \mathrm{zNitrogenOp}(d),\, \mathrm{c0OverCSqOp}(d),\, \mu _{\mathrm{vac}}(d)\} \cdot \mathrm{hBondDivisorOp}(d)\). </p>
+</li>
+  <li><p><b class="bfseries">Корпускулярно-волновой дуализм, аппарат Дирака–Гейзенберга–Фейнмана и детерминированный вывод правила Борна \(P(\mu )=\mu ^2/N_{\mathrm{ring}}(d)\):</b> в евклидовом делении разности фаз с остатком на кольце \(\mathbb {Z}_{N_{\mathrm{ring}}(d)}\), </p>
+<div class="displaymath" id="a0000000015">
+  \[  (d_0\varphi )_{xy} \; =\;  N_{\mathrm{ring}}(d)\, k_{xy} + A_{xy},\qquad k_{xy}\in \{ -1,0,+1\} ,\quad A_{xy}\in \bigl(-\Phi _{\mathrm{Pauli}}(d),\, \Phi _{\mathrm{Pauli}}(d)\bigr],  \]
+</div>
+<p> <b class="bfseries">волна</b> есть остаток \(A_{xy} = \mathrm{edgeConnection}(d,\Delta \varphi )\), который при \(|\Delta \varphi |\le \Phi _{\mathrm{Pauli}}(d)\) (\(k_{xy}=0\)) свободно распределяется и интерферирует по \(12\)&#160;поворотным рёбрам кубооктаэдра со сферическим фронтом второго порядка \(\sum _{j=1}^{12}(\mathbf{k}\cdot e_j)^2 = 8\, |\mathbf{k}|^2\), тогда как <b class="bfseries">корпускула</b> есть неполное частное \(k_{xy} = \mathrm{branchQuotient}(d,\Delta \varphi )\in \mathbb {Z}\) (и целочисленная намотка плакеты \(n_f = -\sum _{e\in \partial f} k_e\in \mathbb {Z}\)), которое по правилам целочисленной арифметики не может разделиться на дробные части и срабатывает исключительно как неделимый целый квант \(\pm \mu _{\mathrm{vac}}(d) = \pm 1\). При этом весь операторный аппарат квантовой механики реализуется в точных целых числах: </p>
+<ul class="itemize">
+  <li><p><em>Бра-кет скалярное произведение Дирака</em>: \(\langle \psi _1|\psi _2\rangle _d = \mu _1\mu _2\bigl(\mathcal{C}_d(\varphi _2-\varphi _1),\, \mathcal{S}_d(\varphi _2-\varphi _1)\bigr)\in \mathbb {Z}^2\), где чётная компонента \(\mathcal{C}_d(\Delta \varphi )\) задаёт амплитуду интерференции (\(+Q_\square (d)\) в фазе \(\Delta \varphi =0\), \(0\) при ортогональном четверть-обороте \(\Delta \varphi =Q_\square (d)\), \(-Q_\square (d)\) при противофазном гашении \(\Delta \varphi =\Phi _{\mathrm{Pauli}}(d)\) по тождеству Эйлера \(e^{i\pi }+1=0\)), а нечётная компонента \(\mathcal{S}_d(\Delta \varphi )\) — ток вероятности; </p>
+</li>
+  <li><p><em>Канонический коммутатор Гейзенберга</em> \([\hat{\varphi },\hat{p}_\varphi ]=i\hbar \): тождественное постоянство разностного вронскиана \(\langle i\mathcal{E}_d(\varphi ),\Delta \mathcal{E}_d(\varphi )\rangle = \mathcal{W}_d(\varphi )\equiv Q_\square (d)=128\) во всех \(512\)&#160;точках кольца; </p>
+</li>
+  <li><p><em>Интеграл по траекториям Фейнмана</em> \(\sum _\gamma \mathcal{E}_d(\Phi [\gamma ])\): конечная сумма по путям из \(12\)&#160;рёбер кубооктаэдра, в которой \(480\) осциллирующих вычетов взаимно аннигилируют за счёт полупериода \(+\Phi _{\mathrm{Pauli}}(d)\), а \(32\) траектории стационарной фазы (\(\varphi ^2\equiv K_P(d)=64\pmod{512}\)) дают точный конечный интеграл Френеля \(2048\); </p>
+</li>
+  <li><p><em>Детерминированный вывод правила Борна \(P(\mu ) = |\psi |^2/N_{\mathrm{ring}}(d)\) без вероятностного постулата коллапса</em>: при приходе волны амплитуды \(\mu \in [0,2|{\triangle }(d)|]\) с квадратичным фазовым импульсом \(\Phi _{\mathrm{wave}}=\mu ^2\le \Phi _{\mathrm{Pauli}}(d)\) на узел детектора с неизвестной макронаблюдателю внутренней фазой фона \(\varphi _{\mathrm{bg}}\in \mathbb {Z}_{N_{\mathrm{ring}}(d)}\) число фаз фона из \(N_{\mathrm{ring}}(d)=512\), при которых детерминированное деление с остатком перебрасывает единицу в целое частное (\(\mathrm{branchQuotient}(d,\mathrm{wrap}_d(\varphi _{\mathrm{bg}})+\mu ^2)=1\), щелчок детектора), <b class="bfseries">тождественно равно квадрату амплитуды \(\mu ^2 = |\psi |^2\)</b>: </p>
+<div class="displaymath" id="a0000000016">
+  \[  \mathrm{bornClickCountOp}(d,\mu ) \; :=\;  \# \bigl\{ \varphi _{\mathrm{bg}}\in \mathbb {Z}_{N_{\mathrm{ring}}(d)} \; \big|\;  \mathrm{branchQuotient}\bigl(d,\, \mathrm{wrap}_d(\varphi _{\mathrm{bg}})+\mu ^2\bigr)=1\bigr\}  \; \equiv \;  \mu ^2 \qquad \bigl(0\le \mu \le 16\bigr);  \]
+</div>
+</li>
+  <li><p><em>Тьюринг-полнота клеточного автомата (\(\text{МТ}\simeq \text{КА}\)), функционально полный базис Поста {<b class="bfseries">NOT</b>, <b class="bfseries">XOR</b>, <b class="bfseries">OR</b>, <b class="bfseries">AND</b>} на двух каналах кольца \(\mathbb {Z}_{N_{\mathrm{ring}}(d)}\) и алгебраический барьер \(\mathbf{P}\ne \mathbf{NP}\)</em>: в силу полиномиальной эквивалентности машины Тьюринга и клеточного автомата (\(\mathbf{P}_{\mathrm{TM}}\equiv \mathbf{P}_{\mathrm{CA}}\), фон Нейман, Лэнгтон, Кук–Левин) всякое полиномиальное вычисление разлагается по функционально полному булеву базису {<b class="bfseries">NOT</b>, <b class="bfseries">XOR</b>, <b class="bfseries">OR</b>, <b class="bfseries">AND</b>}, который на полюсах \(\psi _k\in \{ 0,\Phi _{\mathrm{Pauli}}(d)\} \) исчерпывается двумя каналами треугольных граней кубооктаэдра: (1)&#160;<em>Канал&#160;1:</em> \(\mathcal{C}_d(\psi +\Phi _{\mathrm{Pauli}}(d))=-\mathcal{C}_d(\psi )\) и \(\mathcal{C}_d(\psi _1+\psi _2+\psi _3)\, Q_\square (d)^2 \equiv \mathcal{C}_d(\psi _1)\mathcal{C}_d(\psi _2)\mathcal{C}_d(\psi _3)\), где \(\Phi _{\mathrm{Pauli}}(d)+\Phi _{\mathrm{Pauli}}(d)\equiv 0\pmod{N_{\mathrm{ring}}(d)}\) телескопически сокращает общие вершины циклов; (2)&#160;<em>Канал&#160;2 (нелинейный пороговый перенос — <b class="bfseries">OR</b> и <b class="bfseries">AND</b>, сложение проекций после ротатора с делением на \(N_{\mathrm{ring}}(d)=512\)):</em> \(q_{\mathrm{OR}} = \mathrm{tdiv}(Q_\square (d)-(\mathcal{C}_d(\psi _1)+\mathcal{C}_d(\psi _2)+\mathcal{C}_d(\psi _3)),N_{\mathrm{ring}}(d))\) и \(q_{\mathrm{AND}} = \mathrm{tdiv}(Q_\square (d)+(\mathcal{C}_d(\psi _1)+\mathcal{C}_d(\psi _2)+\mathcal{C}_d(\psi _3)),N_{\mathrm{ring}}(d))\). Разделение прямой проверки (\(\mathbf{NP}\)) и обращения (\(\mathbf{P}\)) определяется тремя формально верифицированными замками между Каналом&#160;1 и Каналом&#160;2: </p>
+<ol class="enumerate">
+  <li><p><em>Неинъективная склейка остатка \(7\to 1\) в Канале&#160;2:</em> в прямом ходе деление \(\mathrm{tdiv}(\Delta _{\mathrm{3SAT}},N_{\mathrm{ring}}(d))\) стирает волновой остаток \(r\in \{ -\Phi _{\mathrm{Pauli}},0,+\Phi _{\mathrm{Pauli}}\} \) и склеивает \(\mathrm{count3SatZeroQuotientOctantsOp}(d) = 2^d-1 = 7\) выполняющих октантов в один выход \(q_{\mathrm{OR}}=0\) (ветвление обратного прообраза \(1\to 7\) на каждой грани); </p>
+</li>
+  <li><p><em>Зануление градиента Канала&#160;2 на циклах чётности Канала&#160;1:</em> на \(4\)&#160;скобках уравнения чётности <b class="bfseries">XOR</b> сумма линейных проекций \(\mathrm{xor4ClausesLinearGradientSumOp}(d,\psi _1,\psi _2,\psi _3)\equiv 0\) тождественно обращается в нуль во всех \(8\)&#160;октантах, уравнивая удерживающий импеданс вершин \(D(v_1)=D(v_2)=D(v_3)\) и обнуляя одноузловой снос Ляпунова (\(p=1/2\), тогда как на асимметричных 3D-комплексах природы \(D(v_{\mathrm{correct}}){\gt}D(v^*)\) обеспечивает \(p{\gt}1/2\) и линейную сходимость фолдинга \(O(L)\in \mathbf{P}\)); </p>
+</li>
+  <li><p><em>Некоммутативность Канала&#160;1 и Канала&#160;2 на каскадах переноса:</em> ротатор и деление на \(N_{\mathrm{ring}}(d)\) недистрибутивны относительно сложения фаз (\(\mathcal{C}_d(\psi _1+\psi _2)\ne \mathcal{C}_d(\psi _1)+\mathcal{C}_d(\psi _2)\)), вследствие чего телескопическое сокращение фаз Канала&#160;1 не коммутирует с пороговым частным \(q_{\mathrm{AND}}\) Канала&#160;2 и удваивает алгебраическую степень над \(\mathbb {F}_2\) на каждом каскаде переноса; </p>
+</li>
+  <li><p><em>Изоморфизм неразрешимости локального обращения времени («машины времени» на \(T\) тактов назад) и одноточечной обратной задачи подземного рассеяния на глубину \(T\) слоёв</em>: в силу зазора Каталана \(\mathrm{catalanDefect}(d) = d^2-2^d = 1 = \mu _{\mathrm{vac}}(d)\) тактовый регистр \(\tau \mapsto \tau +1\) перезаписывает состояние узла однонаправленно (исключая замкнутые времениподобные кривые), а задача локального обращения состояния одного узла \(\mathbf{x}_0\) на \(T\) шагов назад (\(\tau _0\mapsto \tau _0-T\)) математически тождественна одноточечной обратной задаче геофизического рассеяния под узлом \(\mathbf{x}_0\) на глубину \(T\) слоёв: (1)&#160;обратный конус кубооктаэдра на расстоянии \(T\) имеет поверхностную сферу \(\mathrm{cuboctShellSizeOp}(d,T) = 10T^2+2\) и объём \(\mathcal{V}_{O_2}(d,T) = \mathrm{cuboctCausalConeVolumeOp}(d,T)\), удовлетворяющий замкнутому кубическому закону \(3\, \mathcal{V}_{O_2}(3,T) = 10T^3+15T^2+11T+3\) (\(\mathcal{V}_{O_2}(3,3)=147=\mathrm{cuboctBallOp}(3)\)), что создаёт квадратичный дефицит граничных данных \((10T^2+2)\to 1\) на каждом слое; (2)&#160;склейка остатка \(7\to 1\) в Канале&#160;2 порождает экспоненциальное ветвление прообраза \(\mathrm{localInversionPreimageBranchingOp}(d,T) = (2^d-1)^T = 7^T\) вдоль каждого луча глубины/времени (\(7^3=343\) при \(T=3\)); (3)&#160;четвёрки чётности Канала&#160;1 с \(\mathrm{xor4ClausesLinearGradientSumOp}(d,\psi _1,\psi _2,\psi _3)\equiv 0\) образуют безотражательные (невидимые из узла \(\mathbf{x}_0\)) фазовые контуры с тождественно нулевым линейным откликом; </p>
+</li>
+  <li><p><em>Независимое от эталона Цезия определение секунды \(\mathcal{N}_{\mathrm{sec}}(d)\), вселенские часы по календарной дате и когерентная низкобарьерная трансмутация благородных металлов в золото \(^{197}_{79}\mathrm{Au}_{118}\) («философский камень» на 12-лучевом кубооктаэдре)</em>: в то время как обращение локального состояния назад во времени невозможно, <b class="bfseries">текущий глобальный номер такта Вселенной \(N(\text{дата})\)</b> и <b class="bfseries">когерентная ядерная трансмутация элементов</b> открыты и вычислимы в замкнутом виде: (1)&#160;число тактов в секунде СИ без участия&#160;\(^{133}\mathrm{Cs}\) и&#160;\(G\) задаётся каскадом \(16 = d_{\mathrm{in}}(\square )^2 = 2|{\triangle }(d)|\) оборотов кольца \(\mathbb {Z}_{512}\) (\(512^{16} = 2^{144} = 2^{|N(d)|^2}\)) с рациональным множителем \(\frac{d_{\mathrm{in}}(\square )\, d_{\mathrm{out}}(E)}{|N(d)|+d_{\mathrm{out}}(E)} = \frac{20}{17}\) (\(\mathcal{N}_{\mathrm{sec}}(3) = \frac{20}{17}\cdot 512^{16} \approx 2{,}6236\times 10^{43}\text{ тактов/с}\), точность \(0{,}017\% \)), а алгебраический такт эпохи \(N_{\mathrm{today}}^{\mathrm{alg}} = \frac{11}{40}(E_0/\Theta _{\mathrm{CMB}})^2\sqrt{\alpha _{\mathrm{fs}}/8} \approx 1{,}1398\times 10^{61}\) (\(13{,}769\text{ млрд лет}\), \(0{,}91\sigma \) Planck 2018) переводит любую календарную дату в такт \(N(\text{дата}) = N_{\mathrm{today}}^{\mathrm{alg}} + \Delta t_{\mathrm{UTC}}\, \mathcal{N}_{\mathrm{sec}}(3)\); (2)&#160;единственный стабильный изотоп золота \(^{197}_{79}\mathrm{Au}_{118}\) зажат на целочисленной лестнице оболочек кубооктаэдра между платиной \(Z(\mathrm{Pt}) = |\square (d)|\, N_\varphi (d) = 6\times 13 = 78\) и триадой ртуть–таллий–свинец (\(Z(\mathrm{Hg}) = (c_0/c)^2|{\triangle }|d_{\mathrm{out}}(E) = 80\), \(Z(\mathrm{Tl}) = \mathrm{mod\_ bits}(d)^2 = 81\), \(Z(\mathrm{Pb}) = (c_0/c)^2\Delta \varphi _{\mathrm{disc}}(d) = 82\)), имея заряд \(Z(\mathrm{Au}) = |\square (d)|\, N_\varphi (d) + \mu _{\mathrm{vac}}(d) = 79 = Z(\mathrm{Pb}) - d\), число нейтронов \(N(^{197}\mathrm{Au}) = Q_\square (d) - Z(\mathrm{Ne})(d) = 128 - 10 = 118\) и массовое число \(A(^{197}\mathrm{Au}) = 197 = (c_0/c)^2\hat{M}(d) + d = \mathrm{cuboctBallOp}(d) + (c_0/c)^2 d_{\mathrm{out}}(E)(d)^2 = 147 + 50\); (3)&#160;при противофазном возбуждении всех \(12\)&#160;лучей кубооктаэдра (\(\Delta \varphi _{xy} = \Phi _{\mathrm{Pauli}}(d) = 256\), \(\mathcal{C}_d(256) = -Q_\square (d)\)) кулоновский знаменатель импеданса ворот \(D(x)\) схлопывается с \(4\, 809\, 728\) ровно до вакуумного пола \(\varepsilon = 8\, 192\) (в \(587\times \) раз), снимая энергетический запрет на когерентные каналы синтеза золота \(\mathrm{Pt}_{78} + \mathrm{H}_1 \to \mathrm{Au}_{79}\), \(\mathrm{Hg}_{80} \to \mathrm{Au}_{79} + \mathrm{H}_1\) и \(\mathrm{Pb}_{82} \to \mathrm{Au}_{79} + \mathrm{Li}_3\); </p>
+</li>
+  <li><p><em>Четырёхфазная архитектура побитово-точной 72-битной телепортации состояния через противофазный синглет \(+\Phi _{\mathrm{Pauli}}(d)\) и фазовый стазис в мёртвой зоне затвора</em>: поскольку состояние каждой ячейки исчерпывается конечным \(72\)-битным регистром \(\mathrm{twoTickPhaseSpaceBitBudgetOp}(3)=72\), перенос \(1\to 1\) из Камеры&#160;\(A\) в Камеру&#160;\(B\) (с разрядкой \(\mu _A\mapsto \mu _{\mathrm{vac}}=1\) при точном сохранении двухкамерной нормы \(\mu _{\mathrm{src}}^2+\mu _{\mathrm{vac}}^2 = \mu _{\mathrm{vac}}^2+\mu _{\mathrm{src}}^2\), исключающем клонирование \(1\to 2\)) реализуется четырёхтактным инженерным трактом, объединяющим опыты CE-RD-01, CE-RD-03 и волновод Раздела&#160;27: (1)&#160;<em>Фаза&#160;1 (Фазовый стазис \(D_{\mathrm{stasis}} = 833\, \varepsilon = 6\, 823\, 936\) в Камерах&#160;\(A\) и&#160;\(B\)):</em> синфазное включение \(12\)&#160;лучей кубооктаэдра (\(\Delta \varphi _{\mathrm{shield}}=0\), \(\mathcal{C}_3(0)=+128\)) переводит все межузловые импульсы ворот \(|\Phi |{\lt}41\) внутрь мёртвой зоны затвора (\(\Phi \equiv 0\)), полностью выключая нелинейный Канал&#160;2 и замораживая внутреннюю декогеренцию объекта на время послойного сканирования; (2)&#160;<em>Фаза&#160;2 (Голономное считывание 4-канальным томографом \(\mathcal{M}_{\mathrm{chan}} = I_4 + N_{\mathrm{nil}}\) и генерация синдрома в Камере&#160;\(A\)):</em> по поясам Архимеда \(10k^2+2\) считывается фаза \(\psi _{\mathrm{src}}\in \mathbb {Z}_{512}\), вычисляется синдром \(\sigma _A = (\psi _{\mathrm{src}} - a - 256)\bmod 512\) относительно первой половины противофазного синглета&#160;\(a\), а узел в Камере&#160;\(A\) когерентно разряжается в вакуум (\(\mu _A\mapsto 1\)); (3)&#160;<em>Фаза&#160;3 (Баллистический перенос синдрома \(A\to B\) со скоростью \(c_0=\sqrt{2}\, c\) без потерь):</em> в экранированном волноводе (\(D_{\mathrm{shield}}=6\, 823\, 936\)) тепловой шум гасится в точный ноль (\(\mathrm{waveguideNoiseScatterGateOp}=0\), \(\hat n_{E,\mathrm{loss}}=0\)); (4)&#160;<em>Фаза&#160;4 (Селективная запись в фокусное окно \(D_{\mathrm{write}}=\varepsilon =8\, 192\) в Камере&#160;\(B\) при контрасте \(833:1\)):</em> в текущей фокусной точке Камеры&#160;\(B\) \(12\)&#160;лучей кубооктаэдра переключаются в противофазу (\(\Delta \varphi =256\)), роняя импеданс в \(\mathrm{stasisToWriteImpedanceContrastOp}(3) = 833\) раза до \(D_{\mathrm{write}}=8\, 192\), куда записывается \(\psi _B = (b+\sigma _A)\bmod 512 \equiv \psi _{\mathrm{src}}\) (\(\mathcal{C}_3(\psi _B)=\mathcal{C}_3(\psi _{\mathrm{src}})\), \(\mathcal{S}_3(\psi _B)=\mathcal{S}_3(\psi _{\mathrm{src}})\) во всех \(512\) состояниях), после чего узел возвращается под замок стазиса \(833\, \varepsilon \) до завершения сборки всех оболочек и одновременного снятия экрана; </p>
+</li>
+  <li><p><em>Безнейтронный протон-борный синтез \(p + {}^{11}_{5}\mathrm{B} \to 3\, {}^{4}_{2}\mathrm{He}\) по трём плоскостям Эйлера, гравитационно-импедансный диполь \(833:1\) без перегрузок и бесконтактный нейроинтерфейс кортикальной колонки \(42/147/41\)</em>: (1)&#160;ядро бора-11 имеет заряд \(Z(\mathrm{B}) = d_{\mathrm{out}}(E)(d) = 5\), число нейтронов \(N(^{11}\mathrm{B}) = |\square (d)| = 6\) и массовое число \(A(^{11}\mathrm{B}) = |N(d)| - \mu _{\mathrm{vac}}(d) = 11\); при захвате протона (\(Z=1, A=1\)) в 12-лучевом седле кубооктаэдра (\(D\to \varepsilon =8\, 192\), схлопывание барьера в \(587\times \)) составное ядро \(^{12}_{6}\mathrm{C}^*\) (\(Z=|\square |=6, A=|N(d)|=12\)) распадается ровно на \(\mathrm{eulerPlaneCountOp}(d) = d = 3\) альфа-частицы \(^{4}_{2}\mathrm{He}\) (\(Z=(c_0/c)^2=2, A=d_{\mathrm{in}}(\square )=4\)) вдоль трёх ортогональных плоскостей Эйлера \((XY,XZ,YZ)\) при тождественно нулевом выходе свободных нейтронов (\(\Delta N_{\mathrm{free}} = (1+6) - 3\times (4-2) - 1 = 0\)); (2)&#160;асимметричное фазирование верхней (\(\Delta \varphi =256 \implies D_{\mathrm{top}}=\varepsilon =8\, 192\)) и нижней (\(\Delta \varphi =0 \implies D_{\mathrm{bottom}}=833\, \varepsilon =6\, 823\, 936\)) полусфер кубооктаэдра создаёт гравитационно-импедансный диполь \(\mathrm{gravImpedanceDipoleDiffOp}(d) = N_\varphi (d)\, K_P(d)\, \varepsilon (d) = 832\, \varepsilon = 6\, 815\, 744\), ускоряющий весь внутренний объём без внутренних перегрузок; (3)&#160;шестислойная кортикальная колонка коры мозга (\(V = S_2 = 42\), \(E = B_3 = 147\), порог \(\chi _{2\mathrm{D}} = V - \mu _{\mathrm{vac}} = 41 = \Delta \varphi _{\mathrm{disc}}\)) изоморфна координационным оболочкам кубооктаэдра, что обеспечивает бесконтактное фазовое сопряжение через 4-канальный голономный томограф \(\mathcal{M}_{\mathrm{chan}} = I_4 + N_{\mathrm{nil}}\); </p>
+</li>
+  <li><p><em>Автономный синтез пищи, кислорода, чистой воды и замкнутый рециклинг из воздуха и воды на замкнутых оболочках кубооктаэдра</em>: все базовые молекулы жизнеобеспечения состоят из элементов воздуха и воды (\(\mathrm{H,C,N,O,P}\)) и замыкают точные структурные оболочки кубооктаэдра: (1)&#160;<em>Первичные гидриды и опреснение воды:</em> \(\mathrm{H_2O}\), \(\mathrm{NH_3}\) и \(\mathrm{CH_4}\) имеют единый заряд \(Z = 10 = Z(\mathrm{Ne})(d)\), тогда как морская соль \(\mathrm{NaCl}\) (\(Z(\mathrm{Na})=11, Z(\mathrm{Cl})=17\)) замыкает магическую оболочку \(Z(\mathrm{NaCl}) = 28 = d_{\mathrm{in}}(\square )(2^d-1)\), что позволяет разделять рассол и пресную воду в квадратурном поле Эйлера без кипячения и мембран, а мочевина \(\mathrm{CO(NH_2)_2}\) имеет заряд \(Z = 32 = K_P(d)/2\); (2)&#160;<em>Углеводы и кислород для дыхания (симметрия фотосинтеза \(96:96\)):</em> молекула глюкозы \(\mathrm{C_6H_{12}O_6}\) содержит \(\mathrm{glucoseAtomCountOp}(3) = 6+12+6 = 24 = 2|N(d)|\) атомов (по числу поверхностных рёбер кубооктаэдра) и несёт заряд \(Z(\mathrm{C_6H_{12}O_6}) = 96 = |N(d)|\, |{\triangle }(d)| = \hat{M}(d) - \mu _{\mathrm{vac}}(d)\), вследствие чего реакция фотосинтеза \(6\, \mathrm{CO_2} + 6\, \mathrm{H_2O} \to \mathrm{C_6H_{12}O_6} + 6\, \mathrm{O_2}\) делит входной заряд \(132 + 60 = 192\) строго пополам между пищей \(Z(\mathrm{C_6H_{12}O_6}) = 96\) и дыхательным кислородом \(Z(6\, \mathrm{O_2}) = 96\); (3)&#160;<em>Белки, витамины, липиды и АТФ:</em> базовая аминокислота глицин \(\mathrm{C_2H_5NO_2}\) имеет заряд \(Z = 40 = d_{\mathrm{out}}(E)|{\triangle }| = \Delta \varphi _{\mathrm{disc}}(d) - \mu _{\mathrm{vac}}(d)\), аланин \(\mathrm{C_3H_7NO_2}\) — заряд \(Z = 48 = d_{\mathrm{in}}(\square )|N(d)|\), витамин&#160;C (аскорбиновая кислота \(\mathrm{C_6H_8O_6}\)) — заряд \(Z = 92 = S_3(d) = \mathrm{cuboctShellSizeOp}(d,d)\), пальмитиновая жирная кислота \(\mathrm{C_{16}H_{32}O_2}\) — заряд \(Z = 144 = |N(d)|^2\), а универсальный энергоноситель клетки АТФ \(\mathrm{C_{10}H_{16}N_5O_{13}P_3}\) — заряд \(Z = 260 = d_{\mathrm{in}}(\square )\, d_{\mathrm{out}}(E)\, N_\varphi (d)\); </p>
+</li>
+  <li><p><em>Парная теорема о невозможности Демона Лапласа внутри решётки и конструктивной реализуемости безпамятьевого 12-лучевого Геометрического Демона Максвелла</em>: поскольку любой наблюдатель, прибор или вычислитель сам состоит из узлов кубооктаэдрической решётки (Раздел&#160;35, «нет наблюдателя вне решётки»), классические демоны Лапласа и Максвелла получают строгое операторное разрешение без отказа от микроскопического детерминизма&#160;\(g\): (1)&#160;<em>Невозможность Демона Лапласа при 100% детерминированном обратимом М-законе:</em> всеведущий предсказатель будущего внутри решётки исключён одновременно тремя барьерами: (а)&#160;принципом Дирихле самовложенности регистра \(\mathrm{demonMemoryBitCapacityOp}(d,V_{\mathrm{demon}}) = B_2(d)\, V_{\mathrm{demon}} {\lt} B_2(d)\, \mathcal{V}_{O_2}(d,T) = \mathrm{universeCausalConeBitBudgetOp}(d,T)\) для любой собственной подсистемы \(V_{\mathrm{demon}} {\lt} \mathcal{V}_{O_2}(d,T)\) (\(72 {\lt} 936\) при \(T=1\) и \(936 {\lt} 10\, 584\) при \(T=3\)); (б)&#160;точным квадратичным законом слепоты Т-прибора: произведение числа скрытых состояний мантиссы Вейля–Швингера \(K_P(d)=64\) (Уровень&#160;I) на число субпороговых состояний мёртвой зоны затвора \(|\mathcal{E}_{\mathrm{Heis}}|(d) = 2\Delta \varphi _{\mathrm{disc}}(d)-1 = 81 = 3^4\) (Уровень&#160;II, \(\hat n_E = 0\)) в точности равно квадрату двухтактового битового бюджета ячейки \(\mathrm{tLayerHiddenMicrostatesPerCellOp}(d) = K_P(d)\, |\mathcal{E}_{\mathrm{Heis}}|(d) = (B_2(d))^2 = 72^2 = 5\, 184\) неразличимых пассивным Т-детектором микросостояний на узел, тогда как активный надпороговый зонд \(|\Phi _{\mathrm{probe}}|\ge \Delta \varphi _{\mathrm{disc}}(d)\) (\(\hat n_E\ge 1\)) возмущает шаг Верле самой измеряемой ячейки; (в)&#160;горизонтом причинного конуса кубооктаэдра \(\mathcal{V}_{O_2}(3,T) = (10T^3+15T^2+11T+3)/3\) со скоростью звена \(c_0\) (данные со сферы \(S_T\) приходят в центр ровно в момент самого события \(T\)) и ветвлением прообраза \((2^d-1)^T = 7^T\) при сбросе остатков Канала&#160;2; (2)&#160;<em>Конструктивная реализуемость безпамятьевого 12-лучевого Геометрического Демона Максвелла без нарушения предела Ландауэра:</em> в отличие от демона Сциларда–Бриллюэна, записывающего и стирающего биты памяти, 12-лучевая воронка кубооктаэдра расщепляет даже максимальный \(|\square (d)|=6\)-квантовый тепловой удар \(\Phi _{\mathrm{Pauli}}(d)=256\) по \(|N(d)|=12\) лучам на \(\mathrm{maxwellDemonRayPhaseOp}(d,\Phi _{\mathrm{Pauli}}(d)) = \lfloor 256/12\rfloor = 21 = d\, (|{\triangle }(d)|-1) {\lt} 41 = \Delta \varphi _{\mathrm{disc}}(d)\) тик на луч, где излучение тепловых фононов тождественно обращается в нуль (\(\mathrm{energyQuantumOperator}(d,21) = 0\)), а суммарный выпрямленный нечётный ток по \(12\)&#160;лучам строго положителен и равен \(\mathrm{maxwellDemonTotalExtractedCurrentOp}(d,\Phi _{\mathrm{Pauli}}(d)) = |N(d)|\cdot 21 = 252 {\gt} 0\); (3)&#160;<em>Естественная квадрантно-мантиссовая система счисления кода Грея (\(\mathbb {Z}_{N_{\mathrm{ring}}(d)}\cong \mathbb {Z}_4^{\mathrm{Gray}}\ltimes \mathbb {Z}_{Q_\square (d)}\)), восьмеричная триада \(\mathbb {Z}_{512}\cong \mathbb {Z}_8^3\) (\(\mathrm{IV}=263_{10}=407_8\)) и пять внутренних представлений самой единицы&#160;\(1\) в терминах носителя</em>: любой фазовый угол \(u = \varphi \bmodN _{\mathrm{ring}}(d)\in [0,512)\) раскладывается в 3-разрядное восьмеричное слово по основанию \(|{\triangle }(3)|=8\) (\(512=8^3\), в котором начальное слово имеет каноническую запись \(\mathrm{IV}(3) = 263_{10} = 4\cdot 8^2 + 0\cdot 8^1 + 7\cdot 8^0 = \mathbf{407_8}\)) и в квадрантно-мантиссовую тройку \((q_1,q_0,m_7)\) (\(q_1=\lfloor u/256\rfloor \in \{ 0,1\} \), \(q_0=\lfloor u/128\rfloor \bmod 2\in \{ 0,1\} \), \(m_7 = u\bmod 128\in [0,127]\)), где <b class="bfseries">оба</b> проектора ротатора \(\mathcal{C}_d(\varphi )\) и \(\mathcal{S}_d(\varphi )\) порождаются одним-единственным 7-битным дополнением \(\overline{m}_7 = Q_\square (d)-m_7\), перекрёстным X-переключателем по биту&#160;\(q_0\) и 2-битным рефлексивным кодом Грея знаков \((c_{\mathrm{neg}},s_{\mathrm{neg}}) = ((q_1+q_0)\bmod 2,\, q_1)\). При этом сама математическая единица&#160;\(1\) выражается внутри носителя пятью тождественными способами без внешнего постулата: </p>
+<div class="displaymath" id="a0000000017">
+  \[  \mathbf{1} \; =\;  \underbrace{d^2 - 2^d}_{\text{зазор Каталана}} \; =\;  \underbrace{\frac{\overline{m}_7 + m_7}{Q_\square (d)} = \frac{\mathcal{W}_d(\varphi )}{Q_\square (d)}}_{L^1\text{-бабочка и вронскиан}} \; =\;  \underbrace{\frac{P_{x,d}(\varphi )^2 + P_{y,d}(\varphi )^2}{P_{r,d}(\varphi )^2}}_{a^2+b^2=1\text{ на окружности}} \; =\;  \underbrace{\chi (\mathcal{C}_{13}) = 13-36+32-8}_{\text{инвариант Эйлера }\mathcal{C}_{13}}  \]
+</div>
+<p> и четырьмя арифметическими тождествами Безу для мультипликативных обратных к \(\Delta \varphi _{\mathrm{disc}}=41\), \(N_\varphi =13\), \(\hat{M}=97\) и \(\mathrm{IV}=263\) на кольце \(\mathbb {Z}_{512}\): </p>
+<div class="displaymath" id="a0000000018">
+  \[  \mathbf{1} \; =\;  \underbrace{25}_{(d_{\mathrm{out}}(E))^2}\! \cdot 41 - \underbrace{2}_{(c_0/c)^2}\! \cdot 512 \; =\;  \underbrace{197}_{A(^{197}\mathrm{Au})}\! \cdot 13 - \underbrace{5}_{d_{\mathrm{out}}(E)}\! \cdot 512 \; =\;  \underbrace{417}_{N_{\mathrm{ring}}-\hat{M}+2}\! \cdot 97 - \underbrace{79}_{Z(^{197}\mathrm{Au})}\! \cdot 512 \; =\;  \underbrace{183}_{N_{\mathrm{island}}-1}\! \cdot 263 - \underbrace{94}_{Z(\mathrm{Pu})}\! \cdot 512.  \]
+</div>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sec-applied-landauer-and-paradoxes.html#thm:applied-landauer-and-seven-paradoxes">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L299" class="lean_decl">reversible_computing_zero_landauer_heat_and_paradox_resolutions_operator</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/UnifiedOperators.lean" class="lean_decl">UnifiedOperators.lean</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L48" class="lean_decl">diracBraKetOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L62" class="lean_decl">bornClickCountOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L65" class="lean_decl">checkBornRuleAllAmplitudesBool</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L75" class="lean_decl">clause3SatDefectOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L78" class="lean_decl">clause3SatVortexQuantumOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L83" class="lean_decl">clause3AndQuantumOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L89" class="lean_decl">xor4ClausesLinearGradientSumOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L97" class="lean_decl">count3SatZeroQuotientOctantsOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L275" class="lean_decl">check3SatOctantTruthTableBool</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L109" class="lean_decl">cuboctCausalConeVolumeOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L113" class="lean_decl">cuboctCausalConeCubicPolyOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L120" class="lean_decl">localInversionPreimageBranchingOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L127" class="lean_decl">carrierSecondRingExponentOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L130" class="lean_decl">carrierSecondRationalFactorOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L133" class="lean_decl">cosmoClockPrefactorRatOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L144" class="lean_decl">zPlatinumOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L145" class="lean_decl">zGoldOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L146" class="lean_decl">nGold197NeutronsOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L147" class="lean_decl">aGold197MassOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L148" class="lean_decl">zMercuryOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L149" class="lean_decl">zThalliumOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L157" class="lean_decl">pauliSingletPartnerOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L160" class="lean_decl">teleportBellSyndromeOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L163" class="lean_decl">teleportReconstructPhaseOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L166" class="lean_decl">teleportTwoChamberNormSqOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L169" class="lean_decl">stasisToWriteImpedanceContrastOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/PlanetogenesisAllometry.lean#L45" class="lean_decl">zBoronOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L177" class="lean_decl">nBoron11NeutronsOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L178" class="lean_decl">aBoron11MassOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L179" class="lean_decl">zHeliumAlphaOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L180" class="lean_decl">aHeliumAlphaMassOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L185" class="lean_decl">gravImpedanceDipoleDiffOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L198" class="lean_decl">zWaterOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L199" class="lean_decl">zAmmoniaOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L200" class="lean_decl">zMethaneOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L202" class="lean_decl">zSodiumChlorideOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L203" class="lean_decl">zUreaOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L204" class="lean_decl">zGlycineOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L206" class="lean_decl">zAlanineOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L208" class="lean_decl">zVitaminCOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L210" class="lean_decl">zGlucoseOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L212" class="lean_decl">glucoseAtomCountOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L214" class="lean_decl">zPalmiticLipidOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L216" class="lean_decl">zAtpBioEnergyOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HardwarePhotovoltaics.lean#L13" class="lean_decl">demonMemoryBitCapacityOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HardwarePhotovoltaics.lean#L17" class="lean_decl">universeCausalConeBitBudgetOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HardwarePhotovoltaics.lean#L22" class="lean_decl">tLayerHiddenMicrostatesPerCellOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HardwarePhotovoltaics.lean#L26" class="lean_decl">maxwellDemonRayPhaseOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HardwarePhotovoltaics.lean#L30" class="lean_decl">maxwellDemonTotalExtractedCurrentOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HardwarePhotovoltaics.lean#L146" class="lean_decl">laplace_demon_impossibility_and_geometric_maxwell_demon_operator</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HardwarePhotovoltaics.lean#L34" class="lean_decl">grayButterflyRotatorPairOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HardwarePhotovoltaics.lean#L46" class="lean_decl">checkGrayButterflyRotatorAll512Bool</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:applied-materials-and-superconductors_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:applied-materials-and-superconductors" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">9.1</span><span class="theorem_thmtitle">Оператор куперовского возврата \(2e\) на полупериоде \(\Phi _{\mathrm{Pauli}}(d)\) и генеративного замыкания функциональных сплавов и сверхпроводников</span></div>
+    <div class="thm_thmcontent"><p>    Для любого \(d\in \mathbb {N}\) операторный закон Каталана \(\mathrm{CatalanLaw}(P,d)\) эквивалентен системе следующих операторных тождеств: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Удвоение фазового отклика куперовской пары (\(2e = \mathrm{c0OverCSqOp}(d)\cdot e\)):</b> операторы чётной и нечётной голономии спин-синглетной пары \(\mathrm{cooperPairProjCOp}(d,\Delta \varphi ) = \mathcal{C}_d(\mathrm{c0OverCSqOp}(d)\cdot \Delta \varphi )\) и \(\mathrm{cooperPairProjSOp}(d,\Delta \varphi ) = \mathcal{S}_d(\mathrm{c0OverCSqOp}(d)\cdot \Delta \varphi )\) достигают деструктивного минимума уже на четверть-периодном седле \(Q_\square (d)\) и полного конструктивного возврата Ааронова–Бома на полупериоде противофазы \(\Phi _{\mathrm{Pauli}}(d)\): </p>
+<div class="displaymath" id="a0000000011">
+  \[  \mathrm{cooperPairProjCOp}\bigl(d,Q_\square (d)\bigr) = -Q_\square (d),\qquad \mathrm{cooperPairProjSOp}\bigl(d,Q_\square (d)\bigr) = 0,  \]
+</div>
+<div class="displaymath" id="a0000000012">
+  \[  \mathrm{cooperPairProjCOp}\bigl(d,\Phi _{\mathrm{Pauli}}(d)\bigr) = +Q_\square (d) = \mathrm{cooperPairProjCOp}(d,0),\qquad \mathrm{cooperPairProjSOp}\bigl(d,\Phi _{\mathrm{Pauli}}(d)\bigr) = 0.  \]
+</div>
+</li>
+  <li><p><b class="bfseries">Генеративное замыкание оболочек функциональных сплавов и сверхпроводящих фаз:</b> реакционный оператор \(\mathrm{isClosedDifferentiationReactionOp}\) и генератор бинарных пар \(\mathrm{discoverBinaryShellPairsOp}\) без перебора выделяют: </p>
+<ul class="itemize">
+  <li><p>интерметаллид с памятью формы нитинол (\(\mathrm{TiNi}\)), замыкающий вторую высшую ядерную магическую оболочку перовскита и корунда: </p>
+<div class="displaymath" id="a0000000013">
+  \[  \mathrm{zNitinolShapeMemoryOp}(d) \; =\;  \mathrm{zTitaniumBeamOp}(d) + \mathrm{zNickelOp}(d) \; =\;  \mathrm{nuclearMagicHighOp}\bigl(d,d_{\mathrm{out}}(E)(d)\bigr);  \]
+</div>
+</li>
+  <li><p>сверхпроводящий диборид магния (\(\mathrm{MgB_2}\)), изозарядный титановому снаряду: \(\mathrm{zMagnesiumDiborideOp}(d) = \mathrm{zTitaniumBeamOp}(d)\); </p>
+</li>
+  <li><p>купратную сверхпроводящую плоскость (\(\mathrm{CuO_2}\)) и бесконечнослоевую родительскую фазу ВТСП (\(\mathrm{CaCuO_2}\)): </p>
+<div class="displaymath" id="a0000000014">
+  \[  \mathrm{zCupratePlaneOp}(d) \; =\;  \mathrm{modBits}(d)\cdot d_{\mathrm{out}}(E)(d),\qquad \mathrm{zInfiniteLayerCuprateOp}(d) \; =\;  K_P(d) + \mu _{\mathrm{vac}}(d);  \]
+</div>
+</li>
+  <li><p>халькогенидный сверхпроводящий слой (\(\mathrm{FeS}\)), замыкающий вторую координационную сферу кубооктаэдра: \(\mathrm{zIronSulfideCoreOp}(d) = \mathrm{cuboctShellSizeOp}(d,\mathrm{c0OverCSqOp}(d))\). </p>
+</li>
+</ul>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sec-applied-cooper-and-alloys.html#thm:applied-materials-and-superconductors">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/SuperconductorBioCad.lean#L47" class="lean_decl">generative_materials_cooper_pairing_and_superconductor_shells_operator</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/UnifiedOperators.lean" class="lean_decl">UnifiedOperators.lean</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:applied-scale-invariance_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:applied-scale-invariance" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">3.1</span><span class="theorem_thmtitle">Масштабная инвариантность изотропного лапласиана \(\Delta _{O_2(L)}\) и четырёхканального измерения \(\mathcal{M}(x,t,N)\)</span></div>
+    <div class="thm_thmcontent"><p>    Пусть \(O_2(L) := L\cdot O_2 = \{ L\, e : e\in O_2\} \) — масштабированная кубооктаэдральная оболочка с шагом \(L = N\, dh\) (\(N\ge 1\)). Тогда на любом масштабе&#160;\(L\) выполняются три точных операторных свойства: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Инвариантность тензора второго момента и ППН-тензора:</b> для всех \(e\in O_2(L)\) квадрат длины ребра равен \(\| e\| _2^2 = 2L^2\), матрица вторых моментов строго диагональна и изотропна: </p>
+<div class="equation" id="eq:applied-second-moment-L">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:applied-second-moment-L} \sum _{e\in O_2(L)} e_i\, e_j \; =\;  8L^2\, \delta _{ij} \; =\;  |\triangle (3)|\, L^2\, \delta _{ij}, \qquad \sum _{e\in O_2(L)} \frac{e_i\, e_j}{\| e\| _2^2} \; =\;  4\, \delta _{ij} \; =\;  d_{\mathrm{in}}(\square )\, \delta _{ij}, \end{equation}
+  </div>
+  <span class="equation_label">3.2</span>
+</p>
+</div>
+<p> а дискретный лапласиан \((\Delta _{O_2(L)} f)(x) = \sum _{e\in O_2(L)}(f(x+e)-f(x))\) на любом трёхмерном квадратичном поле \(f(z,y,x) = ax^2+by^2+cz^2+dxy+exz+gyz+px+qy+rz+u\) тождественно аннулирует все перекрёстные члены \(xy,xz,yz\) и возвращает \(8L^2(a+b+c)\). </p>
+</li>
+  <li><p><b class="bfseries">Точное сохранение калибровочных и топологических законов на любом окне прибора \(N\ge 1\):</b> под действием биномиального окна прибора \(\mathcal{B}_N\) квантование плакетного потока \((d_1\mathcal{B}_N[A])_f = 512\, \mathcal{B}_N[n_f]\), закон отсутствия изолированных монополей \(\operatorname {div}_{\mathrm{cube}}\mathcal{B}_N[n_f] \equiv 0\) и закон индукции Фарадея \(\Delta _t B_f^{(N)} + (d_1 E^{(N)})_f \equiv 0\) выполняются с нулевой погрешностью при любом конечном&#160;\(N\ge 1\). </p>
+</li>
+  <li><p><b class="bfseries">Иерархия физических реализаций кубооктаэдра \(O_2(L)\):</b> поскольку свободная энергия Гинзбурга–Ландау–Бома достигает минимума на изотропной оболочке&#160;<a href="sec-applied-self-similarity.html#eq:applied-second-moment-L" class="eqref">3.2</a>, одна и та же \(12\)-вершинная геометрия&#160;\(O_2(L)\) реализуется на четырёх макроскопических этажах: </p>
+<ul class="itemize">
+  <li><p><em>Кристаллический этаж (\(L \sim 2{,}5\text{--}4\  \text{\AA }\), \(N\sim 10^{25}\)):</em> атомные ГЦК-решётки переходных и благородных металлов (\(\mathrm{Ni},\  \mathrm{Pd},\  \mathrm{Pt},\  \mathrm{Cu},\  \mathrm{Ag},\  \mathrm{Au},\  \mathrm{Al},\  \gamma \text{-}\mathrm{Fe}\)), в которых каждый узел окружён \(12\) ближайшими соседями по вершинам кубооктаэдра; </p>
+</li>
+  <li><p><em>Мезоскопический и кавитационный этаж (\(L \sim 1\  \text{мкм}\text{--}1\  \text{мм}\), \(N\sim 10^{29}\text{--}10^{32}\)):</em> стоячие акустические и плазмонные моды в сферических и додекаэдральных микрополостях; </p>
+</li>
+  <li><p><em>Лабораторный резонаторный этаж (\(L \sim 1\  \text{см}\text{--}1\  \text{м}\), \(N\sim 10^{33}\text{--}10^{35}\)):</em> \(12\)-лучевые фазированные акустико-электромагнитные концентраторы с расположением излучателей в вершинах&#160;\(O_2(L)\); </p>
+</li>
+  <li><p><em>Планетарный геофизический этаж (\(L \sim 10^3\text{--}10^4\  \text{км}\), \(N\sim 10^{41}\text{--}10^{42}\)):</em> внутреннее \(\mathrm{Fe}\text{-}\mathrm{Ni}\) ядро и мантия планет земной группы. </p>
+</li>
+</ul>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sec-applied-self-similarity.html#thm:applied-scale-invariance">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/UnifiedOperators.lean" class="lean_decl">UnifiedOperators.lean</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ContinuumPhysics.lean#L62" class="lean_decl">cuboctahedron_second_moment_isotropy_tensor</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ContinuumPhysics.lean#L125" class="lean_decl">laplacian_O2_exact_on_quadratic_polynomial</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HolonomyMaxwell.lean" class="lean_decl">HolonomyMaxwell.lean</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HolonomyMaxwell.lean#L174" class="lean_decl">instrument_convolution_plaquette_flux_exact</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HolonomyMaxwell.lean#L211" class="lean_decl">instrument_convolution_gauss_monopole_free_exact</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HolonomyMaxwell.lean#L229" class="lean_decl">instrument_convolution_faraday_law_exact</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:auto-001_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:auto-001" style="display: none">
+    <div class="thm_thmheading">
+      <span class="definition_thmcaption">
+      Определение
+      </span>
+      <span class="definition_thmlabel">13.2</span><span class="definition_thmtitle">Результат прямого измерения</span></div>
+    <div class="thm_thmcontent"><p>   Величина \(X\) измерена \(n\) раз в воспроизводимых условиях; отчётный результат \(\hat x\) и <em>стандартная неопределённость</em> \(u(x)\) описывают наилучшую оценку и разброс, согласованный с протоколом (тип&#160;A — по статистике повторов; тип&#160;B — по модели прибора, калибровке, хвостам распределения). </p>
+</div>
+
+    <a class="latex_link" href="sec-direct-measurement.html#thm:auto-001">LaTeX</a>
+    
+    
+  
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:eng-ac-rlc_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:eng-ac-rlc" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">1.3</span><span class="theorem_thmtitle">Ортогональность реактивной мощности переменного тока и точное гашение в \(LC\)-резонансе,</span></div>
+    <div class="thm_thmcontent"><p>    Ёмкостный (\(+128\) тиков) и индуктивный (\(-128 \equiv +384\) тика) сдвиги фазы на кольце \(\mathbb {Z}_{512}\) удовлетворяют </p>
+<div class="equation" id="eq:eng-ac-rlc">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:eng-ac-rlc} \sum _{\varphi =0}^{511} \mathcal{C}_3(\varphi )\, \mathcal{S}_3(\varphi ) = 0, \qquad \sum _{\varphi =0}^{511} \mathcal{C}_3(\varphi )^2 = 2\, 796\, 288, \qquad \mathcal{C}_3(\varphi + 128) + \mathcal{C}_3(\varphi + 384) \; \equiv \;  0 \quad (\forall \varphi \in \mathbb {Z}_{512}), \end{equation}
+  </div>
+  <span class="equation_label">1.2</span>
+</p>
+</div>
+<p> доказывая равенство нулю работы реактивной мощности за период и поточечную взаимную аннигиляцию напряжений \(L\) и \(C\) в резонансе. </p>
+</div>
+
+    <a class="latex_link" href="ch-eng-electrical-engineering.html#thm:eng-ac-rlc">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/LogicCohomology.lean">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:eng-dc-ohm-mppt_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:eng-dc-ohm-mppt" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">1.1</span><span class="theorem_thmtitle">Нагрузочная прямая постоянного тока, согласование импеданса (MPPT) и порог джоулева нагрева,</span></div>
+    <div class="thm_thmcontent"><p>   Стационарный сдвиг фазы \(\Delta \varphi = k \in [0,128]\) между соседними узлами кубооктаэдра делит бюджет четверти кольца \(Q_\square (3) = 128\) между напряжением \(V(k) = \mathcal{C}_3(k) = 128 - k\) и током фазовой эстафеты \(I(k) = \mathcal{S}_3(k) = k\): </p>
+<div class="equation" id="eq:eng-dc-ohm-mppt">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:eng-dc-ohm-mppt} V(k) + I(k) \; \equiv \;  128, \qquad P(k) \; =\;  V(k)\, I(k) \; =\;  64^2 - (64 - k)^2 \; \le \;  4\, 096 \; =\;  K_P(3)^2, \end{equation}
+  </div>
+  <span class="equation_label">1.1</span>
+</p>
+</div>
+<p> достигая максимума передачи мощности при \(k^* = K_P(3) = 64\) (\(V = I = 64\)). Внутри подпорогового беспотерьного коридора \(|k| \le 40 {\lt} 41\) излучение фононов тождественно равно нулю (\(\hat{n}_E(k) = \lfloor |k|/41\rfloor = 0\), баллистический/сверхпроводящий режим); при \(|k| \ge 41\) на дефектах решётки излучается \(\hat{n}_E(k) \in \{ 1,\dots ,6\} \) фононных квантов (закон Джоуля–Ленца) с рождением вихревых магнитных плакет \(B_f = 512\, n_f\). </p>
+</div>
+
+    <a class="latex_link" href="ch-eng-electrical-engineering.html#thm:eng-dc-ohm-mppt">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/LogicCohomology.lean">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:eng-kirchhoff-faraday_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:eng-kirchhoff-faraday" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">1.2</span><span class="theorem_thmtitle">Законы Кирхгофа и индукции Фарадея из нильпотентности кограницы де&#160;Рама,</span></div>
+    <div class="thm_thmcontent"><p>    Вокруг всякого замкнутого контура \(\partial f\) тождество \((d_1 d_0\varphi )_f \equiv 0\) даёт второй закон Кирхгофа (KVL) в потенциальных цепях и закон электромагнитной индукции Фарадея \((d_1 r)_f = -512(d_1 q)_f = 512\, n_f\) при сцеплении с вихревым магнитным потоком, тогда как \(d_2\circ d_1 \equiv 0\) и \(\sum _{k=0}^{11}\vec{e}_k = \mathbf{0}\) дают первый закон Кирхгофа (KCL) в каждом узле. </p>
+</div>
+
+    <a class="latex_link" href="ch-eng-electrical-engineering.html#thm:eng-kirchhoff-faraday">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/LogicCohomology.lean">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:eng-rectifiers_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:eng-rectifiers" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">1.4</span><span class="theorem_thmtitle">Выпрямители Гретца и бесконденсаторный квадратурный выпрямитель с \(0\% \) пульсаций,</span></div>
+    <div class="thm_thmcontent"><p>    Безветвевой однополупериодный выпрямитель \(\mathrm{rect}_{1/2}(x) = (|x|+x)/2\) и двухполупериодный 4-диодный мост Гретца \(|x|\) дают точные целочисленные средние токи на \(\mathbb {Z}_{512}\) без иррациональных множителей \(\pi \): </p>
+<div class="equation" id="eq:eng-rectifiers">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:eng-rectifiers} \sum _{\varphi =0}^{511}\mathrm{rect}_{1/2}\bigl(\mathcal{S}_3(\varphi )\bigr) = 16\, 384 = 128^2 \; \; (\bar{I}_{1/2} = 32), \qquad \sum _{\varphi =0}^{511}\bigl|\mathcal{S}_3(\varphi )\bigr| = 32\, 768 = 2\times 128^2 \; \; (\bar{I}_{\mathrm{Graetz}} = 64 = K_P), \end{equation}
+  </div>
+  <span class="equation_label">1.3</span>
+</p>
+</div>
+<p> а двухфазный квадратурный мостовой выпрямитель (\(\varphi \) и \(\varphi - 128\)) обеспечивает постоянный выход без сглаживающего конденсатора с \(0\% \) пульсаций на каждом тике: \(|\mathcal{C}_3(\varphi )| + |\mathcal{S}_3(\varphi )| \equiv 128\). </p>
+</div>
+
+    <a class="latex_link" href="ch-eng-electrical-engineering.html#thm:eng-rectifiers">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/LogicCohomology.lean">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:eng-transformer_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:eng-transformer" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">1.5</span><span class="theorem_thmtitle">Идеальный трансформатор и квадратичное преобразование импеданса</span></div>
+    <div class="thm_thmcontent"><p>   Для первичной и вторичной обмоток \(N_1 : N_2\) на общем замкнутом магнитопроводе (\(\Phi _{\mathrm{core}} = 512\, n_f\)) при \(V_1 = N_1\varepsilon _1\), \(V_2 = N_2\varepsilon _1\), \(I_1 = N_2 i_0\), \(I_2 = N_1 i_0\) выполняются \(N_2 V_1 - N_1 V_2 \equiv 0\), \(N_1 I_1 - N_2 I_2 \equiv 0\), \(V_1 I_1 \equiv V_2 I_2\) и \(Z_{\mathrm{in}} = (N_1/N_2)^2 Z_{\mathrm{load}}\). </p>
+</div>
+
+    <a class="latex_link" href="ch-eng-electrical-engineering.html#thm:eng-transformer">LaTeX</a>
+    
+    
+  
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+</div>
+</div> <!-- content -->
+</div> <!-- wrapper -->
+<script src="js/jquery.min.js" type="text/javascript"></script>
+
+<script src="js/d3.min.js"></script>
+<script src="js/hpcc.min.js"></script>
+<script src="js/d3-graphviz.js"></script>
+
+<script type="text/javascript">
+const graphContainer = d3.select("#graph");
+const width = graphContainer.node().clientWidth;
+const height = graphContainer.node().clientHeight;
+
+
+graphContainer.graphviz({useWorker: true})
+    .width(width)
+    .height(height)
+    .fit(true)
+    .renderDot(`strict digraph "" {	graph [bgcolor=transparent];	node [label="\N",		penwidth=1.8	];	edge [arrowhead=vee];	"thm:applied-chemical-reactions-and-catalysis"	[color=green,		fillcolor="#9CEC8B",		label="applied-chemical-reactions-and-catalysis",		shape=ellipse,		style=filled];	"thm:applied-c0-and-lossless-waveguide"	[color=green,		label="applied-c0-and-lossless-waveguide",		shape=ellipse];	"thm:applied-chemical-reactions-and-catalysis" -> "thm:applied-c0-and-lossless-waveguide"	[style=dashed];	"thm:applied-materials-and-superconductors"	[color=green,		label="applied-materials-and-superconductors",		shape=ellipse];	"thm:applied-c0-and-lossless-waveguide" -> "thm:applied-materials-and-superconductors"	[style=dashed];	"thm:applied-bio-cad-and-therapy"	[color=green,		label="applied-bio-cad-and-therapy",		shape=ellipse];	"thm:applied-materials-and-superconductors" -> "thm:applied-bio-cad-and-therapy"	[style=dashed];	"exp:cerd01"	[color=green,		label=cerd01,		shape=ellipse];	"exp:cerd02"	[color=green,		label=cerd02,		shape=ellipse];	"exp:cerd01" -> "exp:cerd02"	[style=dashed];	"exp:cerd03"	[color=green,		label=cerd03,		shape=ellipse];	"exp:cerd02" -> "exp:cerd03"	[style=dashed];	"exp:cerd04"	[color=green,		label=cerd04,		shape=ellipse];	"exp:cerd03" -> "exp:cerd04"	[style=dashed];	"thm:eng-dc-ohm-mppt"	[color=green,		label="eng-dc-ohm-mppt",		shape=ellipse];	"thm:eng-kirchhoff-faraday"	[color=green,		label="eng-kirchhoff-faraday",		shape=ellipse];	"thm:eng-dc-ohm-mppt" -> "thm:eng-kirchhoff-faraday"	[style=dashed];	"thm:eng-ac-rlc"	[color=green,		label="eng-ac-rlc",		shape=ellipse];	"thm:eng-kirchhoff-faraday" -> "thm:eng-ac-rlc"	[style=dashed];	"thm:eng-rectifiers"	[color=green,		label="eng-rectifiers",		shape=ellipse];	"thm:eng-ac-rlc" -> "thm:eng-rectifiers"	[style=dashed];	"thm:auto-001"	[color=green,		fillcolor="#B0ECA3",		label="auto-001",		shape=box,		style=filled];	"def:sample-stats"	[color=green,		fillcolor="#B0ECA3",		label="sample-stats",		shape=box,		style=filled];	"thm:auto-001" -> "def:sample-stats"	[style=dashed];	"def:sample-stats" -> "exp:cerd01"	[style=dashed];	"thm:eng-transformer"	[color=green,		label="eng-transformer",		shape=ellipse];	"thm:eng-rectifiers" -> "thm:eng-transformer"	[style=dashed];	"thm:applied-scale-invariance"	[color=green,		label="applied-scale-invariance",		shape=ellipse];	"thm:eng-transformer" -> "thm:applied-scale-invariance"	[style=dashed];	"thm:applied-barrier-collapse"	[color=green,		fillcolor="#9CEC8B",		label="applied-barrier-collapse",		shape=ellipse,		style=filled];	"thm:applied-scale-invariance" -> "thm:applied-barrier-collapse"	[style=dashed];	"thm:applied-barrier-collapse" -> "thm:applied-chemical-reactions-and-catalysis"	[style=dashed];	"thm:applied-landauer-and-seven-paradoxes"	[color=green,		label="applied-landauer-and-seven-paradoxes",		shape=ellipse];	"lab:template"	[color=green,		label=template,		shape=ellipse];	"thm:applied-landauer-and-seven-paradoxes" -> "lab:template"	[style=dashed];	"lab:template" -> "thm:auto-001"	[style=dashed];	"thm:applied-bio-cad-and-therapy" -> "thm:applied-landauer-and-seven-paradoxes"	[style=dashed];}`)
+    .on("end", interactive);
+
+latexLabelEscaper = function(label) {
+  return label.replace(/\./g, '\\.').replace(/:/g, '\\:')
+}
+
+clickNode = function() {
+  $("#statements div").hide()
+  var node_id = $('text', this).text();
+  $('.thm').hide();
+  $('#'+latexLabelEscaper(node_id)).show().children().show();
+}
+function interactive() {
+    $("span#legend_title").on("click", function () {
+           $(this).siblings('dl').toggle();
+        })
+
+    d3.selectAll('.node')
+        .attr('pointer-events', 'fill')
+        .on('click', function () {
+           var title = d3.select(this).selectAll('title').text().trim();
+           $('#statements > div').hide()
+           $('.thm').hide();
+           $('#'+latexLabelEscaper(title)+'_modal').show().children().show().children().show();
+           $('#statements').show()
+        });
+
+    d3.selectAll('.dep-closebtn').on('click', function() {
+        var modal =
+            d3.select(this).node().parentNode.parentNode.parentNode ;
+        d3.select(modal).style('display', 'none');
+    });
+}
+
+</script>
+
+</body>
+</html>

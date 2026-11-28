@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Замкнутая башня производных частного всех порядков \(D^n(f/g)\), многомерная кубатура Симпсона и когомологии де&#160;Рама</title>
+<link rel="next" href="sect0004.html" title="Биекция полярных и декартовых координат (M,ϕ)↔(X,Y) без корней, точное обращение atanL1, acotL1 и гиперболическое исчисление Гудермана–Минковского" />
+<link rel="prev" href="sect0002.html" title="Характер Эйлера на L1-алмазе, тождество постоянного вронскиана и подъём Брахмагупты–Вейерштрасса" />
+<link rel="up" href="ch-math-rotator-calculus.html" title="Дискретный ротатор Z4Q, однородные проективные поля Q(i,d-1) и анализ без делений" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга V. Математика проективного многообразия (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Предисловие. Отделение чистой проективной математики от физики носителя</span></a>
+ </li>
+<li class=" active">
+  <a href="ch-math-rotator-calculus.html"><span class="toc_ref">1</span> <span class="toc_entry">Дискретный ротатор \(\mathbb {Z}_{4Q}\), однородные проективные поля \(\mathbb {Q}(i,\sqrt{d-1})\) и анализ без делений</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Характер Эйлера на \(L^1\)-алмазе, тождество постоянного вронскиана и подъём Брахмагупты–Вейерштрасса</span></a>
+ </li>
+<li class=" active current">
+  <a href="sect0003.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Замкнутая башня производных частного всех порядков \(D^n(f/g)\), многомерная кубатура Симпсона и когомологии де&#160;Рама</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Биекция полярных и декартовых координат \((M,\varphi )\leftrightarrow (X,Y)\) без корней, точное обращение \(\operatorname {atan}_{L^1},\, \operatorname {acot}_{L^1}\) и гиперболическое исчисление Гудермана–Минковского</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">1.4</span> <span class="toc_entry">Конструктивный переход от квадратичных сумм на кольце \(\mathbb {Z}_{4Q}\) к интегралам Френеля на \(\mathbb {R}\) (\(\mathbb {C}\)) без рядов Тейлора и без таблиц</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-math-pade-sl2-towers.html"><span class="toc_ref">2</span> <span class="toc_entry">Изотропный дискриминантный конус в \(\mathrm{SL}_2(\mathbb {Z})\), моноид башни аппроксимантов Паде и бескорневое кубическое сжатие</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0006.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Матричное представление ступеней, изотропный конус и параболические жордановы матрицы в \(\mathrm{SL}_2(\mathbb {Z})\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-math-planetary-differentials.html"><span class="toc_ref">3</span> <span class="toc_entry">Трёхшахтные планетарные дифференциалы \(\mathcal{A} + \mathcal{B} = \mathcal{C}\), вронскиан Мейсона–Стотерса и проекторы Лагранжа–Вандермонда</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0007.html"><span class="toc_ref">3.1</span> <span class="toc_entry">Ортогональный репер трёхшахтного дифференциала \(\mathcal{F}_3\), матрица моментов Ганкеля и целочисленный вронскиан Мейсона–Стотерса</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-math-multiscrew-and-holonomy.html"><span class="toc_ref">4</span> <span class="toc_entry">Алгебра многовинтовых планетарных каскадов и встречно-волновая суперпозиция на сфере Римана \(\mathbb {P}^1\)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0008.html"><span class="toc_ref">4.1</span> <span class="toc_entry">Моноид многовинтовых планетарных каскадов, экстремальная перестановочная вилка и вариационная монотонность</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html"><span class="toc_ref">4.2</span> <span class="toc_entry">Векторная суперпозиция встречных волн, тройная дихотомия \(M\)-этажного каскада и модельно-теоретическая независимость</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html"><span class="toc_ref">4.3</span> <span class="toc_entry">Конструктивное построение \(\mathbb {R}\) и \(\mathbb {C}\), биективный изоморфизм \(L^1(\mathbb {Z}_{4Q}) \leftrightarrow S^1(\mathbb {C})\) и бритва Оккама–Мальцева</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000004">1.2 Замкнутая башня производных частного всех порядков \(D^n(f/g)\), многомерная кубатура Симпсона и когомологии де&#160;Рама</h1>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:math-c-infinity-simpson-derham">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Теорема
+    </span>
+    <span class="theorem_thmlabel">1.2</span>
+    <span class="theorem_thmtitle">Башня разностных производных частного \(D^n(f/g) = N_n/G_n\) всех порядков \(n\in \mathbb {N}\), вариационный принцип, многомерная кубатура Симпсона на \(O_2(d)\) и конструктивные когомологии де&#160;Рама</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0003.html#thm:math-c-infinity-simpson-derham">#</a>
+    
+    <a class="icon proof" href="sect0003.html#a0000000014"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#thm:math-wronskian-weierstrass-quadratures">Теорема 1.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/RotatorQuadrature.lean#L301" class="lean_decl">thm3_continuum_integration_from_cuboctahedron_archimedes_layers</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/ProjectiveFieldCalculus.lean#L42" class="lean_decl">thm35_general_field_derivative_operator_quotient_wronskian_and_variational_euler_lagrange</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/ProjectiveFieldCalculus.lean#L135" class="lean_decl">thm38_c_infinity_higher_derivatives_taylor_newton_expansion_and_pole_free_quotients</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/LogicCohomology.lean#L212" class="lean_decl">thm5_constructive_de_rham_cohomology_nilpotent_algebra_and_banach_tarski_free_measure</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>    Для любых целочисленных функций \(f, g : \mathbb {Z} \to \mathbb {Z}\) с разностным оператором \((Df)(x) = f(x+1) - f(x)\): </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Рекуррентная башня производных отношения \(D^n(f/g) = N_n(x)/G_n(x)\) во всех порядках \(n\in \mathbb {N}\) без полюсов:</b> индуктивная пара числителя и знаменателя \(n\)-й производной частного </p>
+<div class="displaymath" id="eq:math-quot-numer-tower">
+  \begin{align}  N_0(x) & := f(x), \qquad N_{n+1}(x) \; :=\;  N_n(x+1)\, g(x) - N_n(x)\, g(x+n+1), \label{eq:math-quot-numer-tower} \\ G_n(x) & := \prod _{j=0}^n g(x+j) \label{eq:math-quot-denom-tower} \end{align}
+</div>
+<p> удовлетворяет точному шаговому тождеству \(\bigl(N_n(x+1)G_n(x) - N_n(x)G_n(x+1)\bigr)g(x) \equiv N_{n+1}(x)G_n(x)\) и конечно-разностной формуле Ньютона по падающим факториалам, причём для знаменателя Вейерштрасса \(g(t) = R_Q(t) = \mathcal{C}_Q(t)^2 + \mathcal{S}_Q(t)^2\) (\(Q \ge 1\)) при всех \(n\in \mathbb {N}\) и всех \(x\in \mathbb {Z}\) выполняется \(G_n(x) \ge 1\). </p>
+</li>
+  <li><p><b class="bfseries">Многомерное разбиение на пояса и кубатура Симпсона на оболочке \(O_2(d)\) при произвольной размерности \(d \ge 2\):</b> сечение оболочки \(O_2(d) = \{ e \in \{ -1,0,+1\} ^d \mid \sum _{i=1}^d e_i^2 = 2\} \) из \(2d(d-1)\) вершин вдоль любой координатной оси образует три пояса \(\bigl(|Z_{-1}(d)|, |Z_0(d)|, |Z_{+1}(d)|\bigr) = \bigl(2(d-1),\  2(d-1)(d-2),\  2(d-1)\bigr)\), которые в сумме с центральным весом \(w_0(d) = 2(d-1)(6-d)\) дают параболические веса Симпсона: </p>
+<div class="equation" id="eq:math-simpson-weights-d">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-simpson-weights-d} \bigl(|Z_{-1}(d)|,\;  |Z_0(d)| + w_0(d),\;  |Z_{+1}(d)|\bigr) \; \equiv \;  2(d-1)\times (1,\;  4,\;  1), \end{equation}
+  </div>
+  <span class="equation_label">1.10</span>
+</p>
+</div>
+<p> воспроизводя точный трёхмерный интеграл Римана \(3\iiint _{[-1,1]^3} P\, \mathrm{d}V = 24c_0 + 8(c_x+c_y+c_z)\) на произвольном кубическом многочлене \(P\), тогда как сумма по архимедовым слоям \(S_k(3) = 10k^2 + 2\) удовлетворяет \(3\bigl(1 + \sum _{k=1}^N (10k^2+2)\bigr) \equiv 10N^3 + 15N^2 + 11N + 3\). </p>
+</li>
+  <li><p><b class="bfseries">Конструктивные когомологии де&#160;Рама \(d^2 \equiv 0\) и обращение нильпотентных операторов в \(\mathbb {Z}\):</b> кограничные операторы \(d_0\) (на рёбрах), \(d_1\) (на гранях) и \(d_2\) (на кубах) удовлетворяют \(d_1 \circ d_0 \equiv 0\) и \(d_2 \circ d_1 \equiv 0\), циркуляция главных остатков по модулю \(M\) вокруг замкнутой грани строго квантована периодом (\((d_1 r)_f = M\cdot n_f \in M\mathbb {Z}\)), а любой нильпотентный оператор \(\mathcal{M} = I + N_{\mathrm{nil}}\) (\(N_{\mathrm{nil}}^3 = 0\)) обращается в целых числах по формуле \((I + N_{\mathrm{nil}})^{-1} = I - N_{\mathrm{nil}} + N_{\mathrm{nil}}^2\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000014">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Из определения&#160;<a href="sect0003.html#eq:math-quot-denom-tower" class="eqref">1.9</a> следует \(G_n(x+1)g(x) = g(x+n+1)G_n(x) = G_{n+1}(x)\), откуда вынесение общего множителя \(G_n(x)\) даёт \((N_n(x+1)G_n(x) - N_n(x)G_n(x+1))g(x) = N_{n+1}(x)G_n(x)\). Тождество&#160;<a href="sect0003.html#eq:math-simpson-weights-d" class="eqref">1.10</a> следует из \(2(d-1)(d-2) + 2(d-1)(6-d) = 8(d-1)\), а равенства \(d_1(d_0\varphi ) \equiv 0\), \(d_2(d_1 e) \equiv 0\) и \((I + N_{\mathrm{nil}})(I - N_{\mathrm{nil}} + N_{\mathrm{nil}}^2) = I + N_{\mathrm{nil}}^3 = I\) проверяются раскрытием скобок. </p>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sect0002.html" title="Характер Эйлера на \(L^1\)-алмазе, тождество постоянного вронскиана и подъём Брахмагупты–Вейерштрасса"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-math-rotator-calculus.html" title="Дискретный ротатор \(\mathbb {Z}_{4Q}\), однородные проективные поля \(\mathbb {Q}(i,\sqrt{d-1})\) и анализ без делений"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0004.html" title="Биекция полярных и декартовых координат \((M,\varphi )\leftrightarrow (X,Y)\) без корней, точное обращение \(\operatorname {atan}_{L^1},\, \operatorname {acot}_{L^1}\) и гиперболическое исчисление Гудермана–Минковского"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

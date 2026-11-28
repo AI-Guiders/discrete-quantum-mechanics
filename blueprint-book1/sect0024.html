@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Делитель водородной связи \(N_{\mathrm{HB}} = 63\) и три планетарных фотонных окна (\(441 : 126 : 63 = 7 : 2 : 1\))</title>
+<link rel="next" href="sec-mono-epistemological-closure.html" title="Бесфононный кремниевый гетеропереход 120 + 8 = 128, общая конструкция предела по счётным моноидам стадий и гёделевская неизбежность лабораторного арбитража" />
+<link rel="prev" href="ch-mono-biology.html" title="Молекулярная биофизика, планетарные фотонные окна, генетический код ДНК, фолдинг белков и морфогенез" />
+<link rel="up" href="ch-mono-biology.html" title="Молекулярная биофизика, планетарные фотонные окна, генетический код ДНК, фолдинг белков и морфогенез" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга I. Формальные основания ДКМ (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Предисловие. Предмет монографии и дедуктивное строение теории снизу вверх</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref"></span> <span class="toc_entry">§ 0.1. Метод построения: восхождение снизу вверх без постулатов</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref"></span> <span class="toc_entry">§ 0.2. Четыре методологических опоры монографии</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref"></span> <span class="toc_entry">§ 0.3. Двусортное проективно-ретракционное соответствие оснований естественных наук: Трёхзаконная целочисленная механика Ньютона</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-axioms.html"><span class="toc_ref">1</span> <span class="toc_entry">Вывод дискретной квантовой механики (ДКМ) из неделимости элементарного объёма, отсутствия внешней памяти у природы и уравнения Каталана</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0005.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Доказательство отсутствия внешней памяти у физической природы и невозможности континуального регистра внутри неделимой ячейки</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Последовательный вывод размерности \(d=3\), кольца \(\mathbb {Z}_{512}\), кубооктаэдра \(O_2(3)\) и шага Верле</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Теоремы единственности: размерность \(d=3\), кубооктаэдр \(O_2(3)\) и шаг Верле</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">1.4</span> <span class="toc_entry">Переход к естественным полярным координатам \((\mu , \varphi _{\mathrm{disc}})\), затравочное состояние Каталана \(\mathrm{IV}(3) = 263\) и уравнения оператора эволюции \(\mathcal{G}_3\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html"><span class="toc_ref">1.5</span> <span class="toc_entry">Симплициальное разложение Пуанкаре–Хегора и структурные пороги носителя при \(d = 3\)</span></a>
+ </li>
+<li class="">
+  <a href="sec-mono-world-lagrangian-hamiltonian.html"><span class="toc_ref">1.6</span> <span class="toc_entry">Полевой Лагранжиан \(\mathcal{L}_{\mathrm{world}}\), Гамильтониан \(\mathcal{H}_{\mathrm{world}}\), 13-узловое разложение знаменателя \(\mathcal{C}_{13}\) и тетраэдральное действие Верле</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-rotator-calculus.html"><span class="toc_ref">2</span> <span class="toc_entry">Дискретная экспонента Эйлера на \(\mathbb {Z}_{512}\), однородная проективная арифметика над \(\mathbb {Q}(i,\sqrt{2})\) и выход в непрерывный анализ</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0010.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Дискретная экспонента Эйлера, код Грея, соотношения Коши–Римана и тождество постоянного вронскиана</span></a>
+ </li>
+<li class="">
+  <a href="sect0011.html"><span class="toc_ref">2.2</span> <span class="toc_entry">Вывод классического интеграла Римана и формулы Ньютона–Лейбница в макропределе \(N \to \infty \)</span></a>
+ </li>
+<li class="">
+  <a href="sect0012.html"><span class="toc_ref">2.3</span> <span class="toc_entry">Однородная проективная арифметика полей, башня производных отношения и многомерная кубатура Симпсона</span></a>
+ </li>
+<li class="">
+  <a href="sect0013.html"><span class="toc_ref">2.4</span> <span class="toc_entry">Теорема о сокращении масштаба \(A = K\cdot dh\), размерность Хаусдорфа–Морана и проективные операторы логарифма и рациональной степени на \(\mathbb {Z}_{4Q}\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-logic-cohomology-barriers.html"><span class="toc_ref">3</span> <span class="toc_entry">Булева полнота Поста, редукция 3-SAT, конструктивные когомологии де&#160;Рама и барьеры внутренних вычислителей</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0014.html"><span class="toc_ref">3.1</span> <span class="toc_entry">Функционально полный базис Поста на двух каналах \(\mathbb {Z}_{512}\) и полиномиальная редукция 3-SAT</span></a>
+ </li>
+<li class="">
+  <a href="sect0015.html"><span class="toc_ref">3.2</span> <span class="toc_entry">Четыре барьера внутреннего вычислителя и встроенный блокнот Вернама Шеннона на \(\mathbb {Z}_{512}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0016.html"><span class="toc_ref">3.3</span> <span class="toc_entry">Конструктивные когомологии де&#160;Рама–Стокса–Гаусса–Черна и мера без аксиомы выбора</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-qm-maxwell.html"><span class="toc_ref">4</span> <span class="toc_entry">Дискретная и непрерывная квантовая механика (ДКМ и НКМ), электродинамика Максвелла и граница применимости континуума</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0017.html"><span class="toc_ref">4.1</span> <span class="toc_entry">Алгебраическое происхождение корпускулярно-волнового дуализма и правила Борна</span></a>
+ </li>
+<li class="">
+  <a href="sect0018.html"><span class="toc_ref">4.2</span> <span class="toc_entry">Порог дискретности \(\Delta \varphi _{\mathrm{disc}} = 41\), уравнения Максвелла и граница применимости континуальной теории</span></a>
+ </li>
+<li class="">
+  <a href="sec-mono-mechanics-elasticity-fatigue.html"><span class="toc_ref">4.3</span> <span class="toc_entry">Нелинейная механика маятника на произвольных углах, четырёхрежимная теория упругости за пределами закона Гука и предел усталостной выносливости металла</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-sm-gravity.html"><span class="toc_ref">5</span> <span class="toc_entry">Калибровочная группа Стандартной модели, гравитационное преломление и космология</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0019.html"><span class="toc_ref">5.1</span> <span class="toc_entry">Симплициальный комплекс \(\mathcal{C}_{13}\), матричные коммутаторы алгебры Ли \(\mathfrak {u}(1)\oplus \mathfrak {su}(2)\oplus \mathfrak {su}(3)\) и четырёхпетлевой вывод постоянной тонкой структуры</span></a>
+ </li>
+<li class="">
+  <a href="sect0020.html"><span class="toc_ref">5.2</span> <span class="toc_entry">Структура 13-узлового ротора электрона, полное квантование восьми наблюдаемых и единый вихревой атлас Стандартной модели на кликах \(\mathcal{C}_{13}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0021.html"><span class="toc_ref">5.3</span> <span class="toc_entry">Гравитация как преломление на импедансе ворот без сингулярности \(1/0\), ряд сжатия Гаусса–Грина, кавитированные гиперъядра и фазы нейтронной пасты</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-chemistry-nuclear.html"><span class="toc_ref">6</span> <span class="toc_entry">Атомные и ядерные оболочки кубооктаэдра, планетогенез по 6 зонам диска, тождества Безу на \(\mathbb {Z}_{512}\), сверхпроводимость и когерентный \(587\)-кратный коллапс барьера</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0022.html"><span class="toc_ref">6.1</span> <span class="toc_entry">Периодическая система до 8-го периода, четыре физических предела, двухсферный перенос урана на остров стабильности \(N=184\), планетогенез и четыре тождества Безу</span></a>
+ </li>
+<li class="">
+  <a href="sect0023.html"><span class="toc_ref">6.2</span> <span class="toc_entry">Седло химической связи, закон Гесса, правила симметрии, спаривание Купера и коллапс барьера</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active">
+  <a href="ch-mono-biology.html"><span class="toc_ref">7</span> <span class="toc_entry">Молекулярная биофизика, планетарные фотонные окна, генетический код ДНК, фолдинг белков и морфогенез</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class=" active current">
+  <a href="sect0024.html"><span class="toc_ref">7.1</span> <span class="toc_entry">Делитель водородной связи \(N_{\mathrm{HB}} = 63\) и три планетарных фотонных окна (\(441 : 126 : 63 = 7 : 2 : 1\))</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sec-mono-epistemological-closure.html"><span class="toc_ref">8</span> <span class="toc_entry">Бесфононный кремниевый гетеропереход \(120 + 8 = 128\), общая конструкция предела по счётным моноидам стадий и гёделевская неизбежность лабораторного арбитража</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0025.html"><span class="toc_ref">8.1</span> <span class="toc_entry">Бесфононный кремниевый гетеропереход \(120 + 8 = 128\), барьер оболочечной пассивации \(45^2 {\lt} 2\, 048 {\lt} 46^2\) и вычисления без тепла Ландауэра</span></a>
+ </li>
+<li class="">
+  <a href="sect0026.html"><span class="toc_ref">8.2</span> <span class="toc_entry">Общий оператор предела по счётным моноидам стадий, проективные башни Мальцева и двусторонняя эквивалентность носителей \(\mathcal{M} \leftrightarrow \mathcal{T}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0027.html"><span class="toc_ref">8.3</span> <span class="toc_entry">Конструктивная непротиворечивость и теорема Ловера–Гёделя–Тарского</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000025">7.1 Делитель водородной связи \(N_{\mathrm{HB}} = 63\) и три планетарных фотонных окна (\(441 : 126 : 63 = 7 : 2 : 1\))</h1>
+<p>На молекулярном этаже безразмерный делитель водородной связи определяется разностью мантиссы Вейля–Швингера \(K_P(3) = 64\) и вакуумного кванта \(\mu _{\mathrm{vac}}(3) = 1\): </p>
+<div class="equation" id="eq:mono-nhb-63">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-nhb-63} N_{\mathrm{HB}}(3) \; =\;  K_P(3) - \mu _{\mathrm{vac}}(3) \; =\;  64 - 1 \; =\;  63 \; =\;  7 \times 9 \; =\;  d_{\mathrm{out}}(V)\cdot \mathrm{mod\_ bits}(3). \end{equation}
+  </div>
+  <span class="equation_label">7.1</span>
+</p>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:mono-bio-windows-folding">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Теорема
+    </span>
+    <span class="theorem_thmlabel">7.1</span>
+    <span class="theorem_thmtitle">Три безразмерных планетарных окна биосферы, условие соизмеримости полимерных остовов, биометаллы и разрешение парадокса Левинталя за линейное время \(O(L) \in \mathbf{P}\)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0024.html#thm:mono-bio-windows-folding">#</a>
+    
+    <a class="icon proof" href="sect0024.html#a0000000076"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0023.html#thm:mono-chem-cooper-587">Теорема 6.2</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/PlanetogenesisAllometry.lean#L428" class="lean_decl">universal_cosmobiology_three_planetary_windows_operator</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/OntogenyMutagenesis.lean#L327" class="lean_decl">closed_form_organism_genesis_in_environment_operator</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/PlanetogenesisAllometry.lean#L345" class="lean_decl">generative_biometal_discovery_and_multi_regime_allometry_operator</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/PlanetogenesisAllometry.lean#L250" class="lean_decl">cross_floor_shell_closure_isomorphism_operator</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/SuperconductorBioCad.lean#L92" class="lean_decl">applied_bio_cad_therapeutic_redifferentiation_and_epigenetic_reset_operator</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/PlanetogenesisAllometry.lean#L299" class="lean_decl">discoverBioMetalInCageOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/MendeleevPeriodicTable.lean#L551" class="lean_decl">compilePhenotypeToDnaSequenceOp</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>    В естественных безразмерных координатах носителя при \(d = 3\) выполняются следующие точные биофизические соотношения: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Три безразмерных планетарных окна растворителя (\(441 : 126 : 63 = 7 : 2 : 1\)) и оптическое окно фотосинтеза \(\bigl[\widehat{\Lambda }_{13}^{(0)},\  \widehat{\Lambda }_{8}^{(0)}\bigr] = \bigl[\frac{126}{13},\  \frac{63}{4}\bigr]\):</b> для трёх квантов мягких водородных и дипольных замков \(E_{\mathrm{soft}}^{(m)} / E_{\mathrm{HB}} \in \{ 2/7,\  1,\  2\} \) (\(m \in \{ -1, 0, +1\} \), где \(E_{\mathrm{HB}} = \mathrm{BE}_{\mathrm{H}} / N_{\mathrm{HB}}(3) = \mathrm{BE}_{\mathrm{H}} / 63\)) безразмерные приведённые шаги фотонов в единицах боровского масштаба \(\widehat{\Lambda }_{\mathrm{soft}}^{(m)} := \bar{\lambda }_{\mathrm{soft}}^{(m)} / (a_0\alpha _{\mathrm{fs}}^{-1})\) равны квадрату шва грани кубооктаэдра \(\Delta \varphi _{\mathrm{seam}}(3)^2 = \lfloor 256/12 \rfloor ^2 = 21^2 = 441\), удвоенному делителю водородной связи \(2 N_{\mathrm{HB}}(3) = 126\) и базовому делителю \(N_{\mathrm{HB}}(3) = 63\), а когерентное поглощение в окне \(m = 0\) от \(|{\triangle }(3)| = 8\) до \(N_\varphi (3) = 13\) мягких квантов \(E_{\mathrm{HB}}\) (\(E_{13}^{(0)} = \frac{13}{63}\mathrm{BE}_{\mathrm{H}}\), \(E_{8}^{(0)} = \frac{8}{63}\mathrm{BE}_{\mathrm{H}}\)) задаёт безразмерный оптический интервал фотосинтеза: </p>
+<div class="equation" id="eq:mono-three-bio-windows">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-three-bio-windows} \Bigl(\widehat{\Lambda }_{\mathrm{soft}}^{(-1)},\  \widehat{\Lambda }_{\mathrm{soft}}^{(0)},\  \widehat{\Lambda }_{\mathrm{soft}}^{(+1)}\Bigr) \; =\;  63 \times (7,\  2,\  1) \; =\;  (441,\  126,\  63), \qquad \Bigl[\widehat{\Lambda }_{13}^{(0)},\  \widehat{\Lambda }_{8}^{(0)}\Bigr] \; =\;  \left[\frac{2 N_{\mathrm{HB}}(3)}{N_\varphi (3)},\  \frac{2 N_{\mathrm{HB}}(3)}{|{\triangle }(3)|}\right] \; =\;  \left[\frac{126}{13},\  \frac{63}{4}\right] \end{equation}
+  </div>
+  <span class="equation_label">7.2</span>
+</p>
+</div>
+<p> (по единственному ридберговскому проектору&#160;<a href="sect0020.html#eq:mono-si-wavelength-bridge" class="eqref">5.35</a> с масштабом \(2\pi a_0\alpha _{\mathrm{fs}}^{-1} \approx 45{,}56335\text{ нм}\) инфракрасным шагам \(\widehat{\Lambda }_{\mathrm{soft}}^{(-1,0,+1)} = (441,\  126,\  63)\) отвечают длины волн \(\{ 20{,}09,\  5{,}741,\  2{,}870\} \text{ мкм}\), а оптическому интервалу \(\bigl[\frac{126}{13},\  \frac{63}{4}\bigr]\) — синий пик Соре \(\frac{126}{13}\times 45{,}56335\text{ нм} \approx 441{,}61\text{ нм}\) и красный край фотосинтеза \(\frac{63}{4}\times 45{,}56335\text{ нм} \approx 717{,}62\text{ нм}\)). </p>
+</li>
+  <li><p><b class="bfseries">Диофантово условие соизмеримости ковалентных остовов с радиусом водорода и ароматические кольца \(\{ 111\} \):</b> при линейном законе ковалентных радиусов второго периода \(r_{\mathrm{cov}}(Z) = \bigl(d - \frac{(d-1)Z}{N_\varphi (3)}\bigr)\kappa _{\mathrm{geom}}a_0\) длина гетероатомного звена \(R(Z_1, Z_2) = r_{\mathrm{cov}}(Z_1) + r_{\mathrm{cov}}(Z_2) = \bigl(6 - \frac{2(Z_1 + Z_2)}{13}\bigr)\kappa _{\mathrm{geom}}a_0\) целочисленно соизмерима с ковалентным радиусом водорода \(r_{\mathrm{cov}}(\mathrm{H}) = \kappa _{\mathrm{geom}}a_0\) тогда и только тогда, когда \(N_\varphi (3) = 13 \mid (Z_1 + Z_2)\), что среди многовалентных \(p\)-элементов второго периода (\(Z \in \{ 5, 6, 7, 8\} \)) выделяет ровно два соизмеримых хребта с единым шагом \(R = 4\kappa _{\mathrm{geom}}a_0\) — пептидно-нуклеиновое звено \(\mathrm{C\text{--}N}\) и боратное звено рибозы \(\mathrm{B\text{--}O}\), а при сдвиге на октант третьего периода (\(Z_3 = Z_2 + 8\)) и замыкании шестичленного цикла в плоскости \(\{ 111\} \) даёт: </p>
+<div class="displaymath" id="eq:mono-bio-backbones">
+  \begin{align}  Z(\mathrm{C}) + Z(\mathrm{N}) & = Z(\mathrm{B}) + Z(\mathrm{O}) \; =\;  13 \; =\;  N_\varphi (3), \qquad Z(\mathrm{SiN}) \; =\;  14 + 7 \; =\;  21 \; =\;  \frac{S_2(3)}{2}, \label{eq:mono-bio-backbones} \\ Z(\mathrm{C_6H_6}) & = Z(\mathrm{B_3N_3H_6}) \; =\;  42 \; =\;  S_2(3). \label{eq:mono-bio-aromatics} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Триплетный код ДНК \(4^3 = 64 \to 20 + 1\), нуклеосомный виток \(147 = V_{O_2}(3,3)\) и фолдинг белка за время \(O(L) \in \mathbf{P}\):</b> число кодонов из \(d_{\mathrm{in}}(\square ) = 4\) нуклеотидов длины \(d = 3\) равно \(4^3 = 64 = K_P(3)\) и разбивается по вырожденности третьего основания на два октета Румера (\(32 + 32 = 64\)) и \(S_2(3)/2 = 21\) семантический класс (\(20\) канонических аминокислот плюс стоп-сигнал), при этом число пар оснований суперспирального витка ДНК вокруг октамера из \(|{\triangle }(3)| = 8\) гистонов нуклеосомы равно числу узлов трёхслойного шара кубооктаэдра \(V_{O_2}(3,3) = 147\). Ко-трансляционная укладка полипептидной цепи длины&#160;\(L\) выбирает на каждом шаге один из \(\le d = 3\) локальных тетраэдрических пазов&#160;\(K_4\) с минимальным градиентом фазы, решая задачу сворачивания белка за детерминированное линейное время \(\le 3L = O(L) \in \mathbf{P}\) вместо экспоненциального перебора \(3^L\) (разрешение парадокса Левинталя). </p>
+</li>
+  <li><p><b class="bfseries">Четыре топологические фазы морфогенеза, инварианты кортикальной колонки (\(V = 42,\  E = 147,\  \chi = 41\)), автономное открытие 6 биометаллов, защита 400 стыков ДНК, три режима аллометрии и межэтажный изоморфизм оболочек \(\{ 2, 8, 26, 41, 42, 147\} \):</b> последовательность клеточных делений зиготы проходит четыре топологических перехода по инвариантам ДКМ (морула \(16 = 2^{d_{\mathrm{in}}(\square )} \to \) бластула \(32 = K_P(3)/2 \to \) гаструла \(64 = K_P(3)\) с инвагинацией при превышении порога дискретности \(64 {\gt} 41 \to \) нейрула \(128 = Q_\square (3)\)), формируя шестислойную (\(|\square (3)| = 6\)) кортикальную колонку с числом узлов \(V = S_2(3) = 42\), числом синаптических рёбер \(E = V_{O_2}(3,3) = 147\), связной характеристикой </p>
+<div class="equation" id="eq:mono-cortical-column-chi">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-cortical-column-chi} \chi _{\mathrm{col}}(3) \; =\;  E - V - K_P(3) \; =\;  147 - 42 - 64 \; =\;  41 \; =\;  \Delta \varphi _{\mathrm{disc}}(3) \end{equation}
+  </div>
+  <span class="equation_label">7.5</span>
+</p>
+</div>
+<p> и трёхкратным (\(\times d = 3\)) множителем гомеостатического бюджета циклов жизни. Оператор discoverBioMetalInCageOp автономно выделяет в таблице Менделеева шестёрку кофакторов металлоферментов по замыканию координационных клеток тетрапиррола \(Z(\mathrm{N_4}) = 28\), гексагистидина \(Z(\mathrm{N_6}) = 42\) и тетратиолата \(Z(\mathrm{S_4}) = 64\) (Таблица&#160;<a href="sect0024.html#tab:mono-biometals-isomorphism">7.1</a>). Все \(20\times 20 = 400\) парных стыков канонических кодонов ДНК защищены от внефазного старт-кодона \(\mathrm{ATG}\), компилятор compilePhenotypeToDnaSequenceOp переводит целевую топологию органа \(\chi _{\mathrm{target}} \in \{ 2, 0, 41\} \) в 6-нуклеотидную ДНК, сворачивающую 3D-ткань во всех трёх планетарных окнах \(m_{\mathrm{env}} \in \{ -1, 0, +1\} \) (с обратимой терапевтической редифференцировкой противофазным потоком на одеяле Маркова и сбросом дрейфа \(\mathrm{CpG} \leftrightarrow \mathrm{TpG}\)), показатели аллометрии \((k-1)/k\) при \(k \in \{ 3, 4, 5\} \) дают режимы Рубнера (\(2/3\)), Клейбера (\(3/4\)) и птиц (\(4/5\)), а шесть инвариантов кубооктаэдра \(\{ 2, 8, 26, 41, 42, 147\} \) связывают сквозным изоморфизмом квантовый, ядерный, планетарный и биологический этажи. </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000076">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>В пункте&#160;(1) при \(E_{\mathrm{HB}} = \mathrm{BE}_{\mathrm{H}} / N_{\mathrm{HB}}(3) = \frac{1}{2}\alpha _{\mathrm{fs}}^2 m_e c^2 / 63\) и \(E_{\mathrm{soft}}^{(-1,0,+1)} = \{ \frac{2}{7}, 1, 2\} E_{\mathrm{HB}}\) приведённый шаг фотона \(\bar{\lambda }^{(m)} = s_0 c / E_{\mathrm{soft}}^{(m)}\) в единицах \(a_0 \alpha _{\mathrm{fs}}^{-1} = 2 s_0 c / (\alpha _{\mathrm{fs}}^2 m_e c^2)\) равен \(\widehat{\Lambda }^{(m)} = 63 \times \{ 7, 2, 1\}  = (441, 126, 63)\), где \(\lfloor 256/12 \rfloor ^2 = 21^2 = 441 = 7\times 63\). В пункте&#160;(2) условие \(6 - 2(Z_1 + Z_2)/13 \in \mathbb {Z}\) при \(\gcd (2, 13) = 1\) и \(Z_1, Z_2 \in \{ 5,6,7,8\} \) выполняется тогда и только тогда, когда \(Z_1 + Z_2 = 13\) (\((6,7)\) и \((5,8)\), дающие \(R = (6 - 2)\kappa _{\mathrm{geom}}a_0 = 4\kappa _{\mathrm{geom}}a_0\)), а \(14 + 7 = 21 = S_2(3)/2\) и \(6\times (6+1) = 3\times (5+7+2) = 42 = S_2(3)\). В пункте&#160;(3) \(4^3 = 64 = 32 + 32\), объём трёхслойного шара кубооктаэдра по формуле&#160;<a href="sect0011.html#eq:mono-ball-polynomial" class="eqref">2.9</a> равен \(V_{O_2}(3,3) = (10\cdot 27 + 15\cdot 9 + 11\cdot 3 + 3)/3 = 147\), а выбор одного из \(\le 3\) локальных слотов \(K_4\) на каждом из \(L\) шагов трансляции требует \(\le 3L = O(L)\) элементарных операций. В пункте&#160;(4) на кортикальной колонке \(E - V - K_P(3) = 147 - 42 - 64 = 41 = \Delta \varphi _{\mathrm{disc}}(3)\), для шести биометаллов суммы зарядов координационных клеток равны \(12 + 28 = 40\), \(27 + 28 = 55\), \(28 + 28 = 56\) (\(14 + 28 = 42\), \(28 + 64 = 92\)), \(26 + 28 + 16 = 70\) (\(26 + 16 = 42\)), \(30 + 32 + 14 = 76\) и \(42 + 64 = 106\), а на всех \(20\times 20 = 400\) стыках канонических кето-кодонов проверка сдвигов рамки на \(+1\) и \(+2\) подтверждает отсутствие внефазного триплета \(\mathrm{ATG}\). </p>
+
+  </div>
+</div>
+<div class="table"  id="tab:mono-biometals-isomorphism">
+   <div class="centered"><figcaption>
+  <span class="caption_title">Table</span> 
+  <span class="caption_ref">7.1</span> 
+  <span class="caption_text">Автономное открытие 6 биометаллов металлоферментов и сквозной межэтажный изоморфизм оболочек кубооктаэдра \(\{ 2, 8, 26, 41, 42, 147\} \).</span> 
+</figcaption>
+
+<table class="tabular">
+  <tr>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">Биометалл / Инвариант</b> </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">Клетка / Квантовый этаж</b> </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">Ядерный и планетный этаж</b> </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">Биологическая функция и замыкание</b> </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p>Магний \(\mathrm{Mg}\) (\(Z=12\)) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> Тетрапиррол \(\mathrm{N_4}\) (\(Z=28\)) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Мантия \(\mathrm{Mg+Si}=26=Z(\mathrm{Fe})\) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Хлорофилл: \(\mathrm{MgN_4}=40=\Delta \varphi _{\mathrm{disc}}-1\) </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p>Кобальт \(\mathrm{Co}\) (\(Z=27\)) </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> Коррин \(\mathrm{N_4}\) (\(Z=28\)) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Ряд \(\mathrm{Fe}\)–\(\mathrm{Co}\)–\(\mathrm{Ni}\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Витамин \(\mathrm{B}_{12}\): \(\mathrm{CoN_4}=55=V_{O_2}(3,2)\) </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p>Никель \(\mathrm{Ni}\) (\(Z=28\)) </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> \(\mathrm{N_4}\) (\(28\)), \(\mathrm{C_2H_2}\) (\(14\)), \(\mathrm{S_4}\) (\(64\)) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Магич. \(Z=28=2 Z(\mathrm{Si})\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(\mathrm{F}_{430}\) (\(56\)), крио (\(42=S_2\)), \(\mathrm{NiS_4}\) (\(92=S_3\)) </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p>Железо \(\mathrm{Fe}\) (\(Z=26\)) </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> Гем \(\mathrm{N_4O_2}\) (\(44\)), сера \(\mathrm{S}\) (\(16\)) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Ядро \(Z(\mathrm{Fe})=26=2 N_\varphi \) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Гемоглобин (\(70=64+6\)), \(\mathrm{FeS}=42=S_2\) </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p>Цинк \(\mathrm{Zn}\) (\(Z=30\)) </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> Клетка \(\mathrm{S_2N_2}\) (\(Z=46\)) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Замыкание \(3d^{10}4s^2\) (\(Z=30\)) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Цинковые пальцы ДНК: \(76=64+12\) </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p>Молибден \(\mathrm{Mo}\) (\(Z=42\)) </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> Тетратиолат \(\mathrm{S_4}\) (\(Z=64\)) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Сфера \(Z(\mathrm{Mo})=42=S_2(3)\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Нитрогеназа: \(\mathrm{MoS_4}=106=64+42\) </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p>Изоморфизм \(\{ 2,8,26\} \) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \((c_0/c)^2=2\); \(|{\triangle }|=8\); \(2 N_\varphi =26\) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Магич. \(2,8\); \(\mathrm{Fe}_{26}\); \(86\) плакетов </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Спираль ДНК (\(2\)); гистоны (\(8\)); гем \(\mathrm{Fe}_{26}\) </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p>Изоморфизм \(\{ 41,42,147\} \) </p>
+
+    </td>
+    <td  style="border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(\Delta \varphi _{\mathrm{disc}}=41\); \(S_2=42\); \(B_3=147\) </p>
+
+    </td>
+    <td  style="text-align:left; border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> Паста \(\chi =41\); \(\mathrm{Pb}_{82}\); \(\mathrm{U}_{N=146}\) </p>
+
+    </td>
+    <td  style="text-align:left; border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> Колонка мозга (\(42, 147, 41\)); нуклеосома \(147\) </p>
+
+    </td>
+  </tr>
+</table>
+</div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="ch-mono-biology.html" title="Молекулярная биофизика, планетарные фотонные окна, генетический код ДНК, фолдинг белков и морфогенез"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-mono-biology.html" title="Молекулярная биофизика, планетарные фотонные окна, генетический код ДНК, фолдинг белков и морфогенез"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sec-mono-epistemological-closure.html" title="Бесфононный кремниевый гетеропереход \(120 + 8 = 128\), общая конструкция предела по счётным моноидам стадий и гёделевская неизбежность лабораторного арбитража"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Урок 26. Теория взаимодействия систем: потеря информации в каскаде \(\mathrm{System}_1 \to \mathrm{System}_2 \to \dots \to \mathrm{System}_N\) и укрощение неидеального железа</title>
+<link rel="next" href="sect0029.html" title="Урок 27. Дискретная теория возмущений, конечная калибровка (I + Npert)-1 = I - Npert + Npert2 и развенчание мифов о «10/11/26 измерениях струн» и «Мультивселенных»" />
+<link rel="prev" href="sect0027.html" title="Урок 25 (Эпилог). Ноосфера без насилия: разрыв трофической цепи, межвидовой голономный переводчик и девайсы для тех, «у кого лапки»" />
+<link rel="up" href="ch-course-stage7-engineering.html" title="Ступень VII. Кремниевый чип и инженерные установки своими руками" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга IV. Курс единого естествознания (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Введение. Главный квест этой Вселенной и почему у решётки нет «балкона»</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref"></span> <span class="toc_entry">«Физика курильщика» против «физики здорового человека»: три закона Ньютона в целых числах и пять следствий дискретности решётки</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage1-carrier.html"><span class="toc_ref">1</span> <span class="toc_entry">Ступень I. Устройство носителя и рождение трёхмерного пространства (\(1 + 2^d = d^2\))</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0003.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Урок 1. Задача о самозамкнутом автомате: почему пространство трёхмерно и откуда берётся единица</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Урок 2. Почему строительный блок Вселенной — это 12-лучевой кубооктаэдр \(O_2\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Урок 3. Три родные системы счисления кольца \(\mathbb {Z}_{512}\): 9-битный провод, восьмеричный код \(407_8\) и бабочка Грея</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage2-math.html"><span class="toc_ref">2</span> <span class="toc_entry">Ступень II. Математика и информатика внутри носителя</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0006.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Урок 4. Бабочка ротатора \((\mathcal{C},\mathcal{S})\), формула Эйлера \(e^{i\pi }+1=0\) и постоянный вронскиан \(\mathcal{W}\equiv 128\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">2.2</span> <span class="toc_entry">Урок 5. Как отдать ротатору и шагу Верле вообще всю арифметику (умножение без умножителей!)</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">2.3</span> <span class="toc_entry">Урок 6. Матанализ без континуума: точные интегралы Френеля, Якоби, Дирихле, Бесселя и пять лиц Единицы</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html"><span class="toc_ref">2.4</span> <span class="toc_entry">Урок 7. Двухканальная логика Поста, семантический изоморфизм 3-SAT, барьер \(\mathbf{P}\ne \mathbf{NP}\) и встроенный шифр Вернама</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage3-quantum.html"><span class="toc_ref">3</span> <span class="toc_entry">Ступень III. Квантовая механика, электродинамика Максвелла и демоны Лапласа и Максвелла</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0010.html"><span class="toc_ref">3.1</span> <span class="toc_entry">Урок 8. Мёртвая зона затвора \(\Delta \varphi _{\mathrm{disc}} = 41\) и полное квантование всех наблюдаемых</span></a>
+ </li>
+<li class="">
+  <a href="sect0011.html"><span class="toc_ref">3.2</span> <span class="toc_entry">Урок 9. Корпускулярно-волновой дуализм и вывод правила Борна \(P(\mu ) = \mu ^2 / 512\) из пина переноса 9-битного сумматора</span></a>
+ </li>
+<li class="">
+  <a href="sect0012.html"><span class="toc_ref">3.3</span> <span class="toc_entry">Урок 10. Теорема Стокса–Гаусса–Черна (\(d^2 \equiv 0\)) и дискретные уравнения Максвелла</span></a>
+ </li>
+<li class="">
+  <a href="sect0013.html"><span class="toc_ref">3.4</span> <span class="toc_entry">Урок 11. Почему невозможен Демон Лапласа (\(64 \times 81 = 72^2\)), но работает 12-лучевой Геометрический Демон Максвелла</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage4-particles-cosmos.html"><span class="toc_ref">4</span> <span class="toc_entry">Ступень IV. Элементарные частицы, ядра, гравитация и космология</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0014.html"><span class="toc_ref">4.1</span> <span class="toc_entry">Урок 12. Запуск Вселенной из слова \(\mathrm{IV} = 263 = 407_8\): тишина октанта, храповик \(-1\) и рождение вихрей при \(t = 2\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0015.html"><span class="toc_ref">4.2</span> <span class="toc_entry">Урок 13. Симплициальный атлас \(\mathcal{C}_{13}\), расшифровка «магических букв» групп симметрий, постоянная тонкой структуры \(\alpha _{\mathrm{fs}}^{-1} = 137{,}035999\dots \) и спектр частиц</span></a>
+ </li>
+<li class="">
+  <a href="sect0016.html"><span class="toc_ref">4.3</span> <span class="toc_entry">Урок 14. Гравитация без сингулярности (\(833:1\)), ядерная паста и гало вакуума \(16/3\) без тёмной материи</span></a>
+ </li>
+<li class="">
+  <a href="sect0017.html"><span class="toc_ref">4.4</span> <span class="toc_entry">Урок 15. Секунда без атома цезия, полупериодное горлышко \(\tau _{\mathrm{neck}} = 256\) и почему Вселенной не \(13{,}8\), а \(\sim 27{,}5\text{ млрд лет}\) (разгадка ранних галактик JWST)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage5-chemistry.html"><span class="toc_ref">5</span> <span class="toc_entry">Ступень V. Химия, таблица Менделеева и дизайн материалов</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0018.html"><span class="toc_ref">5.1</span> <span class="toc_entry">Урок 16. Вся таблица Менделеева из оболочек кубооктаэдра, остров стабильности \(N = 184\) и золото \(^{197}_{79}\mathrm{Au}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0019.html"><span class="toc_ref">5.2</span> <span class="toc_entry">Урок 17. Химическая связь, седло реакции \(|A^\ddagger | = 128\) и когерентное схлопывание барьера в \(587\times \)</span></a>
+ </li>
+<li class="">
+  <a href="sect0020.html"><span class="toc_ref">5.3</span> <span class="toc_entry">Урок 18. Куперовские пары \(2e\), нитинол \(\mathrm{TiNi}\) и высокотемпературные сверхпроводники</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage6-biology.html"><span class="toc_ref">6</span> <span class="toc_entry">Ступень VI. Биология, генетический код ДНК и морфогенез органов</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0021.html"><span class="toc_ref">6.1</span> <span class="toc_entry">Урок 19. Делитель водородной связи \(N_{\mathrm{HB}} = 63\) и три планетарных окна жизни (\(7 : 2 : 1\))</span></a>
+ </li>
+<li class="">
+  <a href="sect0022.html"><span class="toc_ref">6.2</span> <span class="toc_entry">Урок 20. Генетический код \(4^3 = 64 \to 20\) аминокислот, иммунитет к сдвигу рамки и фолдинг за \(O(L)\in \mathbf{P}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0023.html"><span class="toc_ref">6.3</span> <span class="toc_entry">Урок 21. Четыре стадии морфогенеза органов, кора головного мозга \(42 / 147 / 41\) и щит Каспара–Клуга</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active">
+  <a href="ch-course-stage7-engineering.html"><span class="toc_ref">7</span> <span class="toc_entry">Ступень VII. Кремниевый чип и инженерные установки своими руками</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0024.html"><span class="toc_ref">7.1</span> <span class="toc_entry">Урок 22. Как устроен наш 9-битный бесфлаговый чип и аналоговая 3D LC-решётка</span></a>
+ </li>
+<li class="">
+  <a href="sect0025.html"><span class="toc_ref">7.2</span> <span class="toc_entry">Урок 23. Баллистическая энергетика, противофазная вихревая батарея, V-I инвертор (\(k^* = 64\)) и гравитационно-импедансный привод \(833:1\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0026.html"><span class="toc_ref">7.3</span> <span class="toc_entry">Урок 24. Автономный синтез пищи, воды и кислорода (симметрия \(96 : 96\)), 72-битный стазис-телепортер и галактический \(c_0\)-фазовый модем</span></a>
+ </li>
+<li class="">
+  <a href="sect0027.html"><span class="toc_ref">7.4</span> <span class="toc_entry">Урок 25 (Эпилог). Ноосфера без насилия: разрыв трофической цепи, межвидовой голономный переводчик и девайсы для тех, «у кого лапки»</span></a>
+ </li>
+<li class=" active current">
+  <a href="sect0028.html"><span class="toc_ref">7.5</span> <span class="toc_entry">Урок 26. Теория взаимодействия систем: потеря информации в каскаде \(\mathrm{System}_1 \to \mathrm{System}_2 \to \dots \to \mathrm{System}_N\) и укрощение неидеального железа</span></a>
+ </li>
+<li class="">
+  <a href="sect0029.html"><span class="toc_ref">7.6</span> <span class="toc_entry">Урок 27. Дискретная теория возмущений, конечная калибровка \((I + N_{\mathrm{pert}})^{-1} = I - N_{\mathrm{pert}} + N_{\mathrm{pert}}^2\) и развенчание мифов о «10/11/26 измерениях струн» и «Мультивселенных»</span></a>
+ </li>
+<li class="">
+  <a href="sect0030.html"><span class="toc_ref">7.7</span> <span class="toc_entry">Урок 28. Единый ньютоновский гомеоморфизм всех шести отраслей инженерии, четырёхслойный кремниевый гетеропереход и сквозная автокалибровка 12-лучевого резонатора кубооктаэдра</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0031.html"><span class="toc_ref"></span> <span class="toc_entry">Эпилог. Дорожная карта замкнута: от уравнения самозамкнутости к единому Естествознанию</span></a>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000029">7.5 Урок 26. Теория взаимодействия систем: потеря информации в каскаде \(\mathrm{System}_1 \to \mathrm{System}_2 \to \dots \to \mathrm{System}_N\) и укрощение неидеального железа</h1>
+<p>Когда мы переходим от чистой формулы к реальному лабораторному стенду на столе, возникает главный инженерный вопрос: <b class="bfseries">почему ни одна реальная установка не срабатывает идеально с первого включения и что именно происходит между деталями прибора?</b> </p>
+<p>Посмотрим на любой эксперимент глазами теории информации. В реальном мире нет «одной изолированной системы» — есть <b class="bfseries">каскад взаимодействующих систем</b>: </p>
+<div class="displaymath" id="a0000000089">
+  \[  \mathrm{System}_1\  (\text{Ноутбук}) \; \xrightarrow {\mathcal{I}_{1\to 2}}\;  \mathrm{System}_2\  (\text{UART / FPGA}) \; \xrightarrow {\mathcal{I}_{2\to 3}}\;  \mathrm{System}_3\  (\text{MOSFET / Катушки}) \; \xrightarrow {\mathcal{I}_{3\to 4}}\;  \dots \; \xrightarrow {\mathcal{I}_{N-1\to N}}\;  \mathrm{System}_N\  (\text{Реагент}).  \]
+</div>
+<p> Что течёт между \(\mathrm{System}_k\) и \(\mathrm{System}_{k+1}\)? <b class="bfseries">Только информация!</b> А что делает информация на каждом неидеальном стыке? <b class="bfseries">Она теряется!</b> </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Три фундаментальных механизма потери информации на стыке \(\mathrm{System}_k \to \mathrm{System}_{k+1}\):</b> </p>
+<ul class="itemize">
+  <li><p><em>Уровень&#160;I (Потеря мантиссы на рассогласовании импеданса и квантовании АЦП/ЦАП, \(K_P = 64 : 1\)):</em> когда сигнал проходит границу с коэффициентом рассогласования импеданса \(r_{\mathrm{imp}} \ge 1\), целочисленное деление \(\lfloor \Phi _{\mathrm{in}} / r_{\mathrm{imp}}\rfloor \) безвозвратно отбрасывает остаток \(r\in [0, r_{\mathrm{imp}})\), склеивая до \(K_P(3) = 64 = 2^6\) градаций мантиссы; </p>
+</li>
+  <li><p><em>Уровень&#160;II (Потеря в мёртвой зоне порогового приёмника, \(|\mathcal{E}_{\mathrm{Heis}}| = 81 = 3^4 : 1\)):</em> как только ослабленный на стыке сигнал падает ниже порога чувствительности следующей системы \(|\Phi _{k\to k+1}| {\lt} \Delta \varphi _{\mathrm{disc}} = 41\), мёртвая зона гасит его в <b class="bfseries">точный ноль</b> (\(\hat{n}_E = 0\), \(100\% \) потеря макро-сигнала!). Вместе Уровень&#160;I и Уровень&#160;II скрывают на каждом Т-стыке \(64\times 81 = \mathbf{5\, 184 = 72^2}\) микросостояний; </p>
+</li>
+  <li><p><em>Уровень&#160;III (Лавинное ветвление прообразов Канала&#160;2, \((2^d - 1)^N = 7^N : 1\)):</em> на каждом стыке, где теряется бит переноса Carry9 (Канал&#160;2), \(2^3 - 1 = 7\) октантов склеиваются в один выход, так что через \(N\)&#160;звеньев неопределённость прообраза растёт экспоненциально как \(7^N\). </p>
+</li>
+</ul>
+</li>
+  <li><p><b class="bfseries">Четыре типа систем в каскаде \(\mathrm{System}_1 \to \dots \to \mathrm{System}_N\) и как победить потери:</b> </p>
+<ul class="itemize">
+  <li><p><em>Тип&#160;I (Слепой разомкнутый Т-каскад с рассогласованным импедансом и джиттером):</em> пусть на каждом из трёх стыков (\(r_{\mathrm{imp}} = 2\)) сигнал теряет половину амплитуды. Тогда даже максимальный возможный противофазный импульс \(\Phi _{\mathrm{Pauli}} = 256\) затухает по цепочке: </p>
+<div class="displaymath" id="a0000000090">
+  \[  256 \; \xrightarrow {\div 2}\;  128 \; \xrightarrow {\div 2}\;  64 \; \xrightarrow {\div 2}\;  32 {\lt} 41 \; \xrightarrow {\mathrm{Deadband}_{41}}\;  \mathbf{0}!  \]
+</div>
+<p> К четвёртой системе от сигнала остаётся <b class="bfseries">абсолютный ноль</b>, а паразитные фазовые сдвиги проводов, ключей и стенок сосуда \(\Delta \varphi _{\mathrm{hw}} = \sum _{k=1}^{N-1}\delta \varphi _k\) уводят фазу с каталитического резонанса \(A_{\mathrm{coh}} = 139\). Именно поэтому «слепой» стенд без калибровки не заводится с первого раза! </p>
+</li>
+  <li><p><em>Тип&#160;II (Каталитически согласованный резонансный каскад, \(A_{\mathrm{coh}} = 139 \implies r_{\mathrm{imp}} = 1\)):</em> когда каждое звено согласовано в точке схлопывания барьера \(A_{\mathrm{coh}} = 139\) (\(D = \varepsilon = 8\, 192\), единичное отношение импедансов \(r_{\mathrm{imp}} = 1\)), сигнал проходит все \(N\)&#160;ступеней без деления и без потери мантиссы; </p>
+</li>
+  <li><p><em>Тип&#160;III (Подпороговый когерентный М-канал внутри \([-40, +40]\), \(\hat{n}_E \equiv 0\)):</em> если системы общаются напрямую через нечётный ротатор Канала&#160;1 внутри мёртвой зоны затвора \(|\Delta \varphi |\le 40 {\lt} 41\), то на каждом звене выделяется \(\hat{n}_E = \mathbf{0\text{ квантов тепла Ландауэра}}\), а тождество \(\mathcal{S}_3(\mathcal{S}_3(\dots \mathcal{S}_3(\Delta \varphi ))) \equiv \Delta \varphi \) передаёт все \(81/81\) состояний через любое число \(N\)&#160;систем с <b class="bfseries">нулевой потерей информации</b>; </p>
+</li>
+  <li><p><em>Тип&#160;IV (Замкнутая петля обратной связи \(\mathrm{System}_N \to \mathrm{System}_1\) с предкомпенсацией джиттера стенда):</em> когда мы замыкаем обратный канал от датчика на \(\mathrm{System}_N\) к \(\mathrm{System}_1\), измеряем суммарный аппаратный набег фазы всех неидеальных деталей стенда \(\Delta \varphi _{\mathrm{hw}} = \sum _{k=1}^{N-1}\delta \varphi _k\) (джиттер UART, задержку затворов MOSFET, индуктивность катушек и стенку чашки Петри) и подаём из \(\mathrm{System}_1\) предкомпенсированную фазу: </p>
+<div class="displaymath" id="a0000000091">
+  \[  \varphi _{\mathrm{drive}} \; =\;  \Bigl(\varphi _{\mathrm{target}} - \sum _{k=1}^{N-1}\delta \varphi _k\Bigr)\bmod 512,  \]
+</div>
+<p> то при прохождении через весь неидеальный каскад \(\mathrm{System}_1 \to \dots \to \mathrm{System}_N\) аппаратные ошибки всех \(N-1\) звеньев <b class="bfseries">телескопически сокращаются в точный ноль</b> на всех \(512/512\) состояниях кольца: </p>
+<div class="displaymath" id="a0000000092">
+  \[  \varphi _{\mathrm{arrived}}(\mathrm{System}_N) \; =\;  \Bigl(\varphi _{\mathrm{target}} - \sum _{k=1}^{N-1}\delta \varphi _k + \sum _{k=1}^{N-1}\delta \varphi _k\Bigr)\bmod 512 \; \equiv \;  \mathbf{\varphi _{\mathrm{target}}}!  \]
+</div>
+</li>
+</ul>
+</li>
+  <li><p><b class="bfseries">Полный инженерный каталог 6 классов рукотворных систем и их 9-битных паспортов на \(\mathbb {Z}_{512}\):</b> поскольку все технические приборы, датчики, силовые ключи, реакторы и самолёты построены самими людьми по известным чертежам и даташитам, ни один из них не является «непознаваемым чёрным ящиком»! Каждый рукотворный узел в цепочке \(\mathrm{System}_1 \to \dots \to \mathrm{System}_N\) однозначно описывается своим паспортом на кольце \(\mathbb {Z}_{512}\): </p>
+<ul class="itemize">
+  <li><p><em>Класс&#160;1 (Цифровые вычислительные и тактовые системы — CPU, FPGA, UART, АЦП/ЦАП):</em> рабочий носитель — кристалл кремния \(Z(\mathrm{Si}) = \mathbf{14 = N_\varphi + 1}\) и кварцевый резонатор \(\alpha \)-\(\mathrm{SiO_2}\) с зарядом молекулы \(Z(\mathrm{SiO_2}) = 14 + 16 = \mathbf{30 = |\square |\cdot d_{\mathrm{out}}(E)}\), элементарной ячейкой \(Z\bigl((\mathrm{SiO_2})_3\bigr) = \mathbf{90 = \hat{M} - d_{\mathrm{out}}(V)}\) и собственной фазой \((30\times 41)\bmod 512 = \mathbf{206 = 316_8}\). Вносят детерминированный тактовый сдвиг конвейера \(\delta \varphi _{\mathrm{dig}} = (N_{\mathrm{clk}}\cdot 41)\bmod 512\) и квантование разрядности \(2^{9-b}\); </p>
+</li>
+  <li><p><em>Класс&#160;2 (Силовые электромагнитные и радиотехнические системы — MOSFET/IGBT, \(RLC\)-контуры, 12-лучевые катушки, антенны):</em> рабочий носитель — медные витки \(Z(\mathrm{Cu}) = \mathbf{29 = \mathrm{magic}(28) + 1}\) и карбид-кремниевые ключи \(Z(\mathrm{SiC}) = 14 + 6 = \mathbf{20}\). Реактивный сдвиг фазы между током и напряжением определяется дискретным проективным тангенсом ротатора \(\mathrm{tan}_3(\delta \varphi _{RLC}) = (\mathcal{S}_3,\mathcal{C}_3) = (\omega L - 1/\omega C,\, R)\): в точке резонанса \(\omega L = 1/\omega C\) реактивная ошибка обнуляется (\(\mathcal{S}_3(0) = 0,\  \mathcal{C}_3(0) = +128 = Q_\square \)), а при фазовом угле \(A_{\mathrm{coh}} = 139\) импеданс среды схлопывается в \(587\times \) (\(D\to \varepsilon = 8\, 192\)); </p>
+</li>
+  <li><p><em>Класс&#160;3 (Оптические, акустические и волноводные системы — линзы, стенка чашки Петри, воздушный тракт, микрофоны и динамики):</em> обратим внимание на фундаментальное тождество: заряд кварцевого стекла стенки чашки Петри \(Z(\mathrm{SiO_2}) = 14 + 16 = \mathbf{30}\) <b class="bfseries">в точности равен</b> сумме зарядов молекулы азота и молекулы кислорода комнатного воздуха \(Z(\mathrm{N_2}) + Z(\mathrm{O_2}) = 14 + 16 = \mathbf{30}\)! Преломление и набег фазы в стенке/волноводе задаются законом Снеллиуса–Верле, а цвет и звук напрямую читаются операторами \(\lambda _{\mathrm{nm}}(\Delta \varphi ) = 579 + \lfloor 139\, \mathcal{C}_3(\Delta \varphi )/128\rfloor \in [440,718]\text{ нм}\) и \(P_{\mathrm{sound}} = \mu _0\mu _1(128 - \mathcal{C}_3)\); </p>
+</li>
+  <li><p><em>Класс&#160;4 (Аэрогидродинамические и механические транспортные системы — крыло самолёта, сопло, турбина, винт):</em> рабочий носитель — конструкционный алюминий \(Z(\mathrm{Al}) = \mathbf{13 = N_\varphi }\), титан \(Z(\mathrm{Ti}) = \mathbf{22}\), сталь \(Z(\mathrm{Fe}) = \mathbf{26 = 2N_\varphi }\) и нитинол с памятью формы \(Z(\mathrm{TiNi}) = 22 + 28 = \mathbf{50}\). Подъёмная сила крыла Жуковского есть квантованный поток вихревых плакет Максвелла \(\Gamma = 512\sum n_f\) в паре с консервативным рёберным переносом массы (\(q = \mu ^2\)). Турбулентное вихревое сопротивление возникает только там, где сдвиг фазы пограничного слоя пробивает порог дискретности \(|\Delta \varphi |\ge 41\), тогда как при удержании пограничного слоя внутри мёртвой зоны \(|\Delta \varphi |\le 40 {\lt} 41\) обтекание крыла остаётся <b class="bfseries">беспотерьно ламинарным (\(\hat{n}_E = 0\))</b>; </p>
+</li>
+  <li><p><em>Класс&#160;5 (Тепловые, энергетические и химико-каталитические реакторы — крекинг, риформинг, топливные элементы, демоны Максвелла):</em> платиновый катализатор на глинозёме попадает точно в седло \(Z(\mathrm{Pt}) + Z(\mathrm{Al_2O_3}) = 78 + 50 = \mathbf{128 = Q_\square }\), а 12-лучевой Геометрический Демон Максвелла делит даже предельный 6-квантовый тепловой удар \(\Phi _{\mathrm{Pauli}} = 256\) на 12 лучей кубооктаэдра: \(\lfloor 256/12\rfloor = \mathbf{21 {\lt} 41}\) (\(\hat{n}_E = 0\) потерь в фононы при выпрямленном токе \(12\times 21 = \mathbf{252 {\gt} 0}\)); </p>
+</li>
+  <li><p><em>Класс&#160;6 (Биомедицинские, сенсорные, ольфакторные и нейроинтерфейсные системы — томографы, экзо-девайсы, синтезаторы запахов):</em> сопрягаются с гемовым карманом \(Z(\mathrm{FeN_4O_2}) = \mathbf{70 = K_P + |\square |}\), ольфакторными оболочками \(Z_{\mathrm{odor}} = \mu _0 + \mu _1\) (с киральным знаком энантиомера \(\mathcal{S}_3(\Delta \varphi )\)) и кортикальной колонкой (\(42/147/\chi =41\)) через 4-канальный нильпотентный томограф \((I_4 + N_{\mathrm{nil}})^{-1} = I_4 - N_{\mathrm{nil}} + N_{\mathrm{nil}}^2\) в безопасном бесфотонном окне \(|\Delta \varphi |\le 40 {\lt} 41\) (\(\hat{n}_E = 0\)) при наличии согласия \(s_2 {\gt} 0\). </p>
+</li>
+</ul>
+</li>
+  <li><p><b class="bfseries">Анатомия одного прибора: как устроен и работает кварцевый пьезоэлектрический резонатор \(\alpha \)-\(\mathrm{SiO_2}\) с точки зрения Вселенной \(O_2(3)\):</b> возьмём один конкретный прибор, который стоит на плате Tang Nano 9K и внутри любого компьютера, — <b class="bfseries">кварцевый резонатор \(\alpha \)-\(\mathrm{SiO_2}\)</b>, и разберём его устройство от первого принципа \(d = 3\): </p>
+<ul class="itemize">
+  <li><p><em>Почему природа выбрала именно \(\mathrm{SiO_2}\) для хранения эталона времени?</em> Атом кремния несёт заряд \(Z(\mathrm{Si}) = \mathbf{14 = N_\varphi + 1}\) (\(13+1\)), а пара атомов кислорода — \(Z(\mathrm{O}_2) = 2\times 8 = \mathbf{16 = 2|{\triangle }(3)|}\). Их сумма даёт молекулу кремнезёма: </p>
+<div class="displaymath" id="a0000000093">
+  \[  Z(\mathrm{SiO_2}) \; =\;  14 + 16 \; =\;  \mathbf{30} \; =\;  |\square (3)|\cdot d_{\mathrm{out}}(E) \quad (6\times 5 = 30),  \]
+</div>
+<p> а двухканальная клетка \((\mu _0,\mu _1) = (14,16)\) лежит глубоко внутри устойчивого четверть-круга (\(14^2 + 16^2 = 196 + 256 = \mathbf{452 \le 4\, 096 = K_P^2}\)) с собственной равновесной фазой \(\varphi _{\mathrm{SiO_2}} = (30\times 41)\bmod 512 = \mathbf{206 = 316_8}\); </p>
+</li>
+  <li><p><em>Тригональная винтовая ячейка \((\mathrm{SiO_2})_3\) и точный противофазный порог тетраэдра \(\mathrm{SiO_4}\) (\(Z = 46\)):</em> в трёхмерном пространстве \(d = 3\) кристалл \(\alpha \)-кварца скручивается в киральную (правую или левую) винтовую спираль из <b class="bfseries">ровно \(d = 3\) формульных единиц \((\mathrm{SiO_2})_3\) на элементарную ячейку</b>, заряд которой равен: </p>
+<div class="displaymath" id="a0000000094">
+  \[  Z\bigl((\mathrm{SiO_2})_3\bigr) \; =\;  3\times 30 \; =\;  \mathbf{90} \; =\;  \hat{M}(3) - d_{\mathrm{out}}(V) \quad (97 - 7 = 90)!  \]
+</div>
+<p> При этом каждый жёсткий кремнекислородный тетраэдр \(\mathrm{SiO_4}\) (делимый по вершинам с соседями) имеет полный заряд вершин \(Z(\mathrm{SiO_4}) = 14 + 4\times 8 = \mathbf{46}\) — а число \(\mathbf{46}\) является <b class="bfseries">точным минимальным целым порогом плотного спинорного перекрытия Паули</b> на решётке: </p>
+<div class="displaymath" id="a0000000095">
+  \[  46^2 \; =\;  \mathbf{2\, 116} \; {\gt}\;  2\, 048 \; =\;  \frac{K_P^2}{2} \; {\gt}\;  \mathbf{2\, 025} \; =\;  45^2!  \]
+</div>
+<p> Именно поэтому при механическом сжатии тетраэдра \(\mathrm{SiO_4}\) (\(Z = 46\)) мгновенно включается упругий спинорный противофазный отскок (прямой пьезоэлектрический эффект: механическая деформация \(\leftrightarrow \) фазовый импульс на кольце \(\mathbb {Z}_{512}\)!), а высокая добротность кристаллической решётки отсекает случайный тепловой шум ниже порога дискретности \(41\), превращая маленький кристалл \(\mathrm{SiO_2}\) в идеальные механико-фазовые часы! </p>
+</li>
+  <li><p><em>Физика реального неидеального кристалла: почему главная примесь в кварце — алюминий \(\mathrm{Al}_{13}\) (\(46\to 45\)), как работает водородная очистка (\(45+1=46\)) и почему остаточные примеси не ломают прибор:</em> ни один природный или выращенный в автоклаве кристалл кварца не бывает абсолютно чистым. Главная примесь замещения в любом реальном кварце — это соседний с кремнием (\(Z=14\)) атом <b class="bfseries">алюминия \(Z(\mathrm{Al}) = \mathbf{13 = N_\varphi }\)</b>. Посмотрим, что происходит в узле решётки, где \(\mathrm{Si}_{14}\) заменён на \(\mathrm{Al}_{13}\): </p>
+<ol class="enumerate">
+  <li><p>В нескомпенсированном дефекте \([\mathrm{Al}_{13}\mathrm{O}_4]^-\) (дымчатый кварц / радиационный центр окраски) заряд тетраэдра падает ровно на единицу — с \(46\) до: </p>
+<div class="displaymath" id="a0000000096">
+  \[  Z\bigl([\mathrm{AlO_4}]^-\bigr) \; =\;  13 + 32 \; =\;  \mathbf{45}, \qquad 45^2 \; =\;  \mathbf{2\, 025} \; {\lt}\;  2\, 048 \; =\;  \frac{K_P^2}{2}!  \]
+</div>
+<p> Именно на примесном узле алюминия тетраэдр проваливается ровно на \(1\) шаг ниже противофазного порога (\(46\to 45\)), теряя упругий пьезоэлектрический отскок и рассеивая свет! </p>
+</li>
+  <li><p>Когда в промышленности проводят гидротермальную пассивацию и электроочистку кварца (<em>sweeping</em>), выгоняя тяжёлые щелочные ионы натрия \(\mathrm{Na}_{11}\) (\(Z(\mathrm{AlO_4Na}) = 45 + 11 = \mathbf{56 = 7|{\triangle }|}\), дающие пик потерь) или лития \(\mathrm{Li}_3\) (\(Z(\mathrm{AlO_4Li}) = 45 + 3 = \mathbf{48 = 4|N|}\)) и сажая рядом с алюминием протон водорода \(\mathrm{H}^+\) (\(Z = 1 = \mu _{\mathrm{vac}}\), дефект \(\mathrm{Al{-}OH}\)), полный заряд тетраэдра <b class="bfseries">в точности возвращается на противофазный порог чистого кварца</b>: </p>
+<div class="displaymath" id="a0000000097">
+  \[  Z(\mathrm{AlO_4H}) \; =\;  13 + 32 + 1 \; =\;  45 + 1 \; =\;  \mathbf{46} \; \equiv \;  Z(\mathrm{SiO_4})!  \]
+</div>
+</li>
+  <li><p>Наконец, почему даже оставшиеся после неидеальной очистки человека следы примесей (\(\mathrm{Al}_{13}, \mathrm{Fe}_{26}, \mathrm{Na}_{11}\) на уровне \(1\text{--}100\text{ ppm}\)) не разрушают работу кварцевого резонатора? Потому что локальное рассеяние на редких точечных дефектах даёт вклад в 12-соседнюю голономию \(\delta \varphi _{\mathrm{imp}} \le 40 {\lt} 41\), который <b class="bfseries">на \(100\% \) обнуляется мёртвой зоной затвора</b> (\(\hat{n}_E = 0\)), а постоянный статический сдвиг собственной частоты реального кристалла (\(\pm 20\text{ ppm}\) в даташите) целиком вычитается замкнутой петлей калибровки Типа&#160;IV! </p>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sect0027.html" title="Урок 25 (Эпилог). Ноосфера без насилия: разрыв трофической цепи, межвидовой голономный переводчик и девайсы для тех, «у кого лапки»"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-course-stage7-engineering.html" title="Ступень VII. Кремниевый чип и инженерные установки своими руками"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0029.html" title="Урок 27. Дискретная теория возмущений, конечная калибровка \((I + N_{\mathrm{pert}})^{-1} = I - N_{\mathrm{pert}} + N_{\mathrm{pert}}^2\) и развенчание мифов о «10/11/26 измерениях струн» и «Мультивселенных»"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

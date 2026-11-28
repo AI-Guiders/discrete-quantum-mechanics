@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Урок 2. Почему строительный блок Вселенной — это 12-лучевой кубооктаэдр \(O_2\)</title>
+<link rel="next" href="sect0005.html" title="Урок 3. Три родные системы счисления кольца Z512: 9-битный провод, восьмеричный код 4078 и бабочка Грея" />
+<link rel="prev" href="sect0003.html" title="Урок 1. Задача о самозамкнутом автомате: почему пространство трёхмерно и откуда берётся единица" />
+<link rel="up" href="ch-course-stage1-carrier.html" title="Ступень I. Устройство носителя и рождение трёхмерного пространства (1 + 2d = d2)" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга IV. Курс единого естествознания (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Введение. Главный квест этой Вселенной и почему у решётки нет «балкона»</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref"></span> <span class="toc_entry">«Физика курильщика» против «физики здорового человека»: три закона Ньютона в целых числах и пять следствий дискретности решётки</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active">
+  <a href="ch-course-stage1-carrier.html"><span class="toc_ref">1</span> <span class="toc_entry">Ступень I. Устройство носителя и рождение трёхмерного пространства (\(1 + 2^d = d^2\))</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0003.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Урок 1. Задача о самозамкнутом автомате: почему пространство трёхмерно и откуда берётся единица</span></a>
+ </li>
+<li class=" active current">
+  <a href="sect0004.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Урок 2. Почему строительный блок Вселенной — это 12-лучевой кубооктаэдр \(O_2\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Урок 3. Три родные системы счисления кольца \(\mathbb {Z}_{512}\): 9-битный провод, восьмеричный код \(407_8\) и бабочка Грея</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage2-math.html"><span class="toc_ref">2</span> <span class="toc_entry">Ступень II. Математика и информатика внутри носителя</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0006.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Урок 4. Бабочка ротатора \((\mathcal{C},\mathcal{S})\), формула Эйлера \(e^{i\pi }+1=0\) и постоянный вронскиан \(\mathcal{W}\equiv 128\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">2.2</span> <span class="toc_entry">Урок 5. Как отдать ротатору и шагу Верле вообще всю арифметику (умножение без умножителей!)</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">2.3</span> <span class="toc_entry">Урок 6. Матанализ без континуума: точные интегралы Френеля, Якоби, Дирихле, Бесселя и пять лиц Единицы</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html"><span class="toc_ref">2.4</span> <span class="toc_entry">Урок 7. Двухканальная логика Поста, семантический изоморфизм 3-SAT, барьер \(\mathbf{P}\ne \mathbf{NP}\) и встроенный шифр Вернама</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage3-quantum.html"><span class="toc_ref">3</span> <span class="toc_entry">Ступень III. Квантовая механика, электродинамика Максвелла и демоны Лапласа и Максвелла</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0010.html"><span class="toc_ref">3.1</span> <span class="toc_entry">Урок 8. Мёртвая зона затвора \(\Delta \varphi _{\mathrm{disc}} = 41\) и полное квантование всех наблюдаемых</span></a>
+ </li>
+<li class="">
+  <a href="sect0011.html"><span class="toc_ref">3.2</span> <span class="toc_entry">Урок 9. Корпускулярно-волновой дуализм и вывод правила Борна \(P(\mu ) = \mu ^2 / 512\) из пина переноса 9-битного сумматора</span></a>
+ </li>
+<li class="">
+  <a href="sect0012.html"><span class="toc_ref">3.3</span> <span class="toc_entry">Урок 10. Теорема Стокса–Гаусса–Черна (\(d^2 \equiv 0\)) и дискретные уравнения Максвелла</span></a>
+ </li>
+<li class="">
+  <a href="sect0013.html"><span class="toc_ref">3.4</span> <span class="toc_entry">Урок 11. Почему невозможен Демон Лапласа (\(64 \times 81 = 72^2\)), но работает 12-лучевой Геометрический Демон Максвелла</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage4-particles-cosmos.html"><span class="toc_ref">4</span> <span class="toc_entry">Ступень IV. Элементарные частицы, ядра, гравитация и космология</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0014.html"><span class="toc_ref">4.1</span> <span class="toc_entry">Урок 12. Запуск Вселенной из слова \(\mathrm{IV} = 263 = 407_8\): тишина октанта, храповик \(-1\) и рождение вихрей при \(t = 2\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0015.html"><span class="toc_ref">4.2</span> <span class="toc_entry">Урок 13. Симплициальный атлас \(\mathcal{C}_{13}\), расшифровка «магических букв» групп симметрий, постоянная тонкой структуры \(\alpha _{\mathrm{fs}}^{-1} = 137{,}035999\dots \) и спектр частиц</span></a>
+ </li>
+<li class="">
+  <a href="sect0016.html"><span class="toc_ref">4.3</span> <span class="toc_entry">Урок 14. Гравитация без сингулярности (\(833:1\)), ядерная паста и гало вакуума \(16/3\) без тёмной материи</span></a>
+ </li>
+<li class="">
+  <a href="sect0017.html"><span class="toc_ref">4.4</span> <span class="toc_entry">Урок 15. Секунда без атома цезия, полупериодное горлышко \(\tau _{\mathrm{neck}} = 256\) и почему Вселенной не \(13{,}8\), а \(\sim 27{,}5\text{ млрд лет}\) (разгадка ранних галактик JWST)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage5-chemistry.html"><span class="toc_ref">5</span> <span class="toc_entry">Ступень V. Химия, таблица Менделеева и дизайн материалов</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0018.html"><span class="toc_ref">5.1</span> <span class="toc_entry">Урок 16. Вся таблица Менделеева из оболочек кубооктаэдра, остров стабильности \(N = 184\) и золото \(^{197}_{79}\mathrm{Au}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0019.html"><span class="toc_ref">5.2</span> <span class="toc_entry">Урок 17. Химическая связь, седло реакции \(|A^\ddagger | = 128\) и когерентное схлопывание барьера в \(587\times \)</span></a>
+ </li>
+<li class="">
+  <a href="sect0020.html"><span class="toc_ref">5.3</span> <span class="toc_entry">Урок 18. Куперовские пары \(2e\), нитинол \(\mathrm{TiNi}\) и высокотемпературные сверхпроводники</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage6-biology.html"><span class="toc_ref">6</span> <span class="toc_entry">Ступень VI. Биология, генетический код ДНК и морфогенез органов</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0021.html"><span class="toc_ref">6.1</span> <span class="toc_entry">Урок 19. Делитель водородной связи \(N_{\mathrm{HB}} = 63\) и три планетарных окна жизни (\(7 : 2 : 1\))</span></a>
+ </li>
+<li class="">
+  <a href="sect0022.html"><span class="toc_ref">6.2</span> <span class="toc_entry">Урок 20. Генетический код \(4^3 = 64 \to 20\) аминокислот, иммунитет к сдвигу рамки и фолдинг за \(O(L)\in \mathbf{P}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0023.html"><span class="toc_ref">6.3</span> <span class="toc_entry">Урок 21. Четыре стадии морфогенеза органов, кора головного мозга \(42 / 147 / 41\) и щит Каспара–Клуга</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage7-engineering.html"><span class="toc_ref">7</span> <span class="toc_entry">Ступень VII. Кремниевый чип и инженерные установки своими руками</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0024.html"><span class="toc_ref">7.1</span> <span class="toc_entry">Урок 22. Как устроен наш 9-битный бесфлаговый чип и аналоговая 3D LC-решётка</span></a>
+ </li>
+<li class="">
+  <a href="sect0025.html"><span class="toc_ref">7.2</span> <span class="toc_entry">Урок 23. Баллистическая энергетика, противофазная вихревая батарея, V-I инвертор (\(k^* = 64\)) и гравитационно-импедансный привод \(833:1\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0026.html"><span class="toc_ref">7.3</span> <span class="toc_entry">Урок 24. Автономный синтез пищи, воды и кислорода (симметрия \(96 : 96\)), 72-битный стазис-телепортер и галактический \(c_0\)-фазовый модем</span></a>
+ </li>
+<li class="">
+  <a href="sect0027.html"><span class="toc_ref">7.4</span> <span class="toc_entry">Урок 25 (Эпилог). Ноосфера без насилия: разрыв трофической цепи, межвидовой голономный переводчик и девайсы для тех, «у кого лапки»</span></a>
+ </li>
+<li class="">
+  <a href="sect0028.html"><span class="toc_ref">7.5</span> <span class="toc_entry">Урок 26. Теория взаимодействия систем: потеря информации в каскаде \(\mathrm{System}_1 \to \mathrm{System}_2 \to \dots \to \mathrm{System}_N\) и укрощение неидеального железа</span></a>
+ </li>
+<li class="">
+  <a href="sect0029.html"><span class="toc_ref">7.6</span> <span class="toc_entry">Урок 27. Дискретная теория возмущений, конечная калибровка \((I + N_{\mathrm{pert}})^{-1} = I - N_{\mathrm{pert}} + N_{\mathrm{pert}}^2\) и развенчание мифов о «10/11/26 измерениях струн» и «Мультивселенных»</span></a>
+ </li>
+<li class="">
+  <a href="sect0030.html"><span class="toc_ref">7.7</span> <span class="toc_entry">Урок 28. Единый ньютоновский гомеоморфизм всех шести отраслей инженерии, четырёхслойный кремниевый гетеропереход и сквозная автокалибровка 12-лучевого резонатора кубооктаэдра</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0031.html"><span class="toc_ref"></span> <span class="toc_entry">Эпилог. Дорожная карта замкнута: от уравнения самозамкнутости к единому Естествознанию</span></a>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000005">1.2 Урок 2. Почему строительный блок Вселенной — это 12-лучевой кубооктаэдр \(O_2\)</h1>
+<p>Теперь посмотрим на элементарный куб Мура \(3\times 3\times 3\) (\(\{ -1,0,+1\} ^3\)) вокруг узла \((0,0,0)\in \mathbb {Z}^3\). В нём \(3^3 - 1 = 26\) соседей, которые под действием поворотов и отражений куба распадаются на три сферические оболочки по квадрату длины вектора \(\| e\| _2^2 = e_x^2 + e_y^2 + e_z^2\): </p>
+<ul class="itemize">
+  <li><p>\(6\)&#160;осевых соседей \(O_1\) на расстоянии \(\| e\| _2^2 = 1\) (центры \(6\) квадратных граней куба \(\square \)); </p>
+</li>
+  <li><p>\(12\)&#160;рёберных диагональных соседей \(O_2\) с одной нулевой и двумя единичными координатами \((\pm 1,\pm 1,0)\), \((\pm 1,0,\pm 1)\), \((0,\pm 1,\pm 1)\) на квадрате расстояния: </p>
+<div class="displaymath" id="a0000000034">
+  \[  \| e\| _2^2 \; =\;  1^2 + 1^2 + 0^2 \; =\;  \mathbf{2 \; =\;  d - 1 \; =\;  \Bigl(\frac{c_0}{c}\Bigr)^2};  \]
+</div>
+</li>
+  <li><p>\(8\)&#160;угловых соседей \(O_3\) на расстоянии \(\| e\| _2^2 = 3\) (\(8\) вершин куба \(\triangle \)). </p>
+</li>
+</ul>
+<blockquote class="quote"> <small class="small"><b class="bfseries">Историческая справка: Архимед, Иоганн Кеплер (1611), Леонард Эйлер (1776) и кубооктаэдр.</b> Многогранник с \(12\) вершинами, \(6\) квадратными и \(8\) треугольными гранями был описан ещё Архимедом. Своё имя <b class="bfseries">кубооктаэдр</b> он получил потому, что получается пересечением куба (\(6\) квадратных граней) и октаэдра (\(8\) треугольных граней), если срезать углы куба ровно до середин его \(12\) рёбер. В 1611&#160;году Иоганн Кеплер в новогоднем трактате <em>«О шестиугольных снежинках»</em> поставил задачу о самой плотной упаковке одинаковых шаров в трёхмерном пространстве и открыл, что вокруг центрального шара вплотную помещаются ровно \(12\) таких же шаров, центры которых лежат в вершинах кубооктаэдра (в кристаллографии эта решётка называется <b class="bfseries">гранецентрированной кубической, ГЦК / FCC</b>, а ячейка Вороного–Вигнера–Зейтца вокруг каждого узла — ромбическим додекаэдром). А в 1776&#160;году Леонард Эйлер доказал, что любой трёхмерный поворот твёрдого тела задаётся <b class="bfseries">тремя углами Эйлера</b> в трёх взаимно перпендикулярных плоскостях \((xy, xz, yz)\). Заметь: число плоскостей вращения \(\frac{d(d-1)}{2}\) совпадает с числом пространственных осей&#160;\(d\) <em>только при \(d = 3\)</em> (\(\frac{3\cdot 2}{2} = 3\)), и в каждой из этих трёх плоскостей Эйлера лежат ровно \(4\) вершины экваториального квадрата кубооктаэдра (\(3 \times 4 = 12\) вершин \(O_2(3)\))! </small></blockquote>
+<p>Докажем, почему именно 12-вершинный <b class="bfseries">кубооктаэдр&#160;\(\mathbf{O_2}\)</b> является единственной рабочей координационной оболочкой нашего носителя: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Единение квадратов и треугольников:</b> на поверхности кубооктаэдра \(O_2\) сходятся ровно \(|\square (3)| = 6\) квадратных граней и \(|{\triangle }(3)| = 8\) правильных треугольных граней, \(12\) вершин (\(N_{12}(3) = 2d(d-1) = 12\)) и \(24\) поверхностных ребра, разбитых на \(4\) экваториальных шестиугольника в плоскостях \(\{ 111\} \) решётки ГЦК. </p>
+</li>
+  <li><p><b class="bfseries">Изотропия второго и четвёртого моментов:</b> для любого волнового вектора \(\mathbf{k}=(k_x,k_y,k_z)\) сумма квадратов проекций по 12 вершинам кубооктаэдра абсолютно сферически симметрична (в каждую координатную плоскость \(xy, xz, yz\) входят по 8 ненулевых компонент \(\pm 1\)): </p>
+<div class="displaymath" id="a0000000035">
+  \[  \sum _{j=1}^{12} (\mathbf{k}\cdot e_j)^2 \; =\;  8\, (k_x^2 + k_y^2 + k_z^2) \; =\;  |{\triangle }(3)|\, |\mathbf{k}|^2,  \]
+</div>
+<p> а изотропная комбинация четвёртых моментов по оболочкам куба Мура однозначно фиксирует веса \(O_2\) относительно \(O_1\) и \(O_3\). </p>
+</li>
+  <li><p><b class="bfseries">Одетое 13-узловое ядро \(\mathcal{C}_{13}\) и координационные сферы \(S_k = 10k^2 + 2\):</b> вместе с центральным узлом \((0,0,0)\) оболочка \(O_2\) образует 13-узловой кластер (\(\mathbf{N_\varphi (3) = 1 + 12 = 13}\)), а на радиусе \(k \ge 1\) шагов по кубооктаэдру число узлов \(k\)-й координационной сферы выводится по формуле Эйлера \(V - E + F = 2\) из роста \(6\) квадратных и \(8\) треугольных граней: </p>
+<div class="equation" id="eq:course-shells">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:course-shells} S_k(3) \; =\;  10\, k^2 + 2 \; \; =\; \;  \bigl(N_{12}(3) - 2\bigr)k^2 + 2 \qquad \Longrightarrow \qquad S_1 = \mathbf{12},\quad S_2 = \mathbf{42},\quad S_3 = \mathbf{92},\quad S_4 = \mathbf{162}, \end{equation}
+  </div>
+  <span class="equation_label">1.3</span>
+</p>
+</div>
+<p> а полный трёхсферный шар кубооктаэдра содержит ровно: </p>
+<div class="equation" id="eq:course-ball-147">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:course-ball-147} B_3(3) \; =\;  1 + S_1 + S_2 + S_3 \; =\;  1 + 12 + 42 + 92 \; =\;  \mathbf{147\text{ узлов}}. \end{equation}
+  </div>
+  <span class="equation_label">1.4</span>
+</p>
+</div>
+<p> Запомни эти четыре числа — \(\mathbf{12, 42, 92, 147}\): мы встретим их и в таблице Менделеева (\(Z(\mathrm{Mo})=42\), \(Z(\mathrm{U})=92\)), и в биологии (147 пар оснований ДНК в нуклеосоме хроматина человека и 42 узла / 147 связей в кортикальной колонке коры мозга!), и в обратном причинном конусе волны! </p>
+</li>
+  <li><p><b class="bfseries">Теорема о сокращении масштаба \(A = K\cdot dh\), размерность Хаусдорфа \(D_H = 3\) вакуумного океана и почему природа полна фракталов (\(D_H = \ln N_{\mathrm{sub}}/\ln K {\lt} 3\)):</b> почему одни и те же числа оболочек кубооктаэдра (\(12, 42, 92, 147\)) работают и внутри ядра атома, и в молекуле бензола, и в ядре планеты \(\mathrm{FeS}\), и в коре головного мозга человека? Потому что при переходе от элементарного шага решётки \(dh = 1\) на любой макроэтаж с целочисленным шагом ребра \(A = K\cdot dh\) (\(K\in \mathbb {N}\)) амплитуда масштабируется как \(\mu \mapsto K\mu \), билинейные компоненты голономии и знаменателя инерции умножаются на \(K^2\), и в законе движения Ньютона–Верле \(\Delta ^2\varphi = \lfloor N_{\mathrm{torque}}/D(\mathbf{x})\rfloor \) квадрат масштаба \(K^2\) <b class="bfseries">тождественно сокращается в числителе и знаменателе</b> (\(N_{\mathrm{torque}}^{(K)}\cdot D^{(1)} \equiv N_{\mathrm{torque}}^{(1)}\cdot D^{(K)}\)), а квант действия шага \(s_{\mathrm{floor}}(K) = (p_0/K)\cdot (K\, dh) = s_0 = 1/2\) и 9-битное кольцо \(\mathbb {Z}_{512}\) остаются неизменными! При этом формула размерности самоподобия Морана–Хаусдорфа \(D_H = \ln N(K)/\ln K\) объясняет сразу два фундаментальных факта о нашем мире (Таблица&#160;<a href="sect0004.html#tab:course-hausdorff-fractals">1.1</a>): </p>
+<ul class="itemize">
+  <li><p><em>Почему само пустое пространство (вакуумный океан ГЦК) трёхмерно и подчиняется закону \(1/R^2\) (\(D_H = 3\)):</em> макро-ячейка Вигнера–Зейтца (ромбический додекаэдр со стороной \(A = K\cdot dh\)) без единой дыры делится ровно на \(N_{\mathrm{pack}}(K) = K^3\) элементарных ячеек (\(N_{\mathrm{pack}}(K_1 K_2) = N_{\mathrm{pack}}(K_1)N_{\mathrm{pack}}(K_2)\)), поэтому размерность Хаусдорфа самого вакуумного носителя строго целая: \(D_H^{(\mathrm{bulk})} = \ln (K^3)/\ln K = \mathbf{3 = d}\); </p>
+</li>
+  <li><p><em>Откуда в природе берутся фракталы с дробной размерностью Хаусдорфа (\(D_H {\lt} 3\)):</em> как только включаются правила отбора нашего автомата (световой конус одного такта, порог дискретности \(41\), запрет Паули \(256\) и ветвление Канала&#160;2), на каждом шаге масштаба&#160;\(K\) выживает лишь собственное подмножество \(N_{\mathrm{sub}} {\lt} K^3\) активных узлов (а \(K^3 - N_{\mathrm{sub}} {\gt} 0\) узлов вырезаются в фон), порождая на \(m\) вложенных этажах настоящие дискретные фракталы с \(N_{\mathrm{sub}}^m {\lt} K^{3m}\) узлами и дробной размерностью Хаусдорфа \(D_H = \ln N_{\mathrm{sub}}/\ln K {\lt} 3\)! </p>
+</li>
+</ul>
+</li>
+</ol>
+<div class="table"  id="tab:course-hausdorff-fractals">
+   <div class="centered"><figcaption>
+  <span class="caption_title">Table</span> 
+  <span class="caption_ref">1.1</span> 
+  <span class="caption_text">Размерность Хаусдорфа–Морана \(D_H = \ln N(K)/\ln K\) сплошного вакуумного носителя ГЦК и четырёх канонических фрактальных каскадов природы.</span> 
+</figcaption>  <small class="footnotesize"><table class="tabular">
+  <tr>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">Иерархическая структура</b> </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">Масштаб \(K\) и отбор \(N(K)\)</b> </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">Размерность Хаусдорфа \(D_H\)</b> </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">Физическое проявление в природе</b> </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p><b class="bfseries">1. Вакуумный океан Вороного ГЦК</b> </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> Любое \(K\in \mathbb {N}\):<br />\(N_{\mathrm{pack}}(K) = K^3\) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(\dfrac {\ln (K^3)}{\ln K} = \mathbf{3}\) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Сплошное самоподобное замощение 3D-пространства без дыр; точный закон Гаусса и силы \(1/R^2\). </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">2. Губка Серпинского–Поста (Канал&#160;2 / 3-SAT)</b> </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> \(K = 2\) (\(2^3=8\)):<br />\(N_{\mathrm{sub}} = 7\) (\(1\) вырезан) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(\dfrac {\ln 7}{\ln 2} \approx \mathbf{2{,}8074}\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Ветвление обратных конусов прообразов \(7^T\) при сбросе вихревого октанта в Канале&#160;2. </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">3. Кубооктаэдрическая губка Менгера \(\mathcal{C}_{13}\)</b> </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> \(K = 3\) (\(3^3=27\)):<br />\(N_{\mathrm{sub}} = 13\) (\(14\) вырезано) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(\dfrac {\ln 13}{\ln 3} \approx \mathbf{2{,}3347}\)<br />(\(O_2\): \(\frac{\ln 12}{\ln 3}\approx \mathbf{2{,}2619}\)) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Вложенный светоподобный каркас кубооктаэдра в кубе Мура \(3\times 3\times 3\) (вырезанное дополнение \(27-13=14=Z(\mathrm{Si})\)). </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">4. Кластеризация материи на лестнице \(\alpha _{\mathrm{fs}}^{-1}\)</b> </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> \(K = 137\) (\(137^3\)):<br />\(N_{\mathrm{sub}}\in \{ 13,42,147\} \) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(\dfrac {\ln N_{\mathrm{sub}}}{\ln 137} \in \mathbf{[0{,}522;\, 0{,}999]}\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Разреженная иерархия ядер, атомов, кристаллов и галактик в макрообъёме (\(f_{\mathrm{occ}}\ll 1\)). </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">5. Сосудистые и бронхиальные сети жизни</b> </p>
+
+    </td>
+    <td  style="border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(k = d_{\mathrm{in}}(\square ) = 4\):<br />\(k - \mu _{\mathrm{vac}} = 3\) </p>
+
+    </td>
+    <td  style="text-align:left; border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> Аллометрия Клейбера:<br />\(\alpha = \dfrac {d}{d_{\mathrm{in}}(\square )} = \mathbf{\dfrac {3}{4}}\) </p>
+
+    </td>
+    <td  style="text-align:left; border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> Самоподобное \(C_4\)-ветвление кровеносных сосудов, бронхов и деревьев (\(B\propto M^{3/4}\)). </p>
+
+    </td>
+  </tr>
+</table> </small></div>
+</div>
+<p>Более того, сами логарифмы \(\log _a(b)\), произвольные рациональные степени и корни \(a^{p/q}\) и размерности Хаусдорфа–Морана \(D_H = \log _K(N_{\mathrm{sub}})\) вычисляются на любом фазовом кольце \(\mathbb {Z}_{4Q}\) в целых числах без плавающей точки: разложение \(x = 2^k + m\) на характеристику порядка \(k = \lfloor \log _2 x\rfloor \) (Канал&#160;2) и фазу мантиссы первого квадранта \(\mu = \lfloor m Q / 2^k\rfloor \in [0,Q]\) (\(\mathcal{C}_Q(\mu )=Q-\mu ,\  \mathcal{S}_Q(\mu )=\mu \), Канал&#160;1) даёт однородный кубический по&#160;\(Q\) оператор логарифма </p>
+<div class="displaymath" id="a0000000036">
+  \[  \widehat{\operatorname {Log2}}_{d,Q}(k,\mu ) \; =\;  \bigl(d_{\mathrm{in}}(\square )|\Delta (d)|\bigr)Q^2\bigl(k Q + \mathcal{S}_Q(\mu )\bigr) + \mathcal{C}_Q(\mu )\mathcal{S}_Q(\mu )\Bigl(\bigl(|N_{12}(d)|-\mu _{\mathrm{vac}}(d)\bigr)Q + d\bigl(\mathcal{C}_Q(\mu )-\mathcal{S}_Q(\mu )\bigr)\Bigr)  \]
+</div>
+<p> и обратный числитель мантиссы экспоненты \(\widehat{\operatorname {Exp2Mant}}_{d,Q}(r) := \bigl(d_{\mathrm{in}}(\square )|\Delta (d)|\bigr)Q^2\mathcal{S}_Q(r) - \mathcal{C}_Q(r)\mathcal{S}_Q(r)\bigl((|N_{12}(d)|-\mu _{\mathrm{vac}}(d))Q - d(\mathcal{C}_Q(r)-\mathcal{S}_Q(r))\bigr)\). При растяжении кольца \(Q \mapsto KQ\) и \(\mu \mapsto K\mu \) оба оператора умножаются на \(K^3\), поэтому в формуле смены основания \(\log _a(b) = \widehat{\operatorname {Log2}}_{d,Q}(b)/\widehat{\operatorname {Log2}}_{d,Q}(a)\) масштаб кольца \(Q^3\) сокращается тождественно! При \(d=3,\  Q=128\) эти формулы дают \(\log _2(8)=3\), \(\log _3(9)=\log _{10}(100)=2\), \(\log _2(3)=203/128\), \(\log _2(7)=359/128\), \(\log _3(13)=474/203\), \(\log _{10}(2)=128/425\), \(\sqrt{2}=181/128\), \(\sqrt{3}=111/64\), \(16^{3/4}=8\) и точно обращают \(K^{D_H} = N_{\mathrm{sub}}\): \(2^{203/128}=3\), \(\operatorname {round}(2^{359/128})=7\) и \(3^{474/203}=13\). </p>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sect0003.html" title="Урок 1. Задача о самозамкнутом автомате: почему пространство трёхмерно и откуда берётся единица"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-course-stage1-carrier.html" title="Ступень I. Устройство носителя и рождение трёхмерного пространства (\(1 + 2^d = d^2\))"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0005.html" title="Урок 3. Три родные системы счисления кольца \(\mathbb {Z}_{512}\): 9-битный провод, восьмеричный код \(407_8\) и бабочка Грея"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

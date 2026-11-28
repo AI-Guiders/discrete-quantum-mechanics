@@ -1,0 +1,46 @@
+/* Widescreen layout: use full desktop screen instead of cramped 61rem column */
+.md-grid {
+  max-width: 96rem;
+}
+
+.md-content {
+  max-width: 68rem;
+}
+
+/* Generous typography and vertical breathing room ("no communal apartments") */
+.md-typeset {
+  font-size: 0.85rem;
+  line-height: 1.82;
+}
+
+.md-typeset p {
+  margin-top: 1.05em;
+  margin-bottom: 1.15em;
+}
+
+.md-typeset ul li,
+.md-typeset ol li {
+  margin-bottom: 0.9em;
+}
+
+.md-typeset .admonition,
+.md-typeset details {
+  margin: 1.6em 0;
+  padding: 0 1.1rem 0.8rem 1.1rem;
+}
+
+/* Spacious display math equations */
+.md-typeset div.arithmatex,
+.md-typeset mjx-container[display="true"] {
+  margin: 1.45em 0 !important;
+  padding: 0.45em 0;
+  overflow-x: auto;
+}
+
+/* Allow sidebar links with rendered formulas to wrap cleanly instead of clipping */
+.md-nav__link .md-ellipsis {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  line-height: 1.4;
+}

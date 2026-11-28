@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Биекция полярных и декартовых координат \((M,\varphi )\leftrightarrow (X,Y)\) без корней, точное обращение \(\operatorname {atan}_{L^1},\, \operatorname {acot}_{L^1}\) и гиперболическое исчисление Гудермана–Минковского</title>
+<link rel="next" href="sect0005.html" title="Конструктивный переход от квадратичных сумм на кольце Z4Q к интегралам Френеля на R (C) без рядов Тейлора и без таблиц" />
+<link rel="prev" href="sect0003.html" title="Замкнутая башня производных частного всех порядков Dn(f/g), многомерная кубатура Симпсона и когомологии деРама" />
+<link rel="up" href="ch-math-rotator-calculus.html" title="Дискретный ротатор Z4Q, однородные проективные поля Q(i,d-1) и анализ без делений" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга V. Математика проективного многообразия (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Предисловие. Отделение чистой проективной математики от физики носителя</span></a>
+ </li>
+<li class=" active">
+  <a href="ch-math-rotator-calculus.html"><span class="toc_ref">1</span> <span class="toc_entry">Дискретный ротатор \(\mathbb {Z}_{4Q}\), однородные проективные поля \(\mathbb {Q}(i,\sqrt{d-1})\) и анализ без делений</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Характер Эйлера на \(L^1\)-алмазе, тождество постоянного вронскиана и подъём Брахмагупты–Вейерштрасса</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Замкнутая башня производных частного всех порядков \(D^n(f/g)\), многомерная кубатура Симпсона и когомологии де&#160;Рама</span></a>
+ </li>
+<li class=" active current">
+  <a href="sect0004.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Биекция полярных и декартовых координат \((M,\varphi )\leftrightarrow (X,Y)\) без корней, точное обращение \(\operatorname {atan}_{L^1},\, \operatorname {acot}_{L^1}\) и гиперболическое исчисление Гудермана–Минковского</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">1.4</span> <span class="toc_entry">Конструктивный переход от квадратичных сумм на кольце \(\mathbb {Z}_{4Q}\) к интегралам Френеля на \(\mathbb {R}\) (\(\mathbb {C}\)) без рядов Тейлора и без таблиц</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-math-pade-sl2-towers.html"><span class="toc_ref">2</span> <span class="toc_entry">Изотропный дискриминантный конус в \(\mathrm{SL}_2(\mathbb {Z})\), моноид башни аппроксимантов Паде и бескорневое кубическое сжатие</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0006.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Матричное представление ступеней, изотропный конус и параболические жордановы матрицы в \(\mathrm{SL}_2(\mathbb {Z})\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-math-planetary-differentials.html"><span class="toc_ref">3</span> <span class="toc_entry">Трёхшахтные планетарные дифференциалы \(\mathcal{A} + \mathcal{B} = \mathcal{C}\), вронскиан Мейсона–Стотерса и проекторы Лагранжа–Вандермонда</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0007.html"><span class="toc_ref">3.1</span> <span class="toc_entry">Ортогональный репер трёхшахтного дифференциала \(\mathcal{F}_3\), матрица моментов Ганкеля и целочисленный вронскиан Мейсона–Стотерса</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-math-multiscrew-and-holonomy.html"><span class="toc_ref">4</span> <span class="toc_entry">Алгебра многовинтовых планетарных каскадов и встречно-волновая суперпозиция на сфере Римана \(\mathbb {P}^1\)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0008.html"><span class="toc_ref">4.1</span> <span class="toc_entry">Моноид многовинтовых планетарных каскадов, экстремальная перестановочная вилка и вариационная монотонность</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html"><span class="toc_ref">4.2</span> <span class="toc_entry">Векторная суперпозиция встречных волн, тройная дихотомия \(M\)-этажного каскада и модельно-теоретическая независимость</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html"><span class="toc_ref">4.3</span> <span class="toc_entry">Конструктивное построение \(\mathbb {R}\) и \(\mathbb {C}\), биективный изоморфизм \(L^1(\mathbb {Z}_{4Q}) \leftrightarrow S^1(\mathbb {C})\) и бритва Оккама–Мальцева</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000005">1.3 Биекция полярных и декартовых координат \((M,\varphi )\leftrightarrow (X,Y)\) без корней, точное обращение \(\operatorname {atan}_{L^1},\, \operatorname {acot}_{L^1}\) и гиперболическое исчисление Гудермана–Минковского</h1>
+<p>В естественных полярных координатах \((M, \varphi ) \in \mathbb {N}^+ \times \mathbb {Z}_{4Q}\) на ротаторе \(|\mathcal{C}_Q(\varphi )| + |\mathcal{S}_Q(\varphi )| \equiv Q\) переход к декартовым проекциям \((X, Y)\) и обратное восстановление полярного радиуса \(M\) и угла \(\varphi \), а также гиперболические функции и их обращение выполняются в чистых целых числах без бесконечных рядов, квадратных корней и логарифмов. </p>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:math-inverse-trig-hyperbolic">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Теорема
+    </span>
+    <span class="theorem_thmlabel">1.3</span>
+    <span class="theorem_thmtitle">Точная целочисленная биекция полярных и декартовых координат \((M,\varphi )\leftrightarrow (X,Y)\), обращение тангенса и котангенса, гиперболическая тройка Гудермана–Минковского и бескорневое обращение гиперболических функций</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#thm:math-inverse-trig-hyperbolic">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000015"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#thm:math-wronskian-weierstrass-quadratures">Теорема 1.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/InverseTrigHyperbolic.lean#L103" class="lean_decl">minkowski_hyperbola_poly_identity</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/InverseTrigHyperbolic.lean#L143" class="lean_decl">exact_inverse_trig_and_rootfree_hyperbolic_calculus</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>    Для любого четверть-периода \(Q \ge 1\), произвольного полярного радиуса \(M \ge 1\), произвольного полярного угла \(\varphi \in \mathbb {Z}\) и координат светового конуса \(U, V \in \mathbb {Z}\) выполняются следующие безусловные тождества: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Точная целочисленная биекция полярных и декартовых координат \((M, \varphi ) \leftrightarrow (X, Y)\) и обращение \(\operatorname {atan}_{L^1},\, \operatorname {acot}_{L^1}\) без корней и рядов:</b> для декартовых проекций \(X = M\, \mathcal{C}_Q(\varphi )\) и \(Y = M\, \mathcal{S}_Q(\varphi )\) сумма модулей тождественно равна \(|X| + |Y| = M\, Q\), поэтому полярный радиус \(M\) и полярный угол \(\varphi \) (вместе с дополнительным углом котангенса \(Q - \varphi \) в первом квадранте \(0 \le \varphi \le Q\)) восстанавливаются с нулевой погрешностью при любом радиусе \(M \ge 1\): </p>
+<div class="equation" id="eq:math-atan-acot-l1">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-atan-acot-l1} M \; =\;  \frac{|X| + |Y|}{Q}, \qquad \operatorname {atan}_{L^1}(Y, X) \; :=\;  \frac{Q\, Y}{|X| + |Y|} \; \equiv \;  \varphi , \qquad \operatorname {acot}_{L^1}(X, Y) \; :=\;  \frac{Q\, X}{|X| + |Y|} \; \equiv \;  Q - \varphi , \end{equation}
+  </div>
+  <span class="equation_label">1.11</span>
+</p>
+</div>
+<p> причём \(\operatorname {atan}_{L^1}(Y, X) + \operatorname {acot}_{L^1}(X, Y) \equiv Q\), а четырёхквадрантные операторы \(\operatorname {cartToPolar}_Q(X, Y) = \bigl((|X|+|Y|)/Q,\  \operatorname {atan2}_{L^1}(Y, X)\bigr)\) и \(\operatorname {acot2}_{L^1}(X, Y)\) биективно восстанавливают \((M, \varphi )\) во всех \(4Q\) точках кольца \(\mathbb {Z}_{4Q}\). </p>
+</li>
+  <li><p><b class="bfseries">Проективная гиперболическая тройка Гудермана–Минковского \((\mathcal{Ch}_Q, \mathcal{Sh}_Q, D_{\mathrm{hyp}})\) и инвариант светового конуса:</b> перестановка горизонтального катета и гипотенузы подъёма Вейерштрасса определяет целочисленные гиперболический косинус, гиперболический синус и гиперболический знаменатель: </p>
+<div class="equation" id="eq:math-gudermann-hyperbolic-triple">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-gudermann-hyperbolic-triple} \mathcal{Ch}_Q(\varphi ) \; :=\;  \mathcal{C}_Q(\varphi )^2 + \mathcal{S}_Q(\varphi )^2, \qquad \mathcal{Sh}_Q(\varphi ) \; :=\;  2\, \mathcal{C}_Q(\varphi )\, \mathcal{S}_Q(\varphi ), \qquad D_{\mathrm{hyp}}(\varphi ) \; :=\;  \mathcal{C}_Q(\varphi )^2 - \mathcal{S}_Q(\varphi )^2, \end{equation}
+  </div>
+  <span class="equation_label">1.12</span>
+</p>
+</div>
+<p> которые тождественно лежат на гиперболе Минковского и сохраняют сумму светового конуса по всему кольцу \(\mathbb {Z}_{4Q}\): </p>
+<div class="displaymath" id="eq:math-minkowski-hyperbola-id">
+  \begin{align}  \mathcal{Ch}_Q(\varphi )^2 - \mathcal{Sh}_Q(\varphi )^2 & \equiv D_{\mathrm{hyp}}(\varphi )^2, \label{eq:math-minkowski-hyperbola-id} \\ \mathcal{Ch}_Q(\varphi ) + \bigl|\mathcal{Sh}_Q(\varphi )\bigr| & \equiv \bigl(|\mathcal{C}_Q(\varphi )| + |\mathcal{S}_Q(\varphi )|\bigr)^2 \; \equiv \;  Q^2. \label{eq:math-hyperbolic-lightcone-const} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Обращение гиперболических функций без корней и без логарифмов (\(\operatorname {invHyp}_Q\), \(\operatorname {atanh}_{\mathrm{Cayley}}\), \(\operatorname {acoth}_{\mathrm{Cayley}}\)):</b> поскольку для любых \(Q, \varphi \in \mathbb {Z}\) выполняется точная факторизация </p>
+<div class="equation" id="eq:math-invhyp-factorization">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-invhyp-factorization} \mathcal{Ch}_Q(\varphi ) + \mathcal{Sh}_Q(\varphi ) - D_{\mathrm{hyp}}(\varphi ) \; \equiv \;  2\, \mathcal{S}_Q(\varphi )\, \bigl(\mathcal{C}_Q(\varphi ) + \mathcal{S}_Q(\varphi )\bigr), \end{equation}
+  </div>
+  <span class="equation_label">1.15</span>
+</p>
+</div>
+<p> в первом квадранте \(0 \le \varphi \le Q\) (\(\mathcal{C}_Q(\varphi ) + \mathcal{S}_Q(\varphi ) = Q\)) оператор обратного гиперболического синуса/тангенса восстанавливает точный фазовый угол \(\varphi \) одним делением на \(2Q\) без извлечения корней и без логарифмов: </p>
+<div class="equation" id="eq:math-invhyp-exact">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-invhyp-exact} \operatorname {invHyp}_Q\bigl(\mathcal{Ch}_Q(\varphi ),\,  \mathcal{Sh}_Q(\varphi ),\,  D_{\mathrm{hyp}}(\varphi )\bigr) \; :=\;  \frac{\mathcal{Ch}_Q(\varphi ) + \mathcal{Sh}_Q(\varphi ) - D_{\mathrm{hyp}}(\varphi )}{2\, Q} \; \equiv \;  \varphi , \end{equation}
+  </div>
+  <span class="equation_label">1.16</span>
+</p>
+</div>
+<p> а на координатах светового конуса \((U, V)\) проективные гиперболический тангенс \(\tanh _{\mathrm{Cayley}}(U, V) = (U - V : U + V)\) и котангенс \(\coth _{\mathrm{Cayley}}(U, V) = (U + V : U - V)\) обращаются линейным оператором Кэли \(\operatorname {atanh}_{\mathrm{Cayley}}(S_h, C_h) = (C_h + S_h,\  C_h - S_h) \equiv (2U, 2V)\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000015">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>В пункте&#160;(1) при \(X = \lambda (Q - \varphi ) \ge 0\) и \(Y = \lambda \varphi \ge 0\) имеем \(|X| + |Y| = \lambda Q\), откуда \(Q Y / (\lambda Q) = \varphi \) и \(Q X / (\lambda Q) = Q - \varphi \). В пункте&#160;(2) раскрытие скобок даёт \((c^2+s^2)^2 - (2cs)^2 = c^4 - 2c^2s^2 + s^4 = (c^2-s^2)^2\) и \(c^2 + s^2 + 2|c||s| = (|c|+|s|)^2 = Q^2\). В пункте&#160;(3) \((c^2+s^2) + 2cs - (c^2-s^2) = 2s^2 + 2cs = 2s(c+s) = 2Q\varphi \), а \((U+V \pm (U-V)) = (2U, 2V)\). </p>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sect0003.html" title="Замкнутая башня производных частного всех порядков \(D^n(f/g)\), многомерная кубатура Симпсона и когомологии де Рама"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-math-rotator-calculus.html" title="Дискретный ротатор \(\mathbb {Z}_{4Q}\), однородные проективные поля \(\mathbb {Q}(i,\sqrt{d-1})\) и анализ без делений"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0005.html" title="Конструктивный переход от квадратичных сумм на кольце \(\mathbb {Z}_{4Q}\) к интегралам Френеля на \(\mathbb {R}\) (\(\mathbb {C}\)) без рядов Тейлора и без таблиц"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

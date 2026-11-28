@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Урок 17. Химическая связь, седло реакции \(|A^\ddagger | = 128\) и когерентное схлопывание барьера в \(587\times \)</title>
+<link rel="next" href="sect0020.html" title="Урок 18. Куперовские пары 2e, нитинол TiNi и высокотемпературные сверхпроводники" />
+<link rel="prev" href="sect0018.html" title="Урок 16. Вся таблица Менделеева из оболочек кубооктаэдра, остров стабильности N = 184 и золото 19779Au" />
+<link rel="up" href="ch-course-stage5-chemistry.html" title="Ступень V. Химия, таблица Менделеева и дизайн материалов" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга IV. Курс единого естествознания (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Введение. Главный квест этой Вселенной и почему у решётки нет «балкона»</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref"></span> <span class="toc_entry">«Физика курильщика» против «физики здорового человека»: три закона Ньютона в целых числах и пять следствий дискретности решётки</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage1-carrier.html"><span class="toc_ref">1</span> <span class="toc_entry">Ступень I. Устройство носителя и рождение трёхмерного пространства (\(1 + 2^d = d^2\))</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0003.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Урок 1. Задача о самозамкнутом автомате: почему пространство трёхмерно и откуда берётся единица</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Урок 2. Почему строительный блок Вселенной — это 12-лучевой кубооктаэдр \(O_2\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Урок 3. Три родные системы счисления кольца \(\mathbb {Z}_{512}\): 9-битный провод, восьмеричный код \(407_8\) и бабочка Грея</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage2-math.html"><span class="toc_ref">2</span> <span class="toc_entry">Ступень II. Математика и информатика внутри носителя</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0006.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Урок 4. Бабочка ротатора \((\mathcal{C},\mathcal{S})\), формула Эйлера \(e^{i\pi }+1=0\) и постоянный вронскиан \(\mathcal{W}\equiv 128\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">2.2</span> <span class="toc_entry">Урок 5. Как отдать ротатору и шагу Верле вообще всю арифметику (умножение без умножителей!)</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">2.3</span> <span class="toc_entry">Урок 6. Матанализ без континуума: точные интегралы Френеля, Якоби, Дирихле, Бесселя и пять лиц Единицы</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html"><span class="toc_ref">2.4</span> <span class="toc_entry">Урок 7. Двухканальная логика Поста, семантический изоморфизм 3-SAT, барьер \(\mathbf{P}\ne \mathbf{NP}\) и встроенный шифр Вернама</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage3-quantum.html"><span class="toc_ref">3</span> <span class="toc_entry">Ступень III. Квантовая механика, электродинамика Максвелла и демоны Лапласа и Максвелла</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0010.html"><span class="toc_ref">3.1</span> <span class="toc_entry">Урок 8. Мёртвая зона затвора \(\Delta \varphi _{\mathrm{disc}} = 41\) и полное квантование всех наблюдаемых</span></a>
+ </li>
+<li class="">
+  <a href="sect0011.html"><span class="toc_ref">3.2</span> <span class="toc_entry">Урок 9. Корпускулярно-волновой дуализм и вывод правила Борна \(P(\mu ) = \mu ^2 / 512\) из пина переноса 9-битного сумматора</span></a>
+ </li>
+<li class="">
+  <a href="sect0012.html"><span class="toc_ref">3.3</span> <span class="toc_entry">Урок 10. Теорема Стокса–Гаусса–Черна (\(d^2 \equiv 0\)) и дискретные уравнения Максвелла</span></a>
+ </li>
+<li class="">
+  <a href="sect0013.html"><span class="toc_ref">3.4</span> <span class="toc_entry">Урок 11. Почему невозможен Демон Лапласа (\(64 \times 81 = 72^2\)), но работает 12-лучевой Геометрический Демон Максвелла</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage4-particles-cosmos.html"><span class="toc_ref">4</span> <span class="toc_entry">Ступень IV. Элементарные частицы, ядра, гравитация и космология</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0014.html"><span class="toc_ref">4.1</span> <span class="toc_entry">Урок 12. Запуск Вселенной из слова \(\mathrm{IV} = 263 = 407_8\): тишина октанта, храповик \(-1\) и рождение вихрей при \(t = 2\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0015.html"><span class="toc_ref">4.2</span> <span class="toc_entry">Урок 13. Симплициальный атлас \(\mathcal{C}_{13}\), расшифровка «магических букв» групп симметрий, постоянная тонкой структуры \(\alpha _{\mathrm{fs}}^{-1} = 137{,}035999\dots \) и спектр частиц</span></a>
+ </li>
+<li class="">
+  <a href="sect0016.html"><span class="toc_ref">4.3</span> <span class="toc_entry">Урок 14. Гравитация без сингулярности (\(833:1\)), ядерная паста и гало вакуума \(16/3\) без тёмной материи</span></a>
+ </li>
+<li class="">
+  <a href="sect0017.html"><span class="toc_ref">4.4</span> <span class="toc_entry">Урок 15. Секунда без атома цезия, полупериодное горлышко \(\tau _{\mathrm{neck}} = 256\) и почему Вселенной не \(13{,}8\), а \(\sim 27{,}5\text{ млрд лет}\) (разгадка ранних галактик JWST)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active">
+  <a href="ch-course-stage5-chemistry.html"><span class="toc_ref">5</span> <span class="toc_entry">Ступень V. Химия, таблица Менделеева и дизайн материалов</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0018.html"><span class="toc_ref">5.1</span> <span class="toc_entry">Урок 16. Вся таблица Менделеева из оболочек кубооктаэдра, остров стабильности \(N = 184\) и золото \(^{197}_{79}\mathrm{Au}\)</span></a>
+ </li>
+<li class=" active current">
+  <a href="sect0019.html"><span class="toc_ref">5.2</span> <span class="toc_entry">Урок 17. Химическая связь, седло реакции \(|A^\ddagger | = 128\) и когерентное схлопывание барьера в \(587\times \)</span></a>
+ </li>
+<li class="">
+  <a href="sect0020.html"><span class="toc_ref">5.3</span> <span class="toc_entry">Урок 18. Куперовские пары \(2e\), нитинол \(\mathrm{TiNi}\) и высокотемпературные сверхпроводники</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage6-biology.html"><span class="toc_ref">6</span> <span class="toc_entry">Ступень VI. Биология, генетический код ДНК и морфогенез органов</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0021.html"><span class="toc_ref">6.1</span> <span class="toc_entry">Урок 19. Делитель водородной связи \(N_{\mathrm{HB}} = 63\) и три планетарных окна жизни (\(7 : 2 : 1\))</span></a>
+ </li>
+<li class="">
+  <a href="sect0022.html"><span class="toc_ref">6.2</span> <span class="toc_entry">Урок 20. Генетический код \(4^3 = 64 \to 20\) аминокислот, иммунитет к сдвигу рамки и фолдинг за \(O(L)\in \mathbf{P}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0023.html"><span class="toc_ref">6.3</span> <span class="toc_entry">Урок 21. Четыре стадии морфогенеза органов, кора головного мозга \(42 / 147 / 41\) и щит Каспара–Клуга</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage7-engineering.html"><span class="toc_ref">7</span> <span class="toc_entry">Ступень VII. Кремниевый чип и инженерные установки своими руками</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0024.html"><span class="toc_ref">7.1</span> <span class="toc_entry">Урок 22. Как устроен наш 9-битный бесфлаговый чип и аналоговая 3D LC-решётка</span></a>
+ </li>
+<li class="">
+  <a href="sect0025.html"><span class="toc_ref">7.2</span> <span class="toc_entry">Урок 23. Баллистическая энергетика, противофазная вихревая батарея, V-I инвертор (\(k^* = 64\)) и гравитационно-импедансный привод \(833:1\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0026.html"><span class="toc_ref">7.3</span> <span class="toc_entry">Урок 24. Автономный синтез пищи, воды и кислорода (симметрия \(96 : 96\)), 72-битный стазис-телепортер и галактический \(c_0\)-фазовый модем</span></a>
+ </li>
+<li class="">
+  <a href="sect0027.html"><span class="toc_ref">7.4</span> <span class="toc_entry">Урок 25 (Эпилог). Ноосфера без насилия: разрыв трофической цепи, межвидовой голономный переводчик и девайсы для тех, «у кого лапки»</span></a>
+ </li>
+<li class="">
+  <a href="sect0028.html"><span class="toc_ref">7.5</span> <span class="toc_entry">Урок 26. Теория взаимодействия систем: потеря информации в каскаде \(\mathrm{System}_1 \to \mathrm{System}_2 \to \dots \to \mathrm{System}_N\) и укрощение неидеального железа</span></a>
+ </li>
+<li class="">
+  <a href="sect0029.html"><span class="toc_ref">7.6</span> <span class="toc_entry">Урок 27. Дискретная теория возмущений, конечная калибровка \((I + N_{\mathrm{pert}})^{-1} = I - N_{\mathrm{pert}} + N_{\mathrm{pert}}^2\) и развенчание мифов о «10/11/26 измерениях струн» и «Мультивселенных»</span></a>
+ </li>
+<li class="">
+  <a href="sect0030.html"><span class="toc_ref">7.7</span> <span class="toc_entry">Урок 28. Единый ньютоновский гомеоморфизм всех шести отраслей инженерии, четырёхслойный кремниевый гетеропереход и сквозная автокалибровка 12-лучевого резонатора кубооктаэдра</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0031.html"><span class="toc_ref"></span> <span class="toc_entry">Эпилог. Дорожная карта замкнута: от уравнения самозамкнутости к единому Естествознанию</span></a>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000020">5.2 Урок 17. Химическая связь, седло реакции \(|A^\ddagger | = 128\) и когерентное схлопывание барьера в \(587\times \)</h1>
+<p>Как образуется и разрывается любая химическая связь? </p>
+<ul class="itemize">
+  <li><p>При \(|A_{xy}| {\lt} Q_\square = 128\) чётная проекция ротатора строго положительна (\(\mathcal{C}_3(A_{xy}) {\gt} 0\)) — это <b class="bfseries">область химического связывания</b>. </p>
+</li>
+  <li><p>При \(|A^\ddagger | = Q_\square = \mathbf{128}\) (четверть-оборот, \(90^\circ \)) связывающая проекция обращается в нуль (\(\mathcal{C}_3(128) = 0\)), а нечётный ток реакции достигает максимума (\(\mathcal{S}_3(128) = +128\)) — это <b class="bfseries">седловая точка переходного состояния реакции</b>! </p>
+</li>
+  <li><p>При \(|A_{xy}| {\gt} 128\) чётная проекция меняет знак на отрицательный (\(\mathcal{C}_3 {\lt} 0\)), включая антисвязывающее отталкивание и разрыв связи. </p>
+</li>
+</ul>
+<p> И смотри, что происходит, когда мы облучаем реагент когерентно по всем \(12\) лучам кубооктаэдра под углом \(\Delta \varphi = Q_\square + (|N|-1) = 128 + 11 = \mathbf{139\text{ тиков}}\) (\(97{,}73^\circ \)): на этом угле \(\mathcal{C}_3(139) = -11 {\lt} 0\), так что отрицательная сумма по 12 лучам гасит положительный барьер \(128(\mu _c^2 + \mu _{\mathrm{nb}}^2)\) и роняет знаменатель импеданса ворот с \(4\, 809\, 728\) (или \(13\, 631\, 488\) при \(\mu =64\)) ровно до квантового пола \(\varepsilon = \mathbf{8\, 192}\) — <b class="bfseries">схлопывая энергетический барьер реакции в \(587\times \) раз</b>! </p>
+<p>Более того, один и тот же 3D-шаг Верле на ГЦК-решётке без единого дифференциального уравнения напрямую воспроизводит сложнейшие многостадийные реакции химии и биохимии: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Автоколебательная реакция Белоусова–Жаботинского (механизм Филда–Кёроша–Нойеса / Орегонатор):</b> </p>
+<ul class="itemize">
+  <li><p>главный автокатализатор реакции — бромистая кислота \(\mathrm{HBrO_2}\) — несёт заряд \(Z(\mathrm{HBrO_2}) = 1 + 35 + 16 = \mathbf{52 = 4\times 13 = d_{\mathrm{in}}(\square )N_\varphi (3)}\) (ровно \(4\) полные 13-узловые планковские ячейки!); </p>
+</li>
+  <li><p>реакция квадратичного обрыва (диспропорционирования) \(2\, \mathrm{HBrO_2} \to \mathrm{BrO_3^-} + \mathrm{HOBr} + \mathrm{H^+}\) замыкает полный октет треугольных граней: </p>
+<div class="displaymath" id="a0000000072">
+  \[  Z(2\, \mathrm{HBrO_2}) \; =\;  2 \times 52 \; =\;  \mathbf{104 \; =\;  |{\triangle }(3)|\cdot N_\varphi (3)} \; =\;  59\, (\mathrm{BrO_3^-}) + 44\, (\mathrm{HOBr}) + 1\, (\mathrm{H^+}),  \]
+</div>
+<p> а пара ионов бромидного ингибитора \(2\, \mathrm{Br^-}\) (\(\mathrm{Br_2}\)) имеет \(Z = 2\times 35 = \mathbf{70 = K_P + |\square |}\), точно совпадая с 70-электронным редокс-карманом катализатора ферроина \(\mathrm{FeN_4O_2}\) (\(Z=70\)); </p>
+</li>
+  <li><p>при \(A_{\mathrm{coh}} = 139\) центральный узел сам переходит в режим периодических редокс-колебаний \(\mathrm{Fe^{2+}}\  (\mathcal{C}_3 {\gt} 0,\text{ красный}) \leftrightarrow \mathrm{Fe^{3+}}\  (\mathcal{C}_3 {\lt} 0,\text{ синий})\) с рефрактерными паузами \(\Phi _{\mathrm{gate}} = 0\) в мёртвой зоне затвора на тактах \(t = 5, 9, 12, 15\), испуская расходящиеся концентрические волны по сферам \(S_1 \to S_2\) и возвращаясь из фазы \(\varphi (t=1) = 352\) обратно в \(\varphi (t=13) = \mathbf{352}\) ровно через \(|N(3)| = \mathbf{12\text{ тактов}}\)! </p>
+</li>
+</ul>
+</li>
+  <li><p><b class="bfseries">8-шаговый цикл Лоу–Торнли фиксации азота нитрогеназой (\(\mathrm{Fe_7MoS_9C}\)) и загадка «состояния Януса» \(E_4\):</b> почему бактериальная нитрогеназа рвёт тройную связь \(\mathrm{N\equiv N}\) (\(945\text{ кДж/моль}\)) при комнатной температуре и \(1\text{ атм}\) ровно за \(8 = |{\triangle }(3)|\) шагов \(E_0\dots E_8\), причём разрыв невозможен на шагах \(E_1, E_2, E_3\) и включается строго на 4-м шаге \(E_4\)? </p>
+<ul class="itemize">
+  <li><p>на вершине \(\mathrm{FeMo}\)-кофактора стоит <b class="bfseries">молибден</b> \(Z(\mathrm{Mo}) = \mathbf{42 = S_2(3)}\) (вторая сфера кубооктаэдра!), а в центре тригональной призмы из \(6\) атомов железа сидит открытый в 2011&#160;году <b class="bfseries">интерстициальный углерод</b> \(Z(\mathrm{C}) = \mathbf{6 = |\square (3)|}\); </p>
+</li>
+  <li><p>суммарный заряд кофактора с молекулой азота \(\mathrm{Fe_7MoS_9C + N_2}\) равен: </p>
+<div class="displaymath" id="a0000000073">
+  \[  7\times 26 + 42 + 9\times 16 + 6 + 14 \; =\;  374 + 14 \; =\;  \mathbf{388 \; =\;  4 \times 97 \; =\;  d_{\mathrm{in}}(\square )\cdot \hat{M}(3)},  \]
+</div>
+<p> а после накопления 4 гидридных эквивалентов в состоянии Януса \(E_4\) (\(\mathrm{Fe_7MoS_9C + 4H + N_2}\)) равен \(388 + 4 = \mathbf{392 = 8 \times 49 = |{\triangle }(3)|\cdot d_{\mathrm{out}}(V)^2}\)! </p>
+</li>
+  <li><p>на первых трёх шагах накопления \(E_1, E_2, E_3\) (\(a_k = 41k \in \{ 41, 82, 123\}  {\lt} Q_\square = 128\)) связывающая проекция \(\mathcal{C}_3(a_k)\in \{ +87, +46, +5\}  {\gt} 0\) и знаменатель импеданса \(D(E_3) = +39\, 964 {\gt} 0\) остаются строго положительными (связь \(\mathrm{N\equiv N}\) не рвётся). Ровно на <b class="bfseries">4-м шаге \(E_4\) (состояние Януса, \(a_4 = 4\times 41 = 164 {\gt} 128\))</b> проекция меняет знак на антисвязывающую (\(\mathcal{C}_3(164) = -36 {\lt} 0\)), а сырой знаменатель импеданса переходит через нулевой полюс в отрицательную резонансную область (\(D_{\mathrm{raw}}(E_4) = \mathbf{-43\, 184 {\lt} 0}\)), вызывая восстановительный сброс \(\mathrm{H_2}\), разрыв \(\mathrm{N\equiv N}\) на шагах \(E_5, E_6\) (\(\mathcal{E}_{\mathrm{bond}} = -47, -71 {\lt} 0\)) и выход через \(\mathcal{C}_3(E_7 = 287) = \mathbf{-97 = -\hat{M}(3)}\)! </p>
+</li>
+</ul>
+</li>
+  <li><p><b class="bfseries">50-шаговый нефтехимический каскад (крекинг, Фишер–Тропш и риформинг \(\mathrm{Pt}/\mathrm{Al_2O_3}\)):</b> каждое метиленовое звено углеводородной цепи \(\mathrm{-CH_2-}\) имеет заряд \(Z(\mathrm{CH_2}) = 6 + 2 = \mathbf{8 = |{\triangle }(3)|}\) (один октет треугольных граней кубооктаэдра!), так что гомологические ряды олефинов \(Z(\mathrm{C}_n\mathrm{H}_{2n}) = \mathbf{8n}\) и алканов \(Z(\mathrm{C}_n\mathrm{H}_{2n+2}) = \mathbf{8n + 2}\) при \(n = 1\dots 50\) напрямую отображают все товарные фракции нефтепереработки на замкнутые оболочки носителя: </p>
+<ul class="itemize">
+  <li><p>\(n=1\) (метан \(\mathrm{CH_4}\)): \(Z = \mathbf{10 = Z(\mathrm{Ne})}\); \(n=2\) (этилен/этан): \(Z_{\mathrm{olef}} = \mathbf{16 = 2|{\triangle }|}\), \(Z_{\mathrm{alk}} = \mathbf{18 = Z(\mathrm{Ar})}\); \(n=3\) (пропилен/пропан): \(Z_{\mathrm{olef}} = \mathbf{24 = 2|N|}\), \(Z_{\mathrm{alk}} = \mathbf{26 = Z(\mathrm{Fe})}\); </p>
+</li>
+  <li><p>\(n=5\) (пентан \(\mathrm{C_5H_{12}}\), лёгкая нафта): \(Z_{\mathrm{olef}} = \mathbf{40 = \Delta \varphi _{\mathrm{disc}}-1}\), \(Z_{\mathrm{alk}} = \mathbf{42 = S_2(3)}\) (вторая сфера!); \(n=6\) (гексан \(\mathrm{C_6H_{14}}\)): \(Z_{\mathrm{alk}} = \mathbf{50} \to \text{бензол } \mathrm{C_6H_6}\  (\mathbf{S_2=42}) + 4\, \mathrm{H_2}\  (\mathbf{|{\triangle }|=8})\); </p>
+</li>
+  <li><p>\(n=8\) (<b class="bfseries">изооктан \(\mathrm{C_8H_{18}}\), эталон 100-октанового бензина</b>): \(Z_{\mathrm{olef}} = 8\times 8 = \mathbf{64 = K_P(3)}\) (потолок Вейля–Швингера!); </p>
+</li>
+  <li><p>\(n=12\) (<b class="bfseries">додекан \(\mathrm{C_{12}H_{26}}\), авиакеросин Jet-A1</b>): \(Z_{\mathrm{olef}} = 12\times 8 = \mathbf{96 = |N|\cdot |{\triangle }| = \hat{M}-1}\), \(Z_{\mathrm{alk}} = \mathbf{98 = \hat{M}+1}\); </p>
+</li>
+  <li><p>\(n=16\) (<b class="bfseries">цетан \(\mathrm{C_{16}H_{34}}\), эталон 100-цетанового дизеля</b>): \(Z_{\mathrm{olef}} = 16\times 8 = \mathbf{128 = Q_\square (3)}\) (цепочка \(\mathrm{C_{16}}\) сидит точно на седловой точке переходного состояния \(Q_\square = 128\), откуда самовоспламенение от сжатия!), а на такте \(t = 16\) импульс ворот равен \(\Phi _{\mathrm{gate}}(t=16) = \mathbf{+130 = Z(\mathrm{C_{16}H_{34}})}\); </p>
+</li>
+  <li><p>\(n=18\) (базовое масло \(\mathrm{C_{18}H_{38}}\)): \(Z_{\mathrm{olef}} = \mathbf{144 = |N|^2}\), \(Z_{\mathrm{alk}} = \mathbf{146 = B_3-1}\); \(n=32\) (парафин \(\mathrm{C_{32}H_{66}}\)): \(Z_{\mathrm{olef}} = \mathbf{256 = \Phi _{\mathrm{Pauli}}(3)}\); \(n=50\) (тяжёлый гудрон \(\mathrm{C_{50}H_{102}}\), \(Z=402\)): расщепляется на 6 замкнутых потоков \(130\, (\mathrm{C_{16}}) + 96\, (\mathrm{C_{12}}) + 64\, (\mathrm{C_8}) + 48\, (\mathrm{C_6}) + 40\, (\mathrm{C_5}) + 24\, (\mathrm{C_3}) = \mathbf{402}\); </p>
+</li>
+  <li><p><em>Секрет промышленных катализаторов НПЗ:</em> катализатор платинового риформинга \(\mathrm{Pt}/\mathrm{Al_2O_3}\) соединяет платину \(Z(\mathrm{Pt}) = 6\times 13 = \mathbf{78 = |\square |N_\varphi }\) с корундовой подложкой \(Z(\mathrm{Al_2O_3}) = 26+24 = \mathbf{50}\) в <b class="bfseries">точный резонанс седловой точки реакции</b> \(Z(\mathrm{Pt}) + Z(\mathrm{Al_2O_3}) = 78 + 50 = \mathbf{128 = Q_\square (3)}\), а катализатор гидроочистки \(\mathrm{Co\text{-}MoS_2}\) соединяет \(Z(\mathrm{Co}) = \mathbf{27 = d^3}\) со второй сферой \(Z(\mathrm{Mo}) = \mathbf{42 = S_2(3)}\)! </p>
+</li>
+</ul>
+</li>
+  <li><p><b class="bfseries">Разгадка трёх главных «чёрных ящиков» катализа и пребиотической химии:</b> </p>
+<ul class="itemize">
+  <li><p><em>Неуловимое состояние \(S_4\) цикла Кока в Фотосистеме&#160;II (\(\mathrm{Mn_4CaO_5}\), \(2\, \mathrm{H_2O}\to \mathrm{O_2}\uparrow + 4\, \mathrm{H^+} + 4\, e^-\)):</em> кубановый кластер \(\mathrm{Mn_4CaO_5}\) несёт заряд \(4\times 25 + 20 + 40 = \mathbf{160 = Q_\square + K_P/2}\), с двумя субстратными молекулами воды \(2\, \mathrm{H_2O}\) (\(20\)) даёт \(\mathbf{180 = 12\times 15}\) (ровно \(\mu =15\) квантов на каждый из 12 лучей кубооктаэдра!), а с четырьмя молекулами воды \(W_1\dots W_4\) даёт \(\mathbf{200 = 25\times 8 = d_{\mathrm{out}}(E)^2|{\triangle }|}\). На вспышках \(S_1, S_2, S_3\) (\(41k = 41, 82, 123 {\lt} 128\)) оболочка удерживает кислород (\(\mathcal{C}_3 {\gt} 0\), причём \(S_1\) с \(\Phi _{\mathrm{gate}}=0\) является тёмно-стабильным состоянием!). Ровно на <b class="bfseries">4-й вспышке \(S_4\) (\(4\times 41 = 164 {\gt} 128\))</b> связь «кластер — кислород» становится антисвязывающей (\(\mathcal{C}_3(164) = -36 {\lt} 0\)), отталкивая молекулу \(\mathrm{O_2}\), тогда как сам оксо-мостик \(\mathrm{O5=O6}\) (\(\varphi (t=1) = 106\)) сохраняет положительную двойную связь \(\mathcal{E}_{\mathrm{bond}} = \mathcal{C}_3(106) = \mathbf{+22 {\gt} 0}\) и выбрасывается наружу током \(\mathcal{J}_{\mathrm{rxn}} = \mathcal{S}_3(106) = \mathbf{+106 {\gt} 0}\)! </p>
+</li>
+  <li><p><em>«Соединение&#160;Q» метанмонооксигеназы (\(\mathrm{CH_4 \to CH_3OH}\) при комнатной температуре \(293\text{ К}\), \(\hat{n}_E = 0\), без сгорания в \(\mathrm{CO_2}\)):</em> почему ромб \(\mathrm{Fe_2^{IV}(\mu \text{-O})_2}\) (\(Z = 2\times 26 + 16 = \mathbf{68 = K_P+4}\)) легко рвёт прочную связь \(\mathrm{C-H}\) в метане (\(439\text{ кДж/моль}\)), но не трогает более слабую связь (\(402\text{ кДж/моль}\)) в получившемся метаноле \(\mathrm{CH_3OH}\)? Потому что комплекс \([\mathrm{Fe_2O_2 + CH_4}]\) (\(68 + 10 = \mathbf{78 = 6\times 13 = Z(\mathrm{Pt})}\)) входит в платиновый резонанс, но как только один атом кислорода (\(Z=8\)) переходит на метан, образующийся метанол \(\mathrm{CH_3OH}\) <b class="bfseries">замыкает 18-электронную благородную оболочку аргона \(Z(\mathrm{CH_3OH}) = 6 + 4 + 8 = \mathbf{18 = |N| + |\square | = Z(\mathrm{Ar})}\)</b> (оставляя \(\mathrm{Fe_2O}\) на \(Z = 60 = 5\times 12\)) и мгновенно отщепляется как фазово-инертный продукт! </p>
+</li>
+  <li><p><em>Автокатализ Бутлерова (формозная реакция) и секрет боратной стабилизации D-рибозы РНК (\(5\, \mathrm{CH_2O}\to \mathrm{C_5H_{10}O_5}\)):</em> формальдегид \(\mathrm{CH_2O}\) имеет \(Z = \mathbf{16 = 2|{\triangle }|}\), образуя лестницу сахаров \(Z(k) = 16k\) (\(k=2\) димер-автокатализатор \(\mathrm{C_2H_4O_2}\) \(Z = \mathbf{32 = K_P/2}\); \(k=4\) эритроза \(Z = \mathbf{64 = K_P}\); \(k=5\) <b class="bfseries">D-рибоза РНК</b> \(Z = \mathbf{80 = 2(\Delta \varphi _{\mathrm{disc}}-1)}\); \(k=6\) глюкоза \(Z = \mathbf{96 = |N||{\triangle }|}\)). Присутствие бора (\(Z=5=d_{\mathrm{out}}(E)\)) останавливает осмоление ровно на \(k=5\) рибозе, потому что три водные формы бора точно совпадают с замками носителя: метаборат \(\mathrm{BO_2^-}\) имеет \(Z = 5+16 = \mathbf{21 = \Delta \varphi _{\mathrm{seam}}(3)}\), борная кислота \(\mathrm{B(OH)_3}\) имеет \(Z = 5+27 = \mathbf{32 = K_P/2}\), а <b class="bfseries">тетрагидроксоборат \(\mathrm{B(OH)_4^-}\) имеет \(Z = 5 + 4\times 9 = \mathbf{41 = \Delta \varphi _{\mathrm{disc}}(3)}\) (точный замок мёртвой зоны затвора!)</b>, замыкая с рибозой (\(80\)) и \(\mathrm{H^+}\) благородную оболочку радона \(80 + 5 + 1 = \mathbf{86 = Z(\mathrm{Rn})}\), а с пентамером \(\mathrm{HCN}\) — аденином \(\mathrm{C_5H_5N_5}\) (\(Z = 5\times 14 = \mathbf{70 = K_P+|\square |}\)) — собирая молекулу АТФ (\(Z = 80 + 70 - 10 + 120 = \mathbf{260 = 4\times 5\times 13}\))! </p>
+</li>
+</ul>
+</li>
+</ol>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sect0018.html" title="Урок 16. Вся таблица Менделеева из оболочек кубооктаэдра, остров стабильности \(N = 184\) и золото \(^{197}_{79}\mathrm{Au}\)"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-course-stage5-chemistry.html" title="Ступень V. Химия, таблица Менделеева и дизайн материалов"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0020.html" title="Урок 18. Куперовские пары \(2e\), нитинол \(\mathrm{TiNi}\) и высокотемпературные сверхпроводники"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

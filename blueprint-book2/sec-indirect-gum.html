@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Косвенные измерения и перенос неопределённости</title>
+<link rel="next" href="sec-student.html" title="Выборка, стандартная ошибка и Стьюдент" />
+<link rel="prev" href="sec-direct-measurement.html" title="Прямые измерения" />
+<link rel="up" href="ch-measurement-processing.html" title="Обработка результатов измерений" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга II. Лабораторный практикум (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Введение. Лабораторный арбитраж в едином Естествознании и связь четырёх книг</span></a>
+ </li>
+<li class="">
+  <a href="ch-lab-solar-photovoltaics.html"><span class="toc_ref">1</span> <span class="toc_entry">Бесфононная кремниевая фотовольтаика (\(441\text{ нм} \to 2\times 882\text{ нм} {\lt} 1107\text{ нм}\)): протокол чистой комнаты и матрица диагностики</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Физическая причина стагнации однопороговой солнечной энергетики: несогласованная фононная термализация</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Бесфононное деление синего кванта (Singlet Fission: \(441\text{ нм} \to 2 \times 882\text{ нм} {\lt} 1107\text{ нм}\))</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Согласование оболочечного и фазового импеданса на границе «Тетрацен – \(\mathrm{SiO_x}\) – Кремний»</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">1.4</span> <span class="toc_entry">Пошаговый протокол изготовления в чистой комнате и контрольный A/B-эксперимент</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html"><span class="toc_ref">1.5</span> <span class="toc_entry">Четыре сигнатуры фальсификации и упреждающая матрица коррекции</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">1.6</span> <span class="toc_entry">Интерактивная диагностика с анти-конфабуляционным стеком ai-welcome-atlas + ai-atlas-mcp и сопровождение под NDA</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-lab-critical-experiments-registry.html"><span class="toc_ref">2</span> <span class="toc_entry">Сводный реестр критических экспериментов и лабораторно-вычислительных гейтов</span></a>
+ </li>
+<li class=" active">
+  <a href="ch-measurement-processing.html"><span class="toc_ref">3</span> <span class="toc_entry">Обработка результатов измерений</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sec-metrology-layer.html"><span class="toc_ref">3.1</span> <span class="toc_entry">Где живёт метрология в серии</span></a>
+ </li>
+<li class="">
+  <a href="sec-direct-measurement.html"><span class="toc_ref">3.2</span> <span class="toc_entry">Прямые измерения</span></a>
+ </li>
+<li class=" active current">
+  <a href="sec-indirect-gum.html"><span class="toc_ref">3.3</span> <span class="toc_entry">Косвенные измерения и перенос неопределённости</span></a>
+ </li>
+<li class="">
+  <a href="sec-student.html"><span class="toc_ref">3.4</span> <span class="toc_entry">Выборка, стандартная ошибка и Стьюдент</span></a>
+ </li>
+<li class="">
+  <a href="sec-compare-reference.html"><span class="toc_ref">3.5</span> <span class="toc_entry">Сравнение с эталоном</span></a>
+ </li>
+<li class="">
+  <a href="sec-multiple-observables.html"><span class="toc_ref">3.6</span> <span class="toc_entry">Несколько наблюдаемых</span></a>
+ </li>
+<li class="">
+  <a href="sec-metrology-critical.html"><span class="toc_ref">3.7</span> <span class="toc_entry">Связь с критическими экспериментами</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-computational-laboratory.html"><span class="toc_ref">4</span> <span class="toc_entry">Вычислительная лаборатория серии</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sec-lab-role.html"><span class="toc_ref">4.1</span> <span class="toc_entry">Затянувшаяся лаборатория, а не только теоремы</span></a>
+ </li>
+<li class="">
+  <a href="sec-lab-burden-of-proof.html"><span class="toc_ref">4.2</span> <span class="toc_entry">Бремя доказательства</span></a>
+ </li>
+<li class="">
+  <a href="sec-lab-protocol.html"><span class="toc_ref">4.3</span> <span class="toc_entry">Единый протокол записи опыта</span></a>
+ </li>
+<li class="">
+  <a href="sec-lab-metrology-link.html"><span class="toc_ref">4.4</span> <span class="toc_entry">Связь с метрологией и критическими экспериментами</span></a>
+ </li>
+<li class="">
+  <a href="sec-lab-classes.html"><span class="toc_ref">4.5</span> <span class="toc_entry">Классы вычислительных опытов</span></a>
+ </li>
+<li class="">
+  <a href="sec-lab-lean4-operator-kernel.html"><span class="toc_ref">4.6</span> <span class="toc_entry">Формальное операторное ядро в Lean&#160;4</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="sec:indirect-gum">3.3 Косвенные измерения и перенос неопределённости</h1>
+
+<p>Пусть </p>
+<div class="equation" id="a0000000010">
+<p>
+  <div class="equation_content">
+    \begin{equation}  y = f(x_1,\ldots ,x_n). \end{equation}
+  </div>
+  <span class="equation_label">3.2</span>
+</p>
+</div>
+<p> При малых отклонениях от наилучших оценок \(\hat x_i\) (линейный перенос, GUM): </p>
+<div class="equation" id="eq:gum-linear">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:gum-linear} u^2(y) = \sum _{i=1}^{n}\left(\frac{\partial f}{\partial x_i}\right)^{\! 2} u^2(x_i) + 2\sum _{i{\lt}j}\frac{\partial f}{\partial x_i}\frac{\partial f}{\partial x_j}\, r_{ij}\, u(x_i)\, u(x_j), \end{equation}
+  </div>
+  <span class="equation_label">3.3</span>
+</p>
+</div>
+<p> где \(r_{ij}\) — коэффициент корреляции входов (если входы независимы, второй ряд обнуляется). </p>
+<p>Для произведения степеней \(y = c\, x_1^{a_1}\cdots x_n^{a_n}\) удобна относительная форма: </p>
+<div class="equation" id="eq:gum-relative">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:gum-relative} \left(\frac{u(y)}{|y|}\right)^{\! 2} \approx \sum _i a_i^2\left(\frac{u(x_i)}{x_i}\right)^{\! 2} + 2\sum _{i{\lt}j} a_i a_j r_{ij}\frac{u(x_i)}{x_i}\frac{u(x_j)}{x_j}. \end{equation}
+  </div>
+  <span class="equation_label">3.4</span>
+</p>
+</div>
+<div class="remark_thmwrapper theorem-style-definition" id="ex:para-ps-tau">
+  <div class="remark_thmheading">
+    <span class="remark_thmcaption">
+    Замечание
+    </span>
+    <span class="remark_thmlabel">3.3</span>
+    <span class="remark_thmtitle">Пример: ведущий порядок QED для пара-позитрония</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-indirect-gum.html#ex:para-ps-tau">#</a>
+    
+    
+    
+        </div>
+  </div>
+  <div class="remark_thmcontent">
+  <p>  Время жизни \(^1S_0\): </p>
+<div class="equation" id="eq:para-ps-tau">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:para-ps-tau} \tau = \frac{2\hbar }{m_e c^2\, \alpha _{\mathrm{fs}}^{\, 5}}. \end{equation}
+  </div>
+  <span class="equation_label">3.5</span>
+</p>
+</div>
+<p> Из <a href="sec-indirect-gum.html#eq:gum-relative" class="eqref">3.4</a> при независимых \(m_e\) и \(\alpha \): </p>
+<div class="equation" id="eq:tau-relative-unc">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:tau-relative-unc} \frac{u(\tau )}{\tau } \approx \frac{u(m_e)}{m_e} + 5\, \frac{u(\alpha _{\mathrm{fs}})}{\alpha _{\mathrm{fs}}}. \end{equation}
+  </div>
+  <span class="equation_label">3.6</span>
+</p>
+</div>
+<p> Систематика <em>модели</em> (пропущенные радиационные поправки к \(\Gamma \)) добавляется отдельно как тип&#160;B и не подменяет \(u(m_e)\) из таблицы. </p>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sec-direct-measurement.html" title="Прямые измерения"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-measurement-processing.html" title="Обработка результатов измерений"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sec-student.html" title="Выборка, стандартная ошибка и Стьюдент"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

@@ -1,0 +1,809 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dependency graph</title>
+  <meta name="generator" content="plasTeX" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles/theme-white.css" />
+  <link rel="stylesheet" href="styles/dep_graph.css" />
+  
+  <script type="text/x-mathjax-config">
+  
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+  
+  </script>
+
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">  </script>
+
+
+</head>
+
+<body>
+<header>
+  <a class="toc" href="index.html">Home</a>
+  <h1 id="doc_title">Dependencies</h1>
+</header>
+<div class="wrapper">
+<div class="content">
+  <div id="Legend">
+    <span id="legend_title" class="title">Legend
+    <div class="btn">
+       <div class="bar"></div>
+       <div class="bar"></div>
+       <div class="bar"></div>
+    </div></span> 
+    <dl class="legend">
+      
+      <dt>Boxes</dt><dd>definitions</dd>
+      
+      <dt>Ellipses</dt><dd>theorems and lemmas</dd>
+      
+      <dt>Blue border</dt><dd>the <em>statement</em> of this result is ready to be formalized; all prerequisites are done</dd>
+      
+      <dt>Orange border</dt><dd>the <em>statement</em> of this result is not ready to be formalized; the blueprint needs more work</dd>
+      
+      <dt>Blue background</dt><dd>the <em>proof</em> of this result is ready to be formalized; all prerequisites are done</dd>
+      
+      <dt>Green border</dt><dd>the <em>statement</em> of this result is formalized</dd>
+      
+      <dt>Green background</dt><dd>the <em>proof</em> of this result is formalized</dd>
+      
+      <dt>Dark green background</dt><dd>the <em>proof</em> of this result and all its ancestors are formalized</dd>
+      
+      <dt>Dark green border</dt><dd>this is in Mathlib</dd>
+      
+    </dl>
+  </div>
+    <div id="graph"></div>
+<div id="statements">
+
+    
+    <div class="dep-modal-container" id="thm:math-abc-planetary-wronskian-full_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:math-abc-planetary-wronskian-full" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">3.1</span><span class="theorem_thmtitle">Ортогональный репер дифференциала \(\mathcal{F}_3\), определитель Ганкеля–Вандермонда, целочисленный вронскиан Мейсона–Стотерса, проекторы Лагранжа–Вандермонда и стереографическое вложение в ротатор \(\mathbb {Z}_{4Q}\)</span></div>
+    <div class="thm_thmcontent"><p>    Для произвольных целых параметров \((\widetilde{A}, \widetilde{B}, \widetilde{C}, X, Y, Z, u_0, v_0, t)\) с весами валов \(w_x = \widetilde{A}X\), \(w_y = \widetilde{B}Y\), \(w_z = \widetilde{C}Z\), полным радикал-скелетом \(R_{\mathrm{full}} = (\widetilde{A}\widetilde{B}\widetilde{C})(X Y Z)\) и определителем Безу \(d_{\mathrm{Bez}} = w_x v_0 - w_y u_0\) выполняются следующие безусловные тождества: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Тождество Лагранжа–Бине–Коши репера \(\mathcal{F}_3\) и факторизация определителя Ганкеля \(3\times 3\):</b> для миноров \(M_{BC} = b_1 c_2 + c_1 b_2\), \(M_{CA} = c_1 a_2 + a_1 c_2\), \(S_{AB} = a_1 b_2 - b_1 a_2\), \(M_{AB} = a_1 b_2 + b_1 a_2\) и матрицы моментов Ганкеля \(\mathcal{H}_3 = \bigl(S_{i+j-1}\bigr)_{i,j=0}^2\) (\(S_k = \widetilde{A}X^k + \widetilde{B}Y^k - \widetilde{C}Z^k\)) выполняются: </p>
+<div class="displaymath" id="eq:math-frame-f3-lagrange">
+  \begin{align}  M_{BC}^2 + M_{CA}^2 + S_{AB}^2 + (a_1 a_2 + b_1 b_2 - c_1 c_2)^2 & \equiv (a_1^2 + b_1^2 + c_1^2)(a_2^2 + b_2^2 + c_2^2), \label{eq:math-frame-f3-lagrange} \\ (A + B)^2 + S_{AB}^2 & \equiv (A - B)^2 + M_{AB}^2 \; =\;  (a_1^2 + b_1^2)(a_2^2 + b_2^2), \label{eq:math-brahmagupta-shafts} \\ -\det \mathcal{H}_3 & \equiv \widetilde{A}\widetilde{B}\widetilde{C}\, (X - Y)^2(Y - Z)^2(Z - X)^2. \label{eq:math-hankel-vandermonde-det} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Калибровочно-инвариантный кубический вронскиан Мейсона–Стотерса и определитель четвёртых степеней:</b> для калибровочно-сдвинутого семейства \((\alpha (t), \beta (t)) = \bigl(u_0 Z^2 + t w_x,\  v_0 Z^2 + t w_y\bigr)\) и квадратичных валов \(A^*(t) = \alpha (t) X^2\), \(B^*(t) = \beta (t) Y^2\) кубический вронскиан \(W^*(t) := A B^*(t) - B A^*(t)\) не зависит от калибровочного параметра \(t\) (\(\Delta _t W^*(t) \equiv 0\), сохранение Нётер) и удовлетворяет тождествам: </p>
+<div class="displaymath" id="eq:math-ms-minor-z2">
+  \begin{align}  w_x\, \beta (t) - w_y\, \alpha (t) & \equiv d_{\mathrm{Bez}}\, Z^2, \label{eq:math-ms-minor-z2} \\ W^*(t) := A\, B^*(t) - B\, A^*(t) & \equiv d_{\mathrm{Bez}}\, (X^2 Y^2 Z^2), \label{eq:math-ms-cubic-wronskian} \\ d_{\mathrm{Bez}}\, (A B C) & \equiv R_{\mathrm{full}}\, W^*(t), \label{eq:math-volume-wronskian-equiv} \\ -\det \mathcal{W}_{\mathrm{MS}} & \equiv d_{\mathrm{Bez}}\, \bigl(X^4 + Y^4 + Z^4\bigr) + \bigl(Y^2 u_0 - X^2 v_0\bigr)\, S_3. \label{eq:math-ms-fourth-power-det} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Проекторы Лагранжа–Вандермонда по дефектам этажей \((S_1, S_2, S_3)\) и трёхшахтная система коллапса объёма:</b> на любых этажах \((S_1, S_2, S_3)\) выполняются точные проекционные тождества Лагранжа–Вандермонда и трёхшахтные уравнения дефектов миноров \(d_{\mathrm{Min},Z} = Z^2 - (w_x\beta - w_y\alpha )\), \(d_{\mathrm{Min},Y} = Y^2 - (w_x\gamma - w_z\alpha )\), \(d_{\mathrm{Min},X} = X^2 - (w_z\beta - w_y\gamma )\): </p>
+<div class="displaymath" id="eq:math-vandermonde-proj-c">
+  \begin{align}  C\, (Z - X)(Z - Y) & \equiv Z^2\, \bigl(S_2(X + Y) - S_1 X Y - S_3\bigr), \label{eq:math-vandermonde-proj-c} \\ A\, (X - Y)(X - Z) & \equiv X^2\, \bigl(S_1 Y Z - S_2(Y + Z) + S_3\bigr), \label{eq:math-vandermonde-proj-a} \\ B\, (Y - X)(Y - Z) & \equiv Y^2\, \bigl(S_1 Z X - S_2(Z + X) + S_3\bigr), \label{eq:math-vandermonde-proj-b} \\ w_y\, C + (\widetilde{B}^2\widetilde{C})(Y^2 Z)\, \alpha - R_{\mathrm{full}}\, \beta & \equiv (\widetilde{B}\widetilde{C}Y Z)\, d_{\mathrm{Min},Z}, \label{eq:math-three-shaft-collapse-c} \\ w_z\, B + (\widetilde{B}\widetilde{C}^2)(Y Z^2)\, \alpha - R_{\mathrm{full}}\, \gamma & \equiv (\widetilde{B}\widetilde{C}Y Z)\, d_{\mathrm{Min},Y}, \label{eq:math-three-shaft-collapse-b} \\ w_y w_z\, A - R_{\mathrm{full}}(w_z\beta - w_y\gamma ) & \equiv R_{\mathrm{full}}\, d_{\mathrm{Min},X}. \label{eq:math-three-shaft-collapse-a} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Стереографическое вложение трёхшахтного дифференциала \(\mathcal{C} := \mathcal{A} + \mathcal{B}\) в ротатор \(\mathbb {Z}_{4Q}\) и двусторонняя целочисленная вилка захвата ячейки:</b> для любого четверть-периода \(Q \in \mathbb {Z}\), фазы \(\varphi _0 \in \mathbb {Z}\) (\(\mathcal{C}_{\mathrm{rot}} = Q - \varphi _0,\  \mathcal{S}_{\mathrm{rot}} = \varphi _0\)), резидуала ротатора \(I_{\mathrm{rot}} = \mathcal{B}\mathcal{C}_{\mathrm{rot}} - \mathcal{A}\mathcal{S}_{\mathrm{rot}}\) и определителя Безу \(g = \mathcal{A}v - \mathcal{B}u\) (\(w = u + v\), \(\Delta _{\mathrm{rot}} = \mathcal{C}_{\mathrm{rot}}v - \mathcal{S}_{\mathrm{rot}}u\)) выполняются: </p>
+<div class="displaymath" id="eq:math-rotator-ab-split">
+  \begin{align}  Q\, \mathcal{A} & \equiv \mathcal{C}\, \mathcal{C}_{\mathrm{rot}} - I_{\mathrm{rot}}, \qquad Q\, \mathcal{B} \; \equiv \;  \mathcal{C}\, \mathcal{S}_{\mathrm{rot}} + I_{\mathrm{rot}}, \label{eq:math-rotator-ab-split} \\ \mathcal{C}\, \Delta _{\mathrm{rot}} - w\, I_{\mathrm{rot}} & \equiv g\, Q, \label{eq:math-rotator-bezout-det} \end{align}
+</div>
+<p> причём в главной ячейке захвата \(0 \le I_{\mathrm{rot}} {\lt} \mathcal{C}\) произведения \(Q\mathcal{A}\) и \(Q\mathcal{B}\) зажаты в двусторонней целочисленной вилке \(\mathcal{C}\mathcal{C}_{\mathrm{rot}} - \mathcal{C} {\lt} Q\mathcal{A} \le \mathcal{C}\mathcal{C}_{\mathrm{rot}}\) и \(\mathcal{C}\mathcal{S}_{\mathrm{rot}} \le Q\mathcal{B} {\lt} \mathcal{C}\mathcal{S}_{\mathrm{rot}} + \mathcal{C}\). </p>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sect0007.html#thm:math-abc-planetary-wronskian-full">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/AbcPlanetaryWronskian.lean#L10" class="lean_decl">thm8_unified_3x3_pillai_abc_skeletal_matrix_and_radical_floor_embedding</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/AbcPlanetaryWronskian.lean#L35" class="lean_decl">thm9_pillai_abc_differential_bezout_and_pade_laws</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/AbcPlanetaryWronskian.lean#L66" class="lean_decl">thm12_reverse_pade_bezout_cubic_annihilation_and_radical_bound</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/AbcPlanetaryWronskian.lean#L126" class="lean_decl">thm13_integer_mason_stothers_cubic_wronskian_and_fourth_power_det</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/AbcPlanetaryWronskian.lean#L164" class="lean_decl">thm14_master_pillai_and_abc_bilateral_convergence_chains</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/AbcPlanetaryWronskian.lean#L335" class="lean_decl">thm14b_abc_hankel_vandermonde_floor_defect_trichotomy_and_bilateral_bezout_bracket</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/AbcPlanetaryWronskian.lean#L360" class="lean_decl">thm14c_abc_three_shaft_minor_closure_and_joint_beta_gamma_brackets</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/AbcPlanetaryWronskian.lean#L238" class="lean_decl">thm16_weierstrass_stereographic_abc_embedding_into_z512_rotator</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/RotatorCalculusPaper.lean#L32" class="lean_decl">thm30_unified_pillai_abc_collatz_planetary_differential_bridge</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:math-c-infinity-simpson-derham_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:math-c-infinity-simpson-derham" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">1.2</span><span class="theorem_thmtitle">Башня разностных производных частного \(D^n(f/g) = N_n/G_n\) всех порядков \(n\in \mathbb {N}\), вариационный принцип, многомерная кубатура Симпсона на \(O_2(d)\) и конструктивные когомологии де&#160;Рама</span></div>
+    <div class="thm_thmcontent"><p>    Для любых целочисленных функций \(f, g : \mathbb {Z} \to \mathbb {Z}\) с разностным оператором \((Df)(x) = f(x+1) - f(x)\): </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Рекуррентная башня производных отношения \(D^n(f/g) = N_n(x)/G_n(x)\) во всех порядках \(n\in \mathbb {N}\) без полюсов:</b> индуктивная пара числителя и знаменателя \(n\)-й производной частного </p>
+<div class="displaymath" id="eq:math-quot-numer-tower">
+  \begin{align}  N_0(x) & := f(x), \qquad N_{n+1}(x) \; :=\;  N_n(x+1)\, g(x) - N_n(x)\, g(x+n+1), \label{eq:math-quot-numer-tower} \\ G_n(x) & := \prod _{j=0}^n g(x+j) \label{eq:math-quot-denom-tower} \end{align}
+</div>
+<p> удовлетворяет точному шаговому тождеству \(\bigl(N_n(x+1)G_n(x) - N_n(x)G_n(x+1)\bigr)g(x) \equiv N_{n+1}(x)G_n(x)\) и конечно-разностной формуле Ньютона по падающим факториалам, причём для знаменателя Вейерштрасса \(g(t) = R_Q(t) = \mathcal{C}_Q(t)^2 + \mathcal{S}_Q(t)^2\) (\(Q \ge 1\)) при всех \(n\in \mathbb {N}\) и всех \(x\in \mathbb {Z}\) выполняется \(G_n(x) \ge 1\). </p>
+</li>
+  <li><p><b class="bfseries">Многомерное разбиение на пояса и кубатура Симпсона на оболочке \(O_2(d)\) при произвольной размерности \(d \ge 2\):</b> сечение оболочки \(O_2(d) = \{ e \in \{ -1,0,+1\} ^d \mid \sum _{i=1}^d e_i^2 = 2\} \) из \(2d(d-1)\) вершин вдоль любой координатной оси образует три пояса \(\bigl(|Z_{-1}(d)|, |Z_0(d)|, |Z_{+1}(d)|\bigr) = \bigl(2(d-1),\  2(d-1)(d-2),\  2(d-1)\bigr)\), которые в сумме с центральным весом \(w_0(d) = 2(d-1)(6-d)\) дают параболические веса Симпсона: </p>
+<div class="equation" id="eq:math-simpson-weights-d">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-simpson-weights-d} \bigl(|Z_{-1}(d)|,\;  |Z_0(d)| + w_0(d),\;  |Z_{+1}(d)|\bigr) \; \equiv \;  2(d-1)\times (1,\;  4,\;  1), \end{equation}
+  </div>
+  <span class="equation_label">1.10</span>
+</p>
+</div>
+<p> воспроизводя точный трёхмерный интеграл Римана \(3\iiint _{[-1,1]^3} P\, \mathrm{d}V = 24c_0 + 8(c_x+c_y+c_z)\) на произвольном кубическом многочлене \(P\), тогда как сумма по архимедовым слоям \(S_k(3) = 10k^2 + 2\) удовлетворяет \(3\bigl(1 + \sum _{k=1}^N (10k^2+2)\bigr) \equiv 10N^3 + 15N^2 + 11N + 3\). </p>
+</li>
+  <li><p><b class="bfseries">Конструктивные когомологии де&#160;Рама \(d^2 \equiv 0\) и обращение нильпотентных операторов в \(\mathbb {Z}\):</b> кограничные операторы \(d_0\) (на рёбрах), \(d_1\) (на гранях) и \(d_2\) (на кубах) удовлетворяют \(d_1 \circ d_0 \equiv 0\) и \(d_2 \circ d_1 \equiv 0\), циркуляция главных остатков по модулю \(M\) вокруг замкнутой грани строго квантована периодом (\((d_1 r)_f = M\cdot n_f \in M\mathbb {Z}\)), а любой нильпотентный оператор \(\mathcal{M} = I + N_{\mathrm{nil}}\) (\(N_{\mathrm{nil}}^3 = 0\)) обращается в целых числах по формуле \((I + N_{\mathrm{nil}})^{-1} = I - N_{\mathrm{nil}} + N_{\mathrm{nil}}^2\). </p>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sect0003.html#thm:math-c-infinity-simpson-derham">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/RotatorQuadrature.lean#L301" class="lean_decl">thm3_continuum_integration_from_cuboctahedron_archimedes_layers</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/ProjectiveFieldCalculus.lean#L42" class="lean_decl">thm35_general_field_derivative_operator_quotient_wronskian_and_variational_euler_lagrange</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/ProjectiveFieldCalculus.lean#L135" class="lean_decl">thm38_c_infinity_higher_derivatives_taylor_newton_expansion_and_pole_free_quotients</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/LogicCohomology.lean#L212" class="lean_decl">thm5_constructive_de_rham_cohomology_nilpotent_algebra_and_banach_tarski_free_measure</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:math-constructive-reals-s1-malcev-limit_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:math-constructive-reals-s1-malcev-limit" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">4.3</span><span class="theorem_thmtitle">Конструктивное построение полей \(\mathbb {R}\) и \(\mathbb {C}\) через вилки Штерна–Броко–\(\mathrm{SL}_2(\mathbb {Z})\), биективный стереографический изоморфизм с \(S^1(\mathbb {C})\) и теорема Мальцева об изоморфизме элементарной теории</span></div>
+    <div class="thm_thmcontent"><p>    Поля \(\mathbb {Q}\), \(\mathbb {R}\) и \(\mathbb {C}\) (включая единичную окружность \(S^1(\mathbb {C})\)) строятся полностью конструктивно как проективный предел вложенных рациональных вилок и счётной башни носителей \((M_n, \Pi _{n\to 0})\). В силу изоморфизма фактор-системы по ядру гомоморфизма Мальцева \(\ker \pi \) и совпадения элементарной теории первого порядка \(\mathrm{Th}(M_{\mathrm{ext}}) \equiv \mathrm{Th}(M_{\mathrm{base}})\), по бритве Оккама не требуется вводить никаких отдельных искусственных семейств вроде &lt;&lt;\(\mathbb {R}_{\mathrm{proj}}\)&gt;&gt; или &lt;&lt;\(\mathbb {C}_{\mathrm{proj}}\)&gt;&gt; — построенные объекты изоморфны обычным \(\mathbb {Q}\), \(\mathbb {R}\) и \(\mathbb {C}\), которыми мы и оперируем напрямую: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Конструктивное представление чисел из \(\mathbb {R}\) через вилки Штерна–Броко и действие \(\mathrm{SL}_2(\mathbb {Z})\):</b> каждая рациональная вилка \(I = [p_L/q_L,\,  p_R/q_R]\) (\(q_L, q_R {\gt} 0\)) характеризуется целочисленным вронскианом (определителем) \(\Delta (p_L, q_L, p_R, q_R) := p_R q_L - p_L q_R \ge 0\). Деление вилки медиантой Штерна–Броко \((p_M, q_M) = (p_L + p_R,\  q_L + q_R)\) тождественно сохраняет вронскиан обеих дочерних вилок: </p>
+<div class="equation" id="eq:math-stern-brocot-wronskian">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-stern-brocot-wronskian} \Delta (p_L, q_L, p_M, q_M) \; =\;  \Delta (p_M, q_M, p_R, q_R) \; \equiv \;  \Delta (p_L, q_L, p_R, q_R), \end{equation}
+  </div>
+  <span class="equation_label">4.12</span>
+</p>
+</div>
+<p> а под действием любой целочисленной матрицы уточнения \(A = \begin{pmatrix}  a 
+
+&  b 
+
+\\ c 
+
+&  d 
+
+\end{pmatrix} \in \mathrm{Mat}_{2\times 2}(\mathbb {Z})\) на концы вилки вронскиан умножается на определитель матрицы: </p>
+<div class="equation" id="eq:math-sl2-interval-wronskian">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-sl2-interval-wronskian} \Delta (p_L', q_L', p_R', q_R') \; \equiv \;  (a d - b c)\, \Delta (p_L, q_L, p_R, q_R), \end{equation}
+  </div>
+  <span class="equation_label">4.13</span>
+</p>
+</div>
+<p> при этом вдоль любого слова уточнений \(w \in \mathrm{List}\, \mathbb {Z}\) свёрнутая вилка \([L_w, U_w] = \operatorname {bracketFold}(l_0, u_0, w)\) монотонно зажимает вещественное значение \(X \in \mathbb {R}\) (\(l_0 \le L_w \le X \le U_w \le u_0\), \(0 \le U_w - L_w \le u_0 - l_0\)) и однозначно определяет его при смыкании (\(U_w - L_w = 0 \implies L_w = U_w = X\)). </p>
+</li>
+  <li><p><b class="bfseries">Биективный стереографический изоморфизм \(L^1(\mathbb {Z}_{4Q}) \leftrightarrow S^1(\mathbb {C})\) на всех масштабах \(Q \in \mathbb {Z}\):</b> для любой точки ротатора \((C, S)\) с \(C + S = Q\) прямой проективный подъём Вейерштрасса \((X, Y, R) = (C^2 - S^2,\  2CS,\  C^2 + S^2)\) лежит на единичной окружности \(X^2 + Y^2 = R^2\) в \(\mathbb {C}\) (\(R + Y = Q^2\)) и биективно обращается без извлечения квадратных корней по линейным формулам: </p>
+<div class="equation" id="eq:math-weierstrass-bijection-inverse">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-weierstrass-bijection-inverse} Q^2 + X \; \equiv \;  2\, Q\, C, \qquad Q^2 - X \; \equiv \;  2\, Q\, S. \end{equation}
+  </div>
+  <span class="equation_label">4.14</span>
+</p>
+</div>
+</li>
+  <li><p><b class="bfseries">Теорема Мальцева об изоморфизме элементарной теории \(\mathrm{Th}(M_{\mathrm{ext}}) \equiv \mathrm{Th}(M_{\mathrm{base}})\) (бритва Оккама для \(\mathbb {R}\) и \(\mathbb {C}\)):</b> для любой счётной проективной башни носителей \(M_{k+1} \xrightarrow {\pi _k} M_k\) проекция \(\Pi _{n \to 0} : M_n \to M_0\) сохраняет все согласованные наблюдаемые (\(\operatorname {obs}_0(\Pi _{n \to 0}(x_n)) = \operatorname {obs}_n(x_n)\)); для любого сюръективного гомоморфизма алгебраических систем Мальцева \(\pi : M_{\mathrm{ext}} \twoheadrightarrow M_{\mathrm{base}}\) с сечением \(\mathrm{sect} : M_{\mathrm{base}} \hookrightarrow M_{\mathrm{ext}}\) (\(\pi (\mathrm{sect}(m)) = m\)) фактор по конгруэнции ядра \(\ker \pi \) изоморфен \(M_{\mathrm{base}}\), а элементарные теории первого порядка тождественно совпадают: </p>
+<div class="equation" id="eq:math-malcev-elementary-equivalence">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-malcev-elementary-equivalence} \forall \, \phi \in \mathrm{Formula}, \qquad \Bigl(\forall \, y \in M_{\mathrm{ext}},\  M_{\mathrm{ext}}, y \models \phi \Bigr) \; \Longleftrightarrow \;  \Bigl(\forall \, m \in M_{\mathrm{base}},\  M_{\mathrm{base}}, m \models \phi \Bigr). \end{equation}
+  </div>
+  <span class="equation_label">4.15</span>
+</p>
+</div>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sect0010.html#thm:math-constructive-reals-s1-malcev-limit">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/ModelTheoreticLimit.lean#L86" class="lean_decl">thm17_model_theoretic_termination_kernel_annihilation_and_godel_tarski_oracle_necessity</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/ModelTheoreticLimit.lean#L273" class="lean_decl">thm41_constructive_projective_real_intervals_stern_brocot_and_s1_isomorphism</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:math-counterwave-dichotomy-and-independence_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:math-counterwave-dichotomy-and-independence" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">4.2</span><span class="theorem_thmtitle">Тождественное сокращение чётной матрицы Грама \(\mathrm{MainAmount}_{\mathrm{vec}}\) при векторной суперпозиции встречных волн, тройная дихотомия каскада и свидетели модельно-теоретической независимости</span></div>
+    <div class="thm_thmcontent"><p>    Пусть \(\mathcal{O}_{\mathrm{vec}} = \{ (c_k, s_k, \alpha _k, \beta _k)\} _{k=1}^N \in \mathrm{List}\, (\mathbb {Z}^4)\) — произвольный конечный ансамбль двумерных волновых мод с суммарным базовым фазором \((C_\Sigma , S_\Sigma ) = \bigl(\sum _{k=1}^N c_k,\  \sum _{k=1}^N s_k\bigr)\), суммарным вектором радиальной производной \((A_\Sigma , B_\Sigma ) = \bigl(\sum _{k=1}^N \alpha _k,\  \sum _{k=1}^N \beta _k\bigr)\), вектором прямой волны \(W_+(\delta ) = (C_\Sigma + A_\Sigma \delta ,\  S_\Sigma + B_\Sigma \delta )\) и вектором встречной волны \(W_-(\delta ) = (C_\Sigma - A_\Sigma \delta ,\  S_\Sigma - B_\Sigma \delta )\) при сдвиге \(\delta \in \mathbb {Z}\). Тогда: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Тождественное сокращение полной матрицы Грама \(\mathrm{MainAmount}_{\mathrm{vec}}(\delta )\) со всеми \(N^2\) перекрёстными слагаемыми:</b> квадраты норм суммарных векторов \(U_{\mathrm{vec}}(\delta ) = |W_+(\delta )|^2\) и \(V_{\mathrm{vec}}(\delta ) = |W_-(\delta )|^2\) удовлетворяют: </p>
+<div class="displaymath" id="eq:math-vec-ocean-sum">
+  \begin{align}  U_{\mathrm{vec}}(\delta ) + V_{\mathrm{vec}}(\delta ) & \equiv 2\, \mathrm{MainAmount}_{\mathrm{vec}}(\delta ) \; =\;  2\, \Bigl((C_\Sigma ^2 + S_\Sigma ^2) + \delta ^2(A_\Sigma ^2 + B_\Sigma ^2)\Bigr), \label{eq:math-vec-ocean-sum} \\ U_{\mathrm{vec}}(\delta ) - V_{\mathrm{vec}}(\delta ) & \equiv 4\, \bigl(C_\Sigma A_\Sigma + S_\Sigma B_\Sigma \bigr)\, \delta . \label{eq:math-vec-ocean-diff} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Тройная дихотомия \(M\)-этажного каскада \(\mathrm{SL}_2(\mathbb {Z})\):</b> после прохождения пары \((U_{\mathrm{vec}}(\delta ), V_{\mathrm{vec}}(\delta ))\) через произвольный \(M\)-этажный каскад \(R \in \mathrm{List}\, \mathbb {Z}\) выходные амплитуды \(P_R = \operatorname {minkowskiCascadeP}(R, U_{\mathrm{vec}}(\delta ), V_{\mathrm{vec}}(\delta ))\) и \(Q_R = \operatorname {minkowskiCascadeQ}(R, U_{\mathrm{vec}}(\delta ), V_{\mathrm{vec}}(\delta ))\) удовлетворяют </p>
+<div class="equation" id="eq:math-cascade-diff-trichotomy">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-cascade-diff-trichotomy} P_R - Q_R \; \equiv \;  4\, \Pi _-(R)\, \bigl(C_\Sigma A_\Sigma + S_\Sigma B_\Sigma \bigr)\, \delta , \end{equation}
+  </div>
+  <span class="equation_label">4.10</span>
+</p>
+</div>
+<p> а при \(q {\gt} 0\), \(P_R {\gt} 0\), \(Q_R {\gt} 0\) обращение в нуль интенсивности деструктивной интерференции \(I_q(P_R, Q_R, \mathcal{C}_q(\Delta \varphi )) = q(P_R - Q_R)^2 + 2 P_R Q_R(q + \mathcal{C}_q(\Delta \varphi ))\) эквивалентно тройной дихотомии: </p>
+<div class="equation" id="eq:math-counterwave-zero-iff-trichotomy">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-counterwave-zero-iff-trichotomy} I_q\bigl(P_R,\,  Q_R,\,  \mathcal{C}_q(\Delta \varphi )\bigr) = 0 \; \Longleftrightarrow \;  \Bigl(\Pi _-(R) = 0 \; \lor \;  C_\Sigma A_\Sigma + S_\Sigma B_\Sigma = 0 \; \lor \;  \delta = 0\Bigr) \; \land \;  \operatorname {pauliPhaseDistNat}(q, \Delta \varphi ) = 0. \end{equation}
+  </div>
+  <span class="equation_label">4.11</span>
+</p>
+</div>
+</li>
+  <li><p><b class="bfseries">Две конструктивные модели и теорема о модельно-теоретической независимости \(\delta = 0\) от одних лишь встречно-волновых аксиом:</b> </p>
+<ul class="itemize">
+  <li><p><b class="bfseries">Модель&#160;1 (коллинеарная модель \(\mathcal{O}_1 = [(1, 0, 1, 0)]\)):</b> \((C_\Sigma , S_\Sigma ) = (1, 0)\), \((A_\Sigma , B_\Sigma ) = (1, 0)\), скалярное произведение \(C_\Sigma A_\Sigma + S_\Sigma B_\Sigma = 1 \ne 0\), откуда при \(\Pi _-(R) \ne 0\) равенство \(P_R = Q_R\) эквивалентно \(\delta = 0\); </p>
+</li>
+  <li><p><b class="bfseries">Модель&#160;2 (ортогональная модель \(\mathcal{O}_2 = [(1, 1, -1, 1)]\)):</b> \((C_\Sigma , S_\Sigma ) = (1, 1) \perp (A_\Sigma , B_\Sigma ) = (-1, 1)\), скалярное произведение \(C_\Sigma A_\Sigma + S_\Sigma B_\Sigma = 1\cdot (-1) + 1\cdot 1 = 0\), и на ненулевом сдвиге \(\delta = 1 \ne 0\) выполняются \(U_{\mathrm{vec}}(1) = 4 {\gt} 0\), \(V_{\mathrm{vec}}(1) = 4 {\gt} 0\), \(P_R = Q_R\) и \(I_q(P_R, Q_R, \mathcal{C}_q(2q)) = 0\). </p>
+</li>
+</ul>
+<p> Следовательно, утверждение \(\delta = 0\) модельно-теоретически независимо от аксиом встречно-волновой симметрии и каскада \(\mathrm{SL}_2(\mathbb {Z})\) без дополнительного аналитического закона, исключающего ортогональность \((C_\Sigma , S_\Sigma ) \perp (A_\Sigma , B_\Sigma )\). </p>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sect0009.html#thm:math-counterwave-dichotomy-and-independence">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/MinkowskiCounterwaveCascade.lean#L614" class="lean_decl">ocean_true_vector_superposition_norm_imbalance_and_mainamount_cancellation</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/MinkowskiCounterwaveCascade.lean#L657" class="lean_decl">counterwave_cascade_orthogonality_dichotomy_and_independence_models</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:math-fresnel-cornu-continuum-bridge_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:math-fresnel-cornu-continuum-bridge" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">1.4</span><span class="theorem_thmtitle">Общий символьный закон стационарной фазы Френеля для произвольного масштаба \(b \in \mathbb {Z}\), тождество нормы Гаусса–Планшереля и безтейлоровский переход к \(\int _0^\infty \cos (x^2)\, dx = \int _0^\infty \sin (x^2)\, dx = \frac{1}{2}\sqrt{\frac{\pi }{2}}\)</span></div>
+    <div class="thm_thmcontent"><p>    Для произвольного целочисленного масштаба \(b \in \mathbb {Z}\) и фазового кольца размера \(N_{\mathrm{ring}}(b) = 8b^2\) с четверть-периодом \(Q(b) = 2b^2\), полупериодом \(\Phi _{\mathrm{half}}(b) = 4b^2\) и точкой биссектрисы первого квадранта \(K_P(b) = Q(b)/2 = b^2\) (при \(b = 8\): \(Q = 128,\  \Phi _{\mathrm{half}} = 256,\  N_{\mathrm{ring}} = 512,\  K_P = 64\)) выполняются следующие безусловные символьные тождества: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Общий закон попадания выживающей \(2\)-адической оболочки \(\varphi (b, k) = b(2k+1)\) в биссектрису \(45^\circ \) (\(K_P(b) = b^2\)) для всех \(b, k, m \in \mathbb {Z}\):</b> на всех небиссекторных \(2\)-адических оболочках кольца квадратичные образы \(\varphi ^2 \bmod N_{\mathrm{ring}}(b)\) инвариантны относительно полупериодного сдвига \(+\Phi _{\mathrm{half}}(b)\) и взаимно аннулируются по тождеству \(\mathcal{E}(\psi + \Phi _{\mathrm{half}}(b)) = -\mathcal{E}(\psi )\), тогда как для любого элемента выживающей оболочки \(\varphi (b, k) = b(2k+1)\) (\(k \in \mathbb {Z}\)) выполняется: </p>
+<div class="equation" id="eq:math-fresnel-four-shells-zero">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-fresnel-four-shells-zero} \varphi (b, k)^2 - K_P(b) \; \equiv \;  \Phi _{\mathrm{half}}(b)\, k(k+1), \end{equation}
+  </div>
+  <span class="equation_label">1.17</span>
+</p>
+</div>
+<p> откуда при всех чётных \(k = 2m\) и нечётных \(k = 2m+1\) квадрат тождественно попадает в точку биссектрисы \(K_P(b) = b^2 \leftrightarrow \pi /4\) по модулю полного периода кольца \(N_{\mathrm{ring}}(b) = 8b^2\) (где \(\mathcal{C}_{Q(b)}(K_P(b)) = Q(b) - K_P(b) = K_P(b) = b^2 = \mathcal{S}_{Q(b)}(K_P(b))\)): </p>
+<div class="displaymath" id="eq:math-discrete-fresnel-even">
+  \begin{align}  \varphi (b, 2m)^2 & \equiv K_P(b) + N_{\mathrm{ring}}(b)\, m(2m+1), \label{eq:math-discrete-fresnel-even} \\ \varphi (b, 2m+1)^2 & \equiv K_P(b) + N_{\mathrm{ring}}(b)\, (m+1)(2m+1), \label{eq:math-discrete-fresnel-odd} \\ \mathcal{C}_{\mathrm{Fresnel}}(b) & = \mathcal{S}_{\mathrm{Fresnel}}(b) \; :=\;  (4b)\, K_P(b) \; =\;  4\, b^3 \qquad \bigl(\text{при } b = 8:\;  32 \times 64 = 2\, 048\bigr). \label{eq:math-discrete-fresnel-symmetry} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Общее символьное тождество нормы Гаусса–Планшереля для произвольного масштаба \(b \in \mathbb {Z}\):</b> для любого \(b \in \mathbb {Z}\) квадраты дискретных интегралов Френеля связаны с полупериодом \(\Phi _{\mathrm{half}}(b) = 4b^2\), полным периодом кольца \(N_{\mathrm{ring}}(b) = 8b^2\) и квадратом амплитуды \(Q(b)^2 = 4b^4\) точными полиномиальными тождествами: </p>
+<div class="displaymath" id="eq:math-fresnel-halfperiod-norm">
+  \begin{align}  \mathcal{C}_{\mathrm{Fresnel}}(b)^2 \; =\;  \mathcal{S}_{\mathrm{Fresnel}}(b)^2 & \equiv \Phi _{\mathrm{half}}(b)\, Q(b)^2 \; =\;  \frac{N_{\mathrm{ring}}(b)}{2}\, Q(b)^2 \; =\;  16\, b^6, \label{eq:math-fresnel-halfperiod-norm} \\ \mathcal{C}_{\mathrm{Fresnel}}(b)^2 + \mathcal{S}_{\mathrm{Fresnel}}(b)^2 & \equiv N_{\mathrm{ring}}(b)\, Q(b)^2 \; =\;  32\, b^6. \label{eq:math-fresnel-plancherel-norm} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Прямой переход к \(\int _0^\infty \cos (x^2)\, dx = \int _0^\infty \sin (x^2)\, dx = \sqrt{\pi /8}\) через спрямление многоугольника Вейерштрасса без рядов Тейлора:</b> при нормировке на амплитуду \(Q(b)\) и \(d_{\mathrm{in}}(\square ) = 4\) квадранта кольца квадрат однолучевого интеграла Френеля равен \(\bigl(\frac{\mathcal{C}_{\mathrm{Fresnel}}(b)}{4\, Q(b)}\bigr)^2 = \frac{N_{\mathrm{ring}}(b)}{2\cdot 4^2} = \frac{N_{\mathrm{ring}}(b)}{16}\). При спрямлении многоугольника Вейерштрасса с шагом \((\Delta t)^2 = 2\pi / N_{\mathrm{ring}}(b)\) множитель \(N_{\mathrm{ring}}(b)\) сокращается тождественно при любом масштабе \(b\): </p>
+<div class="equation" id="eq:math-fresnel-pi-over-8">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-fresnel-pi-over-8} \left(\frac{\mathcal{C}_{\mathrm{Fresnel}}(b)}{4\, Q(b)}\, \Delta t\right)^2 \; =\;  \frac{N_{\mathrm{ring}}(b)}{16}\cdot \frac{2\pi }{N_{\mathrm{ring}}(b)} \; \equiv \;  \frac{\pi }{8} \quad \Longrightarrow \quad \int _0^\infty \cos (x^2)\, dx \; =\;  \int _0^\infty \sin (x^2)\, dx \; =\;  \sqrt{\frac{\pi }{8}} \; =\;  \frac{1}{2}\sqrt{\frac{\pi }{2}}, \end{equation}
+  </div>
+  <span class="equation_label">1.23</span>
+</p>
+</div>
+<p> где \(\pi \in [\pi _{\mathrm{in}}(n),\  \pi _{\mathrm{out}}(n)]\) зажимается рациональными суммами вписанного и описанного \(n\)-угольников Вейерштрасса&#160;<a href="sect0002.html#eq:math-weierstrass-circle" class="eqref">1.4</a>, а квадратный корень извлекается рациональной башней Паде–\(\mathrm{SL}_2(\mathbb {Z})\) Главы&#160;<a href="ch-math-pade-sl2-towers.html">2</a> без рядов Тейлора и таблиц. </p>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sect0005.html#thm:math-fresnel-cornu-continuum-bridge">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/ProjectiveFieldCalculus.lean#L524">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:math-inverse-trig-hyperbolic_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:math-inverse-trig-hyperbolic" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">1.3</span><span class="theorem_thmtitle">Точная целочисленная биекция полярных и декартовых координат \((M,\varphi )\leftrightarrow (X,Y)\), обращение тангенса и котангенса, гиперболическая тройка Гудермана–Минковского и бескорневое обращение гиперболических функций</span></div>
+    <div class="thm_thmcontent"><p>    Для любого четверть-периода \(Q \ge 1\), произвольного полярного радиуса \(M \ge 1\), произвольного полярного угла \(\varphi \in \mathbb {Z}\) и координат светового конуса \(U, V \in \mathbb {Z}\) выполняются следующие безусловные тождества: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Точная целочисленная биекция полярных и декартовых координат \((M, \varphi ) \leftrightarrow (X, Y)\) и обращение \(\operatorname {atan}_{L^1},\, \operatorname {acot}_{L^1}\) без корней и рядов:</b> для декартовых проекций \(X = M\, \mathcal{C}_Q(\varphi )\) и \(Y = M\, \mathcal{S}_Q(\varphi )\) сумма модулей тождественно равна \(|X| + |Y| = M\, Q\), поэтому полярный радиус \(M\) и полярный угол \(\varphi \) (вместе с дополнительным углом котангенса \(Q - \varphi \) в первом квадранте \(0 \le \varphi \le Q\)) восстанавливаются с нулевой погрешностью при любом радиусе \(M \ge 1\): </p>
+<div class="equation" id="eq:math-atan-acot-l1">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-atan-acot-l1} M \; =\;  \frac{|X| + |Y|}{Q}, \qquad \operatorname {atan}_{L^1}(Y, X) \; :=\;  \frac{Q\, Y}{|X| + |Y|} \; \equiv \;  \varphi , \qquad \operatorname {acot}_{L^1}(X, Y) \; :=\;  \frac{Q\, X}{|X| + |Y|} \; \equiv \;  Q - \varphi , \end{equation}
+  </div>
+  <span class="equation_label">1.11</span>
+</p>
+</div>
+<p> причём \(\operatorname {atan}_{L^1}(Y, X) + \operatorname {acot}_{L^1}(X, Y) \equiv Q\), а четырёхквадрантные операторы \(\operatorname {cartToPolar}_Q(X, Y) = \bigl((|X|+|Y|)/Q,\  \operatorname {atan2}_{L^1}(Y, X)\bigr)\) и \(\operatorname {acot2}_{L^1}(X, Y)\) биективно восстанавливают \((M, \varphi )\) во всех \(4Q\) точках кольца \(\mathbb {Z}_{4Q}\). </p>
+</li>
+  <li><p><b class="bfseries">Проективная гиперболическая тройка Гудермана–Минковского \((\mathcal{Ch}_Q, \mathcal{Sh}_Q, D_{\mathrm{hyp}})\) и инвариант светового конуса:</b> перестановка горизонтального катета и гипотенузы подъёма Вейерштрасса определяет целочисленные гиперболический косинус, гиперболический синус и гиперболический знаменатель: </p>
+<div class="equation" id="eq:math-gudermann-hyperbolic-triple">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-gudermann-hyperbolic-triple} \mathcal{Ch}_Q(\varphi ) \; :=\;  \mathcal{C}_Q(\varphi )^2 + \mathcal{S}_Q(\varphi )^2, \qquad \mathcal{Sh}_Q(\varphi ) \; :=\;  2\, \mathcal{C}_Q(\varphi )\, \mathcal{S}_Q(\varphi ), \qquad D_{\mathrm{hyp}}(\varphi ) \; :=\;  \mathcal{C}_Q(\varphi )^2 - \mathcal{S}_Q(\varphi )^2, \end{equation}
+  </div>
+  <span class="equation_label">1.12</span>
+</p>
+</div>
+<p> которые тождественно лежат на гиперболе Минковского и сохраняют сумму светового конуса по всему кольцу \(\mathbb {Z}_{4Q}\): </p>
+<div class="displaymath" id="eq:math-minkowski-hyperbola-id">
+  \begin{align}  \mathcal{Ch}_Q(\varphi )^2 - \mathcal{Sh}_Q(\varphi )^2 & \equiv D_{\mathrm{hyp}}(\varphi )^2, \label{eq:math-minkowski-hyperbola-id} \\ \mathcal{Ch}_Q(\varphi ) + \bigl|\mathcal{Sh}_Q(\varphi )\bigr| & \equiv \bigl(|\mathcal{C}_Q(\varphi )| + |\mathcal{S}_Q(\varphi )|\bigr)^2 \; \equiv \;  Q^2. \label{eq:math-hyperbolic-lightcone-const} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Обращение гиперболических функций без корней и без логарифмов (\(\operatorname {invHyp}_Q\), \(\operatorname {atanh}_{\mathrm{Cayley}}\), \(\operatorname {acoth}_{\mathrm{Cayley}}\)):</b> поскольку для любых \(Q, \varphi \in \mathbb {Z}\) выполняется точная факторизация </p>
+<div class="equation" id="eq:math-invhyp-factorization">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-invhyp-factorization} \mathcal{Ch}_Q(\varphi ) + \mathcal{Sh}_Q(\varphi ) - D_{\mathrm{hyp}}(\varphi ) \; \equiv \;  2\, \mathcal{S}_Q(\varphi )\, \bigl(\mathcal{C}_Q(\varphi ) + \mathcal{S}_Q(\varphi )\bigr), \end{equation}
+  </div>
+  <span class="equation_label">1.15</span>
+</p>
+</div>
+<p> в первом квадранте \(0 \le \varphi \le Q\) (\(\mathcal{C}_Q(\varphi ) + \mathcal{S}_Q(\varphi ) = Q\)) оператор обратного гиперболического синуса/тангенса восстанавливает точный фазовый угол \(\varphi \) одним делением на \(2Q\) без извлечения корней и без логарифмов: </p>
+<div class="equation" id="eq:math-invhyp-exact">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-invhyp-exact} \operatorname {invHyp}_Q\bigl(\mathcal{Ch}_Q(\varphi ),\,  \mathcal{Sh}_Q(\varphi ),\,  D_{\mathrm{hyp}}(\varphi )\bigr) \; :=\;  \frac{\mathcal{Ch}_Q(\varphi ) + \mathcal{Sh}_Q(\varphi ) - D_{\mathrm{hyp}}(\varphi )}{2\, Q} \; \equiv \;  \varphi , \end{equation}
+  </div>
+  <span class="equation_label">1.16</span>
+</p>
+</div>
+<p> а на координатах светового конуса \((U, V)\) проективные гиперболический тангенс \(\tanh _{\mathrm{Cayley}}(U, V) = (U - V : U + V)\) и котангенс \(\coth _{\mathrm{Cayley}}(U, V) = (U + V : U - V)\) обращаются линейным оператором Кэли \(\operatorname {atanh}_{\mathrm{Cayley}}(S_h, C_h) = (C_h + S_h,\  C_h - S_h) \equiv (2U, 2V)\). </p>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sect0004.html#thm:math-inverse-trig-hyperbolic">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/InverseTrigHyperbolic.lean#L103" class="lean_decl">minkowski_hyperbola_poly_identity</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/InverseTrigHyperbolic.lean#L143" class="lean_decl">exact_inverse_trig_and_rootfree_hyperbolic_calculus</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:math-multiscrew-cascade-extremal-envelope_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:math-multiscrew-cascade-extremal-envelope" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">4.1</span><span class="theorem_thmtitle">Моноид многовинтовых каскадов, встречное сшивание Безу, экстремальная вилка бинарных слов шестерён \(3^B - 2^B \le R_w \le 2^{A-B}(3^B - 2^B)\) и вариационная монотонность транспозиций</span></div>
+    <div class="thm_thmcontent"><p>    Для любых списков винтов \(L_1, L_2 \in \mathrm{List}\, (\mathbb {Z}\times \mathbb {Z}\times \mathbb {Z})\) и любого бинарного слова шестерён \(w \in \mathrm{List}\, \mathrm{Bool}\) из нечётной ступени \(\mathcal{G}_{\mathrm{odd}} = (2, 3, 1)\) и чётной ступени \(\mathcal{G}_{\mathrm{even}} = (2, 1, 0)\) (\(P_w = 2^A,\  Q_w = 3^B,\  P_{\mathrm{odd}} = 2^B,\  P_{\mathrm{even}} = 2^{A-B},\  R_w = D_{\mathrm{tot}}(L(w))\)) выполняются следующие безусловные законы: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Гомоморфизм моноида многовинтового каскада и закон двухдугового хордового вронскиана:</b> при конкатенации каскадов \(L_1 \mathbin {+\! +} L_2\): </p>
+<div class="displaymath" id="eq:math-multiscrew-pq-hom">
+  \begin{align}  P_{\mathrm{tot}}(L_1 \mathbin {+\! +} L_2) & = P_{\mathrm{tot}}(L_1)\, P_{\mathrm{tot}}(L_2), \qquad Q_{\mathrm{tot}}(L_1 \mathbin {+\! +} L_2) \; =\;  Q_{\mathrm{tot}}(L_1)\, Q_{\mathrm{tot}}(L_2), \label{eq:math-multiscrew-pq-hom} \\ D_{\mathrm{tot}}(L_1 \mathbin {+\! +} L_2) & = Q_{\mathrm{tot}}(L_2)\, D_{\mathrm{tot}}(L_1) + P_{\mathrm{tot}}(L_1)\, D_{\mathrm{tot}}(L_2), \label{eq:math-multiscrew-d-hom} \\ C_{\mathrm{tot}}(L_1 \mathbin {+\! +} L_2) & = P_{\mathrm{tot}}(L_2)\, C_{\mathrm{tot}}(L_1) + Q_{\mathrm{tot}}(L_1)\, C_{\mathrm{tot}}(L_2). \label{eq:math-multiscrew-c-hom} \end{align}
+</div>
+<p> На любой замкнутой двухдуговой траектории (\(n_{\mathrm{final}} = n_{\mathrm{start}}\), \(D_1 = P_1 n_{\mathrm{mid}} - Q_1 n_{\mathrm{start}}\), \(D_2 = P_2 n_{\mathrm{start}} - Q_2 n_{\mathrm{mid}}\)) хордовый сдвиг удовлетворяет тождеству вронскиана \((P_1 P_2 - Q_1 Q_2)(n_{\mathrm{mid}} - n_{\mathrm{start}}) \equiv (P_2 - Q_2)D_1 - (P_1 - Q_1)D_2\). </p>
+</li>
+  <li><p><b class="bfseries">Экстремальная перестановочная вилка дрейфа по группе \(S_A\) и строгая положительность вариационной производной транспозиции:</b> для любого бинарного слова шестерён \(w \in \mathrm{List}\, \mathrm{Bool}\) выполняются \(P_{\mathrm{odd}} P_{\mathrm{even}} = P_w\), \(1 \le P_{\mathrm{odd}} \le Q_w\) и двусторонняя перестановочно-инвариантная оценка </p>
+<div class="equation" id="eq:math-binary-word-extremal-envelope">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-binary-word-extremal-envelope} Q_w - P_{\mathrm{odd}} \; \le \;  R_w \; \le \;  P_{\mathrm{even}}\, (Q_w - P_{\mathrm{odd}}) \; =\;  P_{\mathrm{even}} Q_w - P_w, \end{equation}
+  </div>
+  <span class="equation_label">4.5</span>
+</p>
+</div>
+<p> а элементарная транспозиция соседних нечётной и чётной ступеней \([1, 0] \mapsto [0, 1]\) внутри \(w_1 \mathbin {+\! +} [\dots ] \mathbin {+\! +} w_2\) имеет строго положительную вариационную производную: </p>
+<div class="equation" id="eq:math-swap-variational-derivative">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-swap-variational-derivative} R_{w_1 \mathbin {+\! +} [0, 1] \mathbin {+\! +} w_2} - R_{w_1 \mathbin {+\! +} [1, 0] \mathbin {+\! +} w_2} \; \equiv \;  P_{\mathrm{tot}}(L(w_1))\, Q_{\mathrm{tot}}(L(w_2)) \; \ge \;  1. \end{equation}
+  </div>
+  <span class="equation_label">4.6</span>
+</p>
+</div>
+</li>
+  <li><p><b class="bfseries">Сохранение двойственного дрейфа нечётного ядра, мультипликативная вилка цикла и отражение граничных неподвижных точек:</b> для списка макроступеней нечётного ядра \(L\) с верхним мультипликативным пакетом \(U_L = \prod _{(P,Q,p)\in L} (Q + p - 1)\), прямым дрейфом \(D_L = P_L q_f - Q_L q_0\) и двойственным верхним дефектом \(E_L = U_L q_0 - P_L q_f\) выполняется закон сохранения двойственного дрейфа </p>
+<div class="equation" id="eq:math-dual-core-drift-conservation">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-dual-core-drift-conservation} D_L + E_L \; \equiv \;  (U_L - Q_L)\, q_0, \end{equation}
+  </div>
+  <span class="equation_label">4.7</span>
+</p>
+</div>
+<p> на любом замкнутом цикле (\(q_f = q_0 \ge 1,\  D_L \ge 1,\  E_L \ge 0\)) выполняются \((U_L - P_L)D_L = (P_L - Q_L)E_L\) и \(Q_L {\lt} P_L \le U_L\), а граничные неподвижные точки чисто нечётного нижнего края \(n_\infty ^{(-)} = -1\) и чисто чётного верхнего края \(n_\infty ^{(+)} = 0\) при отражении дают стационарный корень \(n^* = 2 n_\infty ^{(+)} - n_\infty ^{(-)} = +1\). </p>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sect0008.html#thm:math-multiscrew-cascade-extremal-envelope">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/CollatzPlanetarySplice.lean#L9" class="lean_decl">thm18_arbitrary_modulus_rotator_and_two_arc_trajectory_wronskian</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/CollatzPlanetarySplice.lean#L220" class="lean_decl">thm24_collatz_counter_rotating_forward_backward_splice_and_bezout_lock</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/CollatzPlanetarySplice.lean#L414" class="lean_decl">thm29_collatz_trailing_ones_burn_macro_step</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/CollatzGearMonoid.lean#L71" class="lean_decl">thm31_collatz_binary_gear_word_extremal_drift_envelope_and_cycle_squeeze</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/CollatzGearMonoid.lean#L245" class="lean_decl">thm32_collatz_countable_core_stage_monoid_dual_drift_and_cycle_gap</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/CollatzGearMonoid.lean#L371" class="lean_decl">thm33_collatz_boundary_fixed_point_reflection_cycle_ratio_and_qmin_collapse</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/RotatorCalculusPaper.lean#L243" class="lean_decl">thm36_unified_extremum_principles_across_pillai_abc_and_collatz</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/CollatzGearMonoid.lean#L548" class="lean_decl">thm37_collatz_resonant_gap_elimination_orbital_shift_and_qmin_qmax_sandwich</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:math-pade-tower-cubic-compression_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:math-pade-tower-cubic-compression" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">2.1</span><span class="theorem_thmtitle">Изотропный дискриминантный конус \(\mathrm{SL}_2(\mathbb {Z})\), параболические жордановы матрицы, рекурсия Ганкеля и счётная башня аппроксимантов Паде</span></div>
+    <div class="thm_thmcontent"><p>    Для любых целых параметров \((U, V)\) с разностью \(C = U - V\) и произвольного списка этажей башни Паде \(\mathcal{R} = [r_1, \dots , r_M] \in \mathrm{List}\, \mathbb {Z}\) с индуктивным шагом \((P, Q) \mapsto \bigl(P + (r - 1)Q,\  (r - 1)P + Q\bigr)\) выполняются следующие безусловные тождества: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Изотропный дискриминантный конус и нильпотентные жордановы образующие:</b> в координатах \(X = (\widetilde{P}_{11} - \widetilde{P}_{22})/2\), \(Y = (\widetilde{P}_{12} + \widetilde{P}_{21})/2\), \(T = (\widetilde{P}_{12} - \widetilde{P}_{21})/2\) условие унимодулярности \(\det \widetilde{P} = 1\) тождественно эквивалентно уравнению изотропного конуса </p>
+<div class="equation" id="eq:math-sl2-isotropic-cone">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-sl2-isotropic-cone} \frac{1}{4}\Bigl((\operatorname {Tr}\widetilde{P})^2 - 4\Bigr) \; =\;  X^2 + Y^2 - T^2, \end{equation}
+  </div>
+  <span class="equation_label">2.2</span>
+</p>
+</div>
+<p> а вдоль параболической образующей \(\operatorname {Tr}\widetilde{P} = \mp 2\) (\(X^2 + Y^2 = T^2\)) семейство матриц \(\widetilde{P}_k = \mp I_2 + k N_0\) с нильпотентной матрицей \(N_0 = \begin{pmatrix}  -1 
+
+&  -1 
+
+\\ 1 
+
+&  1 
+
+\end{pmatrix}\) (\(N_0^2 = 0\)) принадлежит \(\mathrm{SL}_2(\mathbb {Z})\) при всех \(k \in \mathbb {Z}\). </p>
+</li>
+  <li><p><b class="bfseries">Гомоморфизм моноида башни Паде и точная факторизация суммы и разности на произвольном этаже \(\mathcal{R}\):</b> для любых списков этажей \(\mathcal{R}_1, \mathcal{R}_2 \in \mathrm{List}\, \mathbb {Z}\) композиция башни ассоциативна: </p>
+<div class="displaymath" id="eq:math-pade-monoid-p">
+  \begin{align}  P_{\mathcal{R}_1\mathbin {+\! +}\mathcal{R}_2}(U, V) & = P_{\mathcal{R}_2}\bigl(P_{\mathcal{R}_1}(U, V),\;  Q_{\mathcal{R}_1}(U, V)\bigr), \label{eq:math-pade-monoid-p} \\ Q_{\mathcal{R}_1\mathbin {+\! +}\mathcal{R}_2}(U, V) & = Q_{\mathcal{R}_2}\bigl(P_{\mathcal{R}_1}(U, V),\;  Q_{\mathcal{R}_1}(U, V)\bigr), \label{eq:math-pade-monoid-q} \end{align}
+</div>
+<p> а сумма и разность числителя и знаменателя на любом этаже \(\mathcal{R}\) факторизуются через мультипликативные инварианты \(\Pi _+(\mathcal{R}) = \prod _{r\in \mathcal{R}} r\) и \(\Pi _-(\mathcal{R}) = \prod _{r\in \mathcal{R}} (2 - r)\): </p>
+<div class="displaymath" id="eq:math-pade-sum-factor">
+  \begin{align}  P_{\mathcal{R}}(U, V) + Q_{\mathcal{R}}(U, V) & \equiv \Pi _+(\mathcal{R})\, (U + V), \label{eq:math-pade-sum-factor} \\ P_{\mathcal{R}}(U, V) - Q_{\mathcal{R}}(U, V) & \equiv \Pi _-(\mathcal{R})\, (U - V) \; =\;  \Pi _-(\mathcal{R})\, C. \label{eq:math-pade-diff-factor} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Бескорневое кубическое сжатие Паде, точное сокращение \(X^3\) на всех этажах \(\mathcal{R}\) и закон ухода на соседний этаж:</b> для двух пар кубов \((U, V) = (\widetilde{A}X^3, \widetilde{B}Y^3)\) (\(C = U - V\)) и \((U', V') = (\widetilde{A}X'^3, \widetilde{B}Y'^3)\) (\(C' = U' - V'\)), кросс-валов \(a = Y'X\), \(b = X'Y\), линейной формы этажа \(I_{\mathcal{R}} = a P_{\mathcal{R}} - b Q_{\mathcal{R}}\) и строго положительной квадратичной формы \(\Phi _3(u, v) = u^2 + u v + v^2\) на каждом этаже \(\mathcal{R}\) выполняются тождество бескорневого кубического сжатия и тождество сокращения \(X^3\): </p>
+<div class="displaymath" id="eq:math-arbitrary-floor-cubic-pade">
+  \begin{align}  U\, I_{\mathcal{R}}\, \Phi _3(a P_{\mathcal{R}}, b Q_{\mathcal{R}}) & \equiv a^3\bigl(U P_{\mathcal{R}}^3 - V Q_{\mathcal{R}}^3\bigr) - (U b^3 - V a^3)\, Q_{\mathcal{R}}^3, \label{eq:math-arbitrary-floor-cubic-pade} \\ \widetilde{A}\, I_{\mathcal{R}}\, \Phi _3(a P_{\mathcal{R}}, b Q_{\mathcal{R}}) & \equiv Y’^3\bigl(U P_{\mathcal{R}}^3 - V Q_{\mathcal{R}}^3\bigr) - C’\, Y^3\, Q_{\mathcal{R}}^3 \qquad (X^3 \ge 1), \label{eq:math-arbitrary-floor-x3-cancel} \\ U P_{[3]}^3 - V Q_{[3]}^3 & \equiv C^3\, (U + V), \label{eq:math-base-floor3-collapse} \\ \det \mathcal{W}_{2,3}(U, V) & := \widehat{P}_1\widehat{Q}_2 - \widehat{Q}_1\widehat{P}_2 \; \equiv \;  (U - V)^3\bigl(U^2 + 3UV + V^2\bigr). \label{eq:math-cross-floor-wronskian23} \end{align}
+</div>
+<p> При переходе с этажа \(\mathcal{R}\) на соседний этаж \(\mathcal{R}' = \mathcal{R} \mathbin {+\! +} [k_{\mathrm{shift}} + 1]\) линейная форма удовлетворяет разностному закону </p>
+<div class="equation" id="eq:math-adjacent-floor-escape">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-adjacent-floor-escape} I_{\mathcal{R}'} - (k_{\mathrm{shift}} + 1)\, I_{\mathcal{R}} \; \equiv \;  -k_{\mathrm{shift}}\, (a + b)\, \Pi _-(\mathcal{R})\, C, \end{equation}
+  </div>
+  <span class="equation_label">2.11</span>
+</p>
+</div>
+<p> откуда при \(k_{\mathrm{shift}}(a+b)\Pi _-(\mathcal{R})C \ne 0\) формы \(I_{\mathcal{R}}\) и \(I_{\mathcal{R}'}\) не могут обратиться в нуль одновременно (\(\neg (I_{\mathcal{R}} = 0 \land I_{\mathcal{R}'} = 0)\) и \(|I_{\mathcal{R}}| + |I_{\mathcal{R}'}| \ge 1\)). </p>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sect0006.html#thm:math-pade-tower-cubic-compression">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/PillaiDiophantine.lean#L19" class="lean_decl">thm6_pillai_skeletal_matrix_decomposition_and_parabolic_sl2_jordan_triptych</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/PillaiDiophantine.lean#L82" class="lean_decl">thm7_pillai_recursive_descent_hankel_wronskian_farey_bezout_and_pade_thue_tower</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/PillaiDiophantine.lean#L262" class="lean_decl">thm10_root_free_cubic_pade_compression</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/PillaiDiophantine.lean#L287" class="lean_decl">thm10b_pillai_same_cell_two_solution_collision_and_gap_law</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/PillaiDiophantine.lean#L457" class="lean_decl">thm10c_pillai_arbitrary_floor_closed_cubic_residual_and_annihilation_condition</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/PillaiDiophantine.lean#L552" class="lean_decl">thm11_cross_floor_wronskian_and_p3_kernel</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:math-wronskian-weierstrass-quadratures_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:math-wronskian-weierstrass-quadratures" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">1.1</span><span class="theorem_thmtitle">Тождество постоянного разностного вронскиана, подъём Брахмагупты–Вейерштрасса, отсутствие делителей нуля и замкнутые дискретные квадратуры</span></div>
+    <div class="thm_thmcontent"><p>   Для любого четверть-периода \(Q \ge 1\) на кольце \(\mathbb {Z}_{4Q}\) выполняются следующие безусловные конструктивные тождества: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Тождественное постоянство разностного вронскиана и формула Ньютона–Лейбница:</b> для первых разностей \(\Delta \mathcal{C}_Q(\varphi ) = \mathcal{C}_Q(\varphi +1) - \mathcal{C}_Q(\varphi )\) и \(\Delta \mathcal{S}_Q(\varphi ) = \mathcal{S}_Q(\varphi +1) - \mathcal{S}_Q(\varphi )\) дискретный вронскиан тождественно равен четверть-периоду \(Q\) в каждой точке кольца (включая угловые вершины смены наклона), а конечный интеграл первой разности любой функции \(F : \mathbb {Z} \to \mathbb {Z}\) телескопически точен: </p>
+<div class="displaymath" id="eq:math-const-wronskian">
+  \begin{align}  \mathcal{W}_Q(\varphi ) & := \mathcal{C}_Q(\varphi )\, \Delta \mathcal{S}_Q(\varphi ) - \mathcal{S}_Q(\varphi )\, \Delta \mathcal{C}_Q(\varphi ) \; \equiv \;  Q, \label{eq:math-const-wronskian} \\ \sum _{k=0}^{N-1} \bigl(F(a + k + 1) - F(a + k)\bigr) & \equiv F(a + N) - F(a). \label{eq:math-newton-leibniz} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Подъём Брахмагупты–Вейерштрасса на рациональную окружность \(S^1(\mathbb {Q})\) и отсутствие делителей нуля на \(L^1\)-алмазе:</b> однородная тройка Вейерштрасса \((X_T, Y_T, R_T) = \bigl(\mathcal{C}_Q^2 - \mathcal{S}_Q^2,\  2\mathcal{C}_Q\mathcal{S}_Q,\  \mathcal{C}_Q^2 + \mathcal{S}_Q^2\bigr)\) тождественно лежит на евклидовой окружности, а знаменатель \(R_T = \mathcal{C}_Q^2 + \mathcal{S}_Q^2\) строго положителен во всех точках \(L^1\)-алмаза \(|\mathcal{C}_Q| + |\mathcal{S}_Q| = Q \ge 1\): </p>
+<div class="displaymath" id="eq:math-weierstrass-circle">
+  \begin{align}  X_T^2 + Y_T^2 & = (\mathcal{C}_Q^2 - \mathcal{S}_Q^2)^2 + (2\mathcal{C}_Q\mathcal{S}_Q)^2 \; \equiv \;  (\mathcal{C}_Q^2 + \mathcal{S}_Q^2)^2 \; =\;  R_T^2, \label{eq:math-weierstrass-circle} \\ 2\, R_T & = 2\bigl(\mathcal{C}_Q^2 + \mathcal{S}_Q^2\bigr) \; \equiv \;  (\mathcal{C}_Q + \mathcal{S}_Q)^2 + (\mathcal{C}_Q - \mathcal{S}_Q)^2 \; \ge \;  Q^2 \; \ge \;  1. \label{eq:math-no-zero-divisors} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Однородная проективная обратимость в полях \(\mathbb {Q}(i)\), \(\mathbb {Q}(\sqrt{m})\) и круговом поле \(\mathbb {Q}(i,\sqrt{2}) = \mathbb {Q}(\zeta _8)\):</b> в однородных проективных координатах без деления мультипликативные обратные в гауссовом поле \(\mathbb {Q}(i)\) и квадратичном поле \(\mathbb {Q}(\sqrt{m})\) (\(m = d - 1\)) задаются полиномиальными операторами </p>
+<div class="displaymath" id="eq:math-gauss-inv">
+  \begin{align}  \operatorname {gaussFieldInv}(X, Y, R) & := \bigl(R X,\;  -R Y,\;  X^2 + Y^2\bigr), \label{eq:math-gauss-inv} \\ \operatorname {quadFieldInv}_m(a, b, D) & := \bigl(D a,\;  -D b,\;  a^2 - m b^2\bigr), \label{eq:math-quad-inv} \end{align}
+</div>
+<p> удовлетворяющими \((X, Y, R)\otimes _{\mathbb {Q}(i)}\operatorname {gaussFieldInv}(X, Y, R) = \bigl(R(X^2+Y^2),\,  0,\,  R(X^2+Y^2)\bigr) \sim (1, 0, 1)\), а при \(m = 2\) первообразный корень \(8\)-й степени из единицы \(\zeta _8 = (0, 1, 0, 1, 2) \in \mathbb {Q}(i,\sqrt{2})\) удовлетворяет точным проективным соотношениям \(\zeta _8^2 \sim i\), \(\zeta _8^4 \sim -1\), \(\zeta _8^8 \sim +1\), \(\zeta _8\bar{\zeta }_8 \sim +1\). </p>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sect0002.html#thm:math-wronskian-weierstrass-quadratures">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/RotatorQuadrature.lean#L173" class="lean_decl">thm1_constant_wronskian_weierstrass_lift_and_newton_leibniz</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/RotatorQuadrature.lean#L243" class="lean_decl">thm2_closed_form_fresnel_jacobi_dirichlet_parseval_bessel_integrals</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/RotatorQuadrature.lean#L415" class="lean_decl">thm34_rotator_projective_field_invertibility_zero_divisor_freedom_and_q_i_sqrt2_fields</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+</div>
+</div> <!-- content -->
+</div> <!-- wrapper -->
+<script src="js/jquery.min.js" type="text/javascript"></script>
+
+<script src="js/d3.min.js"></script>
+<script src="js/hpcc.min.js"></script>
+<script src="js/d3-graphviz.js"></script>
+
+<script type="text/javascript">
+const graphContainer = d3.select("#graph");
+const width = graphContainer.node().clientWidth;
+const height = graphContainer.node().clientHeight;
+
+
+graphContainer.graphviz({useWorker: true})
+    .width(width)
+    .height(height)
+    .fit(true)
+    .renderDot(`strict digraph "" {	graph [bgcolor=transparent];	node [label="\N",		penwidth=1.8	];	edge [arrowhead=vee];	"thm:math-wronskian-weierstrass-quadratures"	[color=green,		fillcolor="#1CAC78",		label="math-wronskian-weierstrass-quadratures",		shape=ellipse,		style=filled];	"thm:math-pade-tower-cubic-compression"	[color=green,		fillcolor="#1CAC78",		label="math-pade-tower-cubic-compression",		shape=ellipse,		style=filled];	"thm:math-wronskian-weierstrass-quadratures" -> "thm:math-pade-tower-cubic-compression"	[style=dashed];	"thm:math-c-infinity-simpson-derham"	[color=green,		fillcolor="#1CAC78",		label="math-c-infinity-simpson-derham",		shape=ellipse,		style=filled];	"thm:math-wronskian-weierstrass-quadratures" -> "thm:math-c-infinity-simpson-derham"	[style=dashed];	"thm:math-inverse-trig-hyperbolic"	[color=green,		fillcolor="#1CAC78",		label="math-inverse-trig-hyperbolic",		shape=ellipse,		style=filled];	"thm:math-wronskian-weierstrass-quadratures" -> "thm:math-inverse-trig-hyperbolic"	[style=dashed];	"thm:math-abc-planetary-wronskian-full"	[color=green,		fillcolor="#1CAC78",		label="math-abc-planetary-wronskian-full",		shape=ellipse,		style=filled];	"thm:math-pade-tower-cubic-compression" -> "thm:math-abc-planetary-wronskian-full"	[style=dashed];	"thm:math-multiscrew-cascade-extremal-envelope"	[color=green,		fillcolor="#1CAC78",		label="math-multiscrew-cascade-extremal-envelope",		shape=ellipse,		style=filled];	"thm:math-pade-tower-cubic-compression" -> "thm:math-multiscrew-cascade-extremal-envelope"	[style=dashed];	"thm:math-fresnel-cornu-continuum-bridge"	[color=green,		fillcolor="#1CAC78",		label="math-fresnel-cornu-continuum-bridge",		shape=ellipse,		style=filled];	"thm:math-c-infinity-simpson-derham" -> "thm:math-fresnel-cornu-continuum-bridge"	[style=dashed];	"thm:math-counterwave-dichotomy-and-independence"	[color=green,		fillcolor="#1CAC78",		label="math-counterwave-dichotomy-and-independence",		shape=ellipse,		style=filled];	"thm:math-multiscrew-cascade-extremal-envelope" -> "thm:math-counterwave-dichotomy-and-independence"	[style=dashed];	"thm:math-constructive-reals-s1-malcev-limit"	[color=green,		fillcolor="#1CAC78",		label="math-constructive-reals-s1-malcev-limit",		shape=ellipse,		style=filled];	"thm:math-counterwave-dichotomy-and-independence" -> "thm:math-constructive-reals-s1-malcev-limit"	[style=dashed];}`)
+    .on("end", interactive);
+
+latexLabelEscaper = function(label) {
+  return label.replace(/\./g, '\\.').replace(/:/g, '\\:')
+}
+
+clickNode = function() {
+  $("#statements div").hide()
+  var node_id = $('text', this).text();
+  $('.thm').hide();
+  $('#'+latexLabelEscaper(node_id)).show().children().show();
+}
+function interactive() {
+    $("span#legend_title").on("click", function () {
+           $(this).siblings('dl').toggle();
+        })
+
+    d3.selectAll('.node')
+        .attr('pointer-events', 'fill')
+        .on('click', function () {
+           var title = d3.select(this).selectAll('title').text().trim();
+           $('#statements > div').hide()
+           $('.thm').hide();
+           $('#'+latexLabelEscaper(title)+'_modal').show().children().show().children().show();
+           $('#statements').show()
+        });
+
+    d3.selectAll('.dep-closebtn').on('click', function() {
+        var modal =
+            d3.select(this).node().parentNode.parentNode.parentNode ;
+        d3.select(modal).style('display', 'none');
+    });
+}
+
+</script>
+
+</body>
+</html>

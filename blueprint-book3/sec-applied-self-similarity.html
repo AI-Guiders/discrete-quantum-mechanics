@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Теорема масштабного самоподобия кубооктаэдра от планковской ячейки до макрорезонатора</title>
+<link rel="next" href="sec-applied-permitted-vs-forbidden.html" title="Жёсткая демаркация: что запрещено законами сохранения, а что разрешено" />
+<link rel="prev" href="ch-applied-scale-invariance-and-bounds.html" title="Масштабная инвариантность кубооктаэдра O2: что физически разрешено и что запрещено законами сохранения" />
+<link rel="up" href="ch-applied-scale-invariance-and-bounds.html" title="Масштабная инвариантность кубооктаэдра O2: что физически разрешено и что запрещено законами сохранения" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга III. Инженерный справочник (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Введение. Инженерная ветвь единого Естествознания: Трёхзаконная целочисленная механика Ньютона и пять порогов кольца \(\mathbb {Z}_{512}\)</span></a>
+ </li>
+<li class="">
+  <a href="ch-eng-electrical-engineering.html"><span class="toc_ref">1</span> <span class="toc_entry">Теоретическая электротехника фазовой эстафеты на ГЦК-кубооктаэдрах (\(V=\mathcal{C}_3,\  I=\mathcal{S}_3\))</span></a>
+ </li>
+<li class="">
+  <a href="ch-eng-silicon-architecture.html"><span class="toc_ref">2</span> <span class="toc_entry">Физическая реализация вычислений без тепла Ландауэра и кремниевая архитектура</span></a>
+ </li>
+<li class=" active">
+  <a href="sect0002.html"><span class="toc_ref">1</span> <span class="toc_entry">Прикладная механика кубооктаэдра, фазовое согласование импеданса и голономные технологии</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class=" active">
+  <a href="ch-applied-scale-invariance-and-bounds.html"><span class="toc_ref">3</span> <span class="toc_entry">Масштабная инвариантность кубооктаэдра \(O_2\): что физически разрешено и что запрещено законами сохранения</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-coherent-barrier-collapse.html"><span class="toc_ref">4</span> <span class="toc_entry">Когерентное схлопывание импеданса барьера в 12-лучевом кубооктаэдре: решёточный синтез против теплового нагрева</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-phase-ratchet-and-vortex-battery.html"><span class="toc_ref">5</span> <span class="toc_entry">Квантовый фазовый храповик на доменной стенке и топологический аккумулятор \(B_f = 512\, n_f\)</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-tomography-and-planetary-cores.html"><span class="toc_ref">6</span> <span class="toc_entry">Четырёхканальная голономная томография сред и фазовое геодинамо ядер планет</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-chemical-reactions-catalysis.html"><span class="toc_ref">7</span> <span class="toc_entry">Аналитические операторы химических реакций, седловая точка переходного состояния \(|A^\ddagger |=128\), селективность Вудворда–Хоффмана и гетерогенный катализ на кубооктаэдре \(O_2\)</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-c0-lossless-transmission.html"><span class="toc_ref">8</span> <span class="toc_entry">Практическое применение тактовой скорости звена \(c_0 = \kappa (d)^{-1}c\), баллистическая передача энергии и информации без потерь и инкапсулированный автомат</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-materials-cad-superconductivity.html"><span class="toc_ref">9</span> <span class="toc_entry">Генеративное материаловедение, куперовский возврат \(2e\) на полупериоде противофазы и конструирование функциональных сплавов и сверхпроводников</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-bio-cad-therapy.html"><span class="toc_ref">10</span> <span class="toc_entry">Прикладная биоинженерия (<em>Bio-CAD</em>), сквозной компилятор ДНК и терапевтическое управление клеточной средой</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-reversible-computing-and-paradoxes.html"><span class="toc_ref">11</span> <span class="toc_entry">Обратимая вычислительная техника без теплового предела Ландауэра (\(A_{13}\)) и разрешение фундаментальных парадоксов</span></a>
+ </li>
+<li class="">
+  <a href="ch-computational-laboratory.html"><span class="toc_ref">12</span> <span class="toc_entry">Вычислительная лаборатория серии</span></a>
+ </li>
+<li class="">
+  <a href="ch-measurement-processing.html"><span class="toc_ref">13</span> <span class="toc_entry">Обработка результатов измерений</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-critical-experiments.html"><span class="toc_ref">14</span> <span class="toc_entry">Критические эксперименты и инженерные гейты верификации (серия CE-RD)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="sec:applied-self-similarity">3.1 Теорема масштабного самоподобия кубооктаэдра от планковской ячейки до макрорезонатора</h1>
+
+<p>Ключевое свойство корневой решётки \(D_3 = \{ (z,y,x)\in \mathbb {Z}^3 : (z+y+x)\bmod 2 = 0\} \) и её первой координационной оболочки&#160;\(O_2\) состоит в том, что под действием биномиального оператора макроприбора&#160;\(\mathcal{B}_N\) (усреднения по путям длины \(2N\) на&#160;\(O_2\)) тензорная структура операторов переноса и волнового оператора остаётся инвариантной на любом масштабе \(L = N\, dh\). </p>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:applied-scale-invariance">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Теорема
+    </span>
+    <span class="theorem_thmlabel">3.1</span>
+    <span class="theorem_thmtitle">Масштабная инвариантность изотропного лапласиана \(\Delta _{O_2(L)}\) и четырёхканального измерения \(\mathcal{M}(x,t,N)\)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-applied-self-similarity.html#thm:applied-scale-invariance">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="ch-eng-electrical-engineering.html#thm:eng-transformer">Теорема 1.5</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/UnifiedOperators.lean" class="lean_decl">UnifiedOperators.lean</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ContinuumPhysics.lean#L62" class="lean_decl">cuboctahedron_second_moment_isotropy_tensor</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ContinuumPhysics.lean#L125" class="lean_decl">laplacian_O2_exact_on_quadratic_polynomial</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HolonomyMaxwell.lean" class="lean_decl">HolonomyMaxwell.lean</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HolonomyMaxwell.lean#L174" class="lean_decl">instrument_convolution_plaquette_flux_exact</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HolonomyMaxwell.lean#L211" class="lean_decl">instrument_convolution_gauss_monopole_free_exact</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HolonomyMaxwell.lean#L229" class="lean_decl">instrument_convolution_faraday_law_exact</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>    Пусть \(O_2(L) := L\cdot O_2 = \{ L\, e : e\in O_2\} \) — масштабированная кубооктаэдральная оболочка с шагом \(L = N\, dh\) (\(N\ge 1\)). Тогда на любом масштабе&#160;\(L\) выполняются три точных операторных свойства: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Инвариантность тензора второго момента и ППН-тензора:</b> для всех \(e\in O_2(L)\) квадрат длины ребра равен \(\| e\| _2^2 = 2L^2\), матрица вторых моментов строго диагональна и изотропна: </p>
+<div class="equation" id="eq:applied-second-moment-L">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:applied-second-moment-L} \sum _{e\in O_2(L)} e_i\, e_j \; =\;  8L^2\, \delta _{ij} \; =\;  |\triangle (3)|\, L^2\, \delta _{ij}, \qquad \sum _{e\in O_2(L)} \frac{e_i\, e_j}{\| e\| _2^2} \; =\;  4\, \delta _{ij} \; =\;  d_{\mathrm{in}}(\square )\, \delta _{ij}, \end{equation}
+  </div>
+  <span class="equation_label">3.2</span>
+</p>
+</div>
+<p> а дискретный лапласиан \((\Delta _{O_2(L)} f)(x) = \sum _{e\in O_2(L)}(f(x+e)-f(x))\) на любом трёхмерном квадратичном поле \(f(z,y,x) = ax^2+by^2+cz^2+dxy+exz+gyz+px+qy+rz+u\) тождественно аннулирует все перекрёстные члены \(xy,xz,yz\) и возвращает \(8L^2(a+b+c)\). </p>
+</li>
+  <li><p><b class="bfseries">Точное сохранение калибровочных и топологических законов на любом окне прибора \(N\ge 1\):</b> под действием биномиального окна прибора \(\mathcal{B}_N\) квантование плакетного потока \((d_1\mathcal{B}_N[A])_f = 512\, \mathcal{B}_N[n_f]\), закон отсутствия изолированных монополей \(\operatorname {div}_{\mathrm{cube}}\mathcal{B}_N[n_f] \equiv 0\) и закон индукции Фарадея \(\Delta _t B_f^{(N)} + (d_1 E^{(N)})_f \equiv 0\) выполняются с нулевой погрешностью при любом конечном&#160;\(N\ge 1\). </p>
+</li>
+  <li><p><b class="bfseries">Иерархия физических реализаций кубооктаэдра \(O_2(L)\):</b> поскольку свободная энергия Гинзбурга–Ландау–Бома достигает минимума на изотропной оболочке&#160;<a href="sec-applied-self-similarity.html#eq:applied-second-moment-L" class="eqref">3.2</a>, одна и та же \(12\)-вершинная геометрия&#160;\(O_2(L)\) реализуется на четырёх макроскопических этажах: </p>
+<ul class="itemize">
+  <li><p><em>Кристаллический этаж (\(L \sim 2{,}5\text{--}4\  \text{\AA }\), \(N\sim 10^{25}\)):</em> атомные ГЦК-решётки переходных и благородных металлов (\(\mathrm{Ni},\  \mathrm{Pd},\  \mathrm{Pt},\  \mathrm{Cu},\  \mathrm{Ag},\  \mathrm{Au},\  \mathrm{Al},\  \gamma \text{-}\mathrm{Fe}\)), в которых каждый узел окружён \(12\) ближайшими соседями по вершинам кубооктаэдра; </p>
+</li>
+  <li><p><em>Мезоскопический и кавитационный этаж (\(L \sim 1\  \text{мкм}\text{--}1\  \text{мм}\), \(N\sim 10^{29}\text{--}10^{32}\)):</em> стоячие акустические и плазмонные моды в сферических и додекаэдральных микрополостях; </p>
+</li>
+  <li><p><em>Лабораторный резонаторный этаж (\(L \sim 1\  \text{см}\text{--}1\  \text{м}\), \(N\sim 10^{33}\text{--}10^{35}\)):</em> \(12\)-лучевые фазированные акустико-электромагнитные концентраторы с расположением излучателей в вершинах&#160;\(O_2(L)\); </p>
+</li>
+  <li><p><em>Планетарный геофизический этаж (\(L \sim 10^3\text{--}10^4\  \text{км}\), \(N\sim 10^{41}\text{--}10^{42}\)):</em> внутреннее \(\mathrm{Fe}\text{-}\mathrm{Ni}\) ядро и мантия планет земной группы. </p>
+</li>
+</ul>
+</li>
+</ol>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="ch-applied-scale-invariance-and-bounds.html" title="Масштабная инвариантность кубооктаэдра \(O_2\): что физически разрешено и что запрещено законами сохранения"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-applied-scale-invariance-and-bounds.html" title="Масштабная инвариантность кубооктаэдра \(O_2\): что физически разрешено и что запрещено законами сохранения"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sec-applied-permitted-vs-forbidden.html" title="Жёсткая демаркация: что запрещено законами сохранения, а что разрешено"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

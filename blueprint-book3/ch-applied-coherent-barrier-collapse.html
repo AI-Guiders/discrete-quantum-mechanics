@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Когерентное схлопывание импеданса барьера в 12-лучевом кубооктаэдре: решёточный синтез против теплового нагрева</title>
+<link rel="next" href="sec-applied-thermal-vs-coherent.html" title="Тепловой (некогерентный) режим против когерентного противофазного режима второго квадранта" />
+<link rel="prev" href="sec-applied-permitted-vs-forbidden.html" title="Жёсткая демаркация: что запрещено законами сохранения, а что разрешено" />
+<link rel="up" href="sect0002.html" title="Прикладная механика кубооктаэдра, фазовое согласование импеданса и голономные технологии" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга III. Инженерный справочник (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Введение. Инженерная ветвь единого Естествознания: Трёхзаконная целочисленная механика Ньютона и пять порогов кольца \(\mathbb {Z}_{512}\)</span></a>
+ </li>
+<li class="">
+  <a href="ch-eng-electrical-engineering.html"><span class="toc_ref">1</span> <span class="toc_entry">Теоретическая электротехника фазовой эстафеты на ГЦК-кубооктаэдрах (\(V=\mathcal{C}_3,\  I=\mathcal{S}_3\))</span></a>
+ </li>
+<li class="">
+  <a href="ch-eng-silicon-architecture.html"><span class="toc_ref">2</span> <span class="toc_entry">Физическая реализация вычислений без тепла Ландауэра и кремниевая архитектура</span></a>
+ </li>
+<li class=" active">
+  <a href="sect0002.html"><span class="toc_ref">1</span> <span class="toc_entry">Прикладная механика кубооктаэдра, фазовое согласование импеданса и голономные технологии</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="ch-applied-scale-invariance-and-bounds.html"><span class="toc_ref">3</span> <span class="toc_entry">Масштабная инвариантность кубооктаэдра \(O_2\): что физически разрешено и что запрещено законами сохранения</span></a>
+ </li>
+<li class=" active current">
+  <a href="ch-applied-coherent-barrier-collapse.html"><span class="toc_ref">4</span> <span class="toc_entry">Когерентное схлопывание импеданса барьера в 12-лучевом кубооктаэдре: решёточный синтез против теплового нагрева</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-phase-ratchet-and-vortex-battery.html"><span class="toc_ref">5</span> <span class="toc_entry">Квантовый фазовый храповик на доменной стенке и топологический аккумулятор \(B_f = 512\, n_f\)</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-tomography-and-planetary-cores.html"><span class="toc_ref">6</span> <span class="toc_entry">Четырёхканальная голономная томография сред и фазовое геодинамо ядер планет</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-chemical-reactions-catalysis.html"><span class="toc_ref">7</span> <span class="toc_entry">Аналитические операторы химических реакций, седловая точка переходного состояния \(|A^\ddagger |=128\), селективность Вудворда–Хоффмана и гетерогенный катализ на кубооктаэдре \(O_2\)</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-c0-lossless-transmission.html"><span class="toc_ref">8</span> <span class="toc_entry">Практическое применение тактовой скорости звена \(c_0 = \kappa (d)^{-1}c\), баллистическая передача энергии и информации без потерь и инкапсулированный автомат</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-materials-cad-superconductivity.html"><span class="toc_ref">9</span> <span class="toc_entry">Генеративное материаловедение, куперовский возврат \(2e\) на полупериоде противофазы и конструирование функциональных сплавов и сверхпроводников</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-bio-cad-therapy.html"><span class="toc_ref">10</span> <span class="toc_entry">Прикладная биоинженерия (<em>Bio-CAD</em>), сквозной компилятор ДНК и терапевтическое управление клеточной средой</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-reversible-computing-and-paradoxes.html"><span class="toc_ref">11</span> <span class="toc_entry">Обратимая вычислительная техника без теплового предела Ландауэра (\(A_{13}\)) и разрешение фундаментальных парадоксов</span></a>
+ </li>
+<li class="">
+  <a href="ch-computational-laboratory.html"><span class="toc_ref">12</span> <span class="toc_entry">Вычислительная лаборатория серии</span></a>
+ </li>
+<li class="">
+  <a href="ch-measurement-processing.html"><span class="toc_ref">13</span> <span class="toc_entry">Обработка результатов измерений</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-critical-experiments.html"><span class="toc_ref">14</span> <span class="toc_entry">Критические эксперименты и инженерные гейты верификации (серия CE-RD)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="ch:applied-coherent-barrier-collapse">4 Когерентное схлопывание импеданса барьера в 12-лучевом кубооктаэдре: решёточный синтез против теплового нагрева</h1>
+
+<p>Рассмотрим фундаментальное уравнение фазовых ворот&#160;ГЦК  </p>
+<div class="equation" id="eq:applied-gate-law">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:applied-gate-law} \Phi (x,t) \; =\;  \mathrm{wrap}_{512}\! \left(\left\lfloor \frac{64\, \bigl(\zeta _{\mathrm{imag}}(x) + \operatorname {sgn}(\zeta _{\mathrm{imag}}(x))\, \delta \zeta _{\mathrm{real}}(x)\bigr)}{D(x)} \right\rfloor \right), \end{equation}
+  </div>
+  <span class="equation_label">4.1</span>
+</p>
+</div>
+<p> где числитель управляется нечётным током переноса \(\zeta _{\mathrm{imag}}(x) = \mu (x)\sum _{y\in N_{12}(x)}\mu (y)\, S(A_{xy})\) и чётным дефицитом Бома \(\delta \zeta _{\mathrm{real}}(x) = \mu (x)\sum _{y\in N_{12}(x)}\mu (y)\, |A_{xy}| \ge 0\), а знаменатель&#160;\(D(x)\) представляет собой реактивный импеданс (барьер жёсткости) узла: </p>
+<div class="equation" id="eq:applied-denominator-impedance">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:applied-denominator-impedance} D_{\mathrm{raw}}(x) \; =\;  \zeta _{\mathrm{real}}(x) + 128\, \mu (x)^2 + \varepsilon , \qquad D(x) \; =\;  \begin{cases}  D_{\mathrm{raw}}(x), &  \text{если } D_{\mathrm{raw}}(x) {\gt} 0,\\ \varepsilon = 8\, 192, &  \text{если } D_{\mathrm{raw}}(x) \le 0, \end{cases} \end{equation}
+  </div>
+  <span class="equation_label">4.2</span>
+</p>
+</div>
+<p> где \(\zeta _{\mathrm{real}}(x) = \mu (x)\sum _{y\in N_{12}(x)}\mu (y)\, C(A_{xy}) = \mu (x)\sum _{y\in N_{12}(x)}\mu (y)\, \bigl(128 - |A_{xy}|\bigr)\). </p>
+<p>Для того чтобы в узле&#160;\(x\) произошла топологическая перестройка (слияние двух вихревых ядер или рождение новой связанной пары через разрез смены ветви \(|A_{xy}| = 256\)), фазовый удар ворот&#160;\(\Phi (x,t)\) должен преодолеть порог дискретности \(|\Phi | \ge 41\) и вывести разность фаз на ребре за предел полуоборота Паули \(\Phi _{\mathrm{Pauli}} = 256\) тиков. </p>
+<p>Из структуры дроби&#160;<a href="ch-applied-coherent-barrier-collapse.html#eq:applied-gate-law" class="eqref">4.1</a> непосредственно видно, что существует <b class="bfseries">два физически противоположных способа</b> достичь \(|\Phi | \sim 256\): </p>
+
+</div> <!--main-text -->
+<nav class=local_toc>
+<ul>
+  <li>  
+  <a href="sec-applied-thermal-vs-coherent.html"><span class="toc_ref">4.1</span> <span class="toc_entry">Тепловой (некогерентный) режим против когерентного противофазного режима второго квадранта</span></a>
+  </li>
+  <li>  
+  <a href="sec-applied-12beam-protocol.html"><span class="toc_ref">4.2</span> <span class="toc_entry">Технический протокол 12-лучевого кубооктаэдрального фазового концентратора</span></a>
+  </li>
+</ul>
+</nav>
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sec-applied-permitted-vs-forbidden.html" title="Жёсткая демаркация: что запрещено законами сохранения, а что разрешено"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="sect0002.html" title="Прикладная механика кубооктаэдра, фазовое согласование импеданса и голономные технологии"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sec-applied-thermal-vs-coherent.html" title="Тепловой (некогерентный) режим против когерентного противофазного режима второго квадранта"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

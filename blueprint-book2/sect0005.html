@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Пошаговый протокол изготовления в чистой комнате и контрольный A/B-эксперимент</title>
+<link rel="next" href="sect0006.html" title="Четыре сигнатуры фальсификации и упреждающая матрица коррекции" />
+<link rel="prev" href="sect0004.html" title="Согласование оболочечного и фазового импеданса на границе «Тетрацен – SiOx – Кремний»" />
+<link rel="up" href="ch-lab-solar-photovoltaics.html" title="Бесфононная кремниевая фотовольтаика (441 нм 2×882 нм < 1107 нм): протокол чистой комнаты и матрица диагностики" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга II. Лабораторный практикум (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Введение. Лабораторный арбитраж в едином Естествознании и связь четырёх книг</span></a>
+ </li>
+<li class=" active">
+  <a href="ch-lab-solar-photovoltaics.html"><span class="toc_ref">1</span> <span class="toc_entry">Бесфононная кремниевая фотовольтаика (\(441\text{ нм} \to 2\times 882\text{ нм} {\lt} 1107\text{ нм}\)): протокол чистой комнаты и матрица диагностики</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Физическая причина стагнации однопороговой солнечной энергетики: несогласованная фононная термализация</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Бесфононное деление синего кванта (Singlet Fission: \(441\text{ нм} \to 2 \times 882\text{ нм} {\lt} 1107\text{ нм}\))</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Согласование оболочечного и фазового импеданса на границе «Тетрацен – \(\mathrm{SiO_x}\) – Кремний»</span></a>
+ </li>
+<li class=" active current">
+  <a href="sect0005.html"><span class="toc_ref">1.4</span> <span class="toc_entry">Пошаговый протокол изготовления в чистой комнате и контрольный A/B-эксперимент</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html"><span class="toc_ref">1.5</span> <span class="toc_entry">Четыре сигнатуры фальсификации и упреждающая матрица коррекции</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">1.6</span> <span class="toc_entry">Интерактивная диагностика с анти-конфабуляционным стеком ai-welcome-atlas + ai-atlas-mcp и сопровождение под NDA</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-lab-critical-experiments-registry.html"><span class="toc_ref">2</span> <span class="toc_entry">Сводный реестр критических экспериментов и лабораторно-вычислительных гейтов</span></a>
+ </li>
+<li class="">
+  <a href="ch-measurement-processing.html"><span class="toc_ref">3</span> <span class="toc_entry">Обработка результатов измерений</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sec-metrology-layer.html"><span class="toc_ref">3.1</span> <span class="toc_entry">Где живёт метрология в серии</span></a>
+ </li>
+<li class="">
+  <a href="sec-direct-measurement.html"><span class="toc_ref">3.2</span> <span class="toc_entry">Прямые измерения</span></a>
+ </li>
+<li class="">
+  <a href="sec-indirect-gum.html"><span class="toc_ref">3.3</span> <span class="toc_entry">Косвенные измерения и перенос неопределённости</span></a>
+ </li>
+<li class="">
+  <a href="sec-student.html"><span class="toc_ref">3.4</span> <span class="toc_entry">Выборка, стандартная ошибка и Стьюдент</span></a>
+ </li>
+<li class="">
+  <a href="sec-compare-reference.html"><span class="toc_ref">3.5</span> <span class="toc_entry">Сравнение с эталоном</span></a>
+ </li>
+<li class="">
+  <a href="sec-multiple-observables.html"><span class="toc_ref">3.6</span> <span class="toc_entry">Несколько наблюдаемых</span></a>
+ </li>
+<li class="">
+  <a href="sec-metrology-critical.html"><span class="toc_ref">3.7</span> <span class="toc_entry">Связь с критическими экспериментами</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-computational-laboratory.html"><span class="toc_ref">4</span> <span class="toc_entry">Вычислительная лаборатория серии</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sec-lab-role.html"><span class="toc_ref">4.1</span> <span class="toc_entry">Затянувшаяся лаборатория, а не только теоремы</span></a>
+ </li>
+<li class="">
+  <a href="sec-lab-burden-of-proof.html"><span class="toc_ref">4.2</span> <span class="toc_entry">Бремя доказательства</span></a>
+ </li>
+<li class="">
+  <a href="sec-lab-protocol.html"><span class="toc_ref">4.3</span> <span class="toc_entry">Единый протокол записи опыта</span></a>
+ </li>
+<li class="">
+  <a href="sec-lab-metrology-link.html"><span class="toc_ref">4.4</span> <span class="toc_entry">Связь с метрологией и критическими экспериментами</span></a>
+ </li>
+<li class="">
+  <a href="sec-lab-classes.html"><span class="toc_ref">4.5</span> <span class="toc_entry">Классы вычислительных опытов</span></a>
+ </li>
+<li class="">
+  <a href="sec-lab-lean4-operator-kernel.html"><span class="toc_ref">4.6</span> <span class="toc_entry">Формальное операторное ядро в Lean&#160;4</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000006">1.4 Пошаговый протокол изготовления в чистой комнате и контрольный A/B-эксперимент</h1>
+<div class="table"  id="tab:lab-solar-cascade">
+   <div class="centered"><figcaption>
+  <span class="caption_title">Table</span> 
+  <span class="caption_ref">1.1</span> 
+  <span class="caption_text">Четырёхслойный бесфононный каскад солнечной ячейки с согласованным импедансом (\(d=3\)).</span> 
+</figcaption>  <small class="small"><table class="tabular">
+  <tr>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">Слой каскада</b> </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">Материал и геометрия</b> </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">Инвариант ДКМ</b> </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">Физическая функция</b> </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p>1. Входная оптика </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> Кварцевый микрорельеф \(O_2(3)\) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(n_1/n_2 = 9/8\), \(T = 288/289\) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Просветление \(99{,}65\% \) и захват 12 лучей </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p>2. Делитель кванта </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> Кристаллический тетрацен \(\mathrm{C_{18}H_{12}}\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(Z = 120\), \(441\text{ нм} \to 2\times 882\text{ нм}\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Деление синего фотона \(S_1 \to T_1 + T_1\) (\(\hat{n}_E=0\)) </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p>3. Седловой мост </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> Оксид/силанол \(\mathrm{SiO_4} / [\mathrm{AlO_4H}]\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(120 + 8 = 128 = Q_\square \), \(Z = 46\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Барьер Паули \(46^2 {\gt} 2048\) для \(S_1\), окно для \(T_1\) </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p>4. Базовый переход </p>
+
+    </td>
+    <td  style="border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> Кремний IBC-\(\mathrm{Si}\) (тыльные контакты) </p>
+
+    </td>
+    <td  style="text-align:left; border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(Z = 14\), \(\lambda _{\mathrm{Si}} = 27\times 41 = 1107\text{ нм}\) </p>
+
+    </td>
+    <td  style="text-align:left; border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> Приём \(2\times 882\text{ нм}\) с запасом \(15^2 = 225\text{ нм}\) </p>
+
+    </td>
+  </tr>
+</table> </small></div>
+</div>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Базовая подложка (Слой&#160;4):</b> пластина кристаллического кремния \(n\)-типа \(\mathrm{Si}(100)\) со встречно-штыревыми тыльными контактами (IBC-\(\mathrm{Si}\), \(Z(\mathrm{Si})=14\), \(\lambda _{\mathrm{Si}} = 1107\text{ нм}\), удельное сопротивление \(1\text{--}5\  \Omega \cdot \text{см}\)), очистка RCA + HF-dip до атомарно гладкой грани \(\mathrm{Si}(100)\). </p>
+</li>
+  <li><p><b class="bfseries">Седловой пассивирующий мост и контрольный A/B-тест противофазного порога (Слой&#160;3):</b> выращивание ультратонкого (\(0{,}8\text{--}1{,}2\text{ нм}\), \(2\text{--}3\) координационных монослоя) туннельного диэлектрического моста на передней грани \(\mathrm{Si}(100)\) в двух режимах: </p>
+<ul class="itemize">
+  <li><p><em>Контрольный образец&#160;A (\(Z = 45\), затвор Паули открыт для утечки):</em> дегидрированный сухой оксид \(\mathrm{AlO_4}\) (\(Z = 13 + 32 = 45\), вакуумный отжиг \({\gt} 670\text{ К}\), \(45^2 = 2025 {\lt} 2048 = K_P(3)^2/2\)), допускающий сброс неразделённого синглета \(S_1\); </p>
+</li>
+  <li><p><em>Целевой образец&#160;B (\(Z = 46\), седловой противофазный замок):</em> тетраэдрический силанол/кремнезём \(\mathrm{SiO_4}\) (\(Z = 14 + 32 = 46\)) либо водородно-пассивированный ALD \([\mathrm{AlO_4H}]\) (\(Z = 13 + 32 + 1 = 46\), отжиг в форминг-газе \(\mathrm{H_2}/\mathrm{N_2}\) при \(520\text{--}570\text{ К}\), \(46^2 = 2116 {\gt} 2048\)), запирающий неразделённый синглет \(S_1\) и выводящий тетрацен (\(Z=120\)) через терминальный атом кислорода (\(Z=8\)) точно на седло четверти кольца \(120 + 8 = 128 = Q_\square (3)\). </p>
+</li>
+</ul>
+</li>
+  <li><p><b class="bfseries">Нанесение слоя деления синглетов (Слой&#160;2):</b> термическое напыление в вакууме (\(\le 10^{-6}\text{ Па}\)) сублимированного тетрацена \(\mathrm{C_{18}H_{12}}\) (\(Z = 120\), толщина \(30\text{--}70\text{ нм}\), скорость \(0{,}2\text{--}0{,}5\text{ \AA /с}\) при температуре подложки \(295\text{--}300\text{ К}\)) на седловой мост с ориентацией осей вдоль ортогональных лучей \(O_2(3)\) (\(\Delta \varphi = 128 \implies \mathcal{C}_3(128) = 0\)). </p>
+</li>
+  <li><p><b class="bfseries">Входная просветляющая инкапсуляция (Слой&#160;1):</b> кварцевое покрытие (\(\mathrm{SiO_2}\), \(Z = 30\)) с 12-лучевым микрорельефом кубооктаэдра \(O_2(3)\) и отношением показателей преломления \(n_1/n_2 = 9/8\) (\(T_{\mathrm{Fresnel}} = 288/289 \approx 99{,}654\% \)), наносимое без выноса образца на воздух. </p>
+</li>
+</ol>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sect0004.html" title="Согласование оболочечного и фазового импеданса на границе «Тетрацен – \(\mathrm{SiO_x}\) – Кремний»"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-lab-solar-photovoltaics.html" title="Бесфононная кремниевая фотовольтаика (\(441\text{ нм} \to 2\times 882\text{ нм} {\lt} 1107\text{ нм}\)): протокол чистой комнаты и матрица диагностики"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0006.html" title="Четыре сигнатуры фальсификации и упреждающая матрица коррекции"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

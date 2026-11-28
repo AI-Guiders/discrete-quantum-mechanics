@@ -1,0 +1,2657 @@
+
+<!doctype html>
+<html lang="ru" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Constructive 12-Ray Cuboctahedral Lattice Physics, Engineering CAD, and Lean 4 Verified Projective Manifold Mathematics">
+      
+      
+      
+        <link rel="canonical" href="https://ai-guiders.github.io/discrete-quantum-mechanics/ru/engineering/">
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../mathematics/">
+      
+      
+        
+          <link rel="alternate" href="../../engineering/" hreflang="en">
+        
+          <link rel="alternate" href="./" hreflang="ru">
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
+    
+    
+      
+        <title>Инженерам, корабелам и САПР - Дискретная квантовая механика и проективная математика</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Перейти к содержанию
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Верхний колонтитул">
+    <a href="../" title="Дискретная квантовая механика и проективная математика" class="md-header__button md-logo" aria-label="Дискретная квантовая механика и проективная математика" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Дискретная квантовая механика и проективная математика
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Инженерам, корабелам и САПР
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="cyan"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="cyan"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Выберите язык">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../engineering/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="ru" class="md-select__link">
+              Русский
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Поиск" placeholder="Поиск" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Поиск">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Очистить" aria-label="Очистить" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Инициализация поиска
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/AI-Guiders/discrete-quantum-mechanics" title="Перейти к репозиторию" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AI-Guiders/discrete-quantum-mechanics
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Вкладки" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Обзор и 5 книг
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Инженерам, корабелам и САПР
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../mathematics/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Математикам и Lean 4
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../physics/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Физикам и естествоиспытателям
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../books/book1-monograph/ch01/" class="md-tabs__link">
+          
+  
+  
+  Книга I. Формальные основания (Монография)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../books/book2-laboratory/ch01/" class="md-tabs__link">
+          
+  
+  
+  Книга II. Лабораторный практикум
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../books/book3-engineering/ch01/" class="md-tabs__link">
+          
+  
+  
+  Книга III. Инженерный справочник
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../books/book4-course/ch01/" class="md-tabs__link">
+          
+  
+  
+  Книга IV. Курс единого естествознания
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../books/book5-mathematics/ch01/" class="md-tabs__link">
+          
+  
+  
+  Книга V. Математика проективного многообразия
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Навигация" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../" title="Дискретная квантовая механика и проективная математика" class="md-nav__button md-logo" aria-label="Дискретная квантовая механика и проективная математика" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Дискретная квантовая механика и проективная математика
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/AI-Guiders/discrete-quantum-mechanics" title="Перейти к репозиторию" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AI-Guiders/discrete-quantum-mechanics
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Обзор и 5 книг
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Инженерам, корабелам и САПР
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Инженерам, корабелам и САПР
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Бескорневое геометрическое ядро САПР и обводы корпуса
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Бескорневое геометрическое ядро САПР и обводы корпуса">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cad-ieee-754" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Главная болезнь классических CAD-ядер (IEEE-754)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rotatorquadraturelean" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Проективный пифагоров ротатор без корней (RotatorQuadrature.lean)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-sigma_-1-frac5e8192-sigma_mathrm-frace512-v_mathrmkarman-fracc_s256" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Четыре режима упругости, предел циклической усталости (\(\sigma_{-1} = \frac{5E}{8192}\)), предел прочности Эшби (\(\sigma_{\mathrm{в}} = \frac{E}{512}\)) и критическая скорость удара фон Кармана (\(v_{\mathrm{Karman}} = \frac{c_s}{256}\))
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Четыре режима упругости, предел циклической усталости (\(\sigma_{-1} = \frac{5E}{8192}\)), предел прочности Эшби (\(\sigma_{\mathrm{в}} = \frac{E}{512}\)) и критическая скорость удара фон Кармана (\(v_{\mathrm{Karman}} = \frac{c_s}{256}\))">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#e-c_s" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Пересчёт в напряжения (МПа) и критические скорости удара (м/с) через модуль Юнга \(E\) и скорость звука \(c_s\)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Нелинейный упругий маятник на произвольных углах
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-3d-12-o_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Изотропная 3D-гидродинамика на 12-лучевом кубооктаэдре (\(O_2\))
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-8331-72-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Радиационная защита (\(833:1\)) и обратимый 72-битный процессор
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mathematics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Математикам и Lean 4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../physics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Физикам и естествоиспытателям
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Книга I. Формальные основания (Монография)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Книга I. Формальные основания (Монография)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book1-monograph/ch01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Предисловие. Предмет монографии и дедуктивное строение теории снизу вверх
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book1-monograph/ch02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Вывод дискретной квантовой механики (ДКМ) из неделимости элементарного объёма, отсутствия внешней памяти у природы и уравнения Каталана
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book1-monograph/ch03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Дискретная экспонента Эйлера на $\mathbb{Z}_{512}$, однородная проективная арифметика над $\mathbb{Q}(i,\sqrt{2})$ и выход в непрерывный анализ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book1-monograph/ch04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Булева полнота Поста, редукция 3-SAT, конструктивные когомологии де Рама и барьеры внутренних вычислителей
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book1-monograph/ch05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Дискретная и непрерывная квантовая механика (ДКМ и НКМ), электродинамика Максвелла и граница применимости континуума
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book1-monograph/ch06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Калибровочная группа Стандартной модели, гравитационное преломление и космология
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book1-monograph/ch07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Атомные и ядерные оболочки кубооктаэдра, планетогенез по 6 зонам диска, тождества Безу на $\mathbb{Z}_{512}$, сверхпроводимость и когерентный $587$-кратный коллапс барьера
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book1-monograph/ch08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Молекулярная биофизика, планетарные фотонные окна, генетический код ДНК, фолдинг белков и морфогенез
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book1-monograph/ch09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Бесфононный кремниевый гетеропереход $120 + 8 = 128$, общая конструкция предела по счётным моноидам стадий и гёделевская неизбежность лабораторного арбитража
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Книга II. Лабораторный практикум
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Книга II. Лабораторный практикум
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book2-laboratory/ch01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Введение. Лабораторный арбитраж в едином Естествознании и связь четырёх книг
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book2-laboratory/ch02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Бесфононная кремниевая фотовольтаика ($441\text{ нм} \to 2\times 882\text{ нм} < 1107\text{ нм}$): протокол чистой комнаты и матрица диагностики
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book2-laboratory/ch03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Сводный реестр критических экспериментов и лабораторно-вычислительных гейтов
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book2-laboratory/ch04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Обработка результатов измерений
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book2-laboratory/ch05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Вычислительная лаборатория серии
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Книга III. Инженерный справочник
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Книга III. Инженерный справочник
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book3-engineering/ch01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Введение. Инженерная ветвь единого Естествознания: Трёхзаконная целочисленная механика Ньютона и пять порогов кольца $\mathbb{Z}_{512}$
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book3-engineering/ch02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Теоретическая электротехника фазовой эстафеты на ГЦК-кубооктаэдрах ($V=\mathcal{C}_3,\ I=\mathcal{S}_3$)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book3-engineering/ch03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Физическая реализация вычислений без тепла Ландауэра и кремниевая архитектура
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book3-engineering/ch04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Масштабная инвариантность кубооктаэдра $O_2$: что физически разрешено и что запрещено законами сохранения
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book3-engineering/ch05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Когерентное схлопывание импеданса барьера в 12-лучевом кубооктаэдре: решёточный синтез против теплового нагрева
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book3-engineering/ch06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Квантовый фазовый храповик на доменной стенке и топологический аккумулятор $B_f = 512\,n_f$
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book3-engineering/ch07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Четырёхканальная голономная томография сред и фазовое геодинамо ядер планет
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book3-engineering/ch08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Аналитические операторы химических реакций, седловая точка переходного состояния $|A^\ddagger|=128$, селективность Вудворда–Хоффмана и гетерогенный катализ на кубооктаэдре $O_2$
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book3-engineering/ch09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Практическое применение тактовой скорости звена $\caSignalSpeed = \caKappaGeom(d)^{-1}\speedC$, баллистическая передача энергии и информации без потерь и инкапсулированный автомат
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book3-engineering/ch10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Генеративное материаловедение, куперовский возврат $2e$ на полупериоде противофазы и конструирование функциональных сплавов и сверхпроводников
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book3-engineering/ch11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Прикладная биоинженерия (Bio-CAD), сквозной компилятор ДНК и терапевтическое управление клеточной средой
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book3-engineering/ch12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Обратимая вычислительная техника без теплового предела Ландауэра ($A_{13}$) и разрешение фундаментальных парадоксов
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book3-engineering/ch13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Вычислительная лаборатория серии
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book3-engineering/ch14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Обработка результатов измерений
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book3-engineering/ch15/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15. Критические эксперименты и инженерные гейты верификации (серия CE-RD)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Книга IV. Курс единого естествознания
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Книга IV. Курс единого естествознания
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book4-course/ch01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Введение. Главный квест этой Вселенной и почему у решётки нет «балкона»
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book4-course/ch02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Ступень I. Устройство носителя и рождение трёхмерного пространства ($1 + 2^d = d^2$)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book4-course/ch03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Ступень II. Математика и информатика внутри носителя
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book4-course/ch04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Ступень III. Квантовая механика, электродинамика Максвелла и демоны Лапласа и Максвелла
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book4-course/ch05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Ступень IV. Элементарные частицы, ядра, гравитация и космология
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book4-course/ch06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Ступень V. Химия, таблица Менделеева и дизайн материалов
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book4-course/ch07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Ступень VI. Биология, генетический код ДНК и морфогенез органов
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book4-course/ch08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Ступень VII. Кремниевый чип и инженерные установки своими руками
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book4-course/ch09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Эпилог. Дорожная карта замкнута: от уравнения самозамкнутости к единому Естествознанию
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Книга V. Математика проективного многообразия
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Книга V. Математика проективного многообразия
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book5-mathematics/ch01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Предисловие. Отделение чистой проективной математики от физики носителя
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book5-mathematics/ch02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Дискретный ротатор $\mathbb{Z}_{4Q}$, однородные проективные поля $\mathbb{Q}(i,\sqrt{d-1})$ и анализ без делений
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book5-mathematics/ch03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Изотропный дискриминантный конус в $\mathrm{SL}_2(\mathbb{Z})$, моноид башни аппроксимантов Паде и бескорневое кубическое сжатие
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book5-mathematics/ch04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Трёхшахтные планетарные дифференциалы $\mathcal{A} + \mathcal{B} = \mathcal{C}$, вронскиан Мейсона–Стотерса и проекторы Лагранжа–Вандермонда
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../books/book5-mathematics/ch05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Алгебра многовинтовых планетарных каскадов и встречно-волновая суперпозиция на сфере Римана $\mathbb{P}^1$
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Бескорневое геометрическое ядро САПР и обводы корпуса
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Бескорневое геометрическое ядро САПР и обводы корпуса">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cad-ieee-754" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Главная болезнь классических CAD-ядер (IEEE-754)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rotatorquadraturelean" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Проективный пифагоров ротатор без корней (RotatorQuadrature.lean)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-sigma_-1-frac5e8192-sigma_mathrm-frace512-v_mathrmkarman-fracc_s256" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Четыре режима упругости, предел циклической усталости (\(\sigma_{-1} = \frac{5E}{8192}\)), предел прочности Эшби (\(\sigma_{\mathrm{в}} = \frac{E}{512}\)) и критическая скорость удара фон Кармана (\(v_{\mathrm{Karman}} = \frac{c_s}{256}\))
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Четыре режима упругости, предел циклической усталости (\(\sigma_{-1} = \frac{5E}{8192}\)), предел прочности Эшби (\(\sigma_{\mathrm{в}} = \frac{E}{512}\)) и критическая скорость удара фон Кармана (\(v_{\mathrm{Karman}} = \frac{c_s}{256}\))">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#e-c_s" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Пересчёт в напряжения (МПа) и критические скорости удара (м/с) через модуль Юнга \(E\) и скорость звука \(c_s\)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Нелинейный упругий маятник на произвольных углах
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-3d-12-o_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Изотропная 3D-гидродинамика на 12-лучевом кубооктаэдре (\(O_2\))
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-8331-72-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Радиационная защита (\(833:1\)) и обратимый 72-битный процессор
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="_1">Инженерам, корабелам и специалистам САПР<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>Этот раздел собирает воедино прикладную механику, бескорневую геометрию САПР, гидродинамику, радиационную защиту и аппаратные модули из <strong>Книги III (<a href="https://github.com/AI-Guiders/discrete-quantum-mechanics/raw/main/book/out/pdf/dqm-engineering-handbook.pdf">Инженерный справочник, PDF</a>)</strong> и верифицированных модулей Lean 4 <strong><code>MechanicsElasticity.lean</code>, <code>RotatorQuadrature.lean</code>, <code>ContinuumPhysics.lean</code> и <code>HardwarePhotovoltaics.lean</code></strong>.</p>
+<hr />
+<h2 id="1">1. Бескорневое геометрическое ядро САПР и обводы корпуса<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<h3 id="cad-ieee-754">Главная болезнь классических CAD-ядер (IEEE-754)<a class="headerlink" href="#cad-ieee-754" title="Permanent link">&para;</a></h3>
+<p>В традиционных твердотельных ядрах (<code>Parasolid</code>, <code>ACIS</code>, <code>OpenCASCADE</code>) повороты, пересечения поверхностей двоякой кривизны и подрезка NURBS-обшивки опираются на числа с плавающей запятой <code>double</code> (IEEE-754), иррациональные квадратные корни <span class="arithmatex">\(\sqrt{x^2 + y^2}\)</span> и ряды для <span class="arithmatex">\(\cos\theta, \sin\theta\)</span>. После серии поворотов и булевых операций на сложных обводах корпуса накапливается ошибка округления <span class="arithmatex">\(\sim 10^{-12}\text{--}10^{-15}\)</span>:</p>
+<div class="arithmatex">\[\tilde{x}'^2 + \tilde{y}'^2 \neq x^2 + y^2,\]</div>
+<p>из-за чего «плывёт» топология стыков (<code>non-manifold edges</code>, незамкнутые оболочки, щели при раскрое на ЧПУ).</p>
+<h3 id="rotatorquadraturelean">Проективный пифагоров ротатор без корней (<code>RotatorQuadrature.lean</code>)<a class="headerlink" href="#rotatorquadraturelean" title="Permanent link">&para;</a></h3>
+<p>В проективном исчислении все повороты и поверхностные квадратуры выполняются в <strong>точных целочисленных / рациональных проективных координатах</strong> <span class="arithmatex">\((X : Y : Z)\)</span> на 512-тактовом бипирамидальном фазовом круге <span class="arithmatex">\(\varphi \in \{0, 1, \dots, 511\}\)</span> с диадическим радиусом квадранта <span class="arithmatex">\(R = Q_\square(3) = 128\)</span> и полупериодом противофазы <span class="arithmatex">\(\Phi_{\mathrm{Pauli}}(3) = 256\)</span>:</p>
+<div class="arithmatex">\[C(\varphi) = 2\,(q_{\mathrm{cos}}(\varphi))^2 - 256, \qquad S(\varphi) = 2\,q_{\mathrm{sin}}(\varphi)\,p_{\mathrm{sin}}(\varphi).\]</div>
+<p>На каждом из 512 фазовых углов <strong>без единого извлечения квадратного корня</strong> выполняется точное целочисленное пифагорово тождество и <span class="arithmatex">\(L_1\)</span>-инвариант грани бипирамиды:</p>
+<div class="arithmatex">\[(C(\varphi))^2 + (S(\varphi))^2 \equiv (256 - |2\,|\varphi - 256| - 256|)^2 + 256^2, \qquad |C(\varphi)| + |S(\varphi)| \in \{256, 512\}.\]</div>
+<ul>
+<li><strong>Нулевое накопление топологической ошибки:</strong> любая цепочка поворотов образует точную группу в <span class="arithmatex">\(\mathbb{Z}/512\mathbb{Z}\)</span> без потери метрического инварианта.</li>
+<li><strong>Точные рациональные квадратуры и кубатуры обшивки:</strong> интегралы Френеля (<code>fresnelCIntegral512</code>), эллиптические интегралы Якоби (<code>jacobiEllipticKIntegral512</code>) и 12-лучевая сферическая кубатура Архимеда (<code>archimedesSphereVolume512</code>) вычисляются нацело без аппроксимационных сеточных дыр.</li>
+<li><strong>Доказательство в Lean 4:</strong> <a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/RotatorQuadrature.lean"><code>lean/Constructive/RotatorQuadrature.lean</code></a> (<code>✅</code> проверено ядром).</li>
+</ul>
+<hr />
+<h2 id="2-sigma_-1-frac5e8192-sigma_mathrm-frace512-v_mathrmkarman-fracc_s256">2. Четыре режима упругости, предел циклической усталости (<span class="arithmatex">\(\sigma_{-1} = \frac{5E}{8192}\)</span>), предел прочности Эшби (<span class="arithmatex">\(\sigma_{\mathrm{в}} = \frac{E}{512}\)</span>) и критическая скорость удара фон Кармана (<span class="arithmatex">\(v_{\mathrm{Karman}} = \frac{c_s}{256}\)</span>)<a class="headerlink" href="#2-sigma_-1-frac5e8192-sigma_mathrm-frace512-v_mathrmkarman-fracc_s256" title="Permanent link">&para;</a></h2>
+<p>В классическом сопромате линейный закон Гука (<span class="arithmatex">\(F = k\,\Delta x\)</span>), пластическое упрочнение, образование шейки, кривые усталости Вёлера (<span class="arithmatex">\(S\text{--}N\)</span>) и критическая скорость ударного откола фон Кармана описываются разными эмпирическими формулами.</p>
+<p>На 12-лучевой кубооктаэдрической решётке (<code>lean/MtCarrier/MechanicsElasticity.lean</code>) все 4 режима деформации выводятся из <strong>единого целочисленного оператора возвращающей силы</strong>
+$<span class="arithmatex">\(F_{\mathrm{spring}}(k_{\mathrm{mat}}, \Delta\varphi) \;=\; k_{\mathrm{mat}} \cdot \mathcal{S}_3(\Delta\varphi),\)</span>$
+зависящего от межузлового фазового сдвига <span class="arithmatex">\(\Delta\varphi \in [0, 512]\)</span> относительно порога начала внутреннего трения решётки (<span class="arithmatex">\(41\)</span> тик), вершины четверти периода (<span class="arithmatex">\(128\)</span> тиков) и полупериода разрыва связи (<span class="arithmatex">\(256\)</span> тиков):</p>
+<div class="arithmatex">\[F_{\mathrm{restore}}(3, \Delta\varphi) = \begin{cases} \Delta\varphi, &amp; 0 \le \Delta\varphi \le 128, \\ 256 - \Delta\varphi, &amp; 128 &lt; \Delta\varphi \le 256, \\ 0, &amp; \Delta\varphi &gt; 256. \end{cases}\]</div>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Режим деформации</th>
+<th style="text-align: center;">Фазовый сдвиг <span class="arithmatex">\(\Delta\varphi\)</span></th>
+<th style="text-align: left;">Поведение материала / конструкции</th>
+<th style="text-align: center;">Внутреннее трение решётки <span class="arithmatex">\(F_{\mathrm{diss}}\)</span></th>
+<th style="text-align: center;">Усталостное повреждение за <span class="arithmatex">\(N\)</span> циклов <span class="arithmatex">\(D_{\mathrm{fatigue}}(N)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>I. Чисто упругая зона Гука</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(0 \le \Delta\varphi \le 40 &lt; 41\)</span></td>
+<td style="text-align: left;">Чисто обратимая линейная упругость (<span class="arithmatex">\(F = \Delta\varphi\)</span>) без акустической эмиссии и без генерации дислокаций</td>
+<td style="text-align: center;"><span class="arithmatex">\(F_{\mathrm{diss}} \equiv 0\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(D_{\mathrm{fatigue}}(N, 40) \equiv 0\)</span> (<strong>неограниченный ресурс выносливости <span class="arithmatex">\(\sigma_{-1}\)</span></strong>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>II. Неупругое упрочнение до <span class="arithmatex">\(\sigma_{\mathrm{в}}\)</span></strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(41 \le \Delta\varphi \le 128\)</span></td>
+<td style="text-align: left;">Внутреннее трение решётки; пик предела прочности <span class="arithmatex">\(F_{\max} = 128\)</span> при <span class="arithmatex">\(\Delta\varphi = 128\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(F_{\mathrm{diss}} = \Delta\varphi - 40 &gt; 0\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(N \cdot (\Delta\varphi - 40) &gt; 0\)</span> (конечное число циклов по кривой Вёлера)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>III. Закритическая шейка</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(128 &lt; \Delta\varphi &lt; 256\)</span></td>
+<td style="text-align: left;">Деформационное разупрочнение (<span class="arithmatex">\(\partial F / \partial \Delta\varphi &lt; 0\)</span>, напр. <span class="arithmatex">\(F(192) = 64 &lt; 128\)</span>) и локализация шейки</td>
+<td style="text-align: center;"><span class="arithmatex">\(F_{\mathrm{diss}} = \Delta\varphi - 40\)</span></td>
+<td style="text-align: center;">Быстрое малоцикловое разрушение</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>IV. Разрыв связи и срыв Бюргерса</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(\Delta\varphi = 256 \to 257\)</span></td>
+<td style="text-align: left;">Полупериод <span class="arithmatex">\(256\)</span>; топологический скачок вектора Бюргерса <span class="arithmatex">\(q_e : 0 \to +1\)</span>, <span class="arithmatex">\(w_f = +1\)</span>, <span class="arithmatex">\(\mathcal{B}_f = 512\)</span></td>
+<td style="text-align: center;">Разрыв связи / скол</td>
+<td style="text-align: center;">Мгновенный структурный излом</td>
+</tr>
+</tbody>
+</table>
+<h3 id="e-c_s">Пересчёт в напряжения (МПа) и критические скорости удара (м/с) через модуль Юнга <span class="arithmatex">\(E\)</span> и скорость звука <span class="arithmatex">\(c_s\)</span><a class="headerlink" href="#e-c_s" title="Permanent link">&para;</a></h3>
+<p>При нормировке на полный двумерный фазовый объём колебательной ячейки <span class="arithmatex">\(\mathcal{K}_{\mathrm{ell}}(1,1) = 512 \times 128 = \mathbf{65\,536}\)</span> макроскопическая деформация равна <span class="arithmatex">\(\varepsilon(\Delta\varphi) = \dfrac{\Delta\varphi}{65\,536}\)</span>, напряжение <span class="arithmatex">\(\sigma(\Delta\varphi) = E \cdot \varepsilon(\Delta\varphi)\)</span>, а скорость волнового удара <span class="arithmatex">\(v(\Delta\varphi) = c_s \cdot \varepsilon(\Delta\varphi)\)</span> (где <span class="arithmatex">\(c_s = \sqrt{E/\rho}\)</span> — продольная скорость звука в металле):</p>
+<ol>
+<li><strong>Предел усталостной выносливости и динамический предел упругого удара (<span class="arithmatex">\(\Delta\varphi = 40\)</span>):</strong>
+   $<span class="arithmatex">\(\varepsilon_{-1} = \frac{40}{65\,536} = \frac{5}{8\,192} \approx 0{,}061\%, \qquad \sigma_{-1} = \frac{5\,E}{8\,192}, \qquad v_{-1} = \frac{5\,c_s}{8\,192}.\)</span>$</li>
+<li><strong>Предел прочности чистого поликристаллического металла (правило Эшби) и скорость волны шейки (<span class="arithmatex">\(\Delta\varphi = 128\)</span>):</strong>
+   $<span class="arithmatex">\(\varepsilon_{\mathrm{в}} = \frac{128}{65\,536} = \frac{1}{512} \approx 0{,}195\%, \qquad \sigma_{\mathrm{в}} = \frac{E}{512}, \qquad v_{128} = \frac{c_s}{512}, \qquad \frac{\sigma_{-1}}{\sigma_{\mathrm{в}}} = \frac{40}{128} = \frac{5}{16} = 0{,}3125.\)</span>$</li>
+<li><strong>Критическая скорость мгновенного ударного разрыва фон Кармана (<span class="arithmatex">\(\Delta\varphi = 256\)</span>):</strong>
+   $<span class="arithmatex">\(\varepsilon_{\mathrm{разр}} = \frac{256}{65\,536} = \frac{1}{256} \approx 0{,}391\%, \qquad v_{\mathrm{Karman}} = \frac{c_s}{256}.\)</span>$</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Металл (отожжённый)</th>
+<th style="text-align: center;"><span class="arithmatex">\(E\)</span> (ГПа)</th>
+<th style="text-align: center;"><span class="arithmatex">\(c_s\)</span> (м/с)</th>
+<th style="text-align: center;"><span class="arithmatex">\(\sigma_{-1} = \frac{5E}{8192}\)</span> (модель)</th>
+<th style="text-align: center;"><span class="arithmatex">\(\sigma_{-1}\)</span> (эксп.)</th>
+<th style="text-align: center;"><span class="arithmatex">\(\sigma_{\mathrm{в}} = \frac{E}{512}\)</span> (модель)</th>
+<th style="text-align: center;"><span class="arithmatex">\(\sigma_{\mathrm{в}}\)</span> (эксп.)</th>
+<th style="text-align: center;"><span class="arithmatex">\(v_{-1} = \frac{5c_s}{8192}\)</span> (упругий удар)</th>
+<th style="text-align: center;"><span class="arithmatex">\(v_{\mathrm{Karman}} = \frac{c_s}{256}\)</span> (модель)</th>
+<th style="text-align: center;"><span class="arithmatex">\(v_{\mathrm{Karman}}\)</span> (эксп. фон Кармана)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Свинец (<span class="arithmatex">\(\mathrm{Pb}\)</span>, ГЦК)</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(16\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(2\,160\)</span></td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(9{,}8\)</span> МПа</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(7\text{--}9\)</span> МПа</td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(31{,}2\)</span> МПа</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(18\text{--}25\)</span> МПа</td>
+<td style="text-align: center;"><span class="arithmatex">\(1{,}32\)</span> м/с</td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(8{,}44\)</span> м/с</strong></td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(\sim 8{,}4\)</span> м/с</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Алюминий (<span class="arithmatex">\(\mathrm{Al}\)</span> 1100-O)</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(70\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(6\,420\)</span></td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(42{,}7\)</span> МПа</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(34\text{--}45\)</span> МПа</td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(136{,}7\)</span> МПа</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(90\text{--}130\)</span> МПа</td>
+<td style="text-align: center;"><span class="arithmatex">\(3{,}92\)</span> м/с</td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(25{,}08\)</span> м/с</strong></td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(\sim 25{,}0\)</span> м/с</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Титан (<span class="arithmatex">\(\mathrm{Ti}\)</span> Grade 1)</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(116\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(6\,070\)</span></td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(70{,}8\)</span> МПа</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(75\text{--}100\)</span> МПа</td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(226{,}6\)</span> МПа</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(240\)</span> МПа</td>
+<td style="text-align: center;"><span class="arithmatex">\(3{,}70\)</span> м/с</td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(23{,}71\)</span> м/с</strong></td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(\sim 24{,}0\)</span> м/с</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Медь (<span class="arithmatex">\(\mathrm{Cu}\)</span>, ГЦК)</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(130\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(4\,760\)</span></td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(79{,}3\)</span> МПа</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(70\text{--}80\)</span> МПа</td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(253{,}9\)</span> МПа</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(210\text{--}250\)</span> МПа</td>
+<td style="text-align: center;"><span class="arithmatex">\(2{,}91\)</span> м/с</td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(18{,}59\)</span> м/с</strong></td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(\sim 18{,}5\)</span> м/с</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Никель (<span class="arithmatex">\(\mathrm{Ni}\)</span>, ГЦК)</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(200\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(6\,040\)</span></td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(122{,}1\)</span> МПа</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(110\text{--}125\)</span> МПа</td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(390{,}6\)</span> МПа</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(317\text{--}380\)</span> МПа</td>
+<td style="text-align: center;"><span class="arithmatex">\(3{,}69\)</span> м/с</td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(23{,}59\)</span> м/с</strong></td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(\sim 23{,}5\)</span> м/с</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Железо Армко (<span class="arithmatex">\(\mathrm{Fe}\)</span>, ОЦК)</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(211\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(5\,960\)</span></td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(128{,}8\)</span> МПа</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(130\text{--}140\)</span> МПа</td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(412{,}1\)</span> МПа</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(350\text{--}410\)</span> МПа</td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(3{,}64\)</span> м/с</strong></td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(23{,}28\)</span> м/с</strong></td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(\sim 23{,}0\)</span> м/с</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Молибден (<span class="arithmatex">\(\mathrm{Mo}\)</span>, ОЦК)</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(329\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(6\,250\)</span></td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(200{,}8\)</span> МПа</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(200\text{--}220\)</span> МПа</td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(642{,}6\)</span> МПа</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(650\)</span> МПа</td>
+<td style="text-align: center;"><span class="arithmatex">\(3{,}81\)</span> м/с</td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(24{,}41\)</span> м/с</strong></td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(\sim 24{,}5\)</span> м/с</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Вольфрам (<span class="arithmatex">\(\mathrm{W}\)</span>, ОЦК)</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(411\)</span></td>
+<td style="text-align: center;"><span class="arithmatex">\(5\,220\)</span></td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(250{,}9\)</span> МПа</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(250\text{--}270\)</span> МПа</td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(802{,}7\)</span> МПа</strong></td>
+<td style="text-align: center;"><span class="arithmatex">\(800\text{--}980\)</span> МПа</td>
+<td style="text-align: center;"><span class="arithmatex">\(3{,}19\)</span> м/с</td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(20{,}39\)</span> м/с</strong></td>
+<td style="text-align: center;"><strong><span class="arithmatex">\(\sim 20{,}4\)</span> м/с</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Разграничение статуса проверки (<code>✅</code> Lean 4 vs <code>⬜</code> Внешний стенд)</p>
+<ul>
+<li><strong><code>✅</code> Доказано в ядре Lean 4:</strong> Четырёхрежимный оператор упругости, тождественное равенство нулю усталостного износа <span class="arithmatex">\(D_{\mathrm{fatigue}}(N, 40) = 0\)</span> при любом числе циклов <span class="arithmatex">\(N \in \mathbb{N}\)</span>, пик прочности <span class="arithmatex">\(128\)</span>, спад в режиме шейки, скачок дислокации Бюргерса при <span class="arithmatex">\(\Delta\varphi = 257\)</span> и период <span class="arithmatex">\(\mathcal{K}_{\mathrm{ell}}(1,1) = 65\,536\)</span> формально верифицированы в <a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/MechanicsElasticity.lean"><code>lean/MtCarrier/MechanicsElasticity.lean</code></a>.</li>
+<li><strong><code>⬜</code> Ожидает внешних стендовых испытаний:</strong> Прямая лабораторная проверка резкого порога зануления внутреннего трения на отметке <span class="arithmatex">\(40 / 65\,536\)</span> на чистых монокристаллах ОЦК/ГЦК-металлов требует независимых ультразвуковых гигацикловых усталостных испытаний (<code>20 кГц</code>, <span class="arithmatex">\(10^9\text{--}10^{10}\)</span> циклов с калориметрическим контролем диссипации).</li>
+</ul>
+</div>
+<hr />
+<h2 id="3">3. Нелинейный упругий маятник на произвольных углах<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
+<p>Вместо школьной линеаризации <span class="arithmatex">\(\sin\varphi \approx \varphi\)</span> (которая врёт уже после <span class="arithmatex">\(15^\circ\)</span> и не учитывает растяжение подвеса) дискретный оператор маятника связывает <strong>продольное натяжение упругого подвеса и поперечный возвращающий момент на любых углах</strong> <span class="arithmatex">\(\varphi \in [0, 512]\)</span>:</p>
+<div class="arithmatex">\[|T_{\mathrm{long}}(3, \varphi, g)| + |F_{\mathrm{trans}}(3, \varphi, g)| \equiv Q_\square(3)\cdot g = 128\,g \quad \forall\,\varphi \in [0, 512],\]</div>
+<p>с точным обменом компонент при повороте на <span class="arithmatex">\(90^\circ\)</span> (<span class="arithmatex">\(\varphi = 0 \leftrightarrow \varphi = 128\)</span>) и замкнутым периодом через дискретный эллиптический интеграл Якоби <span class="arithmatex">\(\mathcal{K}_{\mathrm{ell}}(1, 1) = 65\,536\)</span> (<code>jacobiEllipticKIntegral512 1 1 = 65536</code>).</p>
+<hr />
+<h2 id="4-3d-12-o_2">4. Изотропная 3D-гидродинамика на 12-лучевом кубооктаэдре (<span class="arithmatex">\(O_2\)</span>)<a class="headerlink" href="#4-3d-12-o_2" title="Permanent link">&para;</a></h2>
+<p>В расчётах обтекания корпусов и гребных винтов (CFD) обычная 6-соседняя декартова сетка страдает сеточной анизотропией разностного лапласиана по диагоналям.</p>
+<p>На <strong>12-лучевом кубооктаэдрическом шаблоне <span class="arithmatex">\(O_2\)</span></strong> (векторы <span class="arithmatex">\((\pm 1, \pm 1, 0)\)</span>, <span class="arithmatex">\((\pm 1, 0, \pm 1)\)</span>, <span class="arithmatex">\((0, \pm 1, \pm 1)\)</span>) дискретный тензор лапласиана <strong>строго изотропен</strong> с одинаковым весом <span class="arithmatex">\(\frac{1}{4}\)</span> по всем пространственным осям (<code>ContinuumPhysics.lean</code>):</p>
+<div class="arithmatex">\[\Delta_{O_2} f(\mathbf{x}) = \frac{1}{4} \sum_{i=1}^{12} \bigl(f(\mathbf{x} + \mathbf{e}_i) - f(\mathbf{x})\bigr), \qquad \sum_{i=1}^{12} e_{i,\alpha} e_{i,\beta} = 4\,\delta_{\alpha\beta}.\]</div>
+<p>Вычислительный движок репозитория на <code>.NET 11</code> + <code>CUDA PTX</code> (<code>mt-lattice-fluid</code>) решает обратимую 72-битную гидродинамику на этой 12-лучевой сетке со строгим потактовым сохранением массы, импульса и целочисленной циркуляции вихря.</p>
+<hr />
+<h2 id="5-8331-72-">5. Радиационная защита (<span class="arithmatex">\(833:1\)</span>) и обратимый 72-битный процессор<a class="headerlink" href="#5-8331-72-" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>3-ступенчатый градиентный + <span class="arithmatex">\(833:1\)</span> активный кубооктаэдрический экран (<code>HardwarePhotovoltaics.lean</code>):</strong> Сочетает пассивный каскад (<code>PE-UHMW -&gt; B4C -&gt; Ti/W</code> + сверхэластичный фононный демпфер <code>TiNi</code>) с активной 85-ячеечной (<span class="arithmatex">\(1\,105\)</span>-узловой) 12-лучевой фазовой клеткой, обеспечивающей ослабление потока <span class="arithmatex">\(833 : 1\)</span>.</li>
+<li><strong>Обратимое 72-битное АЛУ (<code>hardware/reversible_72bit_alu.v</code>):</strong> Баллистическое обратимое ядро Верле на вентилях Фредкина/Тоффоли без логического стирания битов (<span class="arithmatex">\(\Delta Q_{\mathrm{Landauer}} = 0\)</span>).</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  К началу
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u043d\u043e \u0432 \u0431\u0443\u0444\u0435\u0440", "clipboard.copy": "\u041a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0432 \u0431\u0443\u0444\u0435\u0440", "search.result.more.one": "\u0415\u0449\u0451 1 \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.more.other": "\u0415\u0449\u0451 # \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.none": "\u0421\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u043e", "search.result.one": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e 1 \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0435", "search.result.other": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439: #", "search.result.placeholder": "\u041d\u0430\u0447\u043d\u0438\u0442\u0435 \u043f\u0435\u0447\u0430\u0442\u0430\u0442\u044c \u0434\u043b\u044f \u043f\u043e\u0438\u0441\u043a\u0430", "search.result.term.missing": "\u041e\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0443\u0435\u0442", "select.version": "\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0432\u0435\u0440\u0441\u0438\u044e"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

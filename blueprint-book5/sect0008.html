@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Моноид многовинтовых планетарных каскадов, экстремальная перестановочная вилка и вариационная монотонность</title>
+<link rel="next" href="sect0009.html" title="Векторная суперпозиция встречных волн, тройная дихотомия M-этажного каскада и модельно-теоретическая независимость" />
+<link rel="prev" href="ch-math-multiscrew-and-holonomy.html" title="Алгебра многовинтовых планетарных каскадов и встречно-волновая суперпозиция на сфере Римана P1" />
+<link rel="up" href="ch-math-multiscrew-and-holonomy.html" title="Алгебра многовинтовых планетарных каскадов и встречно-волновая суперпозиция на сфере Римана P1" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга V. Математика проективного многообразия (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Предисловие. Отделение чистой проективной математики от физики носителя</span></a>
+ </li>
+<li class="">
+  <a href="ch-math-rotator-calculus.html"><span class="toc_ref">1</span> <span class="toc_entry">Дискретный ротатор \(\mathbb {Z}_{4Q}\), однородные проективные поля \(\mathbb {Q}(i,\sqrt{d-1})\) и анализ без делений</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Характер Эйлера на \(L^1\)-алмазе, тождество постоянного вронскиана и подъём Брахмагупты–Вейерштрасса</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Замкнутая башня производных частного всех порядков \(D^n(f/g)\), многомерная кубатура Симпсона и когомологии де&#160;Рама</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Биекция полярных и декартовых координат \((M,\varphi )\leftrightarrow (X,Y)\) без корней, точное обращение \(\operatorname {atan}_{L^1},\, \operatorname {acot}_{L^1}\) и гиперболическое исчисление Гудермана–Минковского</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">1.4</span> <span class="toc_entry">Конструктивный переход от квадратичных сумм на кольце \(\mathbb {Z}_{4Q}\) к интегралам Френеля на \(\mathbb {R}\) (\(\mathbb {C}\)) без рядов Тейлора и без таблиц</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-math-pade-sl2-towers.html"><span class="toc_ref">2</span> <span class="toc_entry">Изотропный дискриминантный конус в \(\mathrm{SL}_2(\mathbb {Z})\), моноид башни аппроксимантов Паде и бескорневое кубическое сжатие</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0006.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Матричное представление ступеней, изотропный конус и параболические жордановы матрицы в \(\mathrm{SL}_2(\mathbb {Z})\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-math-planetary-differentials.html"><span class="toc_ref">3</span> <span class="toc_entry">Трёхшахтные планетарные дифференциалы \(\mathcal{A} + \mathcal{B} = \mathcal{C}\), вронскиан Мейсона–Стотерса и проекторы Лагранжа–Вандермонда</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0007.html"><span class="toc_ref">3.1</span> <span class="toc_entry">Ортогональный репер трёхшахтного дифференциала \(\mathcal{F}_3\), матрица моментов Ганкеля и целочисленный вронскиан Мейсона–Стотерса</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active">
+  <a href="ch-math-multiscrew-and-holonomy.html"><span class="toc_ref">4</span> <span class="toc_entry">Алгебра многовинтовых планетарных каскадов и встречно-волновая суперпозиция на сфере Римана \(\mathbb {P}^1\)</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class=" active current">
+  <a href="sect0008.html"><span class="toc_ref">4.1</span> <span class="toc_entry">Моноид многовинтовых планетарных каскадов, экстремальная перестановочная вилка и вариационная монотонность</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html"><span class="toc_ref">4.2</span> <span class="toc_entry">Векторная суперпозиция встречных волн, тройная дихотомия \(M\)-этажного каскада и модельно-теоретическая независимость</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html"><span class="toc_ref">4.3</span> <span class="toc_entry">Конструктивное построение \(\mathbb {R}\) и \(\mathbb {C}\), биективный изоморфизм \(L^1(\mathbb {Z}_{4Q}) \leftrightarrow S^1(\mathbb {C})\) и бритва Оккама–Мальцева</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000009">4.1 Моноид многовинтовых планетарных каскадов, экстремальная перестановочная вилка и вариационная монотонность</h1>
+<p>Рассмотрим произвольный каскад линейных передач (винтов) \(L = [(P_1, Q_1, D_1), \dots , (P_M, Q_M, D_M)] \in \mathrm{List}\, (\mathbb {Z}\times \mathbb {Z}\times \mathbb {Z})\), где каждая ступень связывает входной и выходной валы соотношением \(P_k n_k - Q_k n_{k-1} = D_k\). Индуктивные операторы полного передаточного числа \(P_{\mathrm{tot}}(L) = \prod P_k\), \(Q_{\mathrm{tot}}(L) = \prod Q_k\), модуля зазора \(C_{\mathrm{tot}}(L) = P_{\mathrm{tot}}(L) - Q_{\mathrm{tot}}(L)\) и накопленного дрейфа \(D_{\mathrm{tot}}(L)\): </p>
+<div class="equation" id="eq:math-multiscrew-d-rec">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-multiscrew-d-rec} D_{\mathrm{tot}}\bigl((p, q, d) :: L_{\mathrm{rest}}\bigr) \; :=\;  Q_{\mathrm{tot}}(L_{\mathrm{rest}})\cdot d + p\cdot D_{\mathrm{tot}}(L_{\mathrm{rest}}) \end{equation}
+  </div>
+  <span class="equation_label">4.1</span>
+</p>
+</div>
+<p> образуют полупрямой матричный моноид. </p>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:math-multiscrew-cascade-extremal-envelope">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Теорема
+    </span>
+    <span class="theorem_thmlabel">4.1</span>
+    <span class="theorem_thmtitle">Моноид многовинтовых каскадов, встречное сшивание Безу, экстремальная вилка бинарных слов шестерён \(3^B - 2^B \le R_w \le 2^{A-B}(3^B - 2^B)\) и вариационная монотонность транспозиций</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0008.html#thm:math-multiscrew-cascade-extremal-envelope">#</a>
+    
+    <a class="icon proof" href="sect0008.html#a0000000019"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0006.html#thm:math-pade-tower-cubic-compression">Теорема 2.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/CollatzPlanetarySplice.lean#L9" class="lean_decl">thm18_arbitrary_modulus_rotator_and_two_arc_trajectory_wronskian</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/CollatzPlanetarySplice.lean#L220" class="lean_decl">thm24_collatz_counter_rotating_forward_backward_splice_and_bezout_lock</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/CollatzPlanetarySplice.lean#L414" class="lean_decl">thm29_collatz_trailing_ones_burn_macro_step</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/CollatzGearMonoid.lean#L71" class="lean_decl">thm31_collatz_binary_gear_word_extremal_drift_envelope_and_cycle_squeeze</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/CollatzGearMonoid.lean#L245" class="lean_decl">thm32_collatz_countable_core_stage_monoid_dual_drift_and_cycle_gap</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/CollatzGearMonoid.lean#L371" class="lean_decl">thm33_collatz_boundary_fixed_point_reflection_cycle_ratio_and_qmin_collapse</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/RotatorCalculusPaper.lean#L243" class="lean_decl">thm36_unified_extremum_principles_across_pillai_abc_and_collatz</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/CollatzGearMonoid.lean#L548" class="lean_decl">thm37_collatz_resonant_gap_elimination_orbital_shift_and_qmin_qmax_sandwich</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>    Для любых списков винтов \(L_1, L_2 \in \mathrm{List}\, (\mathbb {Z}\times \mathbb {Z}\times \mathbb {Z})\) и любого бинарного слова шестерён \(w \in \mathrm{List}\, \mathrm{Bool}\) из нечётной ступени \(\mathcal{G}_{\mathrm{odd}} = (2, 3, 1)\) и чётной ступени \(\mathcal{G}_{\mathrm{even}} = (2, 1, 0)\) (\(P_w = 2^A,\  Q_w = 3^B,\  P_{\mathrm{odd}} = 2^B,\  P_{\mathrm{even}} = 2^{A-B},\  R_w = D_{\mathrm{tot}}(L(w))\)) выполняются следующие безусловные законы: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Гомоморфизм моноида многовинтового каскада и закон двухдугового хордового вронскиана:</b> при конкатенации каскадов \(L_1 \mathbin {+\! +} L_2\): </p>
+<div class="displaymath" id="eq:math-multiscrew-pq-hom">
+  \begin{align}  P_{\mathrm{tot}}(L_1 \mathbin {+\! +} L_2) & = P_{\mathrm{tot}}(L_1)\, P_{\mathrm{tot}}(L_2), \qquad Q_{\mathrm{tot}}(L_1 \mathbin {+\! +} L_2) \; =\;  Q_{\mathrm{tot}}(L_1)\, Q_{\mathrm{tot}}(L_2), \label{eq:math-multiscrew-pq-hom} \\ D_{\mathrm{tot}}(L_1 \mathbin {+\! +} L_2) & = Q_{\mathrm{tot}}(L_2)\, D_{\mathrm{tot}}(L_1) + P_{\mathrm{tot}}(L_1)\, D_{\mathrm{tot}}(L_2), \label{eq:math-multiscrew-d-hom} \\ C_{\mathrm{tot}}(L_1 \mathbin {+\! +} L_2) & = P_{\mathrm{tot}}(L_2)\, C_{\mathrm{tot}}(L_1) + Q_{\mathrm{tot}}(L_1)\, C_{\mathrm{tot}}(L_2). \label{eq:math-multiscrew-c-hom} \end{align}
+</div>
+<p> На любой замкнутой двухдуговой траектории (\(n_{\mathrm{final}} = n_{\mathrm{start}}\), \(D_1 = P_1 n_{\mathrm{mid}} - Q_1 n_{\mathrm{start}}\), \(D_2 = P_2 n_{\mathrm{start}} - Q_2 n_{\mathrm{mid}}\)) хордовый сдвиг удовлетворяет тождеству вронскиана \((P_1 P_2 - Q_1 Q_2)(n_{\mathrm{mid}} - n_{\mathrm{start}}) \equiv (P_2 - Q_2)D_1 - (P_1 - Q_1)D_2\). </p>
+</li>
+  <li><p><b class="bfseries">Экстремальная перестановочная вилка дрейфа по группе \(S_A\) и строгая положительность вариационной производной транспозиции:</b> для любого бинарного слова шестерён \(w \in \mathrm{List}\, \mathrm{Bool}\) выполняются \(P_{\mathrm{odd}} P_{\mathrm{even}} = P_w\), \(1 \le P_{\mathrm{odd}} \le Q_w\) и двусторонняя перестановочно-инвариантная оценка </p>
+<div class="equation" id="eq:math-binary-word-extremal-envelope">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-binary-word-extremal-envelope} Q_w - P_{\mathrm{odd}} \; \le \;  R_w \; \le \;  P_{\mathrm{even}}\, (Q_w - P_{\mathrm{odd}}) \; =\;  P_{\mathrm{even}} Q_w - P_w, \end{equation}
+  </div>
+  <span class="equation_label">4.5</span>
+</p>
+</div>
+<p> а элементарная транспозиция соседних нечётной и чётной ступеней \([1, 0] \mapsto [0, 1]\) внутри \(w_1 \mathbin {+\! +} [\dots ] \mathbin {+\! +} w_2\) имеет строго положительную вариационную производную: </p>
+<div class="equation" id="eq:math-swap-variational-derivative">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-swap-variational-derivative} R_{w_1 \mathbin {+\! +} [0, 1] \mathbin {+\! +} w_2} - R_{w_1 \mathbin {+\! +} [1, 0] \mathbin {+\! +} w_2} \; \equiv \;  P_{\mathrm{tot}}(L(w_1))\, Q_{\mathrm{tot}}(L(w_2)) \; \ge \;  1. \end{equation}
+  </div>
+  <span class="equation_label">4.6</span>
+</p>
+</div>
+</li>
+  <li><p><b class="bfseries">Сохранение двойственного дрейфа нечётного ядра, мультипликативная вилка цикла и отражение граничных неподвижных точек:</b> для списка макроступеней нечётного ядра \(L\) с верхним мультипликативным пакетом \(U_L = \prod _{(P,Q,p)\in L} (Q + p - 1)\), прямым дрейфом \(D_L = P_L q_f - Q_L q_0\) и двойственным верхним дефектом \(E_L = U_L q_0 - P_L q_f\) выполняется закон сохранения двойственного дрейфа </p>
+<div class="equation" id="eq:math-dual-core-drift-conservation">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-dual-core-drift-conservation} D_L + E_L \; \equiv \;  (U_L - Q_L)\, q_0, \end{equation}
+  </div>
+  <span class="equation_label">4.7</span>
+</p>
+</div>
+<p> на любом замкнутом цикле (\(q_f = q_0 \ge 1,\  D_L \ge 1,\  E_L \ge 0\)) выполняются \((U_L - P_L)D_L = (P_L - Q_L)E_L\) и \(Q_L {\lt} P_L \le U_L\), а граничные неподвижные точки чисто нечётного нижнего края \(n_\infty ^{(-)} = -1\) и чисто чётного верхнего края \(n_\infty ^{(+)} = 0\) при отражении дают стационарный корень \(n^* = 2 n_\infty ^{(+)} - n_\infty ^{(-)} = +1\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000019">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Гомоморфизмы&#160;<a href="sect0008.html#eq:math-multiscrew-pq-hom" class="eqref">4.2</a>–<a href="sect0008.html#eq:math-multiscrew-c-hom" class="eqref">4.4</a> доказываются структурной индукцией по списку \(L_1\). Оценка&#160;<a href="sect0008.html#eq:math-binary-word-extremal-envelope" class="eqref">4.5</a> доказывается индукцией по списку \(w \in \mathrm{List}\, \mathrm{Bool}\) с разбором чётной и нечётной ступени, а формула вариационной производной транспозиции&#160;<a href="sect0008.html#eq:math-swap-variational-derivative" class="eqref">4.6</a> следует из двукратного применения&#160;<a href="sect0008.html#eq:math-multiscrew-d-hom" class="eqref">4.3</a>. </p>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="ch-math-multiscrew-and-holonomy.html" title="Алгебра многовинтовых планетарных каскадов и встречно-волновая суперпозиция на сфере Римана \(\mathbb {P}^1\)"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-math-multiscrew-and-holonomy.html" title="Алгебра многовинтовых планетарных каскадов и встречно-волновая суперпозиция на сфере Римана \(\mathbb {P}^1\)"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0009.html" title="Векторная суперпозиция встречных волн, тройная дихотомия \(M\)-этажного каскада и модельно-теоретическая независимость"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

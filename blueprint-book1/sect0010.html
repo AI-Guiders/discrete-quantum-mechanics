@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Дискретная экспонента Эйлера, код Грея, соотношения Коши–Римана и тождество постоянного вронскиана</title>
+<link rel="next" href="sect0011.html" title="Вывод классического интеграла Римана и формулы Ньютона–Лейбница в макропределе N ∞" />
+<link rel="prev" href="ch-mono-rotator-calculus.html" title="Дискретная экспонента Эйлера на Z512, однородная проективная арифметика над Q(i,2) и выход в непрерывный анализ" />
+<link rel="up" href="ch-mono-rotator-calculus.html" title="Дискретная экспонента Эйлера на Z512, однородная проективная арифметика над Q(i,2) и выход в непрерывный анализ" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга I. Формальные основания ДКМ (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Предисловие. Предмет монографии и дедуктивное строение теории снизу вверх</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref"></span> <span class="toc_entry">§ 0.1. Метод построения: восхождение снизу вверх без постулатов</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref"></span> <span class="toc_entry">§ 0.2. Четыре методологических опоры монографии</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref"></span> <span class="toc_entry">§ 0.3. Двусортное проективно-ретракционное соответствие оснований естественных наук: Трёхзаконная целочисленная механика Ньютона</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-axioms.html"><span class="toc_ref">1</span> <span class="toc_entry">Вывод дискретной квантовой механики (ДКМ) из неделимости элементарного объёма, отсутствия внешней памяти у природы и уравнения Каталана</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0005.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Доказательство отсутствия внешней памяти у физической природы и невозможности континуального регистра внутри неделимой ячейки</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Последовательный вывод размерности \(d=3\), кольца \(\mathbb {Z}_{512}\), кубооктаэдра \(O_2(3)\) и шага Верле</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Теоремы единственности: размерность \(d=3\), кубооктаэдр \(O_2(3)\) и шаг Верле</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">1.4</span> <span class="toc_entry">Переход к естественным полярным координатам \((\mu , \varphi _{\mathrm{disc}})\), затравочное состояние Каталана \(\mathrm{IV}(3) = 263\) и уравнения оператора эволюции \(\mathcal{G}_3\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html"><span class="toc_ref">1.5</span> <span class="toc_entry">Симплициальное разложение Пуанкаре–Хегора и структурные пороги носителя при \(d = 3\)</span></a>
+ </li>
+<li class="">
+  <a href="sec-mono-world-lagrangian-hamiltonian.html"><span class="toc_ref">1.6</span> <span class="toc_entry">Полевой Лагранжиан \(\mathcal{L}_{\mathrm{world}}\), Гамильтониан \(\mathcal{H}_{\mathrm{world}}\), 13-узловое разложение знаменателя \(\mathcal{C}_{13}\) и тетраэдральное действие Верле</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active">
+  <a href="ch-mono-rotator-calculus.html"><span class="toc_ref">2</span> <span class="toc_entry">Дискретная экспонента Эйлера на \(\mathbb {Z}_{512}\), однородная проективная арифметика над \(\mathbb {Q}(i,\sqrt{2})\) и выход в непрерывный анализ</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class=" active current">
+  <a href="sect0010.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Дискретная экспонента Эйлера, код Грея, соотношения Коши–Римана и тождество постоянного вронскиана</span></a>
+ </li>
+<li class="">
+  <a href="sect0011.html"><span class="toc_ref">2.2</span> <span class="toc_entry">Вывод классического интеграла Римана и формулы Ньютона–Лейбница в макропределе \(N \to \infty \)</span></a>
+ </li>
+<li class="">
+  <a href="sect0012.html"><span class="toc_ref">2.3</span> <span class="toc_entry">Однородная проективная арифметика полей, башня производных отношения и многомерная кубатура Симпсона</span></a>
+ </li>
+<li class="">
+  <a href="sect0013.html"><span class="toc_ref">2.4</span> <span class="toc_entry">Теорема о сокращении масштаба \(A = K\cdot dh\), размерность Хаусдорфа–Морана и проективные операторы логарифма и рациональной степени на \(\mathbb {Z}_{4Q}\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-logic-cohomology-barriers.html"><span class="toc_ref">3</span> <span class="toc_entry">Булева полнота Поста, редукция 3-SAT, конструктивные когомологии де&#160;Рама и барьеры внутренних вычислителей</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0014.html"><span class="toc_ref">3.1</span> <span class="toc_entry">Функционально полный базис Поста на двух каналах \(\mathbb {Z}_{512}\) и полиномиальная редукция 3-SAT</span></a>
+ </li>
+<li class="">
+  <a href="sect0015.html"><span class="toc_ref">3.2</span> <span class="toc_entry">Четыре барьера внутреннего вычислителя и встроенный блокнот Вернама Шеннона на \(\mathbb {Z}_{512}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0016.html"><span class="toc_ref">3.3</span> <span class="toc_entry">Конструктивные когомологии де&#160;Рама–Стокса–Гаусса–Черна и мера без аксиомы выбора</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-qm-maxwell.html"><span class="toc_ref">4</span> <span class="toc_entry">Дискретная и непрерывная квантовая механика (ДКМ и НКМ), электродинамика Максвелла и граница применимости континуума</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0017.html"><span class="toc_ref">4.1</span> <span class="toc_entry">Алгебраическое происхождение корпускулярно-волнового дуализма и правила Борна</span></a>
+ </li>
+<li class="">
+  <a href="sect0018.html"><span class="toc_ref">4.2</span> <span class="toc_entry">Порог дискретности \(\Delta \varphi _{\mathrm{disc}} = 41\), уравнения Максвелла и граница применимости континуальной теории</span></a>
+ </li>
+<li class="">
+  <a href="sec-mono-mechanics-elasticity-fatigue.html"><span class="toc_ref">4.3</span> <span class="toc_entry">Нелинейная механика маятника на произвольных углах, четырёхрежимная теория упругости за пределами закона Гука и предел усталостной выносливости металла</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-sm-gravity.html"><span class="toc_ref">5</span> <span class="toc_entry">Калибровочная группа Стандартной модели, гравитационное преломление и космология</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0019.html"><span class="toc_ref">5.1</span> <span class="toc_entry">Симплициальный комплекс \(\mathcal{C}_{13}\), матричные коммутаторы алгебры Ли \(\mathfrak {u}(1)\oplus \mathfrak {su}(2)\oplus \mathfrak {su}(3)\) и четырёхпетлевой вывод постоянной тонкой структуры</span></a>
+ </li>
+<li class="">
+  <a href="sect0020.html"><span class="toc_ref">5.2</span> <span class="toc_entry">Структура 13-узлового ротора электрона, полное квантование восьми наблюдаемых и единый вихревой атлас Стандартной модели на кликах \(\mathcal{C}_{13}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0021.html"><span class="toc_ref">5.3</span> <span class="toc_entry">Гравитация как преломление на импедансе ворот без сингулярности \(1/0\), ряд сжатия Гаусса–Грина, кавитированные гиперъядра и фазы нейтронной пасты</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-chemistry-nuclear.html"><span class="toc_ref">6</span> <span class="toc_entry">Атомные и ядерные оболочки кубооктаэдра, планетогенез по 6 зонам диска, тождества Безу на \(\mathbb {Z}_{512}\), сверхпроводимость и когерентный \(587\)-кратный коллапс барьера</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0022.html"><span class="toc_ref">6.1</span> <span class="toc_entry">Периодическая система до 8-го периода, четыре физических предела, двухсферный перенос урана на остров стабильности \(N=184\), планетогенез и четыре тождества Безу</span></a>
+ </li>
+<li class="">
+  <a href="sect0023.html"><span class="toc_ref">6.2</span> <span class="toc_entry">Седло химической связи, закон Гесса, правила симметрии, спаривание Купера и коллапс барьера</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-biology.html"><span class="toc_ref">7</span> <span class="toc_entry">Молекулярная биофизика, планетарные фотонные окна, генетический код ДНК, фолдинг белков и морфогенез</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0024.html"><span class="toc_ref">7.1</span> <span class="toc_entry">Делитель водородной связи \(N_{\mathrm{HB}} = 63\) и три планетарных фотонных окна (\(441 : 126 : 63 = 7 : 2 : 1\))</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sec-mono-epistemological-closure.html"><span class="toc_ref">8</span> <span class="toc_entry">Бесфононный кремниевый гетеропереход \(120 + 8 = 128\), общая конструкция предела по счётным моноидам стадий и гёделевская неизбежность лабораторного арбитража</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0025.html"><span class="toc_ref">8.1</span> <span class="toc_entry">Бесфононный кремниевый гетеропереход \(120 + 8 = 128\), барьер оболочечной пассивации \(45^2 {\lt} 2\, 048 {\lt} 46^2\) и вычисления без тепла Ландауэра</span></a>
+ </li>
+<li class="">
+  <a href="sect0026.html"><span class="toc_ref">8.2</span> <span class="toc_entry">Общий оператор предела по счётным моноидам стадий, проективные башни Мальцева и двусторонняя эквивалентность носителей \(\mathcal{M} \leftrightarrow \mathcal{T}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0027.html"><span class="toc_ref">8.3</span> <span class="toc_entry">Конструктивная непротиворечивость и теорема Ловера–Гёделя–Тарского</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000011">2.1 Дискретная экспонента Эйлера, код Грея, соотношения Коши–Римана и тождество постоянного вронскиана</h1>
+<p>На дискретном кольце \(\mathbb {Z}_{512}\) гармонические функции континуума \(\cos (2\pi \varphi /512)\) и \(\sin (2\pi \varphi /512)\) принимают иррациональные значения и не могут вычисляться внутри 9-битного регистра без потери обратимости. Фундаментальный результат дискретного анализа на носителе состоит в том, что существует <b class="bfseries">единственная</b> кусочно-линейная целочисленная пара проекций \((\mathcal{C}_3(\varphi ), \mathcal{S}_3(\varphi )) \in [-128, +128]^2\), сохраняющая все дифференциальные, когомологические, голоморфные и симплектические (унитарное сохранение фазовой площади) инварианты тригонометрии в точных целых числах. </p>
+<p>Представим любую 9-битную фазу \(\varphi \in \{ 0, \dots , 511\} \) в виде \(\varphi = 256\, b_8 + 128\, b_7 + m_7\), где \(b_8, b_7 \in \{ 0,1\} \) — два старших бита квадранта, а \(m_7 \in \{ 0, \dots , 127\} \) — 7-битная мантисса внутри четверти кольца \(Q_\square = 128\). Введём комплементарную мантиссу \(\overline{m}_7 = 128 - m_7\). Тогда чётная (косинусная) и нечётная (синусная) проекции дискретного характера Эйлера определяются одной транспозицией бабочки по 2-битному коду Грея \((g_1, g_0) = (b_8, b_8 \oplus b_7)\): </p>
+<div class="displaymath" id="eq:mono-rotator-def">
+  \begin{align}  \bigl(\mathcal{C}_3(\varphi ),\  \mathcal{S}_3(\varphi )\bigr) & = (+\overline{m}_7,\  +m_7) \qquad \text{при } (b_8, b_7) = (0, 0) \text{ (квадрант I, Грей } 00\text{)}, \label{eq:mono-rotator-def} \\ \bigl(\mathcal{C}_3(\varphi ),\  \mathcal{S}_3(\varphi )\bigr) & = (-m_7,\  +\overline{m}_7) \qquad \text{при } (b_8, b_7) = (0, 1) \text{ (квадрант II, Грей } 01\text{)}, \nonumber \\ \bigl(\mathcal{C}_3(\varphi ),\  \mathcal{S}_3(\varphi )\bigr) & = (-\overline{m}_7,\  -m_7) \qquad \text{при } (b_8, b_7) = (1, 0) \text{ (квадрант III, Грей } 11\text{)}, \nonumber \\ \bigl(\mathcal{C}_3(\varphi ),\  \mathcal{S}_3(\varphi )\bigr) & = (+m_7,\  -\overline{m}_7) \qquad \text{при } (b_8, b_7) = (1, 1) \text{ (квадрант IV, Грей } 10\text{)}. \nonumber \end{align}
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:mono-wronskian-integrals">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Теорема
+    </span>
+    <span class="theorem_thmlabel">2.1</span>
+    <span class="theorem_thmtitle">Дискретные условия Коши–Римана, постоянный разностный вронскиан и замкнутые дискретные интегралы</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0010.html#thm:mono-wronskian-integrals">#</a>
+    
+    <a class="icon proof" href="sect0010.html#a0000000051"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-mono-world-lagrangian-hamiltonian.html#thm:mono-world-lagrangian-hamiltonian">Теорема 1.6</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/RotatorQuadrature.lean#L173" class="lean_decl">thm1_constant_wronskian_weierstrass_lift_and_newton_leibniz</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/RotatorQuadrature.lean#L243" class="lean_decl">thm2_closed_form_fresnel_jacobi_dirichlet_parseval_bessel_integrals</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/RotatorQuadrature.lean" class="lean_decl">RotatorQuadrature.lean</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/LogicCohomology.lean" class="lean_decl">LogicCohomology.lean</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>    На всех \(512\) состояниях кольца \(\varphi \in \mathbb {Z}_{512}\) операторы&#160;<a href="sect0010.html#eq:mono-rotator-def" class="eqref">2.1</a> удовлетворяют следующим точным тождествам: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">\(L^1\)-норма грани кубооктаэдра, поворот на \(i\) (четверть кольца \(+Q_\square = +128\)) и дискретные соотношения Коши–Римана:</b> </p>
+<div class="displaymath" id="eq:mono-l1-norm">
+  \begin{align}  |\mathcal{C}_3(\varphi )| + |\mathcal{S}_3(\varphi )| & \equiv Q_\square (3) \; =\;  128, \label{eq:mono-l1-norm} \\ \mathcal{C}_3(\varphi + 128) & = -\mathcal{S}_3(\varphi ), \label{eq:mono-rotator-shift-c} \\ \mathcal{S}_3(\varphi + 128) & = +\mathcal{C}_3(\varphi ), \label{eq:mono-rotator-shift-s} \end{align}
+</div>
+<p> причём внутри каждого квадранта прямые разности вдоль кольца и по нормали к нему удовлетворяют сопряжённым дискретным условиям Коши–Римана \(\Delta \mathcal{C}_3(\varphi ) = -\mathrm{sgn}\bigl(\mathcal{S}_3(\varphi + 1/2)\bigr)\) и \(\Delta \mathcal{S}_3(\varphi ) = +\mathrm{sgn}\bigl(\mathcal{C}_3(\varphi + 1/2)\bigr)\) (\(\Delta \mathcal{C}_3(\varphi + 128) = -\Delta \mathcal{S}_3(\varphi )\), \(\Delta \mathcal{S}_3(\varphi + 128) = +\Delta \mathcal{C}_3(\varphi )\)). </p>
+</li>
+  <li><p><b class="bfseries">Тождественное постоянство разностного вронскиана (дискретная унитарность и отсутствие точек ветвления на всём кольце):</b> для прямых разностей \(\Delta \mathcal{C}_3(\varphi ) = \mathcal{C}_3(\varphi +1) - \mathcal{C}_3(\varphi )\) и \(\Delta \mathcal{S}_3(\varphi ) = \mathcal{S}_3(\varphi +1) - \mathcal{S}_3(\varphi )\) дискретный вронскиан тождественно равен четверти кольца: </p>
+<div class="equation" id="eq:mono-wronskian">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-wronskian} \mathcal{W}_3(\varphi ) \; :=\;  \mathcal{C}_3(\varphi )\, \Delta \mathcal{S}_3(\varphi ) - \mathcal{S}_3(\varphi )\, \Delta \mathcal{C}_3(\varphi ) \; \equiv \;  128 \; =\;  Q_\square (3) \qquad \forall \, \varphi \in \mathbb {Z}_{512}. \end{equation}
+  </div>
+  <span class="equation_label">2.5</span>
+</p>
+</div>
+</li>
+  <li><p><b class="bfseries">Замкнутая интегрируемость дискретных кольцевых сумм типа Френеля, Якоби, Дирихле, Парсеваля и Бесселя в&#160;\(\mathbb {Z}\):</b> на стационарной параболе Верле \(\varphi (t) = t^2 \bmod 512\) (имеющей первый стационарный возврат на такте \(T_{\mathrm{ret}} - 1 = 1023 = 2^{10}-1\) и полный двухвитковый спинорный период \(2N_{\mathrm{ring}} = 1024\)) дискретные кольцевые суммы типа Френеля, эллиптические суммы типа Якоби на лемнискатном модуле \(k^2 = 1/(c_0/c)^2 = 1/2\), сумма типа Дирихле, сумма энергии Парсеваля и сумма типа Бесселя нулевого порядка вычисляются точно в целых числах: </p>
+<div class="displaymath" id="eq:mono-closed-integrals">
+  \begin{align}  \mathcal{I}_{\mathrm{Fresnel},C}(512) & = \sum _{\varphi =0}^{511} \mathcal{C}_3(\varphi ^2) \; =\;  \sum _{\varphi =0}^{511} \mathcal{S}_3(\varphi ^2) \; =\;  2\, 048, \label{eq:mono-closed-integrals} \\ 6\sum _{\varphi =0}^{511} \mathcal{C}_3(\varphi )^2 & = 6\sum _{\varphi =0}^{511} \mathcal{S}_3(\varphi )^2 \; =\;  512\, (2\cdot 128^2 + 1) \; =\;  16\, 777\, 728, \label{eq:mono-parseval-sum} \\ \bigl(\mathcal{J}_0(0),\  \mathcal{J}_0(1),\  \mathcal{J}_0(4)\bigr) & = (65\, 536,\  32\, 768,\  0). \label{eq:mono-bessel-sum} \end{align}
+</div>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000051">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>В пункте&#160;(1) внутри каждого из четырёх квадрантов с локальной мантиссой \(m_7 \in [0, 128]\) проекции равны \(\pm (128 - m_7)\) и \(\pm m_7\), сумма модулей которых тождественно равна \((128 - m_7) + m_7 = 128\). Сдвиг фазы на \(+128\) переводит квадрант \((b_8, b_7)\) в следующий по коду Грея, заменяя \((\mathcal{C}_3, \mathcal{S}_3) \mapsto (-\mathcal{S}_3, +\mathcal{C}_3)\). </p>
+<p>В пункте&#160;(2) внутри первого квадранта (\(0 \le m {\lt} 128\)) соседние значения равны \((128 - m, m)\) и \((127 - m, m + 1)\), а в угловой вершине \(m = 128\), где наклон \(\Delta \mathcal{C}_3\) меняет знак с \(-1\) на \(+1\), координата \(\mathcal{C}_3(128) = 0\) обращается в нуль: </p>
+<div class="displaymath" id="a0000000052">
+  \begin{align*}  \mathcal{W}_3(m) & = (128 - m)(m + 1) - m(127 - m) \; =\;  128 \qquad (0 \le m {\lt} 128), \\ \mathcal{W}_3(128) & = 0 \cdot 127 - 128 \cdot (-1) \; =\;  128; \end{align*}
+</div>
+<p> по симметрии четверти оборота то же равенство выполняется во всех четырёх вершинах алмаза. </p>
+<p>В пункте&#160;(3) для суммы Френеля&#160;<a href="sect0010.html#eq:mono-closed-integrals" class="eqref">2.6</a> разбиение \(512\) вычетов \(\varphi \in \{ 0,\dots ,511\} \) по степени делимости на&#160;\(2\) показывает, что \(256\) нечётных точек, \(192\) точки \(\varphi \equiv 2, 4, 6 \pmod8\) и \(32\) точки \(\varphi \equiv 0 \pmod{16}\) попарно сокращаются при сдвиге квадратичной фазы на полупериод \(+256\) (\(\mathcal{E}_3(\psi + 256) = -\mathcal{E}_3(\psi )\)), тогда как \(32\) точки \(\varphi = 8(2k + 1)\) дают \(\varphi ^2 \equiv 64 \pmod{512}\) на биссектрисе стационарной фазы \(\psi = 64\), где \(\mathcal{C}_3(64) = \mathcal{S}_3(64) = 64\), откуда сумма равна \(32 \times 64 = 2\, 048\). Для суммы Парсеваля&#160;<a href="sect0010.html#eq:mono-parseval-sum" class="eqref">2.7</a> сумма квадратов по четырём квадрантам длины \(Q = 128\) равна \(2 Q^2 + 4\sum _{m=1}^{Q-1} m^2 = 4Q(2Q^2 + 1)/6\), откуда \(6\sum \mathcal{C}_3(\varphi )^2 = 512(2\cdot 128^2 + 1) = 16\, 777\, 728\). Для суммы Бесселя&#160;<a href="sect0010.html#eq:mono-bessel-sum" class="eqref">2.8</a> при \(k = 0\) имеем \(512\times 128 = 65\, 536\), при \(k = 1\) среднее значение \(128 - |\mathcal{S}_3(\varphi )|\) равно \(64\) (\(512\times 64 = 32\, 768\)), а при \(k = 4\) аргумент \(4\mathcal{S}_3(\varphi )\) равномерно пробегает полные периоды кольца, давая \(\mathcal{J}_0(4) = 0\). </p>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="ch-mono-rotator-calculus.html" title="Дискретная экспонента Эйлера на \(\mathbb {Z}_{512}\), однородная проективная арифметика над \(\mathbb {Q}(i,\sqrt{2})\) и выход в непрерывный анализ"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-mono-rotator-calculus.html" title="Дискретная экспонента Эйлера на \(\mathbb {Z}_{512}\), однородная проективная арифметика над \(\mathbb {Q}(i,\sqrt{2})\) и выход в непрерывный анализ"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0011.html" title="Вывод классического интеграла Римана и формулы Ньютона–Лейбница в макропределе \(N \to \infty \)"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

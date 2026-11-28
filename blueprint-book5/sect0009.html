@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Векторная суперпозиция встречных волн, тройная дихотомия \(M\)-этажного каскада и модельно-теоретическая независимость</title>
+<link rel="next" href="sect0010.html" title="Конструктивное построение R и C, биективный изоморфизм L1(Z4Q) ↔S1(C) и бритва Оккама–Мальцева" />
+<link rel="prev" href="sect0008.html" title="Моноид многовинтовых планетарных каскадов, экстремальная перестановочная вилка и вариационная монотонность" />
+<link rel="up" href="ch-math-multiscrew-and-holonomy.html" title="Алгебра многовинтовых планетарных каскадов и встречно-волновая суперпозиция на сфере Римана P1" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга V. Математика проективного многообразия (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Предисловие. Отделение чистой проективной математики от физики носителя</span></a>
+ </li>
+<li class="">
+  <a href="ch-math-rotator-calculus.html"><span class="toc_ref">1</span> <span class="toc_entry">Дискретный ротатор \(\mathbb {Z}_{4Q}\), однородные проективные поля \(\mathbb {Q}(i,\sqrt{d-1})\) и анализ без делений</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Характер Эйлера на \(L^1\)-алмазе, тождество постоянного вронскиана и подъём Брахмагупты–Вейерштрасса</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Замкнутая башня производных частного всех порядков \(D^n(f/g)\), многомерная кубатура Симпсона и когомологии де&#160;Рама</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Биекция полярных и декартовых координат \((M,\varphi )\leftrightarrow (X,Y)\) без корней, точное обращение \(\operatorname {atan}_{L^1},\, \operatorname {acot}_{L^1}\) и гиперболическое исчисление Гудермана–Минковского</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">1.4</span> <span class="toc_entry">Конструктивный переход от квадратичных сумм на кольце \(\mathbb {Z}_{4Q}\) к интегралам Френеля на \(\mathbb {R}\) (\(\mathbb {C}\)) без рядов Тейлора и без таблиц</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-math-pade-sl2-towers.html"><span class="toc_ref">2</span> <span class="toc_entry">Изотропный дискриминантный конус в \(\mathrm{SL}_2(\mathbb {Z})\), моноид башни аппроксимантов Паде и бескорневое кубическое сжатие</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0006.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Матричное представление ступеней, изотропный конус и параболические жордановы матрицы в \(\mathrm{SL}_2(\mathbb {Z})\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-math-planetary-differentials.html"><span class="toc_ref">3</span> <span class="toc_entry">Трёхшахтные планетарные дифференциалы \(\mathcal{A} + \mathcal{B} = \mathcal{C}\), вронскиан Мейсона–Стотерса и проекторы Лагранжа–Вандермонда</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0007.html"><span class="toc_ref">3.1</span> <span class="toc_entry">Ортогональный репер трёхшахтного дифференциала \(\mathcal{F}_3\), матрица моментов Ганкеля и целочисленный вронскиан Мейсона–Стотерса</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active">
+  <a href="ch-math-multiscrew-and-holonomy.html"><span class="toc_ref">4</span> <span class="toc_entry">Алгебра многовинтовых планетарных каскадов и встречно-волновая суперпозиция на сфере Римана \(\mathbb {P}^1\)</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0008.html"><span class="toc_ref">4.1</span> <span class="toc_entry">Моноид многовинтовых планетарных каскадов, экстремальная перестановочная вилка и вариационная монотонность</span></a>
+ </li>
+<li class=" active current">
+  <a href="sect0009.html"><span class="toc_ref">4.2</span> <span class="toc_entry">Векторная суперпозиция встречных волн, тройная дихотомия \(M\)-этажного каскада и модельно-теоретическая независимость</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html"><span class="toc_ref">4.3</span> <span class="toc_entry">Конструктивное построение \(\mathbb {R}\) и \(\mathbb {C}\), биективный изоморфизм \(L^1(\mathbb {Z}_{4Q}) \leftrightarrow S^1(\mathbb {C})\) и бритва Оккама–Мальцева</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000010">4.2 Векторная суперпозиция встречных волн, тройная дихотомия \(M\)-этажного каскада и модельно-теоретическая независимость</h1>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:math-counterwave-dichotomy-and-independence">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Теорема
+    </span>
+    <span class="theorem_thmlabel">4.2</span>
+    <span class="theorem_thmtitle">Тождественное сокращение чётной матрицы Грама \(\mathrm{MainAmount}_{\mathrm{vec}}\) при векторной суперпозиции встречных волн, тройная дихотомия каскада и свидетели модельно-теоретической независимости</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0009.html#thm:math-counterwave-dichotomy-and-independence">#</a>
+    
+    <a class="icon proof" href="sect0009.html#a0000000020"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0006.html#thm:math-pade-tower-cubic-compression">Теорема 2.1</a></li>
+          
+          <li><a href="sect0008.html#thm:math-multiscrew-cascade-extremal-envelope">Теорема 4.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/MinkowskiCounterwaveCascade.lean#L614" class="lean_decl">ocean_true_vector_superposition_norm_imbalance_and_mainamount_cancellation</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/MinkowskiCounterwaveCascade.lean#L657" class="lean_decl">counterwave_cascade_orthogonality_dichotomy_and_independence_models</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>    Пусть \(\mathcal{O}_{\mathrm{vec}} = \{ (c_k, s_k, \alpha _k, \beta _k)\} _{k=1}^N \in \mathrm{List}\, (\mathbb {Z}^4)\) — произвольный конечный ансамбль двумерных волновых мод с суммарным базовым фазором \((C_\Sigma , S_\Sigma ) = \bigl(\sum _{k=1}^N c_k,\  \sum _{k=1}^N s_k\bigr)\), суммарным вектором радиальной производной \((A_\Sigma , B_\Sigma ) = \bigl(\sum _{k=1}^N \alpha _k,\  \sum _{k=1}^N \beta _k\bigr)\), вектором прямой волны \(W_+(\delta ) = (C_\Sigma + A_\Sigma \delta ,\  S_\Sigma + B_\Sigma \delta )\) и вектором встречной волны \(W_-(\delta ) = (C_\Sigma - A_\Sigma \delta ,\  S_\Sigma - B_\Sigma \delta )\) при сдвиге \(\delta \in \mathbb {Z}\). Тогда: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Тождественное сокращение полной матрицы Грама \(\mathrm{MainAmount}_{\mathrm{vec}}(\delta )\) со всеми \(N^2\) перекрёстными слагаемыми:</b> квадраты норм суммарных векторов \(U_{\mathrm{vec}}(\delta ) = |W_+(\delta )|^2\) и \(V_{\mathrm{vec}}(\delta ) = |W_-(\delta )|^2\) удовлетворяют: </p>
+<div class="displaymath" id="eq:math-vec-ocean-sum">
+  \begin{align}  U_{\mathrm{vec}}(\delta ) + V_{\mathrm{vec}}(\delta ) & \equiv 2\, \mathrm{MainAmount}_{\mathrm{vec}}(\delta ) \; =\;  2\, \Bigl((C_\Sigma ^2 + S_\Sigma ^2) + \delta ^2(A_\Sigma ^2 + B_\Sigma ^2)\Bigr), \label{eq:math-vec-ocean-sum} \\ U_{\mathrm{vec}}(\delta ) - V_{\mathrm{vec}}(\delta ) & \equiv 4\, \bigl(C_\Sigma A_\Sigma + S_\Sigma B_\Sigma \bigr)\, \delta . \label{eq:math-vec-ocean-diff} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Тройная дихотомия \(M\)-этажного каскада \(\mathrm{SL}_2(\mathbb {Z})\):</b> после прохождения пары \((U_{\mathrm{vec}}(\delta ), V_{\mathrm{vec}}(\delta ))\) через произвольный \(M\)-этажный каскад \(R \in \mathrm{List}\, \mathbb {Z}\) выходные амплитуды \(P_R = \operatorname {minkowskiCascadeP}(R, U_{\mathrm{vec}}(\delta ), V_{\mathrm{vec}}(\delta ))\) и \(Q_R = \operatorname {minkowskiCascadeQ}(R, U_{\mathrm{vec}}(\delta ), V_{\mathrm{vec}}(\delta ))\) удовлетворяют </p>
+<div class="equation" id="eq:math-cascade-diff-trichotomy">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-cascade-diff-trichotomy} P_R - Q_R \; \equiv \;  4\, \Pi _-(R)\, \bigl(C_\Sigma A_\Sigma + S_\Sigma B_\Sigma \bigr)\, \delta , \end{equation}
+  </div>
+  <span class="equation_label">4.10</span>
+</p>
+</div>
+<p> а при \(q {\gt} 0\), \(P_R {\gt} 0\), \(Q_R {\gt} 0\) обращение в нуль интенсивности деструктивной интерференции \(I_q(P_R, Q_R, \mathcal{C}_q(\Delta \varphi )) = q(P_R - Q_R)^2 + 2 P_R Q_R(q + \mathcal{C}_q(\Delta \varphi ))\) эквивалентно тройной дихотомии: </p>
+<div class="equation" id="eq:math-counterwave-zero-iff-trichotomy">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-counterwave-zero-iff-trichotomy} I_q\bigl(P_R,\,  Q_R,\,  \mathcal{C}_q(\Delta \varphi )\bigr) = 0 \; \Longleftrightarrow \;  \Bigl(\Pi _-(R) = 0 \; \lor \;  C_\Sigma A_\Sigma + S_\Sigma B_\Sigma = 0 \; \lor \;  \delta = 0\Bigr) \; \land \;  \operatorname {pauliPhaseDistNat}(q, \Delta \varphi ) = 0. \end{equation}
+  </div>
+  <span class="equation_label">4.11</span>
+</p>
+</div>
+</li>
+  <li><p><b class="bfseries">Две конструктивные модели и теорема о модельно-теоретической независимости \(\delta = 0\) от одних лишь встречно-волновых аксиом:</b> </p>
+<ul class="itemize">
+  <li><p><b class="bfseries">Модель&#160;1 (коллинеарная модель \(\mathcal{O}_1 = [(1, 0, 1, 0)]\)):</b> \((C_\Sigma , S_\Sigma ) = (1, 0)\), \((A_\Sigma , B_\Sigma ) = (1, 0)\), скалярное произведение \(C_\Sigma A_\Sigma + S_\Sigma B_\Sigma = 1 \ne 0\), откуда при \(\Pi _-(R) \ne 0\) равенство \(P_R = Q_R\) эквивалентно \(\delta = 0\); </p>
+</li>
+  <li><p><b class="bfseries">Модель&#160;2 (ортогональная модель \(\mathcal{O}_2 = [(1, 1, -1, 1)]\)):</b> \((C_\Sigma , S_\Sigma ) = (1, 1) \perp (A_\Sigma , B_\Sigma ) = (-1, 1)\), скалярное произведение \(C_\Sigma A_\Sigma + S_\Sigma B_\Sigma = 1\cdot (-1) + 1\cdot 1 = 0\), и на ненулевом сдвиге \(\delta = 1 \ne 0\) выполняются \(U_{\mathrm{vec}}(1) = 4 {\gt} 0\), \(V_{\mathrm{vec}}(1) = 4 {\gt} 0\), \(P_R = Q_R\) и \(I_q(P_R, Q_R, \mathcal{C}_q(2q)) = 0\). </p>
+</li>
+</ul>
+<p> Следовательно, утверждение \(\delta = 0\) модельно-теоретически независимо от аксиом встречно-волновой симметрии и каскада \(\mathrm{SL}_2(\mathbb {Z})\) без дополнительного аналитического закона, исключающего ортогональность \((C_\Sigma , S_\Sigma ) \perp (A_\Sigma , B_\Sigma )\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000020">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Тождества&#160;<a href="sect0009.html#eq:math-vec-ocean-sum" class="eqref">4.8</a>–<a href="sect0009.html#eq:math-counterwave-zero-iff-trichotomy" class="eqref">4.11</a> и свойства моделей \(\mathcal{O}_1, \mathcal{O}_2\) следуют из билинейности скалярного произведения и факторизации разности башни Паде. </p>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sect0008.html" title="Моноид многовинтовых планетарных каскадов, экстремальная перестановочная вилка и вариационная монотонность"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-math-multiscrew-and-holonomy.html" title="Алгебра многовинтовых планетарных каскадов и встречно-волновая суперпозиция на сфере Римана \(\mathbb {P}^1\)"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0010.html" title="Конструктивное построение \(\mathbb {R}\) и \(\mathbb {C}\), биективный изоморфизм \(L^1(\mathbb {Z}_{4Q}) \leftrightarrow S^1(\mathbb {C})\) и бритва Оккама–Мальцева"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

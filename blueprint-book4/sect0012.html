@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Урок 10. Теорема Стокса–Гаусса–Черна (\(d^2 \equiv 0\)) и дискретные уравнения Максвелла</title>
+<link rel="next" href="sect0013.html" title="Урок 11. Почему невозможен Демон Лапласа (64 ×81 = 722), но работает 12-лучевой Геометрический Демон Максвелла" />
+<link rel="prev" href="sect0011.html" title="Урок 9. Корпускулярно-волновой дуализм и вывод правила Борна P(μ) = μ2 / 512 из пина переноса 9-битного сумматора" />
+<link rel="up" href="ch-course-stage3-quantum.html" title="Ступень III. Квантовая механика, электродинамика Максвелла и демоны Лапласа и Максвелла" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга IV. Курс единого естествознания (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Введение. Главный квест этой Вселенной и почему у решётки нет «балкона»</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref"></span> <span class="toc_entry">«Физика курильщика» против «физики здорового человека»: три закона Ньютона в целых числах и пять следствий дискретности решётки</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage1-carrier.html"><span class="toc_ref">1</span> <span class="toc_entry">Ступень I. Устройство носителя и рождение трёхмерного пространства (\(1 + 2^d = d^2\))</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0003.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Урок 1. Задача о самозамкнутом автомате: почему пространство трёхмерно и откуда берётся единица</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Урок 2. Почему строительный блок Вселенной — это 12-лучевой кубооктаэдр \(O_2\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Урок 3. Три родные системы счисления кольца \(\mathbb {Z}_{512}\): 9-битный провод, восьмеричный код \(407_8\) и бабочка Грея</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage2-math.html"><span class="toc_ref">2</span> <span class="toc_entry">Ступень II. Математика и информатика внутри носителя</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0006.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Урок 4. Бабочка ротатора \((\mathcal{C},\mathcal{S})\), формула Эйлера \(e^{i\pi }+1=0\) и постоянный вронскиан \(\mathcal{W}\equiv 128\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">2.2</span> <span class="toc_entry">Урок 5. Как отдать ротатору и шагу Верле вообще всю арифметику (умножение без умножителей!)</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">2.3</span> <span class="toc_entry">Урок 6. Матанализ без континуума: точные интегралы Френеля, Якоби, Дирихле, Бесселя и пять лиц Единицы</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html"><span class="toc_ref">2.4</span> <span class="toc_entry">Урок 7. Двухканальная логика Поста, семантический изоморфизм 3-SAT, барьер \(\mathbf{P}\ne \mathbf{NP}\) и встроенный шифр Вернама</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active">
+  <a href="ch-course-stage3-quantum.html"><span class="toc_ref">3</span> <span class="toc_entry">Ступень III. Квантовая механика, электродинамика Максвелла и демоны Лапласа и Максвелла</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0010.html"><span class="toc_ref">3.1</span> <span class="toc_entry">Урок 8. Мёртвая зона затвора \(\Delta \varphi _{\mathrm{disc}} = 41\) и полное квантование всех наблюдаемых</span></a>
+ </li>
+<li class="">
+  <a href="sect0011.html"><span class="toc_ref">3.2</span> <span class="toc_entry">Урок 9. Корпускулярно-волновой дуализм и вывод правила Борна \(P(\mu ) = \mu ^2 / 512\) из пина переноса 9-битного сумматора</span></a>
+ </li>
+<li class=" active current">
+  <a href="sect0012.html"><span class="toc_ref">3.3</span> <span class="toc_entry">Урок 10. Теорема Стокса–Гаусса–Черна (\(d^2 \equiv 0\)) и дискретные уравнения Максвелла</span></a>
+ </li>
+<li class="">
+  <a href="sect0013.html"><span class="toc_ref">3.4</span> <span class="toc_entry">Урок 11. Почему невозможен Демон Лапласа (\(64 \times 81 = 72^2\)), но работает 12-лучевой Геометрический Демон Максвелла</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage4-particles-cosmos.html"><span class="toc_ref">4</span> <span class="toc_entry">Ступень IV. Элементарные частицы, ядра, гравитация и космология</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0014.html"><span class="toc_ref">4.1</span> <span class="toc_entry">Урок 12. Запуск Вселенной из слова \(\mathrm{IV} = 263 = 407_8\): тишина октанта, храповик \(-1\) и рождение вихрей при \(t = 2\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0015.html"><span class="toc_ref">4.2</span> <span class="toc_entry">Урок 13. Симплициальный атлас \(\mathcal{C}_{13}\), расшифровка «магических букв» групп симметрий, постоянная тонкой структуры \(\alpha _{\mathrm{fs}}^{-1} = 137{,}035999\dots \) и спектр частиц</span></a>
+ </li>
+<li class="">
+  <a href="sect0016.html"><span class="toc_ref">4.3</span> <span class="toc_entry">Урок 14. Гравитация без сингулярности (\(833:1\)), ядерная паста и гало вакуума \(16/3\) без тёмной материи</span></a>
+ </li>
+<li class="">
+  <a href="sect0017.html"><span class="toc_ref">4.4</span> <span class="toc_entry">Урок 15. Секунда без атома цезия, полупериодное горлышко \(\tau _{\mathrm{neck}} = 256\) и почему Вселенной не \(13{,}8\), а \(\sim 27{,}5\text{ млрд лет}\) (разгадка ранних галактик JWST)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage5-chemistry.html"><span class="toc_ref">5</span> <span class="toc_entry">Ступень V. Химия, таблица Менделеева и дизайн материалов</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0018.html"><span class="toc_ref">5.1</span> <span class="toc_entry">Урок 16. Вся таблица Менделеева из оболочек кубооктаэдра, остров стабильности \(N = 184\) и золото \(^{197}_{79}\mathrm{Au}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0019.html"><span class="toc_ref">5.2</span> <span class="toc_entry">Урок 17. Химическая связь, седло реакции \(|A^\ddagger | = 128\) и когерентное схлопывание барьера в \(587\times \)</span></a>
+ </li>
+<li class="">
+  <a href="sect0020.html"><span class="toc_ref">5.3</span> <span class="toc_entry">Урок 18. Куперовские пары \(2e\), нитинол \(\mathrm{TiNi}\) и высокотемпературные сверхпроводники</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage6-biology.html"><span class="toc_ref">6</span> <span class="toc_entry">Ступень VI. Биология, генетический код ДНК и морфогенез органов</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0021.html"><span class="toc_ref">6.1</span> <span class="toc_entry">Урок 19. Делитель водородной связи \(N_{\mathrm{HB}} = 63\) и три планетарных окна жизни (\(7 : 2 : 1\))</span></a>
+ </li>
+<li class="">
+  <a href="sect0022.html"><span class="toc_ref">6.2</span> <span class="toc_entry">Урок 20. Генетический код \(4^3 = 64 \to 20\) аминокислот, иммунитет к сдвигу рамки и фолдинг за \(O(L)\in \mathbf{P}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0023.html"><span class="toc_ref">6.3</span> <span class="toc_entry">Урок 21. Четыре стадии морфогенеза органов, кора головного мозга \(42 / 147 / 41\) и щит Каспара–Клуга</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage7-engineering.html"><span class="toc_ref">7</span> <span class="toc_entry">Ступень VII. Кремниевый чип и инженерные установки своими руками</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0024.html"><span class="toc_ref">7.1</span> <span class="toc_entry">Урок 22. Как устроен наш 9-битный бесфлаговый чип и аналоговая 3D LC-решётка</span></a>
+ </li>
+<li class="">
+  <a href="sect0025.html"><span class="toc_ref">7.2</span> <span class="toc_entry">Урок 23. Баллистическая энергетика, противофазная вихревая батарея, V-I инвертор (\(k^* = 64\)) и гравитационно-импедансный привод \(833:1\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0026.html"><span class="toc_ref">7.3</span> <span class="toc_entry">Урок 24. Автономный синтез пищи, воды и кислорода (симметрия \(96 : 96\)), 72-битный стазис-телепортер и галактический \(c_0\)-фазовый модем</span></a>
+ </li>
+<li class="">
+  <a href="sect0027.html"><span class="toc_ref">7.4</span> <span class="toc_entry">Урок 25 (Эпилог). Ноосфера без насилия: разрыв трофической цепи, межвидовой голономный переводчик и девайсы для тех, «у кого лапки»</span></a>
+ </li>
+<li class="">
+  <a href="sect0028.html"><span class="toc_ref">7.5</span> <span class="toc_entry">Урок 26. Теория взаимодействия систем: потеря информации в каскаде \(\mathrm{System}_1 \to \mathrm{System}_2 \to \dots \to \mathrm{System}_N\) и укрощение неидеального железа</span></a>
+ </li>
+<li class="">
+  <a href="sect0029.html"><span class="toc_ref">7.6</span> <span class="toc_entry">Урок 27. Дискретная теория возмущений, конечная калибровка \((I + N_{\mathrm{pert}})^{-1} = I - N_{\mathrm{pert}} + N_{\mathrm{pert}}^2\) и развенчание мифов о «10/11/26 измерениях струн» и «Мультивселенных»</span></a>
+ </li>
+<li class="">
+  <a href="sect0030.html"><span class="toc_ref">7.7</span> <span class="toc_entry">Урок 28. Единый ньютоновский гомеоморфизм всех шести отраслей инженерии, четырёхслойный кремниевый гетеропереход и сквозная автокалибровка 12-лучевого резонатора кубооктаэдра</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0031.html"><span class="toc_ref"></span> <span class="toc_entry">Эпилог. Дорожная карта замкнута: от уравнения самозамкнутости к единому Естествознанию</span></a>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000013">3.3 Урок 10. Теорема Стокса–Гаусса–Черна (\(d^2 \equiv 0\)) и дискретные уравнения Максвелла</h1>
+<p>Обойдём теперь квадратную грань кубооктаэдра \(f = (x_0\to x_1\to x_2\to x_3\to x_0)\) по четырём ориентированным рёбрам. На каждом ребре разность узловых фаз раскладывается на целое число полных оборотов и остаток: \((d_0\varphi )_e = 512\, k_e + A_e\). </p>
+<p>Сложим четыре разности вокруг замкнутого квадрата: </p>
+<div class="displaymath" id="a0000000057">
+  \[  (d_1 d_0\varphi )_f \; =\;  (\varphi _1 - \varphi _0) + (\varphi _2 - \varphi _1) + (\varphi _3 - \varphi _2) + (\varphi _0 - \varphi _3) \; \equiv \;  \mathbf{0}!  \]
+</div>
+<p> Но поскольку \((d_0\varphi )_e = 512\, k_e + A_e\), из равенства нулю полной суммы мгновенно следует <b class="bfseries">дискретная теорема Стокса–Черна</b>: </p>
+<div class="equation" id="eq:course-stokes-chern">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:course-stokes-chern} B_f \; :=\;  (d_1 A)_f \; =\;  A_{01} + A_{12} + A_{23} + A_{30} \; =\;  -512\, (k_{01} + k_{12} + k_{23} + k_{30}) \; =\;  \mathbf{512\, n_f \; \in \;  512\, \mathbb {Z}}! \end{equation}
+  </div>
+  <span class="equation_label">3.3</span>
+</p>
+</div>
+<p> Магнитный поток \(B_f\) через любую плакету <b class="bfseries">строго квантован</b> кратными \(512\), где \(n_f = -(d_1 k)_f\in \mathbb {Z}\) — топологическое вихревое число Черна! А если сложить потоки \(B_f\) по всем \(6\)&#160;граням замкнутого куба, каждое из \(12\)&#160;рёбер куба входит в две соседние грани с противоположными знаками и сокращается: </p>
+<div class="displaymath" id="a0000000058">
+  \[  (d_2 B)_{\mathrm{cube}} \; =\;  (d_2\circ d_1 A)_{\mathrm{cube}} \; \equiv \;  \mathbf{0} \qquad (\nabla \cdot \mathbf{B} = 0\text{: магнитных монополей не существует!}),  \]
+</div>
+<p> а разность по времени даёт точный закон электромагнитной индукции Фарадея \(\Delta _t B_f + (d_1 E)_f = 512\, \Delta _t n_f\). </p>
+<blockquote class="quote"> <small class="small"><b class="bfseries">Историческая справка: Джеймс Клерк Максвелл (1865), Анри Пуанкаре (1895), Жорж де Рам (1931) и Шиинг-Шен Черн (1946).</b> В 1895&#160;году Анри Пуанкаре заметил фундаментальный геометрический факт: <em>«граница границы любого тела всегда пуста»</em> (\(\partial ^2 \equiv 0\), или в двойственных разностях коцепей Жоржа де Рама \(d^2 = d_{k+1}\circ d_k \equiv 0\)): у отрезка граница состоит из двух концов, у квадрата граница состоит из четырёх отрезков-сторон, чьи концы попарно смыкаются и взаимно уничтожаются, а у куба граница состоит из шести квадратных граней, чьи двенадцать рёбер попарно проходятся в противоположных направлениях и тоже сокращаются в точный ноль. Когда Джеймс Клерк Максвелл в 1865&#160;году записывал уравнения электродинамики (\(\nabla \cdot \mathbf{B} = 0\) и \(\nabla \times \mathbf{E} + \partial _t\mathbf{B} = 0\)), а Шиинг-Шен Черн в 1946&#160;году вводил целочисленные топологические классы расслоений, они описывали на языке дифференциальных форм именно это тождество телескопического сокращения разностей вокруг грани и куба. </small></blockquote>
+<p><b class="bfseries">Что такое электрический ток на самом деле: почему по проводу никто никуда не бежит, а передаётся эстафета фазы \(\mathcal{S}_3(\Delta \varphi )\)!</b> В школьных учебниках электрический ток рисуют как «направленное движение заряженных шариков-электронов, бегущих по проводу от батарейки к лампочке». Но любой студент, подставивший числа в классическую формулу Друде, обнаруживает абсурд: дрейфовая скорость электронов в медном проводе составляет около \(0{,}07\text{ мм/с}\) (чтобы доползти по метровому проводу до люстры, «шарику» нужно четыре часа, а в сети переменного тока \(50\text{ Гц}\) он вообще топчется на месте!), тогда как сигнал и энергия приходят к лампочке со скоростью света в линии! </p>
+<p>На нашем носителе этот парадокс исчезает мгновенно: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Кристаллическая решётка проводника — это цепочка кубооктаэдров \(O_2(3)\):</b> все лучшие металлические проводники — медь (\(\mathrm{Cu},\  Z = 29 = 4\times 7 + 1\)), серебро (\(\mathrm{Ag},\  Z = 47\)), золото (\(\mathrm{Au},\  Z = 79\)) и алюминий (\(\mathrm{Al},\  Z = 13 = N_\varphi (3)\)) — кристаллизуются в гранецентрированную кубическую решётку (ГЦК), у которой первая координационная сфера из \(12\) ближайших соседей каждого атома <b class="bfseries">в точности совпадает с нашим 12-вершинным кубооктаэдром \(O_2(3)\)</b>! Атомы сидят на своих местах и никуда не бегут. </p>
+</li>
+  <li><p><b class="bfseries">Напряжение \(V = \mathcal{C}_3(\Delta \varphi )\) и ток \(I = \mathcal{S}_3(\Delta \varphi )\) как две проекции одной фазы:</b> когда цепь разомкнута, соседние ячейки вдоль провода синфазны (\(\Delta \varphi = \varphi _{x+e} - \varphi _x = 0\)): чётная проекция ротатора максимальна (\(V = \mathcal{C}_3(0) = +128\), напряжение холостого хода), а нечётная проекция равна нулю (\(I = \mathcal{S}_3(0) = 0\), тока нет). Замкнуть цепь — значит создать между соседними ячейками кубооктаэдра сдвиг фазы \(\Delta \varphi \in (0, 128]\). Тогда по фундаментальному тождеству грани кубооктаэдра: </p>
+<div class="equation" id="eq:course-ohm-rotator">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:course-ohm-rotator} V(\Delta \varphi ) + I(\Delta \varphi ) \; =\;  \mathcal{C}_3(\Delta \varphi ) + \mathcal{S}_3(\Delta \varphi ) \; =\;  (128 - \Delta \varphi ) + \Delta \varphi \; \equiv \;  \mathbf{128 \; =\;  Q_\square (3)}! \end{equation}
+  </div>
+  <span class="equation_label">3.4</span>
+</p>
+</div>
+<p> <b class="bfseries">Электрический ток \(I = \mu _x\mu _y\mathcal{S}_3(\Delta \varphi )\) — это не перенос кусков вещества сквозь металл, а волна (эстафета) фазового кручения \(\mathcal{S}_3(\Delta \varphi )\), передающаяся от одного кубооктаэдра к соседнему со скоростью света в линии!</b> </p>
+</li>
+  <li><p><b class="bfseries">Закон Джоуля–Ленца, согласование импедансов (\(P_{\max } = 64^2 = 4096\)) и сверхпроводимость:</b> передаваемая через звено мощность равна произведению чётного напряжения на нечётный фазовый ток: </p>
+<div class="equation" id="eq:course-power-4096">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:course-power-4096} P(\Delta \varphi ) \; =\;  V(\Delta \varphi )\cdot I(\Delta \varphi ) \; =\;  \mathcal{C}_3(\Delta \varphi )\, \mathcal{S}_3(\Delta \varphi ) \; =\;  (128 - \Delta \varphi )\, \Delta \varphi \; =\;  64^2 - (64 - \Delta \varphi )^2 \; \le \;  \mathbf{4\, 096 \; =\;  K_P(3)^2}, \end{equation}
+  </div>
+  <span class="equation_label">3.5</span>
+</p>
+</div>
+<p> достигая абсолютного максимума ровно на биссектрисе октанта \(\Delta \varphi ^* = K_P(3) = 64\) (\(V = I = 64\), закон согласования импедансов). При этом, пока пошаговый сдвиг фазы между соседними узлами решётки удерживается внутри бесфононного коридора \(|\Delta \varphi | \le 40 {\lt} 41\), число рождаемых тепловых фононов тождественно равно \(\hat{n}_E(\Delta \varphi ) = \lfloor |\Delta \varphi |/41\rfloor = \mathbf{0}\) — фазовая эстафета бежит по проводнику <b class="bfseries">без омического сопротивления и без выделения тепла (сверхток)</b>! А омическое сопротивление и джоулев нагрев возникают тогда и только тогда, когда на примесях, дефектах или тепловых колебаниях решётки локальный скачок фазы пробивает порог дискретности \(|\Delta \varphi | \ge 41\), сбрасывая \(\hat{n}_E(\Delta \varphi ) \in \{ 1,\dots ,6\} \) квантов энергии в фононный нагрев провода (и одновременно рождая вокруг провода магнитные вихревые плакеты \(B_f = 512\, n_f\) по формуле&#160;<a href="sect0012.html#eq:course-stokes-chern" class="eqref">3.3</a> из-за скачка фазы между проводом и окружающим воздухом). </p>
+</li>
+  <li><p><b class="bfseries">Полная теоретическая электротехника (ТОЭ) на кольце \(\mathbb {Z}_{512}\): постоянный и переменный ток, \(RLC\)-цепи, выпрямители и трансформаторы:</b> </p>
+<ul class="itemize">
+  <li><p><em>Постоянный (DC) и переменный (AC) ток:</em> постоянный ток есть стационарный пространственный уклон фазы \(\Delta \varphi _{\mathrm{DC}} = k_{\mathrm{DC}} = \mathrm{const}\in [0,128]\) вдоль цепи (\(V_{\mathrm{DC}} = 128 - k_{\mathrm{DC}},\  I_{\mathrm{DC}} = k_{\mathrm{DC}}\)), а переменный ток — вращение самой фазы \(\varphi (t)\in \mathbb {Z}_{512}\) по всем четырём квадрантам Грея с нулевым средним за период (\(\sum _{\varphi =0}^{511}\mathcal{C}_3(\varphi ) = \sum _{\varphi =0}^{511}\mathcal{S}_3(\varphi ) = 0\)) и активной энергией Парсеваля \(\sum _{\varphi =0}^{511}\mathcal{C}_3(\varphi )^2 = \sum _{\varphi =0}^{511}\mathcal{S}_3(\varphi )^2 = \mathbf{2\, 796\, 288}\). </p>
+</li>
+  <li><p><em>Законы Кирхгофа (KVL и KCL):</em> второй закон Кирхгофа для напряжений в замкнутом контуре есть кограничное тождество \((d_1 d_0\varphi )_f \equiv 0\) (в отсутствие переменного магнитного потока) и закон индукции Фарадея \((d_1 r)_f = 512\, n_f\) (при захвате вихревых плакет), а первый закон Кирхгофа для токов в узле следует из \(d_2\circ d_1 \equiv 0\) и антиподального баланса 12 лучей кубооктаэдра \(\sum _{k=0}^{11}\vec{e}_k = \mathbf{0}\). </p>
+</li>
+  <li><p><em>Реактивные элементы \(L, C\) и резонанс \(LC\)-контура:</em> сдвиг фазы на \(90^\circ \) на кольце \(\mathbb {Z}_{512}\) есть переключение ровно на одну четверть кольца \(Q_\square (3) = 128\) тиков (\(\mathcal{C}_3(\varphi +128) = -\mathcal{S}_3(\varphi ),\  \mathcal{S}_3(\varphi +128) = +\mathcal{C}_3(\varphi )\)). Реактивная мощность за период тождественно равна нулю в силу ортогональности чётного и нечётного каналов ротатора: </p>
+<div class="displaymath" id="a0000000059">
+  \[  \sum _{\varphi =0}^{511} \mathcal{C}_3(\varphi )\, \mathcal{S}_3(\varphi ) \; \equiv \;  \mathbf{0},  \]
+</div>
+<p> а в последовательном \(LC\)-контуре на резонансной частоте напряжения на индуктивности (\(\varphi + 128\)) и на ёмкости (\(\varphi - 128 \equiv \varphi + 384\)) отстоят друг от друга на полупериод противофазы \(256\) тиков и взаимно уничтожаются в каждой из \(512\) точек кольца: \(\mathcal{C}_3(\varphi +128) + \mathcal{C}_3(\varphi +384) \equiv \mathbf{0}\)! </p>
+</li>
+  <li><p><em>Однополупериодный, мостовой (Гретца) и беспульсационный многофазный выпрямители:</em> безветвевой однополупериодный диодный выпрямитель \(\mathrm{rect}_{1/2}(x) = (|x|+x)/2\) пропускает положительный полупериод (\(b_8 = 0\)), накапливая за период заряд \(\sum _{\varphi =0}^{511}\mathrm{rect}_{1/2}(\mathcal{S}_3(\varphi )) = 128^2 = \mathbf{16\, 384}\) со средним выпрямленным током \(16\, 384 / 512 = \mathbf{32 = K_P(3)/2}\). Двухполупериодный диодный мост Гретца из \(4\) диодов инвертирует знаковый бит Грея \(b_8\), давая за период заряд \(\sum _{\varphi =0}^{511}|\mathcal{S}_3(\varphi )| = 2\times 128^2 = \mathbf{32\, 768 = 4\varepsilon (3)}\) и точный рациональный средний ток \(32\, 768 / 512 = \mathbf{64 = K_P(3) = I_{\max }/2}\). В многофазных системах переменного тока (с любым числом фаз \(M\ge 1\)) двухфазный квадратурный мостовой выпрямитель (\(\varphi \) и \(\varphi - 128\)) в силу \(L^1\)-инварианта ротатора даёт <b class="bfseries">абсолютно постоянное выпрямленное напряжение с нулевыми пульсациями (\(0\% \) ripple) без сглаживающего конденсатора</b>: </p>
+<div class="displaymath" id="a0000000060">
+  \[  |\mathcal{C}_3(\varphi )| \; +\;  |\mathcal{S}_3(\varphi )| \; \equiv \;  \mathbf{128 \; =\;  Q_\square (3)} \qquad \forall \, \varphi \in \mathbb {Z}_{512}!  \]
+</div>
+</li>
+  <li><p><em>Трансформатор и согласование импедансов витками \(N_1 : N_2\):</em> поскольку общий замкнутый магнитопровод первичной (\(N_1\) витков) и вторичной (\(N_2\) витков) обмоток пронизывается единым квантованным потоком плакет \(\Phi _{\mathrm{core}} = 512\, n_f\) (\(d_2\circ d_1 \equiv 0\)), на каждом витке индуцируется одинаковая ЭДС \(\varepsilon _1 = \Delta _t\Phi _{\mathrm{core}}\), откуда \(V_1 = N_1\varepsilon _1\), \(V_2 = N_2\varepsilon _1\) (\(N_2 V_1 - N_1 V_2 \equiv 0\)). При балансе ампер-витков \(N_1 I_1 - N_2 I_2 \equiv 0\) (\(I_1 = N_2 i_0,\  I_2 = N_1 i_0\)) мощность сохраняется тождественно (\(V_1 I_1 = N_1 N_2 \varepsilon _1 i_0 \equiv V_2 I_2\)), а входной импеданс преобразуется квадратично по коэффициенту трансформации: \(Z_{\mathrm{in}} = (N_1 / N_2)^2 Z_{\mathrm{load}}\). </p>
+</li>
+</ul>
+</li>
+</ol>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sect0011.html" title="Урок 9. Корпускулярно-волновой дуализм и вывод правила Борна \(P(\mu ) = \mu ^2 / 512\) из пина переноса 9-битного сумматора"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-course-stage3-quantum.html" title="Ступень III. Квантовая механика, электродинамика Максвелла и демоны Лапласа и Максвелла"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0013.html" title="Урок 11. Почему невозможен Демон Лапласа (\(64 \times 81 = 72^2\)), но работает 12-лучевой Геометрический Демон Максвелла"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Интерактивная диагностика с анти-конфабуляционным стеком ai-welcome-atlas + ai-atlas-mcp и сопровождение под NDA</title>
+<link rel="next" href="ch-lab-critical-experiments-registry.html" title="Сводный реестр критических экспериментов и лабораторно-вычислительных гейтов" />
+<link rel="prev" href="sect0006.html" title="Четыре сигнатуры фальсификации и упреждающая матрица коррекции" />
+<link rel="up" href="ch-lab-solar-photovoltaics.html" title="Бесфононная кремниевая фотовольтаика (441 нм 2×882 нм < 1107 нм): протокол чистой комнаты и матрица диагностики" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга II. Лабораторный практикум (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Введение. Лабораторный арбитраж в едином Естествознании и связь четырёх книг</span></a>
+ </li>
+<li class=" active">
+  <a href="ch-lab-solar-photovoltaics.html"><span class="toc_ref">1</span> <span class="toc_entry">Бесфононная кремниевая фотовольтаика (\(441\text{ нм} \to 2\times 882\text{ нм} {\lt} 1107\text{ нм}\)): протокол чистой комнаты и матрица диагностики</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Физическая причина стагнации однопороговой солнечной энергетики: несогласованная фононная термализация</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Бесфононное деление синего кванта (Singlet Fission: \(441\text{ нм} \to 2 \times 882\text{ нм} {\lt} 1107\text{ нм}\))</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Согласование оболочечного и фазового импеданса на границе «Тетрацен – \(\mathrm{SiO_x}\) – Кремний»</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">1.4</span> <span class="toc_entry">Пошаговый протокол изготовления в чистой комнате и контрольный A/B-эксперимент</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html"><span class="toc_ref">1.5</span> <span class="toc_entry">Четыре сигнатуры фальсификации и упреждающая матрица коррекции</span></a>
+ </li>
+<li class=" active current">
+  <a href="sect0007.html"><span class="toc_ref">1.6</span> <span class="toc_entry">Интерактивная диагностика с анти-конфабуляционным стеком ai-welcome-atlas + ai-atlas-mcp и сопровождение под NDA</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-lab-critical-experiments-registry.html"><span class="toc_ref">2</span> <span class="toc_entry">Сводный реестр критических экспериментов и лабораторно-вычислительных гейтов</span></a>
+ </li>
+<li class="">
+  <a href="ch-measurement-processing.html"><span class="toc_ref">3</span> <span class="toc_entry">Обработка результатов измерений</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sec-metrology-layer.html"><span class="toc_ref">3.1</span> <span class="toc_entry">Где живёт метрология в серии</span></a>
+ </li>
+<li class="">
+  <a href="sec-direct-measurement.html"><span class="toc_ref">3.2</span> <span class="toc_entry">Прямые измерения</span></a>
+ </li>
+<li class="">
+  <a href="sec-indirect-gum.html"><span class="toc_ref">3.3</span> <span class="toc_entry">Косвенные измерения и перенос неопределённости</span></a>
+ </li>
+<li class="">
+  <a href="sec-student.html"><span class="toc_ref">3.4</span> <span class="toc_entry">Выборка, стандартная ошибка и Стьюдент</span></a>
+ </li>
+<li class="">
+  <a href="sec-compare-reference.html"><span class="toc_ref">3.5</span> <span class="toc_entry">Сравнение с эталоном</span></a>
+ </li>
+<li class="">
+  <a href="sec-multiple-observables.html"><span class="toc_ref">3.6</span> <span class="toc_entry">Несколько наблюдаемых</span></a>
+ </li>
+<li class="">
+  <a href="sec-metrology-critical.html"><span class="toc_ref">3.7</span> <span class="toc_entry">Связь с критическими экспериментами</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-computational-laboratory.html"><span class="toc_ref">4</span> <span class="toc_entry">Вычислительная лаборатория серии</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sec-lab-role.html"><span class="toc_ref">4.1</span> <span class="toc_entry">Затянувшаяся лаборатория, а не только теоремы</span></a>
+ </li>
+<li class="">
+  <a href="sec-lab-burden-of-proof.html"><span class="toc_ref">4.2</span> <span class="toc_entry">Бремя доказательства</span></a>
+ </li>
+<li class="">
+  <a href="sec-lab-protocol.html"><span class="toc_ref">4.3</span> <span class="toc_entry">Единый протокол записи опыта</span></a>
+ </li>
+<li class="">
+  <a href="sec-lab-metrology-link.html"><span class="toc_ref">4.4</span> <span class="toc_entry">Связь с метрологией и критическими экспериментами</span></a>
+ </li>
+<li class="">
+  <a href="sec-lab-classes.html"><span class="toc_ref">4.5</span> <span class="toc_entry">Классы вычислительных опытов</span></a>
+ </li>
+<li class="">
+  <a href="sec-lab-lean4-operator-kernel.html"><span class="toc_ref">4.6</span> <span class="toc_entry">Формальное операторное ядро в Lean&#160;4</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000008">1.6 Интерактивная диагностика с анти-конфабуляционным стеком ai-welcome-atlas + ai-atlas-mcp и сопровождение под NDA</h1>
+<p>Полная верифицированная база операторов открыта в пяти репозиториях AI-Guiders: </p>
+<ul class="itemize">
+  <li><p><a href="https://github.com/AI-Guiders/scientific-papers">https://github.com/AI-Guiders/scientific-papers</a> — автономные модули Lean&#160;4; </p>
+</li>
+  <li><p><a href="https://github.com/AI-Guiders/discrete-quantum-mechanics">https://github.com/AI-Guiders/discrete-quantum-mechanics</a> — ядро ДКМ и настоящая серия книг; </p>
+</li>
+  <li><p><a href="https://github.com/AI-Guiders/guiders-physics">https://github.com/AI-Guiders/guiders-physics</a> — побитово идентичный цифровой двойник ячейки на .NET&#160;11; </p>
+</li>
+  <li><p><a href="https://github.com/AI-Guiders/ai-welcome-atlas">https://github.com/AI-Guiders/ai-welcome-atlas</a> и <a href="https://github.com/AI-Guiders/ai-atlas-mcp">https://github.com/AI-Guiders/ai-atlas-mcp</a> — база знаний в стандарте Open Knowledge Format и анти-конфабуляционный MCP-сервер (блокирующий галлюцинации языковых моделей и требующий проверки каждого расчёта компилятором Lean&#160;4). </p>
+</li>
+</ul>
+<p> При возникновении на конкретной ростовой установке нестандартных отклонений от сигнатур–, связанных со спецификой реактора ALD/PECVD или легирования пластин, экспериментальные группы могут направить автору паспортные параметры ростового цикла для расчёта индивидуальной карты фазово-оболочечной коррекции (включая работу под NDA / CDA / MTA). </p>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sect0006.html" title="Четыре сигнатуры фальсификации и упреждающая матрица коррекции"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-lab-solar-photovoltaics.html" title="Бесфононная кремниевая фотовольтаика (\(441\text{ нм} \to 2\times 882\text{ нм} {\lt} 1107\text{ нм}\)): протокол чистой комнаты и матрица диагностики"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="ch-lab-critical-experiments-registry.html" title="Сводный реестр критических экспериментов и лабораторно-вычислительных гейтов"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

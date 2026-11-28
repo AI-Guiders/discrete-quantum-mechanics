@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Неразрушающая редифференцировка ткани, сброс эпигенетического дрейфа \(\mathrm{CpG}\) и селективная кавитация дефектов</title>
+<link rel="next" href="ch-applied-reversible-computing-and-paradoxes.html" title="Обратимая вычислительная техника без теплового предела Ландауэра (A13) и разрешение фундаментальных парадоксов" />
+<link rel="prev" href="ch-applied-bio-cad-therapy.html" title="Прикладная биоинженерия (Bio-CAD), сквозной компилятор ДНК и терапевтическое управление клеточной средой" />
+<link rel="up" href="ch-applied-bio-cad-therapy.html" title="Прикладная биоинженерия (Bio-CAD), сквозной компилятор ДНК и терапевтическое управление клеточной средой" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга III. Инженерный справочник (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Введение. Инженерная ветвь единого Естествознания: Трёхзаконная целочисленная механика Ньютона и пять порогов кольца \(\mathbb {Z}_{512}\)</span></a>
+ </li>
+<li class="">
+  <a href="ch-eng-electrical-engineering.html"><span class="toc_ref">1</span> <span class="toc_entry">Теоретическая электротехника фазовой эстафеты на ГЦК-кубооктаэдрах (\(V=\mathcal{C}_3,\  I=\mathcal{S}_3\))</span></a>
+ </li>
+<li class="">
+  <a href="ch-eng-silicon-architecture.html"><span class="toc_ref">2</span> <span class="toc_entry">Физическая реализация вычислений без тепла Ландауэра и кремниевая архитектура</span></a>
+ </li>
+<li class=" active">
+  <a href="sect0002.html"><span class="toc_ref">1</span> <span class="toc_entry">Прикладная механика кубооктаэдра, фазовое согласование импеданса и голономные технологии</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="ch-applied-scale-invariance-and-bounds.html"><span class="toc_ref">3</span> <span class="toc_entry">Масштабная инвариантность кубооктаэдра \(O_2\): что физически разрешено и что запрещено законами сохранения</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-coherent-barrier-collapse.html"><span class="toc_ref">4</span> <span class="toc_entry">Когерентное схлопывание импеданса барьера в 12-лучевом кубооктаэдре: решёточный синтез против теплового нагрева</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-phase-ratchet-and-vortex-battery.html"><span class="toc_ref">5</span> <span class="toc_entry">Квантовый фазовый храповик на доменной стенке и топологический аккумулятор \(B_f = 512\, n_f\)</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-tomography-and-planetary-cores.html"><span class="toc_ref">6</span> <span class="toc_entry">Четырёхканальная голономная томография сред и фазовое геодинамо ядер планет</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-chemical-reactions-catalysis.html"><span class="toc_ref">7</span> <span class="toc_entry">Аналитические операторы химических реакций, седловая точка переходного состояния \(|A^\ddagger |=128\), селективность Вудворда–Хоффмана и гетерогенный катализ на кубооктаэдре \(O_2\)</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-c0-lossless-transmission.html"><span class="toc_ref">8</span> <span class="toc_entry">Практическое применение тактовой скорости звена \(c_0 = \kappa (d)^{-1}c\), баллистическая передача энергии и информации без потерь и инкапсулированный автомат</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-materials-cad-superconductivity.html"><span class="toc_ref">9</span> <span class="toc_entry">Генеративное материаловедение, куперовский возврат \(2e\) на полупериоде противофазы и конструирование функциональных сплавов и сверхпроводников</span></a>
+ </li>
+<li class=" active">
+  <a href="ch-applied-bio-cad-therapy.html"><span class="toc_ref">10</span> <span class="toc_entry">Прикладная биоинженерия (<em>Bio-CAD</em>), сквозной компилятор ДНК и терапевтическое управление клеточной средой</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-reversible-computing-and-paradoxes.html"><span class="toc_ref">11</span> <span class="toc_entry">Обратимая вычислительная техника без теплового предела Ландауэра (\(A_{13}\)) и разрешение фундаментальных парадоксов</span></a>
+ </li>
+<li class="">
+  <a href="ch-computational-laboratory.html"><span class="toc_ref">12</span> <span class="toc_entry">Вычислительная лаборатория серии</span></a>
+ </li>
+<li class="">
+  <a href="ch-measurement-processing.html"><span class="toc_ref">13</span> <span class="toc_entry">Обработка результатов измерений</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-critical-experiments.html"><span class="toc_ref">14</span> <span class="toc_entry">Критические эксперименты и инженерные гейты верификации (серия CE-RD)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="sec:applied-therapeutic-redifferentiation">10.1 Неразрушающая редифференцировка ткани, сброс эпигенетического дрейфа \(\mathrm{CpG}\) и селективная кавитация дефектов</h1>
+
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:applied-bio-cad-and-therapy">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Теорема
+    </span>
+    <span class="theorem_thmlabel">10.1</span>
+    <span class="theorem_thmtitle">Операторный протокол прикладного Bio-CAD, противофазной терапии на экране Маркова и селективного апоптоза без коллатерального мутагенеза</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-applied-therapeutic-redifferentiation.html#thm:applied-bio-cad-and-therapy">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-applied-cooper-and-alloys.html#thm:applied-materials-and-superconductors">Теорема 9.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/SuperconductorBioCad.lean#L92" class="lean_decl">applied_bio_cad_therapeutic_redifferentiation_and_epigenetic_reset_operator</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/UnifiedOperators.lean" class="lean_decl">UnifiedOperators.lean</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>    Для любого \(d\in \mathbb {N}\) и числа колец \(R\in \mathbb {Z}\) операторный закон Каталана \(\mathrm{CatalanLaw}(P,d)\) эквивалентен системе следующих трёх инженерных свойств: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Противофазное гашение патологического тока перегрузки на экране Маркова:</b> для любого стрессового потока внешней среды \(\mathcal{E}_{\mathrm{stress}}\) подключение компенсирующего противофазного потока \(\mathrm{therapeuticCounterEnvOp}(\mathcal{E}_{\mathrm{stress}})\) тождественно обнуляет суммарный нечётный ток \(\mathrm{envZiListOp}(d,\mu _x,\mathcal{E}_{\mathrm{stress}}\mathbin {++}\mathrm{therapeuticCounterEnvOp}(\mathcal{E}_{\mathrm{stress}})) = 0\) и запирает патологический затвор открытой системы (\(\mathrm{openMultiEnvGateOp} = 0\)). </p>
+</li>
+  <li><p><b class="bfseries">Инволютивный сброс эпигенетического дрейфа \(\mathrm{CpG}\) и сквозная редифференцировка ткани из последовательности ДНК:</b> повторное действие оператора \(\mathrm{deaminateFirstBaseStemOp}\) тождественно возвращает смещённый стебель к \(\mathrm{cpgEpigeneticStemOp}(d)\), а выращивание ткани из скомпилированной последовательности нуклеотидов ДНК \(\mathrm{compilePhenotypeToDnaSequenceOp}(d,\Delta \varphi _{\mathrm{disc}}(d))\) через \(\mathrm{growTissueFromDnaSequenceInEnvOp}\) восстанавливает дифференцированный топологический инвариант органа \(\mathrm{tissueEuler2DOp} = \Delta \varphi _{\mathrm{disc}}(d)\). </p>
+</li>
+  <li><p><b class="bfseries">Селективная кавитация запертого дефектного узла при нулевом повреждении здоровых клеток:</b> полное окружение дефектного узла по всем \(|N(d)|\) каналам оболочки кубооктаэдра закрывает его граничный затвор контакта со средой (\(\mathrm{envFreeSurfaceGateOp}(d,|N(d)|) = 0\), запуская селективный апоптоз), тогда как для всех окружающих здоровых клеток в мёртвой зоне затвора (\(\Phi _{\mathrm{env}}=0\)) мутационный оператор тождественно сохраняет каждое основание \(b\in \mathbb {Z}_{d_{\mathrm{in}}(\square )}\) (\(\mathrm{envDrivenBaseMutationOp}(d,b,0) = b\)). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="ch-applied-bio-cad-therapy.html" title="Прикладная биоинженерия (Bio-CAD), сквозной компилятор ДНК и терапевтическое управление клеточной средой"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-applied-bio-cad-therapy.html" title="Прикладная биоинженерия (Bio-CAD), сквозной компилятор ДНК и терапевтическое управление клеточной средой"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="ch-applied-reversible-computing-and-paradoxes.html" title="Обратимая вычислительная техника без теплового предела Ландауэра (\(A_{13}\)) и разрешение фундаментальных парадоксов"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Седло химической связи, закон Гесса, правила симметрии, спаривание Купера и коллапс барьера</title>
+<link rel="next" href="ch-mono-biology.html" title="Молекулярная биофизика, планетарные фотонные окна, генетический код ДНК, фолдинг белков и морфогенез" />
+<link rel="prev" href="sect0022.html" title="Периодическая система до 8-го периода, четыре физических предела, двухсферный перенос урана на остров стабильности N=184, планетогенез и четыре тождества Безу" />
+<link rel="up" href="ch-mono-chemistry-nuclear.html" title="Атомные и ядерные оболочки кубооктаэдра, планетогенез по 6 зонам диска, тождества Безу на Z512, сверхпроводимость и когерентный 587-кратный коллапс барьера" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга I. Формальные основания ДКМ (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Предисловие. Предмет монографии и дедуктивное строение теории снизу вверх</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref"></span> <span class="toc_entry">§ 0.1. Метод построения: восхождение снизу вверх без постулатов</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref"></span> <span class="toc_entry">§ 0.2. Четыре методологических опоры монографии</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref"></span> <span class="toc_entry">§ 0.3. Двусортное проективно-ретракционное соответствие оснований естественных наук: Трёхзаконная целочисленная механика Ньютона</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-axioms.html"><span class="toc_ref">1</span> <span class="toc_entry">Вывод дискретной квантовой механики (ДКМ) из неделимости элементарного объёма, отсутствия внешней памяти у природы и уравнения Каталана</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0005.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Доказательство отсутствия внешней памяти у физической природы и невозможности континуального регистра внутри неделимой ячейки</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Последовательный вывод размерности \(d=3\), кольца \(\mathbb {Z}_{512}\), кубооктаэдра \(O_2(3)\) и шага Верле</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Теоремы единственности: размерность \(d=3\), кубооктаэдр \(O_2(3)\) и шаг Верле</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">1.4</span> <span class="toc_entry">Переход к естественным полярным координатам \((\mu , \varphi _{\mathrm{disc}})\), затравочное состояние Каталана \(\mathrm{IV}(3) = 263\) и уравнения оператора эволюции \(\mathcal{G}_3\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html"><span class="toc_ref">1.5</span> <span class="toc_entry">Симплициальное разложение Пуанкаре–Хегора и структурные пороги носителя при \(d = 3\)</span></a>
+ </li>
+<li class="">
+  <a href="sec-mono-world-lagrangian-hamiltonian.html"><span class="toc_ref">1.6</span> <span class="toc_entry">Полевой Лагранжиан \(\mathcal{L}_{\mathrm{world}}\), Гамильтониан \(\mathcal{H}_{\mathrm{world}}\), 13-узловое разложение знаменателя \(\mathcal{C}_{13}\) и тетраэдральное действие Верле</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-rotator-calculus.html"><span class="toc_ref">2</span> <span class="toc_entry">Дискретная экспонента Эйлера на \(\mathbb {Z}_{512}\), однородная проективная арифметика над \(\mathbb {Q}(i,\sqrt{2})\) и выход в непрерывный анализ</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0010.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Дискретная экспонента Эйлера, код Грея, соотношения Коши–Римана и тождество постоянного вронскиана</span></a>
+ </li>
+<li class="">
+  <a href="sect0011.html"><span class="toc_ref">2.2</span> <span class="toc_entry">Вывод классического интеграла Римана и формулы Ньютона–Лейбница в макропределе \(N \to \infty \)</span></a>
+ </li>
+<li class="">
+  <a href="sect0012.html"><span class="toc_ref">2.3</span> <span class="toc_entry">Однородная проективная арифметика полей, башня производных отношения и многомерная кубатура Симпсона</span></a>
+ </li>
+<li class="">
+  <a href="sect0013.html"><span class="toc_ref">2.4</span> <span class="toc_entry">Теорема о сокращении масштаба \(A = K\cdot dh\), размерность Хаусдорфа–Морана и проективные операторы логарифма и рациональной степени на \(\mathbb {Z}_{4Q}\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-logic-cohomology-barriers.html"><span class="toc_ref">3</span> <span class="toc_entry">Булева полнота Поста, редукция 3-SAT, конструктивные когомологии де&#160;Рама и барьеры внутренних вычислителей</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0014.html"><span class="toc_ref">3.1</span> <span class="toc_entry">Функционально полный базис Поста на двух каналах \(\mathbb {Z}_{512}\) и полиномиальная редукция 3-SAT</span></a>
+ </li>
+<li class="">
+  <a href="sect0015.html"><span class="toc_ref">3.2</span> <span class="toc_entry">Четыре барьера внутреннего вычислителя и встроенный блокнот Вернама Шеннона на \(\mathbb {Z}_{512}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0016.html"><span class="toc_ref">3.3</span> <span class="toc_entry">Конструктивные когомологии де&#160;Рама–Стокса–Гаусса–Черна и мера без аксиомы выбора</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-qm-maxwell.html"><span class="toc_ref">4</span> <span class="toc_entry">Дискретная и непрерывная квантовая механика (ДКМ и НКМ), электродинамика Максвелла и граница применимости континуума</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0017.html"><span class="toc_ref">4.1</span> <span class="toc_entry">Алгебраическое происхождение корпускулярно-волнового дуализма и правила Борна</span></a>
+ </li>
+<li class="">
+  <a href="sect0018.html"><span class="toc_ref">4.2</span> <span class="toc_entry">Порог дискретности \(\Delta \varphi _{\mathrm{disc}} = 41\), уравнения Максвелла и граница применимости континуальной теории</span></a>
+ </li>
+<li class="">
+  <a href="sec-mono-mechanics-elasticity-fatigue.html"><span class="toc_ref">4.3</span> <span class="toc_entry">Нелинейная механика маятника на произвольных углах, четырёхрежимная теория упругости за пределами закона Гука и предел усталостной выносливости металла</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-sm-gravity.html"><span class="toc_ref">5</span> <span class="toc_entry">Калибровочная группа Стандартной модели, гравитационное преломление и космология</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0019.html"><span class="toc_ref">5.1</span> <span class="toc_entry">Симплициальный комплекс \(\mathcal{C}_{13}\), матричные коммутаторы алгебры Ли \(\mathfrak {u}(1)\oplus \mathfrak {su}(2)\oplus \mathfrak {su}(3)\) и четырёхпетлевой вывод постоянной тонкой структуры</span></a>
+ </li>
+<li class="">
+  <a href="sect0020.html"><span class="toc_ref">5.2</span> <span class="toc_entry">Структура 13-узлового ротора электрона, полное квантование восьми наблюдаемых и единый вихревой атлас Стандартной модели на кликах \(\mathcal{C}_{13}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0021.html"><span class="toc_ref">5.3</span> <span class="toc_entry">Гравитация как преломление на импедансе ворот без сингулярности \(1/0\), ряд сжатия Гаусса–Грина, кавитированные гиперъядра и фазы нейтронной пасты</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active">
+  <a href="ch-mono-chemistry-nuclear.html"><span class="toc_ref">6</span> <span class="toc_entry">Атомные и ядерные оболочки кубооктаэдра, планетогенез по 6 зонам диска, тождества Безу на \(\mathbb {Z}_{512}\), сверхпроводимость и когерентный \(587\)-кратный коллапс барьера</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0022.html"><span class="toc_ref">6.1</span> <span class="toc_entry">Периодическая система до 8-го периода, четыре физических предела, двухсферный перенос урана на остров стабильности \(N=184\), планетогенез и четыре тождества Безу</span></a>
+ </li>
+<li class=" active current">
+  <a href="sect0023.html"><span class="toc_ref">6.2</span> <span class="toc_entry">Седло химической связи, закон Гесса, правила симметрии, спаривание Купера и коллапс барьера</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-biology.html"><span class="toc_ref">7</span> <span class="toc_entry">Молекулярная биофизика, планетарные фотонные окна, генетический код ДНК, фолдинг белков и морфогенез</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0024.html"><span class="toc_ref">7.1</span> <span class="toc_entry">Делитель водородной связи \(N_{\mathrm{HB}} = 63\) и три планетарных фотонных окна (\(441 : 126 : 63 = 7 : 2 : 1\))</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sec-mono-epistemological-closure.html"><span class="toc_ref">8</span> <span class="toc_entry">Бесфононный кремниевый гетеропереход \(120 + 8 = 128\), общая конструкция предела по счётным моноидам стадий и гёделевская неизбежность лабораторного арбитража</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0025.html"><span class="toc_ref">8.1</span> <span class="toc_entry">Бесфононный кремниевый гетеропереход \(120 + 8 = 128\), барьер оболочечной пассивации \(45^2 {\lt} 2\, 048 {\lt} 46^2\) и вычисления без тепла Ландауэра</span></a>
+ </li>
+<li class="">
+  <a href="sect0026.html"><span class="toc_ref">8.2</span> <span class="toc_entry">Общий оператор предела по счётным моноидам стадий, проективные башни Мальцева и двусторонняя эквивалентность носителей \(\mathcal{M} \leftrightarrow \mathcal{T}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0027.html"><span class="toc_ref">8.3</span> <span class="toc_entry">Конструктивная непротиворечивость и теорема Ловера–Гёделя–Тарского</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000024">6.2 Седло химической связи, закон Гесса, правила симметрии, спаривание Купера и коллапс барьера</h1>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:mono-chem-cooper-587">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Теорема
+    </span>
+    <span class="theorem_thmlabel">6.2</span>
+    <span class="theorem_thmtitle">Топологическая классификация химической связи, закон Гесса, правила Вудворда–Хоффмана, сверхпроводящее спаривание Купера и \(587\)-кратный коллапс барьера</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0023.html#thm:mono-chem-cooper-587">#</a>
+    
+    <a class="icon proof" href="sect0023.html#a0000000073"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0022.html#thm:mono-periodic-planetogenesis-bezout">Теорема 6.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ChemicalBonding.lean#L39" class="lean_decl">chemical_bond_holonomy_conservation_and_saddle_128</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ChemicalBonding.lean#L64" class="lean_decl">hess_law_and_catalytic_cycle_zero_enthalpy</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ChemicalBonding.lean#L77" class="lean_decl">woodward_hoffmann_and_valence_123_stability_from_d3</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/SuperconductorBioCad.lean#L47" class="lean_decl">generative_materials_cooper_pairing_and_superconductor_shells_operator</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ContinuumPhysics.lean#L524" class="lean_decl">coherent_cuboctahedron_barrier_collapse_587x</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>    При \(d = 3\) на кольце \(\mathbb {Z}_{512}\) и оболочке кубооктаэдра \(O_2(3)\) выполняются следующие соотношения: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Седло химической связи \(Q_\square (3) = 128\) и закон Гесса:</b> на участке \(\Delta \varphi \in [0, 256]\) чётная связывающая проекция \(\mathcal{C}_3(\Delta \varphi ) = 128 - \Delta \varphi \) убывает от \(+128\) (ковалентный минимум \(\Delta \varphi = 0\)) через точку перегиба седла реакции \(\Delta \varphi ^* = Q_\square (3) = 128\) (\(\mathcal{C}_3(128) = 0\), \(\mathcal{S}_3(128) = +128\)) к антисвязывающему полюсу Паули \(\Delta \varphi = 256\) (\(\mathcal{C}_3(256) = -128\)), а поскольку энтальпия реакции является точной \(0\)-коцепью (\(d_1(d_0 H) \equiv 0\)), суммарный тепловой эффект любого замкнутого каталитического цикла тождественно равен нулю (закон Гесса). </p>
+</li>
+  <li><p><b class="bfseries">Кратность ковалентных связей \(\{ 1, 2, 3\} \) и правила орбитальной симметрии Хюккеля и Вудворда–Хоффмана (\(4n + 2\) и \(4n\)):</b> максимальная устойчивая кратность локализованной ковалентной связи между двумя атомами главной группы равна \(d = 3\) (\(1\) общая вершина для \(\sigma \)-связи, \(2\) вершины ребра для \(\pi \)-связи, \(3\) вершины треугольной грани \(K_3\) для тройной связи). На замкнутом сопряжённом цикле с четверть-периодным шагом \(Q_\square (3) = 128\) на каждый \(\pi \)-электрон и спиновым синглетным полуоборотом Паули \(+\Phi _{\mathrm{Pauli}}(3) = +256\) полная кольцевая фаза равна: </p>
+<div class="equation" id="eq:mono-huckel-ring-phase">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-huckel-ring-phase} \Phi _{\mathrm{ring}}(N_\pi ) \; \equiv \;  Q_\square (3)\, N_\pi + \Phi _{\mathrm{Pauli}}(3) \; \equiv \;  128\, N_\pi + 256 \pmod{512}, \end{equation}
+  </div>
+  <span class="equation_label">6.9</span>
+</p>
+</div>
+<p> что даёт ароматический связывающий максимум \(\mathcal{C}_3(0) = +128\) при \(N_\pi = 4n + 2\) и антиароматический мёбиусовский полюс \(\mathcal{C}_3(256) = -128\) при \(N_\pi = 4n\) (правила дисротаторного и конротаторного замыкания Вудворда–Хоффмана). </p>
+</li>
+  <li><p><b class="bfseries">Сверхпроводящее спаривание Купера \(2e\) на антиподальных лучах кубооктаэдра и оболочки ВТСП:</b> два вихревых узла с противоположными импульсами \((\mathbf{k}, -\mathbf{k})\) на центросимметричных лучах \(\pm \mathbf{e} \in O_2(3)\) и антиподальным спиновым сдвигом \(+\Phi _{\mathrm{Pauli}}(3) = +256\) образуют синглетную пару Купера удвоенного заряда \(2e = (c_0/c)^2 e\) с нулевым током рассеяния и полным конструктивным возрождением Ааронова–Бома на полуобороте Паули: </p>
+<div class="displaymath" id="eq:mono-cooper-odd-cancel">
+  \begin{align}  \mathcal{S}_3(\Delta \varphi ) + \mathcal{S}_3(-\Delta \varphi ) & \equiv 0, \label{eq:mono-cooper-odd-cancel} \\ \mathcal{C}_3\bigl(2\, \Phi _{\mathrm{Pauli}}(3)\bigr) & = \mathcal{C}_3(512) \; =\;  +128, \label{eq:mono-cooper-revival} \end{align}
+</div>
+<p> при замыкании формульных единиц сверхпроводников \(Z(\mathrm{TiNi}) = 50\), \(Z(\mathrm{MgB_2}) = 22\), \(Z(\mathrm{CuO_2}) = 45\), \(Z(\mathrm{CaCuO_2}) = 65\), \(Z(\mathrm{FeS}) = 42 = S_2(3)\). </p>
+</li>
+  <li><p><b class="bfseries">Когерентное схлопывание кулоновского барьера в \(587\) раз:</b> при синфазной фокусировке всех \(12\) лучей кубооктаэдра на фазе когерентного резонанса </p>
+<div class="displaymath" id="eq:mono-acoh-139">
+  \begin{align}  A_{\mathrm{coh}}(3) & = Q_\square (3) + |N(3)| - 1 \; =\;  128 + 11 \; =\;  139, \label{eq:mono-acoh-139} \\ \bigl(\mathcal{C}_3(139),\  \mathcal{S}_3(139)\bigr) & = (-11,\  +117), \label{eq:mono-acoh-cs} \end{align}
+</div>
+<p> двенадцать отрицательных косинусных вкладов \(12 \times (-11) = -132\) снижают импеданс в центре ячейки с \(D_{\max }(3) = 6\, 823\, 936\) до \(D_{\mathrm{coh}}(3) = 11\, 616\) с коэффициентом подавления барьера: </p>
+<div class="equation" id="eq:mono-587-collapse">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-587-collapse} \left\lfloor \frac{D_{\max }(3)}{D_{\mathrm{coh}}(3)} \right\rfloor \; =\;  \left\lfloor \frac{6\, 823\, 936}{11\, 616} \right\rfloor \; =\;  587 \; =\;  512 + 3 \times 25 \; =\;  N_{\mathrm{ring}}(3) + d\cdot d_{\mathrm{out}}(E)^2. \end{equation}
+  </div>
+  <span class="equation_label">6.14</span>
+</p>
+</div>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000073">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>В пункте&#160;(1) \(\mathcal{C}_3(128) = 128 - 128 = 0\), а равенство \(\sum _{e\in \gamma }(H_v - H_u) = 0\) на любом замкнутом цикле \(\gamma \) следует из \(d_1\circ d_0 \equiv 0\). </p>
+<p>В пункте&#160;(2) пересечение двух кубооктаэдров со сдвигом центров в \(\mathbb {Z}^3\) содержит не более \(3\) общих вершин треугольной грани \(K_3\) (так как квадратная грань из \(4\) вершин не лежит на одном радиальном конусе с общей вершиной без совпадения центров). Для кольцевой фазы&#160;<a href="sect0023.html#eq:mono-huckel-ring-phase" class="eqref">6.9</a> при числе \(\pi \)-электронов \(N_\pi = 4n + 2\) подстановка в \(128\, N_\pi + 256\) даёт: </p>
+<div class="displaymath" id="a0000000074">
+  \[  \Phi _{\mathrm{ring}}(4n + 2) \; =\;  128(4n + 2) + 256 \; =\;  512n + 256 + 256 \; =\;  512(n + 1) \; \equiv \;  0 \pmod{512},  \]
+</div>
+<p> где \(\mathcal{C}_3(0) = +128\) (максимум ароматического связывания Хюккеля и термически разрешённое дисротаторное замыкание). Напротив, при \(N_\pi = 4n\) получаем: </p>
+<div class="displaymath" id="a0000000075">
+  \[  \Phi _{\mathrm{ring}}(4n) \; =\;  128(4n) + 256 \; =\;  512n + 256 \; \equiv \;  256 \pmod{512},  \]
+</div>
+<p> где \(\mathcal{C}_3(256) = -128\) (антисвязывающий полюс Паули), для компенсации которого требуется дополнительный мёбиусовский (конротаторный) полуоборот \(+256\) (\(256 + 256 \equiv 0 \pmod{512}\)). </p>
+<p>В пункте&#160;(3) нечётность \(\mathcal{S}_3(-\Delta \varphi ) = -\mathcal{S}_3(\Delta \varphi )\) обнуляет рассеяние, а удвоение фазы \(2\times 256 = 512 \equiv 0 \pmod{512}\) возвращает \(\mathcal{C}_3(512) = +128\). В пункте&#160;(4) при \(\Delta \varphi = 139\) проекция равна \(\mathcal{C}_3(139) = 128 - 139 = -11\), откуда \(D_{\mathrm{coh}} = 11\, 616\) и \(\lfloor 6\, 823\, 936 / 11\, 616 \rfloor = 587\). </p>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sect0022.html" title="Периодическая система до 8-го периода, четыре физических предела, двухсферный перенос урана на остров стабильности \(N=184\), планетогенез и четыре тождества Безу"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-mono-chemistry-nuclear.html" title="Атомные и ядерные оболочки кубооктаэдра, планетогенез по 6 зонам диска, тождества Безу на \(\mathbb {Z}_{512}\), сверхпроводимость и когерентный \(587\)-кратный коллапс барьера"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="ch-mono-biology.html" title="Молекулярная биофизика, планетарные фотонные окна, генетический код ДНК, фолдинг белков и морфогенез"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

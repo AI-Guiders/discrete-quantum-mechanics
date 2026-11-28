@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Косвенные измерения и перенос неопределённости</title>
+<link rel="next" href="sec-student.html" title="Выборка, стандартная ошибка и Стьюдент" />
+<link rel="prev" href="sec-direct-measurement.html" title="Прямые измерения" />
+<link rel="up" href="ch-measurement-processing.html" title="Обработка результатов измерений" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга III. Инженерный справочник (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Введение. Инженерная ветвь единого Естествознания: Трёхзаконная целочисленная механика Ньютона и пять порогов кольца \(\mathbb {Z}_{512}\)</span></a>
+ </li>
+<li class="">
+  <a href="ch-eng-electrical-engineering.html"><span class="toc_ref">1</span> <span class="toc_entry">Теоретическая электротехника фазовой эстафеты на ГЦК-кубооктаэдрах (\(V=\mathcal{C}_3,\  I=\mathcal{S}_3\))</span></a>
+ </li>
+<li class="">
+  <a href="ch-eng-silicon-architecture.html"><span class="toc_ref">2</span> <span class="toc_entry">Физическая реализация вычислений без тепла Ландауэра и кремниевая архитектура</span></a>
+ </li>
+<li class=" active">
+  <a href="sect0002.html"><span class="toc_ref">1</span> <span class="toc_entry">Прикладная механика кубооктаэдра, фазовое согласование импеданса и голономные технологии</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="ch-applied-scale-invariance-and-bounds.html"><span class="toc_ref">3</span> <span class="toc_entry">Масштабная инвариантность кубооктаэдра \(O_2\): что физически разрешено и что запрещено законами сохранения</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-coherent-barrier-collapse.html"><span class="toc_ref">4</span> <span class="toc_entry">Когерентное схлопывание импеданса барьера в 12-лучевом кубооктаэдре: решёточный синтез против теплового нагрева</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-phase-ratchet-and-vortex-battery.html"><span class="toc_ref">5</span> <span class="toc_entry">Квантовый фазовый храповик на доменной стенке и топологический аккумулятор \(B_f = 512\, n_f\)</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-tomography-and-planetary-cores.html"><span class="toc_ref">6</span> <span class="toc_entry">Четырёхканальная голономная томография сред и фазовое геодинамо ядер планет</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-chemical-reactions-catalysis.html"><span class="toc_ref">7</span> <span class="toc_entry">Аналитические операторы химических реакций, седловая точка переходного состояния \(|A^\ddagger |=128\), селективность Вудворда–Хоффмана и гетерогенный катализ на кубооктаэдре \(O_2\)</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-c0-lossless-transmission.html"><span class="toc_ref">8</span> <span class="toc_entry">Практическое применение тактовой скорости звена \(c_0 = \kappa (d)^{-1}c\), баллистическая передача энергии и информации без потерь и инкапсулированный автомат</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-materials-cad-superconductivity.html"><span class="toc_ref">9</span> <span class="toc_entry">Генеративное материаловедение, куперовский возврат \(2e\) на полупериоде противофазы и конструирование функциональных сплавов и сверхпроводников</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-bio-cad-therapy.html"><span class="toc_ref">10</span> <span class="toc_entry">Прикладная биоинженерия (<em>Bio-CAD</em>), сквозной компилятор ДНК и терапевтическое управление клеточной средой</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-reversible-computing-and-paradoxes.html"><span class="toc_ref">11</span> <span class="toc_entry">Обратимая вычислительная техника без теплового предела Ландауэра (\(A_{13}\)) и разрешение фундаментальных парадоксов</span></a>
+ </li>
+<li class="">
+  <a href="ch-computational-laboratory.html"><span class="toc_ref">12</span> <span class="toc_entry">Вычислительная лаборатория серии</span></a>
+ </li>
+<li class=" active">
+  <a href="ch-measurement-processing.html"><span class="toc_ref">13</span> <span class="toc_entry">Обработка результатов измерений</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-critical-experiments.html"><span class="toc_ref">14</span> <span class="toc_entry">Критические эксперименты и инженерные гейты верификации (серия CE-RD)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="sec:indirect-gum">13.3 Косвенные измерения и перенос неопределённости</h1>
+
+<p>Пусть </p>
+<div class="equation" id="a0000000022">
+<p>
+  <div class="equation_content">
+    \begin{equation}  y = f(x_1,\ldots ,x_n). \end{equation}
+  </div>
+  <span class="equation_label">13.2</span>
+</p>
+</div>
+<p> При малых отклонениях от наилучших оценок \(\hat x_i\) (линейный перенос, GUM): </p>
+<div class="equation" id="eq:gum-linear">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:gum-linear} u^2(y) = \sum _{i=1}^{n}\left(\frac{\partial f}{\partial x_i}\right)^{\! 2} u^2(x_i) + 2\sum _{i{\lt}j}\frac{\partial f}{\partial x_i}\frac{\partial f}{\partial x_j}\, r_{ij}\, u(x_i)\, u(x_j), \end{equation}
+  </div>
+  <span class="equation_label">13.3</span>
+</p>
+</div>
+<p> где \(r_{ij}\) — коэффициент корреляции входов (если входы независимы, второй ряд обнуляется). </p>
+<p>Для произведения степеней \(y = c\, x_1^{a_1}\cdots x_n^{a_n}\) удобна относительная форма: </p>
+<div class="equation" id="eq:gum-relative">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:gum-relative} \left(\frac{u(y)}{|y|}\right)^{\! 2} \approx \sum _i a_i^2\left(\frac{u(x_i)}{x_i}\right)^{\! 2} + 2\sum _{i{\lt}j} a_i a_j r_{ij}\frac{u(x_i)}{x_i}\frac{u(x_j)}{x_j}. \end{equation}
+  </div>
+  <span class="equation_label">13.4</span>
+</p>
+</div>
+<div class="remark_thmwrapper theorem-style-definition" id="ex:para-ps-tau">
+  <div class="remark_thmheading">
+    <span class="remark_thmcaption">
+    Замечание
+    </span>
+    <span class="remark_thmlabel">13.3</span>
+    <span class="remark_thmtitle">Пример: ведущий порядок QED для пара-позитрония</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-indirect-gum.html#ex:para-ps-tau">#</a>
+    
+    
+    
+        </div>
+  </div>
+  <div class="remark_thmcontent">
+  <p>  Время жизни \(^1S_0\): </p>
+<div class="equation" id="eq:para-ps-tau">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:para-ps-tau} \tau = \frac{2\hbar }{m_e c^2\, \alpha _{\mathrm{fs}}^{\, 5}}. \end{equation}
+  </div>
+  <span class="equation_label">13.5</span>
+</p>
+</div>
+<p> Из <a href="sec-indirect-gum.html#eq:gum-relative" class="eqref">13.4</a> при независимых \(m_e\) и \(\alpha \): </p>
+<div class="equation" id="eq:tau-relative-unc">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:tau-relative-unc} \frac{u(\tau )}{\tau } \approx \frac{u(m_e)}{m_e} + 5\, \frac{u(\alpha _{\mathrm{fs}})}{\alpha _{\mathrm{fs}}}. \end{equation}
+  </div>
+  <span class="equation_label">13.6</span>
+</p>
+</div>
+<p> Систематика <em>модели</em> (пропущенные радиационные поправки к \(\Gamma \)) добавляется отдельно как тип&#160;B и не подменяет \(u(m_e)\) из таблицы. </p>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sec-direct-measurement.html" title="Прямые измерения"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-measurement-processing.html" title="Обработка результатов измерений"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sec-student.html" title="Выборка, стандартная ошибка и Стьюдент"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

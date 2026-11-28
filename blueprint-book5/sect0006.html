@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Матричное представление ступеней, изотропный конус и параболические жордановы матрицы в \(\mathrm{SL}_2(\mathbb {Z})\)</title>
+<link rel="next" href="ch-math-planetary-differentials.html" title="Трёхшахтные планетарные дифференциалы A + B = C, вронскиан Мейсона–Стотерса и проекторы Лагранжа–Вандермонда" />
+<link rel="prev" href="ch-math-pade-sl2-towers.html" title="Изотропный дискриминантный конус в SL2(Z), моноид башни аппроксимантов Паде и бескорневое кубическое сжатие" />
+<link rel="up" href="ch-math-pade-sl2-towers.html" title="Изотропный дискриминантный конус в SL2(Z), моноид башни аппроксимантов Паде и бескорневое кубическое сжатие" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга V. Математика проективного многообразия (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Предисловие. Отделение чистой проективной математики от физики носителя</span></a>
+ </li>
+<li class="">
+  <a href="ch-math-rotator-calculus.html"><span class="toc_ref">1</span> <span class="toc_entry">Дискретный ротатор \(\mathbb {Z}_{4Q}\), однородные проективные поля \(\mathbb {Q}(i,\sqrt{d-1})\) и анализ без делений</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Характер Эйлера на \(L^1\)-алмазе, тождество постоянного вронскиана и подъём Брахмагупты–Вейерштрасса</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Замкнутая башня производных частного всех порядков \(D^n(f/g)\), многомерная кубатура Симпсона и когомологии де&#160;Рама</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Биекция полярных и декартовых координат \((M,\varphi )\leftrightarrow (X,Y)\) без корней, точное обращение \(\operatorname {atan}_{L^1},\, \operatorname {acot}_{L^1}\) и гиперболическое исчисление Гудермана–Минковского</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">1.4</span> <span class="toc_entry">Конструктивный переход от квадратичных сумм на кольце \(\mathbb {Z}_{4Q}\) к интегралам Френеля на \(\mathbb {R}\) (\(\mathbb {C}\)) без рядов Тейлора и без таблиц</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active">
+  <a href="ch-math-pade-sl2-towers.html"><span class="toc_ref">2</span> <span class="toc_entry">Изотропный дискриминантный конус в \(\mathrm{SL}_2(\mathbb {Z})\), моноид башни аппроксимантов Паде и бескорневое кубическое сжатие</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class=" active current">
+  <a href="sect0006.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Матричное представление ступеней, изотропный конус и параболические жордановы матрицы в \(\mathrm{SL}_2(\mathbb {Z})\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-math-planetary-differentials.html"><span class="toc_ref">3</span> <span class="toc_entry">Трёхшахтные планетарные дифференциалы \(\mathcal{A} + \mathcal{B} = \mathcal{C}\), вронскиан Мейсона–Стотерса и проекторы Лагранжа–Вандермонда</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0007.html"><span class="toc_ref">3.1</span> <span class="toc_entry">Ортогональный репер трёхшахтного дифференциала \(\mathcal{F}_3\), матрица моментов Ганкеля и целочисленный вронскиан Мейсона–Стотерса</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-math-multiscrew-and-holonomy.html"><span class="toc_ref">4</span> <span class="toc_entry">Алгебра многовинтовых планетарных каскадов и встречно-волновая суперпозиция на сфере Римана \(\mathbb {P}^1\)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0008.html"><span class="toc_ref">4.1</span> <span class="toc_entry">Моноид многовинтовых планетарных каскадов, экстремальная перестановочная вилка и вариационная монотонность</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html"><span class="toc_ref">4.2</span> <span class="toc_entry">Векторная суперпозиция встречных волн, тройная дихотомия \(M\)-этажного каскада и модельно-теоретическая независимость</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html"><span class="toc_ref">4.3</span> <span class="toc_entry">Конструктивное построение \(\mathbb {R}\) и \(\mathbb {C}\), биективный изоморфизм \(L^1(\mathbb {Z}_{4Q}) \leftrightarrow S^1(\mathbb {C})\) и бритва Оккама–Мальцева</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000007">2.1 Матричное представление ступеней, изотропный конус и параболические жордановы матрицы в \(\mathrm{SL}_2(\mathbb {Z})\)</h1>
+<p>Рассмотрим двумерную целочисленную решётку ступеней, порождённую парой величин \((U, V) = (A x^m, B y^n)\) с разностью \(C = U - V\). Для любой внутренней ступени \((a, b)\) (\(1 \le a \le m-1,\  1 \le b \le n-1\)) матрица ступени </p>
+<div class="equation" id="eq:math-stage-matrix">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-stage-matrix} M_{a,b} \; =\;  \begin{pmatrix}  A\, x^{m-a} 
+
+&  B\, y^{n-b} 
+
+\\ y^b 
+
+&  x^a 
+
+\end{pmatrix} \in \mathrm{Mat}_{2\times 2}(\mathbb {Z}), \qquad \det M_{a,b} \; =\;  A\, x^m - B\, y^n \; =\;  C \end{equation}
+  </div>
+  <span class="equation_label">2.1</span>
+</p>
+</div>
+<p> определяет матрицу межступенчатого перехода \(P = M_{a,b}^{\mathrm{adj}} M_{a',b'}\) с инвариантным определителем \(\det P = C^2\) и нормированную унимодулярную матрицу \(\widetilde{P} = \frac{1}{C}P \in \mathrm{SL}_2(\mathbb {Q})\). </p>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:math-pade-tower-cubic-compression">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Теорема
+    </span>
+    <span class="theorem_thmlabel">2.1</span>
+    <span class="theorem_thmtitle">Изотропный дискриминантный конус \(\mathrm{SL}_2(\mathbb {Z})\), параболические жордановы матрицы, рекурсия Ганкеля и счётная башня аппроксимантов Паде</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0006.html#thm:math-pade-tower-cubic-compression">#</a>
+    
+    <a class="icon proof" href="sect0006.html#a0000000017"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#thm:math-wronskian-weierstrass-quadratures">Теорема 1.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/PillaiDiophantine.lean#L19" class="lean_decl">thm6_pillai_skeletal_matrix_decomposition_and_parabolic_sl2_jordan_triptych</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/PillaiDiophantine.lean#L82" class="lean_decl">thm7_pillai_recursive_descent_hankel_wronskian_farey_bezout_and_pade_thue_tower</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/PillaiDiophantine.lean#L262" class="lean_decl">thm10_root_free_cubic_pade_compression</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/PillaiDiophantine.lean#L287" class="lean_decl">thm10b_pillai_same_cell_two_solution_collision_and_gap_law</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/PillaiDiophantine.lean#L457" class="lean_decl">thm10c_pillai_arbitrary_floor_closed_cubic_residual_and_annihilation_condition</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/PillaiDiophantine.lean#L552" class="lean_decl">thm11_cross_floor_wronskian_and_p3_kernel</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>    Для любых целых параметров \((U, V)\) с разностью \(C = U - V\) и произвольного списка этажей башни Паде \(\mathcal{R} = [r_1, \dots , r_M] \in \mathrm{List}\, \mathbb {Z}\) с индуктивным шагом \((P, Q) \mapsto \bigl(P + (r - 1)Q,\  (r - 1)P + Q\bigr)\) выполняются следующие безусловные тождества: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Изотропный дискриминантный конус и нильпотентные жордановы образующие:</b> в координатах \(X = (\widetilde{P}_{11} - \widetilde{P}_{22})/2\), \(Y = (\widetilde{P}_{12} + \widetilde{P}_{21})/2\), \(T = (\widetilde{P}_{12} - \widetilde{P}_{21})/2\) условие унимодулярности \(\det \widetilde{P} = 1\) тождественно эквивалентно уравнению изотропного конуса </p>
+<div class="equation" id="eq:math-sl2-isotropic-cone">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-sl2-isotropic-cone} \frac{1}{4}\Bigl((\operatorname {Tr}\widetilde{P})^2 - 4\Bigr) \; =\;  X^2 + Y^2 - T^2, \end{equation}
+  </div>
+  <span class="equation_label">2.2</span>
+</p>
+</div>
+<p> а вдоль параболической образующей \(\operatorname {Tr}\widetilde{P} = \mp 2\) (\(X^2 + Y^2 = T^2\)) семейство матриц \(\widetilde{P}_k = \mp I_2 + k N_0\) с нильпотентной матрицей \(N_0 = \begin{pmatrix}  -1 
+
+&  -1 
+
+\\ 1 
+
+&  1 
+
+\end{pmatrix}\) (\(N_0^2 = 0\)) принадлежит \(\mathrm{SL}_2(\mathbb {Z})\) при всех \(k \in \mathbb {Z}\). </p>
+</li>
+  <li><p><b class="bfseries">Гомоморфизм моноида башни Паде и точная факторизация суммы и разности на произвольном этаже \(\mathcal{R}\):</b> для любых списков этажей \(\mathcal{R}_1, \mathcal{R}_2 \in \mathrm{List}\, \mathbb {Z}\) композиция башни ассоциативна: </p>
+<div class="displaymath" id="eq:math-pade-monoid-p">
+  \begin{align}  P_{\mathcal{R}_1\mathbin {+\! +}\mathcal{R}_2}(U, V) & = P_{\mathcal{R}_2}\bigl(P_{\mathcal{R}_1}(U, V),\;  Q_{\mathcal{R}_1}(U, V)\bigr), \label{eq:math-pade-monoid-p} \\ Q_{\mathcal{R}_1\mathbin {+\! +}\mathcal{R}_2}(U, V) & = Q_{\mathcal{R}_2}\bigl(P_{\mathcal{R}_1}(U, V),\;  Q_{\mathcal{R}_1}(U, V)\bigr), \label{eq:math-pade-monoid-q} \end{align}
+</div>
+<p> а сумма и разность числителя и знаменателя на любом этаже \(\mathcal{R}\) факторизуются через мультипликативные инварианты \(\Pi _+(\mathcal{R}) = \prod _{r\in \mathcal{R}} r\) и \(\Pi _-(\mathcal{R}) = \prod _{r\in \mathcal{R}} (2 - r)\): </p>
+<div class="displaymath" id="eq:math-pade-sum-factor">
+  \begin{align}  P_{\mathcal{R}}(U, V) + Q_{\mathcal{R}}(U, V) & \equiv \Pi _+(\mathcal{R})\, (U + V), \label{eq:math-pade-sum-factor} \\ P_{\mathcal{R}}(U, V) - Q_{\mathcal{R}}(U, V) & \equiv \Pi _-(\mathcal{R})\, (U - V) \; =\;  \Pi _-(\mathcal{R})\, C. \label{eq:math-pade-diff-factor} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Бескорневое кубическое сжатие Паде, точное сокращение \(X^3\) на всех этажах \(\mathcal{R}\) и закон ухода на соседний этаж:</b> для двух пар кубов \((U, V) = (\widetilde{A}X^3, \widetilde{B}Y^3)\) (\(C = U - V\)) и \((U', V') = (\widetilde{A}X'^3, \widetilde{B}Y'^3)\) (\(C' = U' - V'\)), кросс-валов \(a = Y'X\), \(b = X'Y\), линейной формы этажа \(I_{\mathcal{R}} = a P_{\mathcal{R}} - b Q_{\mathcal{R}}\) и строго положительной квадратичной формы \(\Phi _3(u, v) = u^2 + u v + v^2\) на каждом этаже \(\mathcal{R}\) выполняются тождество бескорневого кубического сжатия и тождество сокращения \(X^3\): </p>
+<div class="displaymath" id="eq:math-arbitrary-floor-cubic-pade">
+  \begin{align}  U\, I_{\mathcal{R}}\, \Phi _3(a P_{\mathcal{R}}, b Q_{\mathcal{R}}) & \equiv a^3\bigl(U P_{\mathcal{R}}^3 - V Q_{\mathcal{R}}^3\bigr) - (U b^3 - V a^3)\, Q_{\mathcal{R}}^3, \label{eq:math-arbitrary-floor-cubic-pade} \\ \widetilde{A}\, I_{\mathcal{R}}\, \Phi _3(a P_{\mathcal{R}}, b Q_{\mathcal{R}}) & \equiv Y’^3\bigl(U P_{\mathcal{R}}^3 - V Q_{\mathcal{R}}^3\bigr) - C’\, Y^3\, Q_{\mathcal{R}}^3 \qquad (X^3 \ge 1), \label{eq:math-arbitrary-floor-x3-cancel} \\ U P_{[3]}^3 - V Q_{[3]}^3 & \equiv C^3\, (U + V), \label{eq:math-base-floor3-collapse} \\ \det \mathcal{W}_{2,3}(U, V) & := \widehat{P}_1\widehat{Q}_2 - \widehat{Q}_1\widehat{P}_2 \; \equiv \;  (U - V)^3\bigl(U^2 + 3UV + V^2\bigr). \label{eq:math-cross-floor-wronskian23} \end{align}
+</div>
+<p> При переходе с этажа \(\mathcal{R}\) на соседний этаж \(\mathcal{R}' = \mathcal{R} \mathbin {+\! +} [k_{\mathrm{shift}} + 1]\) линейная форма удовлетворяет разностному закону </p>
+<div class="equation" id="eq:math-adjacent-floor-escape">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-adjacent-floor-escape} I_{\mathcal{R}'} - (k_{\mathrm{shift}} + 1)\, I_{\mathcal{R}} \; \equiv \;  -k_{\mathrm{shift}}\, (a + b)\, \Pi _-(\mathcal{R})\, C, \end{equation}
+  </div>
+  <span class="equation_label">2.11</span>
+</p>
+</div>
+<p> откуда при \(k_{\mathrm{shift}}(a+b)\Pi _-(\mathcal{R})C \ne 0\) формы \(I_{\mathcal{R}}\) и \(I_{\mathcal{R}'}\) не могут обратиться в нуль одновременно (\(\neg (I_{\mathcal{R}} = 0 \land I_{\mathcal{R}'} = 0)\) и \(|I_{\mathcal{R}}| + |I_{\mathcal{R}'}| \ge 1\)). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000017">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Уравнение конуса&#160;<a href="sect0006.html#eq:math-sl2-isotropic-cone" class="eqref">2.2</a> следует из \(\det \widetilde{P} = (S+X)(S-X) - (Y+T)(Y-T) = S^2 - X^2 - Y^2 + T^2 = 1\) при \(S = \frac{1}{2}\operatorname {Tr}\widetilde{P}\). Ассоциативность моноида&#160;<a href="sect0006.html#eq:math-pade-monoid-p" class="eqref">2.3</a>–<a href="sect0006.html#eq:math-pade-monoid-q" class="eqref">2.4</a> и факторизации&#160;<a href="sect0006.html#eq:math-pade-sum-factor" class="eqref">2.5</a>–<a href="sect0006.html#eq:math-pade-diff-factor" class="eqref">2.6</a> доказываются структурной индукцией по списку \(\mathcal{R}\). В пункте&#160;(3) разность \((a P_{\mathcal{R}})^3 - (b Q_{\mathcal{R}})^3 = I_{\mathcal{R}}\, \Phi _3(a P_{\mathcal{R}}, b Q_{\mathcal{R}})\) после умножения на \(U\) и выделения \(a^3(U P_{\mathcal{R}}^3 - V Q_{\mathcal{R}}^3)\) даёт&#160;<a href="sect0006.html#eq:math-arbitrary-floor-cubic-pade" class="eqref">2.7</a>; подстановка \(U = \widetilde{A}X^3\), \(V = \widetilde{B}Y^3\), \(a^3 = Y'^3 X^3\), \(b^3 = X'^3 Y^3\) выносит общий множитель \(X^3\), сокращение которого даёт&#160;<a href="sect0006.html#eq:math-arbitrary-floor-x3-cancel" class="eqref">2.8</a>. Наконец, подстановка \(P_{\mathcal{R}'} = P_{\mathcal{R}} + k_{\mathrm{shift}}Q_{\mathcal{R}}\) и \(Q_{\mathcal{R}'} = k_{\mathrm{shift}}P_{\mathcal{R}} + Q_{\mathcal{R}}\) даёт \(I_{\mathcal{R}'} - (k_{\mathrm{shift}}+1)I_{\mathcal{R}} = -k_{\mathrm{shift}}(a+b)(P_{\mathcal{R}} - Q_{\mathcal{R}}) = -k_{\mathrm{shift}}(a+b)\Pi _-(\mathcal{R})C\), что доказывает&#160;<a href="sect0006.html#eq:math-adjacent-floor-escape" class="eqref">2.11</a>. </p>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="ch-math-pade-sl2-towers.html" title="Изотропный дискриминантный конус в \(\mathrm{SL}_2(\mathbb {Z})\), моноид башни аппроксимантов Паде и бескорневое кубическое сжатие"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-math-pade-sl2-towers.html" title="Изотропный дискриминантный конус в \(\mathrm{SL}_2(\mathbb {Z})\), моноид башни аппроксимантов Паде и бескорневое кубическое сжатие"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="ch-math-planetary-differentials.html" title="Трёхшахтные планетарные дифференциалы \(\mathcal{A} + \mathcal{B} = \mathcal{C}\), вронскиан Мейсона–Стотерса и проекторы Лагранжа–Вандермонда"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

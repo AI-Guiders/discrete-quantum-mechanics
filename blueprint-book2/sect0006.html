@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Четыре сигнатуры фальсификации и упреждающая матрица коррекции</title>
+<link rel="next" href="sect0007.html" title="Интерактивная диагностика с анти-конфабуляционным стеком ai-welcome-atlas + ai-atlas-mcp и сопровождение под NDA" />
+<link rel="prev" href="sect0005.html" title="Пошаговый протокол изготовления в чистой комнате и контрольный A/B-эксперимент" />
+<link rel="up" href="ch-lab-solar-photovoltaics.html" title="Бесфононная кремниевая фотовольтаика (441 нм 2×882 нм < 1107 нм): протокол чистой комнаты и матрица диагностики" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга II. Лабораторный практикум (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Введение. Лабораторный арбитраж в едином Естествознании и связь четырёх книг</span></a>
+ </li>
+<li class=" active">
+  <a href="ch-lab-solar-photovoltaics.html"><span class="toc_ref">1</span> <span class="toc_entry">Бесфононная кремниевая фотовольтаика (\(441\text{ нм} \to 2\times 882\text{ нм} {\lt} 1107\text{ нм}\)): протокол чистой комнаты и матрица диагностики</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Физическая причина стагнации однопороговой солнечной энергетики: несогласованная фононная термализация</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Бесфононное деление синего кванта (Singlet Fission: \(441\text{ нм} \to 2 \times 882\text{ нм} {\lt} 1107\text{ нм}\))</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Согласование оболочечного и фазового импеданса на границе «Тетрацен – \(\mathrm{SiO_x}\) – Кремний»</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">1.4</span> <span class="toc_entry">Пошаговый протокол изготовления в чистой комнате и контрольный A/B-эксперимент</span></a>
+ </li>
+<li class=" active current">
+  <a href="sect0006.html"><span class="toc_ref">1.5</span> <span class="toc_entry">Четыре сигнатуры фальсификации и упреждающая матрица коррекции</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">1.6</span> <span class="toc_entry">Интерактивная диагностика с анти-конфабуляционным стеком ai-welcome-atlas + ai-atlas-mcp и сопровождение под NDA</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-lab-critical-experiments-registry.html"><span class="toc_ref">2</span> <span class="toc_entry">Сводный реестр критических экспериментов и лабораторно-вычислительных гейтов</span></a>
+ </li>
+<li class="">
+  <a href="ch-measurement-processing.html"><span class="toc_ref">3</span> <span class="toc_entry">Обработка результатов измерений</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sec-metrology-layer.html"><span class="toc_ref">3.1</span> <span class="toc_entry">Где живёт метрология в серии</span></a>
+ </li>
+<li class="">
+  <a href="sec-direct-measurement.html"><span class="toc_ref">3.2</span> <span class="toc_entry">Прямые измерения</span></a>
+ </li>
+<li class="">
+  <a href="sec-indirect-gum.html"><span class="toc_ref">3.3</span> <span class="toc_entry">Косвенные измерения и перенос неопределённости</span></a>
+ </li>
+<li class="">
+  <a href="sec-student.html"><span class="toc_ref">3.4</span> <span class="toc_entry">Выборка, стандартная ошибка и Стьюдент</span></a>
+ </li>
+<li class="">
+  <a href="sec-compare-reference.html"><span class="toc_ref">3.5</span> <span class="toc_entry">Сравнение с эталоном</span></a>
+ </li>
+<li class="">
+  <a href="sec-multiple-observables.html"><span class="toc_ref">3.6</span> <span class="toc_entry">Несколько наблюдаемых</span></a>
+ </li>
+<li class="">
+  <a href="sec-metrology-critical.html"><span class="toc_ref">3.7</span> <span class="toc_entry">Связь с критическими экспериментами</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-computational-laboratory.html"><span class="toc_ref">4</span> <span class="toc_entry">Вычислительная лаборатория серии</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sec-lab-role.html"><span class="toc_ref">4.1</span> <span class="toc_entry">Затянувшаяся лаборатория, а не только теоремы</span></a>
+ </li>
+<li class="">
+  <a href="sec-lab-burden-of-proof.html"><span class="toc_ref">4.2</span> <span class="toc_entry">Бремя доказательства</span></a>
+ </li>
+<li class="">
+  <a href="sec-lab-protocol.html"><span class="toc_ref">4.3</span> <span class="toc_entry">Единый протокол записи опыта</span></a>
+ </li>
+<li class="">
+  <a href="sec-lab-metrology-link.html"><span class="toc_ref">4.4</span> <span class="toc_entry">Связь с метрологией и критическими экспериментами</span></a>
+ </li>
+<li class="">
+  <a href="sec-lab-classes.html"><span class="toc_ref">4.5</span> <span class="toc_entry">Классы вычислительных опытов</span></a>
+ </li>
+<li class="">
+  <a href="sec-lab-lean4-operator-kernel.html"><span class="toc_ref">4.6</span> <span class="toc_entry">Формальное операторное ядро в Lean&#160;4</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000007">1.5 Четыре сигнатуры фальсификации и упреждающая матрица коррекции</h1>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Спектроскопия границы раздела (UPS / IPES / TR-PL):</b> обменный сдвиг синглет-триплетной щели \(\operatorname {Tr}\mathcal{M}_3^{\mathrm{adj}} = 4^2 + 128 = \mathbf{144\text{ мэВ}}\) и пик фосфоресценции/переноса триплетного экситона на \(-\det \mathcal{W}_{\mathrm{MS}} = 1^4 + 5^4 + 4^4 = \mathbf{882\text{ нм}}\) (\(1{,}406\text{ эВ}\)). </p>
+</li>
+  <li><p><b class="bfseries">Внешний квантовый выход (\(\mathrm{EQE}\)) и магнито-фототок (\(\mathrm{MFE}\)):</b> подъём \(\mathrm{EQE}(441\text{ нм}) {\gt} 100\% \) на синем пике тетрацена с характерной отрицательной модуляцией фототока в магнитном поле \(B \in [0,\  0{,}4]\text{ Тл}\) в Целевом образце&#160;B (\(Z=46\)) при отсутствии подъёма в Контрольном образце&#160;A (\(Z=45\)). </p>
+</li>
+  <li><p><b class="bfseries">Безожевая линейность от интенсивности:</b> линейный рост триплетного вклада в фототок в диапазоне \(0{,}1\text{--}5\text{ Sun}\) без квадратичного Оже-завала (\(\mathcal{C}_3(128) = 0\)). </p>
+</li>
+  <li><p><b class="bfseries">Синхронная инфракрасная термография (Lock-in Thermography):</b> снижение паразитного тепловыделения решётки более чем на \(50\% \) при монохроматической накачке \(441\text{ нм}\) по сравнению с референсной ячейкой IBC-\(\mathrm{Si}\) (\(\hat{n}_E(21) = 0\)). </p>
+</li>
+</ol>
+<div class="table"  id="tab:lab-troubleshooting-f1-f6">
+   <div class="centered"><figcaption>
+  <span class="caption_title">Table</span> 
+  <span class="caption_ref">1.2</span> 
+  <span class="caption_text">Упреждающая диагностика 6 лабораторных режимов срыва и одношаговая матрица коррекции.</span> 
+</figcaption>  <small class="footnotesize"><table class="tabular">
+  <tr>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">Режим срыва</b> </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">Наблюдаемый симптом</b> </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">Причина в ДКМ</b> </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">Одношаговая коррекция</b> </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p><b class="bfseries">F1.</b> Дегидрированный сухой оксид </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> Люминесценция тетрацена погашена, но \(\mathrm{MFE}\) в фототоке \(\mathrm{Si}\) равен нулю; \(\tau _{\mathrm{eff}} {\lt} 200\text{ мкс}\) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Потеря протона \(Z : 46 \to 45\) (\(45^2 = 2025 {\lt} 2048\)): пробой затвора Паули синглетом \(S_1\) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Отжиг в \(\mathrm{H_2}/\mathrm{N_2}\) (\(520\text{--}570\text{ К}\)) до \([\mathrm{AlO_4H}]/\mathrm{SiO_4}\) (\(Z=46,\  46^2{\gt}2048\)) </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p><b class="bfseries">F2.</b> Переутолщённый диэлектрик </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> Сильный \(\mathrm{MFE}\) в люминесценции тетрацена и пик \(882\text{ нм}\), но нулевой прирост тока \(\mathrm{Si}\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Мост \({\gt}3\) монослоёв (\(d_{\mathrm{ox}} {\gt} 1{,}5\text{ нм}\)) обрывает декстеровский обмен \(O_2(3)\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Удержать толщину моста строго в окне \(2\text{--}3\) монослоёв (\(0{,}8\text{--}1{,}2\text{ нм}\)) </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p><b class="bfseries">F3.</b> Аморфный напыл или \(\mathrm{Si}(111)\) </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> Сублинейный завал фототока при \(\ge 1\text{ Sun}\) (биэкситонное Оже-гашение) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Потеря ориентации \(\Delta \varphi = 128\): при \(\Delta \varphi \to 0\) перекрытие \(\mathcal{C}_3(0) = +128\) включает Оже </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Подложка строго \(\mathrm{Si}(100)\) (\(d_{\mathrm{in}}(\square )=4\)), напыление \(0{,}2\text{--}0{,}5\text{ \AA /с}\) при \(295\text{--}300\text{ К}\) </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p><b class="bfseries">F4.</b> Переутолщённый слой тетрацена </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> Зеркальный провал \(\mathrm{EQE}\) на \(441\text{ нм}\) («анти-спектр поглощения») </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> При \(d_{\mathrm{Tc}} {\gt} 100\text{ нм}\) триплеты рождаются дальше диффузионной длины от \(\mathrm{Si}\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Снизить толщину тетрацена до \(30\text{--}70\text{ нм}\) с 12-лучевым кварцевым захватом </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p><b class="bfseries">F5.</b> Фотоокисление на воздухе </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> Деградация \(\mathrm{EQE}\) и \(\mathrm{MFE}\) за \(10\text{--}20\text{ мин}\) освещения </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Образование эндопероксида рушит седло \(120 + 8 = 128\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Инкапсуляция кварцем (Слой&#160;1) в едином вакуумном/\(\mathrm{Ar}\) цикле без засветки </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p><b class="bfseries">F6.</b> Замена тетрацена на пентацен </p>
+
+    </td>
+    <td  style="border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> Нулевая инжекция триплетов в \(\mathrm{Si}\) даже при идеальном мосте \(Z=46\) </p>
+
+    </td>
+    <td  style="text-align:left; border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> У пентацена \(Z=146{\gt}128\), триплет \(\lambda \approx 1440\text{ нм} {\gt} 1107\text{ нм}\) ниже края \(\mathrm{Si}\) </p>
+
+    </td>
+    <td  style="text-align:left; border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> Использовать именно тетрацен \(\mathrm{C_{18}H_{12}}\) (\(Z=120,\  -\det \mathcal{W}_{\mathrm{MS}}=882\text{ нм}\)) </p>
+
+    </td>
+  </tr>
+</table> </small></div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sect0005.html" title="Пошаговый протокол изготовления в чистой комнате и контрольный A/B-эксперимент"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-lab-solar-photovoltaics.html" title="Бесфононная кремниевая фотовольтаика (\(441\text{ нм} \to 2\times 882\text{ нм} {\lt} 1107\text{ нм}\)): протокол чистой комнаты и матрица диагностики"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0007.html" title="Интерактивная диагностика с анти-конфабуляционным стеком ai-welcome-atlas + ai-atlas-mcp и сопровождение под NDA"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ортогональный репер трёхшахтного дифференциала \(\mathcal{F}_3\), матрица моментов Ганкеля и целочисленный вронскиан Мейсона–Стотерса</title>
+<link rel="next" href="ch-math-multiscrew-and-holonomy.html" title="Алгебра многовинтовых планетарных каскадов и встречно-волновая суперпозиция на сфере Римана P1" />
+<link rel="prev" href="ch-math-planetary-differentials.html" title="Трёхшахтные планетарные дифференциалы A + B = C, вронскиан Мейсона–Стотерса и проекторы Лагранжа–Вандермонда" />
+<link rel="up" href="ch-math-planetary-differentials.html" title="Трёхшахтные планетарные дифференциалы A + B = C, вронскиан Мейсона–Стотерса и проекторы Лагранжа–Вандермонда" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга V. Математика проективного многообразия (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Предисловие. Отделение чистой проективной математики от физики носителя</span></a>
+ </li>
+<li class="">
+  <a href="ch-math-rotator-calculus.html"><span class="toc_ref">1</span> <span class="toc_entry">Дискретный ротатор \(\mathbb {Z}_{4Q}\), однородные проективные поля \(\mathbb {Q}(i,\sqrt{d-1})\) и анализ без делений</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Характер Эйлера на \(L^1\)-алмазе, тождество постоянного вронскиана и подъём Брахмагупты–Вейерштрасса</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Замкнутая башня производных частного всех порядков \(D^n(f/g)\), многомерная кубатура Симпсона и когомологии де&#160;Рама</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Биекция полярных и декартовых координат \((M,\varphi )\leftrightarrow (X,Y)\) без корней, точное обращение \(\operatorname {atan}_{L^1},\, \operatorname {acot}_{L^1}\) и гиперболическое исчисление Гудермана–Минковского</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">1.4</span> <span class="toc_entry">Конструктивный переход от квадратичных сумм на кольце \(\mathbb {Z}_{4Q}\) к интегралам Френеля на \(\mathbb {R}\) (\(\mathbb {C}\)) без рядов Тейлора и без таблиц</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-math-pade-sl2-towers.html"><span class="toc_ref">2</span> <span class="toc_entry">Изотропный дискриминантный конус в \(\mathrm{SL}_2(\mathbb {Z})\), моноид башни аппроксимантов Паде и бескорневое кубическое сжатие</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0006.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Матричное представление ступеней, изотропный конус и параболические жордановы матрицы в \(\mathrm{SL}_2(\mathbb {Z})\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active">
+  <a href="ch-math-planetary-differentials.html"><span class="toc_ref">3</span> <span class="toc_entry">Трёхшахтные планетарные дифференциалы \(\mathcal{A} + \mathcal{B} = \mathcal{C}\), вронскиан Мейсона–Стотерса и проекторы Лагранжа–Вандермонда</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class=" active current">
+  <a href="sect0007.html"><span class="toc_ref">3.1</span> <span class="toc_entry">Ортогональный репер трёхшахтного дифференциала \(\mathcal{F}_3\), матрица моментов Ганкеля и целочисленный вронскиан Мейсона–Стотерса</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-math-multiscrew-and-holonomy.html"><span class="toc_ref">4</span> <span class="toc_entry">Алгебра многовинтовых планетарных каскадов и встречно-волновая суперпозиция на сфере Римана \(\mathbb {P}^1\)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0008.html"><span class="toc_ref">4.1</span> <span class="toc_entry">Моноид многовинтовых планетарных каскадов, экстремальная перестановочная вилка и вариационная монотонность</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html"><span class="toc_ref">4.2</span> <span class="toc_entry">Векторная суперпозиция встречных волн, тройная дихотомия \(M\)-этажного каскада и модельно-теоретическая независимость</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html"><span class="toc_ref">4.3</span> <span class="toc_entry">Конструктивное построение \(\mathbb {R}\) и \(\mathbb {C}\), биективный изоморфизм \(L^1(\mathbb {Z}_{4Q}) \leftrightarrow S^1(\mathbb {C})\) и бритва Оккама–Мальцева</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000008">3.1 Ортогональный репер трёхшахтного дифференциала \(\mathcal{F}_3\), матрица моментов Ганкеля и целочисленный вронскиан Мейсона–Стотерса</h1>
+<p>Любой трёхшахтный аддитивный баланс \(A + B = C\) при факторизации валов \(A = a_1 a_2 = \widetilde{A}X^3\), \(B = b_1 b_2 = \widetilde{B}Y^3\), \(C = c_1 c_2 = \widetilde{C}Z^3\) (с кубическим дефектом \(S_3 = A + B - C\) и дефектами нижних этажей \(S_1 = \widetilde{A}X + \widetilde{B}Y - \widetilde{C}Z\), \(S_2 = \widetilde{A}X^2 + \widetilde{B}Y^2 - \widetilde{C}Z^2\)) задаёт ортогональность вектора радиусов \(\mathbf{r} = (a_1, b_1, c_1)\) и вектора угловых скоростей \(\mathbf{\omega } = (a_2, b_2, -c_2)\) (\(\mathbf{r}\cdot \mathbf{\omega } = A + B - C\)). </p>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:math-abc-planetary-wronskian-full">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Теорема
+    </span>
+    <span class="theorem_thmlabel">3.1</span>
+    <span class="theorem_thmtitle">Ортогональный репер дифференциала \(\mathcal{F}_3\), определитель Ганкеля–Вандермонда, целочисленный вронскиан Мейсона–Стотерса, проекторы Лагранжа–Вандермонда и стереографическое вложение в ротатор \(\mathbb {Z}_{4Q}\)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0007.html#thm:math-abc-planetary-wronskian-full">#</a>
+    
+    <a class="icon proof" href="sect0007.html#a0000000018"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#thm:math-wronskian-weierstrass-quadratures">Теорема 1.1</a></li>
+          
+          <li><a href="sect0006.html#thm:math-pade-tower-cubic-compression">Теорема 2.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/AbcPlanetaryWronskian.lean#L10" class="lean_decl">thm8_unified_3x3_pillai_abc_skeletal_matrix_and_radical_floor_embedding</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/AbcPlanetaryWronskian.lean#L35" class="lean_decl">thm9_pillai_abc_differential_bezout_and_pade_laws</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/AbcPlanetaryWronskian.lean#L66" class="lean_decl">thm12_reverse_pade_bezout_cubic_annihilation_and_radical_bound</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/AbcPlanetaryWronskian.lean#L126" class="lean_decl">thm13_integer_mason_stothers_cubic_wronskian_and_fourth_power_det</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/AbcPlanetaryWronskian.lean#L164" class="lean_decl">thm14_master_pillai_and_abc_bilateral_convergence_chains</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/AbcPlanetaryWronskian.lean#L335" class="lean_decl">thm14b_abc_hankel_vandermonde_floor_defect_trichotomy_and_bilateral_bezout_bracket</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/AbcPlanetaryWronskian.lean#L360" class="lean_decl">thm14c_abc_three_shaft_minor_closure_and_joint_beta_gamma_brackets</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/AbcPlanetaryWronskian.lean#L238" class="lean_decl">thm16_weierstrass_stereographic_abc_embedding_into_z512_rotator</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/RotatorCalculusPaper.lean#L32" class="lean_decl">thm30_unified_pillai_abc_collatz_planetary_differential_bridge</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>    Для произвольных целых параметров \((\widetilde{A}, \widetilde{B}, \widetilde{C}, X, Y, Z, u_0, v_0, t)\) с весами валов \(w_x = \widetilde{A}X\), \(w_y = \widetilde{B}Y\), \(w_z = \widetilde{C}Z\), полным радикал-скелетом \(R_{\mathrm{full}} = (\widetilde{A}\widetilde{B}\widetilde{C})(X Y Z)\) и определителем Безу \(d_{\mathrm{Bez}} = w_x v_0 - w_y u_0\) выполняются следующие безусловные тождества: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Тождество Лагранжа–Бине–Коши репера \(\mathcal{F}_3\) и факторизация определителя Ганкеля \(3\times 3\):</b> для миноров \(M_{BC} = b_1 c_2 + c_1 b_2\), \(M_{CA} = c_1 a_2 + a_1 c_2\), \(S_{AB} = a_1 b_2 - b_1 a_2\), \(M_{AB} = a_1 b_2 + b_1 a_2\) и матрицы моментов Ганкеля \(\mathcal{H}_3 = \bigl(S_{i+j-1}\bigr)_{i,j=0}^2\) (\(S_k = \widetilde{A}X^k + \widetilde{B}Y^k - \widetilde{C}Z^k\)) выполняются: </p>
+<div class="displaymath" id="eq:math-frame-f3-lagrange">
+  \begin{align}  M_{BC}^2 + M_{CA}^2 + S_{AB}^2 + (a_1 a_2 + b_1 b_2 - c_1 c_2)^2 & \equiv (a_1^2 + b_1^2 + c_1^2)(a_2^2 + b_2^2 + c_2^2), \label{eq:math-frame-f3-lagrange} \\ (A + B)^2 + S_{AB}^2 & \equiv (A - B)^2 + M_{AB}^2 \; =\;  (a_1^2 + b_1^2)(a_2^2 + b_2^2), \label{eq:math-brahmagupta-shafts} \\ -\det \mathcal{H}_3 & \equiv \widetilde{A}\widetilde{B}\widetilde{C}\, (X - Y)^2(Y - Z)^2(Z - X)^2. \label{eq:math-hankel-vandermonde-det} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Калибровочно-инвариантный кубический вронскиан Мейсона–Стотерса и определитель четвёртых степеней:</b> для калибровочно-сдвинутого семейства \((\alpha (t), \beta (t)) = \bigl(u_0 Z^2 + t w_x,\  v_0 Z^2 + t w_y\bigr)\) и квадратичных валов \(A^*(t) = \alpha (t) X^2\), \(B^*(t) = \beta (t) Y^2\) кубический вронскиан \(W^*(t) := A B^*(t) - B A^*(t)\) не зависит от калибровочного параметра \(t\) (\(\Delta _t W^*(t) \equiv 0\), сохранение Нётер) и удовлетворяет тождествам: </p>
+<div class="displaymath" id="eq:math-ms-minor-z2">
+  \begin{align}  w_x\, \beta (t) - w_y\, \alpha (t) & \equiv d_{\mathrm{Bez}}\, Z^2, \label{eq:math-ms-minor-z2} \\ W^*(t) := A\, B^*(t) - B\, A^*(t) & \equiv d_{\mathrm{Bez}}\, (X^2 Y^2 Z^2), \label{eq:math-ms-cubic-wronskian} \\ d_{\mathrm{Bez}}\, (A B C) & \equiv R_{\mathrm{full}}\, W^*(t), \label{eq:math-volume-wronskian-equiv} \\ -\det \mathcal{W}_{\mathrm{MS}} & \equiv d_{\mathrm{Bez}}\, \bigl(X^4 + Y^4 + Z^4\bigr) + \bigl(Y^2 u_0 - X^2 v_0\bigr)\, S_3. \label{eq:math-ms-fourth-power-det} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Проекторы Лагранжа–Вандермонда по дефектам этажей \((S_1, S_2, S_3)\) и трёхшахтная система коллапса объёма:</b> на любых этажах \((S_1, S_2, S_3)\) выполняются точные проекционные тождества Лагранжа–Вандермонда и трёхшахтные уравнения дефектов миноров \(d_{\mathrm{Min},Z} = Z^2 - (w_x\beta - w_y\alpha )\), \(d_{\mathrm{Min},Y} = Y^2 - (w_x\gamma - w_z\alpha )\), \(d_{\mathrm{Min},X} = X^2 - (w_z\beta - w_y\gamma )\): </p>
+<div class="displaymath" id="eq:math-vandermonde-proj-c">
+  \begin{align}  C\, (Z - X)(Z - Y) & \equiv Z^2\, \bigl(S_2(X + Y) - S_1 X Y - S_3\bigr), \label{eq:math-vandermonde-proj-c} \\ A\, (X - Y)(X - Z) & \equiv X^2\, \bigl(S_1 Y Z - S_2(Y + Z) + S_3\bigr), \label{eq:math-vandermonde-proj-a} \\ B\, (Y - X)(Y - Z) & \equiv Y^2\, \bigl(S_1 Z X - S_2(Z + X) + S_3\bigr), \label{eq:math-vandermonde-proj-b} \\ w_y\, C + (\widetilde{B}^2\widetilde{C})(Y^2 Z)\, \alpha - R_{\mathrm{full}}\, \beta & \equiv (\widetilde{B}\widetilde{C}Y Z)\, d_{\mathrm{Min},Z}, \label{eq:math-three-shaft-collapse-c} \\ w_z\, B + (\widetilde{B}\widetilde{C}^2)(Y Z^2)\, \alpha - R_{\mathrm{full}}\, \gamma & \equiv (\widetilde{B}\widetilde{C}Y Z)\, d_{\mathrm{Min},Y}, \label{eq:math-three-shaft-collapse-b} \\ w_y w_z\, A - R_{\mathrm{full}}(w_z\beta - w_y\gamma ) & \equiv R_{\mathrm{full}}\, d_{\mathrm{Min},X}. \label{eq:math-three-shaft-collapse-a} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Стереографическое вложение трёхшахтного дифференциала \(\mathcal{C} := \mathcal{A} + \mathcal{B}\) в ротатор \(\mathbb {Z}_{4Q}\) и двусторонняя целочисленная вилка захвата ячейки:</b> для любого четверть-периода \(Q \in \mathbb {Z}\), фазы \(\varphi _0 \in \mathbb {Z}\) (\(\mathcal{C}_{\mathrm{rot}} = Q - \varphi _0,\  \mathcal{S}_{\mathrm{rot}} = \varphi _0\)), резидуала ротатора \(I_{\mathrm{rot}} = \mathcal{B}\mathcal{C}_{\mathrm{rot}} - \mathcal{A}\mathcal{S}_{\mathrm{rot}}\) и определителя Безу \(g = \mathcal{A}v - \mathcal{B}u\) (\(w = u + v\), \(\Delta _{\mathrm{rot}} = \mathcal{C}_{\mathrm{rot}}v - \mathcal{S}_{\mathrm{rot}}u\)) выполняются: </p>
+<div class="displaymath" id="eq:math-rotator-ab-split">
+  \begin{align}  Q\, \mathcal{A} & \equiv \mathcal{C}\, \mathcal{C}_{\mathrm{rot}} - I_{\mathrm{rot}}, \qquad Q\, \mathcal{B} \; \equiv \;  \mathcal{C}\, \mathcal{S}_{\mathrm{rot}} + I_{\mathrm{rot}}, \label{eq:math-rotator-ab-split} \\ \mathcal{C}\, \Delta _{\mathrm{rot}} - w\, I_{\mathrm{rot}} & \equiv g\, Q, \label{eq:math-rotator-bezout-det} \end{align}
+</div>
+<p> причём в главной ячейке захвата \(0 \le I_{\mathrm{rot}} {\lt} \mathcal{C}\) произведения \(Q\mathcal{A}\) и \(Q\mathcal{B}\) зажаты в двусторонней целочисленной вилке \(\mathcal{C}\mathcal{C}_{\mathrm{rot}} - \mathcal{C} {\lt} Q\mathcal{A} \le \mathcal{C}\mathcal{C}_{\mathrm{rot}}\) и \(\mathcal{C}\mathcal{S}_{\mathrm{rot}} \le Q\mathcal{B} {\lt} \mathcal{C}\mathcal{S}_{\mathrm{rot}} + \mathcal{C}\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000018">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Все полиномиальные тождества&#160;<a href="sect0007.html#eq:math-frame-f3-lagrange" class="eqref">3.1</a>–<a href="sect0007.html#eq:math-rotator-bezout-det" class="eqref">3.15</a> следуют из раскрытия скобок в коммутативном кольце \(\mathbb {Z}\). </p>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="ch-math-planetary-differentials.html" title="Трёхшахтные планетарные дифференциалы \(\mathcal{A} + \mathcal{B} = \mathcal{C}\), вронскиан Мейсона–Стотерса и проекторы Лагранжа–Вандермонда"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-math-planetary-differentials.html" title="Трёхшахтные планетарные дифференциалы \(\mathcal{A} + \mathcal{B} = \mathcal{C}\), вронскиан Мейсона–Стотерса и проекторы Лагранжа–Вандермонда"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="ch-math-multiscrew-and-holonomy.html" title="Алгебра многовинтовых планетарных каскадов и встречно-волновая суперпозиция на сфере Римана \(\mathbb {P}^1\)"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

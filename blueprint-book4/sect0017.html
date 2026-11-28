@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Урок 15. Секунда без атома цезия, полупериодное горлышко \(\tau _{\mathrm{neck}} = 256\) и почему Вселенной не \(13{,}8\), а \(\sim 27{,}5\text{ млрд лет}\) (разгадка ранних галактик JWST)</title>
+<link rel="next" href="ch-course-stage5-chemistry.html" title="Ступень V. Химия, таблица Менделеева и дизайн материалов" />
+<link rel="prev" href="sect0016.html" title="Урок 14. Гравитация без сингулярности (833:1), ядерная паста и гало вакуума 16/3 без тёмной материи" />
+<link rel="up" href="ch-course-stage4-particles-cosmos.html" title="Ступень IV. Элементарные частицы, ядра, гравитация и космология" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга IV. Курс единого естествознания (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Введение. Главный квест этой Вселенной и почему у решётки нет «балкона»</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref"></span> <span class="toc_entry">«Физика курильщика» против «физики здорового человека»: три закона Ньютона в целых числах и пять следствий дискретности решётки</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage1-carrier.html"><span class="toc_ref">1</span> <span class="toc_entry">Ступень I. Устройство носителя и рождение трёхмерного пространства (\(1 + 2^d = d^2\))</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0003.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Урок 1. Задача о самозамкнутом автомате: почему пространство трёхмерно и откуда берётся единица</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Урок 2. Почему строительный блок Вселенной — это 12-лучевой кубооктаэдр \(O_2\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Урок 3. Три родные системы счисления кольца \(\mathbb {Z}_{512}\): 9-битный провод, восьмеричный код \(407_8\) и бабочка Грея</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage2-math.html"><span class="toc_ref">2</span> <span class="toc_entry">Ступень II. Математика и информатика внутри носителя</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0006.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Урок 4. Бабочка ротатора \((\mathcal{C},\mathcal{S})\), формула Эйлера \(e^{i\pi }+1=0\) и постоянный вронскиан \(\mathcal{W}\equiv 128\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">2.2</span> <span class="toc_entry">Урок 5. Как отдать ротатору и шагу Верле вообще всю арифметику (умножение без умножителей!)</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">2.3</span> <span class="toc_entry">Урок 6. Матанализ без континуума: точные интегралы Френеля, Якоби, Дирихле, Бесселя и пять лиц Единицы</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html"><span class="toc_ref">2.4</span> <span class="toc_entry">Урок 7. Двухканальная логика Поста, семантический изоморфизм 3-SAT, барьер \(\mathbf{P}\ne \mathbf{NP}\) и встроенный шифр Вернама</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage3-quantum.html"><span class="toc_ref">3</span> <span class="toc_entry">Ступень III. Квантовая механика, электродинамика Максвелла и демоны Лапласа и Максвелла</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0010.html"><span class="toc_ref">3.1</span> <span class="toc_entry">Урок 8. Мёртвая зона затвора \(\Delta \varphi _{\mathrm{disc}} = 41\) и полное квантование всех наблюдаемых</span></a>
+ </li>
+<li class="">
+  <a href="sect0011.html"><span class="toc_ref">3.2</span> <span class="toc_entry">Урок 9. Корпускулярно-волновой дуализм и вывод правила Борна \(P(\mu ) = \mu ^2 / 512\) из пина переноса 9-битного сумматора</span></a>
+ </li>
+<li class="">
+  <a href="sect0012.html"><span class="toc_ref">3.3</span> <span class="toc_entry">Урок 10. Теорема Стокса–Гаусса–Черна (\(d^2 \equiv 0\)) и дискретные уравнения Максвелла</span></a>
+ </li>
+<li class="">
+  <a href="sect0013.html"><span class="toc_ref">3.4</span> <span class="toc_entry">Урок 11. Почему невозможен Демон Лапласа (\(64 \times 81 = 72^2\)), но работает 12-лучевой Геометрический Демон Максвелла</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active">
+  <a href="ch-course-stage4-particles-cosmos.html"><span class="toc_ref">4</span> <span class="toc_entry">Ступень IV. Элементарные частицы, ядра, гравитация и космология</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0014.html"><span class="toc_ref">4.1</span> <span class="toc_entry">Урок 12. Запуск Вселенной из слова \(\mathrm{IV} = 263 = 407_8\): тишина октанта, храповик \(-1\) и рождение вихрей при \(t = 2\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0015.html"><span class="toc_ref">4.2</span> <span class="toc_entry">Урок 13. Симплициальный атлас \(\mathcal{C}_{13}\), расшифровка «магических букв» групп симметрий, постоянная тонкой структуры \(\alpha _{\mathrm{fs}}^{-1} = 137{,}035999\dots \) и спектр частиц</span></a>
+ </li>
+<li class="">
+  <a href="sect0016.html"><span class="toc_ref">4.3</span> <span class="toc_entry">Урок 14. Гравитация без сингулярности (\(833:1\)), ядерная паста и гало вакуума \(16/3\) без тёмной материи</span></a>
+ </li>
+<li class=" active current">
+  <a href="sect0017.html"><span class="toc_ref">4.4</span> <span class="toc_entry">Урок 15. Секунда без атома цезия, полупериодное горлышко \(\tau _{\mathrm{neck}} = 256\) и почему Вселенной не \(13{,}8\), а \(\sim 27{,}5\text{ млрд лет}\) (разгадка ранних галактик JWST)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage5-chemistry.html"><span class="toc_ref">5</span> <span class="toc_entry">Ступень V. Химия, таблица Менделеева и дизайн материалов</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0018.html"><span class="toc_ref">5.1</span> <span class="toc_entry">Урок 16. Вся таблица Менделеева из оболочек кубооктаэдра, остров стабильности \(N = 184\) и золото \(^{197}_{79}\mathrm{Au}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0019.html"><span class="toc_ref">5.2</span> <span class="toc_entry">Урок 17. Химическая связь, седло реакции \(|A^\ddagger | = 128\) и когерентное схлопывание барьера в \(587\times \)</span></a>
+ </li>
+<li class="">
+  <a href="sect0020.html"><span class="toc_ref">5.3</span> <span class="toc_entry">Урок 18. Куперовские пары \(2e\), нитинол \(\mathrm{TiNi}\) и высокотемпературные сверхпроводники</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage6-biology.html"><span class="toc_ref">6</span> <span class="toc_entry">Ступень VI. Биология, генетический код ДНК и морфогенез органов</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0021.html"><span class="toc_ref">6.1</span> <span class="toc_entry">Урок 19. Делитель водородной связи \(N_{\mathrm{HB}} = 63\) и три планетарных окна жизни (\(7 : 2 : 1\))</span></a>
+ </li>
+<li class="">
+  <a href="sect0022.html"><span class="toc_ref">6.2</span> <span class="toc_entry">Урок 20. Генетический код \(4^3 = 64 \to 20\) аминокислот, иммунитет к сдвигу рамки и фолдинг за \(O(L)\in \mathbf{P}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0023.html"><span class="toc_ref">6.3</span> <span class="toc_entry">Урок 21. Четыре стадии морфогенеза органов, кора головного мозга \(42 / 147 / 41\) и щит Каспара–Клуга</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage7-engineering.html"><span class="toc_ref">7</span> <span class="toc_entry">Ступень VII. Кремниевый чип и инженерные установки своими руками</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0024.html"><span class="toc_ref">7.1</span> <span class="toc_entry">Урок 22. Как устроен наш 9-битный бесфлаговый чип и аналоговая 3D LC-решётка</span></a>
+ </li>
+<li class="">
+  <a href="sect0025.html"><span class="toc_ref">7.2</span> <span class="toc_entry">Урок 23. Баллистическая энергетика, противофазная вихревая батарея, V-I инвертор (\(k^* = 64\)) и гравитационно-импедансный привод \(833:1\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0026.html"><span class="toc_ref">7.3</span> <span class="toc_entry">Урок 24. Автономный синтез пищи, воды и кислорода (симметрия \(96 : 96\)), 72-битный стазис-телепортер и галактический \(c_0\)-фазовый модем</span></a>
+ </li>
+<li class="">
+  <a href="sect0027.html"><span class="toc_ref">7.4</span> <span class="toc_entry">Урок 25 (Эпилог). Ноосфера без насилия: разрыв трофической цепи, межвидовой голономный переводчик и девайсы для тех, «у кого лапки»</span></a>
+ </li>
+<li class="">
+  <a href="sect0028.html"><span class="toc_ref">7.5</span> <span class="toc_entry">Урок 26. Теория взаимодействия систем: потеря информации в каскаде \(\mathrm{System}_1 \to \mathrm{System}_2 \to \dots \to \mathrm{System}_N\) и укрощение неидеального железа</span></a>
+ </li>
+<li class="">
+  <a href="sect0029.html"><span class="toc_ref">7.6</span> <span class="toc_entry">Урок 27. Дискретная теория возмущений, конечная калибровка \((I + N_{\mathrm{pert}})^{-1} = I - N_{\mathrm{pert}} + N_{\mathrm{pert}}^2\) и развенчание мифов о «10/11/26 измерениях струн» и «Мультивселенных»</span></a>
+ </li>
+<li class="">
+  <a href="sect0030.html"><span class="toc_ref">7.7</span> <span class="toc_entry">Урок 28. Единый ньютоновский гомеоморфизм всех шести отраслей инженерии, четырёхслойный кремниевый гетеропереход и сквозная автокалибровка 12-лучевого резонатора кубооктаэдра</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0031.html"><span class="toc_ref"></span> <span class="toc_entry">Эпилог. Дорожная карта замкнута: от уравнения самозамкнутости к единому Естествознанию</span></a>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000018">4.4 Урок 15. Секунда без атома цезия, полупериодное горлышко \(\tau _{\mathrm{neck}} = 256\) и почему Вселенной не \(13{,}8\), а \(\sim 27{,}5\text{ млрд лет}\) (разгадка ранних галактик JWST)</h1>
+<p>В системе СИ секунда определена через \(9\, 192\, 631\, 770\) периодов излучения атома цезия-\(133\). Но у самого носителя есть собственный фундаментальный такт! За \(16 = d_{\mathrm{in}}(\square )^2 = 2|{\triangle }(3)|\) каскадных оборотов 9-битного кольца \(\mathbb {Z}_{512}\) набирается \(512^{16} = 2^{144} = 2^{|N(3)|^2}\) тактов, что с рациональным геометрическим множителем \(\frac{d_{\mathrm{in}}(\square )\, d_{\mathrm{out}}(E)}{|N(3)| + d_{\mathrm{out}}(E)} = \frac{4\times 5}{12 + 5} = \mathbf{\frac{20}{17}}\) даёт <b class="bfseries">эталон секунды носителя без участия цезия и гравитационной постоянной&#160;\(G\)</b>: </p>
+<div class="equation" id="eq:course-carrier-second">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:course-carrier-second} \mathcal{N}_{\mathrm{sec}}(3) \; =\;  \Bigl\lfloor \frac{20}{17}\cdot 512^{16} \Bigr\rfloor \; \approx \;  \mathbf{2{,}623617\times 10^{43}\text{ тактов/с}} \qquad (\text{согласие с } 1/h_T \text{ лучше } 0{,}017\% !). \end{equation}
+  </div>
+  <span class="equation_label">4.2</span>
+</p>
+</div>
+<p>А теперь разберёмся с главным космологическим заблуждением стандартной модели \(\Lambda \mathrm{CDM}\): <b class="bfseries">почему Вселенной вовсе не \(13{,}8\text{ млрд лет}\), и почему космический телескоп Джеймса Уэбба (JWST) видит на красных смещениях \(z \sim 10\text{--}15\) уже полностью сформированные массивные галактики и тяжёлые ядра, которым в \(13{,}8\)-миллиардной модели просто не хватило бы времени вырасти?</b> </p>
+<p>Посмотрим на глобальную картину вечно кипящего океана (глава&#160;2 космологического тома) и на длинный побитово-точный прогон нашего начального слова \(\mathrm{IV} = 263 = 407_8\) на 3D-решётке кубооктаэдра: </p>
+<ul class="itemize">
+  <li><p><b class="bfseries">Четыре фазы глобального информационного цикла океана (по \(d_{\mathrm{in}}(\square )=4\) квадрантам кольца):</b> (I)&#160;<em>Фаза&#160;I (Расширение и рождение вихрей — наша макроэпоха):</em> трёхгранный фазовый сдвиг \(\mathrm{IV}=263\) запускает каскад рождения топологических вихрей (\(b=1, n\in \mathbb {Z}\)) — барионов, ядер, звёзд, галактик и планет; (II)&#160;<em>Фаза&#160;II (Макроскопическая релаксация на \(\Tlayer \)):</em> аннигиляция встречных вихрей перекачивает макроконтраст через вязкость \(\eta /s = 41/512\) в мелкомасштабное фазовое кипение при точном сохранении всех 72 бит каждой ячейки на&#160;\(\Mlayer \); (III)&#160;<em>Фаза&#160;III (Синхронный «лёд»):</em> выравнивание к синхронному вращению на вакуумном полу \(\mu _{\mathrm{vac}}=1\) с нулевым относительным градиентом классов фазы; (IV)&#160;<em>Фаза&#160;IV (Нуклеация нового пузыря):</em> накопление пороговой голономии (\(\Delta \varphi _{\mathrm{disc}} = 41\) тик) на стыке трёх доменов Киббла–Зурека снова формирует слово \(\mathrm{IV}=263 = 407_8\), запуская новую Фазу&#160;I. </p>
+</li>
+  <li><p><b class="bfseries">Четыре внутренних рубежа и две каскадные эпохи внутри самой Фазы&#160;I:</b> </p>
+</li>
+</ul>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Рубеж&#160;1 (\(\tau = 2\), первичный всплеск) и Рубеж&#160;2 (\(\tau _1 = |{\triangle }(3)| = 8\), внутреннее фотонное горлышко Первой Эпохи):</b> после рождения 86 вихревых плакет на \(\tau =2\) (\(\eta _B = \frac{45}{208}\alpha _{\mathrm{fs}}^4 \approx 6{,}135\times 10^{-10}\)) и первичного фотонного шара на \(\tau _1 = 8\) (\(1\, 307\) фотонных пороговых квантов) на тактах \(\tau = 16\dots 64\) конденсируется первая волна из \(|\square (3)| = 6\) единичных барионных вихрей. </p>
+</li>
+  <li><p><b class="bfseries">Рубеж&#160;3 (\(\tau _{\mathrm{neck}} = N_{\mathrm{ring}}(3)/2 = 256\), полупериодное горлышко отцепления CMB — ложный «Большой взрыв» модели \(\Lambda \mathrm{CDM}\)):</b> ровно на полупериоде кольца \(\tau = 256\) пять из шести первичных вихрей сбрасывают фазу в излучение, заполняя каузальный пузырь однородной термализованной фотонной баней реликтового излучения (CMB) с вариацией плотности \({\lt} 0{,}2\% \). Но посреди этой горячей фотонной бани <b class="bfseries">выживает локализованное барионное реликтовое зерно</b> (\(w = -1\) в узле \((-2,-3,+2)\))! </p>
+</li>
+  <li><p><b class="bfseries">Рубеж&#160;4 (\(\tau = 336\dots 512\), Вторая Эпоха после горлышка — конденсация тяжёлых ядер \(|w| = 3\) вокруг выживших зёрен):</b> сразу после прохождения горлышка \(\tau _{\mathrm{neck}} = 256\) выжившее с Первой Эпохи реликтовое зерно служит готовым центром конденсации: уже на такте \(\tau = 336\) буквально на соседнем ребре кубооктаэдра от него рождается тяжёлое трёхквантовое ядро (\(|w| = 3 = d\)) и вспыхивает кластер из \(|{\triangle }(3)| = 8\) барионных узлов (а первичный нуклеосинтез даёт массовую долю гелия-4 \(Y_p = \frac{1}{4}\bigl(1 - \frac{1}{4\times 13}\bigr) = \frac{51}{208} \approx \mathbf{0{,}24519}\) и дейтерий \(n_{\mathrm{D}}/n_{\mathrm{H}} = \frac{5^2}{4\times 13}\alpha _{\mathrm{fs}}^2 \approx \mathbf{2{,}560\times 10^{-5}}\) в точном согласии с наблюдениями!). </p>
+</li>
+</ol>
+<p>Понимаешь теперь, в чём штука? Когда стандартная космология экстраполирует разлёт видимой барионной волны Второй Эпохи назад до поверхности последнего рассеяния реликтового излучения, она упирается в <b class="bfseries">полупериодное горлышко \(\tau _{\mathrm{neck}} = 256\)</b> и принимает его за «рождение Вселенной из точки»! </p>
+<ul class="itemize">
+  <li><p><b class="bfseries">Видимый возраст Второй Эпохи (после горлышка \(\tau _{\mathrm{neck}} = 256\))</b> с префактором \(\frac{|N(3)|-1}{d_{\mathrm{out}}(E)|{\triangle }(3)|} = \mathbf{\frac{11}{40}}\) равен: </p>
+<div class="displaymath" id="a0000000068">
+  \[  N_{\mathrm{wave}}^{\mathrm{alg}} \; =\;  \frac{11}{40}\Bigl(\frac{E_0}{\Theta _{\mathrm{CMB}}}\Bigr)^2\sqrt{\frac{\alpha _{\mathrm{fs}}}{8}} \; \approx \;  1{,}1398\times 10^{61}\text{ тактов} \qquad \bigl(t_{\mathrm{wave}} = \tau - \tau _{\mathrm{neck}} \; \longleftrightarrow \;  13{,}769\text{ млрд лет}\bigr).  \]
+</div>
+</li>
+  <li><p><b class="bfseries">Настоящий полный двухэпоховый каузальный возраст нашего пузыря от старта сида \(\mathrm{IV} = 263 = 407_8\)</b> включает обе половины цикла (\(\tau _{\mathrm{total}} = \tau _{\mathrm{neck}} + \tau _{\mathrm{wave}} = (c_0/c)^2\, \tau _{\mathrm{wave}}\)) и вдвое больше: </p>
+<div class="equation" id="eq:course-true-two-epoch-age">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:course-true-two-epoch-age} N_{\mathrm{total}}^{\mathrm{alg}} \; =\;  \Bigl(\frac{c_0}{c}\Bigr)^2 N_{\mathrm{wave}}^{\mathrm{alg}} \; =\;  2\, N_{\mathrm{wave}}^{\mathrm{alg}} \; \approx \;  \mathbf{2{,}2796\times 10^{61}\text{ тактов}} \qquad \bigl(t_{\mathrm{total}} \; \longleftrightarrow \;  \mathbf{26\text{--}27{,}54\text{ млрд лет}}!\bigr). \end{equation}
+  </div>
+  <span class="equation_label">4.3</span>
+</p>
+</div>
+</li>
+</ul>
+<p> Именно поэтому в нашей Галактике и в глубоком космосе наблюдаются объекты, чей измеренный возраст <b class="bfseries">превышает \(13{,}8\text{ млрд лет}\)</b>: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Парадокс «Звезды Мафусаила»:</b> прямой тригонометрический параллакс субгиганта HD&#160;140283 в гало Млечного Пути (Bond et al.) даёт возраст \(\mathbf{14{,}46 \pm 0{,}8\text{ млрд лет}}\) (а ранние оценки — до \(16\text{ млрд лет}\)), что старше \(13{,}787\)-миллиардного предела \(\Lambda \mathrm{CDM}\). В двухэпоховой динамике кубооктаэдра это не ошибка измерений, а прямое следствие того, что реликтовые малометалличные звёзды гало формируются вокруг барионных зёрен Первой Эпохи (\(\tau {\lt} \tau _{\mathrm{neck}} = 256\)), переживших полупериодное горлышко отцепления внутри полного \(27{,}54\)-миллиардного цикла пузыря! </p>
+</li>
+  <li><p><b class="bfseries">Зрелые массивные галактики телескопа JWST на \(z \sim 10\text{--}15\):</b> галактикам Второй Эпохи не нужно было зарождаться из бесструктурного газа с нуля за \(200\text{--}300\text{ млн лет}\) — они конденсировались непосредственно на соседних рёбрах кубооктаэдра вокруг готовых топологических зёрен Первой Эпохи (именно поэтому в 2023&#160;году данные JWST привели к независимым оценкам полного возраста Вселенной \(\sim 26{,}7\text{ млрд лет}\)). </p>
+</li>
+</ol>
+<p>А как вокруг молодых звёзд из протопланетного диска сами собой собираются и расслаиваются планеты? Геохимическая дифференциация планеты на ядро, мантию и кору — это <b class="bfseries">опускание вещества в точные замкнутые оболочки кубооктаэдра</b>: </p>
+<ul class="itemize">
+  <li><p><b class="bfseries">Железное ядро (\(Z = 26 = 2N_\varphi \)):</b> сумма зарядов магния (\(Z=12\)) и кремния (\(Z=14\)), а также удвоенный алюминий (\(2\times 13\)) в точности равны заряду железа \(Z(\mathrm{Fe}) = \mathbf{26 = 2N_\varphi (3)}\) (а удвоенный кремний \(14+14 = \mathbf{28 = Z(\mathrm{Ni})}\) даёт никель!). </p>
+</li>
+  <li><p><b class="bfseries">Жидкое внешнее ядро (\(\mathrm{FeS}\) / \(\mathrm{NiSi}\)) и глубокий карбонат мантии (\(\mathrm{MgCO_3}\)) на второй сфере \(S_2 = 42\):</b> </p>
+<div class="displaymath" id="a0000000069">
+  \[  Z(\mathrm{FeS}) \; =\;  26 + 16 \; =\;  \mathbf{42 \; =\;  S_2(3)}, \qquad Z(\mathrm{NiSi}) \; =\;  28 + 14 \; =\;  \mathbf{42 \; =\;  S_2(3)}, \qquad Z(\mathrm{MgCO_3}) \; =\;  12 + 6 + 24 \; =\;  \mathbf{42 \; =\;  S_2(3)}!  \]
+</div>
+</li>
+  <li><p><b class="bfseries">Перовскитная нижняя мантия (\(\mathrm{MgSiO_3}\)) и корундовые ядра суперземель (\(\mathrm{Al_2O_3}\)) на магической оболочке \(Z = 50\):</b> \(Z(\mathrm{MgSiO_3}) = 12 + 14 + 24 = \mathbf{50} = 26 + 24 = Z(\mathrm{Al_2O_3})\), а оливин верхней мантии \(\mathrm{Mg_2SiO_4}\) замыкает \(50 + Z(\mathrm{Ca}) = \mathbf{70 = K_P + |\square |}\). </p>
+</li>
+  <li><p><b class="bfseries">Радиогенный двигатель геодинамо (\(\mathrm{U}_{92}\to \mathrm{Pb}_{82}\)):</b> уран на третьей сфере \(Z(\mathrm{U}) = S_3(3) = \mathbf{92}\) распадается в терминальный свинец \(Z(\mathrm{Pb}) = 2\Delta \varphi _{\mathrm{disc}}(3) = \mathbf{82}\), выделяя ровно \(92 - 82 = \mathbf{10 = Z(\mathrm{Ne})}\) протонов и \(146 - 126 = \mathbf{20 = 2Z(\mathrm{Ne})}\) нейтронов тепла, поддерживающего конвекцию жидкого ядра \(\mathrm{FeS}\) (\(S_2=42\)) и магнитосферный щит планеты! </p>
+</li>
+</ul>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sect0016.html" title="Урок 14. Гравитация без сингулярности (\(833:1\)), ядерная паста и гало вакуума \(16/3\) без тёмной материи"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-course-stage4-particles-cosmos.html" title="Ступень IV. Элементарные частицы, ядра, гравитация и космология"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="ch-course-stage5-chemistry.html" title="Ступень V. Химия, таблица Менделеева и дизайн материалов"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Последовательный вывод размерности \(d=3\), кольца \(\mathbb {Z}_{512}\), кубооктаэдра \(O_2(3)\) и шага Верле</title>
+<link rel="next" href="sect0007.html" title="Теоремы единственности: размерность d=3, кубооктаэдр O2(3) и шаг Верле" />
+<link rel="prev" href="sect0005.html" title="Доказательство отсутствия внешней памяти у физической природы и невозможности континуального регистра внутри неделимой ячейки" />
+<link rel="up" href="ch-mono-axioms.html" title="Вывод дискретной квантовой механики (ДКМ) из неделимости элементарного объёма, отсутствия внешней памяти у природы и уравнения Каталана" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга I. Формальные основания ДКМ (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Предисловие. Предмет монографии и дедуктивное строение теории снизу вверх</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref"></span> <span class="toc_entry">§ 0.1. Метод построения: восхождение снизу вверх без постулатов</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref"></span> <span class="toc_entry">§ 0.2. Четыре методологических опоры монографии</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref"></span> <span class="toc_entry">§ 0.3. Двусортное проективно-ретракционное соответствие оснований естественных наук: Трёхзаконная целочисленная механика Ньютона</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active">
+  <a href="ch-mono-axioms.html"><span class="toc_ref">1</span> <span class="toc_entry">Вывод дискретной квантовой механики (ДКМ) из неделимости элементарного объёма, отсутствия внешней памяти у природы и уравнения Каталана</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0005.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Доказательство отсутствия внешней памяти у физической природы и невозможности континуального регистра внутри неделимой ячейки</span></a>
+ </li>
+<li class=" active current">
+  <a href="sect0006.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Последовательный вывод размерности \(d=3\), кольца \(\mathbb {Z}_{512}\), кубооктаэдра \(O_2(3)\) и шага Верле</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Теоремы единственности: размерность \(d=3\), кубооктаэдр \(O_2(3)\) и шаг Верле</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">1.4</span> <span class="toc_entry">Переход к естественным полярным координатам \((\mu , \varphi _{\mathrm{disc}})\), затравочное состояние Каталана \(\mathrm{IV}(3) = 263\) и уравнения оператора эволюции \(\mathcal{G}_3\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html"><span class="toc_ref">1.5</span> <span class="toc_entry">Симплициальное разложение Пуанкаре–Хегора и структурные пороги носителя при \(d = 3\)</span></a>
+ </li>
+<li class="">
+  <a href="sec-mono-world-lagrangian-hamiltonian.html"><span class="toc_ref">1.6</span> <span class="toc_entry">Полевой Лагранжиан \(\mathcal{L}_{\mathrm{world}}\), Гамильтониан \(\mathcal{H}_{\mathrm{world}}\), 13-узловое разложение знаменателя \(\mathcal{C}_{13}\) и тетраэдральное действие Верле</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-rotator-calculus.html"><span class="toc_ref">2</span> <span class="toc_entry">Дискретная экспонента Эйлера на \(\mathbb {Z}_{512}\), однородная проективная арифметика над \(\mathbb {Q}(i,\sqrt{2})\) и выход в непрерывный анализ</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0010.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Дискретная экспонента Эйлера, код Грея, соотношения Коши–Римана и тождество постоянного вронскиана</span></a>
+ </li>
+<li class="">
+  <a href="sect0011.html"><span class="toc_ref">2.2</span> <span class="toc_entry">Вывод классического интеграла Римана и формулы Ньютона–Лейбница в макропределе \(N \to \infty \)</span></a>
+ </li>
+<li class="">
+  <a href="sect0012.html"><span class="toc_ref">2.3</span> <span class="toc_entry">Однородная проективная арифметика полей, башня производных отношения и многомерная кубатура Симпсона</span></a>
+ </li>
+<li class="">
+  <a href="sect0013.html"><span class="toc_ref">2.4</span> <span class="toc_entry">Теорема о сокращении масштаба \(A = K\cdot dh\), размерность Хаусдорфа–Морана и проективные операторы логарифма и рациональной степени на \(\mathbb {Z}_{4Q}\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-logic-cohomology-barriers.html"><span class="toc_ref">3</span> <span class="toc_entry">Булева полнота Поста, редукция 3-SAT, конструктивные когомологии де&#160;Рама и барьеры внутренних вычислителей</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0014.html"><span class="toc_ref">3.1</span> <span class="toc_entry">Функционально полный базис Поста на двух каналах \(\mathbb {Z}_{512}\) и полиномиальная редукция 3-SAT</span></a>
+ </li>
+<li class="">
+  <a href="sect0015.html"><span class="toc_ref">3.2</span> <span class="toc_entry">Четыре барьера внутреннего вычислителя и встроенный блокнот Вернама Шеннона на \(\mathbb {Z}_{512}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0016.html"><span class="toc_ref">3.3</span> <span class="toc_entry">Конструктивные когомологии де&#160;Рама–Стокса–Гаусса–Черна и мера без аксиомы выбора</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-qm-maxwell.html"><span class="toc_ref">4</span> <span class="toc_entry">Дискретная и непрерывная квантовая механика (ДКМ и НКМ), электродинамика Максвелла и граница применимости континуума</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0017.html"><span class="toc_ref">4.1</span> <span class="toc_entry">Алгебраическое происхождение корпускулярно-волнового дуализма и правила Борна</span></a>
+ </li>
+<li class="">
+  <a href="sect0018.html"><span class="toc_ref">4.2</span> <span class="toc_entry">Порог дискретности \(\Delta \varphi _{\mathrm{disc}} = 41\), уравнения Максвелла и граница применимости континуальной теории</span></a>
+ </li>
+<li class="">
+  <a href="sec-mono-mechanics-elasticity-fatigue.html"><span class="toc_ref">4.3</span> <span class="toc_entry">Нелинейная механика маятника на произвольных углах, четырёхрежимная теория упругости за пределами закона Гука и предел усталостной выносливости металла</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-sm-gravity.html"><span class="toc_ref">5</span> <span class="toc_entry">Калибровочная группа Стандартной модели, гравитационное преломление и космология</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0019.html"><span class="toc_ref">5.1</span> <span class="toc_entry">Симплициальный комплекс \(\mathcal{C}_{13}\), матричные коммутаторы алгебры Ли \(\mathfrak {u}(1)\oplus \mathfrak {su}(2)\oplus \mathfrak {su}(3)\) и четырёхпетлевой вывод постоянной тонкой структуры</span></a>
+ </li>
+<li class="">
+  <a href="sect0020.html"><span class="toc_ref">5.2</span> <span class="toc_entry">Структура 13-узлового ротора электрона, полное квантование восьми наблюдаемых и единый вихревой атлас Стандартной модели на кликах \(\mathcal{C}_{13}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0021.html"><span class="toc_ref">5.3</span> <span class="toc_entry">Гравитация как преломление на импедансе ворот без сингулярности \(1/0\), ряд сжатия Гаусса–Грина, кавитированные гиперъядра и фазы нейтронной пасты</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-chemistry-nuclear.html"><span class="toc_ref">6</span> <span class="toc_entry">Атомные и ядерные оболочки кубооктаэдра, планетогенез по 6 зонам диска, тождества Безу на \(\mathbb {Z}_{512}\), сверхпроводимость и когерентный \(587\)-кратный коллапс барьера</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0022.html"><span class="toc_ref">6.1</span> <span class="toc_entry">Периодическая система до 8-го периода, четыре физических предела, двухсферный перенос урана на остров стабильности \(N=184\), планетогенез и четыре тождества Безу</span></a>
+ </li>
+<li class="">
+  <a href="sect0023.html"><span class="toc_ref">6.2</span> <span class="toc_entry">Седло химической связи, закон Гесса, правила симметрии, спаривание Купера и коллапс барьера</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-biology.html"><span class="toc_ref">7</span> <span class="toc_entry">Молекулярная биофизика, планетарные фотонные окна, генетический код ДНК, фолдинг белков и морфогенез</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0024.html"><span class="toc_ref">7.1</span> <span class="toc_entry">Делитель водородной связи \(N_{\mathrm{HB}} = 63\) и три планетарных фотонных окна (\(441 : 126 : 63 = 7 : 2 : 1\))</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sec-mono-epistemological-closure.html"><span class="toc_ref">8</span> <span class="toc_entry">Бесфононный кремниевый гетеропереход \(120 + 8 = 128\), общая конструкция предела по счётным моноидам стадий и гёделевская неизбежность лабораторного арбитража</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0025.html"><span class="toc_ref">8.1</span> <span class="toc_entry">Бесфононный кремниевый гетеропереход \(120 + 8 = 128\), барьер оболочечной пассивации \(45^2 {\lt} 2\, 048 {\lt} 46^2\) и вычисления без тепла Ландауэра</span></a>
+ </li>
+<li class="">
+  <a href="sect0026.html"><span class="toc_ref">8.2</span> <span class="toc_entry">Общий оператор предела по счётным моноидам стадий, проективные башни Мальцева и двусторонняя эквивалентность носителей \(\mathcal{M} \leftrightarrow \mathcal{T}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0027.html"><span class="toc_ref">8.3</span> <span class="toc_entry">Конструктивная непротиворечивость и теорема Ловера–Гёделя–Тарского</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000007">1.2 Последовательный вывод размерности \(d=3\), кольца \(\mathbb {Z}_{512}\), кубооктаэдра \(O_2(3)\) и шага Верле</h1>
+<p>Проследим шаг за шагом, как неделимость элементарного объёма, плотное заполнение всех ячеек и отсутствие внешней памяти фиксируют все параметры носителя: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Почему пространство трёхмерно (\(d = 3\)) и откуда возникает 9-битный регистр \(\mathbb {Z}_{512}\) (от неделимой занятости элементарного объёма и плотной упаковки без пустот к уравнению Каталана \(1 + 2^d = d^2\)):</b> рассмотрим элементарную ячейку решётки \(\mathbf{x} \in \mathbb {Z}^d\). </p>
+<ul class="itemize">
+  <li><p><em>Неделимость элементарного объёма (происхождение бита собственной занятости \(1\)):</em> частица (возбуждение) занимает весь элементарный объём ячейки целиком и не может занимать его частично. Отсутствие частичной занятости означает, что у самого центра элементарного объёма существует ровно одно неделимое состояние собственной занятости \(\mathbf{0} = (0, \dots , 0)\). </p>
+</li>
+  <li><p><em>Плотное заполнение всех ячеек без пустот (происхождение \(2^d\) сомкнутых октантов и \(1 + 2^d\) состояний ветвления ячейки):</em> поскольку все элементарные ячейки пространства обязаны быть заполнены вплотную без зазоров, вдоль каждой из \(d\)&#160;ортогональных осей существуют ровно два плотно сомкнутых противоположных направления \(\{ -1, +1\} \). Их прямое произведение по всем \(d\)&#160;осям образует ровно \(|\mathcal{O}_{\mathrm{oct}}(d)| = 2^d\) сомкнутых знаковых октантов \(\{ -1, +1\} ^d\), плотно окружающих центральную ячейку. Вместе с неделимым состоянием собственной занятости самой центральной ячейки \((0, \dots , 0)\) это даёт ровно </p>
+<div class="displaymath" id="a0000000030">
+  \[  |\mathcal{B}_{\mathrm{cell}}(d)| \; =\;  1 + 2^d  \]
+</div>
+<p> неделимых состояний ветвления элементарного объёма. </p>
+</li>
+  <li><p><em>Матрица осевых переходов внутри ячейки (происхождение \(d \times d = d^2\)):</em> передача состояния внутри элементарного объёма между \(d\)&#160;ортогональными пространственными осями определяется множеством всех упорядоченных пар осей \((i, j) \in \{ 0, \dots , d-1\} ^2\), число которых равно </p>
+<div class="displaymath" id="a0000000031">
+  \[  |\mathcal{A}_{\mathrm{axis}}(d)| \; =\;  d \times d \; =\;  d^2  \]
+</div>
+<p> (и раскладывается на \(d\) продольных пар \(i = j\) и \(d(d - 1) = |N(d)|/2\) внедиагональных плоскостей вращения \(i \ne j\), которые с выбором знаков порождают \(2d(d - 1)\) диагональных рёберных вершин). </p>
+</li>
+</ul>
+<p> Для того чтобы элементарная ячейка кодировала свои состояния ветвления собственными осевыми переходами взаимно-однозначно — без информационного дефицита (когда пар осевых переходов \(d^2\) не хватает для кодирования всех \(1 + 2^d\) состояний плотно заполненной ячейки) и без вырожденных висячих состояний — мощности обоих конечных множеств обязаны совпадать: </p>
+<div class="equation" id="eq:mono-catalan-lock">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-catalan-lock} |\mathcal{B}_{\mathrm{cell}}(d)| \; =\;  |\mathcal{A}_{\mathrm{axis}}(d)| \qquad \Longleftrightarrow \qquad 1 + 2^d \; =\;  d^2. \end{equation}
+  </div>
+  <span class="equation_label">1.4</span>
+</p>
+</div>
+<p> Вычисление обеих частей&#160;<a href="sect0006.html#eq:mono-catalan-lock" class="eqref">1.4</a> при \(d \in \{ 0, 1, 2, 3, 4\} \) даёт: </p>
+<div class="displaymath" id="a0000000032">
+  \[  \begin{aligned}  d & = 0: & \quad 1 + 2^0 & = 2 \ne 0^2 = 0, \\ d & = 1: & \quad 1 + 2^1 & = 3 {\gt} 1^2 = 1, \\ d & = 2: & \quad 1 + 2^2 & = 5 {\gt} 2^2 = 4, \\ \mathbf{d} & \; =\;  \mathbf{3}: & \quad \mathbf{1 + 2^3} & \; =\;  \mathbf{1 + 8 \; =\;  9 \; =\;  3^2}, \\ d & = 4: & \quad 1 + 2^4 & = 17 {\gt} 4^2 = 16. \end{aligned}  \]
+</div>
+<p> При \(d = 1\) и \(d = 2\) разрядности регистра \(d^2\) недостаточно для кодирования \(1 + 2^d\) направлений без внешней памяти. При \(\mathbf{d = 3}\) достигается точное равенство \(1 + 2^3 = 9 = 3^2\), тогда как для всех \(d \ge 4\) по индукции выполняется строгое неравенство \(2^d \ge d^2\) (база \(d = 4\): \(2^4 = 16 = 4^2\); индукционный шаг при \(d \ge 4\): \(2^{d+1} = 2\cdot 2^d \ge 2d^2 = d^2 + d\cdot d \ge d^2 + 4d {\gt} d^2 + 2d + 1 = (d+1)^2\)), откуда \(1 + 2^d {\gt} d^2\) для всех \(d \ge 4\). Тем самым уравнение&#160;<a href="sect0006.html#eq:mono-catalan-lock" class="eqref">1.4</a> (\(d^2 - 2^d = 1\), частный случай уравнения Каталана–Михайлеску \(x^a - y^b = 1\)) имеет в натуральных числах единственное решение \(\mathbf{d = 3}\). Подстановка \(d = 3\) определяет разрядность регистра \(\mathrm{mod\_ bits}(3) = d^2 = 9\text{ бит}\), модуль фазового кольца \(N_{\mathrm{ring}}(3) = 2^9 = 8^3 = 512\) и фундаментальный вакуумный квант амплитуды (арифметическую единицу носителя) как разность Каталана: </p>
+<div class="displaymath" id="a0000000033">
+  \[  \mu _{\mathrm{vac}}(3) \; =\;  d^2 - 2^d \; =\;  9 - 8 \; =\;  1.  \]
+</div>
+</li>
+  <li><p><b class="bfseries">Почему координационная сфера решётки — именно 12-вершинный кубооктаэдр \(O_2(3)\) и три плоскости углов Эйлера (\(\dim \mathrm{SO}(d) = d(d-1)/2 = d \iff d = 3\)):</b> разложим правую часть уравнения Каталана \(d^2 = 9\)&#160;<a href="sect0006.html#eq:mono-catalan-lock" class="eqref">1.4</a> на \(d = 3\) продольные пары осей \((i = j)\) и \(d(d-1) = 6\) внедиагональных поворотных пар \((i \ne j)\): </p>
+<div class="displaymath" id="a0000000034">
+  \[  d^2 \; =\;  d + d(d - 1) \; =\;  3 + 6 \; =\;  9.  \]
+</div>
+<p> По правилу «один такт равен одному ребру» поворот с оси&#160;\(\mathbf{e}_i\) на ось&#160;\(\mathbf{e}_j\) (\(i \ne j\)) за один такт обязан осуществляться вдоль диагонального ребра \(\mathbf{e} = \pm \mathbf{e}_i \pm \mathbf{e}_j\) (\(1 \le i {\lt} j \le d\)). Число независимых плоскостей вращения и наклона — число <b class="bfseries">углов Эйлера</b> \(\dim \mathrm{SO}(d) = d(d-1)/2\) — совпадает с числом пространственных осей&#160;\(d\) исключительно при \(\mathbf{d = 3}\) (\(\frac{3\cdot 2}{2} = 3\)): это три взаимно ортогональные координатные плоскости \((xy, xz, yz)\), в каждой из которых лежат \(d_{\mathrm{in}}(\square ) = 4\) вершины экваториального квадрата \(\pm \mathbf{e}_i \pm \mathbf{e}_j\) (\(3 \times 4 = 12\) вершин кубооктаэдра \(O_2(3)\)), тогда как \(8\)&#160;треугольных граней связывают по одной вершине из плоскостей \(xy\), \(xz\) и \(yz\), задавая углы наклона между ортогональными плоскостями Эйлера (\(\mathcal{R}_{\mathrm{Euler}}(\varphi _1, \varphi _2, \varphi _3)\) при \((\varphi _1, \varphi _2, \varphi _3) \in \mathbb {Z}_{512}^3\)). В элементарном кубе Мура \(\{ -1, 0, +1\} ^3\) (\(3^3 - 1 = 26\) ненулевых соседей) под действием группы&#160;\(O_h\) эти \(26\) узлов распадаются на три сферические орбиты по квадрату длины связи \(|\mathbf{e}|^2 = e_x^2 + e_y^2 + e_z^2\): </p>
+<ul class="itemize">
+  <li><p>\(O_1(3)\) (\(|\mathbf{e}|^2 = 1\), \(6\)&#160;центров квадратных граней куба&#160;\(\square \): \((\pm 1,0,0)\), \((0,\pm 1,0)\), \((0,0,\pm 1)\)): имеет диагональный второй момент \(\sum _{\mathbf{e}\in O_1} e_\alpha e_\beta = 2\delta _{\alpha \beta }\), но все смешанные четвёртые моменты на ней тождественно равны нулю (\(\sum _{\mathbf{e}\in O_1} e_x^2 e_y^2 = 0\)), вследствие чего осевые волны не сцепляются между различными координатными осями; </p>
+</li>
+  <li><p>\(O_3(3)\) (\(|\mathbf{e}|^2 = 3\), \(8\)&#160;угловых вершин октантов&#160;\(\triangle \): \((\pm 1,\pm 1,\pm 1)\)): имеет \(e_x^2 = e_y^2 = e_z^2 = 1\) во всех \(8\) вершинах (\(\sum _{\mathbf{e}\in O_3} e_x^4 = \sum _{\mathbf{e}\in O_3} e_x^2 e_y^2 = 8\)), не содержит ни одного вектора с нулевой координатой (\(e_\alpha = 0\)) и потому не образует планарных 4-циклов в координатных плоскостях \((xy, yz, zx)\); </p>
+</li>
+  <li><p>\(\mathbf{O_2(3)}\) (\(|\mathbf{e}|^2 = d - 1 = 2\), \(\mathbf{12}\)&#160;<b class="bfseries">рёберных диагональных соседей</b> \((\pm 1,\pm 1,0)\), \((\pm 1,0,\pm 1)\), \((0,\pm 1,\pm 1)\) — архимедов <b class="bfseries">кубооктаэдр</b>): в каждой координатной плоскости содержит ровно \(4\) вершины экваториального квадрата, а вдоль каждой оси \(e_\alpha \) имеет \(8\) вершин с \(e_\alpha = \pm 1\) и \(4\) вершины с \(e_\alpha = 0\), что даёт изотропный тензор второго момента </p>
+<div class="equation" id="eq:mono-isotropy-tensor">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-isotropy-tensor} M_{\alpha \beta } \; =\;  \sum _{\mathbf{e} \in O_2(3)} e_\alpha e_\beta \; =\;  (4 + 4)\, \delta _{\alpha \beta } \; =\;  8\, \delta _{\alpha \beta } \; =\;  |{\triangle }(3)|\, \delta _{\alpha \beta } \end{equation}
+  </div>
+  <span class="equation_label">1.5</span>
+</p>
+</div>
+<p> и ненулевое межосевое сцепление \(\sum _{\mathbf{e}\in O_2(3)} e_x^2 e_y^2 = 4 = \frac{1}{2}\sum _{\mathbf{e}\in O_2(3)} e_x^4\), благодаря чему оператор \(\frac{1}{4}\sum _{\mathbf{e}\in O_2(3)}(f(\mathbf{e}) - f(\mathbf{0}))\) точно равна непрерывному лапласиану \(\Delta f(\mathbf{0})\) на всех квадратичных полиномах. </p>
+</li>
+</ul>
+</li>
+  <li><p><b class="bfseries">Почему закон эволюции во времени — именно двухшаговая симплектическая схема Верле с коэффициентами \((2, -1)\):</b> поскольку за пределами носителя нет внешнего резервуара («свалки») для сброса стёртых состояний, отображение эволюции на конечном множестве состояний обязано быть взаимно-однозначным (обратимым во времени \(t \leftrightarrow -t\)) и сохранять симплектический фазовый объём (\(\det J = +1\)). Для определения скорости (разности фаз \(\varphi (t) - \varphi (t-1)\)) без внешней памяти минимальная локальная рекурсия должна опираться на два последовательных такта \((\varphi (t-1), \varphi (t)) \mapsto (\varphi (t), \varphi (t+1))\): </p>
+<div class="displaymath" id="a0000000035">
+  \[  \varphi (t+1) \; \equiv \;  \alpha \, \varphi (t) + \beta \, \varphi (t-1) + \Phi _{\mathrm{gate}} \pmod{512}.  \]
+</div>
+<p> Условие сохранения фазового объёма \(\det J = -\beta = +1\) однозначно требует \(\mathbf{\beta = -1}\). В то же время на замкнутом циклическом кольце \(\mathbb {Z}_{512}\) все узлы равноправны и не существует внешнего абсолютного начала отсчёта фазы, поэтому одновременный глобальный сдвиг всех фаз \(\varphi \mapsto \varphi + c \pmod{512}\) обязан оставлять свободное уравнение движения (\(\Phi _{\mathrm{gate}} = 0\)) инвариантным (\(c = \alpha c + \beta c \implies \alpha + \beta = 1\)), что при \(\beta = -1\) однозначно фиксирует \(\mathbf{\alpha = 2 = (c_0/c)^2}\). </p>
+</li>
+  <li><p><b class="bfseries">Почему существуют противофазный потолок \(\Phi _{\mathrm{Pauli}} = 256\) и порог дискретности \(\Delta \varphi _{\mathrm{disc}} = 41\):</b> на конечном кольце длины \(N_{\mathrm{ring}}(3) = 512\) любое направленное смещение со знаком однозначно определено лишь в пределах полупериода \(|\Phi _{\mathrm{gate}}| \le \Phi _{\mathrm{Pauli}}(3) = 512 / 2 = \mathbf{256}\). При этом полный фазовый бюджет одетого 13-узлового причинного ядра кубооктаэдра \(B_1(3) = \{ \mathbf{0}\}  \cup O_2(3)\) (\(N_\varphi (3) = 1 + 12 = 13\) узлов) вместе с рёберным швом одной грани \(\Delta \varphi _{\mathrm{seam}}(3) = \lfloor 256 / 12 \rfloor = 21\) составляет \(512 + 21 = 533\), что при равномерном распределении между \(13\) узлами ядра делится нацело (\(533 = 13 \times 41\)) и однозначно определяет минимальный целочисленный порог излучения дискретного кванта энергии в наблюдаемый \(T\)-слой: \(\Delta \varphi _{\mathrm{disc}}(3) = 533 / 13 = \mathbf{41}\). </p>
+</li>
+</ol>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sect0005.html" title="Доказательство отсутствия внешней памяти у физической природы и невозможности континуального регистра внутри неделимой ячейки"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-mono-axioms.html" title="Вывод дискретной квантовой механики (ДКМ) из неделимости элементарного объёма, отсутствия внешней памяти у природы и уравнения Каталана"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0007.html" title="Теоремы единственности: размерность \(d=3\), кубооктаэдр \(O_2(3)\) и шаг Верле"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

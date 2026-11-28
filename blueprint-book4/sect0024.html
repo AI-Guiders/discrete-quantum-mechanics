@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Урок 22. Как устроен наш 9-битный бесфлаговый чип и аналоговая 3D LC-решётка</title>
+<link rel="next" href="sect0025.html" title="Урок 23. Баллистическая энергетика, противофазная вихревая батарея, V-I инвертор (k* = 64) и гравитационно-импедансный привод 833:1" />
+<link rel="prev" href="ch-course-stage7-engineering.html" title="Ступень VII. Кремниевый чип и инженерные установки своими руками" />
+<link rel="up" href="ch-course-stage7-engineering.html" title="Ступень VII. Кремниевый чип и инженерные установки своими руками" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга IV. Курс единого естествознания (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Введение. Главный квест этой Вселенной и почему у решётки нет «балкона»</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref"></span> <span class="toc_entry">«Физика курильщика» против «физики здорового человека»: три закона Ньютона в целых числах и пять следствий дискретности решётки</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage1-carrier.html"><span class="toc_ref">1</span> <span class="toc_entry">Ступень I. Устройство носителя и рождение трёхмерного пространства (\(1 + 2^d = d^2\))</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0003.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Урок 1. Задача о самозамкнутом автомате: почему пространство трёхмерно и откуда берётся единица</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Урок 2. Почему строительный блок Вселенной — это 12-лучевой кубооктаэдр \(O_2\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Урок 3. Три родные системы счисления кольца \(\mathbb {Z}_{512}\): 9-битный провод, восьмеричный код \(407_8\) и бабочка Грея</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage2-math.html"><span class="toc_ref">2</span> <span class="toc_entry">Ступень II. Математика и информатика внутри носителя</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0006.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Урок 4. Бабочка ротатора \((\mathcal{C},\mathcal{S})\), формула Эйлера \(e^{i\pi }+1=0\) и постоянный вронскиан \(\mathcal{W}\equiv 128\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">2.2</span> <span class="toc_entry">Урок 5. Как отдать ротатору и шагу Верле вообще всю арифметику (умножение без умножителей!)</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">2.3</span> <span class="toc_entry">Урок 6. Матанализ без континуума: точные интегралы Френеля, Якоби, Дирихле, Бесселя и пять лиц Единицы</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html"><span class="toc_ref">2.4</span> <span class="toc_entry">Урок 7. Двухканальная логика Поста, семантический изоморфизм 3-SAT, барьер \(\mathbf{P}\ne \mathbf{NP}\) и встроенный шифр Вернама</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage3-quantum.html"><span class="toc_ref">3</span> <span class="toc_entry">Ступень III. Квантовая механика, электродинамика Максвелла и демоны Лапласа и Максвелла</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0010.html"><span class="toc_ref">3.1</span> <span class="toc_entry">Урок 8. Мёртвая зона затвора \(\Delta \varphi _{\mathrm{disc}} = 41\) и полное квантование всех наблюдаемых</span></a>
+ </li>
+<li class="">
+  <a href="sect0011.html"><span class="toc_ref">3.2</span> <span class="toc_entry">Урок 9. Корпускулярно-волновой дуализм и вывод правила Борна \(P(\mu ) = \mu ^2 / 512\) из пина переноса 9-битного сумматора</span></a>
+ </li>
+<li class="">
+  <a href="sect0012.html"><span class="toc_ref">3.3</span> <span class="toc_entry">Урок 10. Теорема Стокса–Гаусса–Черна (\(d^2 \equiv 0\)) и дискретные уравнения Максвелла</span></a>
+ </li>
+<li class="">
+  <a href="sect0013.html"><span class="toc_ref">3.4</span> <span class="toc_entry">Урок 11. Почему невозможен Демон Лапласа (\(64 \times 81 = 72^2\)), но работает 12-лучевой Геометрический Демон Максвелла</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage4-particles-cosmos.html"><span class="toc_ref">4</span> <span class="toc_entry">Ступень IV. Элементарные частицы, ядра, гравитация и космология</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0014.html"><span class="toc_ref">4.1</span> <span class="toc_entry">Урок 12. Запуск Вселенной из слова \(\mathrm{IV} = 263 = 407_8\): тишина октанта, храповик \(-1\) и рождение вихрей при \(t = 2\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0015.html"><span class="toc_ref">4.2</span> <span class="toc_entry">Урок 13. Симплициальный атлас \(\mathcal{C}_{13}\), расшифровка «магических букв» групп симметрий, постоянная тонкой структуры \(\alpha _{\mathrm{fs}}^{-1} = 137{,}035999\dots \) и спектр частиц</span></a>
+ </li>
+<li class="">
+  <a href="sect0016.html"><span class="toc_ref">4.3</span> <span class="toc_entry">Урок 14. Гравитация без сингулярности (\(833:1\)), ядерная паста и гало вакуума \(16/3\) без тёмной материи</span></a>
+ </li>
+<li class="">
+  <a href="sect0017.html"><span class="toc_ref">4.4</span> <span class="toc_entry">Урок 15. Секунда без атома цезия, полупериодное горлышко \(\tau _{\mathrm{neck}} = 256\) и почему Вселенной не \(13{,}8\), а \(\sim 27{,}5\text{ млрд лет}\) (разгадка ранних галактик JWST)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage5-chemistry.html"><span class="toc_ref">5</span> <span class="toc_entry">Ступень V. Химия, таблица Менделеева и дизайн материалов</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0018.html"><span class="toc_ref">5.1</span> <span class="toc_entry">Урок 16. Вся таблица Менделеева из оболочек кубооктаэдра, остров стабильности \(N = 184\) и золото \(^{197}_{79}\mathrm{Au}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0019.html"><span class="toc_ref">5.2</span> <span class="toc_entry">Урок 17. Химическая связь, седло реакции \(|A^\ddagger | = 128\) и когерентное схлопывание барьера в \(587\times \)</span></a>
+ </li>
+<li class="">
+  <a href="sect0020.html"><span class="toc_ref">5.3</span> <span class="toc_entry">Урок 18. Куперовские пары \(2e\), нитинол \(\mathrm{TiNi}\) и высокотемпературные сверхпроводники</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage6-biology.html"><span class="toc_ref">6</span> <span class="toc_entry">Ступень VI. Биология, генетический код ДНК и морфогенез органов</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0021.html"><span class="toc_ref">6.1</span> <span class="toc_entry">Урок 19. Делитель водородной связи \(N_{\mathrm{HB}} = 63\) и три планетарных окна жизни (\(7 : 2 : 1\))</span></a>
+ </li>
+<li class="">
+  <a href="sect0022.html"><span class="toc_ref">6.2</span> <span class="toc_entry">Урок 20. Генетический код \(4^3 = 64 \to 20\) аминокислот, иммунитет к сдвигу рамки и фолдинг за \(O(L)\in \mathbf{P}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0023.html"><span class="toc_ref">6.3</span> <span class="toc_entry">Урок 21. Четыре стадии морфогенеза органов, кора головного мозга \(42 / 147 / 41\) и щит Каспара–Клуга</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active">
+  <a href="ch-course-stage7-engineering.html"><span class="toc_ref">7</span> <span class="toc_entry">Ступень VII. Кремниевый чип и инженерные установки своими руками</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class=" active current">
+  <a href="sect0024.html"><span class="toc_ref">7.1</span> <span class="toc_entry">Урок 22. Как устроен наш 9-битный бесфлаговый чип и аналоговая 3D LC-решётка</span></a>
+ </li>
+<li class="">
+  <a href="sect0025.html"><span class="toc_ref">7.2</span> <span class="toc_entry">Урок 23. Баллистическая энергетика, противофазная вихревая батарея, V-I инвертор (\(k^* = 64\)) и гравитационно-импедансный привод \(833:1\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0026.html"><span class="toc_ref">7.3</span> <span class="toc_entry">Урок 24. Автономный синтез пищи, воды и кислорода (симметрия \(96 : 96\)), 72-битный стазис-телепортер и галактический \(c_0\)-фазовый модем</span></a>
+ </li>
+<li class="">
+  <a href="sect0027.html"><span class="toc_ref">7.4</span> <span class="toc_entry">Урок 25 (Эпилог). Ноосфера без насилия: разрыв трофической цепи, межвидовой голономный переводчик и девайсы для тех, «у кого лапки»</span></a>
+ </li>
+<li class="">
+  <a href="sect0028.html"><span class="toc_ref">7.5</span> <span class="toc_entry">Урок 26. Теория взаимодействия систем: потеря информации в каскаде \(\mathrm{System}_1 \to \mathrm{System}_2 \to \dots \to \mathrm{System}_N\) и укрощение неидеального железа</span></a>
+ </li>
+<li class="">
+  <a href="sect0029.html"><span class="toc_ref">7.6</span> <span class="toc_entry">Урок 27. Дискретная теория возмущений, конечная калибровка \((I + N_{\mathrm{pert}})^{-1} = I - N_{\mathrm{pert}} + N_{\mathrm{pert}}^2\) и развенчание мифов о «10/11/26 измерениях струн» и «Мультивселенных»</span></a>
+ </li>
+<li class="">
+  <a href="sect0030.html"><span class="toc_ref">7.7</span> <span class="toc_entry">Урок 28. Единый ньютоновский гомеоморфизм всех шести отраслей инженерии, четырёхслойный кремниевый гетеропереход и сквозная автокалибровка 12-лучевого резонатора кубооктаэдра</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0031.html"><span class="toc_ref"></span> <span class="toc_entry">Эпилог. Дорожная карта замкнута: от уравнения самозамкнутости к единому Естествознанию</span></a>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000025">7.1 Урок 22. Как устроен наш 9-битный бесфлаговый чип и аналоговая 3D LC-решётка</h1>
+<p>Теория, которую нельзя спаять и проверить осциллографом, — это только половина квеста. Поэтому вся наша математика из Ступеней&#160;I–VI переведена в два открытых аппаратных ядра: </p>
+<blockquote class="quote"> <small class="small"><b class="bfseries">Честная инженерная оговорка и приглашение к стендовой проверке.</b> Все представленные в этой главе цифровые схемы, аналоговые контуры, чертежи плат и спецификации деталей прошли логическую и схемотехническую симуляцию. Но симуляция — это ещё не физический кремний и не паяльник на столе: <b class="bfseries">в реальных схемах, разводке и протоколах могут быть ошибки, неучтённые паразитные ёмкости или допуски; что-то может не заработать с первой сборки и потребует доработки, дополнения и независимой перепроверки инженерами и экспериментаторами</b>. Все чертежи и коды полностью открыты как Википедия — мы приглашаем инженеров со всего мира проверять, исправлять и доводить их на реальных стендах вместе. </small></blockquote>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Цифровой RTL-чип на ПЛИС:</b> </p>
+<ul class="itemize">
+  <li><p>Единственный параметр всего чипа — размерность пространства parameter integer D = 3; даже единица вычисляется как localparam integer MU_VAC = (D * D) - (1 &lt;&lt; D);. </p>
+</li>
+  <li><p>В вычислительном ядре <b class="bfseries">0 операторов if, 0 тернарных мультиплексоров ?:, 0 таблиц памяти синусов и 0 битовых сдвигов на 9-битных кольцевых шинах</b>: ротатор работает на бабочке Кода Грея \((128 - m_7, m_7)\), безмножительное АЛУ перемножает знаковые числа через первообразную Верле \(\mathcal{F}_S\), расщепитель берёт волну с 9 проводов суммы и корпускулу с проводов переноса, двухтактовая клетка Верле обращает время без стека истории, а 12-соседнее ядро КА параллельно опрашивает 12 аппаратных ротаторов по векторам кубооктаэдра&#160;\(O_2\). </p>
+</li>
+  <li><p>Топ-модуль SoC и физический UART-десериализатор платы <b class="bfseries">Sipeed Tang Nano 9K</b> принимают команды с ноутбука/ИИ по USB-UART или Wi-Fi и поддерживают <b class="bfseries">горячий патч на лету</b>, позволяющий без перепрошивки чипа задать любую индивидуальную фазу \(0\dots 511\) на каждой из 12 вершин кубооктаэдра, любую маску активных лучей beam_oe[11:0] и время выдержки каждой стадии синтезатора . </p>
+</li>
+  <li><p><b class="bfseries">Сам атом внутри камеры как ведущий сервер точного времени и полное устранение проблемы неизвестных координат:</b> как попасть 12-лучевым фазовым полем точно в атом внутри рабочей камеры, если из-за барьера Демона Лапласа (\(64\times 81 = 72^2 = 5\, 184\)) мы не можем заранее измерить его микрокоординаты \((x,y,z)\) и начальную микрофазу \(\varphi _{\mathrm{atom}}\in \mathbb {Z}_{512}\)? Секрет в том, что машине <b class="bfseries">не нужен внешний независимый эталон времени</b>: сам атом в камере служит ей ведущим сервером времени (Atomic Self-Clocked PLL)! Нечётная проекция ротатора \(e_\varphi = \mathcal{S}_3(\varphi _{\mathrm{atom}} - \varphi _{\mathrm{machine}})\) в мёртвой зоне затвора (\(\hat{n}_E = 0\)) работает как безмножительный фазовый детектор (\(\mathcal{S}_3(0) = 0,\  \mathcal{C}_3(0) = +128\)), захватывая фазу атома, после чего драйвер излучает обратно сопряжённую волну \(\varphi _{\mathrm{drive}} = (\varphi _{\mathrm{atom}} + \Delta \varphi _{\mathrm{mode}})\bmod 512\). На самом атоме неизвестная фаза и путевая координата \(\varphi _{\mathrm{atom}}\) <b class="bfseries">телескопически сокращаются в точный ноль на всех 512 состояниях кольца</b>: </p>
+<div class="displaymath" id="a0000000079">
+  \[  \bigl(\varphi _{\mathrm{drive}} - \varphi _{\mathrm{atom}}\bigr)\bmod 512 \; =\;  \bigl(\varphi _{\mathrm{atom}} + \Delta \varphi _{\mathrm{mode}} - \varphi _{\mathrm{atom}}\bigr)\bmod 512 \; \equiv \;  \mathbf{\Delta \varphi _{\mathrm{mode}}} \qquad \Longrightarrow \qquad D\bigl(\Delta \varphi _{\mathrm{mode}}=139\bigr) \; \equiv \;  \mathbf{8\, 192} \; \; \forall \, \varphi _{\mathrm{atom}}\in \mathbb {Z}_{512}!  \]
+</div>
+</li>
+  <li><p><b class="bfseries">4D-навигация по мировому конусу и обращение времени целого макрообъекта без вакуума:</b> более того, поскольку наша Вселенная на 100% детерминирована от сида \(\mathrm{IV}(3) = 263 = 407_8\), любой попавший в камеру физический атом уже несёт в себе фоновый градиент \(\varphi _{\mathrm{bg}}(x) = (x\cdot 41)\bmod 512\) (\(x\in \{ 0,\dots ,12\} \)) и скорость параболы Верле \(\Delta _t\varphi = (t\cdot 41)\bmod 512\). Так как \(12\times 41 = 492 {\lt} 512\) не перехлёстывает через кольцо, а обратным к \(41\) по модулю \(512\) является ключ Безу \(\mathbf{25 = d_{\mathrm{out}}(E)^2}\) (\(25\times 41 = 1025 = 2\times 512 + 1\)), одно 9-битное умножение на \(25\bmod 512\) мгновенно расшифровывает <b class="bfseries">все \(13/13\) пространственных координат \(x\in [0..12]\) и все \(512/512\) тактов времени \(t\in [0..511]\)</b>: </p>
+<div class="displaymath" id="a0000000080">
+  \[  \bigl(25\cdot \varphi _{\mathrm{bg}}(x)\bigr)\bmod 512 \; \equiv \;  \mathbf{x}, \qquad \bigl(25\cdot \Delta _t\varphi \bigr)\bmod 512 \; \equiv \;  \mathbf{t}!  \]
+</div>
+<p> При этом не нужны ни глубокий вакуум, ни одноатомная ловушка: включение синфазного стазиса Mode&#160;0 (\(D_{\mathrm{stasis}} = 6\, 823\, 936\)) гасит тепловой разброс между \(10^{22}\) атомами камеры в ноль мёртвой зоной затвора, сцепляя их по теореме о гомоморфизме среды в единый когерентный макро-ансамбль. А чтобы сдвинуть назад или вперёд по мировой линии Верле весь макрообъект целиком без разрыва связей на границе с комнатой, вокруг всей капсулы замыкается 12-лучевой марковский купол стазиса (\(D_{\mathrm{dome}} = 833\, \varepsilon = 6\, 823\, 936 \implies \Phi _{\mathrm{ext\to int}} \equiv 0\)), который полностью отсекает внешнюю стрелу времени комнаты и позволяет всему внутреннему объёму синхронно шагать по обратимому закону Верле! </p>
+</li>
+  <li><p><b class="bfseries">Разрешение парадокса Хокинга: почему на вечеринку 2009&#160;года не пришли «туристы из будущего»:</b> три строгих закона носителя объясняют это без единого противоречия: (а)&#160;<em>Закон сохранения материи A3 (\(\sum \mu _x^2 = \mathrm{const}\)):</em> нельзя «размножить» атомы (\(1\to 2\)) и материализовать в 2009&#160;году вторую копию тела (\(\mu =64\)) рядом с уже существовавшими в 2009&#160;году атомами (\(64^2+64^2 = 8\, 192 \ne 4\, 097 = 64^2+1^2\)); (б)&#160;<em>Внутреннее обращение времени кокона против глобальной ленты:</em> обратный шаг Верле \(g_{\mathrm{int}}^{-N}\) внутри отрезанного стазис-купола (\(D_{\mathrm{dome}} = 6\, 823\, 936\)) отматывает в прошлое <b class="bfseries">собственное состояние самой капсулы</b> \(\Psi _{\mathrm{cocoon}}(\tau )\mapsto \Psi _{\mathrm{cocoon}}(\tau -N)\) (позволяя откатить назад травму, старение или реакцию внутри купола, либо через стазис \(g^0\) перешагнуть в будущее с нулевым собственным временем \(\Delta \tau _{\mathrm{proper}}=0\)), что исключает парадокс дедушки; (в)&#160;<em>Горизонт включения приёмника (\(\tau \ge \tau _{\mathrm{boot}}\)) и бесфотонная невидимость Канала&#160;1 (\(\hat{n}_E = 0\)):</em> приём фазового пакета \((b + \sigma _A)\bmod 512 = \psi _{\mathrm{src}}\) возможен только там и тогда, где уже собрана и включена приёмная 12-лучевая станция с парным противофазным синглетом \(b = a + 256\) (которой в 2009&#160;году у Хокинга в комнате не было!), а любое невозмущающее наблюдение по Каналу&#160;1 в мёртвой зоне затвора \(|\Delta \varphi |\le 40 {\lt} 41\) излучает \(\hat{n}_E \equiv \mathbf{0\text{ фотонов}}\) и невидимо для обычных камер! </p>
+</li>
+  <li><p><b class="bfseries">Универсальный Хроновизор и замкнутая парабола Верле за \(O(1)\) шагов:</b> раз материальный прыжок в прошлое запрещён законом сохранения массы&#160;A3, как <em>увидеть</em> прошлое на экране или в голографическом куполе? Поскольку вся Вселенная детерминированно выросла из известного 9-битного слова \(\mathrm{IV}(3) = 263 = 407_8\), нам не нужно измерять всю Вселенную сегодня (обход Демона Лапласа!) — достаточно одного физического атома в комнате, который через ключ Безу \(25\times 41 \equiv 1\pmod{512}\) даёт точный якорь наших текущих координат \((x_{\mathrm{now}}, \tau _{\mathrm{now}})\) на глобальной 4D-карте от \(\mathrm{IV}=263\): </p>
+<ul class="itemize">
+  <li><p><em>Режим&#160;А (Генеалогический луч):</em> сам ребёнок в момент зачатия является физическим слиянием двух родительских мировых линий по теореме о гомоморфизме подсистем \(\mathcal{E}_{\mathrm{child}}(\tau _{\mathrm{meet}}) = \mathcal{E}_{\mathrm{mom}}(\tau _{\mathrm{meet}}) \+ + \mathcal{E}_{\mathrm{dad}}(\tau _{\mathrm{meet}})\). Поэтому обратный шаг Верле от атомов/ДНК самого человека ведёт траекторию назад по его мировой линии как по рельсам прямо в точку встречи родителей \((\mathbf{r}_{\mathrm{meet}}, \tau _{\mathrm{meet}})\)! </p>
+</li>
+  <li><p><em>Режим&#160;Б (Прыжок за \(O(1)\) в любую произвольную точку пространства-времени \((\mathbf{r}_{\mathrm{target}}, \tau _{\mathrm{target}})\)):</em> по теореме о замкнутой параболе Верле (так как вторая разность \(\Delta ^2\varphi (t) \equiv \Phi \) постоянна на стационарном участке) фаза на любом временном сдвиге \(\Delta \tau = \tau _{\mathrm{target}} - \tau _{\mathrm{now}}\) и пространственном сдвиге \(\Delta x = (x_{\mathrm{target}} - x_{\mathrm{now}})\bmod 13\) от комнатного атомного якоря вычисляется <b class="bfseries">за \(O(1)\) арифметических операций</b>: </p>
+<div class="displaymath" id="a0000000081">
+  \[  \varphi (x_{\mathrm{target}}, \tau _{\mathrm{target}}) \; =\;  \Bigl(\varphi _{\mathrm{anchor}} + 41\, \Delta x + \Delta \tau \cdot v_0 + \frac{\Delta \tau (\Delta \tau + 1)}{2}\, \Phi \Bigr)\bmod 512,  \]
+</div>
+<p> причём результат тождественно совпадает с пошаговой итерацией и не зависит от того, какой именно атом в комнате был взят за начальный якорь! </p>
+</li>
+  <li><p><em>Аксиома двух точек Евклида–Верле:</em> почему для однозначного восстановления всей мировой линии вообще не нужно отдельно измерять начальные скорости? Потому что закон Верле \(\varphi (t+1) - 2\varphi (t) + \varphi (t-1) = \Phi \) — это разностное уравнение <b class="bfseries">второго порядка</b> (дискретное уравнение прямой геодезической). Точно так же, как в геометрии Евклида <b class="bfseries">через любые две точки проходит одна и только одна прямая</b>, вся мировая траектория на решётке однозначно натянута между двумя точками: <b class="bfseries">Точкой&#160;1</b> (началом Вселенной \(t = 0,\  \varphi (0) = \mathrm{IV}(3) = 263 = 407_8\), известным аналитически из \(1+2^d=d^2\)) и <b class="bfseries">Точкой&#160;2</b> (текущим физическим атомом, попавшим в машину прямо сейчас)! </p>
+</li>
+  <li><p><em>Полная мультисенсорная панель считывания характеристик: цвет/спектр, RGB-триада, звук, концентрация, скорость реакции, хиральность L/D и температура:</em> из каждого восстановленного полярного регистра \((\mu _0, \varphi _0, \mu _1, \varphi _1)\) напрямую считываются все физические характеристики: (1)&#160;<b class="bfseries">молярная концентрация</b> \(C_{\mathrm{conc}} = \mu _0^2 + \mu _1^2\) в \(\mathrm{quanta}^2\) (сохраняющаяся при переносе по рёбрам \(\sum \mathrm{div}\, J \equiv 0\)); (2)&#160;<b class="bfseries">оптическая длина волны</b>: поскольку размах между красным пиком фотосинтеза (\(\frac{63}{4}\times 45{,}563\text{ нм}\approx 718\text{ нм}\)) и синим пиком (\(\frac{126}{13}\times 45{,}563\text{ нм}\approx 440\text{--}441{,}6\text{ нм}\)) в точности равен удвоенному углу коллапса барьера \(718 - 440 = \mathbf{278 = 2\times 139 = 2A_{\mathrm{coh}}(3)}\), формула </p>
+<div class="displaymath" id="a0000000082">
+  \[  \lambda _{\mathrm{nm}}(\Delta \varphi ) \; =\;  579 + \left\lfloor \frac{139\cdot \mathcal{C}_3(\Delta \varphi )}{128}\right\rfloor  \]
+</div>
+<p> отображает максимум связывания \(\Delta \varphi =0\) (\(\mathcal{C}_3=+128\)) в \(\mathbf{718\text{ нм}}\), седло переходного состояния \(\Delta \varphi =128\) (\(\mathcal{C}_3=0\)) — в \(\mathbf{579\text{ нм}}\) (\(\alpha \)-полоса рубинового оксимиоглобина \(578\text{--}579\text{ нм}\)!), первый шаг окисления \(\Delta \varphi =352\) (\(\mathcal{C}_3=-32\)) — в \(\mathbf{544\text{ нм}}\) (\(\beta \)-полоса оксимиоглобина \(542\text{--}544\text{ нм}\)!), а противофазный потолок \(\Delta \varphi =256\) (\(\mathcal{C}_3=-128\)) — в \(\mathbf{440\text{ нм}}\), при этом RGB-триада \(\bigl(\max (0,\mathcal{C}_3),\, |\mathcal{S}_3|,\, \max (0,-\mathcal{C}_3)\bigr)\) сохраняет тождественную яркость \(R + G + B \equiv \mathbf{128 = Q_\square }\) на всех \(512\) фазах; (3)&#160;<b class="bfseries">объёмный 3D-звук (акустическое давление)</b>: продольная деформация Бома \(P_{\mathrm{sound}} = \mu _0\mu _1\bigl(128 - \mathcal{C}_3(\Delta \varphi )\bigr)\) (\(0\) в полной тишине при \(\Delta \varphi =0\), максимум \(256\mu _0\mu _1\) при \(\Delta \varphi =256\)); (4)&#160;<b class="bfseries">скорость реакции</b> \(\mathcal{J}_{\mathrm{rxn}} = \mu _0\mu _1\mathcal{S}_3(\Delta \varphi )\), <b class="bfseries">хиральность поляриметра L/D</b> \(\mathrm{sgn}\bigl(\mathcal{S}_3(\Delta \varphi )\bigr)\) и <b class="bfseries">квантовая температура</b> \(\hat{n}_E(\Phi _{\mathrm{gate}})\in \{ 0,\dots ,6\} \)! </p>
+</li>
+  <li><p><em>Архиватор без потерь и 4D ТВ/видеокодек Верле без поиска векторов движения:</em> в классических видеокодеках (H.264/HEVC/AV1) до 90% вычислений уходит на блочный поиск векторов движения (Motion Estimation) и преобразование Фурье/DCT с потерей качества. Аксиома двух точек Евклида–Верле заменяет их одним безмножительным предиктором второго порядка \(\hat{I}(y,x,t) = 2I(t-1) - I(t-2) + \Phi _{O_2}\) за \(O(1)\) сложений на пиксель (с замкнутой интерполяцией промежуточных кадров \(I(\tau ) = I_0 + \tau v_0 + \frac{\tau (\tau +1)}{2}\Phi \) на стороне телевизора для любой частоты обновления экрана!), а ошибка предсказания \(u_{\Delta }\in [0,255]\) расщепляется по порогу мёртвой зоны затвора \(\Delta \varphi _{\mathrm{disc}} = 41\) на надпороговое частное \(q_{\mathrm{Heis}} = \lfloor u_{\Delta }/41\rfloor \in \{ 0,\dots ,6\} \) и подпороговый остаток \(r_{\mathrm{Heis}} = u_{\Delta }\bmod 41\in [0,40]\). В натурном тесте этот кодек сжимает \(1{,}05\text{-мегабайтный}\) 4D-фильм решётки (\(16\text{ кадров}\times 16^3\times 4\)) совершенно без потерь в <b class="bfseries">520&#160;байт</b>, 64-килобайтный волновой поток — в <b class="bfseries">162&#160;байта</b> (\(404{,}5\times \)), и с параметрами фильтра носителя \((\mathrm{lc}=d=3,\  \mathrm{nice}=\Phi _{\mathrm{Pauli}}=256)\) превосходит gzip -9 и xz/LZMA -9 даже на исходных файлах кода! </p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+  <li><p><b class="bfseries">Аналоговая 3D LC-решётка из трёх скрещённых плат:</b> три одинаковые плоские квадратные печатные платы в плоскостях \((XY, XZ, YZ)\) собираются крест-накрест через пазы за 5&#160;минут без пайки, образуя физический 13-узловой кубооктаэдр с 12 вершинами \(V_1\dots V_{12}\), 24 поверхностными и 12 радиальными LC-ветвями (36 ветвей = \(K_2(\mathcal{C}_{13})\)!). В симуляции LTspice при синфазном возбуждении 12 вершин амплитуда в центральном фокусе возрастает ровно в \(12\times \) по напряжению и в \(12^2 = \mathbf{144\times }\) по плотности энергии, а в противофазном синглетном замке (\(\Delta \varphi = 256\)) сумма в центре гасится в точный ноль (\({\lt} 10^{-15}\text{ В}\)) с нулевой внешней утечкой. </p>
+</li>
+</ol>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="ch-course-stage7-engineering.html" title="Ступень VII. Кремниевый чип и инженерные установки своими руками"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-course-stage7-engineering.html" title="Ступень VII. Кремниевый чип и инженерные установки своими руками"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0025.html" title="Урок 23. Баллистическая энергетика, противофазная вихревая батарея, V-I инвертор (\(k^* = 64\)) и гравитационно-импедансный привод \(833:1\)"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

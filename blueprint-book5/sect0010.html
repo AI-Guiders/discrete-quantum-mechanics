@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Конструктивное построение \(\mathbb {R}\) и \(\mathbb {C}\), биективный изоморфизм \(L^1(\mathbb {Z}_{4Q}) \leftrightarrow S^1(\mathbb {C})\) и бритва Оккама–Мальцева</title>
+<link rel="prev" href="sect0009.html" title="Векторная суперпозиция встречных волн, тройная дихотомия M-этажного каскада и модельно-теоретическая независимость" />
+<link rel="up" href="ch-math-multiscrew-and-holonomy.html" title="Алгебра многовинтовых планетарных каскадов и встречно-волновая суперпозиция на сфере Римана P1" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга V. Математика проективного многообразия (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Предисловие. Отделение чистой проективной математики от физики носителя</span></a>
+ </li>
+<li class="">
+  <a href="ch-math-rotator-calculus.html"><span class="toc_ref">1</span> <span class="toc_entry">Дискретный ротатор \(\mathbb {Z}_{4Q}\), однородные проективные поля \(\mathbb {Q}(i,\sqrt{d-1})\) и анализ без делений</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Характер Эйлера на \(L^1\)-алмазе, тождество постоянного вронскиана и подъём Брахмагупты–Вейерштрасса</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Замкнутая башня производных частного всех порядков \(D^n(f/g)\), многомерная кубатура Симпсона и когомологии де&#160;Рама</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Биекция полярных и декартовых координат \((M,\varphi )\leftrightarrow (X,Y)\) без корней, точное обращение \(\operatorname {atan}_{L^1},\, \operatorname {acot}_{L^1}\) и гиперболическое исчисление Гудермана–Минковского</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">1.4</span> <span class="toc_entry">Конструктивный переход от квадратичных сумм на кольце \(\mathbb {Z}_{4Q}\) к интегралам Френеля на \(\mathbb {R}\) (\(\mathbb {C}\)) без рядов Тейлора и без таблиц</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-math-pade-sl2-towers.html"><span class="toc_ref">2</span> <span class="toc_entry">Изотропный дискриминантный конус в \(\mathrm{SL}_2(\mathbb {Z})\), моноид башни аппроксимантов Паде и бескорневое кубическое сжатие</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0006.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Матричное представление ступеней, изотропный конус и параболические жордановы матрицы в \(\mathrm{SL}_2(\mathbb {Z})\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-math-planetary-differentials.html"><span class="toc_ref">3</span> <span class="toc_entry">Трёхшахтные планетарные дифференциалы \(\mathcal{A} + \mathcal{B} = \mathcal{C}\), вронскиан Мейсона–Стотерса и проекторы Лагранжа–Вандермонда</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0007.html"><span class="toc_ref">3.1</span> <span class="toc_entry">Ортогональный репер трёхшахтного дифференциала \(\mathcal{F}_3\), матрица моментов Ганкеля и целочисленный вронскиан Мейсона–Стотерса</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active">
+  <a href="ch-math-multiscrew-and-holonomy.html"><span class="toc_ref">4</span> <span class="toc_entry">Алгебра многовинтовых планетарных каскадов и встречно-волновая суперпозиция на сфере Римана \(\mathbb {P}^1\)</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0008.html"><span class="toc_ref">4.1</span> <span class="toc_entry">Моноид многовинтовых планетарных каскадов, экстремальная перестановочная вилка и вариационная монотонность</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html"><span class="toc_ref">4.2</span> <span class="toc_entry">Векторная суперпозиция встречных волн, тройная дихотомия \(M\)-этажного каскада и модельно-теоретическая независимость</span></a>
+ </li>
+<li class=" active current">
+  <a href="sect0010.html"><span class="toc_ref">4.3</span> <span class="toc_entry">Конструктивное построение \(\mathbb {R}\) и \(\mathbb {C}\), биективный изоморфизм \(L^1(\mathbb {Z}_{4Q}) \leftrightarrow S^1(\mathbb {C})\) и бритва Оккама–Мальцева</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000011">4.3 Конструктивное построение \(\mathbb {R}\) и \(\mathbb {C}\), биективный изоморфизм \(L^1(\mathbb {Z}_{4Q}) \leftrightarrow S^1(\mathbb {C})\) и бритва Оккама–Мальцева</h1>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:math-constructive-reals-s1-malcev-limit">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Теорема
+    </span>
+    <span class="theorem_thmlabel">4.3</span>
+    <span class="theorem_thmtitle">Конструктивное построение полей \(\mathbb {R}\) и \(\mathbb {C}\) через вилки Штерна–Броко–\(\mathrm{SL}_2(\mathbb {Z})\), биективный стереографический изоморфизм с \(S^1(\mathbb {C})\) и теорема Мальцева об изоморфизме элементарной теории</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0010.html#thm:math-constructive-reals-s1-malcev-limit">#</a>
+    
+    <a class="icon proof" href="sect0010.html#a0000000021"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#thm:math-wronskian-weierstrass-quadratures">Теорема 1.1</a></li>
+          
+          <li><a href="sect0009.html#thm:math-counterwave-dichotomy-and-independence">Теорема 4.2</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/ModelTheoreticLimit.lean#L86" class="lean_decl">thm17_model_theoretic_termination_kernel_annihilation_and_godel_tarski_oracle_necessity</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/ModelTheoreticLimit.lean#L273" class="lean_decl">thm41_constructive_projective_real_intervals_stern_brocot_and_s1_isomorphism</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>    Поля \(\mathbb {Q}\), \(\mathbb {R}\) и \(\mathbb {C}\) (включая единичную окружность \(S^1(\mathbb {C})\)) строятся полностью конструктивно как проективный предел вложенных рациональных вилок и счётной башни носителей \((M_n, \Pi _{n\to 0})\). В силу изоморфизма фактор-системы по ядру гомоморфизма Мальцева \(\ker \pi \) и совпадения элементарной теории первого порядка \(\mathrm{Th}(M_{\mathrm{ext}}) \equiv \mathrm{Th}(M_{\mathrm{base}})\), по бритве Оккама не требуется вводить никаких отдельных искусственных семейств вроде &lt;&lt;\(\mathbb {R}_{\mathrm{proj}}\)&gt;&gt; или &lt;&lt;\(\mathbb {C}_{\mathrm{proj}}\)&gt;&gt; — построенные объекты изоморфны обычным \(\mathbb {Q}\), \(\mathbb {R}\) и \(\mathbb {C}\), которыми мы и оперируем напрямую: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Конструктивное представление чисел из \(\mathbb {R}\) через вилки Штерна–Броко и действие \(\mathrm{SL}_2(\mathbb {Z})\):</b> каждая рациональная вилка \(I = [p_L/q_L,\,  p_R/q_R]\) (\(q_L, q_R {\gt} 0\)) характеризуется целочисленным вронскианом (определителем) \(\Delta (p_L, q_L, p_R, q_R) := p_R q_L - p_L q_R \ge 0\). Деление вилки медиантой Штерна–Броко \((p_M, q_M) = (p_L + p_R,\  q_L + q_R)\) тождественно сохраняет вронскиан обеих дочерних вилок: </p>
+<div class="equation" id="eq:math-stern-brocot-wronskian">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-stern-brocot-wronskian} \Delta (p_L, q_L, p_M, q_M) \; =\;  \Delta (p_M, q_M, p_R, q_R) \; \equiv \;  \Delta (p_L, q_L, p_R, q_R), \end{equation}
+  </div>
+  <span class="equation_label">4.12</span>
+</p>
+</div>
+<p> а под действием любой целочисленной матрицы уточнения \(A = \begin{pmatrix}  a 
+
+&  b 
+
+\\ c 
+
+&  d 
+
+\end{pmatrix} \in \mathrm{Mat}_{2\times 2}(\mathbb {Z})\) на концы вилки вронскиан умножается на определитель матрицы: </p>
+<div class="equation" id="eq:math-sl2-interval-wronskian">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-sl2-interval-wronskian} \Delta (p_L', q_L', p_R', q_R') \; \equiv \;  (a d - b c)\, \Delta (p_L, q_L, p_R, q_R), \end{equation}
+  </div>
+  <span class="equation_label">4.13</span>
+</p>
+</div>
+<p> при этом вдоль любого слова уточнений \(w \in \mathrm{List}\, \mathbb {Z}\) свёрнутая вилка \([L_w, U_w] = \operatorname {bracketFold}(l_0, u_0, w)\) монотонно зажимает вещественное значение \(X \in \mathbb {R}\) (\(l_0 \le L_w \le X \le U_w \le u_0\), \(0 \le U_w - L_w \le u_0 - l_0\)) и однозначно определяет его при смыкании (\(U_w - L_w = 0 \implies L_w = U_w = X\)). </p>
+</li>
+  <li><p><b class="bfseries">Биективный стереографический изоморфизм \(L^1(\mathbb {Z}_{4Q}) \leftrightarrow S^1(\mathbb {C})\) на всех масштабах \(Q \in \mathbb {Z}\):</b> для любой точки ротатора \((C, S)\) с \(C + S = Q\) прямой проективный подъём Вейерштрасса \((X, Y, R) = (C^2 - S^2,\  2CS,\  C^2 + S^2)\) лежит на единичной окружности \(X^2 + Y^2 = R^2\) в \(\mathbb {C}\) (\(R + Y = Q^2\)) и биективно обращается без извлечения квадратных корней по линейным формулам: </p>
+<div class="equation" id="eq:math-weierstrass-bijection-inverse">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-weierstrass-bijection-inverse} Q^2 + X \; \equiv \;  2\, Q\, C, \qquad Q^2 - X \; \equiv \;  2\, Q\, S. \end{equation}
+  </div>
+  <span class="equation_label">4.14</span>
+</p>
+</div>
+</li>
+  <li><p><b class="bfseries">Теорема Мальцева об изоморфизме элементарной теории \(\mathrm{Th}(M_{\mathrm{ext}}) \equiv \mathrm{Th}(M_{\mathrm{base}})\) (бритва Оккама для \(\mathbb {R}\) и \(\mathbb {C}\)):</b> для любой счётной проективной башни носителей \(M_{k+1} \xrightarrow {\pi _k} M_k\) проекция \(\Pi _{n \to 0} : M_n \to M_0\) сохраняет все согласованные наблюдаемые (\(\operatorname {obs}_0(\Pi _{n \to 0}(x_n)) = \operatorname {obs}_n(x_n)\)); для любого сюръективного гомоморфизма алгебраических систем Мальцева \(\pi : M_{\mathrm{ext}} \twoheadrightarrow M_{\mathrm{base}}\) с сечением \(\mathrm{sect} : M_{\mathrm{base}} \hookrightarrow M_{\mathrm{ext}}\) (\(\pi (\mathrm{sect}(m)) = m\)) фактор по конгруэнции ядра \(\ker \pi \) изоморфен \(M_{\mathrm{base}}\), а элементарные теории первого порядка тождественно совпадают: </p>
+<div class="equation" id="eq:math-malcev-elementary-equivalence">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-malcev-elementary-equivalence} \forall \, \phi \in \mathrm{Formula}, \qquad \Bigl(\forall \, y \in M_{\mathrm{ext}},\  M_{\mathrm{ext}}, y \models \phi \Bigr) \; \Longleftrightarrow \;  \Bigl(\forall \, m \in M_{\mathrm{base}},\  M_{\mathrm{base}}, m \models \phi \Bigr). \end{equation}
+  </div>
+  <span class="equation_label">4.15</span>
+</p>
+</div>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000021">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Тождества&#160;<a href="sect0010.html#eq:math-stern-brocot-wronskian" class="eqref">4.12</a>–<a href="sect0010.html#eq:math-weierstrass-bijection-inverse" class="eqref">4.14</a> проверяются раскрытием скобок в кольце \(\mathbb {Z}\); монотонное сжатие вилки и стабилизация башни \(\Pi _{n\to 0}\) доказываются структурной индукцией по слову \(w\) и номеру этажа \(n\), а эквивалентность&#160;<a href="sect0010.html#eq:math-malcev-elementary-equivalence" class="eqref">4.15</a> следует из \(\pi (\mathrm{sect}(m)) = m\). </p>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sect0009.html" title="Векторная суперпозиция встречных волн, тройная дихотомия \(M\)-этажного каскада и модельно-теоретическая независимость"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-math-multiscrew-and-holonomy.html" title="Алгебра многовинтовых планетарных каскадов и встречно-волновая суперпозиция на сфере Римана \(\mathbb {P}^1\)"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Урок 1. Задача о самозамкнутом автомате: почему пространство трёхмерно и откуда берётся единица</title>
+<link rel="next" href="sect0004.html" title="Урок 2. Почему строительный блок Вселенной — это 12-лучевой кубооктаэдр O2" />
+<link rel="prev" href="ch-course-stage1-carrier.html" title="Ступень I. Устройство носителя и рождение трёхмерного пространства (1 + 2d = d2)" />
+<link rel="up" href="ch-course-stage1-carrier.html" title="Ступень I. Устройство носителя и рождение трёхмерного пространства (1 + 2d = d2)" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга IV. Курс единого естествознания (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Введение. Главный квест этой Вселенной и почему у решётки нет «балкона»</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref"></span> <span class="toc_entry">«Физика курильщика» против «физики здорового человека»: три закона Ньютона в целых числах и пять следствий дискретности решётки</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active">
+  <a href="ch-course-stage1-carrier.html"><span class="toc_ref">1</span> <span class="toc_entry">Ступень I. Устройство носителя и рождение трёхмерного пространства (\(1 + 2^d = d^2\))</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class=" active current">
+  <a href="sect0003.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Урок 1. Задача о самозамкнутом автомате: почему пространство трёхмерно и откуда берётся единица</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Урок 2. Почему строительный блок Вселенной — это 12-лучевой кубооктаэдр \(O_2\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Урок 3. Три родные системы счисления кольца \(\mathbb {Z}_{512}\): 9-битный провод, восьмеричный код \(407_8\) и бабочка Грея</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage2-math.html"><span class="toc_ref">2</span> <span class="toc_entry">Ступень II. Математика и информатика внутри носителя</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0006.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Урок 4. Бабочка ротатора \((\mathcal{C},\mathcal{S})\), формула Эйлера \(e^{i\pi }+1=0\) и постоянный вронскиан \(\mathcal{W}\equiv 128\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">2.2</span> <span class="toc_entry">Урок 5. Как отдать ротатору и шагу Верле вообще всю арифметику (умножение без умножителей!)</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">2.3</span> <span class="toc_entry">Урок 6. Матанализ без континуума: точные интегралы Френеля, Якоби, Дирихле, Бесселя и пять лиц Единицы</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html"><span class="toc_ref">2.4</span> <span class="toc_entry">Урок 7. Двухканальная логика Поста, семантический изоморфизм 3-SAT, барьер \(\mathbf{P}\ne \mathbf{NP}\) и встроенный шифр Вернама</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage3-quantum.html"><span class="toc_ref">3</span> <span class="toc_entry">Ступень III. Квантовая механика, электродинамика Максвелла и демоны Лапласа и Максвелла</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0010.html"><span class="toc_ref">3.1</span> <span class="toc_entry">Урок 8. Мёртвая зона затвора \(\Delta \varphi _{\mathrm{disc}} = 41\) и полное квантование всех наблюдаемых</span></a>
+ </li>
+<li class="">
+  <a href="sect0011.html"><span class="toc_ref">3.2</span> <span class="toc_entry">Урок 9. Корпускулярно-волновой дуализм и вывод правила Борна \(P(\mu ) = \mu ^2 / 512\) из пина переноса 9-битного сумматора</span></a>
+ </li>
+<li class="">
+  <a href="sect0012.html"><span class="toc_ref">3.3</span> <span class="toc_entry">Урок 10. Теорема Стокса–Гаусса–Черна (\(d^2 \equiv 0\)) и дискретные уравнения Максвелла</span></a>
+ </li>
+<li class="">
+  <a href="sect0013.html"><span class="toc_ref">3.4</span> <span class="toc_entry">Урок 11. Почему невозможен Демон Лапласа (\(64 \times 81 = 72^2\)), но работает 12-лучевой Геометрический Демон Максвелла</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage4-particles-cosmos.html"><span class="toc_ref">4</span> <span class="toc_entry">Ступень IV. Элементарные частицы, ядра, гравитация и космология</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0014.html"><span class="toc_ref">4.1</span> <span class="toc_entry">Урок 12. Запуск Вселенной из слова \(\mathrm{IV} = 263 = 407_8\): тишина октанта, храповик \(-1\) и рождение вихрей при \(t = 2\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0015.html"><span class="toc_ref">4.2</span> <span class="toc_entry">Урок 13. Симплициальный атлас \(\mathcal{C}_{13}\), расшифровка «магических букв» групп симметрий, постоянная тонкой структуры \(\alpha _{\mathrm{fs}}^{-1} = 137{,}035999\dots \) и спектр частиц</span></a>
+ </li>
+<li class="">
+  <a href="sect0016.html"><span class="toc_ref">4.3</span> <span class="toc_entry">Урок 14. Гравитация без сингулярности (\(833:1\)), ядерная паста и гало вакуума \(16/3\) без тёмной материи</span></a>
+ </li>
+<li class="">
+  <a href="sect0017.html"><span class="toc_ref">4.4</span> <span class="toc_entry">Урок 15. Секунда без атома цезия, полупериодное горлышко \(\tau _{\mathrm{neck}} = 256\) и почему Вселенной не \(13{,}8\), а \(\sim 27{,}5\text{ млрд лет}\) (разгадка ранних галактик JWST)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage5-chemistry.html"><span class="toc_ref">5</span> <span class="toc_entry">Ступень V. Химия, таблица Менделеева и дизайн материалов</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0018.html"><span class="toc_ref">5.1</span> <span class="toc_entry">Урок 16. Вся таблица Менделеева из оболочек кубооктаэдра, остров стабильности \(N = 184\) и золото \(^{197}_{79}\mathrm{Au}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0019.html"><span class="toc_ref">5.2</span> <span class="toc_entry">Урок 17. Химическая связь, седло реакции \(|A^\ddagger | = 128\) и когерентное схлопывание барьера в \(587\times \)</span></a>
+ </li>
+<li class="">
+  <a href="sect0020.html"><span class="toc_ref">5.3</span> <span class="toc_entry">Урок 18. Куперовские пары \(2e\), нитинол \(\mathrm{TiNi}\) и высокотемпературные сверхпроводники</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage6-biology.html"><span class="toc_ref">6</span> <span class="toc_entry">Ступень VI. Биология, генетический код ДНК и морфогенез органов</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0021.html"><span class="toc_ref">6.1</span> <span class="toc_entry">Урок 19. Делитель водородной связи \(N_{\mathrm{HB}} = 63\) и три планетарных окна жизни (\(7 : 2 : 1\))</span></a>
+ </li>
+<li class="">
+  <a href="sect0022.html"><span class="toc_ref">6.2</span> <span class="toc_entry">Урок 20. Генетический код \(4^3 = 64 \to 20\) аминокислот, иммунитет к сдвигу рамки и фолдинг за \(O(L)\in \mathbf{P}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0023.html"><span class="toc_ref">6.3</span> <span class="toc_entry">Урок 21. Четыре стадии морфогенеза органов, кора головного мозга \(42 / 147 / 41\) и щит Каспара–Клуга</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage7-engineering.html"><span class="toc_ref">7</span> <span class="toc_entry">Ступень VII. Кремниевый чип и инженерные установки своими руками</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0024.html"><span class="toc_ref">7.1</span> <span class="toc_entry">Урок 22. Как устроен наш 9-битный бесфлаговый чип и аналоговая 3D LC-решётка</span></a>
+ </li>
+<li class="">
+  <a href="sect0025.html"><span class="toc_ref">7.2</span> <span class="toc_entry">Урок 23. Баллистическая энергетика, противофазная вихревая батарея, V-I инвертор (\(k^* = 64\)) и гравитационно-импедансный привод \(833:1\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0026.html"><span class="toc_ref">7.3</span> <span class="toc_entry">Урок 24. Автономный синтез пищи, воды и кислорода (симметрия \(96 : 96\)), 72-битный стазис-телепортер и галактический \(c_0\)-фазовый модем</span></a>
+ </li>
+<li class="">
+  <a href="sect0027.html"><span class="toc_ref">7.4</span> <span class="toc_entry">Урок 25 (Эпилог). Ноосфера без насилия: разрыв трофической цепи, межвидовой голономный переводчик и девайсы для тех, «у кого лапки»</span></a>
+ </li>
+<li class="">
+  <a href="sect0028.html"><span class="toc_ref">7.5</span> <span class="toc_entry">Урок 26. Теория взаимодействия систем: потеря информации в каскаде \(\mathrm{System}_1 \to \mathrm{System}_2 \to \dots \to \mathrm{System}_N\) и укрощение неидеального железа</span></a>
+ </li>
+<li class="">
+  <a href="sect0029.html"><span class="toc_ref">7.6</span> <span class="toc_entry">Урок 27. Дискретная теория возмущений, конечная калибровка \((I + N_{\mathrm{pert}})^{-1} = I - N_{\mathrm{pert}} + N_{\mathrm{pert}}^2\) и развенчание мифов о «10/11/26 измерениях струн» и «Мультивселенных»</span></a>
+ </li>
+<li class="">
+  <a href="sect0030.html"><span class="toc_ref">7.7</span> <span class="toc_entry">Урок 28. Единый ньютоновский гомеоморфизм всех шести отраслей инженерии, четырёхслойный кремниевый гетеропереход и сквозная автокалибровка 12-лучевого резонатора кубооктаэдра</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0031.html"><span class="toc_ref"></span> <span class="toc_entry">Эпилог. Дорожная карта замкнута: от уравнения самозамкнутости к единому Естествознанию</span></a>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000004">1.1 Урок 1. Задача о самозамкнутом автомате: почему пространство трёхмерно и откуда берётся единица</h1>
+<p>Спросим себя: почему пространство вокруг нас имеет именно три измерения (\(d = 3\)), а не два, не четыре и не одиннадцать? </p>
+<p>Представь себе элементарную ячейку решётки в \(d\)-мерном пространстве \(\mathbb {Z}^d\). Чтобы эта ячейка не нуждалась ни в каком «внешнем жёстком диске» или стороннем наблюдателе, её собственный внутренний регистр переходов должен быть <b class="bfseries">самозамкнутым</b>. Откуда вообще берётся бит и что означает самозамкнутость при подсчёте состояний? </p>
+<ul class="itemize">
+  <li><p><b class="bfseries">Неделимость элементарного объёма (откуда берётся \(+1\)):</b> частица (возбуждение) занимает весь элементарный объём ячейки целиком и не может занимать его частично. Из невозможности частичного заполнения следует ровно одно неделимое состояние собственной занятости центра \(\mathbf{0} = (0, \dots , 0)\). </p>
+</li>
+  <li><p><b class="bfseries">Плотное заполнение всех ячеек без пустот (откуда берутся \(2^d\) и \(1 + 2^d\)):</b> поскольку все элементарные ячейки пространства обязаны примыкать друг к другу вплотную без зазоров, вдоль каждой из \(d\) ортогональных осей существуют ровно два плотно сомкнутых противоположных направления \(\{ -1, +1\} \). Их прямое произведение по \(d\) осям образует ровно \(2^d\) сомкнутых знаковых октантов \((\pm 1, \dots , \pm 1)\) вокруг центральной ячейки. Вместе с неделимым состоянием собственной занятости центра \((0, \dots , 0)\) получаем ровно <b class="bfseries">\(|\mathcal{B}(d)| = 1 + 2^d\) неделимых состояний ветвления ячейки</b>. </p>
+</li>
+  <li><p><b class="bfseries">Матрица осевых переходов внутри ячейки (откуда берётся \(d \times d = d^2\)):</b> передача состояния от оси к оси внутри клетки без внешней памяти определяется множеством всех упорядоченных пар осей \((i, j) \in \{ 1, \dots , d\} ^2\), мощность которого равна <b class="bfseries">\(|\mathcal{A}(d)| = d \times d = d^2\)</b> (\(d\) продольных пар \(i = j\) сохранения оси плюс \(d(d-1)\) поворотных пар \(i \ne j\) смены оси). </p>
+</li>
+</ul>
+<p>Потребуем, чтобы между неделимыми состояниями ветвления плотно заполненной ячейки и парами её осевых переходов существовало взаимно-однозначное соответствие (биекция) — без информационного дефицита и без мусорной вырожденности: </p>
+<div class="equation" id="eq:course-catalan">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:course-catalan} |\mathcal{B}(d)| \; =\;  |\mathcal{A}(d)| \qquad \Longleftrightarrow \qquad 1 + 2^d \; =\;  d^2. \end{equation}
+  </div>
+  <span class="equation_label">1.1</span>
+</p>
+</div>
+<p> Проверим и докажем единственность решения этого уравнения руками: </p>
+<ul class="itemize">
+  <li><p>При \(d = 1\): \(1 + 2^1 = 3 \ne 1^2 = 1\) (регистра не хватает: на одномерной линии нет поперечных осей для поворота). </p>
+</li>
+  <li><p>При \(d = 2\): \(1 + 2^2 = 5 \ne 2^2 = 4\) (на плоскости снова не хватает одного состояния). </p>
+</li>
+  <li><p><b class="bfseries">При \(d = 3\): \(1 + 2^3 = 1 + 8 = 9 = 3^2\)</b> — <b class="bfseries">точное совпадение!</b> Ни одного лишнего бита, ни одного недостающего! </p>
+</li>
+  <li><p>При \(d = 4\): \(1 + 2^4 = 17 {\gt} 4^2 = 16\), а при переходе \(d \mapsto d + 1\) для всех \(d \ge 4\) левая часть прирастает на \(2^d\), тогда как правая часть прирастает лишь на \(2d + 1 {\lt} 2^d\). По индукции \(1 + 2^d {\gt} d^2\) строго для всех \(d \ge 4\). </p>
+</li>
+</ul>
+<blockquote class="quote"> <small class="small"><b class="bfseries">Историческая справка: Гипотеза Эжена Каталана (1844) и теорема Преды Михэйлеску (2002).</b> В 1844&#160;году бельгийский математик Эжен Шарль Каталан опубликовал в журнале Крелля короткую заметку, в которой высказал гипотезу: среди всех совершенных степеней натуральных чисел \(x^a\) и \(y^b\) (\(x,y,a,b {\gt} 1\)) существует <em>только одна-единственная пара последовательных чисел</em>, отличающихся на единицу: \(3^2 - 2^3 = 9 - 8 = 1\). Задача простояла нерешённой \(158\)&#160;лет, пока в апреле 2002&#160;года румынский математик Преда Михэйлеску не дал её полное доказательство методами круговых полей. Наше уравнение самозамкнутости ячейки \(1 + 2^d = d^2 \iff d^2 - 2^d = 1\) — это диагональное сечение уравнения Каталана (\(x = a = d\), \(y = 2\)), которое выделяет размерность нашего мира \(d = 3\) как единственный арифметический резонанс между показательным ветвлением \(2^d\) и квадратичной матрицей осей \(d^2\). </small></blockquote>
+<p>Посмотри, что мы только что получили из одной строчки&#160;<a href="sect0003.html#eq:course-catalan" class="eqref">1.1</a>: </p>
+<ol class="enumerate">
+  <li><p>Пространство обязано иметь размерность \(\mathbf{d = 3}\). </p>
+</li>
+  <li><p>Число октантов (и треугольных граней оболочки) равно \(\mathbf{|{\triangle }(3)| = 2^3 = 8}\), а число квадратных координатных направлений со знаком равно \(\mathbf{|\square (3)| = 2d = 6}\). </p>
+</li>
+  <li><p>Разрядность фазового регистра ячейки равна \(\mathbf{\mathrm{mod\_ bits}(3) = d^2 = 1 + 2^d = 9\text{ бит}}\), а полное число тактов фазового кольца равно: </p>
+<div class="displaymath" id="a0000000033">
+  \[  \mathbf{N_{\mathrm{ring}}(3) \; =\;  2^{\mathrm{mod\_ bits}(3)} \; =\;  2^9 \; =\;  512}.  \]
+</div>
+</li>
+  <li><p>И самое главное: перепишем \(1 + 2^d = d^2\) в виде разности: </p>
+<div class="equation" id="eq:course-unit-catalan">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:course-unit-catalan} \mathbf{1 \; =\;  d^2 - 2^d \; =\;  3^2 - 2^3 \; =\;  9 - 8 \; =\;  \mu _{\mathrm{vac}}(3)}. \end{equation}
+  </div>
+  <span class="equation_label">1.2</span>
+</p>
+</div>
+<p> Сама математическая единица&#160;\(\mathbf{1}\) (вакуумный пол амплитуды \(\mu _{\mathrm{vac}}=1\)) не постулируется извне — она есть <b class="bfseries">зазор Каталана \(d^2 - 2^d\)</b> между квадратом размерности и кубом! В нашем кремниевом чипе даже константа 1 нигде не забита числом, а вычисляется в каждом модуле формулой localparam integer MU_VAC = (D * D) - (1 &lt;&lt; D);. </p>
+</li>
+</ol>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="ch-course-stage1-carrier.html" title="Ступень I. Устройство носителя и рождение трёхмерного пространства (\(1 + 2^d = d^2\))"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-course-stage1-carrier.html" title="Ступень I. Устройство носителя и рождение трёхмерного пространства (\(1 + 2^d = d^2\))"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0004.html" title="Урок 2. Почему строительный блок Вселенной — это 12-лучевой кубооктаэдр \(O_2\)"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

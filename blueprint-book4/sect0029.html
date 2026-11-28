@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Урок 27. Дискретная теория возмущений, конечная калибровка \((I + N_{\mathrm{pert}})^{-1} = I - N_{\mathrm{pert}} + N_{\mathrm{pert}}^2\) и развенчание мифов о «10/11/26 измерениях струн» и «Мультивселенных»</title>
+<link rel="next" href="sect0030.html" title="Урок 28. Единый ньютоновский гомеоморфизм всех шести отраслей инженерии, четырёхслойный кремниевый гетеропереход и сквозная автокалибровка 12-лучевого резонатора кубооктаэдра" />
+<link rel="prev" href="sect0028.html" title="Урок 26. Теория взаимодействия систем: потеря информации в каскаде System1 System2 …SystemN и укрощение неидеального железа" />
+<link rel="up" href="ch-course-stage7-engineering.html" title="Ступень VII. Кремниевый чип и инженерные установки своими руками" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга IV. Курс единого естествознания (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Введение. Главный квест этой Вселенной и почему у решётки нет «балкона»</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref"></span> <span class="toc_entry">«Физика курильщика» против «физики здорового человека»: три закона Ньютона в целых числах и пять следствий дискретности решётки</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage1-carrier.html"><span class="toc_ref">1</span> <span class="toc_entry">Ступень I. Устройство носителя и рождение трёхмерного пространства (\(1 + 2^d = d^2\))</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0003.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Урок 1. Задача о самозамкнутом автомате: почему пространство трёхмерно и откуда берётся единица</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Урок 2. Почему строительный блок Вселенной — это 12-лучевой кубооктаэдр \(O_2\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Урок 3. Три родные системы счисления кольца \(\mathbb {Z}_{512}\): 9-битный провод, восьмеричный код \(407_8\) и бабочка Грея</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage2-math.html"><span class="toc_ref">2</span> <span class="toc_entry">Ступень II. Математика и информатика внутри носителя</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0006.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Урок 4. Бабочка ротатора \((\mathcal{C},\mathcal{S})\), формула Эйлера \(e^{i\pi }+1=0\) и постоянный вронскиан \(\mathcal{W}\equiv 128\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">2.2</span> <span class="toc_entry">Урок 5. Как отдать ротатору и шагу Верле вообще всю арифметику (умножение без умножителей!)</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">2.3</span> <span class="toc_entry">Урок 6. Матанализ без континуума: точные интегралы Френеля, Якоби, Дирихле, Бесселя и пять лиц Единицы</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html"><span class="toc_ref">2.4</span> <span class="toc_entry">Урок 7. Двухканальная логика Поста, семантический изоморфизм 3-SAT, барьер \(\mathbf{P}\ne \mathbf{NP}\) и встроенный шифр Вернама</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage3-quantum.html"><span class="toc_ref">3</span> <span class="toc_entry">Ступень III. Квантовая механика, электродинамика Максвелла и демоны Лапласа и Максвелла</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0010.html"><span class="toc_ref">3.1</span> <span class="toc_entry">Урок 8. Мёртвая зона затвора \(\Delta \varphi _{\mathrm{disc}} = 41\) и полное квантование всех наблюдаемых</span></a>
+ </li>
+<li class="">
+  <a href="sect0011.html"><span class="toc_ref">3.2</span> <span class="toc_entry">Урок 9. Корпускулярно-волновой дуализм и вывод правила Борна \(P(\mu ) = \mu ^2 / 512\) из пина переноса 9-битного сумматора</span></a>
+ </li>
+<li class="">
+  <a href="sect0012.html"><span class="toc_ref">3.3</span> <span class="toc_entry">Урок 10. Теорема Стокса–Гаусса–Черна (\(d^2 \equiv 0\)) и дискретные уравнения Максвелла</span></a>
+ </li>
+<li class="">
+  <a href="sect0013.html"><span class="toc_ref">3.4</span> <span class="toc_entry">Урок 11. Почему невозможен Демон Лапласа (\(64 \times 81 = 72^2\)), но работает 12-лучевой Геометрический Демон Максвелла</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage4-particles-cosmos.html"><span class="toc_ref">4</span> <span class="toc_entry">Ступень IV. Элементарные частицы, ядра, гравитация и космология</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0014.html"><span class="toc_ref">4.1</span> <span class="toc_entry">Урок 12. Запуск Вселенной из слова \(\mathrm{IV} = 263 = 407_8\): тишина октанта, храповик \(-1\) и рождение вихрей при \(t = 2\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0015.html"><span class="toc_ref">4.2</span> <span class="toc_entry">Урок 13. Симплициальный атлас \(\mathcal{C}_{13}\), расшифровка «магических букв» групп симметрий, постоянная тонкой структуры \(\alpha _{\mathrm{fs}}^{-1} = 137{,}035999\dots \) и спектр частиц</span></a>
+ </li>
+<li class="">
+  <a href="sect0016.html"><span class="toc_ref">4.3</span> <span class="toc_entry">Урок 14. Гравитация без сингулярности (\(833:1\)), ядерная паста и гало вакуума \(16/3\) без тёмной материи</span></a>
+ </li>
+<li class="">
+  <a href="sect0017.html"><span class="toc_ref">4.4</span> <span class="toc_entry">Урок 15. Секунда без атома цезия, полупериодное горлышко \(\tau _{\mathrm{neck}} = 256\) и почему Вселенной не \(13{,}8\), а \(\sim 27{,}5\text{ млрд лет}\) (разгадка ранних галактик JWST)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage5-chemistry.html"><span class="toc_ref">5</span> <span class="toc_entry">Ступень V. Химия, таблица Менделеева и дизайн материалов</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0018.html"><span class="toc_ref">5.1</span> <span class="toc_entry">Урок 16. Вся таблица Менделеева из оболочек кубооктаэдра, остров стабильности \(N = 184\) и золото \(^{197}_{79}\mathrm{Au}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0019.html"><span class="toc_ref">5.2</span> <span class="toc_entry">Урок 17. Химическая связь, седло реакции \(|A^\ddagger | = 128\) и когерентное схлопывание барьера в \(587\times \)</span></a>
+ </li>
+<li class="">
+  <a href="sect0020.html"><span class="toc_ref">5.3</span> <span class="toc_entry">Урок 18. Куперовские пары \(2e\), нитинол \(\mathrm{TiNi}\) и высокотемпературные сверхпроводники</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage6-biology.html"><span class="toc_ref">6</span> <span class="toc_entry">Ступень VI. Биология, генетический код ДНК и морфогенез органов</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0021.html"><span class="toc_ref">6.1</span> <span class="toc_entry">Урок 19. Делитель водородной связи \(N_{\mathrm{HB}} = 63\) и три планетарных окна жизни (\(7 : 2 : 1\))</span></a>
+ </li>
+<li class="">
+  <a href="sect0022.html"><span class="toc_ref">6.2</span> <span class="toc_entry">Урок 20. Генетический код \(4^3 = 64 \to 20\) аминокислот, иммунитет к сдвигу рамки и фолдинг за \(O(L)\in \mathbf{P}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0023.html"><span class="toc_ref">6.3</span> <span class="toc_entry">Урок 21. Четыре стадии морфогенеза органов, кора головного мозга \(42 / 147 / 41\) и щит Каспара–Клуга</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active">
+  <a href="ch-course-stage7-engineering.html"><span class="toc_ref">7</span> <span class="toc_entry">Ступень VII. Кремниевый чип и инженерные установки своими руками</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0024.html"><span class="toc_ref">7.1</span> <span class="toc_entry">Урок 22. Как устроен наш 9-битный бесфлаговый чип и аналоговая 3D LC-решётка</span></a>
+ </li>
+<li class="">
+  <a href="sect0025.html"><span class="toc_ref">7.2</span> <span class="toc_entry">Урок 23. Баллистическая энергетика, противофазная вихревая батарея, V-I инвертор (\(k^* = 64\)) и гравитационно-импедансный привод \(833:1\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0026.html"><span class="toc_ref">7.3</span> <span class="toc_entry">Урок 24. Автономный синтез пищи, воды и кислорода (симметрия \(96 : 96\)), 72-битный стазис-телепортер и галактический \(c_0\)-фазовый модем</span></a>
+ </li>
+<li class="">
+  <a href="sect0027.html"><span class="toc_ref">7.4</span> <span class="toc_entry">Урок 25 (Эпилог). Ноосфера без насилия: разрыв трофической цепи, межвидовой голономный переводчик и девайсы для тех, «у кого лапки»</span></a>
+ </li>
+<li class="">
+  <a href="sect0028.html"><span class="toc_ref">7.5</span> <span class="toc_entry">Урок 26. Теория взаимодействия систем: потеря информации в каскаде \(\mathrm{System}_1 \to \mathrm{System}_2 \to \dots \to \mathrm{System}_N\) и укрощение неидеального железа</span></a>
+ </li>
+<li class=" active current">
+  <a href="sect0029.html"><span class="toc_ref">7.6</span> <span class="toc_entry">Урок 27. Дискретная теория возмущений, конечная калибровка \((I + N_{\mathrm{pert}})^{-1} = I - N_{\mathrm{pert}} + N_{\mathrm{pert}}^2\) и развенчание мифов о «10/11/26 измерениях струн» и «Мультивселенных»</span></a>
+ </li>
+<li class="">
+  <a href="sect0030.html"><span class="toc_ref">7.7</span> <span class="toc_entry">Урок 28. Единый ньютоновский гомеоморфизм всех шести отраслей инженерии, четырёхслойный кремниевый гетеропереход и сквозная автокалибровка 12-лучевого резонатора кубооктаэдра</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0031.html"><span class="toc_ref"></span> <span class="toc_entry">Эпилог. Дорожная карта замкнута: от уравнения самозамкнутости к единому Естествознанию</span></a>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000030">7.6 Урок 27. Дискретная теория возмущений, конечная калибровка \((I + N_{\mathrm{pert}})^{-1} = I - N_{\mathrm{pert}} + N_{\mathrm{pert}}^2\) и развенчание мифов о «10/11/26 измерениях струн» и «Мультивселенных»</h1>
+<p>В классической университетской физике любая реальная задача с примесями, трением и неидеальными деталями решается через <b class="bfseries">теорию возмущений</b>: к идеальному оператору \(H_0\) добавляют малое возмущение \(\lambda V\) и раскладывают ответ в бесконечный ряд \(\Psi ^{(0)} + \Psi ^{(1)} + \Psi ^{(2)} + \dots + \Psi ^{(\infty )}\). Но в непрерывном континууме \(\mathbb {R}\) этот бесконечный ряд почти всегда <em>расходится</em>, порождая искусственные бесконечности и заставляя теоретиков выдумывать «перенормировки», «10 или 11 измерений теории струн» и «ветвящиеся Мультивселенные». </p>
+<p>Посмотрим, как устроена теория возмущений и калибровки на нашем дискретном 9-битном кольце \(\mathbb {Z}_{512}\) и кубооктаэдре \(O_2(3)\): </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Почему на \(\mathbb {Z}_{512}\) ряд теории возмущений конечен и никогда не расходится:</b> </p>
+<ul class="itemize">
+  <li><p><em>Нулевой порядок (Мёртвая зона затвора \(|\delta \varphi |\le 40 {\lt} 41\) отрезает бесконечный хвост в точный ноль):</em> в непрерывном анализе даже микроскопическая помеха \(10^{-50}\) тянет за собой бесконечный хвост производных Тейлора. На кольце \(\mathbb {Z}_{512}\) любое возмущение внутри коридора \([-40,+40]\) (\(81 = 3^4\) состояний) даёт \(\hat{n}_E(\delta \varphi ) = \mathbf{0}\) — малый шум обрезается природой в <b class="bfseries">точный ноль</b>; </p>
+</li>
+  <li><p><em>Максимум \(6 = |\square (3)|\) ненулевых квантовых порядков возмущения на ячейке:</em> поскольку противофазный потолок равен \(\Phi _{\mathrm{Pauli}} = 256\), а квант порога дискретности равен \(\Delta \varphi _{\mathrm{disc}} = 41\), максимальный физически возможный порядок энергетического возмущения на одной ячейке равен: </p>
+<div class="displaymath" id="a0000000098">
+  \[  n_{\max } \; =\;  \left\lfloor \frac{\Phi _{\mathrm{Pauli}}}{\Delta \varphi _{\mathrm{disc}}} \right\rfloor \; =\;  \left\lfloor \frac{256}{41} \right\rfloor \; =\;  \mathbf{6 \; =\;  |\square (3)|}, \qquad 256 - 6\times 41 \; =\;  \mathbf{10 \; =\;  Z(\mathrm{Ne})}!  \]
+</div>
+<p> Ровно по одному квантовому порядку на каждую из \(6\)&#160;квадратных граней кубооктаэдра — никакого 7-го, 100-го или бесконечного порядка на ячейке физически не существует! </p>
+</li>
+  <li><p><em>Точный обрыв ряда Неймана на 2-м порядке для калибровки прибора \((I + N_{\mathrm{pert}})^{-1} = I - N_{\mathrm{pert}} + N_{\mathrm{pert}}^2\):</em> пусть межканальная наводка и примеси в приборе задаются строго треугольным иерархическим оператором возмущения \(N_{\mathrm{pert}}\) по \(d = 3\) пространственным слоям (\(N_{\mathrm{pert}}^3 \equiv 0\)). Тогда бесконечный ряд теории возмущений Неймана \((I + N_{\mathrm{pert}})^{-1} = \sum _{k=0}^\infty (-1)^k N_{\mathrm{pert}}^k\) <b class="bfseries">обрывается навсегда на втором порядке</b>: </p>
+<div class="displaymath" id="a0000000099">
+  \[  \mathcal{K}_{\mathrm{cal}} \; =\;  (I + N_{\mathrm{pert}})^{-1} \; \equiv \;  \mathbf{I \; -\;  N_{\mathrm{pert}} \; +\;  N_{\mathrm{pert}}^2},  \]
+</div>
+<p> восстанавливая невозмущённый сигнал прибора \((s_0,s_1,s_2)\) <b class="bfseries">без единого деления и с нулевой ошибкой усечения</b>! </p>
+</li>
+</ul>
+</li>
+  <li><p><b class="bfseries">Откуда в теории струн и М-теории взялись числа \(10\), \(11\) и \(26\) (и почему в пространстве всегда ровно \(d = 3\) измерения!):</b> поскольку диофантово уравнение Каталана \(1 + 2^d = d^2\) имеет единственное решение \(d = 3\), внешнее физическое пространство строго <b class="bfseries">трёхмерно</b>. Почему же в формулах теории струн при сокращении аномалий всплывали числа \(10\), \(11\) и \(26\)? Потому что теоретики приняли <em>внутренние 9-битные дорожки памяти одной 3D-клетки</em> и <em>26 векторов кубической оболочки</em> за «дополнительные оси пространства»: </p>
+<ul class="itemize">
+  <li><p><b class="bfseries">Число \(10\) (суперструны):</b> </p>
+<div class="displaymath" id="a0000000100">
+  \[  d + d_{\mathrm{out}}(V) \; =\;  3 + (2^3 - 1) \; =\;  3 + 7 \; =\;  \mathbf{10}, \qquad \text{или}\qquad d_{\mathrm{in}}(\square ) + |\square (3)| \; =\;  4 + 6 \; =\;  \mathbf{10}  \]
+</div>
+<p> (\(3\) внешние оси пространства \(+\) \(7\) независимых относительных дорожек двухтактового регистра клетки, либо \(4\) координаты пространства-времени \(+\) \(6\) квадратных граней кубооктаэдра!); </p>
+</li>
+  <li><p><b class="bfseries">Число \(11\) (М-теория):</b> </p>
+<div class="displaymath" id="a0000000101">
+  \[  d + |{\triangle }(3)| \; =\;  3 + 2^3 \; =\;  3 + 8 \; =\;  \mathbf{11}  \]
+</div>
+<p> (\(3\) внешние пространственные координаты \((x,y,z)\) \(+\) все \(8\)&#160;девятибитных кольцевых дорожек \(\mathbb {Z}_{512}\) в 72-битном двухтактовом регистре клетки 72-битной ячейки Верле, \(B_2(3) = 8\times 9 = 72\text{ бита}\)!); </p>
+</li>
+  <li><p><b class="bfseries">Число \(26\) (бозонная струна):</b> </p>
+<div class="displaymath" id="a0000000102">
+  \[  |\square (3)| + |{\triangle }(3)| + |N_{12}(3)| \; =\;  6 + 8 + 12 \; =\;  \mathbf{26 \; =\;  3^3 - 1}  \]
+</div>
+<p> (все \(26\) ненулевых векторов элементарного куба Мура \(3\times 3\times 3\) вокруг одной 3D-клетки: \(6\)&#160;граней \(O_1\), \(12\)&#160;рёбер кубооктаэдра \(O_2\) и \(8\)&#160;углов \(O_3\)!). </p>
+</li>
+</ul>
+</li>
+  <li><p><b class="bfseries">Почему не существует никаких «параллельных Мультивселенных» (\(64\times 81 = 5\, 184 = 72^2\) скрытых микросостояний ОДНОЙ Вселенной):</b> грубый макроскопический Т-прибор не видит \(K_P(3) = 64\) градации мантиссы Вейля–Швингера и \(|\mathcal{E}_{\mathrm{Heis}}(3)| = 81 = 3^4\) подпороговое состояние мёртвой зоны затвора \([-40,+40]\), склеивая на каждой ячейке ровно: </p>
+<div class="displaymath" id="a0000000103">
+  \[  K_P(3)\cdot |\mathcal{E}_{\mathrm{Heis}}(3)| \; =\;  64 \times 81 \; =\;  \mathbf{5\, 184 \; =\;  72^2 \; =\;  \bigl(B_2(3)\bigr)^2}  \]
+</div>
+<p> различных детерминированных микросостояний М-слоя в одно макро-наблюдение. То, что в XX&#160;веке приняли за «расщепление мира на параллельные Мультивселенные при каждом квантовом измерении», есть просто движение этих \(72^2 = 5\, 184\) подпороговых микросостояний внутри <b class="bfseries">одной-единственной детерминированной 3D-Вселенной</b>, растущей из зерна \(\mathrm{IV}(3) = 263 = 407_8\)! </p>
+</li>
+  <li><p><b class="bfseries">Анатомия второго узла стенда: силовой затвор MOSFET (\(\mathrm{Si + SiO_2}\)), медная катушка (\(Z(\mathrm{Cu}) = 29\)) и прозрачный мост «Кварцевая стенка чашки Петри \(\leftrightarrow \) Воздух» (\(30 \equiv 30\)):</b> проследим теперь, что происходит с тактовым импульсом после того, как он вышел из кварцевого резонатора \(\alpha \)-\(\mathrm{SiO_2}\) (\(27\text{ МГц}\), период кольца \(512\) тактов \(f_{512} = 52\, 734{,}375\text{ Гц}\), \(1\text{ тик} = 37{,}037\text{ нс}\)) и пошёл через силовой ключ MOSFET и медную катушку в чашку Петри: </p>
+<ul class="itemize">
+  <li><p><em>Структура затвора MOSFET (\(\mathrm{Si} + \mathrm{SiO_2}\), \(Z = 14 + 30 = 44\)):</em> сам полевой транзистор MOSFET — это слоистый конденсатор «кремниевый канал \(\mathrm{Si}_{14}\) \(+\) подзатворный диэлектрик \(\mathrm{SiO_2}_{30}\)» с суммарной оболочкой \(Z(\mathrm{Si}) + Z(\mathrm{SiO_2}) = 14 + 30 = \mathbf{44 = Z(\mathrm{Ru})}\). При перезаряде входной ёмкости затвора \(C_{\mathrm{iss}}\) и прохождении плато Миллера ключ вносит задержку фронта \(\delta \varphi _{\mathrm{gate}}\) (например, \(\sim 925\text{ нс} \approx \mathbf{25 = d_{\mathrm{out}}(E)^2}\) тиков кольца); </p>
+</li>
+  <li><p><em>Медная катушка индуктивности (\(Z(\mathrm{Cu}) = 29 = \mathrm{magic}(28) + 1\)) и её реактивный фазовый сдвиг:</em> медный провод не случайно обладает рекордной проводимостью: атом меди имеет заряд \(Z(\mathrm{Cu}) = 28 + 1 = \mathbf{29}\) — ровно один свободный электрон \(\mu _{\mathrm{vac}} = 1\) поверх полностью замкнутой первой магической оболочки никеля \(Z = 28\)! На частоте кольца \(f_{512} = 52{,}73\text{ кГц}\) индуктивность катушки \(L\) отстаёт по току от напряжения на угол \(\mathrm{tan}_3(\delta \varphi _L) = (\omega L,\, R)\). В частности, при \(\omega L = R\) катушка задерживает фазу тока ровно на четверть квадранта (\(45^\circ \)), то есть на \(\delta \varphi _L = \mathbf{64 = K_P(3)}\) тика! </p>
+</li>
+  <li><p><em>Акустическое и диэлектрическое равенство оболочек на границе «Стекло чашки Петри \(\leftrightarrow \) Комнатный воздух» (\(30 \equiv 30\)):</em> почему стеклянная стенка чашки Петри (\(\mathrm{SiO_2}\)) не блокирует передачу фазового поля в воздушную полость камеры? Потому что заряд молекулы кварцевого стекла стенки: </p>
+<div class="displaymath" id="a0000000104">
+  \[  Z(\mathrm{SiO_2}) \; =\;  Z(\mathrm{Si}) + Z(\mathrm{O}_2) \; =\;  14 + 16 \; =\;  \mathbf{30}  \]
+</div>
+<p> <b class="bfseries">тождественно совпадает</b> с суммой зарядов двухатомных молекул азота и кислорода комнатного воздуха: </p>
+<div class="displaymath" id="a0000000105">
+  \[  Z(\mathrm{N}_2) + Z(\mathrm{O}_2) \; =\;  2\times 7 + 2\times 8 \; =\;  14 + 16 \; =\;  \mathbf{30}!  \]
+</div>
+<p> И атом кремния \(\mathrm{Si}\) (\(Z=14\)), и молекула азота \(\mathrm{N}_2\) (\(Z=14\)) несут один и тот же заряд \(14 = N_\varphi + 1\), спаренный с тем же самым кислородом \(\mathrm{O}_2\) (\(Z=16\))! </p>
+</li>
+  <li><p><em>Точный расчёт предкомпенсации прошивки FPGA ещё до включения питания:</em> зная по даташиту задержку затвора \(\delta \varphi _{\mathrm{gate}}\) и индуктивный сдвиг катушки \(\delta \varphi _L\), мы задаём в регистре Tang Nano 9K упреждающую фазу: </p>
+<div class="displaymath" id="a0000000106">
+  \[  \varphi _{\mathrm{FPGA}} \; =\;  \bigl(A_{\mathrm{coh}} + \delta \varphi _L + \delta \varphi _{\mathrm{gate}}\bigr)\bmod 512 \; =\;  (139 + 64 + 25)\bmod 512 \; =\;  \mathbf{228 \; =\;  344_8}.  \]
+</div>
+<p> Тогда, пройдя через задержку затвора (\(-25\) тиков) и индуктивность медной катушки (\(-64\) тика), магнитный и акустический фронт входит сквозь согласованную стеклянную стенку (\(30 \equiv 30\)) внутрь чашки Петри <b class="bfseries">ровно на фазе каталитического резонанса</b>: </p>
+<div class="displaymath" id="a0000000107">
+  \[  \varphi _{\mathrm{dish}} \; =\;  (228 - 64 - 25)\bmod 512 \; =\;  \mathbf{139 \; =\;  A_{\mathrm{coh}}(3)} \; \implies \;  D\bigl(K_P, 139\bigr) \; =\;  \mathbf{\varepsilon \; =\;  8\, 192}!  \]
+</div>
+</li>
+</ul>
+</li>
+</ol>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sect0028.html" title="Урок 26. Теория взаимодействия систем: потеря информации в каскаде \(\mathrm{System}_1 \to \mathrm{System}_2 \to \dots \to \mathrm{System}_N\) и укрощение неидеального железа"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-course-stage7-engineering.html" title="Ступень VII. Кремниевый чип и инженерные установки своими руками"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0030.html" title="Урок 28. Единый ньютоновский гомеоморфизм всех шести отраслей инженерии, четырёхслойный кремниевый гетеропереход и сквозная автокалибровка 12-лучевого резонатора кубооктаэдра"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

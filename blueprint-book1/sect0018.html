@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Порог дискретности \(\Delta \varphi _{\mathrm{disc}} = 41\), уравнения Максвелла и граница применимости континуальной теории</title>
+<link rel="next" href="sec-mono-mechanics-elasticity-fatigue.html" title="Нелинейная механика маятника на произвольных углах, четырёхрежимная теория упругости за пределами закона Гука и предел усталостной выносливости металла" />
+<link rel="prev" href="sect0017.html" title="Алгебраическое происхождение корпускулярно-волнового дуализма и правила Борна" />
+<link rel="up" href="ch-mono-qm-maxwell.html" title="Дискретная и непрерывная квантовая механика (ДКМ и НКМ), электродинамика Максвелла и граница применимости континуума" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга I. Формальные основания ДКМ (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Предисловие. Предмет монографии и дедуктивное строение теории снизу вверх</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref"></span> <span class="toc_entry">§ 0.1. Метод построения: восхождение снизу вверх без постулатов</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref"></span> <span class="toc_entry">§ 0.2. Четыре методологических опоры монографии</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref"></span> <span class="toc_entry">§ 0.3. Двусортное проективно-ретракционное соответствие оснований естественных наук: Трёхзаконная целочисленная механика Ньютона</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-axioms.html"><span class="toc_ref">1</span> <span class="toc_entry">Вывод дискретной квантовой механики (ДКМ) из неделимости элементарного объёма, отсутствия внешней памяти у природы и уравнения Каталана</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0005.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Доказательство отсутствия внешней памяти у физической природы и невозможности континуального регистра внутри неделимой ячейки</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Последовательный вывод размерности \(d=3\), кольца \(\mathbb {Z}_{512}\), кубооктаэдра \(O_2(3)\) и шага Верле</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Теоремы единственности: размерность \(d=3\), кубооктаэдр \(O_2(3)\) и шаг Верле</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">1.4</span> <span class="toc_entry">Переход к естественным полярным координатам \((\mu , \varphi _{\mathrm{disc}})\), затравочное состояние Каталана \(\mathrm{IV}(3) = 263\) и уравнения оператора эволюции \(\mathcal{G}_3\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html"><span class="toc_ref">1.5</span> <span class="toc_entry">Симплициальное разложение Пуанкаре–Хегора и структурные пороги носителя при \(d = 3\)</span></a>
+ </li>
+<li class="">
+  <a href="sec-mono-world-lagrangian-hamiltonian.html"><span class="toc_ref">1.6</span> <span class="toc_entry">Полевой Лагранжиан \(\mathcal{L}_{\mathrm{world}}\), Гамильтониан \(\mathcal{H}_{\mathrm{world}}\), 13-узловое разложение знаменателя \(\mathcal{C}_{13}\) и тетраэдральное действие Верле</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-rotator-calculus.html"><span class="toc_ref">2</span> <span class="toc_entry">Дискретная экспонента Эйлера на \(\mathbb {Z}_{512}\), однородная проективная арифметика над \(\mathbb {Q}(i,\sqrt{2})\) и выход в непрерывный анализ</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0010.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Дискретная экспонента Эйлера, код Грея, соотношения Коши–Римана и тождество постоянного вронскиана</span></a>
+ </li>
+<li class="">
+  <a href="sect0011.html"><span class="toc_ref">2.2</span> <span class="toc_entry">Вывод классического интеграла Римана и формулы Ньютона–Лейбница в макропределе \(N \to \infty \)</span></a>
+ </li>
+<li class="">
+  <a href="sect0012.html"><span class="toc_ref">2.3</span> <span class="toc_entry">Однородная проективная арифметика полей, башня производных отношения и многомерная кубатура Симпсона</span></a>
+ </li>
+<li class="">
+  <a href="sect0013.html"><span class="toc_ref">2.4</span> <span class="toc_entry">Теорема о сокращении масштаба \(A = K\cdot dh\), размерность Хаусдорфа–Морана и проективные операторы логарифма и рациональной степени на \(\mathbb {Z}_{4Q}\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-logic-cohomology-barriers.html"><span class="toc_ref">3</span> <span class="toc_entry">Булева полнота Поста, редукция 3-SAT, конструктивные когомологии де&#160;Рама и барьеры внутренних вычислителей</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0014.html"><span class="toc_ref">3.1</span> <span class="toc_entry">Функционально полный базис Поста на двух каналах \(\mathbb {Z}_{512}\) и полиномиальная редукция 3-SAT</span></a>
+ </li>
+<li class="">
+  <a href="sect0015.html"><span class="toc_ref">3.2</span> <span class="toc_entry">Четыре барьера внутреннего вычислителя и встроенный блокнот Вернама Шеннона на \(\mathbb {Z}_{512}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0016.html"><span class="toc_ref">3.3</span> <span class="toc_entry">Конструктивные когомологии де&#160;Рама–Стокса–Гаусса–Черна и мера без аксиомы выбора</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active">
+  <a href="ch-mono-qm-maxwell.html"><span class="toc_ref">4</span> <span class="toc_entry">Дискретная и непрерывная квантовая механика (ДКМ и НКМ), электродинамика Максвелла и граница применимости континуума</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0017.html"><span class="toc_ref">4.1</span> <span class="toc_entry">Алгебраическое происхождение корпускулярно-волнового дуализма и правила Борна</span></a>
+ </li>
+<li class=" active current">
+  <a href="sect0018.html"><span class="toc_ref">4.2</span> <span class="toc_entry">Порог дискретности \(\Delta \varphi _{\mathrm{disc}} = 41\), уравнения Максвелла и граница применимости континуальной теории</span></a>
+ </li>
+<li class="">
+  <a href="sec-mono-mechanics-elasticity-fatigue.html"><span class="toc_ref">4.3</span> <span class="toc_entry">Нелинейная механика маятника на произвольных углах, четырёхрежимная теория упругости за пределами закона Гука и предел усталостной выносливости металла</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-sm-gravity.html"><span class="toc_ref">5</span> <span class="toc_entry">Калибровочная группа Стандартной модели, гравитационное преломление и космология</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0019.html"><span class="toc_ref">5.1</span> <span class="toc_entry">Симплициальный комплекс \(\mathcal{C}_{13}\), матричные коммутаторы алгебры Ли \(\mathfrak {u}(1)\oplus \mathfrak {su}(2)\oplus \mathfrak {su}(3)\) и четырёхпетлевой вывод постоянной тонкой структуры</span></a>
+ </li>
+<li class="">
+  <a href="sect0020.html"><span class="toc_ref">5.2</span> <span class="toc_entry">Структура 13-узлового ротора электрона, полное квантование восьми наблюдаемых и единый вихревой атлас Стандартной модели на кликах \(\mathcal{C}_{13}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0021.html"><span class="toc_ref">5.3</span> <span class="toc_entry">Гравитация как преломление на импедансе ворот без сингулярности \(1/0\), ряд сжатия Гаусса–Грина, кавитированные гиперъядра и фазы нейтронной пасты</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-chemistry-nuclear.html"><span class="toc_ref">6</span> <span class="toc_entry">Атомные и ядерные оболочки кубооктаэдра, планетогенез по 6 зонам диска, тождества Безу на \(\mathbb {Z}_{512}\), сверхпроводимость и когерентный \(587\)-кратный коллапс барьера</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0022.html"><span class="toc_ref">6.1</span> <span class="toc_entry">Периодическая система до 8-го периода, четыре физических предела, двухсферный перенос урана на остров стабильности \(N=184\), планетогенез и четыре тождества Безу</span></a>
+ </li>
+<li class="">
+  <a href="sect0023.html"><span class="toc_ref">6.2</span> <span class="toc_entry">Седло химической связи, закон Гесса, правила симметрии, спаривание Купера и коллапс барьера</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-biology.html"><span class="toc_ref">7</span> <span class="toc_entry">Молекулярная биофизика, планетарные фотонные окна, генетический код ДНК, фолдинг белков и морфогенез</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0024.html"><span class="toc_ref">7.1</span> <span class="toc_entry">Делитель водородной связи \(N_{\mathrm{HB}} = 63\) и три планетарных фотонных окна (\(441 : 126 : 63 = 7 : 2 : 1\))</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sec-mono-epistemological-closure.html"><span class="toc_ref">8</span> <span class="toc_entry">Бесфононный кремниевый гетеропереход \(120 + 8 = 128\), общая конструкция предела по счётным моноидам стадий и гёделевская неизбежность лабораторного арбитража</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0025.html"><span class="toc_ref">8.1</span> <span class="toc_entry">Бесфононный кремниевый гетеропереход \(120 + 8 = 128\), барьер оболочечной пассивации \(45^2 {\lt} 2\, 048 {\lt} 46^2\) и вычисления без тепла Ландауэра</span></a>
+ </li>
+<li class="">
+  <a href="sect0026.html"><span class="toc_ref">8.2</span> <span class="toc_entry">Общий оператор предела по счётным моноидам стадий, проективные башни Мальцева и двусторонняя эквивалентность носителей \(\mathcal{M} \leftrightarrow \mathcal{T}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0027.html"><span class="toc_ref">8.3</span> <span class="toc_entry">Конструктивная непротиворечивость и теорема Ловера–Гёделя–Тарского</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000019">4.2 Порог дискретности \(\Delta \varphi _{\mathrm{disc}} = 41\), уравнения Максвелла и граница применимости континуальной теории</h1>
+<p>Совокупный фазовый бюджет 13-узлового причинного ядра \(B_1(3)\) равен сумме полного кольца \(N_{\mathrm{ring}}(3) = 512\) и числа рёберных связей одной грани кубооктаэдра \(\Delta \varphi _{\mathrm{seam}}(3) = \lfloor 256 / 12 \rfloor = 21\): </p>
+<div class="equation" id="eq:mono-heisenberg-lock">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-heisenberg-lock} N_{\mathrm{ring}}(3) + \Delta \varphi _{\mathrm{seam}}(3) \; =\;  512 + 21 \; =\;  533 \; =\;  13 \times 41 \; =\;  N_\varphi (3)\cdot \Delta \varphi _{\mathrm{disc}}(3). \end{equation}
+  </div>
+  <span class="equation_label">4.6</span>
+</p>
+</div>
+<p> Теорема доказывает, что точная делимость \(N_\varphi (d) \mid (N_{\mathrm{ring}}(d) + \Delta \varphi _{\mathrm{seam}}(d))\) выделяет \(d = 3\) и фиксирует фундаментальный порог квантования (мёртвую зону затвора): </p>
+<div class="displaymath" id="eq:mono-heisenberg-41">
+  \begin{align}  \Delta \varphi _{\mathrm{disc}}(3) & = \frac{533}{13} \; =\;  41, \label{eq:mono-heisenberg-41} \\ \hat{n}_E(\Phi ) & = \left\lfloor \frac{|\Phi |}{\Delta \varphi _{\mathrm{disc}}(3)} \right\rfloor \in \{ 0, 1, \dots , 6\} . \label{eq:mono-heisenberg-quanta} \end{align}
+</div>
+<p>Всякое подпороговое возмущение \(|\Phi | \le 40 {\lt} 41\) (образующее класс пороговой эквивалентности мощности \(|\mathcal{E}_{\mathrm{Heis}}(3)| = 2\cdot 41 - 1 = 81 = 3^4\)) проходит по М-слою носителя когерентно и обратимо с <b class="bfseries">нулевым излучением тепловых квантов</b> (\(\hat{n}_E(\Phi ) = 0\)). </p>
+<p>Именно формула&#160;<a href="sect0018.html#eq:mono-heisenberg-41" class="eqref">4.7</a> проводит строгую физическую границу применимости между непрерывной квантовой механикой (НКМ) на \(T\)-носителе и дискретным \(M\)-носителем: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Область согласия с НКМ (\(|\Phi | \gg \Delta \varphi _{\mathrm{disc}} = 41\), \(N \gg 1\)):</b> надпороговые пакеты подчиняются правилу Борна&#160;<a href="sect0017.html#eq:mono-born-exact" class="eqref">4.4</a>, а кограница главных остатков&#160;<a href="sect0017.html#eq:mono-quotient-remainder" class="eqref">4.1</a> на гранях и кубах решётки тождественно удовлетворяет дискретным уравнениям Максвелла–Фарадея и теореме Гаусса об отсутствии магнитных монополей. </p>
+</li>
+  <li><p><b class="bfseries">Область расхождения (высокочастотная и подпороговая граница применимости континуума):</b> </p>
+<ul class="itemize">
+  <li><p><em>Устранение ультрафиолетовой катастрофы:</em> так как \(|\Phi | \le \Phi _{\mathrm{Pauli}}(3) = 256\), число излучённых квантов энергии с одной ячейки за такт строго ограничено числом квадратных граней кубооктаэдра \(\hat{n}_E(\Phi ) \le \lfloor 256/41 \rfloor = 6 = |\square (3)|\). Интегралы по импульсам не расходятся на верхнем пределе. </p>
+</li>
+  <li><p><em>Преодоление теплового предела Ландауэра (\(k_{\mathrm{B}}T \ln 2\)):</em> теорема Ландауэра относится исключительно к необратимому стиранию битов в надпороговом диссипативном Т-канале (\(\hat{n}_E \ge 1\)). Поскольку микроскопический шаг Верле&#160;<a href="sect0007.html#eq:mono-verlet-law" class="eqref">1.17</a> биективен на \(B_2(3) = 72\text{ битах}\), любая логическая операция, выполняемая внутри подпорогового коридора \(|\Phi | \le 40\), выделяет ровно \(\hat{n}_E = 0\) тепловых квантов. </p>
+</li>
+  <li><p><em>Точный закон скрытых микросостояний (\(64 \times 81 = 72^2 = 5\, 184\)):</em> макроскопический Т-прибор не различает \(K_P(3) = 64\) подуровня мантиссы Вейля–Швингера и \(|\mathcal{E}_{\mathrm{Heis}}(3)| = 81\) состояние мёртвой зоны затвора, склеивая ровно \(64 \times 81 = 5\, 184 = 72^2 = (B_2(3))^2\) детерминированных микросостояний в одно макросостояние. Именно эта проекционная слепота внутреннего прибора порождает кажущуюся термодинамическую стрелу времени (разрешение парадокса Лошмидта) и невозможность демона Лапласа внутри решётки. </p>
+</li>
+  <li><p><em>Физическая природа электрического тока как эстафеты дискретного фазовращателя \(\mathcal{S}_3(\Delta \varphi )\) и полная система законов теоретической электротехники:</em> в гранецентрированной кубической (ГЦК) решётке металлических проводников (\(\mathrm{Cu},\  Z=29\); \(\mathrm{Ag},\  Z=47\); \(\mathrm{Au},\  Z=79\); \(\mathrm{Al},\  Z=13=N_\varphi (3)\)) первая координационная сфера из \(12\) ближайших соседей каждого узла совпадает с кубооктаэдром \(O_2(3)\). При разности фаз \(\Delta \varphi \in [0, 128]\) между соседними ячейками чётная квадратурная проекция фазовращателя \(V(\Delta \varphi ) = \mathcal{C}_3(\Delta \varphi ) = 128 - \Delta \varphi \) задаёт потенциальное напряжение звена, а нечётная проекция \(I(\Delta \varphi ) = \mathcal{S}_3(\Delta \varphi ) = \Delta \varphi \) — электрический ток как скорость передачи фазового кручения от ячейки к ячейке со скоростью света в линии (без механического перемещения частиц сквозь решётку, чем разрешается противоречие между скоростью сигнала \(\sim c\) и малой дрейфовой скоростью носителей Друде \(v_{\mathrm{drift}} \ll c\)). При этом баланс грани \(V(\Delta \varphi ) + I(\Delta \varphi ) \equiv 128 = Q_\square (3)\) определяет передаваемую мощность постоянного тока \(P(\Delta \varphi ) = V(\Delta \varphi )I(\Delta \varphi ) = (128 - \Delta \varphi )\Delta \varphi \le 64^2 = 4\, 096\) (максимум согласования импедансов при \(\Delta \varphi ^* = K_P(3) = 64\), thm5): в подпороговом коридоре \(|\Delta \varphi | \le 40 {\lt} 41\) фазовая эстафета протекает без рождения фононов (\(\hat{n}_E(\Delta \varphi ) = 0\), сверхпроводящий/баллистический режим), тогда как при надпороговых скачках \(|\Delta \varphi | \ge 41\) на дефектах или тепловых неоднородностях решётки излучается \(\hat{n}_E(\Delta \varphi ) \in \{ 1,\dots ,6\} \) фононных квантов (закон Джоуля–Ленца). В режиме переменного тока (\(\varphi (t)\in \mathbb {Z}_{512}\)) законы Кирхгофа для напряжений и токов следуют из \(d_1\circ d_0 \equiv 0\), \((d_1 r)_f = 512\, n_f\) и \(d_2\circ d_1 \equiv 0\); реактивная мощность конденсатора и индуктивности (сдвинутых на четверть кольца \(\pm Q_\square = \pm 128\) тиков) ортогональна активной (\(\sum _{\varphi =0}^{511}\mathcal{C}_3(\varphi )\mathcal{S}_3(\varphi ) \equiv 0\)), а в \(LC\)-резонансе противофазные реактивные напряжения взаимно аннигилируют в каждой точке кольца (\(\mathcal{C}_3(\varphi +128) + \mathcal{C}_3(\varphi +384) \equiv 0\)); однополупериодный выпрямитель \(\mathrm{rect}_{1/2}(x) = (|x|+x)/2\) даёт за период заряд \(\sum _{\varphi =0}^{511}\mathrm{rect}_{1/2}(\mathcal{S}_3(\varphi )) = 128^2 = 16\, 384\) (среднее \(32 = K_P/2\)), двухполупериодный мост Гретца — заряд \(\sum _{\varphi =0}^{511}|\mathcal{S}_3(\varphi )| = 2\times 128^2 = 32\, 768\) (средний ток \(64 = K_P = I_{\max }/2\)), а двухфазный квадратурный мостовой выпрямитель обеспечивает \(0\% \) пульсаций без конденсатора (\(|\mathcal{C}_3(\varphi )| + |\mathcal{S}_3(\varphi )| \equiv 128\)); наконец, в трансформаторе с обмотками \(N_1 : N_2\) на общем магнитопроводе (\(\Phi _{\mathrm{core}} = 512\, n_f\)) закон индукции Фарадея (\(V_1 = N_1\varepsilon _1,\  V_2 = N_2\varepsilon _1 \implies N_2 V_1 - N_1 V_2 \equiv 0\)) и баланс МДС (\(I_1 = N_2 i_0,\  I_2 = N_1 i_0 \implies N_1 I_1 - N_2 I_2 \equiv 0\)) дают точное сохранение мощности \(V_1 I_1 \equiv V_2 I_2\) и квадратичное трансформирование импеданса \(Z_{\mathrm{in}} = (N_1/N_2)^2 Z_{\mathrm{load}}\). </p>
+</li>
+</ul>
+</li>
+</ol>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:mono-heisenberg-maxwell-tsirelson-ee">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Теорема
+    </span>
+    <span class="theorem_thmlabel">4.2</span>
+    <span class="theorem_thmtitle">Порог дискретности \(\Delta \varphi _{\mathrm{disc}}(3) = 41\), дискретные уравнения Максвелла, скорость связи \(c_0 = \sqrt{2}\, c\), граница Цирельсона \(2\sqrt{2}\) и законы теоретической электротехники</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0018.html#thm:mono-heisenberg-maxwell-tsirelson-ee">#</a>
+    
+    <a class="icon proof" href="sect0018.html#a0000000061"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0017.html#thm:mono-born-rule">Теорема 4.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/Spec.lean#L330" class="lean_decl">heisenberg_divisibility_lock_unique_d3_up_to_8</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HolonomyMaxwell.lean#L83" class="lean_decl">d1_d0_zero</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HolonomyMaxwell.lean#L91" class="lean_decl">plaquette_flux_eq_512_mul_winding</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HolonomyMaxwell.lean#L140" class="lean_decl">discrete_gauss_cube_divergence_zero</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main" class="lean_decl">bell_chsh_tsirelson_bound_from_cuboctahedron_link_speed</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>    На \(13\)-узловом причинном ядре \(B_1(3) = \{ \mathbf{0}\} \cup O_2(3)\) и фазовом кольце \(\mathbb {Z}_{512}\) выполняются следующие соотношения: </p>
+<ol class="enumerate">
+  <li><p>Точная делимость \(N_{\mathrm{ring}}(d) + \Delta \varphi _{\mathrm{seam}}(d)\) на \(N_\varphi (d) = 1 + 2d(d-1)\) при \(2 \le d \le 8\) выполняется исключительно при \(d = 3\) (\(512 + 21 = 533 = 13\times 41\)), фиксируя \(\Delta \varphi _{\mathrm{disc}}(3) = 41\), подпороговый коридор нулевого тепловыделения \(|\Phi | \le 40\) (\(\hat{n}_E(\Phi ) = 0\)) и ультрафиолетовый потолок \(\hat{n}_E(\Phi ) \le \lfloor 256/41 \rfloor = 6 = |\square (3)|\). </p>
+</li>
+  <li><p>Поскольку каждое ребро кубооктаэдра \(\mathbf{e} \in O_2(3)\) соединяет две координатные оси одновременно (\(\| \mathbf{e}\| _2 = \sqrt{1^2 + 1^2 + 0^2}\, dh = \sqrt{2}\, dh\)), микроскопическая скорость связи вдоль ребра и граница Цирельсона коррелятора Белла–CHSH для синглетной пары на биссектрисе стационарной фазы Френеля \(\psi = K_P(3) = 64 \leftrightarrow \zeta _8 = (\sqrt{2}+i\sqrt{2})/2\) равны: </p>
+<div class="displaymath" id="eq:mono-link-speed-c0">
+  \begin{align}  c_0 & = \sqrt{2}\, c, \qquad c_0^2 \; =\;  2\, c^2, \label{eq:mono-link-speed-c0} \\ \mathcal{S}_{\mathrm{CHSH}} & = 2\, \frac{c_0}{c} \; =\;  2\sqrt{2} \; {\gt}\;  2. \label{eq:mono-tsirelson-bound} \end{align}
+</div>
+</li>
+  <li><p>В проводниках с ГЦК-координацией \(O_2(3)\) (\(\mathrm{Al},\  Z=13\); \(\mathrm{Cu},\  Z=29\); \(\mathrm{Ag},\  Z=47\); \(\mathrm{Au},\  Z=79\)) напряжение звена \(V(\Delta \varphi ) = \mathcal{C}_3(\Delta \varphi ) = 128 - \Delta \varphi \) и ток фазовой эстафеты \(I(\Delta \varphi ) = \mathcal{S}_3(\Delta \varphi ) = \Delta \varphi \) при \(\Delta \varphi \in [0, 128]\) удовлетворяют балансу грани, закону максимальной согласованной мощности при \(\Delta \varphi ^* = K_P(3) = 64\), ортогональности активной и реактивной мощностей и тождеству беспульсационного двухфазного квадратурного выпрямителя: </p>
+<div class="displaymath" id="eq:mono-ee-vi-balance">
+  \begin{align}  V(\Delta \varphi ) + I(\Delta \varphi ) & = \mathcal{C}_3(\Delta \varphi ) + \mathcal{S}_3(\Delta \varphi ) \; \equiv \;  128 \; =\;  Q_\square (3), \label{eq:mono-ee-vi-balance} \\ P(\Delta \varphi ) & = V(\Delta \varphi )\, I(\Delta \varphi ) \; =\;  (128 - \Delta \varphi )\, \Delta \varphi \; \le \;  64^2 \; =\;  4\, 096, \label{eq:mono-ee-max-power} \\ \sum _{\varphi =0}^{511} \mathcal{C}_3(\varphi )\, \mathcal{S}_3(\varphi ) & = 0, \qquad |\mathcal{C}_3(\varphi )| + |\mathcal{S}_3(\varphi )| \; \equiv \;  128. \label{eq:mono-ee-ortho-rectifier} \end{align}
+</div>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000061">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>В пункте&#160;(1) прямое вычисление для \(d \in \{ 2,\dots ,8\} \) показывает, что \(512 + 21 = 533 = 13\times 41\) делится на \(N_\varphi (3) = 13\), а деление с остатком \(256 = 6\times 41 + 10\) даёт \(\lfloor 256/41 \rfloor = 6\). В пункте&#160;(2) длина вектора \(\mathbf{e} \in O_2(3)\) с двумя ненулевыми координатами \(\pm 1\) равна \(\sqrt{2}\), а на биссектрисе \(\psi = 64\) проекции \((\mathcal{C}_3(64), \mathcal{S}_3(64)) = (64, 64)\) дают сумму четырёх корреляторов CHSH \(4\times (\sqrt{2}/2) = 2\sqrt{2}\). В пункте&#160;(3) тождество \((128 - \Delta \varphi )\Delta \varphi = 64^2 - (\Delta \varphi - 64)^2 \le 4\, 096\) и уравнение \(L^1\)-алмаза \(|\mathcal{C}_3(\varphi )| + |\mathcal{S}_3(\varphi )| = 128\) завершают доказательство. </p>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sect0017.html" title="Алгебраическое происхождение корпускулярно-волнового дуализма и правила Борна"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-mono-qm-maxwell.html" title="Дискретная и непрерывная квантовая механика (ДКМ и НКМ), электродинамика Максвелла и граница применимости континуума"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sec-mono-mechanics-elasticity-fatigue.html" title="Нелинейная механика маятника на произвольных углах, четырёхрежимная теория упругости за пределами закона Гука и предел усталостной выносливости металла"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

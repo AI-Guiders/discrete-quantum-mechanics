@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Теорема о сокращении масштаба \(A = K\cdot dh\), размерность Хаусдорфа–Морана и проективные операторы логарифма и рациональной степени на \(\mathbb {Z}_{4Q}\)</title>
+<link rel="next" href="ch-mono-logic-cohomology-barriers.html" title="Булева полнота Поста, редукция 3-SAT, конструктивные когомологии деРама и барьеры внутренних вычислителей" />
+<link rel="prev" href="sect0012.html" title="Однородная проективная арифметика полей, башня производных отношения и многомерная кубатура Симпсона" />
+<link rel="up" href="ch-mono-rotator-calculus.html" title="Дискретная экспонента Эйлера на Z512, однородная проективная арифметика над Q(i,2) и выход в непрерывный анализ" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга I. Формальные основания ДКМ (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Предисловие. Предмет монографии и дедуктивное строение теории снизу вверх</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref"></span> <span class="toc_entry">§ 0.1. Метод построения: восхождение снизу вверх без постулатов</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref"></span> <span class="toc_entry">§ 0.2. Четыре методологических опоры монографии</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref"></span> <span class="toc_entry">§ 0.3. Двусортное проективно-ретракционное соответствие оснований естественных наук: Трёхзаконная целочисленная механика Ньютона</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-axioms.html"><span class="toc_ref">1</span> <span class="toc_entry">Вывод дискретной квантовой механики (ДКМ) из неделимости элементарного объёма, отсутствия внешней памяти у природы и уравнения Каталана</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0005.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Доказательство отсутствия внешней памяти у физической природы и невозможности континуального регистра внутри неделимой ячейки</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Последовательный вывод размерности \(d=3\), кольца \(\mathbb {Z}_{512}\), кубооктаэдра \(O_2(3)\) и шага Верле</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Теоремы единственности: размерность \(d=3\), кубооктаэдр \(O_2(3)\) и шаг Верле</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">1.4</span> <span class="toc_entry">Переход к естественным полярным координатам \((\mu , \varphi _{\mathrm{disc}})\), затравочное состояние Каталана \(\mathrm{IV}(3) = 263\) и уравнения оператора эволюции \(\mathcal{G}_3\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html"><span class="toc_ref">1.5</span> <span class="toc_entry">Симплициальное разложение Пуанкаре–Хегора и структурные пороги носителя при \(d = 3\)</span></a>
+ </li>
+<li class="">
+  <a href="sec-mono-world-lagrangian-hamiltonian.html"><span class="toc_ref">1.6</span> <span class="toc_entry">Полевой Лагранжиан \(\mathcal{L}_{\mathrm{world}}\), Гамильтониан \(\mathcal{H}_{\mathrm{world}}\), 13-узловое разложение знаменателя \(\mathcal{C}_{13}\) и тетраэдральное действие Верле</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active">
+  <a href="ch-mono-rotator-calculus.html"><span class="toc_ref">2</span> <span class="toc_entry">Дискретная экспонента Эйлера на \(\mathbb {Z}_{512}\), однородная проективная арифметика над \(\mathbb {Q}(i,\sqrt{2})\) и выход в непрерывный анализ</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0010.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Дискретная экспонента Эйлера, код Грея, соотношения Коши–Римана и тождество постоянного вронскиана</span></a>
+ </li>
+<li class="">
+  <a href="sect0011.html"><span class="toc_ref">2.2</span> <span class="toc_entry">Вывод классического интеграла Римана и формулы Ньютона–Лейбница в макропределе \(N \to \infty \)</span></a>
+ </li>
+<li class="">
+  <a href="sect0012.html"><span class="toc_ref">2.3</span> <span class="toc_entry">Однородная проективная арифметика полей, башня производных отношения и многомерная кубатура Симпсона</span></a>
+ </li>
+<li class=" active current">
+  <a href="sect0013.html"><span class="toc_ref">2.4</span> <span class="toc_entry">Теорема о сокращении масштаба \(A = K\cdot dh\), размерность Хаусдорфа–Морана и проективные операторы логарифма и рациональной степени на \(\mathbb {Z}_{4Q}\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-logic-cohomology-barriers.html"><span class="toc_ref">3</span> <span class="toc_entry">Булева полнота Поста, редукция 3-SAT, конструктивные когомологии де&#160;Рама и барьеры внутренних вычислителей</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0014.html"><span class="toc_ref">3.1</span> <span class="toc_entry">Функционально полный базис Поста на двух каналах \(\mathbb {Z}_{512}\) и полиномиальная редукция 3-SAT</span></a>
+ </li>
+<li class="">
+  <a href="sect0015.html"><span class="toc_ref">3.2</span> <span class="toc_entry">Четыре барьера внутреннего вычислителя и встроенный блокнот Вернама Шеннона на \(\mathbb {Z}_{512}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0016.html"><span class="toc_ref">3.3</span> <span class="toc_entry">Конструктивные когомологии де&#160;Рама–Стокса–Гаусса–Черна и мера без аксиомы выбора</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-qm-maxwell.html"><span class="toc_ref">4</span> <span class="toc_entry">Дискретная и непрерывная квантовая механика (ДКМ и НКМ), электродинамика Максвелла и граница применимости континуума</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0017.html"><span class="toc_ref">4.1</span> <span class="toc_entry">Алгебраическое происхождение корпускулярно-волнового дуализма и правила Борна</span></a>
+ </li>
+<li class="">
+  <a href="sect0018.html"><span class="toc_ref">4.2</span> <span class="toc_entry">Порог дискретности \(\Delta \varphi _{\mathrm{disc}} = 41\), уравнения Максвелла и граница применимости континуальной теории</span></a>
+ </li>
+<li class="">
+  <a href="sec-mono-mechanics-elasticity-fatigue.html"><span class="toc_ref">4.3</span> <span class="toc_entry">Нелинейная механика маятника на произвольных углах, четырёхрежимная теория упругости за пределами закона Гука и предел усталостной выносливости металла</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-sm-gravity.html"><span class="toc_ref">5</span> <span class="toc_entry">Калибровочная группа Стандартной модели, гравитационное преломление и космология</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0019.html"><span class="toc_ref">5.1</span> <span class="toc_entry">Симплициальный комплекс \(\mathcal{C}_{13}\), матричные коммутаторы алгебры Ли \(\mathfrak {u}(1)\oplus \mathfrak {su}(2)\oplus \mathfrak {su}(3)\) и четырёхпетлевой вывод постоянной тонкой структуры</span></a>
+ </li>
+<li class="">
+  <a href="sect0020.html"><span class="toc_ref">5.2</span> <span class="toc_entry">Структура 13-узлового ротора электрона, полное квантование восьми наблюдаемых и единый вихревой атлас Стандартной модели на кликах \(\mathcal{C}_{13}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0021.html"><span class="toc_ref">5.3</span> <span class="toc_entry">Гравитация как преломление на импедансе ворот без сингулярности \(1/0\), ряд сжатия Гаусса–Грина, кавитированные гиперъядра и фазы нейтронной пасты</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-chemistry-nuclear.html"><span class="toc_ref">6</span> <span class="toc_entry">Атомные и ядерные оболочки кубооктаэдра, планетогенез по 6 зонам диска, тождества Безу на \(\mathbb {Z}_{512}\), сверхпроводимость и когерентный \(587\)-кратный коллапс барьера</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0022.html"><span class="toc_ref">6.1</span> <span class="toc_entry">Периодическая система до 8-го периода, четыре физических предела, двухсферный перенос урана на остров стабильности \(N=184\), планетогенез и четыре тождества Безу</span></a>
+ </li>
+<li class="">
+  <a href="sect0023.html"><span class="toc_ref">6.2</span> <span class="toc_entry">Седло химической связи, закон Гесса, правила симметрии, спаривание Купера и коллапс барьера</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-biology.html"><span class="toc_ref">7</span> <span class="toc_entry">Молекулярная биофизика, планетарные фотонные окна, генетический код ДНК, фолдинг белков и морфогенез</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0024.html"><span class="toc_ref">7.1</span> <span class="toc_entry">Делитель водородной связи \(N_{\mathrm{HB}} = 63\) и три планетарных фотонных окна (\(441 : 126 : 63 = 7 : 2 : 1\))</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sec-mono-epistemological-closure.html"><span class="toc_ref">8</span> <span class="toc_entry">Бесфононный кремниевый гетеропереход \(120 + 8 = 128\), общая конструкция предела по счётным моноидам стадий и гёделевская неизбежность лабораторного арбитража</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0025.html"><span class="toc_ref">8.1</span> <span class="toc_entry">Бесфононный кремниевый гетеропереход \(120 + 8 = 128\), барьер оболочечной пассивации \(45^2 {\lt} 2\, 048 {\lt} 46^2\) и вычисления без тепла Ландауэра</span></a>
+ </li>
+<li class="">
+  <a href="sect0026.html"><span class="toc_ref">8.2</span> <span class="toc_entry">Общий оператор предела по счётным моноидам стадий, проективные башни Мальцева и двусторонняя эквивалентность носителей \(\mathcal{M} \leftrightarrow \mathcal{T}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0027.html"><span class="toc_ref">8.3</span> <span class="toc_entry">Конструктивная непротиворечивость и теорема Ловера–Гёделя–Тарского</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000014">2.4 Теорема о сокращении масштаба \(A = K\cdot dh\), размерность Хаусдорфа–Морана и проективные операторы логарифма и рациональной степени на \(\mathbb {Z}_{4Q}\)</h1>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:mono-scale-hausdorff-log-pow">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Теорема
+    </span>
+    <span class="theorem_thmlabel">2.4</span>
+    <span class="theorem_thmtitle">Сокращение масштаба \(A = K\cdot dh\), размерность Хаусдорфа–Морана \(D_H = 3\) ячейки Вороного и проективные операторы логарифма \(\log _a(b)\) и рациональной степени \(a^{p/q}\) на \(\mathbb {Z}_{4Q}\)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0013.html#thm:mono-scale-hausdorff-log-pow">#</a>
+    
+    <a class="icon proof" href="sect0013.html#a0000000055"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0012.html#thm:mono-projective-fields-c-infinity-simpson">Теорема 2.3</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/NuclearShells.lean" class="lean_decl">NuclearShells.lean</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/MendeleevPeriodicTable.lean#L175" class="lean_decl">scale_invariance_of_holonomy_and_gate_operators</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/MendeleevPeriodicTable.lean#L353" class="lean_decl">scale_cancellation_voronoi_hausdorff_and_fractal_subcascades</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/MendeleevPeriodicTable.lean#L243" class="lean_decl">rotatorLog2HomogQOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/MendeleevPeriodicTable.lean#L295" class="lean_decl">rotatorLogBaseRatQOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/MendeleevPeriodicTable.lean#L317" class="lean_decl">rotatorPowRatQOp</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>    При переходе от элементарного шага решётки \(dh = 1\) к любому когерентному макроэтажу с целочисленным шагом ребра \(A = K\cdot dh\) (\(K \in \mathbb {N}\), \(K \ge 1\)) установлены следующие законы: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Тождественное сокращение множителя \(K^2\) в операторе ворот и инвариантность кванта действия:</b> при перемасштабировании \((\mu , \Sigma _\mu ) \mapsto (K\mu , K\Sigma _\mu )\) и \((\mathcal{Z}_{\mathrm{real}}, \mathcal{Z}_{\mathrm{imag}}) \mapsto (K^2\mathcal{Z}_{\mathrm{real}}, K^2\mathcal{Z}_{\mathrm{imag}})\) числитель момента и знаменатель инерции однородны степени&#160;\(2\) по&#160;\(K\), а сопряжённый шаг импульса \(\Delta p(K) = p_0 / K\) сохраняет квант действия этажа: </p>
+<div class="displaymath" id="eq:mono-scale-gate-cancel">
+  \begin{align}  z_{\mathrm{drive}}^{(K)}\, D^{(1)} & \equiv z_{\mathrm{drive}}^{(1)}\, D^{(K)}, \label{eq:mono-scale-gate-cancel} \\ s_{\mathrm{floor}}(K) & = \Delta p(K)\cdot (K\, dh) \; =\;  p_0\, dh \; =\;  s_0. \label{eq:mono-scale-action-inv} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Сплошное самоподобие ячеек Вороного вакуума (\(D_H = 3\)) и подкубические фрактальные каскады (\(D_H = \ln N_{\mathrm{sub}} / \ln K {\lt} 3\)):</b> макро-ячейка Вигнера–Зейтца (ромбический додекаэдр с ребром \(A = K\cdot dh\)) содержит \(N_{\mathrm{pack}}(d, K) = K^d\) элементарных ячеек, удовлетворяя закону мультипликативного самоподобия \(N_{\mathrm{pack}}(d, K_1 K_2) = N_{\mathrm{pack}}(d, K_1) N_{\mathrm{pack}}(d, K_2)\) с целой размерностью Хаусдорфа–Морана \(D_H^{(\mathrm{bulk})} = \ln (K^3)/\ln K = 3\). Если же правила отбора автомата оставляют на шаге масштаба&#160;\(K\) активное подмножество \(1 {\lt} N_{\mathrm{sub}} {\lt} K^3\), то \(m\)-кратная итерация порождает дискретный фрактал с размерностью Хаусдорфа–Морана \(D_H = \ln N_{\mathrm{sub}} / \ln K {\lt} 3\): октантную губку Канала&#160;2 (\(K=2, N_{\mathrm{sub}}=7, D_H = \ln 7/\ln 2 \approx 2{,}807\)), кубооктаэдрическую губку \(\mathcal{C}_{13}\) в кубе Мура (\(K=3, N_{\mathrm{sub}}=13, D_H = \ln 13/\ln 3 \approx 2{,}335\)) и сосудистые деревья с ветвлением по квадратной грани \(k = d_{\mathrm{in}}(\square ) = 4\) и показателем аллометрии Клейбера \((k-1)/k = 3/4\). </p>
+</li>
+  <li><p><b class="bfseries">Проективные операторы логарифма \(\log _a(b)\) и рациональной степени \(a^{p/q}\) на кольце \(\mathbb {Z}_{4Q}\):</b> для любого четверть-периода \(Q \ge 1\) разложение \(x = 2^k + m\) на характеристику \(k = \lfloor \log _2 x\rfloor \) и фазу мантиссы первого квадранта \(\mu = \lfloor m Q / 2^k\rfloor \in [0, Q]\) (\(\mathcal{C}_Q(\mu ) = Q - \mu ,\  \mathcal{S}_Q(\mu ) = \mu \)) определяет однородные кубические по&#160;\(Q\) операторы двоичного логарифма и мантиссы экспоненты: </p>
+<div class="displaymath" id="a0000000056">
+  \begin{align}  \operatorname {Log2}_{d,Q}(k,\mu ) & := d_{\mathrm{in}}(\square ) |{\triangle }(d)|\, Q^2\bigl(k Q + \mathcal{S}_Q(\mu )\bigr) \nonumber \\ & \quad + \mathcal{C}_Q(\mu )\mathcal{S}_Q(\mu )\Bigl(\bigl(|O_2(d)| - \mu _{\mathrm{vac}}(d)\bigr)Q + d\bigl(\mathcal{C}_Q(\mu ) - \mathcal{S}_Q(\mu )\bigr)\Bigr), \label{eq:mono-rotator-log2-homog} \\ \operatorname {Exp2Mant}_{d,Q}(r) & := d_{\mathrm{in}}(\square ) |{\triangle }(d)|\, Q^2\, \mathcal{S}_Q(r) \nonumber \\ & \quad - \mathcal{C}_Q(r)\mathcal{S}_Q(r)\Bigl(\bigl(|O_2(d)| - \mu _{\mathrm{vac}}(d)\bigr)Q - d\bigl(\mathcal{C}_Q(r) - \mathcal{S}_Q(r)\bigr)\Bigr). \label{eq:mono-rotator-exp2-homog} \end{align}
+</div>
+<p> Операторы&#160;<a href="sect0013.html#eq:mono-rotator-log2-homog" class="eqref">2.25</a>–<a href="sect0013.html#eq:mono-rotator-exp2-homog" class="eqref">2.26</a> удовлетворяют кубической однородности \(\operatorname {Log2}_{d,KQ}(k, K\mu ) \equiv K^3\operatorname {Log2}_{d,Q}(k,\mu )\), сокращающей \(Q^3\) в отношении \(\log _a(b) = \operatorname {Log2}_{d,Q}(b)/\operatorname {Log2}_{d,Q}(a)\), и при \(d = 3, Q = 128\) дают \(\log _2(3) = 203/128\), \(\log _2(7) = 359/128\), \(\log _3(13) = 474/203\), \(\sqrt{2} = 181/128\), \(\sqrt{3} = 111/64\), \(16^{3/4} = 8\) и точное обращение размерностей Хаусдорфа–Морана \(2^{203/128} = 3\), \(\operatorname {round}(2^{359/128}) = 7\), \(3^{474/203} = 13\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000055">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>В пункте&#160;(1) при замене \(\mu \mapsto K\mu \), \(\Sigma _\mu \mapsto K\Sigma _\mu \), \(\mathcal{Z}_{\mathrm{real}} \mapsto K^2\mathcal{Z}_{\mathrm{real}}\), \(\mathcal{Z}_{\mathrm{imag}} \mapsto K^2\mathcal{Z}_{\mathrm{imag}}\) и \(\varepsilon \mapsto K^2\varepsilon \) общий множитель \(K^2\) выносится из числителя \(z_{\mathrm{drive}}^{(K)} = K^2 z_{\mathrm{drive}}^{(1)}\) и знаменателя \(D^{(K)} = K^2 D^{(1)}\), доказывая&#160;<a href="sect0013.html#eq:mono-scale-gate-cancel" class="eqref">2.23</a>, а \((p_0/K)(K\, dh) = p_0\, dh = s_0\). В пункте&#160;(2) \((K_1 K_2)^d = K_1^d K_2^d\). В пункте&#160;(3) замена \(Q \mapsto K Q\), \(\mu \mapsto K\mu \) умножает \(\mathcal{C}_{KQ}(K\mu ) = K\mathcal{C}_Q(\mu )\) и \(\mathcal{S}_{KQ}(K\mu ) = K\mathcal{S}_Q(\mu )\) на \(K\), вынося \(K^3\) из каждого слагаемого в&#160;<a href="sect0013.html#eq:mono-rotator-log2-homog" class="eqref">2.25</a>–<a href="sect0013.html#eq:mono-rotator-exp2-homog" class="eqref">2.26</a>. </p>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sect0012.html" title="Однородная проективная арифметика полей, башня производных отношения и многомерная кубатура Симпсона"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-mono-rotator-calculus.html" title="Дискретная экспонента Эйлера на \(\mathbb {Z}_{512}\), однородная проективная арифметика над \(\mathbb {Q}(i,\sqrt{2})\) и выход в непрерывный анализ"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="ch-mono-logic-cohomology-barriers.html" title="Булева полнота Поста, редукция 3-SAT, конструктивные когомологии де Рама и барьеры внутренних вычислителей"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

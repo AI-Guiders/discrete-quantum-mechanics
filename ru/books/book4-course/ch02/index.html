@@ -1,0 +1,2530 @@
+
+<!doctype html>
+<html lang="ru" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Constructive 12-Ray Cuboctahedral Lattice Physics, Engineering CAD, and Lean 4 Verified Projective Manifold Mathematics">
+      
+      
+      
+        <link rel="canonical" href="https://ai-guiders.github.io/discrete-quantum-mechanics/ru/books/book4-course/ch02/">
+      
+      
+        <link rel="prev" href="../ch01/">
+      
+      
+        <link rel="next" href="../ch03/">
+      
+      
+        
+          <link rel="alternate" href="../../../../books/book4-course/ch02/" hreflang="en">
+        
+          <link rel="alternate" href="./" hreflang="ru">
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
+    
+    
+      
+        <title>2. Ступень I. Устройство носителя и рождение трёхмерного пространства ($1 + 2^d = d^2$) - Дискретная квантовая механика и проективная математика</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#2-i-1-2d-d2" class="md-skip">
+          Перейти к содержанию
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Верхний колонтитул">
+    <a href="../../../" title="Дискретная квантовая механика и проективная математика" class="md-header__button md-logo" aria-label="Дискретная квантовая механика и проективная математика" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Дискретная квантовая механика и проективная математика
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2. Ступень I. Устройство носителя и рождение трёхмерного пространства ($1 + 2^d = d^2$)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="cyan"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="cyan"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Выберите язык">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../../../books/book4-course/ch02/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="ru" class="md-select__link">
+              Русский
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Поиск" placeholder="Поиск" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Поиск">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Очистить" aria-label="Очистить" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Инициализация поиска
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/AI-Guiders/discrete-quantum-mechanics" title="Перейти к репозиторию" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AI-Guiders/discrete-quantum-mechanics
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Вкладки" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Обзор и 5 книг
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../engineering/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Инженерам, корабелам и САПР
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../mathematics/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Математикам и Lean 4
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../physics/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Физикам и естествоиспытателям
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../book1-monograph/ch01/" class="md-tabs__link">
+          
+  
+  
+  Книга I. Формальные основания (Монография)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../book2-laboratory/ch01/" class="md-tabs__link">
+          
+  
+  
+  Книга II. Лабораторный практикум
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../book3-engineering/ch01/" class="md-tabs__link">
+          
+  
+  
+  Книга III. Инженерный справочник
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../ch01/" class="md-tabs__link">
+          
+  
+  
+  Книга IV. Курс единого естествознания
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../book5-mathematics/ch01/" class="md-tabs__link">
+          
+  
+  
+  Книга V. Математика проективного многообразия
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Навигация" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../" title="Дискретная квантовая механика и проективная математика" class="md-nav__button md-logo" aria-label="Дискретная квантовая механика и проективная математика" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Дискретная квантовая механика и проективная математика
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/AI-Guiders/discrete-quantum-mechanics" title="Перейти к репозиторию" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AI-Guiders/discrete-quantum-mechanics
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Обзор и 5 книг
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../engineering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Инженерам, корабелам и САПР
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mathematics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Математикам и Lean 4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../physics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Физикам и естествоиспытателям
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Книга I. Формальные основания (Монография)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Книга I. Формальные основания (Монография)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book1-monograph/ch01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Предисловие. Предмет монографии и дедуктивное строение теории снизу вверх
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book1-monograph/ch02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Вывод дискретной квантовой механики (ДКМ) из неделимости элементарного объёма, отсутствия внешней памяти у природы и уравнения Каталана
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book1-monograph/ch03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Дискретная экспонента Эйлера на $\mathbb{Z}_{512}$, однородная проективная арифметика над $\mathbb{Q}(i,\sqrt{2})$ и выход в непрерывный анализ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book1-monograph/ch04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Булева полнота Поста, редукция 3-SAT, конструктивные когомологии де Рама и барьеры внутренних вычислителей
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book1-monograph/ch05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Дискретная и непрерывная квантовая механика (ДКМ и НКМ), электродинамика Максвелла и граница применимости континуума
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book1-monograph/ch06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Калибровочная группа Стандартной модели, гравитационное преломление и космология
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book1-monograph/ch07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Атомные и ядерные оболочки кубооктаэдра, планетогенез по 6 зонам диска, тождества Безу на $\mathbb{Z}_{512}$, сверхпроводимость и когерентный $587$-кратный коллапс барьера
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book1-monograph/ch08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Молекулярная биофизика, планетарные фотонные окна, генетический код ДНК, фолдинг белков и морфогенез
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book1-monograph/ch09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Бесфононный кремниевый гетеропереход $120 + 8 = 128$, общая конструкция предела по счётным моноидам стадий и гёделевская неизбежность лабораторного арбитража
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Книга II. Лабораторный практикум
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Книга II. Лабораторный практикум
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book2-laboratory/ch01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Введение. Лабораторный арбитраж в едином Естествознании и связь четырёх книг
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book2-laboratory/ch02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Бесфононная кремниевая фотовольтаика ($441\text{ нм} \to 2\times 882\text{ нм} < 1107\text{ нм}$): протокол чистой комнаты и матрица диагностики
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book2-laboratory/ch03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Сводный реестр критических экспериментов и лабораторно-вычислительных гейтов
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book2-laboratory/ch04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Обработка результатов измерений
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book2-laboratory/ch05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Вычислительная лаборатория серии
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Книга III. Инженерный справочник
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Книга III. Инженерный справочник
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Введение. Инженерная ветвь единого Естествознания: Трёхзаконная целочисленная механика Ньютона и пять порогов кольца $\mathbb{Z}_{512}$
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Теоретическая электротехника фазовой эстафеты на ГЦК-кубооктаэдрах ($V=\mathcal{C}_3,\ I=\mathcal{S}_3$)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Физическая реализация вычислений без тепла Ландауэра и кремниевая архитектура
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Масштабная инвариантность кубооктаэдра $O_2$: что физически разрешено и что запрещено законами сохранения
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Когерентное схлопывание импеданса барьера в 12-лучевом кубооктаэдре: решёточный синтез против теплового нагрева
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Квантовый фазовый храповик на доменной стенке и топологический аккумулятор $B_f = 512\,n_f$
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Четырёхканальная голономная томография сред и фазовое геодинамо ядер планет
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Аналитические операторы химических реакций, седловая точка переходного состояния $|A^\ddagger|=128$, селективность Вудворда–Хоффмана и гетерогенный катализ на кубооктаэдре $O_2$
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Практическое применение тактовой скорости звена $\caSignalSpeed = \caKappaGeom(d)^{-1}\speedC$, баллистическая передача энергии и информации без потерь и инкапсулированный автомат
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Генеративное материаловедение, куперовский возврат $2e$ на полупериоде противофазы и конструирование функциональных сплавов и сверхпроводников
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Прикладная биоинженерия (Bio-CAD), сквозной компилятор ДНК и терапевтическое управление клеточной средой
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Обратимая вычислительная техника без теплового предела Ландауэра ($A_{13}$) и разрешение фундаментальных парадоксов
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Вычислительная лаборатория серии
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Обработка результатов измерений
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch15/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15. Критические эксперименты и инженерные гейты верификации (серия CE-RD)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Книга IV. Курс единого естествознания
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Книга IV. Курс единого естествознания
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Введение. Главный квест этой Вселенной и почему у решётки нет «балкона»
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Ступень I. Устройство носителя и рождение трёхмерного пространства ($1 + 2^d = d^2$)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Ступень I. Устройство носителя и рождение трёхмерного пространства ($1 + 2^d = d^2$)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Урок 1. Задача о самозамкнутом автомате: почему пространство трёхмерно и откуда берётся единица
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-12-o_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Урок 2. Почему строительный блок Вселенной — это 12-лучевой кубооктаэдр \(O_2\)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-mathbbz_512-9-407_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Урок 3. Три родные системы счисления кольца \(\mathbb{Z}_{512}\): 9-битный провод, восьмеричный код \(407_8\) и бабочка Грея
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Ступень II. Математика и информатика внутри носителя
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Ступень III. Квантовая механика, электродинамика Максвелла и демоны Лапласа и Максвелла
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Ступень IV. Элементарные частицы, ядра, гравитация и космология
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Ступень V. Химия, таблица Менделеева и дизайн материалов
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Ступень VI. Биология, генетический код ДНК и морфогенез органов
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Ступень VII. Кремниевый чип и инженерные установки своими руками
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Эпилог. Дорожная карта замкнута: от уравнения самозамкнутости к единому Естествознанию
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Книга V. Математика проективного многообразия
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Книга V. Математика проективного многообразия
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book5-mathematics/ch01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Предисловие. Отделение чистой проективной математики от физики носителя
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book5-mathematics/ch02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Дискретный ротатор $\mathbb{Z}_{4Q}$, однородные проективные поля $\mathbb{Q}(i,\sqrt{d-1})$ и анализ без делений
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book5-mathematics/ch03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Изотропный дискриминантный конус в $\mathrm{SL}_2(\mathbb{Z})$, моноид башни аппроксимантов Паде и бескорневое кубическое сжатие
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book5-mathematics/ch04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Трёхшахтные планетарные дифференциалы $\mathcal{A} + \mathcal{B} = \mathcal{C}$, вронскиан Мейсона–Стотерса и проекторы Лагранжа–Вандермонда
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book5-mathematics/ch05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Алгебра многовинтовых планетарных каскадов и встречно-волновая суперпозиция на сфере Римана $\mathbb{P}^1$
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Урок 1. Задача о самозамкнутом автомате: почему пространство трёхмерно и откуда берётся единица
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-12-o_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Урок 2. Почему строительный блок Вселенной — это 12-лучевой кубооктаэдр \(O_2\)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-mathbbz_512-9-407_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Урок 3. Три родные системы счисления кольца \(\mathbb{Z}_{512}\): 9-битный провод, восьмеричный код \(407_8\) и бабочка Грея
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="2-i-1-2d-d2">2. Ступень I. Устройство носителя и рождение трёхмерного пространства (<span class="arithmatex">\(1 + 2^d = d^2\)</span>)<a class="headerlink" href="#2-i-1-2d-d2" title="Permanent link">&para;</a></h1>
+<p><strong>Режим чтения:</strong> Текущий (MkDocs) · <a href="https://ai-guiders.github.io/discrete-quantum-mechanics/blueprint-book4/">Интерактивный Lean 4 Blueprint (<code>L∃∀N</code>)</a> · <a href="https://ai-guiders.github.io/discrete-quantum-mechanics/blueprint-book4/dep_graph_document.html">Граф зависимостей теорем</a> · <a href="https://github.com/AI-Guiders/discrete-quantum-mechanics/raw/main/book/out/pdf/natural-sciences-course.pdf">Скачать PDF тома (<code>natural-sciences-course.pdf</code>)</a></p>
+<hr />
+<h2 id="1">Урок 1. Задача о самозамкнутом автомате: почему пространство трёхмерно и откуда берётся единица<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<p>Спросим себя: почему пространство вокруг нас имеет именно три измерения (<span class="arithmatex">\(d = 3\)</span>), а не два, не четыре и не одиннадцать?</p>
+<p>Представь себе элементарную ячейку решётки в <span class="arithmatex">\(d\)</span>-мерном пространстве <span class="arithmatex">\(\mathbb{Z}^d\)</span>. Чтобы эта ячейка не нуждалась ни в каком «внешнем жёстком диске» или стороннем наблюдателе, её собственный внутренний регистр переходов должен быть <strong>самозамкнутым</strong>. Откуда вообще берётся бит и что означает самозамкнутость при подсчёте состояний?</p>
+<ul>
+<li>
+<p><strong>Неделимость элементарного объёма (откуда берётся <span class="arithmatex">\(+1\)</span>):</strong> частица (возбуждение) занимает весь элементарный объём ячейки целиком и не может занимать его частично. Из невозможности частичного заполнения следует ровно одно неделимое состояние собственной занятости центра <span class="arithmatex">\(\mathbf{0} = (0, \dots, 0)\)</span>.</p>
+</li>
+<li>
+<p><strong>Плотное заполнение всех ячеек без пустот (откуда берутся <span class="arithmatex">\(2^d\)</span> и <span class="arithmatex">\(1 + 2^d\)</span>):</strong> поскольку все элементарные ячейки пространства обязаны примыкать друг к другу вплотную без зазоров, вдоль каждой из <span class="arithmatex">\(d\)</span> ортогональных осей существуют ровно два плотно сомкнутых противоположных направления <span class="arithmatex">\(\{-1, +1\}\)</span>. Их прямое произведение по <span class="arithmatex">\(d\)</span> осям образует ровно <span class="arithmatex">\(2^d\)</span> сомкнутых знаковых октантов <span class="arithmatex">\((\pm 1, \dots, \pm 1)\)</span> вокруг центральной ячейки. Вместе с неделимым состоянием собственной занятости центра <span class="arithmatex">\((0, \dots, 0)\)</span> получаем ровно <strong><span class="arithmatex">\(|\mathcal{B}(d)| = 1 + 2^d\)</span> неделимых состояний ветвления ячейки</strong>.</p>
+</li>
+<li>
+<p><strong>Матрица осевых переходов внутри ячейки (откуда берётся <span class="arithmatex">\(d \times d = d^2\)</span>):</strong> передача состояния от оси к оси внутри клетки без внешней памяти определяется множеством всех упорядоченных пар осей <span class="arithmatex">\((i, j) \in \{1, \dots, d\}^2\)</span>, мощность которого равна <strong><span class="arithmatex">\(|\mathcal{A}(d)| = d \times d = d^2\)</span></strong> (<span class="arithmatex">\(d\)</span> продольных пар <span class="arithmatex">\(i = j\)</span> сохранения оси плюс <span class="arithmatex">\(d(d-1)\)</span> поворотных пар <span class="arithmatex">\(i \ne j\)</span> смены оси).</p>
+</li>
+</ul>
+<p>Потребуем, чтобы между неделимыми состояниями ветвления плотно заполненной ячейки и парами её осевых переходов существовало взаимно-однозначное соответствие (биекция) — без информационного дефицита и без мусорной вырожденности:</p>
+<div class="arithmatex">\[
+|\mathcal{B}(d)| \;=\; |\mathcal{A}(d)|
+\qquad\Longleftrightarrow\qquad
+1 + 2^d \;=\; d^2. \tag{1}
+\]</div>
+<p>Проверим и докажем единственность решения этого уравнения руками:</p>
+<ul>
+<li>
+<p>При <span class="arithmatex">\(d = 1\)</span>: <span class="arithmatex">\(1 + 2^1 = 3 \ne 1^2 = 1\)</span> (регистра не хватает: на одномерной линии нет поперечных осей для поворота).</p>
+</li>
+<li>
+<p>При <span class="arithmatex">\(d = 2\)</span>: <span class="arithmatex">\(1 + 2^2 = 5 \ne 2^2 = 4\)</span> (на плоскости снова не хватает одного состояния).</p>
+</li>
+<li>
+<p><strong>При <span class="arithmatex">\(d = 3\)</span>: <span class="arithmatex">\(1 + 2^3 = 1 + 8 = 9 = 3^2\)</span></strong> — <strong>точное совпадение!</strong> Ни одного лишнего бита, ни одного недостающего!</p>
+</li>
+<li>
+<p>При <span class="arithmatex">\(d = 4\)</span>: <span class="arithmatex">\(1 + 2^4 = 17 &gt; 4^2 = 16\)</span>, а при переходе <span class="arithmatex">\(d \mapsto d + 1\)</span> для всех <span class="arithmatex">\(d \ge 4\)</span> левая часть прирастает на <span class="arithmatex">\(2^d\)</span>, тогда как правая часть прирастает лишь на <span class="arithmatex">\(2d + 1 &lt; 2^d\)</span>. По индукции <span class="arithmatex">\(1 + 2^d &gt; d^2\)</span> строго для всех <span class="arithmatex">\(d \ge 4\)</span>.</p>
+</li>
+</ul>
+<p><strong>Историческая справка: Гипотеза Эжена Каталана (1844) и теорема Преды Михэйлеску (2002).</strong>
+В 1844 году бельгийский математик Эжен Шарль Каталан опубликовал в журнале Крелля короткую заметку, в которой высказал гипотезу: среди всех совершенных степеней натуральных чисел <span class="arithmatex">\(x^a\)</span> и <span class="arithmatex">\(y^b\)</span> (<span class="arithmatex">\(x,y,a,b &gt; 1\)</span>) существует <em>только одна-единственная пара последовательных чисел</em>, отличающихся на единицу: <span class="arithmatex">\(3^2 - 2^3 = 9 - 8 = 1\)</span>. Задача простояла нерешённой <span class="arithmatex">\(158\)</span> лет, пока в апреле 2002 года румынский математик Преда Михэйлеску не дал её полное доказательство методами круговых полей. Наше уравнение самозамкнутости ячейки <span class="arithmatex">\(1 + 2^d = d^2 \iff d^2 - 2^d = 1\)</span> — это диагональное сечение уравнения Каталана (<span class="arithmatex">\(x = a = d\)</span>, <span class="arithmatex">\(y = 2\)</span>), которое выделяет размерность нашего мира <span class="arithmatex">\(d = 3\)</span> как единственный арифметический резонанс между показательным ветвлением <span class="arithmatex">\(2^d\)</span> и квадратичной матрицей осей <span class="arithmatex">\(d^2\)</span>.</p>
+<p>Посмотри, что мы только что получили из одной строчки (1):</p>
+<ol>
+<li>
+<p>Пространство обязано иметь размерность <span class="arithmatex">\(\mathbf{d = 3}\)</span>.</p>
+</li>
+<li>
+<p>Число октантов (и треугольных граней оболочки) равно <span class="arithmatex">\(\mathbf{|{\triangle}(3)| = 2^3 = 8}\)</span>, а число квадратных координатных направлений со знаком равно <span class="arithmatex">\(\mathbf{|\square(3)| = 2d = 6}\)</span>.</p>
+</li>
+<li>
+<p>Разрядность фазового регистра ячейки равна <span class="arithmatex">\(\mathbf{\mathrm{mod\_bits}(3) = d^2 = 1 + 2^d = 9\text{ бит}}\)</span>, а полное число тактов фазового кольца равно:</p>
+<div class="arithmatex">\[
+\mathbf{N_{\mathrm{ring}}(3) \;=\; 2^{\mathrm{mod\_bits}(3)} \;=\; 2^9 \;=\; 512}.
+\]</div>
+</li>
+<li>
+<p>И самое главное: перепишем <span class="arithmatex">\(1 + 2^d = d^2\)</span> в виде разности:</p>
+<div class="arithmatex">\[
+\mathbf{1 \;=\; d^2 - 2^d \;=\; 3^2 - 2^3 \;=\; 9 - 8 \;=\; \mu_{\mathrm{vac}}(3)}. \tag{2}
+\]</div>
+<p>Сама математическая единица <span class="arithmatex">\(\mathbf{1}\)</span> (вакуумный пол амплитуды <span class="arithmatex">\(\mu_{\mathrm{vac}}=1\)</span>) не постулируется извне — она есть <strong>зазор Каталана <span class="arithmatex">\(d^2 - 2^d\)</span></strong> между квадратом размерности и кубом! В нашем кремниевом чипе  даже константа 1 нигде не забита числом, а вычисляется в каждом модуле формулой localparam integer MU_VAC = (D * D) - (1 &lt;&lt; D);.</p>
+</li>
+</ol>
+<h2 id="2-12-o_2">Урок 2. Почему строительный блок Вселенной — это 12-лучевой кубооктаэдр <span class="arithmatex">\(O_2\)</span><a class="headerlink" href="#2-12-o_2" title="Permanent link">&para;</a></h2>
+<p>Теперь посмотрим на элементарный куб Мура <span class="arithmatex">\(3\times 3\times 3\)</span> (<span class="arithmatex">\(\{-1,0,+1\}^3\)</span>) вокруг узла <span class="arithmatex">\((0,0,0)\in\mathbb{Z}^3\)</span>. В нём <span class="arithmatex">\(3^3 - 1 = 26\)</span> соседей, которые под действием поворотов и отражений куба распадаются на три сферические оболочки по квадрату длины вектора <span class="arithmatex">\(\|e\|_2^2 = e_x^2 + e_y^2 + e_z^2\)</span>:</p>
+<ul>
+<li>
+<p><span class="arithmatex">\(6\)</span> осевых соседей <span class="arithmatex">\(O_1\)</span> на расстоянии <span class="arithmatex">\(\|e\|_2^2 = 1\)</span> (центры <span class="arithmatex">\(6\)</span> квадратных граней куба <span class="arithmatex">\(\square\)</span>);</p>
+</li>
+<li>
+<p><span class="arithmatex">\(12\)</span> рёберных диагональных соседей <span class="arithmatex">\(O_2\)</span> с одной нулевой и двумя единичными координатами <span class="arithmatex">\((\pm 1,\pm 1,0)\)</span>, <span class="arithmatex">\((\pm 1,0,\pm 1)\)</span>, <span class="arithmatex">\((0,\pm 1,\pm 1)\)</span> на квадрате расстояния:</p>
+<div class="arithmatex">\[
+\|e\|_2^2 \;=\; 1^2 + 1^2 + 0^2 \;=\; \mathbf{2 \;=\; d - 1 \;=\; \Bigl(\frac{c_0}{c}\Bigr)^2};
+\]</div>
+</li>
+<li>
+<p><span class="arithmatex">\(8\)</span> угловых соседей <span class="arithmatex">\(O_3\)</span> на расстоянии <span class="arithmatex">\(\|e\|_2^2 = 3\)</span> (<span class="arithmatex">\(8\)</span> вершин куба <span class="arithmatex">\(\triangle\)</span>).</p>
+</li>
+</ul>
+<p><strong>Историческая справка: Архимед, Иоганн Кеплер (1611), Леонард Эйлер (1776) и кубооктаэдр.</strong>
+Многогранник с <span class="arithmatex">\(12\)</span> вершинами, <span class="arithmatex">\(6\)</span> квадратными и <span class="arithmatex">\(8\)</span> треугольными гранями был описан ещё Архимедом. Своё имя <strong>кубооктаэдр</strong> он получил потому, что получается пересечением куба (<span class="arithmatex">\(6\)</span> квадратных граней) и октаэдра (<span class="arithmatex">\(8\)</span> треугольных граней), если срезать углы куба ровно до середин его <span class="arithmatex">\(12\)</span> рёбер. В 1611 году Иоганн Кеплер в новогоднем трактате <em>«О шестиугольных снежинках»</em> поставил задачу о самой плотной упаковке одинаковых шаров в трёхмерном пространстве и открыл, что вокруг центрального шара вплотную помещаются ровно <span class="arithmatex">\(12\)</span> таких же шаров, центры которых лежат в вершинах кубооктаэдра (в кристаллографии эта решётка называется <strong>гранецентрированной кубической, ГЦК / FCC</strong>, а ячейка Вороного–Вигнера–Зейтца вокруг каждого узла — ромбическим додекаэдром). А в 1776 году Леонард Эйлер доказал, что любой трёхмерный поворот твёрдого тела задаётся <strong>тремя углами Эйлера</strong> в трёх взаимно перпендикулярных плоскостях <span class="arithmatex">\((xy, xz, yz)\)</span>. Заметь: число плоскостей вращения <span class="arithmatex">\(\frac{d(d-1)}{2}\)</span> совпадает с числом пространственных осей <span class="arithmatex">\(d\)</span> <em>только при <span class="arithmatex">\(d = 3\)</span></em> (<span class="arithmatex">\(\frac{3\cdot 2}{2} = 3\)</span>), и в каждой из этих трёх плоскостей Эйлера лежат ровно <span class="arithmatex">\(4\)</span> вершины экваториального квадрата кубооктаэдра (<span class="arithmatex">\(3 \times 4 = 12\)</span> вершин <span class="arithmatex">\(O_2(3)\)</span>)!</p>
+<p>Докажем, почему именно 12-вершинный <strong>кубооктаэдр <span class="arithmatex">\(\mathbf{O_2}\)</span></strong> является единственной рабочей координационной оболочкой нашего носителя:</p>
+<ol>
+<li>
+<p><strong>Единение квадратов и треугольников:</strong> на поверхности кубооктаэдра <span class="arithmatex">\(O_2\)</span> сходятся ровно <span class="arithmatex">\(|\square(3)| = 6\)</span> квадратных граней и <span class="arithmatex">\(|{\triangle}(3)| = 8\)</span> правильных треугольных граней, <span class="arithmatex">\(12\)</span> вершин (<span class="arithmatex">\(N_{12}(3) = 2d(d-1) = 12\)</span>) и <span class="arithmatex">\(24\)</span> поверхностных ребра, разбитых на <span class="arithmatex">\(4\)</span> экваториальных шестиугольника в плоскостях <span class="arithmatex">\(\{111\}\)</span> решётки ГЦК.</p>
+</li>
+<li>
+<p><strong>Изотропия второго и четвёртого моментов:</strong> для любого волнового вектора <span class="arithmatex">\(\mathbf{k}=(k_x,k_y,k_z)\)</span> сумма квадратов проекций по 12 вершинам кубооктаэдра абсолютно сферически симметрична (в каждую координатную плоскость <span class="arithmatex">\(xy, xz, yz\)</span> входят по 8 ненулевых компонент <span class="arithmatex">\(\pm 1\)</span>):</p>
+<div class="arithmatex">\[
+\sum_{j=1}^{12} (\mathbf{k}\cdot e_j)^2 \;=\; 8\,(k_x^2 + k_y^2 + k_z^2) \;=\; |{\triangle}(3)|\,|\mathbf{k}|^2,
+\]</div>
+<p>а изотропная комбинация четвёртых моментов по оболочкам куба Мура однозначно фиксирует веса <span class="arithmatex">\(O_2\)</span> относительно <span class="arithmatex">\(O_1\)</span> и <span class="arithmatex">\(O_3\)</span>.</p>
+</li>
+<li>
+<p><strong>Одетое 13-узловое ядро <span class="arithmatex">\(\mathcal{C}_{13}\)</span> и координационные сферы <span class="arithmatex">\(S_k = 10k^2 + 2\)</span>:</strong>
+    вместе с центральным узлом <span class="arithmatex">\((0,0,0)\)</span> оболочка <span class="arithmatex">\(O_2\)</span> образует 13-узловой кластер (<span class="arithmatex">\(\mathbf{N_\varphi(3) = 1 + 12 = 13}\)</span>), а на радиусе <span class="arithmatex">\(k \ge 1\)</span> шагов по кубооктаэдру число узлов <span class="arithmatex">\(k\)</span>-й координационной сферы выводится по формуле Эйлера <span class="arithmatex">\(V - E + F = 2\)</span> из роста <span class="arithmatex">\(6\)</span> квадратных и <span class="arithmatex">\(8\)</span> треугольных граней:</p>
+<div class="arithmatex">\[
+S_k(3) \;=\; 10\,k^2 + 2 \;\;=\;\; \bigl(N_{12}(3) - 2\bigr)k^2 + 2
+\qquad\Longrightarrow\qquad
+S_1 = \mathbf{12},\quad S_2 = \mathbf{42},\quad S_3 = \mathbf{92},\quad S_4 = \mathbf{162}, \tag{3}
+\]</div>
+<p>а полный трёхсферный шар кубооктаэдра содержит ровно:</p>
+<div class="arithmatex">\[
+B_3(3) \;=\; 1 + S_1 + S_2 + S_3 \;=\; 1 + 12 + 42 + 92 \;=\; \mathbf{147\text{ узлов}}. \tag{4}
+\]</div>
+<p>Запомни эти четыре числа — <span class="arithmatex">\(\mathbf{12, 42, 92, 147}\)</span>: мы встретим их и в таблице Менделеева (<span class="arithmatex">\(Z(\mathrm{Mo})=42\)</span>, <span class="arithmatex">\(Z(\mathrm{U})=92\)</span>), и в биологии (147 пар оснований ДНК в нуклеосоме хроматина человека и 42 узла / 147 связей в кортикальной колонке коры мозга!), и в обратном причинном конусе волны!</p>
+</li>
+<li>
+<p><strong>Теорема о сокращении масштаба <span class="arithmatex">\(A = K\cdot dh\)</span>, размерность Хаусдорфа <span class="arithmatex">\(D_H = 3\)</span> вакуумного океана и почему природа полна фракталов (<span class="arithmatex">\(D_H = \ln N_{\mathrm{sub}}/\ln K &lt; 3\)</span>):</strong>
+    почему одни и те же числа оболочек кубооктаэдра (<span class="arithmatex">\(12, 42, 92, 147\)</span>) работают и внутри ядра атома, и в молекуле бензола, и в ядре планеты <span class="arithmatex">\(\mathrm{FeS}\)</span>, и в коре головного мозга человека? Потому что при переходе от элементарного шага решётки <span class="arithmatex">\(dh = 1\)</span> на любой макроэтаж с целочисленным шагом ребра <span class="arithmatex">\(A = K\cdot dh\)</span> (<span class="arithmatex">\(K\in\mathbb{N}\)</span>) амплитуда масштабируется как <span class="arithmatex">\(\mu \mapsto K\mu\)</span>, билинейные компоненты голономии и знаменателя инерции умножаются на <span class="arithmatex">\(K^2\)</span>, и в законе движения Ньютона–Верле <span class="arithmatex">\(\Delta^2\varphi = \lfloor N_{\mathrm{torque}}/D(\mathbf{x})\rfloor\)</span> квадрат масштаба <span class="arithmatex">\(K^2\)</span> <strong>тождественно сокращается в числителе и знаменателе</strong> (<span class="arithmatex">\(N_{\mathrm{torque}}^{(K)}\cdot D^{(1)} \equiv N_{\mathrm{torque}}^{(1)}\cdot D^{(K)}\)</span>), а квант действия шага <span class="arithmatex">\(s_{\mathrm{floor}}(K) = (p_0/K)\cdot(K\,dh) = s_0 = 1/2\)</span> и 9-битное кольцо <span class="arithmatex">\(\mathbb{Z}_{512}\)</span> остаются неизменными!
+    При этом формула размерности самоподобия Морана–Хаусдорфа <span class="arithmatex">\(D_H = \ln N(K)/\ln K\)</span> объясняет сразу два фундаментальных факта о нашем мире (Таблица ):</p>
+<ul>
+<li>
+<p><em>Почему само пустое пространство (вакуумный океан ГЦК) трёхмерно и подчиняется закону <span class="arithmatex">\(1/R^2\)</span> (<span class="arithmatex">\(D_H = 3\)</span>):</em>
+    макро-ячейка Вигнера–Зейтца (ромбический додекаэдр со стороной <span class="arithmatex">\(A = K\cdot dh\)</span>) без единой дыры делится ровно на <span class="arithmatex">\(N_{\mathrm{pack}}(K) = K^3\)</span> элементарных ячеек (<span class="arithmatex">\(N_{\mathrm{pack}}(K_1 K_2) = N_{\mathrm{pack}}(K_1)N_{\mathrm{pack}}(K_2)\)</span>), поэтому размерность Хаусдорфа самого вакуумного носителя строго целая: <span class="arithmatex">\(D_H^{(\mathrm{bulk})} = \ln(K^3)/\ln K = \mathbf{3 = d}\)</span>;</p>
+</li>
+<li>
+<p><em>Откуда в природе берутся фракталы с дробной размерностью Хаусдорфа (<span class="arithmatex">\(D_H &lt; 3\)</span>):</em>
+    как только включаются правила отбора нашего автомата (световой конус одного такта, порог дискретности <span class="arithmatex">\(41\)</span>, запрет Паули <span class="arithmatex">\(256\)</span> и ветвление Канала 2), на каждом шаге масштаба <span class="arithmatex">\(K\)</span> выживает лишь собственное подмножество <span class="arithmatex">\(N_{\mathrm{sub}} &lt; K^3\)</span> активных узлов (а <span class="arithmatex">\(K^3 - N_{\mathrm{sub}} &gt; 0\)</span> узлов вырезаются в фон), порождая на <span class="arithmatex">\(m\)</span> вложенных этажах настоящие дискретные фракталы с <span class="arithmatex">\(N_{\mathrm{sub}}^m &lt; K^{3m}\)</span> узлами и дробной размерностью Хаусдорфа <span class="arithmatex">\(D_H = \ln N_{\mathrm{sub}}/\ln K &lt; 3\)</span>!</p>
+</li>
+</ul>
+</li>
+</ol>
+<p><em>Размерность Хаусдорфа–Морана <span class="arithmatex">\(D_H = \ln N(K)/\ln K\)</span> сплошного вакуумного носителя ГЦК и четырёх канонических фрактальных каскадов природы.</em></p>
+<table>
+<thead>
+<tr>
+<th><strong>Иерархическая структура</strong></th>
+<th><strong>Масштаб <span class="arithmatex">\(K\)</span> и отбор <span class="arithmatex">\(N(K)\)</span></strong></th>
+<th><strong>Размерность Хаусдорфа <span class="arithmatex">\(D_H\)</span></strong></th>
+<th><strong>Физическое проявление в природе</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1. Вакуумный океан Вороного ГЦК</strong></td>
+<td>Любое <span class="arithmatex">\(K\in\mathbb{N}\)</span>:\newline <span class="arithmatex">\(N_{\mathrm{pack}}(K) = K^3\)</span></td>
+<td><span class="arithmatex">\(\dfrac{\ln(K^3)}{\ln K} = \mathbf{3}\)</span></td>
+<td>Сплошное самоподобное замощение 3D-пространства без дыр; точный закон Гаусса и силы <span class="arithmatex">\(1/R^2\)</span>.</td>
+</tr>
+<tr>
+<td><strong>2. Губка Серпинского–Поста (Канал 2 / 3-SAT)</strong></td>
+<td><span class="arithmatex">\(K = 2\)</span> (<span class="arithmatex">\(2^3=8\)</span>):\newline <span class="arithmatex">\(N_{\mathrm{sub}} = 7\)</span> (<span class="arithmatex">\(1\)</span> вырезан)</td>
+<td><span class="arithmatex">\(\dfrac{\ln 7}{\ln 2} \approx \mathbf{2{,}8074}\)</span></td>
+<td>Ветвление обратных конусов прообразов <span class="arithmatex">\(7^T\)</span> при сбросе вихревого октанта в Канале 2.</td>
+</tr>
+<tr>
+<td><strong>3. Кубооктаэдрическая губка Менгера <span class="arithmatex">\(\mathcal{C}_{13}\)</span></strong></td>
+<td><span class="arithmatex">\(K = 3\)</span> (<span class="arithmatex">\(3^3=27\)</span>):\newline <span class="arithmatex">\(N_{\mathrm{sub}} = 13\)</span> (<span class="arithmatex">\(14\)</span> вырезано)</td>
+<td><span class="arithmatex">\(\dfrac{\ln 13}{\ln 3} \approx \mathbf{2{,}3347}\)</span>\newline (<span class="arithmatex">\(O_2\)</span>: <span class="arithmatex">\(\frac{\ln 12}{\ln 3}\approx \mathbf{2{,}2619}\)</span>)</td>
+<td>Вложенный светоподобный каркас кубооктаэдра в кубе Мура <span class="arithmatex">\(3\times 3\times 3\)</span> (вырезанное дополнение <span class="arithmatex">\(27-13=14=Z(\mathrm{Si})\)</span>).</td>
+</tr>
+<tr>
+<td><strong>4. Кластеризация материи на лестнице <span class="arithmatex">\(\alpha_{\mathrm{fs}}^{-1}\)</span></strong></td>
+<td><span class="arithmatex">\(K = 137\)</span> (<span class="arithmatex">\(137^3\)</span>):\newline <span class="arithmatex">\(N_{\mathrm{sub}}\in\{13,42,147\}\)</span></td>
+<td><span class="arithmatex">\(\dfrac{\ln N_{\mathrm{sub}}}{\ln 137} \in \mathbf{[0{,}522;\,0{,}999]}\)</span></td>
+<td>Разреженная иерархия ядер, атомов, кристаллов и галактик в макрообъёме (<span class="arithmatex">\(f_{\mathrm{occ}}\ll 1\)</span>).</td>
+</tr>
+<tr>
+<td><strong>5. Сосудистые и бронхиальные сети жизни</strong></td>
+<td><span class="arithmatex">\(k = d_{\mathrm{in}}(\square) = 4\)</span>:\newline <span class="arithmatex">\(k - \mu_{\mathrm{vac}} = 3\)</span></td>
+<td>Аллометрия Клейбера:\newline <span class="arithmatex">\(\alpha = \dfrac{d}{d_{\mathrm{in}}(\square)} = \mathbf{\dfrac{3}{4}}\)</span></td>
+<td>Самоподобное <span class="arithmatex">\(C_4\)</span>-ветвление кровеносных сосудов, бронхов и деревьев (<span class="arithmatex">\(B\propto M^{3/4}\)</span>).</td>
+</tr>
+</tbody>
+</table>
+<p>Более того, сами логарифмы <span class="arithmatex">\(\log_a(b)\)</span>, произвольные рациональные степени и корни <span class="arithmatex">\(a^{p/q}\)</span> и размерности Хаусдорфа–Морана <span class="arithmatex">\(D_H = \log_K(N_{\mathrm{sub}})\)</span> вычисляются на любом фазовом кольце <span class="arithmatex">\(\mathbb{Z}_{4Q}\)</span> в целых числах без плавающей точки: разложение <span class="arithmatex">\(x = 2^k + m\)</span> на характеристику порядка <span class="arithmatex">\(k = \lfloor\log_2 x\rfloor\)</span> (Канал 2) и фазу мантиссы первого квадранта <span class="arithmatex">\(\mu = \lfloor m Q / 2^k\rfloor\in[0,Q]\)</span> (<span class="arithmatex">\(\mathcal{C}_Q(\mu)=Q-\mu,\ \mathcal{S}_Q(\mu)=\mu\)</span>, Канал 1) даёт однородный кубический по <span class="arithmatex">\(Q\)</span> оператор логарифма</p>
+<div class="arithmatex">\[
+\widehat{\operatorname{Log2}}_{d,Q}(k,\mu) \;=\; \bigl(d_{\mathrm{in}}(\square)|\Delta(d)|\bigr)Q^2\bigl(k Q + \mathcal{S}_Q(\mu)\bigr) + \mathcal{C}_Q(\mu)\mathcal{S}_Q(\mu)\Bigl(\bigl(|N_{12}(d)|-\mu_{\mathrm{vac}}(d)\bigr)Q + d\bigl(\mathcal{C}_Q(\mu)-\mathcal{S}_Q(\mu)\bigr)\Bigr)
+\]</div>
+<p>и обратный числитель мантиссы экспоненты <span class="arithmatex">\(\widehat{\operatorname{Exp2Mant}}_{d,Q}(r):= \bigl(d_{\mathrm{in}}(\square)|\Delta(d)|\bigr)Q^2\mathcal{S}_Q(r) - \mathcal{C}_Q(r)\mathcal{S}_Q(r)\bigl((|N_{12}(d)|-\mu_{\mathrm{vac}}(d))Q - d(\mathcal{C}_Q(r)-\mathcal{S}_Q(r))\bigr)\)</span>. При растяжении кольца <span class="arithmatex">\(Q \mapsto KQ\)</span> и <span class="arithmatex">\(\mu \mapsto K\mu\)</span> оба оператора умножаются на <span class="arithmatex">\(K^3\)</span>, поэтому в формуле смены основания <span class="arithmatex">\(\log_a(b) = \widehat{\operatorname{Log2}}_{d,Q}(b)/\widehat{\operatorname{Log2}}_{d,Q}(a)\)</span> масштаб кольца <span class="arithmatex">\(Q^3\)</span> сокращается тождественно! При <span class="arithmatex">\(d=3,\ Q=128\)</span> эти формулы дают <span class="arithmatex">\(\log_2(8)=3\)</span>, <span class="arithmatex">\(\log_3(9)=\log_{10}(100)=2\)</span>, <span class="arithmatex">\(\log_2(3)=203/128\)</span>, <span class="arithmatex">\(\log_2(7)=359/128\)</span>, <span class="arithmatex">\(\log_3(13)=474/203\)</span>, <span class="arithmatex">\(\log_{10}(2)=128/425\)</span>, <span class="arithmatex">\(\sqrt{2}=181/128\)</span>, <span class="arithmatex">\(\sqrt{3}=111/64\)</span>, <span class="arithmatex">\(16^{3/4}=8\)</span> и точно обращают <span class="arithmatex">\(K^{D_H} = N_{\mathrm{sub}}\)</span>: <span class="arithmatex">\(2^{203/128}=3\)</span>, <span class="arithmatex">\(\operatorname{round}(2^{359/128})=7\)</span> и <span class="arithmatex">\(3^{474/203}=13\)</span>.</p>
+<h2 id="3-mathbbz_512-9-407_8">Урок 3. Три родные системы счисления кольца <span class="arithmatex">\(\mathbb{Z}_{512}\)</span>: 9-битный провод, восьмеричный код <span class="arithmatex">\(407_8\)</span> и бабочка Грея<a class="headerlink" href="#3-mathbbz_512-9-407_8" title="Permanent link">&para;</a></h2>
+<p>Как записывать числа внутри кольца <span class="arithmatex">\(\mathbb{Z}_{512}\)</span> так, чтобы вычисления стоили ноль лишних усилий? У нашего 9-битного кольца есть сразу три естественные системы счисления, переходящие друг в друга простой разводкой проводов:</p>
+<ol>
+<li>
+<p><strong>Родная 9-жильная двоичная шина wire [8:0] (автоматический модуль <span class="arithmatex">\(512\)</span> без сдвигов и масок):</strong>
+    в булевой логике (<span class="arithmatex">\(\mathbb{Z}_2\)</span>) 1-битный провод автоматически складывает числа по модулю <span class="arithmatex">\(2\)</span>. Точно так же на 9-битной шине wire [8:0] любое сложение и вычитание <strong>автоматически берёт остаток по модулю <span class="arithmatex">\(2^9 = 512\)</span></strong> без всяких масок &amp; 511 и без битовых сдвигов!</p>
+<p>При этом обычный 9-битный сумматор <span class="arithmatex">\((carry_out, sum[8:0]) = a[8:0] + b[8:0]\)</span> сам делит результат на два физических канала:</p>
+<ul>
+<li>
+<p><strong>Канал 1:</strong> волновой остаток внутри кольца <span class="arithmatex">\(\mathbb{Z}_{512}\)</span>;</p>
+</li>
+<li>
+<p><strong>Канал 2:</strong> неделимое корпускулярное частное <span class="arithmatex">\(\lfloor(a+b)/512\rfloor\in\{0,1\}\)</span>!</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Восьмеричная триада Вейля–Швингера (<span class="arithmatex">\(\mathbb{Z}_{512}\cong\mathbb{Z}_8^3\)</span>, основание <span class="arithmatex">\(|{\triangle}(3)| = 8\)</span>):</strong>
+    поскольку <span class="arithmatex">\(512 = 2^9 = (2^3)^3 = \mathbf{8^3}\)</span>, любое состояние фазы <span class="arithmatex">\(\varphi\in[0,511]\)</span> записывается ровно <strong>тремя восьмеричными цифрами</strong>:</p>
+<div class="arithmatex">\[
+\varphi \;=\; 64\,d_2 + 8\,d_1 + d_0 \;=\; (d_2\,d_1\,d_0)_8, \qquad d_2,d_1,d_0\in\{0,1,2,3,4,5,6,7\}.
+\]</div>
+<p>Здесь старшая восьмеричная цифра <span class="arithmatex">\(d_2 = \lfloor\varphi / 64\rfloor\in\mathbb{Z}_8\)</span> — это квантовый уровень октанта <span class="arithmatex">\(R\)</span> (в единицах <span class="arithmatex">\(K_P(3) = 2^{9-3} = \mathbf{64 = 100_8}\)</span>), а две младшие цифры <span class="arithmatex">\((d_1 d_0)_8\in[0,63]\)</span> — субквантовая мантисса <span class="arithmatex">\(q\)</span>.
+Посмотри, как в этой родной восьмеричной системе выглядит каноническое начальное слово Вселенной <span class="arithmatex">\(\mathrm{IV}(3) = 2^{2^3} + (2^3 - 1) = 256 + 7 = 263_{10}\)</span>:</p>
+<div class="arithmatex">\[
+\mathrm{IV}(3) \;=\; 263_{10} \;=\; 4\cdot 8^2 + 0\cdot 8^1 + 7\cdot 8^0 \;=\; \mathbf{407_8}, \tag{5}
+\]</div>
+<p>где первая цифра <span class="arithmatex">\(\mathbf{4} = d_{\mathrm{in}}(\square)\)</span> включает полупериод противофазы (<span class="arithmatex">\(4\times 64 = 256\)</span>), средняя цифра <span class="arithmatex">\(\mathbf{0}\)</span> задаёт экваториальный баланс, а младшая цифра <span class="arithmatex">\(\mathbf{7} = 2^3 - 1\)</span> кодирует <span class="arithmatex">\(7\)</span> открытых октантов!</p>
+</li>
+<li>
+<p><strong>Квадрантно-мантиссовая система Кода Грея (<span class="arithmatex">\(\mathbb{Z}_{512}\cong\mathbb{Z}_4^{\mathrm{Gray}}\ltimes\mathbb{Z}_{128}\)</span>):</strong>
+    отделим на 9-битном проводе <span class="arithmatex">\(u = \varphi[8:0]\)</span> два старших провода квадранта <span class="arithmatex">\(q_1 = u[8]\in\{0,1\}\)</span> (полукруг <span class="arithmatex">\(\Phi_{\mathrm{Pauli}}=256\)</span>), <span class="arithmatex">\(q_0 = u[7]\in\{0,1\}\)</span> (четверть круга <span class="arithmatex">\(Q_\square = 128\)</span>) и 7 младших проводов мантиссы <span class="arithmatex">\(m_7 = u[6:0]\in[0,127]\)</span>.</p>
+</li>
+</ol>
+<p><strong>Историческая справка: Рефлексный код Фрэнка Грея (Bell Labs, 1947).</strong>
+В обычном двоичном счёте при переходе через границу степени двойки (например, от <span class="arithmatex">\(127 = 01111111_2\)</span> к <span class="arithmatex">\(128 = 10000000_2\)</span>) одновременно переключаются все восемь бит, что в механических и электронных датчиках угла вызывало ложные промежуточные выбросы. В 1947 году физик лаборатории Bell Labs Фрэнк Грей запатентовал <em>рефлексный двоичный код</em> (<em>Reflected Binary Code</em>), в котором соседние квадранты отражаются зеркально (<span class="arithmatex">\(m_7 \leftrightarrow 128 - m_7\)</span>), а код квадранта строится через исключающее ИЛИ соседних старших бит: <span class="arithmatex">\((g_1, g_0) = (q_1,\ q_1 \oplus q_0)\)</span>.</p>
+<p>В результате на каждом шаге по окружности меняется ровно один бит и исключаются скачки на границах квадрантов.</p>
+<hr />
+<details class="abstract">
+<summary>Сопроводительный код и Lean 4 Blueprint к главе (Code Located In)</summary>
+<ul>
+<li><strong>Интерактивный Lean 4 Blueprint и граф теорем тома:</strong> <a href="https://ai-guiders.github.io/discrete-quantum-mechanics/blueprint-book4/">Открыть Blueprint (<code>L∃∀N</code>)</a> · <a href="https://ai-guiders.github.io/discrete-quantum-mechanics/blueprint-book4/dep_graph_document.html">Интерактивный граф зависимостей</a></li>
+<li><strong>Файлы и модули верификации:</strong> <code>hardware/cuboctahedron_carrier_asic.v</code></li>
+<li><strong>Верифицированные теоремы и операторы:</strong> <code>carry_out</code></li>
+</ul>
+</details>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  К началу
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u043d\u043e \u0432 \u0431\u0443\u0444\u0435\u0440", "clipboard.copy": "\u041a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0432 \u0431\u0443\u0444\u0435\u0440", "search.result.more.one": "\u0415\u0449\u0451 1 \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.more.other": "\u0415\u0449\u0451 # \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.none": "\u0421\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u043e", "search.result.one": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e 1 \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0435", "search.result.other": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439: #", "search.result.placeholder": "\u041d\u0430\u0447\u043d\u0438\u0442\u0435 \u043f\u0435\u0447\u0430\u0442\u0430\u0442\u044c \u0434\u043b\u044f \u043f\u043e\u0438\u0441\u043a\u0430", "search.result.term.missing": "\u041e\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0443\u0435\u0442", "select.version": "\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0432\u0435\u0440\u0441\u0438\u044e"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+        <script src="../../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

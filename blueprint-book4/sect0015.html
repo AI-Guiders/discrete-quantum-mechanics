@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Урок 13. Симплициальный атлас \(\mathcal{C}_{13}\), расшифровка «магических букв» групп симметрий, постоянная тонкой структуры \(\alpha _{\mathrm{fs}}^{-1} = 137{,}035999\dots \) и спектр частиц</title>
+<link rel="next" href="sect0016.html" title="Урок 14. Гравитация без сингулярности (833:1), ядерная паста и гало вакуума 16/3 без тёмной материи" />
+<link rel="prev" href="sect0014.html" title="Урок 12. Запуск Вселенной из слова IV = 263 = 4078: тишина октанта, храповик -1 и рождение вихрей при t = 2" />
+<link rel="up" href="ch-course-stage4-particles-cosmos.html" title="Ступень IV. Элементарные частицы, ядра, гравитация и космология" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга IV. Курс единого естествознания (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Введение. Главный квест этой Вселенной и почему у решётки нет «балкона»</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref"></span> <span class="toc_entry">«Физика курильщика» против «физики здорового человека»: три закона Ньютона в целых числах и пять следствий дискретности решётки</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage1-carrier.html"><span class="toc_ref">1</span> <span class="toc_entry">Ступень I. Устройство носителя и рождение трёхмерного пространства (\(1 + 2^d = d^2\))</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0003.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Урок 1. Задача о самозамкнутом автомате: почему пространство трёхмерно и откуда берётся единица</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Урок 2. Почему строительный блок Вселенной — это 12-лучевой кубооктаэдр \(O_2\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Урок 3. Три родные системы счисления кольца \(\mathbb {Z}_{512}\): 9-битный провод, восьмеричный код \(407_8\) и бабочка Грея</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage2-math.html"><span class="toc_ref">2</span> <span class="toc_entry">Ступень II. Математика и информатика внутри носителя</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0006.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Урок 4. Бабочка ротатора \((\mathcal{C},\mathcal{S})\), формула Эйлера \(e^{i\pi }+1=0\) и постоянный вронскиан \(\mathcal{W}\equiv 128\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">2.2</span> <span class="toc_entry">Урок 5. Как отдать ротатору и шагу Верле вообще всю арифметику (умножение без умножителей!)</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">2.3</span> <span class="toc_entry">Урок 6. Матанализ без континуума: точные интегралы Френеля, Якоби, Дирихле, Бесселя и пять лиц Единицы</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html"><span class="toc_ref">2.4</span> <span class="toc_entry">Урок 7. Двухканальная логика Поста, семантический изоморфизм 3-SAT, барьер \(\mathbf{P}\ne \mathbf{NP}\) и встроенный шифр Вернама</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage3-quantum.html"><span class="toc_ref">3</span> <span class="toc_entry">Ступень III. Квантовая механика, электродинамика Максвелла и демоны Лапласа и Максвелла</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0010.html"><span class="toc_ref">3.1</span> <span class="toc_entry">Урок 8. Мёртвая зона затвора \(\Delta \varphi _{\mathrm{disc}} = 41\) и полное квантование всех наблюдаемых</span></a>
+ </li>
+<li class="">
+  <a href="sect0011.html"><span class="toc_ref">3.2</span> <span class="toc_entry">Урок 9. Корпускулярно-волновой дуализм и вывод правила Борна \(P(\mu ) = \mu ^2 / 512\) из пина переноса 9-битного сумматора</span></a>
+ </li>
+<li class="">
+  <a href="sect0012.html"><span class="toc_ref">3.3</span> <span class="toc_entry">Урок 10. Теорема Стокса–Гаусса–Черна (\(d^2 \equiv 0\)) и дискретные уравнения Максвелла</span></a>
+ </li>
+<li class="">
+  <a href="sect0013.html"><span class="toc_ref">3.4</span> <span class="toc_entry">Урок 11. Почему невозможен Демон Лапласа (\(64 \times 81 = 72^2\)), но работает 12-лучевой Геометрический Демон Максвелла</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active">
+  <a href="ch-course-stage4-particles-cosmos.html"><span class="toc_ref">4</span> <span class="toc_entry">Ступень IV. Элементарные частицы, ядра, гравитация и космология</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0014.html"><span class="toc_ref">4.1</span> <span class="toc_entry">Урок 12. Запуск Вселенной из слова \(\mathrm{IV} = 263 = 407_8\): тишина октанта, храповик \(-1\) и рождение вихрей при \(t = 2\)</span></a>
+ </li>
+<li class=" active current">
+  <a href="sect0015.html"><span class="toc_ref">4.2</span> <span class="toc_entry">Урок 13. Симплициальный атлас \(\mathcal{C}_{13}\), расшифровка «магических букв» групп симметрий, постоянная тонкой структуры \(\alpha _{\mathrm{fs}}^{-1} = 137{,}035999\dots \) и спектр частиц</span></a>
+ </li>
+<li class="">
+  <a href="sect0016.html"><span class="toc_ref">4.3</span> <span class="toc_entry">Урок 14. Гравитация без сингулярности (\(833:1\)), ядерная паста и гало вакуума \(16/3\) без тёмной материи</span></a>
+ </li>
+<li class="">
+  <a href="sect0017.html"><span class="toc_ref">4.4</span> <span class="toc_entry">Урок 15. Секунда без атома цезия, полупериодное горлышко \(\tau _{\mathrm{neck}} = 256\) и почему Вселенной не \(13{,}8\), а \(\sim 27{,}5\text{ млрд лет}\) (разгадка ранних галактик JWST)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage5-chemistry.html"><span class="toc_ref">5</span> <span class="toc_entry">Ступень V. Химия, таблица Менделеева и дизайн материалов</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0018.html"><span class="toc_ref">5.1</span> <span class="toc_entry">Урок 16. Вся таблица Менделеева из оболочек кубооктаэдра, остров стабильности \(N = 184\) и золото \(^{197}_{79}\mathrm{Au}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0019.html"><span class="toc_ref">5.2</span> <span class="toc_entry">Урок 17. Химическая связь, седло реакции \(|A^\ddagger | = 128\) и когерентное схлопывание барьера в \(587\times \)</span></a>
+ </li>
+<li class="">
+  <a href="sect0020.html"><span class="toc_ref">5.3</span> <span class="toc_entry">Урок 18. Куперовские пары \(2e\), нитинол \(\mathrm{TiNi}\) и высокотемпературные сверхпроводники</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage6-biology.html"><span class="toc_ref">6</span> <span class="toc_entry">Ступень VI. Биология, генетический код ДНК и морфогенез органов</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0021.html"><span class="toc_ref">6.1</span> <span class="toc_entry">Урок 19. Делитель водородной связи \(N_{\mathrm{HB}} = 63\) и три планетарных окна жизни (\(7 : 2 : 1\))</span></a>
+ </li>
+<li class="">
+  <a href="sect0022.html"><span class="toc_ref">6.2</span> <span class="toc_entry">Урок 20. Генетический код \(4^3 = 64 \to 20\) аминокислот, иммунитет к сдвигу рамки и фолдинг за \(O(L)\in \mathbf{P}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0023.html"><span class="toc_ref">6.3</span> <span class="toc_entry">Урок 21. Четыре стадии морфогенеза органов, кора головного мозга \(42 / 147 / 41\) и щит Каспара–Клуга</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-course-stage7-engineering.html"><span class="toc_ref">7</span> <span class="toc_entry">Ступень VII. Кремниевый чип и инженерные установки своими руками</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0024.html"><span class="toc_ref">7.1</span> <span class="toc_entry">Урок 22. Как устроен наш 9-битный бесфлаговый чип и аналоговая 3D LC-решётка</span></a>
+ </li>
+<li class="">
+  <a href="sect0025.html"><span class="toc_ref">7.2</span> <span class="toc_entry">Урок 23. Баллистическая энергетика, противофазная вихревая батарея, V-I инвертор (\(k^* = 64\)) и гравитационно-импедансный привод \(833:1\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0026.html"><span class="toc_ref">7.3</span> <span class="toc_entry">Урок 24. Автономный синтез пищи, воды и кислорода (симметрия \(96 : 96\)), 72-битный стазис-телепортер и галактический \(c_0\)-фазовый модем</span></a>
+ </li>
+<li class="">
+  <a href="sect0027.html"><span class="toc_ref">7.4</span> <span class="toc_entry">Урок 25 (Эпилог). Ноосфера без насилия: разрыв трофической цепи, межвидовой голономный переводчик и девайсы для тех, «у кого лапки»</span></a>
+ </li>
+<li class="">
+  <a href="sect0028.html"><span class="toc_ref">7.5</span> <span class="toc_entry">Урок 26. Теория взаимодействия систем: потеря информации в каскаде \(\mathrm{System}_1 \to \mathrm{System}_2 \to \dots \to \mathrm{System}_N\) и укрощение неидеального железа</span></a>
+ </li>
+<li class="">
+  <a href="sect0029.html"><span class="toc_ref">7.6</span> <span class="toc_entry">Урок 27. Дискретная теория возмущений, конечная калибровка \((I + N_{\mathrm{pert}})^{-1} = I - N_{\mathrm{pert}} + N_{\mathrm{pert}}^2\) и развенчание мифов о «10/11/26 измерениях струн» и «Мультивселенных»</span></a>
+ </li>
+<li class="">
+  <a href="sect0030.html"><span class="toc_ref">7.7</span> <span class="toc_entry">Урок 28. Единый ньютоновский гомеоморфизм всех шести отраслей инженерии, четырёхслойный кремниевый гетеропереход и сквозная автокалибровка 12-лучевого резонатора кубооктаэдра</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0031.html"><span class="toc_ref"></span> <span class="toc_entry">Эпилог. Дорожная карта замкнута: от уравнения самозамкнутости к единому Естествознанию</span></a>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000016">4.2 Урок 13. Симплициальный атлас \(\mathcal{C}_{13}\), расшифровка «магических букв» групп симметрий, постоянная тонкой структуры \(\alpha _{\mathrm{fs}}^{-1} = 137{,}035999\dots \) и спектр частиц</h1>
+<p>Прежде чем мы выведем калибровочную группу Стандартной модели \(\mathrm{U}(1)\times \mathrm{SU}(2)\times \mathrm{SU}(3)\), снимем завесу тайны с того, почему математики и физики обозначают группы симметрий такими «магическими» наборами латинских и готических букв. </p>
+<blockquote class="quote"> <small class="small"><b class="bfseries">Историческая и терминологическая справка: Расшифровка «магических букв» групп симметрий (Эварист Галуа, 1832; Софус Ли, 1870-е; Герман Вейль, 1929).</b> В ночь перед роковой дуэлью в мае 1832&#160;года 20-летний французский математик Эварист Галуа ввёл понятие <em>группы</em> перестановок симметрии. В 1870-х годах норвежский математик Софус Ли построил теорию непрерывных групп вращений, а в XX&#160;веке за ними закрепились короткие английские аббревиатуры, которые в учебниках почти никогда не переводят на человеческий язык. Вот их полный словарь: <ul class="itemize">
+  <li><p><b class="bfseries">В скобках \((n)\) или \((\mathbb {Z}), (\mathbb {R}), (\mathbb {C})\)</b> всегда указывается размер таблицы (матрицы \(n\times n\)) и какие числа стоят внутри: целые&#160;\(\mathbb {Z}\), вещественные&#160;\(\mathbb {R}\) или комплексные&#160;\(\mathbb {C}\). </p>
+</li>
+  <li><p><b class="bfseries">Буква L = Linear («Линейная»)</b> и <b class="bfseries">GL\(_n\) = General Linear («Общая линейная группа»):</b> вообще все обратимые матрицы \(n\times n\) с ненулевым определителем (\(\det \ne 0\)). Они могут как угодно крутить, растягивать и отражать пространство, лишь бы не сплющивать объём в ноль. </p>
+</li>
+  <li><p><b class="bfseries">Буква S в самом начале = Special («Специальная», то есть \(\det = +1\)):</b> как только перед любой группой ставят букву&#160;S, это означает одно простое правило — <b class="bfseries">определитель матрицы строго равен \(+1\)</b> (преобразование сохраняет элементарный объём ячейки и не выворачивает правую руку в левую). Поэтому <b class="bfseries">\(\mathrm{SL}_2(\mathbb {Z})\) = Special Linear \(2\times 2\) over \(\mathbb {Z}\)</b> — это целочисленные матрицы \(\begin{pmatrix}  a 
+
+&  b 
+
+\\ c 
+
+&  d 
+
+\end{pmatrix}\) с единичной площадью клетки \(ad - bc = 1\) (наш шаг Верле и каскад Паде–Минковского!). </p>
+</li>
+  <li><p><b class="bfseries">Буква O = Orthogonal («Ортогональная» — повороты в обычном вещественном пространстве):</b> матрицы, сохраняющие евклидову длину вектора \(x^2 + y^2 + z^2 = R^2\) (\(\det = \pm 1\)). Группа <b class="bfseries">\(\mathrm{O}(3)\)</b> включает все повороты и зеркальные отражения 3D-шара (а её конечная подгруппа <b class="bfseries">\(O_h\)</b> из \(48\) элементов — все повороты и отражения нашего куба и кубооктаэдра). Если же приписать спереди букву&#160;S, получим <b class="bfseries">\(\mathrm{SO}(3)\) = Special Orthogonal</b> — чистые трёхмерные повороты твёрдого тела без зеркал (\(\det = +1\)), которые задаются тремя углами Эйлера в трёх плоскостях \((xy, xz, yz)\) кубооктаэдра. </p>
+</li>
+  <li><p><b class="bfseries">Буква U = Unitary («Унитарная» — повороты комплексных волн с фазой \(e^{i\varphi }\)):</b> когда у ячейки есть фаза на окружности, роль длины вектора играет сумма квадратов модулей \(|\psi _1|^2 + \dots + |\psi _n|^2\). Преобразования, сохраняющие эту сумму, называются <em>унитарными</em>: </p>
+<ul class="itemize">
+  <li><p><b class="bfseries">\(\mathrm{U}(1)\)</b> (\(1\times 1\), размерность \(1\)) — обычный сдвиг одной фазы \(\varphi \mapsto \varphi + \Delta \varphi \) по единичной окружности (наше кольцо \(\mathbb {Z}_{512}\); в физике это <b class="bfseries">электромагнетизм</b>, введённый Германом Вейлем в 1929&#160;году); </p>
+</li>
+  <li><p><b class="bfseries">\(\mathrm{SU}(2)\)</b> (\(2\times 2\) с \(\det = +1\), размерность \(2^2 - 1 = \mathbf{3}\)) — комплексные повороты двухкомпонентного спинора \((\psi _0, \psi _1)\) по \(d = 3\) пространственным осям (отвечает за спин электрона и <b class="bfseries">слабое взаимодействие</b>); </p>
+</li>
+  <li><p><b class="bfseries">\(\mathrm{SU}(3)\)</b> (\(3\times 3\) с \(\det = +1\), размерность \(3^2 - 1 = \mathbf{8}\)) — комплексные перестановки и повороты между тремя плоскостями/цветами на \(8\) треугольных гранях кубооктаэдра (отвечает за <b class="bfseries">сильное ядерное взаимодействие</b> кварков и глюонов). </p>
+</li>
+</ul>
+</li>
+  <li><p><b class="bfseries">Буква P в самом начале = Projective («Проективная», например \(\mathrm{PGL}_2, \mathrm{PSL}_2\)):</b> означает, что матрица \(\begin{pmatrix}  a 
+
+&  b 
+
+\\ c 
+
+&  d 
+
+\end{pmatrix}\) действует на дробь \(w \mapsto \frac{aw+b}{cw+d}\) на проективной сфере Римана \(\mathbb {P}^1\), где общий множитель числителя и знаменателя сокращается. </p>
+</li>
+  <li><p><b class="bfseries">Маленькие готические буквы \(\mathfrak {u}(1), \mathfrak {su}(2), \mathfrak {su}(3)\) (алгебры Ли):</b> большие латинские буквы (\(\mathrm{SU}(3)\)) обозначают уже готовый конечный поворот, а маленькие готические буквы (\(\mathfrak {su}(3)\)) — мгновенную угловую скорость (бесконечно малый толчок или коммутатор \([T_a, T_b] = T_a T_b - T_b T_a\)) в начале этого поворота. </p>
+</li>
+</ul> </small></blockquote>
+<p>Теперь посчитаем все полные подграфы (симплициальные клики \(K_m\), где каждые две вершины соединены ребром длины \(\| u-v\| _2^2 = 2\)) внутри 13-узлового одетого кубооктаэдра \(\mathcal{C}_{13} = \{ (0,0,0)\} \cup O_2\): </p>
+<ul class="itemize">
+  <li><p><b class="bfseries">\(K_1\) (вершины):</b> \(1\text{ (центр)} + 12\text{ (оболочка }O_2\text{)} = \mathbf{13 = N_\varphi (3)}\); </p>
+</li>
+  <li><p><b class="bfseries">\(K_2\) (рёбра):</b> \(12\text{ радиальных} + 24\text{ поверхностных} = \mathbf{36 = |\square (3)|^2 = B_1(3)}\); </p>
+</li>
+  <li><p><b class="bfseries">\(K_3\) (треугольники):</b> \(24\text{ радиально-рёберных} + 8\text{ поверхностных} = \mathbf{32 = K_P(3)/2}\); </p>
+</li>
+  <li><p><b class="bfseries">\(K_4\) (тетраэдры) и почему \(K_{\ge 5} = 0\):</b> каждый из 8 поверхностных треугольников образует с центром \((0,0,0)\) правильный тетраэдр&#160;\(K_4\). А может ли на самой поверхности кубооктаэдра \(O_2\) лежать четвёрка взаимно смежных вершин? Нет: окрестность любой вершины на поверхности \(O_2\) состоит из \(4\) вершин, образующих цикл \(C_4\) из двух противоположных треугольников и двух квадратов, в котором нет ни одного треугольника \(K_3\)! Поэтому все 4-клики обязаны содержать центр \((0,0,0)\) и один из \(8\) поверхностных треугольников (\(\mathbf{K_4 = 8 = |{\triangle }(3)|}\)), а кликов из \(5\) и более вершин на \(\mathcal{C}_{13}\) <b class="bfseries">не существует вовсе (\(K_{\ge 5} \equiv 0\))</b>! </p>
+</li>
+</ul>
+<p> Отсюда: </p>
+<ol class="enumerate">
+  <li><p>Симплициальная характеристика Эйлера равна \(\chi (\mathcal{C}_{13}) = 13 - 36 + 32 - 8 = \mathbf{1 = \mu _{\mathrm{vac}}(3)}\). </p>
+</li>
+  <li><p>Число независимых генераторов калибровочной группы Стандартной модели \(\mathrm{U}(1)_Y\times \mathrm{SU}(2)_L\times \mathrm{SU}(3)_c\) (алгебры Ли \(\mathfrak {u}(1)\oplus \mathfrak {su}(2)\oplus \mathfrak {su}(3)\)) равно: </p>
+<div class="displaymath" id="a0000000062">
+  \[  \mu _{\mathrm{vac}}(3) + d + K_4(\mathcal{C}_{13}) \; =\;  1 + 3 + 8 \; =\;  \mathbf{12 \; =\;  N_{12}(3)}.  \]
+</div>
+</li>
+  <li><p>Относительно любой выбранной вершины \(v_0\in O_2\) (ротор электрона) 13 узлов \(\mathcal{C}_{13}\) делятся по квадрату расстояния до \(v_0\) на четыре слоя \(\)</p>
+</li>
+</ol>
+<p>1 (центр) + 1 (\(\)v_0\()\) + 4 (смежные на \(\)O_2\()\) + 7 (несмежные на \(\)O_2\()\) = 13\(\), откуда сразу следуют углы смешивания нейтрино PMNS: </p>
+<div class="displaymath" id="a0000000063">
+  \[  \sin ^2\theta _{12} \; =\;  \frac{4}{13}, \qquad \sin ^2\theta _{23} \; =\;  \frac{7}{13}, \qquad \sin ^2\theta _{13} \; =\;  \frac{2}{92} \; =\;  \frac{1}{46},  \]
+</div>
+<p> а также древесный угол Вайнберга \(\sin ^2\theta _W^{(0)} = d / N_\varphi (3) = 3/13\) и однопетлевой одетый угол Вайнберга на масштабе \(Z\)-бозона \(\sin ^2\theta _W(M_Z) = \frac{3}{13} + \frac{\alpha _{\mathrm{fs}}}{16} \approx \mathbf{0{,}231225}\) (PDG: \(0{,}23122(4)\)). <b class="bfseries">Гауссово кулоновское простое \(\hat{M}(3) = 97\) и постоянная тонкой структуры \(\alpha _{\mathrm{fs}}^{-1}\):</b> единственное размерностное совпадение \(1 + N_{12}(d)\cdot |{\triangle }(d)| = d_{\mathrm{in}}(\square )^2 + \mathrm{mod\_ bits}(d)^2\) при \(d=3\) даёт норму гауссова простого \(4 + 9i\in \mathbb {Z}[i]\): </p>
+<div class="displaymath" id="a0000000064">
+  \[  \hat{M}(3) \; =\;  1 + 12\times 8 \; =\;  4^2 + 9^2 \; =\;  \mathbf{97} \qquad \bigl(\text{причём } (m_u/m_e)^2 + (m_d/m_e)^2 = 4^2 + 9^2 = 97!\bigr),  \]
+</div>
+<p> а добавление 40 ненулевых мод порога дискретности (\(\Delta \varphi _{\mathrm{disc}} - 1 = 5\times 8 = 40\)) даёт целую базу постоянной тонкой структуры \(\lfloor \alpha _{\mathrm{fs}}^{-1}\rfloor = 97 + 40 = \mathbf{137}\). Поскольку симплициальный комплекс \(\mathcal{C}_{13}\) обрывается строго на \(K_4 = 8\) (\(K_{\ge 5} \equiv 0\)), учёт вкладов всех четырёх непустых симплексов \(K_1, K_2, K_3, K_4\) на длине ребра кубооктаэдра \(\| e\| _2 = \sqrt{d-1} = \sqrt{2}\) приводит к замкнутой алгебраической формуле в поле \(\mathbb {Q}(\sqrt{2})\) без участия трансцендентного числа&#160;\(\pi \): </p>
+<div class="equation" id="eq:course-alpha-fs">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:course-alpha-fs} \alpha _{\mathrm{fs}}^{-1}(3) \; =\;  \frac{A_{\mathrm{den}}(3) + B_{\mathrm{den}}(3)\sqrt{2}}{A_{\mathrm{num}}(3) + B_{\mathrm{num}}(3)\sqrt{2}} \; =\;  \frac{17\, 351\, 739\, 044 - 679\sqrt{2}}{131\, 726 + 89\, 441\, 954\sqrt{2}} \; =\;  \mathbf{137{,}035999187\dots } \end{equation}
+  </div>
+  <span class="equation_label">4.1</span>
+</p>
+</div>
+<p> которая попадает в эксперимент CODATA-2022 (\(137{,}035999177(21)\)) с точностью \(\mathbf{0{,}47\sigma }\) без единого подгоночного параметра! Магнитные моменты протона и нейтрона равны \(\mu _p/\mu _N = 3 - 5/24 = \mathbf{67/24 = +2{,}7917}\) и \(\mu _n/\mu _N = -2 + 2/24 = \mathbf{-23/12 = -1{,}9167}\) с изоскалярной суммой \(67/24 - 46/24 = 21/24 = \mathbf{7/8}\), аксиальная константа равна \(g_A = 5/4 + 1/39 = \mathbf{199/156 = 1{,}27564}\), а разность масс нейтрона и протона равна \((m_n - m_p)/m_e = 2|\mathcal{E}_{\mathrm{Heis}}| / K_P = 162 / 64 = \mathbf{81/32 = 2{,}53125}\) (PDG: \(2{,}53099\)). </p>
+<ol class="enumerate">
+</ol>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sect0014.html" title="Урок 12. Запуск Вселенной из слова \(\mathrm{IV} = 263 = 407_8\): тишина октанта, храповик \(-1\) и рождение вихрей при \(t = 2\)"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-course-stage4-particles-cosmos.html" title="Ступень IV. Элементарные частицы, ядра, гравитация и космология"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0016.html" title="Урок 14. Гравитация без сингулярности (\(833:1\)), ядерная паста и гало вакуума \(16/3\) без тёмной материи"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

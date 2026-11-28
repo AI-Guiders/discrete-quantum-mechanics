@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Переход к естественным полярным координатам \((\mu , \varphi _{\mathrm{disc}})\), затравочное состояние Каталана \(\mathrm{IV}(3) = 263\) и уравнения оператора эволюции \(\mathcal{G}_3\)</title>
+<link rel="next" href="sect0009.html" title="Симплициальное разложение Пуанкаре–Хегора и структурные пороги носителя при d = 3" />
+<link rel="prev" href="sect0007.html" title="Теоремы единственности: размерность d=3, кубооктаэдр O2(3) и шаг Верле" />
+<link rel="up" href="ch-mono-axioms.html" title="Вывод дискретной квантовой механики (ДКМ) из неделимости элементарного объёма, отсутствия внешней памяти у природы и уравнения Каталана" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга I. Формальные основания ДКМ (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Предисловие. Предмет монографии и дедуктивное строение теории снизу вверх</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref"></span> <span class="toc_entry">§ 0.1. Метод построения: восхождение снизу вверх без постулатов</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref"></span> <span class="toc_entry">§ 0.2. Четыре методологических опоры монографии</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref"></span> <span class="toc_entry">§ 0.3. Двусортное проективно-ретракционное соответствие оснований естественных наук: Трёхзаконная целочисленная механика Ньютона</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active">
+  <a href="ch-mono-axioms.html"><span class="toc_ref">1</span> <span class="toc_entry">Вывод дискретной квантовой механики (ДКМ) из неделимости элементарного объёма, отсутствия внешней памяти у природы и уравнения Каталана</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0005.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Доказательство отсутствия внешней памяти у физической природы и невозможности континуального регистра внутри неделимой ячейки</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Последовательный вывод размерности \(d=3\), кольца \(\mathbb {Z}_{512}\), кубооктаэдра \(O_2(3)\) и шага Верле</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Теоремы единственности: размерность \(d=3\), кубооктаэдр \(O_2(3)\) и шаг Верле</span></a>
+ </li>
+<li class=" active current">
+  <a href="sect0008.html"><span class="toc_ref">1.4</span> <span class="toc_entry">Переход к естественным полярным координатам \((\mu , \varphi _{\mathrm{disc}})\), затравочное состояние Каталана \(\mathrm{IV}(3) = 263\) и уравнения оператора эволюции \(\mathcal{G}_3\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html"><span class="toc_ref">1.5</span> <span class="toc_entry">Симплициальное разложение Пуанкаре–Хегора и структурные пороги носителя при \(d = 3\)</span></a>
+ </li>
+<li class="">
+  <a href="sec-mono-world-lagrangian-hamiltonian.html"><span class="toc_ref">1.6</span> <span class="toc_entry">Полевой Лагранжиан \(\mathcal{L}_{\mathrm{world}}\), Гамильтониан \(\mathcal{H}_{\mathrm{world}}\), 13-узловое разложение знаменателя \(\mathcal{C}_{13}\) и тетраэдральное действие Верле</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-rotator-calculus.html"><span class="toc_ref">2</span> <span class="toc_entry">Дискретная экспонента Эйлера на \(\mathbb {Z}_{512}\), однородная проективная арифметика над \(\mathbb {Q}(i,\sqrt{2})\) и выход в непрерывный анализ</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0010.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Дискретная экспонента Эйлера, код Грея, соотношения Коши–Римана и тождество постоянного вронскиана</span></a>
+ </li>
+<li class="">
+  <a href="sect0011.html"><span class="toc_ref">2.2</span> <span class="toc_entry">Вывод классического интеграла Римана и формулы Ньютона–Лейбница в макропределе \(N \to \infty \)</span></a>
+ </li>
+<li class="">
+  <a href="sect0012.html"><span class="toc_ref">2.3</span> <span class="toc_entry">Однородная проективная арифметика полей, башня производных отношения и многомерная кубатура Симпсона</span></a>
+ </li>
+<li class="">
+  <a href="sect0013.html"><span class="toc_ref">2.4</span> <span class="toc_entry">Теорема о сокращении масштаба \(A = K\cdot dh\), размерность Хаусдорфа–Морана и проективные операторы логарифма и рациональной степени на \(\mathbb {Z}_{4Q}\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-logic-cohomology-barriers.html"><span class="toc_ref">3</span> <span class="toc_entry">Булева полнота Поста, редукция 3-SAT, конструктивные когомологии де&#160;Рама и барьеры внутренних вычислителей</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0014.html"><span class="toc_ref">3.1</span> <span class="toc_entry">Функционально полный базис Поста на двух каналах \(\mathbb {Z}_{512}\) и полиномиальная редукция 3-SAT</span></a>
+ </li>
+<li class="">
+  <a href="sect0015.html"><span class="toc_ref">3.2</span> <span class="toc_entry">Четыре барьера внутреннего вычислителя и встроенный блокнот Вернама Шеннона на \(\mathbb {Z}_{512}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0016.html"><span class="toc_ref">3.3</span> <span class="toc_entry">Конструктивные когомологии де&#160;Рама–Стокса–Гаусса–Черна и мера без аксиомы выбора</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-qm-maxwell.html"><span class="toc_ref">4</span> <span class="toc_entry">Дискретная и непрерывная квантовая механика (ДКМ и НКМ), электродинамика Максвелла и граница применимости континуума</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0017.html"><span class="toc_ref">4.1</span> <span class="toc_entry">Алгебраическое происхождение корпускулярно-волнового дуализма и правила Борна</span></a>
+ </li>
+<li class="">
+  <a href="sect0018.html"><span class="toc_ref">4.2</span> <span class="toc_entry">Порог дискретности \(\Delta \varphi _{\mathrm{disc}} = 41\), уравнения Максвелла и граница применимости континуальной теории</span></a>
+ </li>
+<li class="">
+  <a href="sec-mono-mechanics-elasticity-fatigue.html"><span class="toc_ref">4.3</span> <span class="toc_entry">Нелинейная механика маятника на произвольных углах, четырёхрежимная теория упругости за пределами закона Гука и предел усталостной выносливости металла</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-sm-gravity.html"><span class="toc_ref">5</span> <span class="toc_entry">Калибровочная группа Стандартной модели, гравитационное преломление и космология</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0019.html"><span class="toc_ref">5.1</span> <span class="toc_entry">Симплициальный комплекс \(\mathcal{C}_{13}\), матричные коммутаторы алгебры Ли \(\mathfrak {u}(1)\oplus \mathfrak {su}(2)\oplus \mathfrak {su}(3)\) и четырёхпетлевой вывод постоянной тонкой структуры</span></a>
+ </li>
+<li class="">
+  <a href="sect0020.html"><span class="toc_ref">5.2</span> <span class="toc_entry">Структура 13-узлового ротора электрона, полное квантование восьми наблюдаемых и единый вихревой атлас Стандартной модели на кликах \(\mathcal{C}_{13}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0021.html"><span class="toc_ref">5.3</span> <span class="toc_entry">Гравитация как преломление на импедансе ворот без сингулярности \(1/0\), ряд сжатия Гаусса–Грина, кавитированные гиперъядра и фазы нейтронной пасты</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-chemistry-nuclear.html"><span class="toc_ref">6</span> <span class="toc_entry">Атомные и ядерные оболочки кубооктаэдра, планетогенез по 6 зонам диска, тождества Безу на \(\mathbb {Z}_{512}\), сверхпроводимость и когерентный \(587\)-кратный коллапс барьера</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0022.html"><span class="toc_ref">6.1</span> <span class="toc_entry">Периодическая система до 8-го периода, четыре физических предела, двухсферный перенос урана на остров стабильности \(N=184\), планетогенез и четыре тождества Безу</span></a>
+ </li>
+<li class="">
+  <a href="sect0023.html"><span class="toc_ref">6.2</span> <span class="toc_entry">Седло химической связи, закон Гесса, правила симметрии, спаривание Купера и коллапс барьера</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-biology.html"><span class="toc_ref">7</span> <span class="toc_entry">Молекулярная биофизика, планетарные фотонные окна, генетический код ДНК, фолдинг белков и морфогенез</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0024.html"><span class="toc_ref">7.1</span> <span class="toc_entry">Делитель водородной связи \(N_{\mathrm{HB}} = 63\) и три планетарных фотонных окна (\(441 : 126 : 63 = 7 : 2 : 1\))</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sec-mono-epistemological-closure.html"><span class="toc_ref">8</span> <span class="toc_entry">Бесфононный кремниевый гетеропереход \(120 + 8 = 128\), общая конструкция предела по счётным моноидам стадий и гёделевская неизбежность лабораторного арбитража</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0025.html"><span class="toc_ref">8.1</span> <span class="toc_entry">Бесфононный кремниевый гетеропереход \(120 + 8 = 128\), барьер оболочечной пассивации \(45^2 {\lt} 2\, 048 {\lt} 46^2\) и вычисления без тепла Ландауэра</span></a>
+ </li>
+<li class="">
+  <a href="sect0026.html"><span class="toc_ref">8.2</span> <span class="toc_entry">Общий оператор предела по счётным моноидам стадий, проективные башни Мальцева и двусторонняя эквивалентность носителей \(\mathcal{M} \leftrightarrow \mathcal{T}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0027.html"><span class="toc_ref">8.3</span> <span class="toc_entry">Конструктивная непротиворечивость и теорема Ловера–Гёделя–Тарского</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000009">1.4 Переход к естественным полярным координатам \((\mu , \varphi _{\mathrm{disc}})\), затравочное состояние Каталана \(\mathrm{IV}(3) = 263\) и уравнения оператора эволюции \(\mathcal{G}_3\)</h1>
+<p>Покажем, каким образом двухкомпонентный спинорный закон эволюции \(g\) на решётке ГЦК (\(O_2(3)\), аксиомы A3, A5, A7, A9 канонической модели MODEL: двухкомпонентный спинор \(z = (z_0, z_1)\) с полом вакуумной занятости \(\mu \ge \mu _{\mathrm{vac}} = 1\), насыщающимся фазовым откликом и порогом дискретного разрешения) приводится к <b class="bfseries">естественным полярным координатам носителя&#160;\(\mathcal{M}\)</b> и даёт целочисленный оператор \(\mathcal{G}_3\): </p>
+<ul class="itemize">
+  <li><p><b class="bfseries">Устранение декартовой деградации \(\mathbb {Z}_4\) и ортогональное расщепление голономии в полярном регистре \((\mu , \varphi _c) \in \{ 1,\dots ,K_P(3)\} \times \mathbb {Z}_{512}\):</b> при декартовой записи компоненты спинора \(z_c = u_c + i v_c\) на целочисленной сетке точные повороты без округления вырождаются в четыре угла \(\mathbb {Z}_4\), а кольцевой квадрат \(u_c^2 + v_c^2\) дрейфует при шаге переноса. Переход к полярной форме \(z_c(\mathbf{x}) = \mu (\mathbf{x})\, \mathcal{E}_3\bigl(\varphi _c(\mathbf{x})\bigr)\) превращает любой фазовый поворот в точный биективный сдвиг на кольце \(\varphi _c \mapsto (\varphi _c + \Delta \varphi ) \bmod 512\), а умножение уравнения эволюции \(i(\partial _t z_c) = -\gamma \Delta _{\mathrm{disc}}z_c\) на сопряжённую амплитуду \(z_c^*(\mathbf{x})\) ортогонально расщепляет голономию звезды \(\zeta _c(\mathbf{x}) = \sum _{\mathbf{e}\in O_2(3)} z_c(\mathbf{x}-\mathbf{e})z_c^*(\mathbf{x}) = \mathcal{Z}_{\mathrm{real},c}(\mathbf{x}) + i\, \mathcal{Z}_{\mathrm{imag},c}(\mathbf{x})\) на чётную (действительную) и нечётную (мнимую) части: </p>
+<div class="equation" id="eq:mono-holonomy-polar-split">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-holonomy-polar-split} i\, (\partial _t z_c)\, z_c^* \; =\;  \underbrace{-\mu ^2\, \partial _t\varphi _c}_{\text{чётный канал фазы }\mathcal{C}_3} \; +\;  i\, \underbrace{\frac{1}{2}\, \partial _t(\mu ^2)}_{\text{нечётный канал потока }\mathcal{S}_3} \; =\;  -\gamma \Bigl(\bigl(\mathcal{Z}_{\mathrm{real},c} - |O_2(3)|\, Q_\square \, \mu ^2\bigr) + i\, \mathcal{Z}_{\mathrm{imag},c}\Bigr). \end{equation}
+  </div>
+  <span class="equation_label">1.23</span>
+</p>
+</div>
+<p> Из&#160;<a href="sect0008.html#eq:mono-holonomy-polar-split" class="eqref">1.23</a> следует, что чётный дефицит голономии \(\delta \mathcal{Z}_{\mathrm{real},c} = Q_\square \mu (\mathbf{x})\Sigma _\mu (\mathbf{x}) - \mathcal{Z}_{\mathrm{real},c}\) управляет частотой вращения фазы \(\varphi _c\), а нечётная голономия \(\mathcal{Z}_{\mathrm{imag},c}\) задаёт дивергенцию антисимметричного рёберного потока \(J_c(\mathbf{x}\to \mathbf{y}) = -J_c(\mathbf{y}\to \mathbf{x})\) с тождественно нулевым глобальным источником \(\sum _{\mathbf{x}}\mathcal{Z}_{\mathrm{imag},c}(\mathbf{x}) \equiv 0\). </p>
+</li>
+  <li><p><b class="bfseries">Единые естественные координаты и единственная механическая шкала ячейки:</b> таким образом, естественный набор координат ДКМ на носителе&#160;\(\mathcal{M}\) состоит из дискретных координат узла и такта \((\mathbf{x}, t) \in \mathbb {Z}^3 \times \mathbb {Z}\) (с тремя плоскостями углов Эйлера \((xy, xz, yz)\) на \(O_2(3)\) и элементарными шагами \(dh = 1,\  dt = 1,\  dV = \kappa _{\mathrm{geom}}\, dh^3\)) и полярных регистров ячейки \((\mu , \varphi _0, \varphi _1) \in \{ 1,\dots ,64\} \times \mathbb {Z}_{512}^2\) на единственной естественной механической шкале (\(dh = 1,\  dt = 1,\  s_0 = 1/2\)): </p>
+<div class="equation" id="eq:mono-natural-scale-ladder">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-natural-scale-ladder} c_0 = \frac{dh}{dt} = 1, \quad c = \kappa _{\mathrm{geom}}\, c_0 = \frac{1}{\sqrt{2}}, \quad E_0 = \frac{s_0}{dt} = \frac{1}{2}, \quad p_0 = \frac{s_0}{dh} = \frac{1}{2}, \quad F_0 = \frac{s_0}{dh\cdot dt} = \frac{1}{2}, \quad m_{\mathrm{arg}} = \frac{2 s_0\, dt}{dh^2} = 1. \end{equation}
+  </div>
+  <span class="equation_label">1.24</span>
+</p>
+</div>
+</li>
+</ul>
+<p> В этих естественных полярных координатах двухшаговый оператор эволюции \(\mathcal{G}_3\) действует на пятёрку целочисленных полей: </p>
+<div class="equation" id="eq:mono-field-state-tuple">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-field-state-tuple} \Psi ^{(t)}(\mathbf{x}) \; =\;  \Bigl(\mu (\mathbf{x}),\  \varphi _0^{(t)}(\mathbf{x}),\  \varphi _1^{(t)}(\mathbf{x}),\  \varphi _0^{(t-1)}(\mathbf{x}),\  \varphi _1^{(t-1)}(\mathbf{x})\Bigr). \end{equation}
+  </div>
+  <span class="equation_label">1.25</span>
+</p>
+</div>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Начальное поле \(\Psi ^{(0)} = \mathrm{IV}(3)\) в состоянии покоя \(\varphi _c^{(0)} = \varphi _c^{(-1)}\):</b> затравочное число Каталана \(\mathrm{IV}(3) = 256 + 8 - 1 = 263\) имеет октантную маска \(\mathrm{IV}(3) \bmod 256 = 7 = 2^3 - 1\). Для каждого узла \(\mathbf{x} = (z, y, x) \in \mathbb {Z}^3\) индикатор шара нуклеации радиуса \(|\square (3)| = 6\), номер октанта \(\mathrm{oct}(\mathbf{x}) \in \{ 0,\dots ,7\} \), спинорные биты маски \((b_0, b_1)\), амплитуда \(\mu (\mathbf{x})\) и начальные фазы двух спинорных дорожек \(\varphi _0^{(0)}(\mathbf{x}), \varphi _1^{(0)}(\mathbf{x})\) определяются формулами: </p>
+<div class="displaymath" id="eq:mono-iv263-inball">
+  \begin{align}  \mathrm{inBall}(\mathbf{x}) & = \mathbf{1}_{\{ z^2 + y^2 + x^2 \le 36\} } \in \{ 0, 1\} , \label{eq:mono-iv263-inball} \\ \mu (\mathbf{x}) & = \mu _{\mathrm{vac}}(3) + |O_2(3)|\, \mathrm{inBall}(\mathbf{x}) \; =\;  1 + 12\, \mathrm{inBall}(\mathbf{x}) \in \{ 1, 13\} , \label{eq:mono-iv263-mu} \\ \varphi _{\mathrm{bg}}(x) & = \Bigl(\bigl((x + 12) \bmod 13\bigr) \times 41\Bigr) \bmod 512, \label{eq:mono-iv263-bg} \\ \mathrm{oct}(\mathbf{x}) & = 4\, \mathbf{1}_{\{ z \ge 0\} } + 2\, \mathbf{1}_{\{ y \ge 0\} } + \mathbf{1}_{\{ x \ge 0\} } \in \{ 0, \dots , 7\} , \label{eq:mono-iv263-oct} \\ b_0(\mathbf{x}) & = \bigl\lfloor 7 / 2^{\mathrm{oct}(\mathbf{x})} \bigr\rfloor \bmod 2, \qquad b_1(\mathbf{x}) \; =\;  \bigl\lfloor 7 / 2^{\mathrm{oct}(\mathbf{x}) \oplus 3} \bigr\rfloor \bmod 2, \label{eq:mono-iv263-bits} \\ \varphi _c^{(0)}(\mathbf{x}) & = \bigl(\varphi _{\mathrm{bg}}(x) + 3 \times 41\, \mathrm{inBall}(\mathbf{x})\, b_c(\mathbf{x})\bigr) \bmod 512 \qquad (c \in \{ 0, 1\} ). \label{eq:mono-iv263-phi0} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Операторы чётной и нечётной голономии оболочки \(O_2(3)\) и защищённого фазового импеданса ворот:</b> для каждой спинорной дорожки \(c \in \{ 0, 1\} \) сумма амплитуд соседей \(\Sigma _\mu (\mathbf{x})\), чётная голономия \(\mathcal{Z}_{\mathrm{real},c}(\mathbf{x})\) и нечётный ток голономии \(\mathcal{Z}_{\mathrm{imag},c}(\mathbf{x})\) по \(12\) векторам кубооктаэдра \(\mathbf{e} \in O_2(3)\) равны: </p>
+<div class="displaymath" id="eq:mono-field-summu">
+  \begin{align}  \Sigma _\mu (\mathbf{x}) & = \sum _{\mathbf{e} \in O_2(3)} \mu (\mathbf{x} - \mathbf{e}), \label{eq:mono-field-summu} \\ \mathcal{Z}_{\mathrm{real},c}(\mathbf{x}) & = \mu (\mathbf{x}) \sum _{\mathbf{e} \in O_2(3)} \mu (\mathbf{x} - \mathbf{e})\, \mathcal{C}_3\bigl((\varphi _c(\mathbf{x} - \mathbf{e}) - \varphi _c(\mathbf{x})) \bmod 512\bigr), \label{eq:mono-field-zr} \\ \mathcal{Z}_{\mathrm{imag},c}(\mathbf{x}) & = \mu (\mathbf{x}) \sum _{\mathbf{e} \in O_2(3)} \mu (\mathbf{x} - \mathbf{e})\, \mathcal{S}_3\bigl((\varphi _c(\mathbf{x} - \mathbf{e}) - \varphi _c(\mathbf{x})) \bmod 512\bigr). \label{eq:mono-field-zi} \end{align}
+</div>
+<p> Дефицит чётной голономии \(\delta \mathcal{Z}_{\mathrm{real},c}(\mathbf{x})\), ведущий числитель момента \(z_{\mathrm{drive},c}(\mathbf{x})\) (где безветвевой знак \(\mathrm{sgn}(u) = +1\) при \(u \ge 0\) и \(-1\) при \(u {\lt} 0\)), сырой знаменатель \(D_{\mathrm{raw},c}(\mathbf{x})\) и защищённый вакуумным полом \(\varepsilon (3) = 8\, 192\) знаменатель импеданса \(D_c(\mathbf{x})\) имеют вид: </p>
+<div class="displaymath" id="eq:mono-field-deficit">
+  \begin{align}  \delta \mathcal{Z}_{\mathrm{real},c}(\mathbf{x}) & = 128\, \mu (\mathbf{x})\, \Sigma _\mu (\mathbf{x}) - \mathcal{Z}_{\mathrm{real},c}(\mathbf{x}), \label{eq:mono-field-deficit} \\ z_{\mathrm{drive},c}(\mathbf{x}) & = \mathcal{Z}_{\mathrm{imag},c}(\mathbf{x}) + \mathrm{sgn}\bigl(\mathcal{Z}_{\mathrm{imag},c}(\mathbf{x})\bigr)\, \delta \mathcal{Z}_{\mathrm{real},c}(\mathbf{x}), \label{eq:mono-field-zdrive} \\ D_{\mathrm{raw},c}(\mathbf{x}) & = \mathcal{Z}_{\mathrm{real},c}(\mathbf{x}) + 128\, \mu (\mathbf{x})^2 + 8\, 192, \label{eq:mono-field-draw} \\ D_c(\mathbf{x}) & = \mathbf{1}_{\{ D_{\mathrm{raw},c}(\mathbf{x}) \ge 1\} }\, D_{\mathrm{raw},c}(\mathbf{x}) + \mathbf{1}_{\{ D_{\mathrm{raw},c}(\mathbf{x}) \le 0\} }\, 8\, 192. \label{eq:mono-field-dguard} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Целочисленное деление с округлением вниз, мёртвая зона затвора \(\Delta \varphi _{\mathrm{disc}}(3) = 41\) и шаг Верле \(\mathcal{G}_3\):</b> сырая фаза ворот \(\Phi _{\mathrm{raw},c}(\mathbf{x})\) вычисляется делением с округлением вниз \(\lfloor A / D \rfloor = \mathrm{fdiv}(A, D)\) со свёрткой \(\mathrm{wrap}_{512}\) в полуинтервал \((-256, 256]\), проходит через фильтр мёртвой зоны затвора \(|\Phi _{\mathrm{raw},c}| \ge 41\) и обновляет поле по схеме Верле: </p>
+<div class="displaymath" id="eq:mono-field-phiraw">
+  \begin{align}  \Phi _{\mathrm{raw},c}(\mathbf{x}) & = \mathrm{wrap}_{512}\! \left(\left\lfloor \frac{64\, z_{\mathrm{drive},c}(\mathbf{x})}{D_c(\mathbf{x})} \right\rfloor \right), \label{eq:mono-field-phiraw} \\ \Phi _{\mathrm{lane},c}(\mathbf{x}) & = \mathbf{1}_{\{ |\Phi _{\mathrm{raw},c}(\mathbf{x})| \ge 41\} }\, \Phi _{\mathrm{raw},c}(\mathbf{x}), \label{eq:mono-field-philane} \\ \Phi _{\mathrm{field}}(\mathbf{x}) & = \mathbf{1}_{\{ |\Phi _{\mathrm{lane},1}| {\gt} |\Phi _{\mathrm{lane},0}|\} }\, \Phi _{\mathrm{lane},1}(\mathbf{x}) + \mathbf{1}_{\{ |\Phi _{\mathrm{lane},1}| \le |\Phi _{\mathrm{lane},0}|\} }\, \Phi _{\mathrm{lane},0}(\mathbf{x}), \label{eq:mono-field-phifield} \\ \varphi _c^{(t+1)}(\mathbf{x}) & = \bigl(2\varphi _c^{(t)}(\mathbf{x}) - \varphi _c^{(t-1)}(\mathbf{x}) + \Phi _{\mathrm{field}}^{(t)}(\mathbf{x})\bigr) \bmod 512. \label{eq:mono-field-step-g3} \end{align}
+</div>
+</li>
+</ol>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:mono-first-vortex-birth-iv263">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Теорема
+    </span>
+    <span class="theorem_thmlabel">1.5</span>
+    <span class="theorem_thmtitle">Затравочное состояние Каталана \(\mathrm{IV}(3) = 263\), первое рождение вихря на такте \(t = 2\), три теоремы абляции, бариогенезис \(\eta _B\) и первичный нуклеосинтез \(Y_p = 45/182\)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0008.html#thm:mono-first-vortex-birth-iv263">#</a>
+    
+    <a class="icon proof" href="sect0008.html#a0000000042"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0007.html#thm:mono-cuboct-uniqueness">Теорема 1.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/WorldTrajectory.lean#L199" class="lean_decl">fieldStepOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/WorldTrajectory.lean" class="lean_decl">WorldTrajectory.lean</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/Spec.lean#L345" class="lean_decl">a15_iv263_unique_9bit_catalan_seed_decomposition</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/WorldTrajectory.lean#L244" class="lean_decl">iv263_interior_octant_silence_t0</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/WorldTrajectory.lean#L259" class="lean_decl">iv263_flat_domain_wall_asymmetry_t0</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/WorldTrajectory.lean#L274" class="lean_decl">iv263_central_k3_plaquette_birth_t0_t1_t2</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/WorldTrajectory.lean#L383" class="lean_decl">iv263_full_3d_lattice_t0_t1_t2_census</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/WorldTrajectory.lean#L398" class="lean_decl">t2_vortex_loop_census_and_eta_b_rational</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/WorldTrajectory.lean#L411" class="lean_decl">ablation_heisenberg_threshold_15_breaks_octant_silence</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/WorldTrajectory.lean#L430" class="lean_decl">ablation_tdiv_destroys_domain_wall_chiral_asymmetry</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/WorldTrajectory.lean#L444" class="lean_decl">ablation_no_denom_guard_corrupts_t2_vortex_pair</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/WorldTrajectory.lean#L283" class="lean_decl">runFull3DCensusIV263</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>    На трёхмерной решётке \(\mathbb {Z}^3\) под действием оператора эволюции поля \(\mathcal{G}_3\)&#160;<a href="sect0008.html#eq:mono-iv263-inball" class="eqref">1.26</a>–<a href="sect0008.html#eq:mono-field-step-g3" class="eqref">1.42</a> выполняются следующие законы: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Единственное 9-битное затравочное число Каталана \(\mathrm{IV}(3) = 263\) при \(t = 0\):</b> сумма противофазного потолка \(\Phi _{\mathrm{Pauli}}(3) = 256\) и числа октантов \(|{\triangle }(3)| = 8\) за вычетом вакуумного кванта центра \(\mu _{\mathrm{vac}}(3) = 1\) определяет простое 9-битное затравочное число </p>
+<div class="equation" id="eq:mono-iv263-seed-def">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-iv263-seed-def} \mathrm{IV}(3) \; =\;  \Phi _{\mathrm{Pauli}}(3) + |{\triangle }(3)| - \mu _{\mathrm{vac}}(3) \; =\;  256 + 8 - 1 \; =\;  263, \end{equation}
+  </div>
+  <span class="equation_label">1.43</span>
+</p>
+</div>
+<p> старший бит которого равен \(\Phi _{\mathrm{Pauli}}(3) = 256\), а младшая октантная маска равна \(\mathrm{IV}(3) \bmod 256 = 7 = 2^3 - 1\). </p>
+</li>
+  <li><p><b class="bfseries">Тишина внутри октантов, киральный храповик доменной стенки на \(t = 0\) и три теоремы абляции:</b> на начальном поле \(\Psi ^{(0)} = \mathrm{IV}(3)\) внутри однородного октанта в узле \((2, 2, 2)\) нечётный ток голономии равен нулю (\(\mathcal{Z}_{\mathrm{imag},0} = 0\)), а сырая фаза ворот равна \(\Phi _{\mathrm{raw},0}(2,2,2) = +15 {\lt} 41\), вследствие чего мёртвая зона затвора обращает шаг ворот в точный нуль (\(\Phi _{\mathrm{field}}^{(0)}(2,2,2) = 0\)). Поперёк плоской доменной стенки \(z = 0 \leftrightarrow z = -1\) в паре узлов \((0, 2, 2)\) и \((-1, 2, 2)\) чётные голономии совпадают (\(\mathcal{Z}_{\mathrm{real},1} = 134\, 862\)), нечётные токи противоположны (\(\mathcal{Z}_{\mathrm{imag},1} = \pm 70\, 980\)), а целочисленное деление с округлением вниз даёт \(\Phi _{\mathrm{field}}^{(0)}(0,2,2) = +76\) и \(\Phi _{\mathrm{field}}^{(0)}(-1,2,2) = -77\), порождая ненулевую киральную сумму: </p>
+<div class="equation" id="eq:mono-domain-wall-chiral">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-domain-wall-chiral} \Phi _{\mathrm{field}}^{(0)}(0, 2, 2) + \Phi _{\mathrm{field}}^{(0)}(-1, 2, 2) \; =\;  76 + (-77) \; =\;  -1 \; \ne \;  0. \end{equation}
+  </div>
+  <span class="equation_label">1.44</span>
+</p>
+</div>
+<p> Три теоремы абляции доказывают, что: (а)&#160;снижение порога дискретности с \(41\) до \(15\) пропускает \(\Phi _{\mathrm{raw},0}(2,2,2) = 15\) и разрушает тишину внутри октантов; (б)&#160;замена \(\lfloor \cdot \rfloor \) на усечение к нулю \(\operatorname {trunc}(\cdot )\) заменяет \(-77\) на \(-76\), обнуляет сумму&#160;<a href="sect0008.html#eq:mono-domain-wall-chiral" class="eqref">1.44</a> и уничтожает киральную асимметрию; (в)&#160;удаление защиты вакуумного пола \(\varepsilon (3) = 8\, 192\) в&#160;<a href="sect0008.html#eq:mono-field-dguard" class="eqref">1.38</a> приводит на такте \(t = 1\) в узле \((-2, -1, -1)\) к делению на отрицательный сырой знаменатель \(D_{\mathrm{raw},0}(-2,-1,-1) = -113\, 826 {\lt} 0\) и разрушает рождение вихревой пары. </p>
+</li>
+  <li><p><b class="bfseries">Первое рождение вихревого плакета \(K_3\) на такте \(t = 2\), перепись \(86\) вихревых плакетов, бариогенезис \(\eta _B\) и первичный нуклеосинтез (BBN):</b> на центральном трёхоктантном плакете с вершинами \(A=(-1,-1,0)\), \(B=(-1,-1,1)\), \(C=(-1,0,1)\), \(D=(-1,0,0)\) вихревое число обмотки равно нулю на тактах \(t = 0\) и \(t = 1\), а на втором такте \(\Psi ^{(2)} = \mathcal{G}_3^{[2]}(\mathrm{IV}(3))\) скачок смены ветви рождает первый единичный квантовый вихрь: </p>
+<div class="displaymath" id="eq:mono-first-vortex-t01">
+  \begin{align}  w_{xy}^{(0)}(-1,-1,0) & = 0, \qquad w_{xy}^{(1)}(-1,-1,0) \; =\;  0, \label{eq:mono-first-vortex-t01} \\ w_{xy}^{(2)}(-1,-1,0) & = +1, \qquad \mathcal{B}_{xy}^{(2)}(-1,-1,0) \; =\;  512. \label{eq:mono-first-vortex-t2} \end{align}
+</div>
+<p> Полная трёхмерная перепись решётки на такте \(t = 2\) фиксирует рождение \(2 N_\varphi (3) = 26\) вихревых плакетов в плоскости \(xy\), \(2 N_\varphi (3) = 26\) в плоскости \(yz\) и \(2 N_\varphi (3) + |{\triangle }(3)| = 26 + 8 = 34\) в плоскости \(xz\) — суммарно </p>
+<div class="equation" id="eq:mono-t2-86-plaquettes">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-t2-86-plaquettes} N_{\mathrm{vortex}}^{(t=2)}(3) \; =\;  26 + 26 + 34 \; =\;  86 \; =\;  |\square (3)|\, N_\varphi (3) + |{\triangle }(3)| \; =\;  Z(\mathrm{Rn}) \end{equation}
+  </div>
+  <span class="equation_label">1.47</span>
+</p>
+</div>
+<p> вихревых плакетов с тождественно нулевой кубической дивергенцией магнитных монополей (\(\sum _{f\in \partial C_3} w_f = 0\)) во всех узлах решётки. На \(2 N_\varphi (3) |{\triangle }(3)| = 208\) спинор-октантных каналах и \(\mathrm{mod\_ bits}(3)\, d_{\mathrm{out}}(E) = 9\times 5 = 45\) активных модах барионная асимметрия \(\eta _B\) и первичная массовая доля гелия-4 (\(Y_p\)) равны: </p>
+<div class="displaymath" id="eq:mono-eta-b">
+  \begin{align}  \eta _B & = \frac{45}{208}\, \alpha _{\mathrm{fs}}^4 \; \approx \;  6{,}12\times 10^{-10}, \label{eq:mono-eta-b} \\ 208 & = 4 \times 45 + 28, \label{eq:mono-bbn-div} \\ Y_p & = \frac{45}{208 - 26} \; =\;  \frac{45}{182} \; \approx \;  0{,}24725. \label{eq:mono-eta-b-bbn-yp} \end{align}
+</div>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000042">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Проведём явный пошаговый расчёт по формулам&#160;<a href="sect0008.html#eq:mono-iv263-inball" class="eqref">1.26</a>–<a href="sect0008.html#eq:mono-field-step-g3" class="eqref">1.42</a> (сводка промежуточных величин приведена в Таблице&#160;<a href="sect0008.html#tab:mono-iv263-step-trace">1.1</a>): </p>
+<ol class="enumerate">
+  <li><p><em>Тишина внутри октанта в узле \((2, 2, 2)\) на такте \(t = 0\) и Абляция&#160;1:</em> узел \((2,2,2)\) и все его \(12\) соседей лежат внутри шара нуклеации (\(2^2+2^2+2^2 = 12 \le 36\), \(\mu = 13\), \(\Sigma _\mu = 12\times 13 = 156\)) в одном и том же положительном октанте \(\mathrm{oct}(2,2,2) = 7\) (\(b_0 = 0\)). Вдоль оси&#160;\(x\) фоновая фаза&#160;<a href="sect0008.html#eq:mono-iv263-bg" class="eqref">1.28</a> линейна с шагом \(+41\), поэтому четыре соседа с \(\Delta x = +1\), четыре с \(\Delta x = 0\) и четыре с \(\Delta x = -1\) дают по нечётной проекции \(\mathcal{S}_3(\pm 41) = \pm 41\) взаимное сокращение \(\mathcal{Z}_{\mathrm{imag},0}(2,2,2) = 0\), а по чётной проекции \(\mathcal{C}_3(\pm 41) = 87\) и \(\mathcal{C}_3(0) = 128\) дают </p>
+<div class="displaymath" id="a0000000043">
+  \[  \mathcal{Z}_{\mathrm{real},0}(2,2,2) \; =\;  13 \times \bigl(4\cdot 13\cdot 87 + 4\cdot 13\cdot 128 + 4\cdot 13\cdot 87\bigr) \; =\;  204\, 152.  \]
+</div>
+<p> По формулам&#160;<a href="sect0008.html#eq:mono-field-deficit" class="eqref">1.35</a>–<a href="sect0008.html#eq:mono-field-phiraw" class="eqref">1.39</a> дефицит чётной голономии, ведущий числитель при \(\mathrm{sgn}(0) = +1\), знаменатель и сырая фаза ворот равны: </p>
+<div class="displaymath" id="a0000000044">
+  \begin{align*}  \delta \mathcal{Z}_{\mathrm{real},0}(2,2,2) & = 128 \cdot 13 \cdot 156 - 204\, 152 \; =\;  259\, 584 - 204\, 152 \; =\;  55\, 432, \\ z_{\mathrm{drive},0}(2,2,2) & = +55\, 432, \qquad D_0(2,2,2) \; =\;  204\, 152 + 128\cdot 169 + 8\, 192 \; =\;  233\, 976, \\ \Phi _{\mathrm{raw},0}(2,2,2) & = \left\lfloor \frac{64 \times 55\, 432}{233\, 976} \right\rfloor \; =\;  \left\lfloor \frac{3\, 547\, 648}{233\, 976} \right\rfloor \; =\;  +15. \end{align*}
+</div>
+<p> Поскольку абсолютная величина \(|\Phi _{\mathrm{raw},0}(2,2,2)| = 15 {\lt} 41 = \Delta \varphi _{\mathrm{disc}}(3)\), пороговый фильтр&#160;<a href="sect0008.html#eq:mono-field-philane" class="eqref">1.40</a> обращает шаг ворот в нуль: \(\Phi _{\mathrm{field}}^{(0)}(2,2,2) = 0\). Если же снизить порог дискретности до \(15 = N_\varphi (3) + 2\), то \(15 \ge 15\) проходит фильтр и нарушает покой внутри октанта. </p>
+</li>
+  <li><p><em>Киральный храповик доменной стенки в паре \((0, 2, 2)\) и \((-1, 2, 2)\) на такте \(t = 0\) и Абляция&#160;2:</em> при переходе через плоскость \(z = 0 \leftrightarrow z = -1\) знак координаты&#160;\(z\) меняется, переводя октант \(\mathrm{oct}(0,2,2) = 7\) (\(b_1 = 1\)) в октант \(\mathrm{oct}(-1,2,2) = 3\) (\(b_1 = 0\)): </p>
+<div class="displaymath" id="a0000000045">
+  \begin{align*}  \varphi _1^{(0)}(0,2,2) & = 41, \qquad \varphi _1^{(0)}(-1,2,2) \; =\;  164, \\ \mathcal{Z}_{\mathrm{real},1}(0,2,2) & = \mathcal{Z}_{\mathrm{real},1}(-1,2,2) \; =\;  134\, 862, \qquad D_1 \; =\;  164\, 686, \\ \mathcal{Z}_{\mathrm{imag},1}(\pm ) & = \pm 70\, 980, \qquad 64\, z_{\mathrm{drive},1}(\pm ) \; =\;  \pm 12\, 524\, 928. \end{align*}
+</div>
+<p> Поскольку \(12\, 524\, 928 = 76 \times 164\, 686 + 8\, 792\) с ненулевым остатком \(8\, 792 {\gt} 0\), деление с округлением вниз даёт: </p>
+<div class="displaymath" id="a0000000046">
+  \begin{align*}  \Phi _{\mathrm{field}}^{(0)}(0,2,2) & = \left\lfloor \frac{+12\, 524\, 928}{164\, 686} \right\rfloor \; =\;  +76, \\ \Phi _{\mathrm{field}}^{(0)}(-1,2,2) & = \left\lfloor \frac{-12\, 524\, 928}{164\, 686} \right\rfloor \; =\;  -77, \end{align*}
+</div>
+<p> откуда \(\Phi _{\mathrm{field}}^{(0)}(0,2,2) + \Phi _{\mathrm{field}}^{(0)}(-1,2,2) = 76 - 77 = -1 \ne 0\). При замене \(\lfloor \cdot \rfloor \) на усечение к нулю \(\operatorname {trunc}(\cdot )\) отрицательное частное становится равным \(-76\), и киральная сумма обращается в \(76 + (-76) = 0\). </p>
+</li>
+  <li><p><em>Защита знаменателя в узле \((-2, -1, -1)\) на такте \(t = 1\) (Абляция&#160;3):</em> на такте \(t = 1\) в узле \((-2,-1,-1)\) (\(\mu = 13\), \(\varphi _0^{(1)} = 239\)) противофазная интерференция даёт \(\mathcal{Z}_{\mathrm{real},0} = -143\, 650\) и \(\mathcal{Z}_{\mathrm{imag},0} = -57\, 460\), вследствие чего сырой знаменатель&#160;<a href="sect0008.html#eq:mono-field-draw" class="eqref">1.37</a> становится отрицательным: </p>
+<div class="displaymath" id="a0000000047">
+  \[  D_{\mathrm{raw},0}(-2,-1,-1) \; =\;  -143\, 650 + 21\, 632 + 8\, 192 \; =\;  -113\, 826 \; {\lt}\;  0.  \]
+</div>
+<p> Защитный оператор&#160;<a href="sect0008.html#eq:mono-field-dguard" class="eqref">1.38</a> удерживает знаменатель на вакуумном полу \(D_0 = \varepsilon (3) = 8\, 192 {\gt} 0\) (\(\Phi _{\mathrm{raw},0} = -16\), \(|\Phi _{\mathrm{raw},0}| {\lt} 41 \implies \Phi _{\mathrm{lane},0} = 0\)), тогда как без защиты деление на \(-113\, 826 {\lt} 0\) инвертирует знак фазы ворот. </p>
+</li>
+  <li><p><em>Рождение первого вихря \(w_{xy}^{(2)} = +1\) на центральном плакете \((-1,-1,0)\) на такте \(t = 2\):</em> четыре вершины ориентированного \(xy\)-плакета \(A=(-1,-1,0)\), \(B=(-1,-1,1)\), \(C=(-1,0,1)\), \(D=(-1,0,0)\) проходят по формуле Верле&#160;<a href="sect0008.html#eq:mono-field-step-g3" class="eqref">1.42</a> траекторию, приведённую в нижней части Таблицы&#160;<a href="sect0008.html#tab:mono-iv263-step-trace">1.1</a>. На тактах \(t = 0\) и \(t = 1\) сумма главных остатков \(r_e = \mathrm{wrap}_{512}(\Delta \varphi _e)\) вдоль четырёх рёбер контура равна нулю: </p>
+<div class="displaymath" id="a0000000048">
+  \begin{align*}  \mathcal{B}_{xy}^{(0)}(-1,-1,0) & = (+20) + (-123) + (-20) + (+123) \; =\;  0 \quad (w_{xy}^{(0)} = 0), \\ \mathcal{B}_{xy}^{(1)}(-1,-1,0) & = (+13) + (-48) + (-56) + (+91) \; =\;  0 \quad (w_{xy}^{(1)} = 0), \end{align*}
+</div>
+<p> а на втором такте \(t = 2\) фазы четырёх вершин равны \(\varphi _0^{(2)} = (39, 71, 156, 352)\), где на замыкающем ребре \(D \to A\) разность \(39 - 352 = -313 = -512 + 199\) пересекает границу смены ветви (\(q_{DA}^{(2)} = -1\), \(r_{DA}^{(2)} = +199\)), давая </p>
+<div class="displaymath" id="a0000000049">
+  \[  \mathcal{B}_{xy}^{(2)}(-1,-1,0) \; =\;  32 + 85 + 196 + 199 \; =\;  512 \; =\;  512 \times (+1), \qquad w_{xy}^{(2)}(-1,-1,0) \; =\;  +1.  \]
+</div>
+</li>
+</ol>
+<p> Суммирование по всем плакетам 3D-решётки при \(t = 2\) даёт \(26 + 26 + 34 = 86\) вихревых плакетов при нулевой дивергенции в каждом кубе, а арифметические тождества \(2\times 13\times 8 = 208 = 4\times 45 + 28\) и \(208 - 26 = 182\) доказывают&#160;<a href="sect0008.html#eq:mono-eta-b" class="eqref">1.48</a>–<a href="sect0008.html#eq:mono-eta-b-bbn-yp" class="eqref">1.50</a>. </p>
+
+  </div>
+</div>
+<div class="table"  id="tab:mono-iv263-step-trace">
+   <div class="centered"><figcaption>
+  <span class="caption_title">Table</span> 
+  <span class="caption_ref">1.1</span> 
+  <span class="caption_text">Пошаговая трассировка оператора эволюции поля \(\Psi ^{(t)} = \mathcal{G}_3^{[t]}(\mathrm{IV}(3))\): тишина октанта, киральный храповик доменной стенки, защита знаменателя и рождение вихря на такте \(t = 2\).</span> 
+</figcaption>
+
+<table class="tabular">
+  <tr>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">Узел \((z,y,x)\) и такт</b> </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">\(\mu ,\  \varphi _c^{(t)}\)</b> </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">\(\mathcal{Z}_{\mathrm{real},c}\)</b> </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">\(\mathcal{Z}_{\mathrm{imag},c}\)</b> </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">\(z_{\mathrm{drive},c} / D_c\)</b> </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">\(\Phi _{\mathrm{raw}} \to \Phi _{\mathrm{field}}\)</b> </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p>\((2,2,2)\), \(t=0\) (дор. 0) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(13,\  41\) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(+204\, 152\) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(0\) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(+55\, 432 / 233\, 976\) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(+15 \to 0\) (\(|15|{\lt}41\)) </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p>\((0,2,2)\), \(t=0\) (дор. 1) </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> \(13,\  41\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(+134\, 862\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(+70\, 980\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(+195\, 702 / 164\, 686\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(+76 \to +76\) </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p>\((-1,2,2)\), \(t=0\) (дор. 1) </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> \(13,\  164\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(+134\, 862\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(-70\, 980\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(-195\, 702 / 164\, 686\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(-77 \to -77\) (\(\Sigma = -1\)) </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p>\((-2,-1,-1)\), \(t=1\) (дор. 0) </p>
+
+    </td>
+    <td  style="border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(13,\  239\) </p>
+
+    </td>
+    <td  style="text-align:left; border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(-143\, 650\) </p>
+
+    </td>
+    <td  style="text-align:left; border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(-57\, 460\) </p>
+
+    </td>
+    <td  style="text-align:left; border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(-460\, 694 / 8\, 192^*\) </p>
+
+    </td>
+    <td  style="text-align:left; border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(-16 \to 0\) (\(D_{\mathrm{raw}}{\lt}0\)) </p>
+
+    </td>
+  </tr>
+</table>
+
+<table class="tabular">
+  <tr>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">Такт плакета \((-1,-1,0)\)</b> </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">Фазы 4 вершин \((A, B, C, D)\)</b> </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">Импульсы ворот \(\Phi _{\mathrm{field}}^{(t)}\)</b> </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">Остатки \(r_e^{(t)}\) и вихрь \(w_{xy}^{(t)}\)</b> </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p>Такт \(t = 0\) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \((103,\  123,\  0,\  492)\) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \((-131,\  -138,\  -63,\  -99)\) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \((20, -123, -20, 123),\  w_{xy}^{(0)} = 0\) </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p>Такт \(t = 1\) </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> \((484,\  497,\  449,\  393)\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \((+198,\  +224,\  -230,\  +58)\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \((13, -48, -56, 91),\  w_{xy}^{(1)} = 0\) </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p>Такт \(t = 2\) </p>
+
+    </td>
+    <td  style="border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \((39,\  71,\  156,\  352)\) </p>
+
+    </td>
+    <td  style="text-align:left; border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> перенос \(q_{DA}^{(2)} = -1\) </p>
+
+    </td>
+    <td  style="text-align:left; border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \((32, 85, 196, 199),\  \mathcal{B}_{xy}^{(2)} = 512\) </p>
+
+    </td>
+  </tr>
+</table>
+</div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sect0007.html" title="Теоремы единственности: размерность \(d=3\), кубооктаэдр \(O_2(3)\) и шаг Верле"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-mono-axioms.html" title="Вывод дискретной квантовой механики (ДКМ) из неделимости элементарного объёма, отсутствия внешней памяти у природы и уравнения Каталана"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0009.html" title="Симплициальное разложение Пуанкаре–Хегора и структурные пороги носителя при \(d = 3\)"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

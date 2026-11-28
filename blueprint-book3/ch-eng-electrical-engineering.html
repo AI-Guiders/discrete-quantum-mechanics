@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Теоретическая электротехника фазовой эстафеты на ГЦК-кубооктаэдрах (\(V=\mathcal{C}_3,\  I=\mathcal{S}_3\))</title>
+<link rel="next" href="ch-eng-silicon-architecture.html" title="Физическая реализация вычислений без тепла Ландауэра и кремниевая архитектура" />
+<link rel="prev" href="sect0001.html" title="Введение. Инженерная ветвь единого Естествознания: Трёхзаконная целочисленная механика Ньютона и пять порогов кольца Z512" />
+<link rel="up" href="index.html" title="Книга III. Инженерный справочник (Lean 4 Blueprint)" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга III. Инженерный справочник (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Введение. Инженерная ветвь единого Естествознания: Трёхзаконная целочисленная механика Ньютона и пять порогов кольца \(\mathbb {Z}_{512}\)</span></a>
+ </li>
+<li class=" active current">
+  <a href="ch-eng-electrical-engineering.html"><span class="toc_ref">1</span> <span class="toc_entry">Теоретическая электротехника фазовой эстафеты на ГЦК-кубооктаэдрах (\(V=\mathcal{C}_3,\  I=\mathcal{S}_3\))</span></a>
+ </li>
+<li class="">
+  <a href="ch-eng-silicon-architecture.html"><span class="toc_ref">2</span> <span class="toc_entry">Физическая реализация вычислений без тепла Ландауэра и кремниевая архитектура</span></a>
+ </li>
+<li class="">
+  <a href="sect0002.html"><span class="toc_ref">1</span> <span class="toc_entry">Прикладная механика кубооктаэдра, фазовое согласование импеданса и голономные технологии</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="ch-applied-scale-invariance-and-bounds.html"><span class="toc_ref">3</span> <span class="toc_entry">Масштабная инвариантность кубооктаэдра \(O_2\): что физически разрешено и что запрещено законами сохранения</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-coherent-barrier-collapse.html"><span class="toc_ref">4</span> <span class="toc_entry">Когерентное схлопывание импеданса барьера в 12-лучевом кубооктаэдре: решёточный синтез против теплового нагрева</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-phase-ratchet-and-vortex-battery.html"><span class="toc_ref">5</span> <span class="toc_entry">Квантовый фазовый храповик на доменной стенке и топологический аккумулятор \(B_f = 512\, n_f\)</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-tomography-and-planetary-cores.html"><span class="toc_ref">6</span> <span class="toc_entry">Четырёхканальная голономная томография сред и фазовое геодинамо ядер планет</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-chemical-reactions-catalysis.html"><span class="toc_ref">7</span> <span class="toc_entry">Аналитические операторы химических реакций, седловая точка переходного состояния \(|A^\ddagger |=128\), селективность Вудворда–Хоффмана и гетерогенный катализ на кубооктаэдре \(O_2\)</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-c0-lossless-transmission.html"><span class="toc_ref">8</span> <span class="toc_entry">Практическое применение тактовой скорости звена \(c_0 = \kappa (d)^{-1}c\), баллистическая передача энергии и информации без потерь и инкапсулированный автомат</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-materials-cad-superconductivity.html"><span class="toc_ref">9</span> <span class="toc_entry">Генеративное материаловедение, куперовский возврат \(2e\) на полупериоде противофазы и конструирование функциональных сплавов и сверхпроводников</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-bio-cad-therapy.html"><span class="toc_ref">10</span> <span class="toc_entry">Прикладная биоинженерия (<em>Bio-CAD</em>), сквозной компилятор ДНК и терапевтическое управление клеточной средой</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-reversible-computing-and-paradoxes.html"><span class="toc_ref">11</span> <span class="toc_entry">Обратимая вычислительная техника без теплового предела Ландауэра (\(A_{13}\)) и разрешение фундаментальных парадоксов</span></a>
+ </li>
+<li class="">
+  <a href="ch-computational-laboratory.html"><span class="toc_ref">12</span> <span class="toc_entry">Вычислительная лаборатория серии</span></a>
+ </li>
+<li class="">
+  <a href="ch-measurement-processing.html"><span class="toc_ref">13</span> <span class="toc_entry">Обработка результатов измерений</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-critical-experiments.html"><span class="toc_ref">14</span> <span class="toc_entry">Критические эксперименты и инженерные гейты верификации (серия CE-RD)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="ch:eng-electrical-engineering">1 Теоретическая электротехника фазовой эстафеты на ГЦК-кубооктаэдрах (\(V=\mathcal{C}_3,\  I=\mathcal{S}_3\))</h1>
+
+<p>В классической теории Друде скорость механического дрейфа электронов в медном проводе составляет \(v_{\mathrm{drift}} \sim 10^{-4}\text{ м/с}\), что порождает известный парадокс при сопоставлении с передачей электрической мощности вдоль линии со скоростью света. В ДКМ на дискретном носителе \(\mathcal{M} = \mathbb {Z}_{512}\) кристаллическая решётка гранецентрированных кубических (ГЦК) проводников (\(\mathrm{Cu},\  Z=29\); \(\mathrm{Ag},\  Z=47\); \(\mathrm{Au},\  Z=79\); \(\mathrm{Al},\  Z=13\)) образована атомными узлами, чья первая координационная сфера из \(12\) ближайших соседей в точности совпадает с кубооктаэдром \(O_2(3)\). Электрический ток в таком проводнике представляет собой не механический транспорт шариков, а <b class="bfseries">торсионную эстафету вращения фазы</b> \(I(\Delta \varphi ) = \mathcal{S}_3(\Delta \varphi )\), сопряжённую с потенциальным натяжением \(V(\Delta \varphi ) = \mathcal{C}_3(\Delta \varphi ) = 128 - |\Delta \varphi |\). </p>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:eng-dc-ohm-mppt">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Теорема
+    </span>
+    <span class="theorem_thmlabel">1.1</span>
+    <span class="theorem_thmtitle">Нагрузочная прямая постоянного тока, согласование импеданса (MPPT) и порог джоулева нагрева,</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="ch-eng-electrical-engineering.html#thm:eng-dc-ohm-mppt">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/LogicCohomology.lean" class="lean_decl">LogicCohomology.lean</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   Стационарный сдвиг фазы \(\Delta \varphi = k \in [0,128]\) между соседними узлами кубооктаэдра делит бюджет четверти кольца \(Q_\square (3) = 128\) между напряжением \(V(k) = \mathcal{C}_3(k) = 128 - k\) и током фазовой эстафеты \(I(k) = \mathcal{S}_3(k) = k\): </p>
+<div class="equation" id="eq:eng-dc-ohm-mppt">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:eng-dc-ohm-mppt} V(k) + I(k) \; \equiv \;  128, \qquad P(k) \; =\;  V(k)\, I(k) \; =\;  64^2 - (64 - k)^2 \; \le \;  4\, 096 \; =\;  K_P(3)^2, \end{equation}
+  </div>
+  <span class="equation_label">1.1</span>
+</p>
+</div>
+<p> достигая максимума передачи мощности при \(k^* = K_P(3) = 64\) (\(V = I = 64\)). Внутри подпорогового беспотерьного коридора \(|k| \le 40 {\lt} 41\) излучение фононов тождественно равно нулю (\(\hat{n}_E(k) = \lfloor |k|/41\rfloor = 0\), баллистический/сверхпроводящий режим); при \(|k| \ge 41\) на дефектах решётки излучается \(\hat{n}_E(k) \in \{ 1,\dots ,6\} \) фононных квантов (закон Джоуля–Ленца) с рождением вихревых магнитных плакет \(B_f = 512\, n_f\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:eng-kirchhoff-faraday">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Теорема
+    </span>
+    <span class="theorem_thmlabel">1.2</span>
+    <span class="theorem_thmtitle">Законы Кирхгофа и индукции Фарадея из нильпотентности кограницы де&#160;Рама,</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="ch-eng-electrical-engineering.html#thm:eng-kirchhoff-faraday">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="ch-eng-electrical-engineering.html#thm:eng-dc-ohm-mppt">Теорема 1.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/LogicCohomology.lean" class="lean_decl">LogicCohomology.lean</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>    Вокруг всякого замкнутого контура \(\partial f\) тождество \((d_1 d_0\varphi )_f \equiv 0\) даёт второй закон Кирхгофа (KVL) в потенциальных цепях и закон электромагнитной индукции Фарадея \((d_1 r)_f = -512(d_1 q)_f = 512\, n_f\) при сцеплении с вихревым магнитным потоком, тогда как \(d_2\circ d_1 \equiv 0\) и \(\sum _{k=0}^{11}\vec{e}_k = \mathbf{0}\) дают первый закон Кирхгофа (KCL) в каждом узле. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:eng-ac-rlc">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Теорема
+    </span>
+    <span class="theorem_thmlabel">1.3</span>
+    <span class="theorem_thmtitle">Ортогональность реактивной мощности переменного тока и точное гашение в \(LC\)-резонансе,</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="ch-eng-electrical-engineering.html#thm:eng-ac-rlc">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="ch-eng-electrical-engineering.html#thm:eng-kirchhoff-faraday">Теорема 1.2</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/LogicCohomology.lean" class="lean_decl">LogicCohomology.lean</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>    Ёмкостный (\(+128\) тиков) и индуктивный (\(-128 \equiv +384\) тика) сдвиги фазы на кольце \(\mathbb {Z}_{512}\) удовлетворяют </p>
+<div class="equation" id="eq:eng-ac-rlc">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:eng-ac-rlc} \sum _{\varphi =0}^{511} \mathcal{C}_3(\varphi )\, \mathcal{S}_3(\varphi ) = 0, \qquad \sum _{\varphi =0}^{511} \mathcal{C}_3(\varphi )^2 = 2\, 796\, 288, \qquad \mathcal{C}_3(\varphi + 128) + \mathcal{C}_3(\varphi + 384) \; \equiv \;  0 \quad (\forall \varphi \in \mathbb {Z}_{512}), \end{equation}
+  </div>
+  <span class="equation_label">1.2</span>
+</p>
+</div>
+<p> доказывая равенство нулю работы реактивной мощности за период и поточечную взаимную аннигиляцию напряжений \(L\) и \(C\) в резонансе. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:eng-rectifiers">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Теорема
+    </span>
+    <span class="theorem_thmlabel">1.4</span>
+    <span class="theorem_thmtitle">Выпрямители Гретца и бесконденсаторный квадратурный выпрямитель с \(0\% \) пульсаций,</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="ch-eng-electrical-engineering.html#thm:eng-rectifiers">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="ch-eng-electrical-engineering.html#thm:eng-ac-rlc">Теорема 1.3</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/LogicCohomology.lean" class="lean_decl">LogicCohomology.lean</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>    Безветвевой однополупериодный выпрямитель \(\mathrm{rect}_{1/2}(x) = (|x|+x)/2\) и двухполупериодный 4-диодный мост Гретца \(|x|\) дают точные целочисленные средние токи на \(\mathbb {Z}_{512}\) без иррациональных множителей \(\pi \): </p>
+<div class="equation" id="eq:eng-rectifiers">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:eng-rectifiers} \sum _{\varphi =0}^{511}\mathrm{rect}_{1/2}\bigl(\mathcal{S}_3(\varphi )\bigr) = 16\, 384 = 128^2 \; \; (\bar{I}_{1/2} = 32), \qquad \sum _{\varphi =0}^{511}\bigl|\mathcal{S}_3(\varphi )\bigr| = 32\, 768 = 2\times 128^2 \; \; (\bar{I}_{\mathrm{Graetz}} = 64 = K_P), \end{equation}
+  </div>
+  <span class="equation_label">1.3</span>
+</p>
+</div>
+<p> а двухфазный квадратурный мостовой выпрямитель (\(\varphi \) и \(\varphi - 128\)) обеспечивает постоянный выход без сглаживающего конденсатора с \(0\% \) пульсаций на каждом тике: \(|\mathcal{C}_3(\varphi )| + |\mathcal{S}_3(\varphi )| \equiv 128\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:eng-transformer">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Теорема
+    </span>
+    <span class="theorem_thmlabel">1.5</span>
+    <span class="theorem_thmtitle">Идеальный трансформатор и квадратичное преобразование импеданса</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="ch-eng-electrical-engineering.html#thm:eng-transformer">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="ch-eng-electrical-engineering.html#thm:eng-rectifiers">Теорема 1.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   Для первичной и вторичной обмоток \(N_1 : N_2\) на общем замкнутом магнитопроводе (\(\Phi _{\mathrm{core}} = 512\, n_f\)) при \(V_1 = N_1\varepsilon _1\), \(V_2 = N_2\varepsilon _1\), \(I_1 = N_2 i_0\), \(I_2 = N_1 i_0\) выполняются \(N_2 V_1 - N_1 V_2 \equiv 0\), \(N_1 I_1 - N_2 I_2 \equiv 0\), \(V_1 I_1 \equiv V_2 I_2\) и \(Z_{\mathrm{in}} = (N_1/N_2)^2 Z_{\mathrm{load}}\). </p>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sect0001.html" title="Введение. Инженерная ветвь единого Естествознания: Трёхзаконная целочисленная механика Ньютона и пять порогов кольца \(\mathbb {Z}_{512}\)"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="index.html" title="Книга III. Инженерный справочник (Lean 4 Blueprint)"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="ch-eng-silicon-architecture.html" title="Физическая реализация вычислений без тепла Ландауэра и кремниевая архитектура"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

@@ -1,0 +1,2533 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Constructive 12-Ray Cuboctahedral Lattice Physics, Engineering CAD, and Lean 4 Verified Projective Manifold Mathematics">
+      
+      
+      
+        <link rel="canonical" href="https://ai-guiders.github.io/discrete-quantum-mechanics/books/book5-mathematics/ch02/">
+      
+      
+        <link rel="prev" href="../ch01/">
+      
+      
+        <link rel="next" href="../ch03/">
+      
+      
+        
+          <link rel="alternate" href="./" hreflang="en">
+        
+          <link rel="alternate" href="../../../ru/books/book5-mathematics/ch02/" hreflang="ru">
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
+    
+    
+      
+        <title>2. Дискретный ротатор $\mathbb{Z}_{4Q}$, однородные проективные поля $\mathbb{Q}(i,\sqrt{d-1})$ и анализ без делений - Discrete Quantum Mechanics & Projective Manifold Mathematics</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#2-mathbbz_4q-mathbbqisqrtd-1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Discrete Quantum Mechanics &amp; Projective Manifold Mathematics" class="md-header__button md-logo" aria-label="Discrete Quantum Mechanics & Projective Manifold Mathematics" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Discrete Quantum Mechanics & Projective Manifold Mathematics
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2. Дискретный ротатор $\mathbb{Z}_{4Q}$, однородные проективные поля $\mathbb{Q}(i,\sqrt{d-1})$ и анализ без делений
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="cyan"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="cyan"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Select language">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../ru/books/book5-mathematics/ch02/" hreflang="ru" class="md-select__link">
+              Русский
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/AI-Guiders/discrete-quantum-mechanics" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AI-Guiders/discrete-quantum-mechanics
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Overview & 5 Books
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../engineering/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  For Engineers, Shipbuilders & CAD
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../mathematics/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  For Mathematicians & Lean 4
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../physics/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  For Physicists & Natural Science
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../book1-monograph/ch01/" class="md-tabs__link">
+          
+  
+  
+  Book I. Formal Foundations (Monograph)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../book2-laboratory/ch01/" class="md-tabs__link">
+          
+  
+  
+  Book II. Laboratory & Simulation Manual
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../book3-engineering/ch01/" class="md-tabs__link">
+          
+  
+  
+  Book III. Engineering & Applied Design Handbook
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../book4-course/ch01/" class="md-tabs__link">
+          
+  
+  
+  Book IV. Unified Natural Sciences Course
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../ch01/" class="md-tabs__link">
+          
+  
+  
+  Book V. Projective Manifold Mathematics
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Discrete Quantum Mechanics &amp; Projective Manifold Mathematics" class="md-nav__button md-logo" aria-label="Discrete Quantum Mechanics & Projective Manifold Mathematics" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Discrete Quantum Mechanics & Projective Manifold Mathematics
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/AI-Guiders/discrete-quantum-mechanics" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AI-Guiders/discrete-quantum-mechanics
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview & 5 Books
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../engineering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    For Engineers, Shipbuilders & CAD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mathematics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    For Mathematicians & Lean 4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../physics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    For Physicists & Natural Science
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Book I. Formal Foundations (Monograph)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Book I. Formal Foundations (Monograph)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book1-monograph/ch01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Предисловие. Предмет монографии и дедуктивное строение теории снизу вверх
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book1-monograph/ch02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Вывод дискретной квантовой механики (ДКМ) из неделимости элементарного объёма, отсутствия внешней памяти у природы и уравнения Каталана
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book1-monograph/ch03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Дискретная экспонента Эйлера на $\mathbb{Z}_{512}$, однородная проективная арифметика над $\mathbb{Q}(i,\sqrt{2})$ и выход в непрерывный анализ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book1-monograph/ch04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Булева полнота Поста, редукция 3-SAT, конструктивные когомологии де Рама и барьеры внутренних вычислителей
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book1-monograph/ch05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Дискретная и непрерывная квантовая механика (ДКМ и НКМ), электродинамика Максвелла и граница применимости континуума
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book1-monograph/ch06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Калибровочная группа Стандартной модели, гравитационное преломление и космология
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book1-monograph/ch07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Атомные и ядерные оболочки кубооктаэдра, планетогенез по 6 зонам диска, тождества Безу на $\mathbb{Z}_{512}$, сверхпроводимость и когерентный $587$-кратный коллапс барьера
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book1-monograph/ch08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Молекулярная биофизика, планетарные фотонные окна, генетический код ДНК, фолдинг белков и морфогенез
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book1-monograph/ch09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Бесфононный кремниевый гетеропереход $120 + 8 = 128$, общая конструкция предела по счётным моноидам стадий и гёделевская неизбежность лабораторного арбитража
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Book II. Laboratory & Simulation Manual
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Book II. Laboratory & Simulation Manual
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book2-laboratory/ch01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Введение. Лабораторный арбитраж в едином Естествознании и связь четырёх книг
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book2-laboratory/ch02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Бесфононная кремниевая фотовольтаика ($441\text{ нм} \to 2\times 882\text{ нм} < 1107\text{ нм}$): протокол чистой комнаты и матрица диагностики
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book2-laboratory/ch03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Сводный реестр критических экспериментов и лабораторно-вычислительных гейтов
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book2-laboratory/ch04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Обработка результатов измерений
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book2-laboratory/ch05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Вычислительная лаборатория серии
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Book III. Engineering & Applied Design Handbook
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Book III. Engineering & Applied Design Handbook
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Введение. Инженерная ветвь единого Естествознания: Трёхзаконная целочисленная механика Ньютона и пять порогов кольца $\mathbb{Z}_{512}$
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Теоретическая электротехника фазовой эстафеты на ГЦК-кубооктаэдрах ($V=\mathcal{C}_3,\ I=\mathcal{S}_3$)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Физическая реализация вычислений без тепла Ландауэра и кремниевая архитектура
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Масштабная инвариантность кубооктаэдра $O_2$: что физически разрешено и что запрещено законами сохранения
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Когерентное схлопывание импеданса барьера в 12-лучевом кубооктаэдре: решёточный синтез против теплового нагрева
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Квантовый фазовый храповик на доменной стенке и топологический аккумулятор $B_f = 512\,n_f$
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Четырёхканальная голономная томография сред и фазовое геодинамо ядер планет
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Аналитические операторы химических реакций, седловая точка переходного состояния $|A^\ddagger|=128$, селективность Вудворда–Хоффмана и гетерогенный катализ на кубооктаэдре $O_2$
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Практическое применение тактовой скорости звена $\caSignalSpeed = \caKappaGeom(d)^{-1}\speedC$, баллистическая передача энергии и информации без потерь и инкапсулированный автомат
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Генеративное материаловедение, куперовский возврат $2e$ на полупериоде противофазы и конструирование функциональных сплавов и сверхпроводников
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Прикладная биоинженерия (Bio-CAD), сквозной компилятор ДНК и терапевтическое управление клеточной средой
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Обратимая вычислительная техника без теплового предела Ландауэра ($A_{13}$) и разрешение фундаментальных парадоксов
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Вычислительная лаборатория серии
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Обработка результатов измерений
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch15/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15. Критические эксперименты и инженерные гейты верификации (серия CE-RD)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Book IV. Unified Natural Sciences Course
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Book IV. Unified Natural Sciences Course
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book4-course/ch01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Введение. Главный квест этой Вселенной и почему у решётки нет «балкона»
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book4-course/ch02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Ступень I. Устройство носителя и рождение трёхмерного пространства ($1 + 2^d = d^2$)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book4-course/ch03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Ступень II. Математика и информатика внутри носителя
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book4-course/ch04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Ступень III. Квантовая механика, электродинамика Максвелла и демоны Лапласа и Максвелла
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book4-course/ch05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Ступень IV. Элементарные частицы, ядра, гравитация и космология
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book4-course/ch06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Ступень V. Химия, таблица Менделеева и дизайн материалов
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book4-course/ch07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Ступень VI. Биология, генетический код ДНК и морфогенез органов
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book4-course/ch08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Ступень VII. Кремниевый чип и инженерные установки своими руками
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book4-course/ch09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Эпилог. Дорожная карта замкнута: от уравнения самозамкнутости к единому Естествознанию
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Book V. Projective Manifold Mathematics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Book V. Projective Manifold Mathematics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Предисловие. Отделение чистой проективной математики от физики носителя
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Дискретный ротатор $\mathbb{Z}_{4Q}$, однородные проективные поля $\mathbb{Q}(i,\sqrt{d-1})$ и анализ без делений
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Дискретный ротатор $\mathbb{Z}_{4Q}$, однородные проективные поля $\mathbb{Q}(i,\sqrt{d-1})$ и анализ без делений
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#l1-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Характер Эйлера на \(L^1\)-алмазе, тождество постоянного вронскиана и подъём Брахмагупты–Вейерштрасса
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dnfg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Замкнутая башня производных частного всех порядков \(D^n(f/g)\), многомерная кубатура Симпсона и когомологии де Рама
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mvarphileftrightarrowxy-operatornameatan_l1operatornameacot_l1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Биекция полярных и декартовых координат \((M,\varphi)\leftrightarrow(X,Y)\) без корней, точное обращение \(\operatorname{atan}_{L^1},\,\operatorname{acot}_{L^1}\) и гиперболическое исчисление Гудермана–Минковского
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mathbbz_4q-mathbbr-mathbbc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Конструктивный переход от квадратичных сумм на кольце \(\mathbb{Z}_{4Q}\) к интегралам Френеля на \(\mathbb{R}\) (\(\mathbb{C}\)) без рядов Тейлора и без таблиц
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Изотропный дискриминантный конус в $\mathrm{SL}_2(\mathbb{Z})$, моноид башни аппроксимантов Паде и бескорневое кубическое сжатие
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Трёхшахтные планетарные дифференциалы $\mathcal{A} + \mathcal{B} = \mathcal{C}$, вронскиан Мейсона–Стотерса и проекторы Лагранжа–Вандермонда
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Алгебра многовинтовых планетарных каскадов и встречно-волновая суперпозиция на сфере Римана $\mathbb{P}^1$
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#l1-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Характер Эйлера на \(L^1\)-алмазе, тождество постоянного вронскиана и подъём Брахмагупты–Вейерштрасса
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dnfg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Замкнутая башня производных частного всех порядков \(D^n(f/g)\), многомерная кубатура Симпсона и когомологии де Рама
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mvarphileftrightarrowxy-operatornameatan_l1operatornameacot_l1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Биекция полярных и декартовых координат \((M,\varphi)\leftrightarrow(X,Y)\) без корней, точное обращение \(\operatorname{atan}_{L^1},\,\operatorname{acot}_{L^1}\) и гиперболическое исчисление Гудермана–Минковского
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mathbbz_4q-mathbbr-mathbbc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Конструктивный переход от квадратичных сумм на кольце \(\mathbb{Z}_{4Q}\) к интегралам Френеля на \(\mathbb{R}\) (\(\mathbb{C}\)) без рядов Тейлора и без таблиц
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="2-mathbbz_4q-mathbbqisqrtd-1">2. Дискретный ротатор <span class="arithmatex">\(\mathbb{Z}_{4Q}\)</span>, однородные проективные поля <span class="arithmatex">\(\mathbb{Q}(i,\sqrt{d-1})\)</span> и анализ без делений<a class="headerlink" href="#2-mathbbz_4q-mathbbqisqrtd-1" title="Permanent link">&para;</a></h1>
+<p><strong>Reading Mode:</strong> Current (MkDocs) · <a href="https://ai-guiders.github.io/discrete-quantum-mechanics/blueprint-book5/">Interactive Lean 4 Blueprint (<code>L∃∀N</code>)</a> · <a href="https://ai-guiders.github.io/discrete-quantum-mechanics/blueprint-book5/dep_graph_document.html">Theorem Dependency Graph</a> · <a href="https://github.com/AI-Guiders/discrete-quantum-mechanics/raw/main/book/out/pdf/projective-manifold-mathematics.pdf">Download Volume PDF (<code>projective-manifold-mathematics.pdf</code>)</a></p>
+<hr />
+<h2 id="l1-">Характер Эйлера на <span class="arithmatex">\(L^1\)</span>-алмазе, тождество постоянного вронскиана и подъём Брахмагупты–Вейерштрасса<a class="headerlink" href="#l1-" title="Permanent link">&para;</a></h2>
+<p>Пусть <span class="arithmatex">\(Q \in \mathbb{N}^+\)</span> (<span class="arithmatex">\(Q \ge 1\)</span>) — произвольный целочисленный четверть-период. На циклическом кольце <span class="arithmatex">\(\mathbb{Z}_{4Q}\)</span> из <span class="arithmatex">\(4Q\)</span> фазовых состояний чётная (косинусная) и нечётная (синусная) проекции <span class="arithmatex">\((\mathcal{C}_Q(\varphi), \mathcal{S}_Q(\varphi)) \in [-Q, +Q]^2\)</span> определяются кусочно-линейным обходом четырёх квадрантов <span class="arithmatex">\(L^1\)</span>-алмаза <span class="arithmatex">\(|\mathcal{C}_Q(\varphi)| + |\mathcal{S}_Q(\varphi)| \equiv Q\)</span>: в первом квадранте <span class="arithmatex">\(0 \le m \le Q\)</span> имеем <span class="arithmatex">\((\mathcal{C}_Q(m), \mathcal{S}_Q(m)) = (Q - m, m)\)</span> с продолжением на остальные квадранты поворотом на четверть периода <span class="arithmatex">\(+Q\)</span>:</p>
+<div class="arithmatex">\[
+\mathcal{C}_Q(\varphi + Q) \;=\; -\mathcal{S}_Q(\varphi), \qquad
+\mathcal{S}_Q(\varphi + Q) \;=\; +\mathcal{C}_Q(\varphi). \tag{1}
+\]</div>
+<div class="admonition note">
+<p class="admonition-title">Теорема (Тождество постоянного разностного вронскиана, подъём Брахмагупты–Вейерштрасса, отсутствие делителей нуля и замкнутые дискретные квадратуры)</p>
+<p>Для любого четверть-периода <span class="arithmatex">\(Q \ge 1\)</span> на кольце <span class="arithmatex">\(\mathbb{Z}_{4Q}\)</span> выполняются следующие безусловные конструктивные тождества:</p>
+<ol>
+<li>
+<p><strong>Тождественное постоянство разностного вронскиана и формула Ньютона–Лейбница:</strong>
+    для первых разностей <span class="arithmatex">\(\Delta\mathcal{C}_Q(\varphi) = \mathcal{C}_Q(\varphi+1) - \mathcal{C}_Q(\varphi)\)</span> и <span class="arithmatex">\(\Delta\mathcal{S}_Q(\varphi) = \mathcal{S}_Q(\varphi+1) - \mathcal{S}_Q(\varphi)\)</span> дискретный вронскиан тождественно равен четверть-периоду <span class="arithmatex">\(Q\)</span> в каждой точке кольца (включая угловые вершины смены наклона), а конечный интеграл первой разности любой функции <span class="arithmatex">\(F: \mathbb{Z} \to \mathbb{Z}\)</span> телескопически точен:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\mathcal{W}_Q(\varphi) &amp;:= \mathcal{C}_Q(\varphi)\,\Delta\mathcal{S}_Q(\varphi) - \mathcal{S}_Q(\varphi)\,\Delta\mathcal{C}_Q(\varphi) \;\equiv\; Q,  \\
+\sum_{k=0}^{N-1} \bigl(F(a + k + 1) - F(a + k)\bigr) &amp;\equiv F(a + N) - F(a).
+\end{aligned} \tag{2}
+\]</div>
+</li>
+<li>
+<p><strong>Подъём Брахмагупты–Вейерштрасса на рациональную окружность <span class="arithmatex">\(S^1(\mathbb{Q})\)</span> и отсутствие делителей нуля на <span class="arithmatex">\(L^1\)</span>-алмазе:</strong>
+    однородная тройка Вейерштрасса <span class="arithmatex">\((X_T, Y_T, R_T) = \bigl(\mathcal{C}_Q^2 - \mathcal{S}_Q^2,\ 2\mathcal{C}_Q\mathcal{S}_Q,\ \mathcal{C}_Q^2 + \mathcal{S}_Q^2\bigr)\)</span> тождественно лежит на евклидовой окружности, а знаменатель <span class="arithmatex">\(R_T = \mathcal{C}_Q^2 + \mathcal{S}_Q^2\)</span> строго положителен во всех точках <span class="arithmatex">\(L^1\)</span>-алмаза <span class="arithmatex">\(|\mathcal{C}_Q| + |\mathcal{S}_Q| = Q \ge 1\)</span>:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+X_T^2 + Y_T^2 &amp;= (\mathcal{C}_Q^2 - \mathcal{S}_Q^2)^2 + (2\mathcal{C}_Q\mathcal{S}_Q)^2 \;\equiv\; (\mathcal{C}_Q^2 + \mathcal{S}_Q^2)^2 \;=\; R_T^2,  \\
+2\,R_T &amp;= 2\bigl(\mathcal{C}_Q^2 + \mathcal{S}_Q^2\bigr) \;\equiv\; (\mathcal{C}_Q + \mathcal{S}_Q)^2 + (\mathcal{C}_Q - \mathcal{S}_Q)^2 \;\ge\; Q^2 \;\ge\; 1.
+\end{aligned} \tag{3}
+\]</div>
+</li>
+<li>
+<p><strong>Однородная проективная обратимость в полях <span class="arithmatex">\(\mathbb{Q}(i)\)</span>, <span class="arithmatex">\(\mathbb{Q}(\sqrt{m})\)</span> и круговом поле <span class="arithmatex">\(\mathbb{Q}(i,\sqrt{2}) = \mathbb{Q}(\zeta_8)\)</span>:</strong>
+    в однородных проективных координатах без деления мультипликативные обратные в гауссовом поле <span class="arithmatex">\(\mathbb{Q}(i)\)</span> и квадратичном поле <span class="arithmatex">\(\mathbb{Q}(\sqrt{m})\)</span> (<span class="arithmatex">\(m = d - 1\)</span>) задаются полиномиальными операторами</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\operatorname{gaussFieldInv}(X, Y, R) &amp;:= \bigl(R X,\; -R Y,\; X^2 + Y^2\bigr),  \\
+\operatorname{quadFieldInv}_m(a, b, D) &amp;:= \bigl(D a,\; -D b,\; a^2 - m b^2\bigr),
+\end{aligned} \tag{4}
+\]</div>
+<p>удовлетворяющими <span class="arithmatex">\((X, Y, R)\otimes_{\mathbb{Q}(i)}\operatorname{gaussFieldInv}(X, Y, R) = \bigl(R(X^2+Y^2),\, 0,\, R(X^2+Y^2)\bigr) \sim (1, 0, 1)\)</span>, а при <span class="arithmatex">\(m = 2\)</span> первообразный корень <span class="arithmatex">\(8\)</span>-й степени из единицы <span class="arithmatex">\(\zeta_8 = (0, 1, 0, 1, 2) \in \mathbb{Q}(i,\sqrt{2})\)</span> удовлетворяет точным проективным соотношениям <span class="arithmatex">\(\zeta_8^2 \sim i\)</span>, <span class="arithmatex">\(\zeta_8^4 \sim -1\)</span>, <span class="arithmatex">\(\zeta_8^8 \sim +1\)</span>, <span class="arithmatex">\(\zeta_8\bar{\zeta}_8 \sim +1\)</span>.</p>
+</li>
+</ol>
+</div>
+<details class="success" open="open">
+<summary>Доказательство</summary>
+<p>В пункте (1) внутри первого квадранта <span class="arithmatex">\((Q - m)(m + 1) - m(Q - m - 1) = Q m + Q - m^2 - m - Q m + m^2 + m = Q\)</span>, а в вершине <span class="arithmatex">\(m = Q\)</span> имеем <span class="arithmatex">\(0\cdot(Q-1) - Q\cdot(-1) = Q\)</span>. В пункте (2) раскрытие <span class="arithmatex">\((\mathcal{C}_Q^2 - \mathcal{S}_Q^2)^2 + 4\mathcal{C}_Q^2\mathcal{S}_Q^2 = \mathcal{C}_Q^4 + 2\mathcal{C}_Q^2\mathcal{S}_Q^2 + \mathcal{S}_Q^4 = (\mathcal{C}_Q^2 + \mathcal{S}_Q^2)^2\)</span> и <span class="arithmatex">\((\mathcal{C}_Q + \mathcal{S}_Q)^2 + (\mathcal{C}_Q - \mathcal{S}_Q)^2 = 2(\mathcal{C}_Q^2 + \mathcal{S}_Q^2)\)</span> при <span class="arithmatex">\(|\mathcal{C}_Q| + |\mathcal{S}_Q| = Q\)</span> даёт <span class="arithmatex">\(2 R_T \ge Q^2 \ge 1\)</span>. В пункте (3) перемножение однородных пятёрок в <span class="arithmatex">\(\mathbb{Q}(i,\sqrt{2})\)</span> проверяется прямым раскрытием скобок.</p>
+</details>
+<h2 id="dnfg">Замкнутая башня производных частного всех порядков <span class="arithmatex">\(D^n(f/g)\)</span>, многомерная кубатура Симпсона и когомологии де Рама<a class="headerlink" href="#dnfg" title="Permanent link">&para;</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Теорема (Башня разностных производных частного <span class="arithmatex">\(D^n(f/g) = N_n/G_n\)</span> всех порядков <span class="arithmatex">\(n\in\mathbb{N}\)</span>, вариационный принцип, многомерная кубатура Симпсона на <span class="arithmatex">\(O_2(d)\)</span> и конструктивные когомологии де Рама)</p>
+<p>Для любых целочисленных функций <span class="arithmatex">\(f, g: \mathbb{Z} \to \mathbb{Z}\)</span> с разностным оператором <span class="arithmatex">\((Df)(x) = f(x+1) - f(x)\)</span>:</p>
+<ol>
+<li>
+<p><strong>Рекуррентная башня производных отношения <span class="arithmatex">\(D^n(f/g) = N_n(x)/G_n(x)\)</span> во всех порядках <span class="arithmatex">\(n\in\mathbb{N}\)</span> без полюсов:</strong>
+    индуктивная пара числителя и знаменателя <span class="arithmatex">\(n\)</span>-й производной частного</p>
+<div class="arithmatex">\[
+\begin{aligned}
+N_0(x) &amp;:= f(x), \qquad
+N_{n+1}(x) \;:=\; N_n(x+1)\,g(x) - N_n(x)\,g(x+n+1),  \\
+G_n(x) &amp;:= \prod_{j=0}^n g(x+j)
+\end{aligned} \tag{5}
+\]</div>
+<p>удовлетворяет точному шаговому тождеству <span class="arithmatex">\(\bigl(N_n(x+1)G_n(x) - N_n(x)G_n(x+1)\bigr)g(x) \equiv N_{n+1}(x)G_n(x)\)</span> и конечно-разностной формуле Ньютона по падающим факториалам, причём для знаменателя Вейерштрасса <span class="arithmatex">\(g(t) = R_Q(t) = \mathcal{C}_Q(t)^2 + \mathcal{S}_Q(t)^2\)</span> (<span class="arithmatex">\(Q \ge 1\)</span>) при всех <span class="arithmatex">\(n\in\mathbb{N}\)</span> и всех <span class="arithmatex">\(x\in\mathbb{Z}\)</span> выполняется <span class="arithmatex">\(G_n(x) \ge 1\)</span>.</p>
+</li>
+<li>
+<p><strong>Многомерное разбиение на пояса и кубатура Симпсона на оболочке <span class="arithmatex">\(O_2(d)\)</span> при произвольной размерности <span class="arithmatex">\(d \ge 2\)</span>:</strong>
+    сечение оболочки <span class="arithmatex">\(O_2(d) = \{e \in \{-1,0,+1\}^d \mid \sum_{i=1}^d e_i^2 = 2\}\)</span> из <span class="arithmatex">\(2d(d-1)\)</span> вершин вдоль любой координатной оси образует три пояса <span class="arithmatex">\(\bigl(|Z_{-1}(d)|, |Z_0(d)|, |Z_{+1}(d)|\bigr) = \bigl(2(d-1),\ 2(d-1)(d-2),\ 2(d-1)\bigr)\)</span>, которые в сумме с центральным весом <span class="arithmatex">\(w_0(d) = 2(d-1)(6-d)\)</span> дают параболические веса Симпсона:</p>
+<div class="arithmatex">\[
+\bigl(|Z_{-1}(d)|,\; |Z_0(d)| + w_0(d),\; |Z_{+1}(d)|\bigr) \;\equiv\; 2(d-1)\times(1,\; 4,\; 1), \tag{6}
+\]</div>
+<p>воспроизводя точный трёхмерный интеграл Римана <span class="arithmatex">\(3\iiint_{[-1,1]^3} P\,\mathrm{d}V = 24c_0 + 8(c_x+c_y+c_z)\)</span> на произвольном кубическом многочлене <span class="arithmatex">\(P\)</span>, тогда как сумма по архимедовым слоям <span class="arithmatex">\(S_k(3) = 10k^2 + 2\)</span> удовлетворяет <span class="arithmatex">\(3\bigl(1 + \sum_{k=1}^N (10k^2+2)\bigr) \equiv 10N^3 + 15N^2 + 11N + 3\)</span>.</p>
+</li>
+<li>
+<p><strong>Конструктивные когомологии де Рама <span class="arithmatex">\(d^2 \equiv 0\)</span> и обращение нильпотентных операторов в <span class="arithmatex">\(\mathbb{Z}\)</span>:</strong>
+    кограничные операторы <span class="arithmatex">\(d_0\)</span> (на рёбрах), <span class="arithmatex">\(d_1\)</span> (на гранях) и <span class="arithmatex">\(d_2\)</span> (на кубах) удовлетворяют <span class="arithmatex">\(d_1 \circ d_0 \equiv 0\)</span> и <span class="arithmatex">\(d_2 \circ d_1 \equiv 0\)</span>, циркуляция главных остатков по модулю <span class="arithmatex">\(M\)</span> вокруг замкнутой грани строго квантована периодом (<span class="arithmatex">\((d_1 r)_f = M\cdot n_f \in M\mathbb{Z}\)</span>), а любой нильпотентный оператор <span class="arithmatex">\(\mathcal{M} = I + N_{\mathrm{nil}}\)</span> (<span class="arithmatex">\(N_{\mathrm{nil}}^3 = 0\)</span>) обращается в целых числах по формуле <span class="arithmatex">\((I + N_{\mathrm{nil}})^{-1} = I - N_{\mathrm{nil}} + N_{\mathrm{nil}}^2\)</span>.</p>
+</li>
+</ol>
+</div>
+<details class="success" open="open">
+<summary>Доказательство</summary>
+<p>Из определения (5) следует <span class="arithmatex">\(G_n(x+1)g(x) = g(x+n+1)G_n(x) = G_{n+1}(x)\)</span>, откуда вынесение общего множителя <span class="arithmatex">\(G_n(x)\)</span> даёт <span class="arithmatex">\((N_n(x+1)G_n(x) - N_n(x)G_n(x+1))g(x) = N_{n+1}(x)G_n(x)\)</span>. Тождество (6) следует из <span class="arithmatex">\(2(d-1)(d-2) + 2(d-1)(6-d) = 8(d-1)\)</span>, а равенства <span class="arithmatex">\(d_1(d_0\varphi) \equiv 0\)</span>, <span class="arithmatex">\(d_2(d_1 e) \equiv 0\)</span> и <span class="arithmatex">\((I + N_{\mathrm{nil}})(I - N_{\mathrm{nil}} + N_{\mathrm{nil}}^2) = I + N_{\mathrm{nil}}^3 = I\)</span> проверяются раскрытием скобок.</p>
+</details>
+<h2 id="mvarphileftrightarrowxy-operatornameatan_l1operatornameacot_l1">Биекция полярных и декартовых координат <span class="arithmatex">\((M,\varphi)\leftrightarrow(X,Y)\)</span> без корней, точное обращение <span class="arithmatex">\(\operatorname{atan}_{L^1},\,\operatorname{acot}_{L^1}\)</span> и гиперболическое исчисление Гудермана–Минковского<a class="headerlink" href="#mvarphileftrightarrowxy-operatornameatan_l1operatornameacot_l1" title="Permanent link">&para;</a></h2>
+<p>В естественных полярных координатах <span class="arithmatex">\((M, \varphi) \in \mathbb{N}^+ \times \mathbb{Z}_{4Q}\)</span> на ротаторе <span class="arithmatex">\(|\mathcal{C}_Q(\varphi)| + |\mathcal{S}_Q(\varphi)| \equiv Q\)</span> переход к декартовым проекциям <span class="arithmatex">\((X, Y)\)</span> и обратное восстановление полярного радиуса <span class="arithmatex">\(M\)</span> и угла <span class="arithmatex">\(\varphi\)</span>, а также гиперболические функции и их обращение выполняются в чистых целых числах без бесконечных рядов, квадратных корней и логарифмов.</p>
+<div class="admonition note">
+<p class="admonition-title">Теорема (Точная целочисленная биекция полярных и декартовых координат <span class="arithmatex">\((M,\varphi)\leftrightarrow(X,Y)\)</span>, обращение тангенса и котангенса, гиперболическая тройка Гудермана–Минковского и бескорневое обращение гиперболических функций)</p>
+<p>Для любого четверть-периода <span class="arithmatex">\(Q \ge 1\)</span>, произвольного полярного радиуса <span class="arithmatex">\(M \ge 1\)</span>, произвольного полярного угла <span class="arithmatex">\(\varphi \in \mathbb{Z}\)</span> и координат светового конуса <span class="arithmatex">\(U, V \in \mathbb{Z}\)</span> выполняются следующие безусловные тождества:</p>
+<ol>
+<li>
+<p><strong>Точная целочисленная биекция полярных и декартовых координат <span class="arithmatex">\((M, \varphi) \leftrightarrow (X, Y)\)</span> и обращение <span class="arithmatex">\(\operatorname{atan}_{L^1},\,\operatorname{acot}_{L^1}\)</span> без корней и рядов:</strong>
+    для декартовых проекций <span class="arithmatex">\(X = M\,\mathcal{C}_Q(\varphi)\)</span> и <span class="arithmatex">\(Y = M\,\mathcal{S}_Q(\varphi)\)</span> сумма модулей тождественно равна <span class="arithmatex">\(|X| + |Y| = M\,Q\)</span>, поэтому полярный радиус <span class="arithmatex">\(M\)</span> и полярный угол <span class="arithmatex">\(\varphi\)</span> (вместе с дополнительным углом котангенса <span class="arithmatex">\(Q - \varphi\)</span> в первом квадранте <span class="arithmatex">\(0 \le \varphi \le Q\)</span>) восстанавливаются с нулевой погрешностью при любом радиусе <span class="arithmatex">\(M \ge 1\)</span>:</p>
+<div class="arithmatex">\[
+M \;=\; \frac{|X| + |Y|}{Q}, \qquad
+\operatorname{atan}_{L^1}(Y, X) \;:=\; \frac{Q\,Y}{|X| + |Y|} \;\equiv\; \varphi, \qquad
+\operatorname{acot}_{L^1}(X, Y) \;:=\; \frac{Q\,X}{|X| + |Y|} \;\equiv\; Q - \varphi, \tag{7}
+\]</div>
+<p>причём <span class="arithmatex">\(\operatorname{atan}_{L^1}(Y, X) + \operatorname{acot}_{L^1}(X, Y) \equiv Q\)</span>, а четырёхквадрантные операторы <span class="arithmatex">\(\operatorname{cartToPolar}_Q(X, Y) = \bigl((|X|+|Y|)/Q,\ \operatorname{atan2}_{L^1}(Y, X)\bigr)\)</span> и <span class="arithmatex">\(\operatorname{acot2}_{L^1}(X, Y)\)</span> биективно восстанавливают <span class="arithmatex">\((M, \varphi)\)</span> во всех <span class="arithmatex">\(4Q\)</span> точках кольца <span class="arithmatex">\(\mathbb{Z}_{4Q}\)</span>.</p>
+</li>
+<li>
+<p><strong>Проективная гиперболическая тройка Гудермана–Минковского <span class="arithmatex">\((\mathcal{Ch}_Q, \mathcal{Sh}_Q, D_{\mathrm{hyp}})\)</span> и инвариант светового конуса:</strong>
+    перестановка горизонтального катета и гипотенузы подъёма Вейерштрасса определяет целочисленные гиперболический косинус, гиперболический синус и гиперболический знаменатель:</p>
+<div class="arithmatex">\[
+\mathcal{Ch}_Q(\varphi) \;:=\; \mathcal{C}_Q(\varphi)^2 + \mathcal{S}_Q(\varphi)^2, \qquad
+\mathcal{Sh}_Q(\varphi) \;:=\; 2\,\mathcal{C}_Q(\varphi)\,\mathcal{S}_Q(\varphi), \qquad
+D_{\mathrm{hyp}}(\varphi) \;:=\; \mathcal{C}_Q(\varphi)^2 - \mathcal{S}_Q(\varphi)^2, \tag{8}
+\]</div>
+<p>которые тождественно лежат на гиперболе Минковского и сохраняют сумму светового конуса по всему кольцу <span class="arithmatex">\(\mathbb{Z}_{4Q}\)</span>:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\mathcal{Ch}_Q(\varphi)^2 - \mathcal{Sh}_Q(\varphi)^2 &amp;\equiv D_{\mathrm{hyp}}(\varphi)^2,  \\
+\mathcal{Ch}_Q(\varphi) + \bigl|\mathcal{Sh}_Q(\varphi)\bigr| &amp;\equiv \bigl(|\mathcal{C}_Q(\varphi)| + |\mathcal{S}_Q(\varphi)|\bigr)^2 \;\equiv\; Q^2.
+\end{aligned} \tag{9}
+\]</div>
+</li>
+<li>
+<p><strong>Обращение гиперболических функций без корней и без логарифмов (<span class="arithmatex">\(\operatorname{invHyp}_Q\)</span>, <span class="arithmatex">\(\operatorname{atanh}_{\mathrm{Cayley}}\)</span>, <span class="arithmatex">\(\operatorname{acoth}_{\mathrm{Cayley}}\)</span>):</strong>
+    поскольку для любых <span class="arithmatex">\(Q, \varphi \in \mathbb{Z}\)</span> выполняется точная факторизация</p>
+<div class="arithmatex">\[
+\mathcal{Ch}_Q(\varphi) + \mathcal{Sh}_Q(\varphi) - D_{\mathrm{hyp}}(\varphi) \;\equiv\; 2\,\mathcal{S}_Q(\varphi)\,\bigl(\mathcal{C}_Q(\varphi) + \mathcal{S}_Q(\varphi)\bigr), \tag{10}
+\]</div>
+<p>в первом квадранте <span class="arithmatex">\(0 \le \varphi \le Q\)</span> (<span class="arithmatex">\(\mathcal{C}_Q(\varphi) + \mathcal{S}_Q(\varphi) = Q\)</span>) оператор обратного гиперболического синуса/тангенса восстанавливает точный фазовый угол <span class="arithmatex">\(\varphi\)</span> одним делением на <span class="arithmatex">\(2Q\)</span> без извлечения корней и без логарифмов:</p>
+<div class="arithmatex">\[
+\operatorname{invHyp}_Q\bigl(\mathcal{Ch}_Q(\varphi),\, \mathcal{Sh}_Q(\varphi),\, D_{\mathrm{hyp}}(\varphi)\bigr) \;:=\; \frac{\mathcal{Ch}_Q(\varphi) + \mathcal{Sh}_Q(\varphi) - D_{\mathrm{hyp}}(\varphi)}{2\,Q} \;\equiv\; \varphi, \tag{11}
+\]</div>
+<p>а на координатах светового конуса <span class="arithmatex">\((U, V)\)</span> проективные гиперболический тангенс <span class="arithmatex">\(\tanh_{\mathrm{Cayley}}(U, V) = (U - V: U + V)\)</span> и котангенс <span class="arithmatex">\(\coth_{\mathrm{Cayley}}(U, V) = (U + V: U - V)\)</span> обращаются линейным оператором Кэли <span class="arithmatex">\(\operatorname{atanh}_{\mathrm{Cayley}}(S_h, C_h) = (C_h + S_h,\ C_h - S_h) \equiv (2U, 2V)\)</span>.</p>
+</li>
+</ol>
+</div>
+<details class="success" open="open">
+<summary>Доказательство</summary>
+<p>В пункте (1) при <span class="arithmatex">\(X = \lambda(Q - \varphi) \ge 0\)</span> и <span class="arithmatex">\(Y = \lambda\varphi \ge 0\)</span> имеем <span class="arithmatex">\(|X| + |Y| = \lambda Q\)</span>, откуда <span class="arithmatex">\(Q Y / (\lambda Q) = \varphi\)</span> и <span class="arithmatex">\(Q X / (\lambda Q) = Q - \varphi\)</span>. В пункте (2) раскрытие скобок даёт <span class="arithmatex">\((c^2+s^2)^2 - (2cs)^2 = c^4 - 2c^2s^2 + s^4 = (c^2-s^2)^2\)</span> и <span class="arithmatex">\(c^2 + s^2 + 2|c||s| = (|c|+|s|)^2 = Q^2\)</span>. В пункте (3) <span class="arithmatex">\((c^2+s^2) + 2cs - (c^2-s^2) = 2s^2 + 2cs = 2s(c+s) = 2Q\varphi\)</span>, а <span class="arithmatex">\((U+V \pm (U-V)) = (2U, 2V)\)</span>.</p>
+</details>
+<h2 id="mathbbz_4q-mathbbr-mathbbc">Конструктивный переход от квадратичных сумм на кольце <span class="arithmatex">\(\mathbb{Z}_{4Q}\)</span> к интегралам Френеля на <span class="arithmatex">\(\mathbb{R}\)</span> (<span class="arithmatex">\(\mathbb{C}\)</span>) без рядов Тейлора и без таблиц<a class="headerlink" href="#mathbbz_4q-mathbbr-mathbbc" title="Permanent link">&para;</a></h2>
+<p>Классическое значение интегралов Френеля <span class="arithmatex">\(\int_0^\infty \cos(x^2)\,dx = \int_0^\infty \sin(x^2)\,dx = \frac{1}{2}\sqrt{\frac{\pi}{2}}\)</span> выводится из дискретной квадратичной суммы на кольце <span class="arithmatex">\(\mathbb{Z}_{512}\)</span> чисто геометрически — через <span class="arithmatex">\(2\)</span>-адическое разложение кольца на пять оболочек, тождество Гаусса–Планшереля и спрямление многоугольника Вейерштрасса, без использования бесконечных степенных рядов Тейлора и таблиц:</p>
+<div class="admonition note">
+<p class="admonition-title">Теорема (Общий символьный закон стационарной фазы Френеля для произвольного масштаба <span class="arithmatex">\(b \in \mathbb{Z}\)</span>, тождество нормы Гаусса–Планшереля и безтейлоровский переход к <span class="arithmatex">\(\int_0^\infty \cos(x^2)\,dx = \int_0^\infty \sin(x^2)\,dx = \frac{1}{2}\sqrt{\frac{\pi}{2}}\)</span>)</p>
+<p>Для произвольного целочисленного масштаба <span class="arithmatex">\(b \in \mathbb{Z}\)</span> и фазового кольца размера <span class="arithmatex">\(N_{\mathrm{ring}}(b) = 8b^2\)</span> с четверть-периодом <span class="arithmatex">\(Q(b) = 2b^2\)</span>, полупериодом <span class="arithmatex">\(\Phi_{\mathrm{half}}(b) = 4b^2\)</span> и точкой биссектрисы первого квадранта <span class="arithmatex">\(K_P(b) = Q(b)/2 = b^2\)</span> (при <span class="arithmatex">\(b = 8\)</span>: $$
+Q = 128,\ \Phi_{\mathrm{half}} = 256,\ N_{\mathrm{ring}} = 512,\ K_P = 64
+$$) выполняются следующие безусловные символьные тождества:</p>
+<ol>
+<li>
+<p><strong>Общий закон попадания выживающей <span class="arithmatex">\(2\)</span>-адической оболочки <span class="arithmatex">\(\varphi(b, k) = b(2k+1)\)</span> в биссектрису <span class="arithmatex">\(45^\circ\)</span> (<span class="arithmatex">\(K_P(b) = b^2\)</span>) для всех <span class="arithmatex">\(b, k, m \in \mathbb{Z}\)</span>:</strong>
+    на всех небиссекторных <span class="arithmatex">\(2\)</span>-адических оболочках кольца квадратичные образы <span class="arithmatex">\(\varphi^2 \bmod N_{\mathrm{ring}}(b)\)</span> инвариантны относительно полупериодного сдвига <span class="arithmatex">\(+\Phi_{\mathrm{half}}(b)\)</span> и взаимно аннулируются по тождеству <span class="arithmatex">\(\mathcal{E}(\psi + \Phi_{\mathrm{half}}(b)) = -\mathcal{E}(\psi)\)</span>, тогда как для любого элемента выживающей оболочки <span class="arithmatex">\(\varphi(b, k) = b(2k+1)\)</span> (<span class="arithmatex">\(k \in \mathbb{Z}\)</span>) выполняется:</p>
+<div class="arithmatex">\[
+\varphi(b, k)^2 - K_P(b) \;\equiv\; \Phi_{\mathrm{half}}(b)\,k(k+1), \tag{12}
+\]</div>
+<p>откуда при всех чётных <span class="arithmatex">\(k = 2m\)</span> и нечётных <span class="arithmatex">\(k = 2m+1\)</span> квадрат тождественно попадает в точку биссектрисы <span class="arithmatex">\(K_P(b) = b^2 \leftrightarrow \pi/4\)</span> по модулю полного периода кольца <span class="arithmatex">\(N_{\mathrm{ring}}(b) = 8b^2\)</span> (где $$
+\mathcal{C}<em>{Q(b)}(K_P(b)) = Q(b) - K_P(b) = K_P(b) = b^2 = \mathcal{S}</em>{Q(b)}(K_P(b))
+$$):</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\varphi(b, 2m)^2 &amp;\equiv K_P(b) + N_{\mathrm{ring}}(b)\,m(2m+1),  \\
+\varphi(b, 2m+1)^2 &amp;\equiv K_P(b) + N_{\mathrm{ring}}(b)\,(m+1)(2m+1),  \\
+\mathcal{C}_{\mathrm{Fresnel}}(b) &amp;= \mathcal{S}_{\mathrm{Fresnel}}(b) \;:=\; (4b)\,K_P(b) \;=\; 4\,b^3 \qquad \bigl(\text{при } b = 8:\; 32 \times 64 = 2\,048\bigr).
+\end{aligned} \tag{13}
+\]</div>
+</li>
+<li>
+<p><strong>Общее символьное тождество нормы Гаусса–Планшереля для произвольного масштаба <span class="arithmatex">\(b \in \mathbb{Z}\)</span>:</strong>
+    для любого <span class="arithmatex">\(b \in \mathbb{Z}\)</span> квадраты дискретных интегралов Френеля связаны с полупериодом <span class="arithmatex">\(\Phi_{\mathrm{half}}(b) = 4b^2\)</span>, полным периодом кольца <span class="arithmatex">\(N_{\mathrm{ring}}(b) = 8b^2\)</span> и квадратом амплитуды <span class="arithmatex">\(Q(b)^2 = 4b^4\)</span> точными полиномиальными тождествами:</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\mathcal{C}_{\mathrm{Fresnel}}(b)^2 \;=\; \mathcal{S}_{\mathrm{Fresnel}}(b)^2 &amp;\equiv \Phi_{\mathrm{half}}(b)\,Q(b)^2 \;=\; \frac{N_{\mathrm{ring}}(b)}{2}\,Q(b)^2 \;=\; 16\,b^6,  \\
+\mathcal{C}_{\mathrm{Fresnel}}(b)^2 + \mathcal{S}_{\mathrm{Fresnel}}(b)^2 &amp;\equiv N_{\mathrm{ring}}(b)\,Q(b)^2 \;=\; 32\,b^6.
+\end{aligned} \tag{14}
+\]</div>
+</li>
+<li>
+<p><strong>Прямой переход к <span class="arithmatex">\(\int_0^\infty \cos(x^2)\,dx = \int_0^\infty \sin(x^2)\,dx = \sqrt{\pi/8}\)</span> через спрямление многоугольника Вейерштрасса без рядов Тейлора:</strong>
+    при нормировке на амплитуду <span class="arithmatex">\(Q(b)\)</span> и <span class="arithmatex">\(d_{\mathrm{in}}(\square) = 4\)</span> квадранта кольца квадрат однолучевого интеграла Френеля равен <span class="arithmatex">\(\bigl(\frac{\mathcal{C}_{\mathrm{Fresnel}}(b)}{4\,Q(b)}\bigr)^2 = \frac{N_{\mathrm{ring}}(b)}{2\cdot 4^2} = \frac{N_{\mathrm{ring}}(b)}{16}\)</span>. При спрямлении многоугольника Вейерштрасса с шагом <span class="arithmatex">\((\Delta t)^2 = 2\pi / N_{\mathrm{ring}}(b)\)</span> множитель <span class="arithmatex">\(N_{\mathrm{ring}}(b)\)</span> сокращается тождественно при любом масштабе <span class="arithmatex">\(b\)</span>:</p>
+<div class="arithmatex">\[
+\left(\frac{\mathcal{C}_{\mathrm{Fresnel}}(b)}{4\,Q(b)}\,\Delta t\right)^2
+\;=\; \frac{N_{\mathrm{ring}}(b)}{16}\cdot\frac{2\pi}{N_{\mathrm{ring}}(b)}
+\;\equiv\; \frac{\pi}{8}
+\quad\Longrightarrow\quad
+\int_0^\infty \cos(x^2)\,dx \;=\; \int_0^\infty \sin(x^2)\,dx \;=\; \sqrt{\frac{\pi}{8}} \;=\; \frac{1}{2}\sqrt{\frac{\pi}{2}}, \tag{15}
+\]</div>
+<p>где <span class="arithmatex">\(\pi \in [\pi_{\mathrm{in}}(n),\ \pi_{\mathrm{out}}(n)]\)</span> зажимается рациональными суммами вписанного и описанного <span class="arithmatex">\(n\)</span>-угольников Вейерштрасса (3), а квадратный корень извлекается рациональной башней Паде–<span class="arithmatex">\(\mathrm{SL}_2(\mathbb{Z})\)</span> Главы  без рядов Тейлора и таблиц.</p>
+</li>
+</ol>
+</div>
+<details class="success" open="open">
+<summary>Доказательство</summary>
+<p>Раскрытие скобок даёт <span class="arithmatex">\((b(2k+1))^2 - b^2 = 4b^2 k(k+1) = \Phi_{\mathrm{half}}(b)k(k+1)\)</span>, а при <span class="arithmatex">\(k = 2m\)</span> и <span class="arithmatex">\(k = 2m+1\)</span> имеем <span class="arithmatex">\(4b^2(2m)(2m+1) = 8b^2 m(2m+1)\)</span> и <span class="arithmatex">\(4b^2(2m+1)(2m+2) = 8b^2(m+1)(2m+1)\)</span>. Тождества (14)–(14) следуют из <span class="arithmatex">\((4b^3)^2 = 16b^6 = (4b^2)(2b^2)^2\)</span>.</p>
+</details>
+<hr />
+<details class="abstract">
+<summary>Companion Code &amp; Lean 4 Blueprint (Code Located In)</summary>
+<ul>
+<li><strong>Interactive Lean 4 Blueprint &amp; Theorem Graph:</strong> <a href="https://ai-guiders.github.io/discrete-quantum-mechanics/blueprint-book5/">Open Blueprint (<code>L∃∀N</code>)</a> · <a href="https://ai-guiders.github.io/discrete-quantum-mechanics/blueprint-book5/dep_graph_document.html">Interactive Dependency Graph</a></li>
+<li><strong>Verification Modules &amp; Files:</strong> <a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/RotatorQuadrature.lean"><code>Constructive/RotatorQuadrature.lean</code></a>, <a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/ProjectiveFieldCalculus.lean"><code>Constructive/ProjectiveFieldCalculus.lean</code></a>, <a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/LogicCohomology.lean"><code>Constructive/LogicCohomology.lean</code></a>, <a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/InverseTrigHyperbolic.lean"><code>Constructive/InverseTrigHyperbolic.lean</code></a></li>
+<li><strong>Verified Theorems &amp; Operators:</strong> <a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/RotatorQuadrature.lean#L173"><code>thm1_constant_wronskian_weierstrass_lift_and_newton_leibniz</code></a>, <a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/RotatorQuadrature.lean#L243"><code>thm2_closed_form_fresnel_jacobi_dirichlet_parseval_bessel_integrals</code></a>, <a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/RotatorQuadrature.lean#L415"><code>thm34_rotator_projective_field_invertibility_zero_divisor_freedom_and_q_i_sqrt2_fields</code></a>, <a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/RotatorQuadrature.lean#L301"><code>thm3_continuum_integration_from_cuboctahedron_archimedes_layers</code></a>, <a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/ProjectiveFieldCalculus.lean#L42"><code>thm35_general_field_derivative_operator_quotient_wronskian_and_variational_euler_lagrange</code></a>, <a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/ProjectiveFieldCalculus.lean#L135"><code>thm38_c_infinity_higher_derivatives_taylor_newton_expansion_and_pole_free_quotients</code></a>, <a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/LogicCohomology.lean#L212"><code>thm5_constructive_de_rham_cohomology_nilpotent_algebra_and_banach_tarski_free_measure</code></a>, <a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/InverseTrigHyperbolic.lean#L103"><code>minkowski_hyperbola_poly_identity</code></a>, <a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/InverseTrigHyperbolic.lean#L143"><code>exact_inverse_trig_and_rootfree_hyperbolic_calculus</code></a>, <a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/ProjectiveFieldCalculus.lean#L524"><code>thm40_table_free_continuum_fresnel_cornu_brackets_and_gauss_sum_bridge</code></a></li>
+</ul>
+</details>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

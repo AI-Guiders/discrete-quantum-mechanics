@@ -1,0 +1,2571 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Constructive 12-Ray Cuboctahedral Lattice Physics, Engineering CAD, and Lean 4 Verified Projective Manifold Mathematics">
+      
+      
+      
+        <link rel="canonical" href="https://ai-guiders.github.io/discrete-quantum-mechanics/books/book4-course/ch05/">
+      
+      
+        <link rel="prev" href="../ch04/">
+      
+      
+        <link rel="next" href="../ch06/">
+      
+      
+        
+          <link rel="alternate" href="./" hreflang="en">
+        
+          <link rel="alternate" href="../../../ru/books/book4-course/ch05/" hreflang="ru">
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
+    
+    
+      
+        <title>5. Ступень IV. Элементарные частицы, ядра, гравитация и космология - Discrete Quantum Mechanics & Projective Manifold Mathematics</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#5-iv" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Discrete Quantum Mechanics &amp; Projective Manifold Mathematics" class="md-header__button md-logo" aria-label="Discrete Quantum Mechanics & Projective Manifold Mathematics" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Discrete Quantum Mechanics & Projective Manifold Mathematics
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              5. Ступень IV. Элементарные частицы, ядра, гравитация и космология
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="cyan"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="cyan"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Select language">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../ru/books/book4-course/ch05/" hreflang="ru" class="md-select__link">
+              Русский
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/AI-Guiders/discrete-quantum-mechanics" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AI-Guiders/discrete-quantum-mechanics
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Overview & 5 Books
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../engineering/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  For Engineers, Shipbuilders & CAD
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../mathematics/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  For Mathematicians & Lean 4
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../physics/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  For Physicists & Natural Science
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../book1-monograph/ch01/" class="md-tabs__link">
+          
+  
+  
+  Book I. Formal Foundations (Monograph)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../book2-laboratory/ch01/" class="md-tabs__link">
+          
+  
+  
+  Book II. Laboratory & Simulation Manual
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../book3-engineering/ch01/" class="md-tabs__link">
+          
+  
+  
+  Book III. Engineering & Applied Design Handbook
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../ch01/" class="md-tabs__link">
+          
+  
+  
+  Book IV. Unified Natural Sciences Course
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../book5-mathematics/ch01/" class="md-tabs__link">
+          
+  
+  
+  Book V. Projective Manifold Mathematics
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Discrete Quantum Mechanics &amp; Projective Manifold Mathematics" class="md-nav__button md-logo" aria-label="Discrete Quantum Mechanics & Projective Manifold Mathematics" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Discrete Quantum Mechanics & Projective Manifold Mathematics
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/AI-Guiders/discrete-quantum-mechanics" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AI-Guiders/discrete-quantum-mechanics
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview & 5 Books
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../engineering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    For Engineers, Shipbuilders & CAD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mathematics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    For Mathematicians & Lean 4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../physics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    For Physicists & Natural Science
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Book I. Formal Foundations (Monograph)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Book I. Formal Foundations (Monograph)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book1-monograph/ch01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Предисловие. Предмет монографии и дедуктивное строение теории снизу вверх
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book1-monograph/ch02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Вывод дискретной квантовой механики (ДКМ) из неделимости элементарного объёма, отсутствия внешней памяти у природы и уравнения Каталана
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book1-monograph/ch03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Дискретная экспонента Эйлера на $\mathbb{Z}_{512}$, однородная проективная арифметика над $\mathbb{Q}(i,\sqrt{2})$ и выход в непрерывный анализ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book1-monograph/ch04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Булева полнота Поста, редукция 3-SAT, конструктивные когомологии де Рама и барьеры внутренних вычислителей
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book1-monograph/ch05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Дискретная и непрерывная квантовая механика (ДКМ и НКМ), электродинамика Максвелла и граница применимости континуума
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book1-monograph/ch06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Калибровочная группа Стандартной модели, гравитационное преломление и космология
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book1-monograph/ch07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Атомные и ядерные оболочки кубооктаэдра, планетогенез по 6 зонам диска, тождества Безу на $\mathbb{Z}_{512}$, сверхпроводимость и когерентный $587$-кратный коллапс барьера
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book1-monograph/ch08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Молекулярная биофизика, планетарные фотонные окна, генетический код ДНК, фолдинг белков и морфогенез
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book1-monograph/ch09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Бесфононный кремниевый гетеропереход $120 + 8 = 128$, общая конструкция предела по счётным моноидам стадий и гёделевская неизбежность лабораторного арбитража
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Book II. Laboratory & Simulation Manual
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Book II. Laboratory & Simulation Manual
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book2-laboratory/ch01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Введение. Лабораторный арбитраж в едином Естествознании и связь четырёх книг
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book2-laboratory/ch02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Бесфононная кремниевая фотовольтаика ($441\text{ нм} \to 2\times 882\text{ нм} < 1107\text{ нм}$): протокол чистой комнаты и матрица диагностики
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book2-laboratory/ch03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Сводный реестр критических экспериментов и лабораторно-вычислительных гейтов
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book2-laboratory/ch04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Обработка результатов измерений
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book2-laboratory/ch05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Вычислительная лаборатория серии
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Book III. Engineering & Applied Design Handbook
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Book III. Engineering & Applied Design Handbook
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Введение. Инженерная ветвь единого Естествознания: Трёхзаконная целочисленная механика Ньютона и пять порогов кольца $\mathbb{Z}_{512}$
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Теоретическая электротехника фазовой эстафеты на ГЦК-кубооктаэдрах ($V=\mathcal{C}_3,\ I=\mathcal{S}_3$)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Физическая реализация вычислений без тепла Ландауэра и кремниевая архитектура
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Масштабная инвариантность кубооктаэдра $O_2$: что физически разрешено и что запрещено законами сохранения
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Когерентное схлопывание импеданса барьера в 12-лучевом кубооктаэдре: решёточный синтез против теплового нагрева
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Квантовый фазовый храповик на доменной стенке и топологический аккумулятор $B_f = 512\,n_f$
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Четырёхканальная голономная томография сред и фазовое геодинамо ядер планет
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Аналитические операторы химических реакций, седловая точка переходного состояния $|A^\ddagger|=128$, селективность Вудворда–Хоффмана и гетерогенный катализ на кубооктаэдре $O_2$
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Практическое применение тактовой скорости звена $\caSignalSpeed = \caKappaGeom(d)^{-1}\speedC$, баллистическая передача энергии и информации без потерь и инкапсулированный автомат
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch10/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Генеративное материаловедение, куперовский возврат $2e$ на полупериоде противофазы и конструирование функциональных сплавов и сверхпроводников
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Прикладная биоинженерия (Bio-CAD), сквозной компилятор ДНК и терапевтическое управление клеточной средой
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch12/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Обратимая вычислительная техника без теплового предела Ландауэра ($A_{13}$) и разрешение фундаментальных парадоксов
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Вычислительная лаборатория серии
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Обработка результатов измерений
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book3-engineering/ch15/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15. Критические эксперименты и инженерные гейты верификации (серия CE-RD)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Book IV. Unified Natural Sciences Course
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Book IV. Unified Natural Sciences Course
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Введение. Главный квест этой Вселенной и почему у решётки нет «балкона»
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Ступень I. Устройство носителя и рождение трёхмерного пространства ($1 + 2^d = d^2$)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Ступень II. Математика и информатика внутри носителя
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Ступень III. Квантовая механика, электродинамика Максвелла и демоны Лапласа и Максвелла
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Ступень IV. Элементарные частицы, ядра, гравитация и космология
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Ступень IV. Элементарные частицы, ядра, гравитация и космология
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#12-mathrmiv-263-407_8-1-t-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Урок 12. Запуск Вселенной из слова \(\mathrm{IV} = 263 = 407_8\): тишина октанта, храповик \(-1\) и рождение вихрей при \(t = 2\)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-mathcalc_13-alpha_mathrmfs-1-137035999dots" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Урок 13. Симплициальный атлас \(\mathcal{C}_{13}\), расшифровка «магических букв» групп симметрий, постоянная тонкой структуры \(\alpha_{\mathrm{fs}}^{-1} = 137{,}035999\dots\) и спектр частиц
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-8331-163" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Урок 14. Гравитация без сингулярности (\(833:1\)), ядерная паста и гало вакуума \(16/3\) без тёмной материи
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15-tau_mathrmneck-256-138-sim-275text-jwst" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Урок 15. Секунда без атома цезия, полупериодное горлышко \(\tau_{\mathrm{neck}} = 256\) и почему Вселенной не \(13{,}8\), а \(\sim 27{,}5\text{ млрд лет}\) (разгадка ранних галактик JWST)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Ступень V. Химия, таблица Менделеева и дизайн материалов
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Ступень VI. Биология, генетический код ДНК и морфогенез органов
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Ступень VII. Кремниевый чип и инженерные установки своими руками
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch09/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Эпилог. Дорожная карта замкнута: от уравнения самозамкнутости к единому Естествознанию
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Book V. Projective Manifold Mathematics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Book V. Projective Manifold Mathematics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book5-mathematics/ch01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Предисловие. Отделение чистой проективной математики от физики носителя
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book5-mathematics/ch02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Дискретный ротатор $\mathbb{Z}_{4Q}$, однородные проективные поля $\mathbb{Q}(i,\sqrt{d-1})$ и анализ без делений
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book5-mathematics/ch03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Изотропный дискриминантный конус в $\mathrm{SL}_2(\mathbb{Z})$, моноид башни аппроксимантов Паде и бескорневое кубическое сжатие
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book5-mathematics/ch04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Трёхшахтные планетарные дифференциалы $\mathcal{A} + \mathcal{B} = \mathcal{C}$, вронскиан Мейсона–Стотерса и проекторы Лагранжа–Вандермонда
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../book5-mathematics/ch05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Алгебра многовинтовых планетарных каскадов и встречно-волновая суперпозиция на сфере Римана $\mathbb{P}^1$
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#12-mathrmiv-263-407_8-1-t-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Урок 12. Запуск Вселенной из слова \(\mathrm{IV} = 263 = 407_8\): тишина октанта, храповик \(-1\) и рождение вихрей при \(t = 2\)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-mathcalc_13-alpha_mathrmfs-1-137035999dots" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Урок 13. Симплициальный атлас \(\mathcal{C}_{13}\), расшифровка «магических букв» групп симметрий, постоянная тонкой структуры \(\alpha_{\mathrm{fs}}^{-1} = 137{,}035999\dots\) и спектр частиц
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-8331-163" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Урок 14. Гравитация без сингулярности (\(833:1\)), ядерная паста и гало вакуума \(16/3\) без тёмной материи
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15-tau_mathrmneck-256-138-sim-275text-jwst" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Урок 15. Секунда без атома цезия, полупериодное горлышко \(\tau_{\mathrm{neck}} = 256\) и почему Вселенной не \(13{,}8\), а \(\sim 27{,}5\text{ млрд лет}\) (разгадка ранних галактик JWST)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="5-iv">5. Ступень IV. Элементарные частицы, ядра, гравитация и космология<a class="headerlink" href="#5-iv" title="Permanent link">&para;</a></h1>
+<p><strong>Reading Mode:</strong> Current (MkDocs) · <a href="https://ai-guiders.github.io/discrete-quantum-mechanics/blueprint-book4/">Interactive Lean 4 Blueprint (<code>L∃∀N</code>)</a> · <a href="https://ai-guiders.github.io/discrete-quantum-mechanics/blueprint-book4/dep_graph_document.html">Theorem Dependency Graph</a> · <a href="https://github.com/AI-Guiders/discrete-quantum-mechanics/raw/main/book/out/pdf/natural-sciences-course.pdf">Download Volume PDF (<code>natural-sciences-course.pdf</code>)</a></p>
+<hr />
+<h2 id="12-mathrmiv-263-407_8-1-t-2">Урок 12. Запуск Вселенной из слова <span class="arithmatex">\(\mathrm{IV} = 263 = 407_8\)</span>: тишина октанта, храповик <span class="arithmatex">\(-1\)</span> и рождение вихрей при <span class="arithmatex">\(t = 2\)</span><a class="headerlink" href="#12-mathrmiv-263-407_8-1-t-2" title="Permanent link">&para;</a></h2>
+<p>Запустим теперь наш полный 3D клеточный автомат из канонического начального состояния <span class="arithmatex">\(\Psi^{(0)} = \mathrm{IV}(3) = 263_{10} = 407_8\)</span> в шаре радиуса <span class="arithmatex">\(|\square(3)| = 6\)</span>:</p>
+<ol>
+<li>
+<p><strong>Тишина внутренних октантов:</strong> внутри однородного октанта в узле <span class="arithmatex">\((2,2,2)\)</span> сырой фазовый импульс равен <span class="arithmatex">\(\Phi_{\mathrm{raw}} = +15\)</span>, но поскольку <span class="arithmatex">\(15 &lt; 41 = \Delta\varphi_{\mathrm{disc}}\)</span>, мёртвая зона затвора гасит его в <strong>точный ноль <span class="arithmatex">\(\Phi_{\mathrm{gate}}(2,2,2) = 0\)</span></strong> (внутренность октанта является неподвижной точкой гомеостаза!).</p>
+</li>
+<li>
+<p><strong>Киральный квантовый храповик <span class="arithmatex">\(-1\)</span> тик на доменной стенке:</strong> на границе октантов <span class="arithmatex">\(z = 0 / -1\)</span> в паре узлов <span class="arithmatex">\((0,2,2)\)</span> и <span class="arithmatex">\((-1,2,2)\)</span> чётные голономии совпадают, нечётные токи взаимно компенсируются, но за счёт точного целочисленного деления с округлением вниз (<span class="arithmatex">\(\lfloor -N/D\rfloor = -\lfloor N/D\rfloor - 1\)</span> при ненулевом остатке) импульсы ворот равны <span class="arithmatex">\(+76\)</span> и <span class="arithmatex">\(-77\)</span> тиков, давая <strong>киральную асимметрию <span class="arithmatex">\((+76) + (-77) = -1\)</span> тик</strong>! (Если заменить деление с округлением вниз на симметричное усечение к нулю, эта асимметрия между материей и антиматерией исчезает).</p>
+</li>
+<li>
+<p><strong>Рождение вихревой материи на такте <span class="arithmatex">\(t = 2\)</span>:</strong> на центральной плакете <span class="arithmatex">\((-1,-1,0)\)</span> вихревое число Черна равно <span class="arithmatex">\(n_f(t=0) = 0\)</span>, <span class="arithmatex">\(n_f(t=1) = 0\)</span> и на втором такте скачком переходит в <span class="arithmatex">\(\mathbf{n_f(t=2) = +1}\)</span> с квантом потока Максвелла <span class="arithmatex">\(B_f = \mathbf{512}\)</span>, порождая во всём 3D-шаре ровно <span class="arithmatex">\(\mathbf{86 = (38, 16, 32)}\)</span> вихревых плакет (и барионную асимметрию <span class="arithmatex">\(\eta_B\)</span> без подгоночных параметров!).</p>
+</li>
+</ol>
+<h2 id="13-mathcalc_13-alpha_mathrmfs-1-137035999dots">Урок 13. Симплициальный атлас <span class="arithmatex">\(\mathcal{C}_{13}\)</span>, расшифровка «магических букв» групп симметрий, постоянная тонкой структуры <span class="arithmatex">\(\alpha_{\mathrm{fs}}^{-1} = 137{,}035999\dots\)</span> и спектр частиц<a class="headerlink" href="#13-mathcalc_13-alpha_mathrmfs-1-137035999dots" title="Permanent link">&para;</a></h2>
+<p>Прежде чем мы выведем калибровочную группу Стандартной модели <span class="arithmatex">\(\mathrm{U}(1)\times\mathrm{SU}(2)\times\mathrm{SU}(3)\)</span>, снимем завесу тайны с того, почему математики и физики обозначают группы симметрий такими «магическими» наборами латинских и готических букв.</p>
+<p><strong>Историческая и терминологическая справка: Расшифровка «магических букв» групп симметрий (Эварист Галуа, 1832; Софус Ли, 1870-е; Герман Вейль, 1929).</strong>
+В ночь перед роковой дуэлью в мае 1832 года 20-летний французский математик Эварист Галуа ввёл понятие <em>группы</em> перестановок симметрии. В 1870-х годах норвежский математик Софус Ли построил теорию непрерывных групп вращений, а в XX веке за ними закрепились короткие английские аббревиатуры, которые в учебниках почти никогда не переводят на человеческий язык. Вот их полный словарь:</p>
+<ul>
+<li>
+<p><strong>В скобках <span class="arithmatex">\((n)\)</span> или <span class="arithmatex">\((\mathbb{Z}), (\mathbb{R}), (\mathbb{C})\)</span></strong> всегда указывается размер таблицы (матрицы <span class="arithmatex">\(n\times n\)</span>) и какие числа стоят внутри: целые <span class="arithmatex">\(\mathbb{Z}\)</span>, вещественные <span class="arithmatex">\(\mathbb{R}\)</span> или комплексные <span class="arithmatex">\(\mathbb{C}\)</span>.</p>
+</li>
+<li>
+<p><strong>Буква L = Linear («Линейная»)</strong> и <strong>GL<span class="arithmatex">\(_n\)</span> = General Linear («Общая линейная группа»):</strong> вообще все обратимые матрицы <span class="arithmatex">\(n\times n\)</span> с ненулевым определителем (<span class="arithmatex">\(\det \ne 0\)</span>). Они могут как угодно крутить, растягивать и отражать пространство, лишь бы не сплющивать объём в ноль.</p>
+</li>
+<li>
+<p><strong>Буква S в самом начале = Special («Специальная», то есть <span class="arithmatex">\(\det = +1\)</span>):</strong> как только перед любой группой ставят букву S, это означает одно простое правило — <strong>определитель матрицы строго равен <span class="arithmatex">\(+1\)</span></strong> (преобразование сохраняет элементарный объём ячейки и не выворачивает правую руку в левую). Поэтому <strong><span class="arithmatex">\(\mathrm{SL}_2(\mathbb{Z})\)</span> = Special Linear <span class="arithmatex">\(2\times 2\)</span> over <span class="arithmatex">\(\mathbb{Z}\)</span></strong> — это целочисленные матрицы <span class="arithmatex">\(\begin{pmatrix} a &amp; b \\ c &amp; d \end{pmatrix}\)</span> с единичной площадью клетки <span class="arithmatex">\(ad - bc = 1\)</span> (наш шаг Верле и каскад Паде–Минковского!).</p>
+</li>
+<li>
+<p><strong>Буква O = Orthogonal («Ортогональная» — повороты в обычном вещественном пространстве):</strong> матрицы, сохраняющие евклидову длину вектора <span class="arithmatex">\(x^2 + y^2 + z^2 = R^2\)</span> (<span class="arithmatex">\(\det = \pm 1\)</span>). Группа <strong><span class="arithmatex">\(\mathrm{O}(3)\)</span></strong> включает все повороты и зеркальные отражения 3D-шара (а её конечная подгруппа <strong><span class="arithmatex">\(O_h\)</span></strong> из <span class="arithmatex">\(48\)</span> элементов — все повороты и отражения нашего куба и кубооктаэдра). Если же приписать спереди букву S, получим <strong><span class="arithmatex">\(\mathrm{SO}(3)\)</span> = Special Orthogonal</strong> — чистые трёхмерные повороты твёрдого тела без зеркал (<span class="arithmatex">\(\det = +1\)</span>), которые задаются тремя углами Эйлера в трёх плоскостях <span class="arithmatex">\((xy, xz, yz)\)</span> кубооктаэдра.</p>
+</li>
+<li>
+<p><strong>Буква U = Unitary («Унитарная» — повороты комплексных волн с фазой <span class="arithmatex">\(e^{i\varphi}\)</span>):</strong> когда у ячейки есть фаза на окружности, роль длины вектора играет сумма квадратов модулей <span class="arithmatex">\(|\psi_1|^2 + \dots + |\psi_n|^2\)</span>. Преобразования, сохраняющие эту сумму, называются <em>унитарными</em>:</p>
+<ul>
+<li>
+<p><strong><span class="arithmatex">\(\mathrm{U}(1)\)</span></strong> (<span class="arithmatex">\(1\times 1\)</span>, размерность <span class="arithmatex">\(1\)</span>) — обычный сдвиг одной фазы <span class="arithmatex">\(\varphi \mapsto \varphi + \Delta\varphi\)</span> по единичной окружности (наше кольцо <span class="arithmatex">\(\mathbb{Z}_{512}\)</span>; в физике это <strong>электромагнетизм</strong>, введённый Германом Вейлем в 1929 году);</p>
+</li>
+<li>
+<p><strong><span class="arithmatex">\(\mathrm{SU}(2)\)</span></strong> (<span class="arithmatex">\(2\times 2\)</span> с <span class="arithmatex">\(\det = +1\)</span>, размерность <span class="arithmatex">\(2^2 - 1 = \mathbf{3}\)</span>) — комплексные повороты двухкомпонентного спинора <span class="arithmatex">\((\psi_0, \psi_1)\)</span> по <span class="arithmatex">\(d = 3\)</span> пространственным осям (отвечает за спин электрона и <strong>слабое взаимодействие</strong>);</p>
+</li>
+<li>
+<p><strong><span class="arithmatex">\(\mathrm{SU}(3)\)</span></strong> (<span class="arithmatex">\(3\times 3\)</span> с <span class="arithmatex">\(\det = +1\)</span>, размерность <span class="arithmatex">\(3^2 - 1 = \mathbf{8}\)</span>) — комплексные перестановки и повороты между тремя плоскостями/цветами на <span class="arithmatex">\(8\)</span> треугольных гранях кубооктаэдра (отвечает за <strong>сильное ядерное взаимодействие</strong> кварков и глюонов).</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Буква P в самом начале = Projective («Проективная», например <span class="arithmatex">\(\mathrm{PGL}_2, \mathrm{PSL}_2\)</span>):</strong> означает, что матрица <span class="arithmatex">\(\begin{pmatrix} a &amp; b \\ c &amp; d \end{pmatrix}\)</span> действует на дробь <span class="arithmatex">\(w \mapsto \frac{aw+b}{cw+d}\)</span> на проективной сфере Римана <span class="arithmatex">\(\mathbb{P}^1\)</span>, где общий множитель числителя и знаменателя сокращается.</p>
+</li>
+<li>
+<p><strong>Маленькие готические буквы <span class="arithmatex">\(\mathfrak{u}(1), \mathfrak{su}(2), \mathfrak{su}(3)\)</span> (алгебры Ли):</strong> большие латинские буквы (<span class="arithmatex">\(\mathrm{SU}(3)\)</span>) обозначают уже готовый конечный поворот, а маленькие готические буквы (<span class="arithmatex">\(\mathfrak{su}(3)\)</span>) — мгновенную угловую скорость (бесконечно малый толчок или коммутатор <span class="arithmatex">\([T_a, T_b] = T_a T_b - T_b T_a\)</span>) в начале этого поворота.</p>
+</li>
+</ul>
+<p>Теперь посчитаем все полные подграфы (симплициальные клики <span class="arithmatex">\(K_m\)</span>, где каждые две вершины соединены ребром длины <span class="arithmatex">\(\|u-v\|_2^2 = 2\)</span>) внутри 13-узлового одетого кубооктаэдра <span class="arithmatex">\(\mathcal{C}_{13} = \{(0,0,0)\}\cup O_2\)</span>:</p>
+<ul>
+<li>
+<p><strong><span class="arithmatex">\(K_1\)</span> (вершины):</strong> <span class="arithmatex">\(1\text{ (центр)} + 12\text{ (оболочка }O_2\text{)} = \mathbf{13 = N_\varphi(3)}\)</span>;</p>
+</li>
+<li>
+<p><strong><span class="arithmatex">\(K_2\)</span> (рёбра):</strong> <span class="arithmatex">\(12\text{ радиальных} + 24\text{ поверхностных} = \mathbf{36 = |\square(3)|^2 = B_1(3)}\)</span>;</p>
+</li>
+<li>
+<p><strong><span class="arithmatex">\(K_3\)</span> (треугольники):</strong> <span class="arithmatex">\(24\text{ радиально-рёберных} + 8\text{ поверхностных} = \mathbf{32 = K_P(3)/2}\)</span>;</p>
+</li>
+<li>
+<p><strong><span class="arithmatex">\(K_4\)</span> (тетраэдры) и почему <span class="arithmatex">\(K_{\ge 5} = 0\)</span>:</strong> каждый из 8 поверхностных треугольников образует с центром <span class="arithmatex">\((0,0,0)\)</span> правильный тетраэдр <span class="arithmatex">\(K_4\)</span>. А может ли на самой поверхности кубооктаэдра <span class="arithmatex">\(O_2\)</span> лежать четвёрка взаимно смежных вершин? Нет: окрестность любой вершины на поверхности <span class="arithmatex">\(O_2\)</span> состоит из <span class="arithmatex">\(4\)</span> вершин, образующих цикл <span class="arithmatex">\(C_4\)</span> из двух противоположных треугольников и двух квадратов, в котором нет ни одного треугольника <span class="arithmatex">\(K_3\)</span>! Поэтому все 4-клики обязаны содержать центр <span class="arithmatex">\((0,0,0)\)</span> и один из <span class="arithmatex">\(8\)</span> поверхностных треугольников (<span class="arithmatex">\(\mathbf{K_4 = 8 = |{\triangle}(3)|}\)</span>), а кликов из <span class="arithmatex">\(5\)</span> и более вершин на <span class="arithmatex">\(\mathcal{C}_{13}\)</span> <strong>не существует вовсе (<span class="arithmatex">\(K_{\ge 5} \equiv 0\)</span>)</strong>!</p>
+</li>
+</ul>
+<p>Отсюда:</p>
+<ol>
+<li>
+<p>Симплициальная характеристика Эйлера равна <span class="arithmatex">\(\chi(\mathcal{C}_{13}) = 13 - 36 + 32 - 8 = \mathbf{1 = \mu_{\mathrm{vac}}(3)}\)</span>.</p>
+</li>
+<li>
+<p>Число независимых генераторов калибровочной группы Стандартной модели <span class="arithmatex">\(\mathrm{U}(1)_Y\times\mathrm{SU}(2)_L\times\mathrm{SU}(3)_c\)</span> (алгебры Ли <span class="arithmatex">\(\mathfrak{u}(1)\oplus\mathfrak{su}(2)\oplus\mathfrak{su}(3)\)</span>) равно:</p>
+<div class="arithmatex">\[
+\mu_{\mathrm{vac}}(3) + d + K_4(\mathcal{C}_{13}) \;=\; 1 + 3 + 8 \;=\; \mathbf{12 \;=\; N_{12}(3)}.
+\]</div>
+</li>
+<li>
+<p>Относительно любой выбранной вершины <span class="arithmatex">\(v_0\in O_2\)</span> (ротор электрона) 13 узлов <span class="arithmatex">\(\mathcal{C}_{13}\)</span> делятся по квадрату расстояния до <span class="arithmatex">\(v_0\)</span> на четыре слоя <span class="arithmatex">\(\mathbf{1\text{ (центр)} + 1\text{ (\)</span>v_0$)} + 4\text{ (смежные на <span class="arithmatex">\(O_2\)</span>)} + 7\text{ (несмежные на <span class="arithmatex">\(O_2\)</span>)} = 13}$, откуда сразу следуют углы смешивания нейтрино PMNS:</p>
+<div class="arithmatex">\[
+\sin^2\theta_{12} \;=\; \frac{4}{13}, \qquad \sin^2\theta_{23} \;=\; \frac{7}{13}, \qquad \sin^2\theta_{13} \;=\; \frac{2}{92} \;=\; \frac{1}{46},
+\]</div>
+<p>а также древесный угол Вайнберга <span class="arithmatex">\(\sin^2\theta_W^{(0)} = d / N_\varphi(3) = 3/13\)</span> и однопетлевой одетый угол Вайнберга на масштабе <span class="arithmatex">\(Z\)</span>-бозона <span class="arithmatex">\(\sin^2\theta_W(M_Z) = \frac{3}{13} + \frac{\alpha_{\mathrm{fs}}}{16} \approx \mathbf{0{,}231225}\)</span> (PDG: <span class="arithmatex">\(0{,}23122(4)\)</span>).</p>
+</li>
+<li>
+<p><strong>Гауссово кулоновское простое <span class="arithmatex">\(\hat{M}(3) = 97\)</span> и постоянная тонкой структуры <span class="arithmatex">\(\alpha_{\mathrm{fs}}^{-1}\)</span>:</strong>
+    единственное размерностное совпадение <span class="arithmatex">\(1 + N_{12}(d)\cdot |{\triangle}(d)| = d_{\mathrm{in}}(\square)^2 + \mathrm{mod\_bits}(d)^2\)</span> при <span class="arithmatex">\(d=3\)</span> даёт норму гауссова простого <span class="arithmatex">\(4 + 9i\in\mathbb{Z}[i]\)</span>:</p>
+<div class="arithmatex">\[
+\hat{M}(3) \;=\; 1 + 12\times 8 \;=\; 4^2 + 9^2 \;=\; \mathbf{97}
+\qquad \bigl(\text{причём } (m_u/m_e)^2 + (m_d/m_e)^2 = 4^2 + 9^2 = 97!\bigr),
+\]</div>
+<p>а добавление 40 ненулевых мод порога дискретности (<span class="arithmatex">\(\Delta\varphi_{\mathrm{disc}} - 1 = 5\times 8 = 40\)</span>) даёт целую базу постоянной тонкой структуры <span class="arithmatex">\(\lfloor\alpha_{\mathrm{fs}}^{-1}\rfloor = 97 + 40 = \mathbf{137}\)</span>. Поскольку симплициальный комплекс <span class="arithmatex">\(\mathcal{C}_{13}\)</span> обрывается строго на <span class="arithmatex">\(K_4 = 8\)</span> (<span class="arithmatex">\(K_{\ge 5} \equiv 0\)</span>), учёт вкладов всех четырёх непустых симплексов <span class="arithmatex">\(K_1, K_2, K_3, K_4\)</span> на длине ребра кубооктаэдра <span class="arithmatex">\(\|e\|_2 = \sqrt{d-1} = \sqrt{2}\)</span> приводит к замкнутой алгебраической формуле в поле <span class="arithmatex">\(\mathbb{Q}(\sqrt{2})\)</span> без участия трансцендентного числа <span class="arithmatex">\(\pi\)</span>:</p>
+<div class="arithmatex">\[
+\alpha_{\mathrm{fs}}^{-1}(3)
+\;=\; \frac{A_{\mathrm{den}}(3) + B_{\mathrm{den}}(3)\sqrt{2}}{A_{\mathrm{num}}(3) + B_{\mathrm{num}}(3)\sqrt{2}}
+\;=\; \frac{17\,351\,739\,044 - 679\sqrt{2}}{131\,726 + 89\,441\,954\sqrt{2}}
+\;=\; \mathbf{137{,}035999187\dots} \tag{1}
+\]</div>
+<p>которая попадает в эксперимент CODATA-2022 (<span class="arithmatex">\(137{,}035999177(21)\)</span>) с точностью <span class="arithmatex">\(\mathbf{0{,}47\sigma}\)</span> без единого подгоночного параметра!</p>
+</li>
+<li>
+<p>Магнитные моменты протона и нейтрона равны <span class="arithmatex">\(\mu_p/\mu_N = 3 - 5/24 = \mathbf{67/24 = +2{,}7917}\)</span> и <span class="arithmatex">\(\mu_n/\mu_N = -2 + 2/24 = \mathbf{-23/12 = -1{,}9167}\)</span> с изоскалярной суммой <span class="arithmatex">\(67/24 - 46/24 = 21/24 = \mathbf{7/8}\)</span>, аксиальная константа равна <span class="arithmatex">\(g_A = 5/4 + 1/39 = \mathbf{199/156 = 1{,}27564}\)</span>, а разность масс нейтрона и протона равна $$
+    (m_n - m_p)/m_e = 2|\mathcal{E}_{\mathrm{Heis}}| / K_P = 162 / 64 = \mathbf{81/32 = 2{,}53125}
+    $$ (PDG: <span class="arithmatex">\(2{,}53099\)</span>).</p>
+</li>
+</ol>
+<h2 id="14-8331-163">Урок 14. Гравитация без сингулярности (<span class="arithmatex">\(833:1\)</span>), ядерная паста и гало вакуума <span class="arithmatex">\(16/3\)</span> без тёмной материи<a class="headerlink" href="#14-8331-163" title="Permanent link">&para;</a></h2>
+<p>Откуда в дискретной решётке берётся гравитация? Посмотри на знаменатель импеданса ворот ячейки:</p>
+<div class="arithmatex">\[
+D(x) \;=\; \max\Bigl(\varepsilon,\; \varepsilon + 128\,\mu(x)^2 + \mu(x)\sum_{j=1}^{12}\mu(x+e_j)\,\mathcal{C}_3(\Delta\varphi_j)\Bigr),
+\qquad \varepsilon \;=\; K_P\cdot Q_\square \;=\; 64\times 128 \;=\; \mathbf{8\,192}.
+\]</div>
+<p>Когда в области пространства сосредоточена массивная материя (<span class="arithmatex">\(\mu &gt; 1\)</span>), знаменатель импеданса <span class="arithmatex">\(D(x)\)</span> возрастает, <strong>замедляя фазовую скорость такта</strong> <span class="arithmatex">\(\Delta\varphi \propto 1/D(x)\)</span> точно так же, как оптический показатель преломления <span class="arithmatex">\(n(x)\)</span> поворачивает световой луч в линзе!</p>
+<ul>
+<li>
+<p><strong>Отсутствие сингулярности чёрной дыры и предел сжатия <span class="arithmatex">\(833:1\)</span>:</strong>
+    в уравнениях ОТО Эйнштейна при <span class="arithmatex">\(r\to 0\)</span> возникает деление на ноль (<span class="arithmatex">\(1/0 = \infty\)</span>). В решётке кубооктаэдра даже при максимальной плотности <span class="arithmatex">\(\mu = K_P = 64\)</span> и противофазном противофазном горизонте <span class="arithmatex">\(\Delta\varphi = \Phi_{\mathrm{Pauli}} = 256\)</span> (<span class="arithmatex">\(\mathcal{C}_3(256) = -128\)</span>) знаменатель импеданса никогда не обращается в нуль, а ложится на квантовый пол <span class="arithmatex">\(D_{\min} = \varepsilon = \mathbf{8\,192 &gt; 0}\)</span>!</p>
+<p>При этом радиальный ток переноса на противофазном горизонте тождественно замирает (<span class="arithmatex">\(\mathcal{S}_3(256) = 0\)</span>, останавливая коллапс в фазовом кристалле Паули), отношение ненапряжённого импеданса стазиса (<span class="arithmatex">\(\Delta\varphi=0\)</span>, <span class="arithmatex">\(D_{\max} = 8\,192\times(1 + 13\times 64) = \mathbf{6\,823\,936}\)</span>) к импедансу горизонта равно точному целому числу:</p>
+<div class="arithmatex">\[
+\frac{D_{\max}}{D_{\min}} \;=\; 1 + N_\varphi(3)\,K_P(3) \;=\; 1 + 13\times 64 \;=\; \mathbf{833 \;=\; 7^2 \times 17},
+\]</div>
+<p>а побитовая обратимость шага Верле сохраняет всю информацию без потерь (закрывая информационный парадокс Хокинга).</p>
+</li>
+<li>
+<p><strong>Гало голономии вакуума <span class="arithmatex">\(16/3\)</span> без тёмной материи:</strong>
+    внешний вакуумный пол <span class="arithmatex">\(\mu_{\mathrm{vac}} = 1\)</span> вокруг галактик не пуст: отношение ёмкости <span class="arithmatex">\(2|{\triangle}(3)| = 16\)</span> спинорных каналов квадратной грани гало к <span class="arithmatex">\(d = 3\)</span> пространственным каналам барионного ядра равно:</p>
+<div class="arithmatex">\[
+\frac{\Omega_{\mathrm{halo}}}{\Omega_b} \;=\; \frac{2\,|{\triangle}(3)|}{d} \;=\; \mathbf{\frac{16}{3} \;\approx\; 5{,}333},
+\qquad
+\frac{\Omega_{\mathrm{total}}}{\Omega_b} \;=\; \frac{16 + 3}{3} \;=\; \mathbf{\frac{19}{3}} \quad \bigl(19 = 3^3 - 2^3 = N_\varphi + |\square|\bigr),
+\]</div>
+<p>что воспроизводит наблюдаемое отношение Planck 2018 (<span class="arithmatex">\(5{,}36\pm 0{,}07\)</span>) с тождественно нулевым остатком «тёмной материи» (<span class="arithmatex">\(D_{\mathrm{dark}}\equiv 0\)</span>).</p>
+</li>
+</ul>
+<h2 id="15-tau_mathrmneck-256-138-sim-275text-jwst">Урок 15. Секунда без атома цезия, полупериодное горлышко <span class="arithmatex">\(\tau_{\mathrm{neck}} = 256\)</span> и почему Вселенной не <span class="arithmatex">\(13{,}8\)</span>, а <span class="arithmatex">\(\sim 27{,}5\text{ млрд лет}\)</span> (разгадка ранних галактик JWST)<a class="headerlink" href="#15-tau_mathrmneck-256-138-sim-275text-jwst" title="Permanent link">&para;</a></h2>
+<p>В системе СИ секунда определена через <span class="arithmatex">\(9\,192\,631\,770\)</span> периодов излучения атома цезия-<span class="arithmatex">\(133\)</span>. Но у самого носителя есть собственный фундаментальный такт! За <span class="arithmatex">\(16 = d_{\mathrm{in}}(\square)^2 = 2|{\triangle}(3)|\)</span> каскадных оборотов 9-битного кольца <span class="arithmatex">\(\mathbb{Z}_{512}\)</span> набирается <span class="arithmatex">\(512^{16} = 2^{144} = 2^{|N(3)|^2}\)</span> тактов, что с рациональным геометрическим множителем <span class="arithmatex">\(\frac{d_{\mathrm{in}}(\square)\,d_{\mathrm{out}}(E)}{|N(3)| + d_{\mathrm{out}}(E)} = \frac{4\times 5}{12 + 5} = \mathbf{\frac{20}{17}}\)</span> даёт <strong>эталон секунды носителя без участия цезия и гравитационной постоянной <span class="arithmatex">\(G\)</span></strong>:</p>
+<div class="arithmatex">\[
+\mathcal{N}_{\mathrm{sec}}(3)
+\;=\; \Bigl\lfloor \frac{20}{17}\cdot 512^{16} \Bigr\rfloor
+\;\approx\; \mathbf{2{,}623617\times 10^{43}\text{ тактов/с}} \qquad (\text{согласие с } 1/h_T \text{ лучше } 0{,}017\%!). \tag{2}
+\]</div>
+<p>А теперь разберёмся с главным космологическим заблуждением стандартной модели <span class="arithmatex">\(\Lambda\mathrm{CDM}\)</span>: <strong>почему Вселенной вовсе не <span class="arithmatex">\(13{,}8\text{ млрд лет}\)</span>, и почему космический телескоп Джеймса Уэбба (JWST) видит на красных смещениях <span class="arithmatex">\(z \sim 10\text{–}15\)</span> уже полностью сформированные массивные галактики и тяжёлые ядра, которым в <span class="arithmatex">\(13{,}8\)</span>-миллиардной модели просто не хватило бы времени вырасти?</strong></p>
+<p>Посмотрим на глобальную картину вечно кипящего океана (глава 2 космологического тома) и на длинный побитово-точный прогон нашего начального слова <span class="arithmatex">\(\mathrm{IV} = 263 = 407_8\)</span> на 3D-решётке кубооктаэдра:</p>
+<ul>
+<li>
+<p><strong>Четыре фазы глобального информационного цикла океана (по <span class="arithmatex">\(d_{\mathrm{in}}(\square)=4\)</span> квадрантам кольца):</strong>
+    (I) <em>Фаза I (Расширение и рождение вихрей — наша макроэпоха):</em> трёхгранный фазовый сдвиг <span class="arithmatex">\(\mathrm{IV}=263\)</span> запускает каскад рождения топологических вихрей (<span class="arithmatex">\(b=1, n\in\mathbb{Z}\)</span>) — барионов, ядер, звёзд, галактик и планет;
+    (II) <em>Фаза II (Макроскопическая релаксация на <span class="arithmatex">\(\Tlayer\)</span>):</em> аннигиляция встречных вихрей перекачивает макроконтраст через вязкость <span class="arithmatex">\(\eta/s = 41/512\)</span> в мелкомасштабное фазовое кипение при точном сохранении всех 72 бит каждой ячейки на <span class="arithmatex">\(\Mlayer\)</span>;
+    (III) <em>Фаза III (Синхронный «лёд»):</em> выравнивание к синхронному вращению на вакуумном полу <span class="arithmatex">\(\mu_{\mathrm{vac}}=1\)</span> с нулевым относительным градиентом классов фазы;
+    (IV) <em>Фаза IV (Нуклеация нового пузыря):</em> накопление пороговой голономии (<span class="arithmatex">\(\Delta\varphi_{\mathrm{disc}} = 41\)</span> тик) на стыке трёх доменов Киббла–Зурека снова формирует слово <span class="arithmatex">\(\mathrm{IV}=263 = 407_8\)</span>, запуская новую Фазу I.</p>
+</li>
+<li>
+<p><strong>Четыре внутренних рубежа и две каскадные эпохи внутри самой Фазы I:</strong></p>
+</li>
+<li>
+<p><strong>Рубеж 1 (<span class="arithmatex">\(\tau = 2\)</span>, первичный всплеск) и Рубеж 2 (<span class="arithmatex">\(\tau_1 = |{\triangle}(3)| = 8\)</span>, внутреннее фотонное горлышко Первой Эпохи):</strong>
+    после рождения 86 вихревых плакет на <span class="arithmatex">\(\tau=2\)</span> (<span class="arithmatex">\(\eta_B = \frac{45}{208}\alpha_{\mathrm{fs}}^4 \approx 6{,}135\times 10^{-10}\)</span>) и первичного фотонного шара на <span class="arithmatex">\(\tau_1 = 8\)</span> (<span class="arithmatex">\(1\,307\)</span> фотонных пороговых квантов) на тактах <span class="arithmatex">\(\tau = 16\dots 64\)</span> конденсируется первая волна из <span class="arithmatex">\(|\square(3)| = 6\)</span> единичных барионных вихрей.</p>
+</li>
+<li>
+<p><strong>Рубеж 3 (<span class="arithmatex">\(\tau_{\mathrm{neck}} = N_{\mathrm{ring}}(3)/2 = 256\)</span>, полупериодное горлышко отцепления CMB — ложный «Большой взрыв» модели <span class="arithmatex">\(\Lambda\mathrm{CDM}\)</span>):</strong>
+    ровно на полупериоде кольца <span class="arithmatex">\(\tau = 256\)</span> пять из шести первичных вихрей сбрасывают фазу в излучение, заполняя каузальный пузырь однородной термализованной фотонной баней реликтового излучения (CMB) с вариацией плотности <span class="arithmatex">\(&lt; 0{,}2\%\)</span>. Но посреди этой горячей фотонной бани <strong>выживает локализованное барионное реликтовое зерно</strong> (<span class="arithmatex">\(w = -1\)</span> в узле <span class="arithmatex">\((-2,-3,+2)\)</span>)!</p>
+</li>
+<li>
+<p><strong>Рубеж 4 (<span class="arithmatex">\(\tau = 336\dots 512\)</span>, Вторая Эпоха после горлышка — конденсация тяжёлых ядер <span class="arithmatex">\(|w| = 3\)</span> вокруг выживших зёрен):</strong>
+    сразу после прохождения горлышка <span class="arithmatex">\(\tau_{\mathrm{neck}} = 256\)</span> выжившее с Первой Эпохи реликтовое зерно служит готовым центром конденсации: уже на такте <span class="arithmatex">\(\tau = 336\)</span> буквально на соседнем ребре кубооктаэдра от него рождается тяжёлое трёхквантовое ядро (<span class="arithmatex">\(|w| = 3 = d\)</span>) и вспыхивает кластер из <span class="arithmatex">\(|{\triangle}(3)| = 8\)</span> барионных узлов (а первичный нуклеосинтез даёт массовую долю гелия-4 <span class="arithmatex">\(Y_p = \frac{1}{4}\bigl(1 - \frac{1}{4\times 13}\bigr) = \frac{51}{208} \approx \mathbf{0{,}24519}\)</span> и дейтерий <span class="arithmatex">\(n_{\mathrm{D}}/n_{\mathrm{H}} = \frac{5^2}{4\times 13}\alpha_{\mathrm{fs}}^2 \approx \mathbf{2{,}560\times 10^{-5}}\)</span> в точном согласии с наблюдениями!).</p>
+</li>
+</ul>
+<p>Понимаешь теперь, в чём штука? Когда стандартная космология экстраполирует разлёт видимой барионной волны Второй Эпохи назад до поверхности последнего рассеяния реликтового излучения, она упирается в <strong>полупериодное горлышко <span class="arithmatex">\(\tau_{\mathrm{neck}} = 256\)</span></strong> и принимает его за «рождение Вселенной из точки»!</p>
+<ul>
+<li>
+<p><strong>Видимый возраст Второй Эпохи (после горлышка <span class="arithmatex">\(\tau_{\mathrm{neck}} = 256\)</span>)</strong> с префактором <span class="arithmatex">\(\frac{|N(3)|-1}{d_{\mathrm{out}}(E)|{\triangle}(3)|} = \mathbf{\frac{11}{40}}\)</span> равен:</p>
+<div class="arithmatex">\[
+N_{\mathrm{wave}}^{\mathrm{alg}}
+\;=\; \frac{11}{40}\Bigl(\frac{E_0}{\Theta_{\mathrm{CMB}}}\Bigr)^2\sqrt{\frac{\alpha_{\mathrm{fs}}}{8}}
+\;\approx\; 1{,}1398\times 10^{61}\text{ тактов}
+\qquad \bigl(t_{\mathrm{wave}} = \tau - \tau_{\mathrm{neck}} \;\longleftrightarrow\; 13{,}769\text{ млрд лет}\bigr).
+\]</div>
+</li>
+<li>
+<p><strong>Настоящий полный двухэпоховый каузальный возраст нашего пузыря от старта сида <span class="arithmatex">\(\mathrm{IV} = 263 = 407_8\)</span></strong> включает обе половины цикла (<span class="arithmatex">\(\tau_{\mathrm{total}} = \tau_{\mathrm{neck}} + \tau_{\mathrm{wave}} = (c_0/c)^2\,\tau_{\mathrm{wave}}\)</span>) и вдвое больше:</p>
+<div class="arithmatex">\[
+N_{\mathrm{total}}^{\mathrm{alg}}
+\;=\; \Bigl(\frac{c_0}{c}\Bigr)^2 N_{\mathrm{wave}}^{\mathrm{alg}}
+\;=\; 2\,N_{\mathrm{wave}}^{\mathrm{alg}}
+\;\approx\; \mathbf{2{,}2796\times 10^{61}\text{ тактов}}
+\qquad \bigl(t_{\mathrm{total}} \;\longleftrightarrow\; \mathbf{26\text{–}27{,}54\text{ млрд лет}}!\bigr). \tag{3}
+\]</div>
+</li>
+</ul>
+<p>Именно поэтому в нашей Галактике и в глубоком космосе наблюдаются объекты, чей измеренный возраст <strong>превышает <span class="arithmatex">\(13{,}8\text{ млрд лет}\)</span></strong>:</p>
+<ol>
+<li>
+<p><strong>Парадокс «Звезды Мафусаила»:</strong>
+    прямой тригонометрический параллакс субгиганта HD 140283 в гало Млечного Пути (Bond et al.) даёт возраст <span class="arithmatex">\(\mathbf{14{,}46 \pm 0{,}8\text{ млрд лет}}\)</span> (а ранние оценки — до <span class="arithmatex">\(16\text{ млрд лет}\)</span>), что старше <span class="arithmatex">\(13{,}787\)</span>-миллиардного предела <span class="arithmatex">\(\Lambda\mathrm{CDM}\)</span>. В двухэпоховой динамике кубооктаэдра это не ошибка измерений, а прямое следствие того, что реликтовые малометалличные звёзды гало формируются вокруг барионных зёрен Первой Эпохи (<span class="arithmatex">\(\tau &lt; \tau_{\mathrm{neck}} = 256\)</span>), переживших полупериодное горлышко отцепления внутри полного <span class="arithmatex">\(27{,}54\)</span>-миллиардного цикла пузыря!</p>
+</li>
+<li>
+<p><strong>Зрелые массивные галактики телескопа JWST на <span class="arithmatex">\(z \sim 10\text{–}15\)</span>:</strong>
+    галактикам Второй Эпохи не нужно было зарождаться из бесструктурного газа с нуля за <span class="arithmatex">\(200\text{–}300\text{ млн лет}\)</span> — они конденсировались непосредственно на соседних рёбрах кубооктаэдра вокруг готовых топологических зёрен Первой Эпохи (именно поэтому в 2023 году данные JWST привели к независимым оценкам полного возраста Вселенной <span class="arithmatex">\(\sim 26{,}7\text{ млрд лет}\)</span>).</p>
+</li>
+</ol>
+<p>А как вокруг молодых звёзд из протопланетного диска сами собой собираются и расслаиваются планеты? Геохимическая дифференциация планеты на ядро, мантию и кору — это <strong>опускание вещества в точные замкнутые оболочки кубооктаэдра</strong>:</p>
+<ul>
+<li>
+<p><strong>Железное ядро (<span class="arithmatex">\(Z = 26 = 2N_\varphi\)</span>):</strong> сумма зарядов магния (<span class="arithmatex">\(Z=12\)</span>) и кремния (<span class="arithmatex">\(Z=14\)</span>), а также удвоенный алюминий (<span class="arithmatex">\(2\times 13\)</span>) в точности равны заряду железа <span class="arithmatex">\(Z(\mathrm{Fe}) = \mathbf{26 = 2N_\varphi(3)}\)</span> (а удвоенный кремний <span class="arithmatex">\(14+14 = \mathbf{28 = Z(\mathrm{Ni})}\)</span> даёт никель!).</p>
+</li>
+<li>
+<p><strong>Жидкое внешнее ядро (<span class="arithmatex">\(\mathrm{FeS}\)</span> / <span class="arithmatex">\(\mathrm{NiSi}\)</span>) и глубокий карбонат мантии (<span class="arithmatex">\(\mathrm{MgCO_3}\)</span>) на второй сфере <span class="arithmatex">\(S_2 = 42\)</span>:</strong></p>
+<div class="arithmatex">\[
+Z(\mathrm{FeS}) \;=\; 26 + 16 \;=\; \mathbf{42 \;=\; S_2(3)},
+\qquad
+Z(\mathrm{NiSi}) \;=\; 28 + 14 \;=\; \mathbf{42 \;=\; S_2(3)},
+\qquad
+Z(\mathrm{MgCO_3}) \;=\; 12 + 6 + 24 \;=\; \mathbf{42 \;=\; S_2(3)}!
+\]</div>
+</li>
+<li>
+<p><strong>Перовскитная нижняя мантия (<span class="arithmatex">\(\mathrm{MgSiO_3}\)</span>) и корундовые ядра суперземель (<span class="arithmatex">\(\mathrm{Al_2O_3}\)</span>) на магической оболочке <span class="arithmatex">\(Z = 50\)</span>:</strong>
+    $$
+    Z(\mathrm{MgSiO_3}) = 12 + 14 + 24 = \mathbf{50} = 26 + 24 = Z(\mathrm{Al_2O_3})
+    $$, а оливин верхней мантии <span class="arithmatex">\(\mathrm{Mg_2SiO_4}\)</span> замыкает <span class="arithmatex">\(50 + Z(\mathrm{Ca}) = \mathbf{70 = K_P + |\square|}\)</span>.</p>
+</li>
+<li>
+<p><strong>Радиогенный двигатель геодинамо (<span class="arithmatex">\(\mathrm{U}_{92}\to\mathrm{Pb}_{82}\)</span>):</strong> уран на третьей сфере <span class="arithmatex">\(Z(\mathrm{U}) = S_3(3) = \mathbf{92}\)</span> распадается в терминальный свинец <span class="arithmatex">\(Z(\mathrm{Pb}) = 2\Delta\varphi_{\mathrm{disc}}(3) = \mathbf{82}\)</span>, выделяя ровно <span class="arithmatex">\(92 - 82 = \mathbf{10 = Z(\mathrm{Ne})}\)</span> протонов и <span class="arithmatex">\(146 - 126 = \mathbf{20 = 2Z(\mathrm{Ne})}\)</span> нейтронов тепла, поддерживающего конвекцию жидкого ядра <span class="arithmatex">\(\mathrm{FeS}\)</span> (<span class="arithmatex">\(S_2=42\)</span>) и магнитосферный щит планеты!</p>
+</li>
+</ul>
+<hr />
+<details class="abstract">
+<summary>Companion Code &amp; Lean 4 Blueprint (Code Located In)</summary>
+<ul>
+<li><strong>Interactive Lean 4 Blueprint &amp; Theorem Graph:</strong> <a href="https://ai-guiders.github.io/discrete-quantum-mechanics/blueprint-book4/">Open Blueprint (<code>L∃∀N</code>)</a> · <a href="https://ai-guiders.github.io/discrete-quantum-mechanics/blueprint-book4/dep_graph_document.html">Interactive Dependency Graph</a></li>
+</ul>
+</details>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

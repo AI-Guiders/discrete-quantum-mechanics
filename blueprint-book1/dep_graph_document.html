@@ -1,0 +1,1720 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dependency graph</title>
+  <meta name="generator" content="plasTeX" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles/theme-white.css" />
+  <link rel="stylesheet" href="styles/dep_graph.css" />
+  
+  <script type="text/x-mathjax-config">
+  
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+  
+  </script>
+
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">  </script>
+
+
+</head>
+
+<body>
+<header>
+  <a class="toc" href="index.html">Home</a>
+  <h1 id="doc_title">Dependencies</h1>
+</header>
+<div class="wrapper">
+<div class="content">
+  <div id="Legend">
+    <span id="legend_title" class="title">Legend
+    <div class="btn">
+       <div class="bar"></div>
+       <div class="bar"></div>
+       <div class="bar"></div>
+    </div></span> 
+    <dl class="legend">
+      
+      <dt>Boxes</dt><dd>definitions</dd>
+      
+      <dt>Ellipses</dt><dd>theorems and lemmas</dd>
+      
+      <dt>Blue border</dt><dd>the <em>statement</em> of this result is ready to be formalized; all prerequisites are done</dd>
+      
+      <dt>Orange border</dt><dd>the <em>statement</em> of this result is not ready to be formalized; the blueprint needs more work</dd>
+      
+      <dt>Blue background</dt><dd>the <em>proof</em> of this result is ready to be formalized; all prerequisites are done</dd>
+      
+      <dt>Green border</dt><dd>the <em>statement</em> of this result is formalized</dd>
+      
+      <dt>Green background</dt><dd>the <em>proof</em> of this result is formalized</dd>
+      
+      <dt>Dark green background</dt><dd>the <em>proof</em> of this result and all its ancestors are formalized</dd>
+      
+      <dt>Dark green border</dt><dd>this is in Mathlib</dd>
+      
+    </dl>
+  </div>
+    <div id="graph"></div>
+<div id="statements">
+
+    
+    <div class="dep-modal-container" id="thm:mono-bio-windows-folding_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:mono-bio-windows-folding" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">7.1</span><span class="theorem_thmtitle">Три безразмерных планетарных окна биосферы, условие соизмеримости полимерных остовов, биометаллы и разрешение парадокса Левинталя за линейное время \(O(L) \in \mathbf{P}\)</span></div>
+    <div class="thm_thmcontent"><p>    В естественных безразмерных координатах носителя при \(d = 3\) выполняются следующие точные биофизические соотношения: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Три безразмерных планетарных окна растворителя (\(441 : 126 : 63 = 7 : 2 : 1\)) и оптическое окно фотосинтеза \(\bigl[\widehat{\Lambda }_{13}^{(0)},\  \widehat{\Lambda }_{8}^{(0)}\bigr] = \bigl[\frac{126}{13},\  \frac{63}{4}\bigr]\):</b> для трёх квантов мягких водородных и дипольных замков \(E_{\mathrm{soft}}^{(m)} / E_{\mathrm{HB}} \in \{ 2/7,\  1,\  2\} \) (\(m \in \{ -1, 0, +1\} \), где \(E_{\mathrm{HB}} = \mathrm{BE}_{\mathrm{H}} / N_{\mathrm{HB}}(3) = \mathrm{BE}_{\mathrm{H}} / 63\)) безразмерные приведённые шаги фотонов в единицах боровского масштаба \(\widehat{\Lambda }_{\mathrm{soft}}^{(m)} := \bar{\lambda }_{\mathrm{soft}}^{(m)} / (a_0\alpha _{\mathrm{fs}}^{-1})\) равны квадрату шва грани кубооктаэдра \(\Delta \varphi _{\mathrm{seam}}(3)^2 = \lfloor 256/12 \rfloor ^2 = 21^2 = 441\), удвоенному делителю водородной связи \(2 N_{\mathrm{HB}}(3) = 126\) и базовому делителю \(N_{\mathrm{HB}}(3) = 63\), а когерентное поглощение в окне \(m = 0\) от \(|{\triangle }(3)| = 8\) до \(N_\varphi (3) = 13\) мягких квантов \(E_{\mathrm{HB}}\) (\(E_{13}^{(0)} = \frac{13}{63}\mathrm{BE}_{\mathrm{H}}\), \(E_{8}^{(0)} = \frac{8}{63}\mathrm{BE}_{\mathrm{H}}\)) задаёт безразмерный оптический интервал фотосинтеза: </p>
+<div class="equation" id="eq:mono-three-bio-windows">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-three-bio-windows} \Bigl(\widehat{\Lambda }_{\mathrm{soft}}^{(-1)},\  \widehat{\Lambda }_{\mathrm{soft}}^{(0)},\  \widehat{\Lambda }_{\mathrm{soft}}^{(+1)}\Bigr) \; =\;  63 \times (7,\  2,\  1) \; =\;  (441,\  126,\  63), \qquad \Bigl[\widehat{\Lambda }_{13}^{(0)},\  \widehat{\Lambda }_{8}^{(0)}\Bigr] \; =\;  \left[\frac{2 N_{\mathrm{HB}}(3)}{N_\varphi (3)},\  \frac{2 N_{\mathrm{HB}}(3)}{|{\triangle }(3)|}\right] \; =\;  \left[\frac{126}{13},\  \frac{63}{4}\right] \end{equation}
+  </div>
+  <span class="equation_label">7.2</span>
+</p>
+</div>
+<p> (по единственному ридберговскому проектору&#160;<a href="sect0020.html#eq:mono-si-wavelength-bridge" class="eqref">5.35</a> с масштабом \(2\pi a_0\alpha _{\mathrm{fs}}^{-1} \approx 45{,}56335\text{ нм}\) инфракрасным шагам \(\widehat{\Lambda }_{\mathrm{soft}}^{(-1,0,+1)} = (441,\  126,\  63)\) отвечают длины волн \(\{ 20{,}09,\  5{,}741,\  2{,}870\} \text{ мкм}\), а оптическому интервалу \(\bigl[\frac{126}{13},\  \frac{63}{4}\bigr]\) — синий пик Соре \(\frac{126}{13}\times 45{,}56335\text{ нм} \approx 441{,}61\text{ нм}\) и красный край фотосинтеза \(\frac{63}{4}\times 45{,}56335\text{ нм} \approx 717{,}62\text{ нм}\)). </p>
+</li>
+  <li><p><b class="bfseries">Диофантово условие соизмеримости ковалентных остовов с радиусом водорода и ароматические кольца \(\{ 111\} \):</b> при линейном законе ковалентных радиусов второго периода \(r_{\mathrm{cov}}(Z) = \bigl(d - \frac{(d-1)Z}{N_\varphi (3)}\bigr)\kappa _{\mathrm{geom}}a_0\) длина гетероатомного звена \(R(Z_1, Z_2) = r_{\mathrm{cov}}(Z_1) + r_{\mathrm{cov}}(Z_2) = \bigl(6 - \frac{2(Z_1 + Z_2)}{13}\bigr)\kappa _{\mathrm{geom}}a_0\) целочисленно соизмерима с ковалентным радиусом водорода \(r_{\mathrm{cov}}(\mathrm{H}) = \kappa _{\mathrm{geom}}a_0\) тогда и только тогда, когда \(N_\varphi (3) = 13 \mid (Z_1 + Z_2)\), что среди многовалентных \(p\)-элементов второго периода (\(Z \in \{ 5, 6, 7, 8\} \)) выделяет ровно два соизмеримых хребта с единым шагом \(R = 4\kappa _{\mathrm{geom}}a_0\) — пептидно-нуклеиновое звено \(\mathrm{C\text{--}N}\) и боратное звено рибозы \(\mathrm{B\text{--}O}\), а при сдвиге на октант третьего периода (\(Z_3 = Z_2 + 8\)) и замыкании шестичленного цикла в плоскости \(\{ 111\} \) даёт: </p>
+<div class="displaymath" id="eq:mono-bio-backbones">
+  \begin{align}  Z(\mathrm{C}) + Z(\mathrm{N}) & = Z(\mathrm{B}) + Z(\mathrm{O}) \; =\;  13 \; =\;  N_\varphi (3), \qquad Z(\mathrm{SiN}) \; =\;  14 + 7 \; =\;  21 \; =\;  \frac{S_2(3)}{2}, \label{eq:mono-bio-backbones} \\ Z(\mathrm{C_6H_6}) & = Z(\mathrm{B_3N_3H_6}) \; =\;  42 \; =\;  S_2(3). \label{eq:mono-bio-aromatics} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Триплетный код ДНК \(4^3 = 64 \to 20 + 1\), нуклеосомный виток \(147 = V_{O_2}(3,3)\) и фолдинг белка за время \(O(L) \in \mathbf{P}\):</b> число кодонов из \(d_{\mathrm{in}}(\square ) = 4\) нуклеотидов длины \(d = 3\) равно \(4^3 = 64 = K_P(3)\) и разбивается по вырожденности третьего основания на два октета Румера (\(32 + 32 = 64\)) и \(S_2(3)/2 = 21\) семантический класс (\(20\) канонических аминокислот плюс стоп-сигнал), при этом число пар оснований суперспирального витка ДНК вокруг октамера из \(|{\triangle }(3)| = 8\) гистонов нуклеосомы равно числу узлов трёхслойного шара кубооктаэдра \(V_{O_2}(3,3) = 147\). Ко-трансляционная укладка полипептидной цепи длины&#160;\(L\) выбирает на каждом шаге один из \(\le d = 3\) локальных тетраэдрических пазов&#160;\(K_4\) с минимальным градиентом фазы, решая задачу сворачивания белка за детерминированное линейное время \(\le 3L = O(L) \in \mathbf{P}\) вместо экспоненциального перебора \(3^L\) (разрешение парадокса Левинталя). </p>
+</li>
+  <li><p><b class="bfseries">Четыре топологические фазы морфогенеза, инварианты кортикальной колонки (\(V = 42,\  E = 147,\  \chi = 41\)), автономное открытие 6 биометаллов, защита 400 стыков ДНК, три режима аллометрии и межэтажный изоморфизм оболочек \(\{ 2, 8, 26, 41, 42, 147\} \):</b> последовательность клеточных делений зиготы проходит четыре топологических перехода по инвариантам ДКМ (морула \(16 = 2^{d_{\mathrm{in}}(\square )} \to \) бластула \(32 = K_P(3)/2 \to \) гаструла \(64 = K_P(3)\) с инвагинацией при превышении порога дискретности \(64 {\gt} 41 \to \) нейрула \(128 = Q_\square (3)\)), формируя шестислойную (\(|\square (3)| = 6\)) кортикальную колонку с числом узлов \(V = S_2(3) = 42\), числом синаптических рёбер \(E = V_{O_2}(3,3) = 147\), связной характеристикой </p>
+<div class="equation" id="eq:mono-cortical-column-chi">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-cortical-column-chi} \chi _{\mathrm{col}}(3) \; =\;  E - V - K_P(3) \; =\;  147 - 42 - 64 \; =\;  41 \; =\;  \Delta \varphi _{\mathrm{disc}}(3) \end{equation}
+  </div>
+  <span class="equation_label">7.5</span>
+</p>
+</div>
+<p> и трёхкратным (\(\times d = 3\)) множителем гомеостатического бюджета циклов жизни. Оператор discoverBioMetalInCageOp автономно выделяет в таблице Менделеева шестёрку кофакторов металлоферментов по замыканию координационных клеток тетрапиррола \(Z(\mathrm{N_4}) = 28\), гексагистидина \(Z(\mathrm{N_6}) = 42\) и тетратиолата \(Z(\mathrm{S_4}) = 64\) (Таблица&#160;<a href="sect0024.html#tab:mono-biometals-isomorphism">7.1</a>). Все \(20\times 20 = 400\) парных стыков канонических кодонов ДНК защищены от внефазного старт-кодона \(\mathrm{ATG}\), компилятор compilePhenotypeToDnaSequenceOp переводит целевую топологию органа \(\chi _{\mathrm{target}} \in \{ 2, 0, 41\} \) в 6-нуклеотидную ДНК, сворачивающую 3D-ткань во всех трёх планетарных окнах \(m_{\mathrm{env}} \in \{ -1, 0, +1\} \) (с обратимой терапевтической редифференцировкой противофазным потоком на одеяле Маркова и сбросом дрейфа \(\mathrm{CpG} \leftrightarrow \mathrm{TpG}\)), показатели аллометрии \((k-1)/k\) при \(k \in \{ 3, 4, 5\} \) дают режимы Рубнера (\(2/3\)), Клейбера (\(3/4\)) и птиц (\(4/5\)), а шесть инвариантов кубооктаэдра \(\{ 2, 8, 26, 41, 42, 147\} \) связывают сквозным изоморфизмом квантовый, ядерный, планетарный и биологический этажи. </p>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sect0024.html#thm:mono-bio-windows-folding">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/PlanetogenesisAllometry.lean#L428" class="lean_decl">universal_cosmobiology_three_planetary_windows_operator</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/OntogenyMutagenesis.lean#L327" class="lean_decl">closed_form_organism_genesis_in_environment_operator</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/PlanetogenesisAllometry.lean#L345" class="lean_decl">generative_biometal_discovery_and_multi_regime_allometry_operator</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/PlanetogenesisAllometry.lean#L250" class="lean_decl">cross_floor_shell_closure_isomorphism_operator</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/SuperconductorBioCad.lean#L92" class="lean_decl">applied_bio_cad_therapeutic_redifferentiation_and_epigenetic_reset_operator</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/PlanetogenesisAllometry.lean#L299" class="lean_decl">discoverBioMetalInCageOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/MendeleevPeriodicTable.lean#L551" class="lean_decl">compilePhenotypeToDnaSequenceOp</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:mono-born-rule_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:mono-born-rule" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">4.1</span><span class="theorem_thmtitle">Детерминированный вывод правила Борна \(P(\mu ) = \mu ^2 / 512\) из билинейности оператора голономии \(\mathcal{G}_3\)</span></div>
+    <div class="thm_thmcontent"><p>    В уравнениях эволюции поля \(\mathcal{G}_3\)&#160;<a href="sect0008.html#eq:mono-field-zr" class="eqref">1.33</a>–<a href="sect0008.html#eq:mono-field-draw" class="eqref">1.37</a> операторы парной голономии звена \(\mu (\mathbf{x})\, \mu (\mathbf{x}-\mathbf{e})\, \mathcal{C}_3(\Delta \varphi )\) и собственного потенциала ячейки \(Q_\square (3)\, \mu (\mathbf{x})^2\) однородно билинейны по амплитудам взаимодействующих узлов. Поэтому для когерентного волнового пакета с целочисленной амплитудой \(\mu (\mathbf{x}) = \mu (\mathbf{x}-\mathbf{e}) = \mu \in \{ 0, 1, \dots , 16\} \) (\(\mu ^2 \le \Phi _{\mathrm{Pauli}}(3) = 256\)) нормированный на квант грани \(Q_\square (3) = 128\) фазовый вклад одного звена в ячейку детектора тождественно равен билинейному произведению \(\Phi _{\mathrm{wave}}(\mu ) = \mu \cdot \mu = \mu ^2\). Если собственная фоновая фаза детектора \(\varphi _{\mathrm{bg}}\) равномерно пробегает все \(N_{\mathrm{ring}}(3) = 512\) состояний кольца \(\mathbb {Z}_{512}\), то число фоновых состояний, при которых сумма \(\varphi _{\mathrm{bg}} + \Phi _{\mathrm{wave}}(\mu )\) пересекает границу кольца и рождает корпускулярный бит переноса \(q\bigl(\varphi _{\mathrm{bg}} + \Phi _{\mathrm{wave}}(\mu )\bigr) = 1\), тождественно равно квадрату амплитуды: </p>
+<div class="displaymath" id="eq:mono-born-bilinear">
+  \begin{align}  \Phi _{\mathrm{wave}}(\mu ) & = \frac{Q_\square (3)\, \mu (\mathbf{x})\, \mu (\mathbf{x}-\mathbf{e})}{Q_\square (3)} \; =\;  \mu ^2, \label{eq:mono-born-bilinear} \\ N_{\mathrm{clicks}}(\mu ) & = \bigl|\bigl\{ \varphi _{\mathrm{bg}} \in \{ 0,\dots ,511\}  \; \big|\;  \varphi _{\mathrm{bg}} + \Phi _{\mathrm{wave}}(\mu ) \ge 512\bigr\} \bigr| \; \equiv \;  \mu ^2 \; =\;  |\psi |^2, \label{eq:mono-born-exact} \\ P(\mu ) & = \frac{N_{\mathrm{clicks}}(\mu )}{N_{\mathrm{ring}}(3)} \; =\;  \frac{\mu ^2}{512}. \label{eq:mono-born-prob} \end{align}
+</div>
+</div>
+
+    <a class="latex_link" href="sect0017.html#thm:mono-born-rule">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L62" class="lean_decl">bornClickCountOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L299" class="lean_decl">reversible_computing_zero_landauer_heat_and_paradox_resolutions_operator</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:mono-c13-lie-alpha-fs_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:mono-c13-lie-alpha-fs" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">5.1</span><span class="theorem_thmtitle">Кликовый комплекс \(\mathcal{C}_{13}\), матричные коммутаторы Ли \(\mathfrak {u}(1)\oplus \mathfrak {su}(2)\oplus \mathfrak {su}(3)\) и четырёхпетлевой вывод \(\alpha _{\mathrm{fs}}^{-1}(3) \in \mathbb {Q}(\sqrt{2})\)</span></div>
+    <div class="thm_thmcontent"><p>    На \(13\)-узловом причинном ядре кубооктаэдра \(B_1(3) = \{ \mathbf{0}\}  \cup O_2(3)\) выполняются следующие точные структурные законы: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Перепись клик \(\mathcal{C}_{13}\) и эйлерова характеристика \(\chi (\mathcal{C}_{13}) = 1\):</b> числа полных подграфов (клик \(K_n\)) в \(B_1(3)\) и знакопеременная эйлерова характеристика равны: </p>
+<div class="displaymath" id="eq:mono-c13-cliques">
+  \begin{align}  \bigl(K_1(3),\  K_2(3),\  K_3(3),\  K_4(3),\  K_{\ge 5}(3)\bigr) & = (13,\  36,\  32,\  8,\  0), \label{eq:mono-c13-cliques} \\ \chi (\mathcal{C}_{13}) \; =\;  K_1 - K_2 + K_3 - K_4 & = 13 - 36 + 32 - 8 \; =\;  1 \; =\;  \mu _{\mathrm{vac}}(3). \label{eq:mono-c13-euler} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Явные целочисленные матричные коммутаторы \([A, B] = AB - BA\) алгебры Ли \(\mathfrak {u}(1) \oplus \mathfrak {su}(2) \oplus \mathfrak {su}(3)\) (\(\dim = 1 + 3 + 8 = 12 = |N(3)|\)):</b> пространство независимых циклов голономии расщепляется в прямую сумму </p>
+<div class="equation" id="eq:mono-sm-gauge">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-sm-gauge} \dim \bigl(\mathfrak {u}(1) \oplus \mathfrak {su}(2) \oplus \mathfrak {su}(3)\bigr) \; =\;  1 + 3 + 8 \; =\;  12 \; =\;  |N(3)|, \end{equation}
+  </div>
+  <span class="equation_label">5.3</span>
+</p>
+</div>
+<p> где: (а)&#160;\(1\) центральный фазовый генератор \(Y_0 = I_3\) на \(\mathbb {Z}_{512}\) коммутирует со всеми генераторами (\([Y_0, L_k] = 0\), \([Y_0, E_{ab}] = 0\)) и порождает \(\mathfrak {u}(1)_Y\); (б)&#160;\(d = 3\) антисимметричные матрицы инфинитезимальных поворотов \((L_k)_{ij} = -\varepsilon _{kij}\) в трёх координатных плоскостях \((yz, zx, xy)\), пересекающихся исключительно в центральном узле \(\mathbf{0}\), удовлетворяют коммутационным соотношениям \(\mathfrak {su}(2)\): </p>
+<div class="equation" id="eq:mono-su2-comm">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-su2-comm} [L_1, L_2] \; =\;  L_3, \qquad [L_2, L_3] \; =\;  L_1, \qquad [L_3, L_1] \; =\;  L_2; \end{equation}
+  </div>
+  <span class="equation_label">5.4</span>
+</p>
+</div>
+<p> (в)&#160;на \(K_4(3) = 8\) тетраэдрических 4-кликах три цветовые плоскости каждого радиального бариона \(K_3\) порождают \(3^2 - 1 = 8\) бесследовых матричных генераторов \(\mathfrak {su}(3)\) (\(6\) корневых переходов \(E_{ab}\) при \(a \ne b \in \{ 1,2,3\} \) и \(2\) диагональных генератора Картана \(H_1 = \operatorname {diag}(1,-1,0)\), \(H_2 = \operatorname {diag}(0,1,-1)\)), удовлетворяющих соотношениям Шевалле–Серра: </p>
+<div class="displaymath" id="eq:mono-su3-comm">
+  \begin{align}  [E_{12}, E_{23}] & = E_{13}, \qquad [E_{12}, E_{21}] \; =\;  H_1, \qquad [E_{23}, E_{32}] \; =\;  H_2, \label{eq:mono-su3-comm} \\[H_1, H_2]& = 0, \qquad \operatorname {Tr}(H_1) \; =\;  \operatorname {Tr}(H_2) \; =\;  0. \label{eq:mono-su3-cartan} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Единственность гауссова кулоновского модуля \(\widehat{M}(3) = 97\), точный обрыв симплициального ряда на \(k_{\max } = 4\) (\(K_{\ge 5}(\mathcal{C}_{13}) \equiv 0\)) и вывод \(\alpha _{\mathrm{fs}}^{-1}(3) \in \mathbb {Q}(\sqrt{2})\):</b> полное число направленных вершин-октантов причинного ядра \(1 + |O_2(d)|\cdot |{\triangle }(d)|\) совпадает с квадратом нормы гауссова фильтра \(|d_{\mathrm{in}}(\square ) + i\, \mathrm{mod\_ bits}(d)|^2\) в \(\mathbb {Z}[i]\) тогда и только тогда, когда \(d = 3\), определяя единственный простой гауссов кулоновский модуль \(\widehat{M}(3)\) и целую часть обратной постоянной тонкой структуры: </p>
+<div class="displaymath" id="eq:mono-mhat-97">
+  \begin{align}  \widehat{M}(3) & = 1 + |O_2(3)|\cdot |{\triangle }(3)| \; =\;  d_{\mathrm{in}}(\square )^2 + \mathrm{mod\_ bits}(3)^2 \; =\;  4^2 + 9^2 \; =\;  97, \label{eq:mono-mhat-97} \\ \bigl\lfloor \alpha _{\mathrm{fs}}^{-1}(3) \bigr\rfloor & = \widehat{M}(3) + \bigl(\Delta \varphi _{\mathrm{disc}}(3) - 1\bigr) \; =\;  97 + 40 \; =\;  137 \; =\;  Q_\square (3) + \mathrm{mod\_ bits}(3). \label{eq:mono-alpha-fs} \end{align}
+</div>
+<p> Поскольку постоянная тонкой структуры \(\alpha _{\mathrm{fs}}(d)\) является статическим геометрическим инвариантом самой координационной решётки причинного ядра \(\mathcal{C}_{13}\) (не зависящим от такта времени \(t\) и конкретной динамической траектории поля), а по пункту&#160;(1)&#160;<a href="sect0019.html#eq:mono-c13-cliques" class="eqref">5.1</a> кликовый комплекс причинного ядра \(\mathcal{C}_{13}\) исчерпывается симплексами размерностей \(k \in \{ 1, 2, 3, 4\} \) (\(K_1 \subset K_2 \subset K_3 \subset K_4\)) и <b class="bfseries">не содержит симплексов порядка \(k \ge 5\) (\(K_{\ge 5}(\mathcal{C}_{13}) \equiv 0\))</b>, разложение статического кулоновского пропагатора по невырожденным симплициальным путям внутри \(\mathcal{C}_{13}\) с кулоновским весом \(\widehat{M}(d)^{-1}\) на каждую вершину симплекса <b class="bfseries">обрывается строго на четвёртом порядке \(k_{\max } = 4\)</b> (вклады \(\widehat{M}(d)^{-k}\) при всех \(k \ge 5\) тождественно равны нулю). На четырёх непустых этажах симплициальной фильтрации \(K_1 \to K_2 \to K_3 \to K_4\) вдоль диагонального ребра \(\| \mathbf{e}\| _2 = \sqrt{d-1} = \sqrt{2}\) с осевым проекционным фактором \(\kappa _{\mathrm{geom}} = 1/\sqrt{2} = \sqrt{2}/2\), числом открытых внешних октантов вершины \(d_{\mathrm{out}}(V) = |{\triangle }(d)| - 1 = 7\) и квадратным входом \(d_{\mathrm{in}}(\square ) = 4\) числитель вакуумной экранировки \(\mathcal{N}_\alpha (d)\) (\(k = 3, 4\)) и знаменатель прямой проводимости звена \(\mathcal{D}_\alpha (d)\) (\(k = 1, 2\)) однозначно определяются комбинаторными весами соответствующих симплексов: </p>
+<div class="displaymath" id="eq:mono-alpha-4loop-den">
+  \begin{align}  \mathcal{D}_\alpha (d) & = \underbrace{\frac{\kappa _{\mathrm{geom}}}{\widehat{M}(d)}}_{k=1\  (K_2\text{-ребро})} \; +\;  \underbrace{\frac{\kappa _{\mathrm{geom}}^2}{d_{\mathrm{out}}(V)\, \widehat{M}(d)^2}}_{k=2\  (K_3\text{-возвратный клин})} \; =\;  \frac{\sqrt{2}}{2\, \widehat{M}(d)} + \frac{1}{2\bigl(|{\triangle }(d)|-1\bigr)\widehat{M}(d)^2}, \label{eq:mono-alpha-4loop-den} \\ \mathcal{N}_\alpha (d) & = 1 \; -\;  \underbrace{\frac{2\kappa _{\mathrm{geom}}}{d_{\mathrm{in}}(\square )\, d_{\mathrm{out}}(V)\, \widehat{M}(d)^3}}_{k=3\  (\square \to K_4\text{ экранировка грани})} \; -\;  \underbrace{\frac{|K_4(d)|}{d_{\mathrm{out}}(V)^2\, \widehat{M}(d)^4}}_{k=4\  (\text{замыкание }K_4)} \nonumber \\ & = 1 - \frac{\sqrt{2}}{d_{\mathrm{in}}(\square )\bigl(|{\triangle }(d)|-1\bigr)\widehat{M}(d)^3} - \frac{|{\triangle }(d)|}{\bigl(|{\triangle }(d)|-1\bigr)^2\widehat{M}(d)^4}, \label{eq:mono-alpha-4loop-num} \\ \alpha _{\mathrm{fs}}^{-1}(d) & = \frac{\mathcal{N}_\alpha (d)}{\mathcal{D}_\alpha (d)}. \label{eq:mono-alpha-4loop-fraction} \end{align}
+</div>
+<p> Приведение&#160;<a href="sect0019.html#eq:mono-alpha-4loop-den" class="eqref">5.9</a>–<a href="sect0019.html#eq:mono-alpha-4loop-fraction" class="eqref">5.11</a> к общему целому знаменателю \(d_{\mathrm{in}}(\square )\bigl(|{\triangle }(d)|-1\bigr)^2\widehat{M}(d)^4\) определяет коэффициенты в кольце \(\mathbb {Z}[\sqrt{2}]\): </p>
+<div class="displaymath" id="eq:mono-alpha-zsqrt2-coeffs">
+  \begin{align}  A_{\mathrm{num}}(d) & = \tfrac {1}{2}d_{\mathrm{in}}(\square )\bigl(|{\triangle }(d)|-1\bigr)\hat{M}(d)^2 \; =\;  131\, 726, \label{eq:mono-alpha-zsqrt2-coeffs} \\ B_{\mathrm{num}}(d) & = \tfrac {1}{2}d_{\mathrm{in}}(\square )\bigl(|{\triangle }(d)|-1\bigr)^2\hat{M}(d)^3 \; =\;  89\, 441\, 954, \label{eq:mono-alpha-bnum} \\ A_{\mathrm{den}}(d) & = d_{\mathrm{in}}(\square )\Bigl(\bigl(|{\triangle }(d)|-1\bigr)^2\hat{M}(d)^4 - |{\triangle }(d)|\Bigr) \; =\;  17\, 351\, 739\, 044, \label{eq:mono-alpha-aden} \\ B_{\mathrm{den}}(d) & = -\bigl(|{\triangle }(d)|-1\bigr)\hat{M}(d) \; =\;  -679, \label{eq:mono-alpha-bden} \end{align}
+</div>
+<p> и замкнутую алгебраическую формулу в поле \(\mathbb {Q}(\sqrt{2})\) без трансцендентного числа&#160;\(\pi \): </p>
+<div class="equation" id="eq:mono-alpha-codata">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-alpha-codata} \alpha _{\mathrm{fs}}^{-1}(3) \; =\;  \frac{A_{\mathrm{den}}(3) + B_{\mathrm{den}}(3)\sqrt{2}}{A_{\mathrm{num}}(3) + B_{\mathrm{num}}(3)\sqrt{2}} \; =\;  \frac{17\, 351\, 739\, 044 - 679\sqrt{2}}{131\, 726 + 89\, 441\, 954\sqrt{2}} \; =\;  137{,}035\, 999\, 187\dots \end{equation}
+  </div>
+  <span class="equation_label">5.16</span>
+</p>
+</div>
+<p> (CODATA-2022: \(137{,}035\, 999\, 177(21)\), отклонение \(0{,}47\) стандартного отклонения). </p>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sect0019.html#thm:mono-c13-lie-alpha-fs">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ContinuumPhysics.lean#L469" class="lean_decl">sm_and_cosmology_closed_rational_operators</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/Spec.lean#L285" class="lean_decl">gaussian_coulomb_lock_iff_d3</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ContinuumPhysics.lean#L391" class="lean_decl">alpha_fs_exact_z_sqrt2_canonical_form_and_floor_137</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ContinuumPhysics.lean" class="lean_decl">ContinuumPhysics.lean</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:mono-chem-cooper-587_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:mono-chem-cooper-587" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">6.2</span><span class="theorem_thmtitle">Топологическая классификация химической связи, закон Гесса, правила Вудворда–Хоффмана, сверхпроводящее спаривание Купера и \(587\)-кратный коллапс барьера</span></div>
+    <div class="thm_thmcontent"><p>    При \(d = 3\) на кольце \(\mathbb {Z}_{512}\) и оболочке кубооктаэдра \(O_2(3)\) выполняются следующие соотношения: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Седло химической связи \(Q_\square (3) = 128\) и закон Гесса:</b> на участке \(\Delta \varphi \in [0, 256]\) чётная связывающая проекция \(\mathcal{C}_3(\Delta \varphi ) = 128 - \Delta \varphi \) убывает от \(+128\) (ковалентный минимум \(\Delta \varphi = 0\)) через точку перегиба седла реакции \(\Delta \varphi ^* = Q_\square (3) = 128\) (\(\mathcal{C}_3(128) = 0\), \(\mathcal{S}_3(128) = +128\)) к антисвязывающему полюсу Паули \(\Delta \varphi = 256\) (\(\mathcal{C}_3(256) = -128\)), а поскольку энтальпия реакции является точной \(0\)-коцепью (\(d_1(d_0 H) \equiv 0\)), суммарный тепловой эффект любого замкнутого каталитического цикла тождественно равен нулю (закон Гесса). </p>
+</li>
+  <li><p><b class="bfseries">Кратность ковалентных связей \(\{ 1, 2, 3\} \) и правила орбитальной симметрии Хюккеля и Вудворда–Хоффмана (\(4n + 2\) и \(4n\)):</b> максимальная устойчивая кратность локализованной ковалентной связи между двумя атомами главной группы равна \(d = 3\) (\(1\) общая вершина для \(\sigma \)-связи, \(2\) вершины ребра для \(\pi \)-связи, \(3\) вершины треугольной грани \(K_3\) для тройной связи). На замкнутом сопряжённом цикле с четверть-периодным шагом \(Q_\square (3) = 128\) на каждый \(\pi \)-электрон и спиновым синглетным полуоборотом Паули \(+\Phi _{\mathrm{Pauli}}(3) = +256\) полная кольцевая фаза равна: </p>
+<div class="equation" id="eq:mono-huckel-ring-phase">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-huckel-ring-phase} \Phi _{\mathrm{ring}}(N_\pi ) \; \equiv \;  Q_\square (3)\, N_\pi + \Phi _{\mathrm{Pauli}}(3) \; \equiv \;  128\, N_\pi + 256 \pmod{512}, \end{equation}
+  </div>
+  <span class="equation_label">6.9</span>
+</p>
+</div>
+<p> что даёт ароматический связывающий максимум \(\mathcal{C}_3(0) = +128\) при \(N_\pi = 4n + 2\) и антиароматический мёбиусовский полюс \(\mathcal{C}_3(256) = -128\) при \(N_\pi = 4n\) (правила дисротаторного и конротаторного замыкания Вудворда–Хоффмана). </p>
+</li>
+  <li><p><b class="bfseries">Сверхпроводящее спаривание Купера \(2e\) на антиподальных лучах кубооктаэдра и оболочки ВТСП:</b> два вихревых узла с противоположными импульсами \((\mathbf{k}, -\mathbf{k})\) на центросимметричных лучах \(\pm \mathbf{e} \in O_2(3)\) и антиподальным спиновым сдвигом \(+\Phi _{\mathrm{Pauli}}(3) = +256\) образуют синглетную пару Купера удвоенного заряда \(2e = (c_0/c)^2 e\) с нулевым током рассеяния и полным конструктивным возрождением Ааронова–Бома на полуобороте Паули: </p>
+<div class="displaymath" id="eq:mono-cooper-odd-cancel">
+  \begin{align}  \mathcal{S}_3(\Delta \varphi ) + \mathcal{S}_3(-\Delta \varphi ) & \equiv 0, \label{eq:mono-cooper-odd-cancel} \\ \mathcal{C}_3\bigl(2\, \Phi _{\mathrm{Pauli}}(3)\bigr) & = \mathcal{C}_3(512) \; =\;  +128, \label{eq:mono-cooper-revival} \end{align}
+</div>
+<p> при замыкании формульных единиц сверхпроводников \(Z(\mathrm{TiNi}) = 50\), \(Z(\mathrm{MgB_2}) = 22\), \(Z(\mathrm{CuO_2}) = 45\), \(Z(\mathrm{CaCuO_2}) = 65\), \(Z(\mathrm{FeS}) = 42 = S_2(3)\). </p>
+</li>
+  <li><p><b class="bfseries">Когерентное схлопывание кулоновского барьера в \(587\) раз:</b> при синфазной фокусировке всех \(12\) лучей кубооктаэдра на фазе когерентного резонанса </p>
+<div class="displaymath" id="eq:mono-acoh-139">
+  \begin{align}  A_{\mathrm{coh}}(3) & = Q_\square (3) + |N(3)| - 1 \; =\;  128 + 11 \; =\;  139, \label{eq:mono-acoh-139} \\ \bigl(\mathcal{C}_3(139),\  \mathcal{S}_3(139)\bigr) & = (-11,\  +117), \label{eq:mono-acoh-cs} \end{align}
+</div>
+<p> двенадцать отрицательных косинусных вкладов \(12 \times (-11) = -132\) снижают импеданс в центре ячейки с \(D_{\max }(3) = 6\, 823\, 936\) до \(D_{\mathrm{coh}}(3) = 11\, 616\) с коэффициентом подавления барьера: </p>
+<div class="equation" id="eq:mono-587-collapse">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-587-collapse} \left\lfloor \frac{D_{\max }(3)}{D_{\mathrm{coh}}(3)} \right\rfloor \; =\;  \left\lfloor \frac{6\, 823\, 936}{11\, 616} \right\rfloor \; =\;  587 \; =\;  512 + 3 \times 25 \; =\;  N_{\mathrm{ring}}(3) + d\cdot d_{\mathrm{out}}(E)^2. \end{equation}
+  </div>
+  <span class="equation_label">6.14</span>
+</p>
+</div>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sect0023.html#thm:mono-chem-cooper-587">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ChemicalBonding.lean#L39" class="lean_decl">chemical_bond_holonomy_conservation_and_saddle_128</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ChemicalBonding.lean#L64" class="lean_decl">hess_law_and_catalytic_cycle_zero_enthalpy</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ChemicalBonding.lean#L77" class="lean_decl">woodward_hoffmann_and_valence_123_stability_from_d3</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/SuperconductorBioCad.lean#L47" class="lean_decl">generative_materials_cooper_pairing_and_superconductor_shells_operator</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ContinuumPhysics.lean#L524" class="lean_decl">coherent_cuboctahedron_barrier_collapse_587x</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:mono-complete-sm-particle-atlas_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:mono-complete-sm-particle-atlas" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">5.3</span><span class="theorem_thmtitle">Этаж&#160;2. Полный вихревой атлас Стандартной модели на \(\mathcal{C}_{13}\) в естественных безразмерных координатах ДКМ: три поколения лептонов, закон Койде, матрицы смешивания PMNS и CKM, шесть ароматов кварков, электрослабые и хиггсовский бозоны, магнитные моменты нуклонов, каналы слабых распадов и безразмерная лестница до атома водорода</span></div>
+    <div class="thm_thmcontent"><p>    В единой естественной шкале ячейки&#160;<a href="sect0008.html#eq:mono-natural-scale-ladder" class="eqref">1.24</a> (\(dh = 1,\  dt = 1,\  s_0 = 1/2,\  E_0 = s_0/dt = 1/2\)) на \(13\)-узловом кликовом комплексе \(\mathcal{C}_{13}\) с геометрическим отношением сфер кубооктаэдра \(\kappa _{\mathrm{geom}}^2 = R_{\mathrm{in}}^2 / R_{\mathrm{out}}^2 = 1/2\), квантом упаковки одного ребра \(\delta _{\mathrm{pack}} = \kappa _{\mathrm{geom}}^2 / |O_2(3)| = 1/24\), дискретным фазовым отношением порога дискретности к кольцу \(r_{\mathcal{M}} = \Delta \varphi _{\mathrm{disc}}(3)/N_{\mathrm{ring}}(3) = 41/512\) и безразмерной электрослабой полкой \(v / E_0 = r_{\mathcal{M}}^{-1/2}\alpha _{\mathrm{fs}}^{|{\triangle }(3)|} = (512/41)^{1/2}\alpha _{\mathrm{fs}}^8\): </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Три поколения заряженных лептонов \((e, \mu , \tau )\), точный инвариант Койде \(Q_{\mathrm{Koide}} = 2/3\) и матрица смешивания нейтрино PMNS:</b> безразмерное отношение массы одетого электрона к бозону Хиггса равно \(m_e / m_H = \alpha _{\mathrm{fs}}^2 / N_\varphi (3) = \alpha _{\mathrm{fs}}^2 / 13\). На \(d = 3\) пространственных стеках поколений \(g \in \{ 0, 1, 2\} \) с начальным спинорным сдвигом \(\delta _0 = 2/\mathrm{mod\_ bits}(3) = 2/9\) амплитуды лептонов \(\sqrt{m_g} \propto 1 + \kappa _{\mathrm{geom}}^{-1}\cos (2\pi g/3 + 2/9)\) тождественно удовлетворяют закону Койде \(Q_{\mathrm{Koide}}(3) = (d - 1)/d = 2/3\) (\(m_\mu / m_e \approx 206{,}7703\), \(m_\tau / m_e \approx 3477{,}47\)), а доли слоёв разбиения ротора электрона \((1, 4, 7)\) в \(N_\varphi (3) = 13\) и в третьей сфере \(S_3(3) = 92\) определяют три угла смешивания нейтрино PMNS: </p>
+<div class="displaymath" id="eq:mono-pmns-angles">
+  \begin{align}  \sin ^2\theta _{12}^{\mathrm{PMNS}} & = \frac{d_{\mathrm{same}}(V)}{N_\varphi (3)} \; =\;  \frac{4}{13}, \label{eq:mono-pmns-angles} \\ \sin ^2\theta _{23}^{\mathrm{PMNS}} & = \frac{d_{\mathrm{out}}(V)}{N_\varphi (3)} \; =\;  \frac{7}{13}, \label{eq:mono-pmns-23} \\ \sin ^2\theta _{13}^{\mathrm{PMNS}} & = \frac{1_{\mathrm{core}} + d_{\mathrm{in}}(V)}{S_3(3)} \; =\;  \frac{2}{92} \; =\;  \frac{1}{46}. \label{eq:mono-pmns-13} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Три ортогональные плоскости цвета на \(K_3\), шесть кварковых ступеней масс \((u, d, s, c, b, t)\) и матрица CKM из разложения \(\widehat{M}(3) = 4^2 + 9^2 = 97\):</b> в каждом радиальном барионном треугольнике \(K_3 = \{ (0,0,0), (0,1,1), (1,0,1)\} \) три его ребра лежат в трёх взаимно перпендикулярных координатных плоскостях \((yz, xz, xy)\), образуя \(N_c = d = 3\) цветовых канала. Безразмерные отношения масс кварков и параметры Вольфенштейна матрицы CKM равны: </p>
+<div class="displaymath" id="eq:mono-quarks-ud">
+  \begin{align}  \frac{m_u}{m_e} & = d_{\mathrm{in}}(\square ) = 4, \qquad \frac{m_d}{m_e} = \mathrm{mod\_ bits}(3) = 9, \qquad \left(\frac{m_u}{m_e}\right)^2 + \left(\frac{m_d}{m_e}\right)^2 = 97 = \widehat{M}(3), \label{eq:mono-quarks-ud} \\ \frac{m_p}{m_s} & = S_1(3) - 2 = 10, \qquad \frac{m_c}{m_p} = \frac{d_{\mathrm{in}}(\square )}{d} = \frac{4}{3}, \label{eq:mono-quarks-sc} \\ \frac{m_b}{\alpha _{\mathrm{fs}}\, v} & = \frac{d_{\mathrm{out}}(V)}{d} = \frac{7}{3}, \qquad \left(\frac{m_t^{(\mathrm{bare})}}{v}\right)^2 = \frac{1}{2}, \label{eq:mono-quarks-scbt} \\ \lambda _{\mathrm{CKM}} & = \frac{d_{\mathrm{out}}(E)\, d_{\mathrm{out}}(V)}{|O_2(3)|\, N_\varphi (3)} = \frac{35}{156}, \qquad A_{\mathrm{CKM}} = \frac{10}{12} = \frac{5}{6}, \qquad \bar{\rho } + i\bar{\eta } = \frac{4 + 9i}{26}. \label{eq:mono-ckm-params} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Магнитные моменты нуклонов, безразмерное отношение \((m_n - m_p)/m_e = 81/32\), электрослабый угол Вайнберга (древесный и на масштабе \(M_Z\)), каналы слабых распадов и безразмерная энергия связи атома водорода:</b> потеря одного кванта упаковки \(\delta _{\mathrm{pack}} = 1/24\) на каждой из \(d = 3\) вершин \(K_3\) даёт изоскалярную сумму \(1 - 3/24 = 7/8\), магнитные моменты протона и нейтрона, безразмерное отношение разности масс нейтрона и протона к массе электрона, аксиальную константу \(g_A\), полные числа открытых каналов распада мюона и нейтрона (и средний канальный вес на один луч звезды \(w_{\mathrm{ray}}(n)\)), древесный и однопетлевой угол Вайнберга и безразмерное отношение энергии связи атома водорода к \(E_0\) на \(11\)-й ступени иерархии \(\alpha _{\mathrm{fs}}^{11}\): </p>
+<div class="displaymath" id="eq:mono-nucleon-moments">
+  \begin{align}  \frac{\mu _p}{\mu _N} & = 3 - 5\delta _{\mathrm{pack}} = \frac{67}{24}, \qquad \frac{\mu _n}{\mu _N} = -2 + 2\delta _{\mathrm{pack}} = -\frac{23}{12}, \qquad \frac{\mu _p + \mu _n}{\mu _N} = 1 - 3\delta _{\mathrm{pack}} = \frac{7}{8}, \label{eq:mono-nucleon-moments} \\ \frac{m_n - m_p}{m_e} & = \frac{2\, |\mathcal{E}_{\mathrm{Heis}}(3)|}{K_P(3)} = \frac{81}{32} = 2{,}53125, \qquad g_A = \frac{d_{\mathrm{out}}(E)}{d_{\mathrm{in}}(\square )} + \frac{1}{d\, N_\varphi (3)} = \frac{5}{4} + \frac{1}{39} = \frac{199}{156}, \label{eq:mono-weak-decays} \\ N_{\mathrm{open}}(\mu ) & = |O_2(3)|\cdot \bigl(N_{\mathrm{ring}}(3) - N_\varphi (3)\bigr) = 12 \times 499 = 5\, 988, \label{eq:mono-muon-channels} \\ N_{\mathrm{open}}^{(\mathrm{tot})}(n) & = N_{\mathrm{HB}}(3)\cdot \bigl(|O_2(3)| - 1\bigr) = 63 \times 11 = 693, \qquad w_{\mathrm{ray}}(n) = \frac{N_{\mathrm{open}}^{(\mathrm{tot})}(n)}{|O_2(3)|} = \frac{693}{12} = \frac{231}{4}, \label{eq:mono-neutron-channels} \\ \sin ^2\theta _W^{(0)} & = \frac{d}{N_\varphi (3)} = \frac{3}{13}, \qquad \sin ^2\theta _W(M_Z) = \frac{d}{N_\varphi (3)} + \frac{\kappa _{\mathrm{geom}}^2\, \alpha _{\mathrm{fs}}}{|{\triangle }(3)|} = \frac{3}{13} + \frac{\alpha _{\mathrm{fs}}}{16}, \label{eq:mono-weinberg-dressed} \\ \frac{m_H^{(\mathrm{bare})}}{v} & = \frac{1}{2}, \qquad \frac{\mathrm{BE}_{\mathrm{H}}}{E_0} = \frac{\alpha _{\mathrm{fs}}^2}{2}\, \frac{m_e}{E_0} = \frac{\alpha _{\mathrm{fs}}^{11}}{4\, N_\varphi (3)\, r_{\mathcal{M}}^{1/2}}. \label{eq:mono-bosons-hydrogen} \end{align}
+</div>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sect0020.html#thm:mono-complete-sm-particle-atlas">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ParticleSpectrum.lean#L144" class="lean_decl">elementary_particles_electron_rotor_clique_complex_and_nucleon_moments_operator</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ParticleSpectrum.lean#L397" class="lean_decl">complete_particle_spectrum_quarks_bosons_hadrons_and_cosmology_operator</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:mono-cuboct-uniqueness_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:mono-cuboct-uniqueness" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">1.4</span><span class="theorem_thmtitle">Единственность изотропной кубооктаэдрической оболочки \(O_2(3)\)</span></div>
+    <div class="thm_thmcontent"><p>    В трёхмерном кубе Мура \(\{ -1, 0, +1\} ^3\) (\(3^3 - 1 = 26\) ненулевых соседей, разбитых на три \(O_h\)-орбиты: \(6\)&#160;граневых центров \(|\mathbf{e}|^2=1\), \(12\)&#160;рёберных центров \(|\mathbf{e}|^2=2\) и \(8\)&#160;углов \(|\mathbf{e}|^2=3\)) единственной минимальной оболочкой, одновременно обеспечивающей изотропию второго момента&#160;<a href="sect0006.html#eq:mono-isotropy-tensor" class="eqref">1.5</a> (\(M_{\alpha \beta } = 8\, \delta _{\alpha \beta }\)), планарную замкнутость 4-циклов в трёх координатных плоскостях (\(xy, yz, zx\)) и точное воспроизведение непрерывного оператора Лапласа \(\Delta f(\mathbf{0}) = \frac{1}{4}\sum _{\mathbf{e}\in O_2}(f(\mathbf{e}) - f(\mathbf{0}))\) на всех квадратичных полиномах, является 12-вершинный <b class="bfseries">кубооктаэдр</b>: </p>
+<div class="displaymath" id="eq:mono-cuboct-def">
+  \begin{align}  O_2(3) & = \bigl\{ \mathbf{e} \in \{ -1, 0, +1\} ^3 \; \big|\;  e_x^2 + e_y^2 + e_z^2 = 2\bigr\} , \label{eq:mono-cuboct-def} \\ |N(3)| & = |O_2(3)| \; =\;  12. \label{eq:mono-cuboct-card} \end{align}
+</div>
+<p> Вместе с центральным узлом покоя оболочка&#160;<a href="sect0007.html#eq:mono-cuboct-def" class="eqref">1.19</a> образует 13-узловое причинное ядро \(B_1(3) = \{ \mathbf{0}\}  \cup O_2(3)\) мощности \(N_\varphi (3) = 1 + |N(3)| = 13\), а радиальные слои растут по квадратичному закону: </p>
+<div class="displaymath" id="eq:mono-cuboct-shells">
+  \begin{align}  S_k(3) & = 10k^2 + 2 \quad (k \ge 1), \label{eq:mono-cuboct-shells} \\ (S_1, S_2, S_3, S_4) & = (12, 42, 92, 162). \label{eq:mono-cuboct-shells-1234} \end{align}
+</div>
+</div>
+
+    <a class="latex_link" href="sect0007.html#thm:mono-cuboct-uniqueness">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/Spec.lean#L433" class="lean_decl">cubic_orbits_partition_26</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/Spec.lean#L465" class="lean_decl">cuboctahedron_unique_isotropic_shell_d3</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ContinuumPhysics.lean#L62" class="lean_decl">cuboctahedron_second_moment_isotropy_tensor</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ContinuumPhysics.lean#L125" class="lean_decl">laplacian_O2_exact_on_quadratic_polynomial</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/Spec.lean" class="lean_decl">Spec.lean</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ContinuumPhysics.lean" class="lean_decl">ContinuumPhysics.lean</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:mono-d3-uniqueness_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:mono-d3-uniqueness" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">1.2</span><span class="theorem_thmtitle">Единственность размерности \(d=3\) и параметров кольца \(\mathbb {Z}_{512}\)</span></div>
+    <div class="thm_thmcontent"><p>    Условие самозамкнутости регистра&#160;<a href="sect0006.html#eq:mono-catalan-lock" class="eqref">1.4</a> выполняется тогда и только тогда, когда размерность пространства равна \(d = 3\). При этом все структурные константы носителя определяются однозначно без свободных параметров: </p>
+<div class="displaymath" id="eq:mono-d3-constants">
+  \begin{align}  d & = 3, \label{eq:mono-d3-constants} \\ |\square (3)| & = 2d = 6, \label{eq:mono-d3-squares} \\ |{\triangle }(3)| & = 2^d = 8, \label{eq:mono-d3-triangles} \\ \mathrm{mod\_ bits}(3) & = d^2 = 9, \label{eq:mono-d3-modbits} \\ N_{\mathrm{ring}}(3) & = 2^9 = 8^3 = 512, \label{eq:mono-d3-nring} \\ \mu _{\mathrm{vac}}(3) & = d^2 - 2^d = 1, \label{eq:mono-d3-muvac} \\ Q_\square (3) & = 2^{d^2-2} = 128, \label{eq:mono-d3-qsquare} \\ \Phi _{\mathrm{Pauli}}(3) & = 2 Q_\square (3) = 256, \label{eq:mono-d3-pauli} \\ K_P(3) & = 2^{2d} = 64. \label{eq:mono-d3-kp} \end{align}
+</div>
+</div>
+
+    <a class="latex_link" href="sect0007.html#thm:mono-d3-uniqueness">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/Spec.lean#L192" class="lean_decl">catalan_lock_eq_branching_axis_cardinalities</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/Spec.lean#L204" class="lean_decl">catalan_lock_iff_d3</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/Spec.lean#L237" class="lean_decl">canonical_d3_constants</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/Spec.lean" class="lean_decl">Spec.lean</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:mono-de-rham-measure_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:mono-de-rham-measure" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">3.3</span><span class="theorem_thmtitle">Конструктивные когомологии де&#160;Рама \(d^2 \equiv 0\), обращение нильпотентных матриц без деления и свободная от парадокса Банаха–Тарского аддитивность меры</span></div>
+    <div class="thm_thmcontent"><p>    При \(d = 3\) на кольце \(\mathbb {Z}_{512}\) и клеточном комплексе кубооктаэдра \(O_2(3)\) выполняются точные конструктивные тождества: </p>
+<ol class="enumerate">
+  <li><p>Для любой \(0\)-коцепи \(\varphi = (\varphi _0, \varphi _1, \varphi _2, \varphi _3) \in \mathbb {Z}^4\) вокруг замкнутой \(4\)-грани&#160;\(f\) кограница равна нулю, а циркуляция главных остатков связности \(r_e \in (-256, 256]\) строго квантована периодом кольца (конструктивная теорема Стокса и целочисленный класс Черна): </p>
+<div class="displaymath" id="eq:mono-stokes-d1d0">
+  \begin{align}  \bigl(d_1(d_0\varphi )\bigr)_f & \equiv 0, \label{eq:mono-stokes-d1d0} \\ (d_1 r)_f & = -512 \sum _{e \in \partial f} q_e \; =\;  512\, n_f \in 512\mathbb {Z}. \label{eq:mono-chern-flux-512} \end{align}
+</div>
+</li>
+  <li><p>Для любой \(1\)-коцепи \((e_1, \dots , e_{12}) \in \mathbb {Z}^{12}\) на \(12\)&#160;рёбрах куба сумма потоков \((d_1 e)_f\) по всем \(|\square (3)| = 6\) граням замкнутой поверхности \(\partial \square ^3\) тождественно равна нулю (конструктивная теорема Гаусса–Остроградского): </p>
+<div class="equation" id="eq:mono-gauss-d2d1">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-gauss-d2d1} \bigl(d_2(d_1 e)\bigr)_{\square ^3} \; \equiv \;  0. \end{equation}
+  </div>
+  <span class="equation_label">3.14</span>
+</p>
+</div>
+</li>
+  <li><p>Симплектический шаг Верле (\(\det = +1 \in \mathrm{SL}_2(\mathbb {Z})\)) и 4D нильпотентный оператор \(\mathcal{M} = I_4 + N_{\mathrm{nil}}\) (\(N_{\mathrm{nil}}^3 = 0\)) обращаются в точных целых числах без деления, а разбиение шара кубооктаэдра \(\mathcal{B}_{O_2}(3, T)\) на центральный узел и непересекающиеся координационные сферы \(S_k(3) = 10k^2 + 2\) строго сохраняет целочисленный объём без привлечения неконструктивной аксиомы выбора: </p>
+<div class="displaymath" id="eq:mono-nilpotent-inv">
+  \begin{align}  \mathcal{M}^{-1} & = (I_4 + N_{\mathrm{nil}})^{-1} \; =\;  I_4 - N_{\mathrm{nil}} + N_{\mathrm{nil}}^2, \label{eq:mono-nilpotent-inv} \\ V_{O_2}(3, T) & = 1 + \sum _{k=1}^T (10k^2 + 2). \label{eq:mono-measure-additivity} \end{align}
+</div>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sect0016.html#thm:mono-de-rham-measure">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/LogicCohomology.lean#L212">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:mono-electron-rotor-quantization_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:mono-electron-rotor-quantization" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">5.2</span><span class="theorem_thmtitle">Этаж&#160;1 и полное квантование: 13-узловой одетый ротор электрона, расслоение Вейля–Швингера и квантование всех восьми физических наблюдаемых</span></div>
+    <div class="thm_thmcontent"><p>    На причинном ядре \(B_1(3) = \{ \mathbf{0}\} \cup O_2(3)\) с однотактовым спинорным бюджетом ячейки \(B_1(3) = d_{\mathrm{in}}(\square )\, \mathrm{mod\_ bits}(3) = 4\times 9 = 36\) бит и двухтактовым динамическим бюджетом фазового пространства \(B_2(3) = 2 B_1(3) = 72\) бита выполняются следующие законы: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Минимальный радиус \(\varepsilon \)-ореола \(R_{\mathrm{dress}} = 1\cdot dh\) и разбиение \(13\)-узлового ротора электрона \((1 + 1 + 4 + 7 = 13)\):</b> поскольку фазовый шаг за полный оборот по \(12\) соседям первой сферы превышает порог дискретности (\(\lfloor 512/12 \rfloor = 42 {\gt} 41 = \Delta \varphi _{\mathrm{disc}}(3)\)), элементарный единичный заряд \(Q = \pm 1\) не может быть локализован в одной изолированной вершине и неизбежно возбуждает всю первую координационную сферу \(O_2(3)\) из \(12\) соседей (\(R_{\mathrm{dress}} = 1\cdot dh\)). Относительно любой опорной вершины оболочки \(v_0 = (0, 1, 1) \in O_2(3)\) все \(13\) узлов одетого кластера электрона \(B_1(3)\) разбиваются по квадрату евклидова расстояния \(|u - v_0|_2^2\) на четыре слоя: </p>
+<div class="equation" id="eq:mono-electron-13-partition">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-electron-13-partition} N_\varphi (3) \; =\;  1_{\mathrm{core}} \; +\;  d_{\mathrm{in}}(V) \; +\;  d_{\mathrm{same}}(V) \; +\;  d_{\mathrm{out}}(V) \; =\;  1 + 1 + 4 + 7 \; =\;  13, \end{equation}
+  </div>
+  <span class="equation_label">5.17</span>
+</p>
+</div>
+<p> где \(1_{\mathrm{core}} = 1\) — центральный узел \((0,0,0)\), \(d_{\mathrm{in}}(V) = 1\) — сама опорная вершина \(v_0\) (\(|u - v_0|_2^2 = 0\)), \(d_{\mathrm{same}}(V) = d_{\mathrm{in}}(\square ) = 4\) — четыре смежные вершины оболочки на расстоянии \(|u - v_0|_2^2 = 2\), а \(d_{\mathrm{out}}(V) = |{\triangle }(3)| - 1 = 7\) — семь несмежных вершин оболочки на расстоянии \(|u - v_0|_2^2 \in \{ 4, 6, 8\} \). </p>
+</li>
+  <li><p><b class="bfseries">Расслоение Вейля–Швингера и полное квантование всех восьми физических наблюдаемых:</b> каждая фаза кольца \(\varphi \in \{ 0, \dots , 511\} \) взаимно-однозначно раскладывается по формуле \(\varphi = 64 R + q\) на номер октантного уровня \(R = \lfloor \varphi / 64\rfloor \in \mathbb {Z}_8\) и мантиссу \(q = \varphi \bmod 64 \in \mathbb {Z}_{64}\) (\(\mathbb {Z}_{512} \cong \mathbb {Z}_8 \times \mathbb {Z}_{64}\)). На \(M\)-носителе все восемь физических наблюдаемых строго квантованы: </p>
+<div class="displaymath" id="eq:mono-quant-obs-12">
+  \begin{align}  \bigl(B_1(3),\  B_2(3)\bigr) & = \bigl(36 = K_2(\mathcal{C}_{13}),\  72\bigr), \qquad \bigl(\mu _{\mathrm{vac}}(3),\  K_P(3)^2\bigr) \; =\;  (1,\  4\, 096), \label{eq:mono-quant-obs-12} \\ \hat{n}_E(\Phi ) & = \lfloor |\Phi |/41\rfloor \in \{ 0,\dots ,6\} , \qquad q_e \in \{ -1, 0, +1\} , \label{eq:mono-quant-obs-34} \\ (d_1 r)_f & = 512\, w_f, \qquad T_{\mathrm{spinor}} \; =\;  2\, N_{\mathrm{ring}}(3) \; =\;  1\, 024 \leftrightarrow 4\pi , \label{eq:mono-quant-obs-56} \\ (q_u,\  q_d) & = \left(+\frac{2}{3},\  -\frac{1}{3}\right), \qquad D(\mathbf{x}) \in [8\, 192,\  833\times 8\, 192], \qquad N_{\mathrm{pack}}(K) = K^3. \label{eq:mono-quant-obs-78} \end{align}
+</div>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sect0020.html#thm:mono-electron-rotor-quantization">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ParticleSpectrum.lean#L230" class="lean_decl">complete_quantization_of_phase_space_and_all_observables_operator</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ParticleSpectrum.lean#L144" class="lean_decl">elementary_particles_electron_rotor_clique_complex_and_nucleon_moments_operator</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:mono-first-vortex-birth-iv263_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:mono-first-vortex-birth-iv263" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">1.5</span><span class="theorem_thmtitle">Затравочное состояние Каталана \(\mathrm{IV}(3) = 263\), первое рождение вихря на такте \(t = 2\), три теоремы абляции, бариогенезис \(\eta _B\) и первичный нуклеосинтез \(Y_p = 45/182\)</span></div>
+    <div class="thm_thmcontent"><p>    На трёхмерной решётке \(\mathbb {Z}^3\) под действием оператора эволюции поля \(\mathcal{G}_3\)&#160;<a href="sect0008.html#eq:mono-iv263-inball" class="eqref">1.26</a>–<a href="sect0008.html#eq:mono-field-step-g3" class="eqref">1.42</a> выполняются следующие законы: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Единственное 9-битное затравочное число Каталана \(\mathrm{IV}(3) = 263\) при \(t = 0\):</b> сумма противофазного потолка \(\Phi _{\mathrm{Pauli}}(3) = 256\) и числа октантов \(|{\triangle }(3)| = 8\) за вычетом вакуумного кванта центра \(\mu _{\mathrm{vac}}(3) = 1\) определяет простое 9-битное затравочное число </p>
+<div class="equation" id="eq:mono-iv263-seed-def">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-iv263-seed-def} \mathrm{IV}(3) \; =\;  \Phi _{\mathrm{Pauli}}(3) + |{\triangle }(3)| - \mu _{\mathrm{vac}}(3) \; =\;  256 + 8 - 1 \; =\;  263, \end{equation}
+  </div>
+  <span class="equation_label">1.43</span>
+</p>
+</div>
+<p> старший бит которого равен \(\Phi _{\mathrm{Pauli}}(3) = 256\), а младшая октантная маска равна \(\mathrm{IV}(3) \bmod 256 = 7 = 2^3 - 1\). </p>
+</li>
+  <li><p><b class="bfseries">Тишина внутри октантов, киральный храповик доменной стенки на \(t = 0\) и три теоремы абляции:</b> на начальном поле \(\Psi ^{(0)} = \mathrm{IV}(3)\) внутри однородного октанта в узле \((2, 2, 2)\) нечётный ток голономии равен нулю (\(\mathcal{Z}_{\mathrm{imag},0} = 0\)), а сырая фаза ворот равна \(\Phi _{\mathrm{raw},0}(2,2,2) = +15 {\lt} 41\), вследствие чего мёртвая зона затвора обращает шаг ворот в точный нуль (\(\Phi _{\mathrm{field}}^{(0)}(2,2,2) = 0\)). Поперёк плоской доменной стенки \(z = 0 \leftrightarrow z = -1\) в паре узлов \((0, 2, 2)\) и \((-1, 2, 2)\) чётные голономии совпадают (\(\mathcal{Z}_{\mathrm{real},1} = 134\, 862\)), нечётные токи противоположны (\(\mathcal{Z}_{\mathrm{imag},1} = \pm 70\, 980\)), а целочисленное деление с округлением вниз даёт \(\Phi _{\mathrm{field}}^{(0)}(0,2,2) = +76\) и \(\Phi _{\mathrm{field}}^{(0)}(-1,2,2) = -77\), порождая ненулевую киральную сумму: </p>
+<div class="equation" id="eq:mono-domain-wall-chiral">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-domain-wall-chiral} \Phi _{\mathrm{field}}^{(0)}(0, 2, 2) + \Phi _{\mathrm{field}}^{(0)}(-1, 2, 2) \; =\;  76 + (-77) \; =\;  -1 \; \ne \;  0. \end{equation}
+  </div>
+  <span class="equation_label">1.44</span>
+</p>
+</div>
+<p> Три теоремы абляции доказывают, что: (а)&#160;снижение порога дискретности с \(41\) до \(15\) пропускает \(\Phi _{\mathrm{raw},0}(2,2,2) = 15\) и разрушает тишину внутри октантов; (б)&#160;замена \(\lfloor \cdot \rfloor \) на усечение к нулю \(\operatorname {trunc}(\cdot )\) заменяет \(-77\) на \(-76\), обнуляет сумму&#160;<a href="sect0008.html#eq:mono-domain-wall-chiral" class="eqref">1.44</a> и уничтожает киральную асимметрию; (в)&#160;удаление защиты вакуумного пола \(\varepsilon (3) = 8\, 192\) в&#160;<a href="sect0008.html#eq:mono-field-dguard" class="eqref">1.38</a> приводит на такте \(t = 1\) в узле \((-2, -1, -1)\) к делению на отрицательный сырой знаменатель \(D_{\mathrm{raw},0}(-2,-1,-1) = -113\, 826 {\lt} 0\) и разрушает рождение вихревой пары. </p>
+</li>
+  <li><p><b class="bfseries">Первое рождение вихревого плакета \(K_3\) на такте \(t = 2\), перепись \(86\) вихревых плакетов, бариогенезис \(\eta _B\) и первичный нуклеосинтез (BBN):</b> на центральном трёхоктантном плакете с вершинами \(A=(-1,-1,0)\), \(B=(-1,-1,1)\), \(C=(-1,0,1)\), \(D=(-1,0,0)\) вихревое число обмотки равно нулю на тактах \(t = 0\) и \(t = 1\), а на втором такте \(\Psi ^{(2)} = \mathcal{G}_3^{[2]}(\mathrm{IV}(3))\) скачок смены ветви рождает первый единичный квантовый вихрь: </p>
+<div class="displaymath" id="eq:mono-first-vortex-t01">
+  \begin{align}  w_{xy}^{(0)}(-1,-1,0) & = 0, \qquad w_{xy}^{(1)}(-1,-1,0) \; =\;  0, \label{eq:mono-first-vortex-t01} \\ w_{xy}^{(2)}(-1,-1,0) & = +1, \qquad \mathcal{B}_{xy}^{(2)}(-1,-1,0) \; =\;  512. \label{eq:mono-first-vortex-t2} \end{align}
+</div>
+<p> Полная трёхмерная перепись решётки на такте \(t = 2\) фиксирует рождение \(2 N_\varphi (3) = 26\) вихревых плакетов в плоскости \(xy\), \(2 N_\varphi (3) = 26\) в плоскости \(yz\) и \(2 N_\varphi (3) + |{\triangle }(3)| = 26 + 8 = 34\) в плоскости \(xz\) — суммарно </p>
+<div class="equation" id="eq:mono-t2-86-plaquettes">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-t2-86-plaquettes} N_{\mathrm{vortex}}^{(t=2)}(3) \; =\;  26 + 26 + 34 \; =\;  86 \; =\;  |\square (3)|\, N_\varphi (3) + |{\triangle }(3)| \; =\;  Z(\mathrm{Rn}) \end{equation}
+  </div>
+  <span class="equation_label">1.47</span>
+</p>
+</div>
+<p> вихревых плакетов с тождественно нулевой кубической дивергенцией магнитных монополей (\(\sum _{f\in \partial C_3} w_f = 0\)) во всех узлах решётки. На \(2 N_\varphi (3) |{\triangle }(3)| = 208\) спинор-октантных каналах и \(\mathrm{mod\_ bits}(3)\, d_{\mathrm{out}}(E) = 9\times 5 = 45\) активных модах барионная асимметрия \(\eta _B\) и первичная массовая доля гелия-4 (\(Y_p\)) равны: </p>
+<div class="displaymath" id="eq:mono-eta-b">
+  \begin{align}  \eta _B & = \frac{45}{208}\, \alpha _{\mathrm{fs}}^4 \; \approx \;  6{,}12\times 10^{-10}, \label{eq:mono-eta-b} \\ 208 & = 4 \times 45 + 28, \label{eq:mono-bbn-div} \\ Y_p & = \frac{45}{208 - 26} \; =\;  \frac{45}{182} \; \approx \;  0{,}24725. \label{eq:mono-eta-b-bbn-yp} \end{align}
+</div>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sect0008.html#thm:mono-first-vortex-birth-iv263">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/WorldTrajectory.lean#L199" class="lean_decl">fieldStepOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/WorldTrajectory.lean" class="lean_decl">WorldTrajectory.lean</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/Spec.lean#L345" class="lean_decl">a15_iv263_unique_9bit_catalan_seed_decomposition</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/WorldTrajectory.lean#L244" class="lean_decl">iv263_interior_octant_silence_t0</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/WorldTrajectory.lean#L259" class="lean_decl">iv263_flat_domain_wall_asymmetry_t0</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/WorldTrajectory.lean#L274" class="lean_decl">iv263_central_k3_plaquette_birth_t0_t1_t2</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/WorldTrajectory.lean#L383" class="lean_decl">iv263_full_3d_lattice_t0_t1_t2_census</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/WorldTrajectory.lean#L398" class="lean_decl">t2_vortex_loop_census_and_eta_b_rational</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/WorldTrajectory.lean#L411" class="lean_decl">ablation_heisenberg_threshold_15_breaks_octant_silence</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/WorldTrajectory.lean#L430" class="lean_decl">ablation_tdiv_destroys_domain_wall_chiral_asymmetry</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/WorldTrajectory.lean#L444" class="lean_decl">ablation_no_denom_guard_corrupts_t2_vortex_pair</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/WorldTrajectory.lean#L283" class="lean_decl">runFull3DCensusIV263</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:mono-godel-tarski_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:mono-godel-tarski" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">8.2</span><span class="theorem_thmtitle">Общая конструкция предела, конструктивная непротиворечивость и необходимость внешнего экспериментального арбитра, модуль</span></div>
+    <div class="thm_thmcontent"><p>    В двусортной системе носителей \(\langle \mathcal{M},\mathcal{T};\, \pi _{M\to T},\, \iota _{T\to M}\rangle \): </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Отсутствие парадоксов неконструктивного выбора и разрешение булевой самореференции во времени:</b> поскольку каждое локальное звено счётного индуктивного носителя&#160;\(\mathcal{M}\) (и его однооборотный фактор-регистр \(\mathbb {Z}_{512}\) на масштабе \(K=1\)) снабжено разрешимым равенством, на нём невозможны неконструктивные разбиения Банаха–Тарского, биекция одноразового блокнота Вернама–Шеннона \(k = (c - m)\bmod 512 \in \mathbb {Z}_{512}\) сохраняет \(H(\mathcal{M}\mid \mathcal{T}) = H(\mathcal{M})\), а статический парадокс булевой самонегации (\(\forall b\in \mathrm{Bool},\  b \ne \neg b\)) разрешается как полуволновой осциллятор периода&#160;\(2\): \(\varphi \mapsto (\varphi + 256)\bmod 512\) без неподвижных точек. </p>
+</li>
+  <li><p><b class="bfseries">Полиморфная диагональная теорема Ловера–Гёделя–Тарского и теоретико-модельная невыразимость семантического оракула истинности формул:</b> для любого типа синтаксических кодов \(\alpha : \mathrm{Type}\), любого типа семантических истинностных значений \(\beta : \mathrm{Type}\), любого внутреннего вычислителя \(\mathrm{eval} : \alpha \to (\alpha \to \beta )\) и любой семантической инверсии без неподвижных точек \(\sigma : \beta \to \beta \) (\(\forall b:\beta ,\  \sigma (b) \ne b\)), внешний семантический оракул \(\mathrm{oracle}(x) := \sigma (\mathrm{eval}\  x\  x)\) строго невыразим никаким внутренним синтаксическим кодом \(p : \alpha \), а для любого языка формул \(\mathrm{Formula}\) с отрицанием \(\mathrm{neg}\), подстановкой кодов \(\mathrm{sub} : \mathrm{Code}\to \mathrm{Code}\to \mathrm{Formula}\) и внешним семантическим отношением истинности \(\mathrm{oracleModels} : \mathrm{Formula}\to \mathrm{Prop}\) (\(\forall \varphi ,\  \mathrm{oracleModels}(\mathrm{neg}\, \varphi )\leftrightarrow \neg \mathrm{oracleModels}(\varphi )\)) ни один внутренний предикат \(\mathrm{internalEval}(c,\cdot )\), кодирующий диагональное отрицание, не может совпадать с внешним оракулом на \(\mathrm{sub}(c,c)\): </p>
+<div class="displaymath" id="eq:mono-lawvere-godel-tarski">
+  \begin{align}  \mathrm{eval}(p, p) & \ne \mathrm{oracle}(p) \qquad (\text{для любого } p : \alpha ), \label{eq:mono-lawvere-godel-tarski} \\ \mathrm{internalEval}\bigl(c,\,  \mathrm{sub}(c, c)\bigr) & \not\Longleftrightarrow \mathrm{oracleModels}\bigl(\mathrm{sub}(c, c)\bigr). \label{eq:mono-tarski-undefinability} \end{align}
+</div>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sect0027.html#thm:mono-godel-tarski">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/ModelTheoreticLimit.lean">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:mono-gravity-pasta-halo_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:mono-gravity-pasta-halo" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">5.4</span><span class="theorem_thmtitle">Рефракционная гравитация без сингулярности \(1/0\), ряд сжатия Гаусса–Грина, кавитированные гиперъядра, фазы нейтронной пасты и гало Вороного \(16/3\) без тёмной материи</span></div>
+    <div class="thm_thmcontent"><p>    На решётке носителя при \(d = 3\) локальный фазовый импеданс ячейки \(D(\mathbf{x})\) удовлетворяет следующим законам: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Отсутствие сингулярности \(1/0\) во всех конфигурациях поля и потолок противофазного стазиса \(D_{\max } = 833\, \varepsilon (3)\):</b> для сырого знаменателя ворот \(D_{\mathrm{raw}}(\mathbf{x})\) с вакуумным полом \(\varepsilon (3) = K_P(3) Q_\square (3) = 64 \times 128 = 8\, 192 = 2^{13}\) </p>
+<div class="equation" id="eq:mono-gravity-denom-raw">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-gravity-denom-raw} D_{\mathrm{raw}}(\mathbf{x}) \; =\;  \varepsilon (3) + Q_\square (3)\, \mu (\mathbf{x})^2 + \mu (\mathbf{x}) \sum _{\mathbf{e} \in O_2(3)} \mu (\mathbf{x}-\mathbf{e})\, \mathcal{C}_3\bigl(\Delta \varphi _{\mathbf{e}}(\mathbf{x})\bigr) \end{equation}
+  </div>
+  <span class="equation_label">5.36</span>
+</p>
+</div>
+<p> защищённый оператор фазового импеданса ворот </p>
+<div class="equation" id="eq:mono-gravity-denom">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-gravity-denom} D(\mathbf{x}) \; =\;  \mathbf{1}_{\{ D_{\mathrm{raw}}(\mathbf{x}) \ge 1\} }\, D_{\mathrm{raw}}(\mathbf{x}) + \mathbf{1}_{\{ D_{\mathrm{raw}}(\mathbf{x}) \le 0\} }\, \varepsilon (3) \; \ge \;  1 \end{equation}
+  </div>
+  <span class="equation_label">5.37</span>
+</p>
+</div>
+<p> строго положителен при любых целочисленных значениях амплитуд и голономий (\(D(\mathbf{x}) \ge 1\), причём на горизонте противофазного запирания Паули \(D_{\mathrm{raw}}(\mathbf{x}) \le 0\) принимает точное значение вакуумного пола \(D(\mathbf{x}) = \varepsilon (3) = 8\, 192 {\gt} 0\)). В однородном кластере максимальной плотности \(\mu (\mathbf{x}) = \mu (\mathbf{x}-\mathbf{e}) = K_P(3) = 64\) при синфазном насыщении \(\mathcal{C}_3(0) = +128\) по всем \(12\) лучам импеданс достигает конечного целочисленного потолка противофазного стазиса: </p>
+<div class="equation" id="eq:mono-stasis-833">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-stasis-833} D_{\max }(3) \; =\;  \bigl(1 + N_\varphi (3)\cdot K_P(3)\bigr)\, \varepsilon (3) \; =\;  (1 + 13\times 64)\times 8\, 192 \; =\;  833 \times 8\, 192 \; =\;  6\, 823\, 936, \end{equation}
+  </div>
+  <span class="equation_label">5.38</span>
+</p>
+</div>
+<p> где \(D_{\max }/\varepsilon = 833 = 7^2 \times 17 = d_{\mathrm{out}}(V)^2\, (N_\varphi + d_{\mathrm{in}}(\square ))\), радиальный ток на противофазном горизонте обращается в нуль (\(\mathcal{S}_3(256) = 0\)), а побитовая обратимость шага Верле сохраняет всю информацию без потерь (устраняя гравитационную сингулярность \(1/0\) и информационный парадокс Хокинга). </p>
+</li>
+  <li><p><b class="bfseries">Ряд сжатия Гаусса–Грина, кавитированные гиперъядра и три топологические фазы нейтронной пасты:</b> число межсферных рёбер Гаусса между сферами \(k-1\) и \(k\) равно \(E(k-1\leftrightarrow k) = 12(k^3 - (k-1)^3)\) (\(\sum _{k=1}^K E(k-1\leftrightarrow k) = 12 K^3\)), порождая семь канонических знаменателей ряда сжатия Гаусса–Грина \(m^3 - (m-1)^3 \in \{ 1, 7, 19, 37, 61, 91, 127 = Q_\square - 1\} \) при \(m = 1,\dots ,7\). Выше порога кавитации центрального узла \(Z_{\mathrm{Dirac}}^{(k=0)} = 3\times 41 = 123\) (\(u_0 \equiv 0\)) полая первая сфера \(S_1\) устойчива до \(Z_{\mathrm{hollow},S_1} = 10\times 3^3 = 270 = \Phi _{\mathrm{Pauli}} + Z(\mathrm{Si})\), а под внешним гравитационным давлением кора нейтронной звезды проходит три топологические фазы «ядерной пасты» (\(\chi _{\mathrm{2D}} = 2\) «ньокки» \(\to \chi _{\mathrm{2D}} = 0\) «спагетти» \(\to \chi _{\mathrm{2D}} = 41\) \(6\)-слойная «лазанья» с \(V = 42, E = 147\)). </p>
+</li>
+  <li><p><b class="bfseries">Вакуумное гало Вороного \(\Omega _{\mathrm{halo}}/\Omega _b = 16/3\) без частиц тёмной материи (\(D_{\mathrm{dark}} \equiv 0\)):</b> отношение полного \(16\)-состоянийного булева куба грани \(2^{d_{\mathrm{in}}(\square )} = 16\) к \(d = 3\) пространственным проекциям даёт коэффициент вакуумного гало Вороного и полную долю материи: </p>
+<div class="displaymath" id="eq:mono-voronoi-halo-16-3">
+  \begin{align}  \frac{\Omega _{\mathrm{halo}}}{\Omega _b} & = \frac{2^{d_{\mathrm{in}}(\square )}}{d} \; =\;  \frac{16}{3} \; \approx \;  5{,}333, \label{eq:mono-voronoi-halo-16-3} \\ \frac{\Omega _{\mathrm{halo}} + \Omega _b}{\Omega _b} & = \frac{16 + 3}{3} \; =\;  \frac{19}{3} \; =\;  \frac{N_\varphi (3) + |\square (3)|}{d} \; \approx \;  6{,}333. \label{eq:mono-voronoi-halo-19-3} \end{align}
+</div>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sect0021.html#thm:mono-gravity-pasta-halo">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/WorldTrajectory.lean#L463" class="lean_decl">gravity_denominator_strictly_positive_floor_8192</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/NuclearShells.lean#L273" class="lean_decl">shell_compression_gauss_flux_limit_and_pauli_rebound_operator</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/NuclearShells.lean#L337" class="lean_decl">gauss_green_compression_series_denominators_and_rational_bounds</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/NuclearShells.lean#L204" class="lean_decl">post_island_cavitated_hypernuclei_neutron_pasta_and_nonsingular_black_hole_core</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/CosmologyHalo.lean#L87" class="lean_decl">no_dark_matter_and_vacuum_holonomy_halo</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/WorldTrajectory.lean#L29" class="lean_decl">gateDenomOp</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:mono-heisenberg-maxwell-tsirelson-ee_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:mono-heisenberg-maxwell-tsirelson-ee" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">4.2</span><span class="theorem_thmtitle">Порог дискретности \(\Delta \varphi _{\mathrm{disc}}(3) = 41\), дискретные уравнения Максвелла, скорость связи \(c_0 = \sqrt{2}\, c\), граница Цирельсона \(2\sqrt{2}\) и законы теоретической электротехники</span></div>
+    <div class="thm_thmcontent"><p>    На \(13\)-узловом причинном ядре \(B_1(3) = \{ \mathbf{0}\} \cup O_2(3)\) и фазовом кольце \(\mathbb {Z}_{512}\) выполняются следующие соотношения: </p>
+<ol class="enumerate">
+  <li><p>Точная делимость \(N_{\mathrm{ring}}(d) + \Delta \varphi _{\mathrm{seam}}(d)\) на \(N_\varphi (d) = 1 + 2d(d-1)\) при \(2 \le d \le 8\) выполняется исключительно при \(d = 3\) (\(512 + 21 = 533 = 13\times 41\)), фиксируя \(\Delta \varphi _{\mathrm{disc}}(3) = 41\), подпороговый коридор нулевого тепловыделения \(|\Phi | \le 40\) (\(\hat{n}_E(\Phi ) = 0\)) и ультрафиолетовый потолок \(\hat{n}_E(\Phi ) \le \lfloor 256/41 \rfloor = 6 = |\square (3)|\). </p>
+</li>
+  <li><p>Поскольку каждое ребро кубооктаэдра \(\mathbf{e} \in O_2(3)\) соединяет две координатные оси одновременно (\(\| \mathbf{e}\| _2 = \sqrt{1^2 + 1^2 + 0^2}\, dh = \sqrt{2}\, dh\)), микроскопическая скорость связи вдоль ребра и граница Цирельсона коррелятора Белла–CHSH для синглетной пары на биссектрисе стационарной фазы Френеля \(\psi = K_P(3) = 64 \leftrightarrow \zeta _8 = (\sqrt{2}+i\sqrt{2})/2\) равны: </p>
+<div class="displaymath" id="eq:mono-link-speed-c0">
+  \begin{align}  c_0 & = \sqrt{2}\, c, \qquad c_0^2 \; =\;  2\, c^2, \label{eq:mono-link-speed-c0} \\ \mathcal{S}_{\mathrm{CHSH}} & = 2\, \frac{c_0}{c} \; =\;  2\sqrt{2} \; {\gt}\;  2. \label{eq:mono-tsirelson-bound} \end{align}
+</div>
+</li>
+  <li><p>В проводниках с ГЦК-координацией \(O_2(3)\) (\(\mathrm{Al},\  Z=13\); \(\mathrm{Cu},\  Z=29\); \(\mathrm{Ag},\  Z=47\); \(\mathrm{Au},\  Z=79\)) напряжение звена \(V(\Delta \varphi ) = \mathcal{C}_3(\Delta \varphi ) = 128 - \Delta \varphi \) и ток фазовой эстафеты \(I(\Delta \varphi ) = \mathcal{S}_3(\Delta \varphi ) = \Delta \varphi \) при \(\Delta \varphi \in [0, 128]\) удовлетворяют балансу грани, закону максимальной согласованной мощности при \(\Delta \varphi ^* = K_P(3) = 64\), ортогональности активной и реактивной мощностей и тождеству беспульсационного двухфазного квадратурного выпрямителя: </p>
+<div class="displaymath" id="eq:mono-ee-vi-balance">
+  \begin{align}  V(\Delta \varphi ) + I(\Delta \varphi ) & = \mathcal{C}_3(\Delta \varphi ) + \mathcal{S}_3(\Delta \varphi ) \; \equiv \;  128 \; =\;  Q_\square (3), \label{eq:mono-ee-vi-balance} \\ P(\Delta \varphi ) & = V(\Delta \varphi )\, I(\Delta \varphi ) \; =\;  (128 - \Delta \varphi )\, \Delta \varphi \; \le \;  64^2 \; =\;  4\, 096, \label{eq:mono-ee-max-power} \\ \sum _{\varphi =0}^{511} \mathcal{C}_3(\varphi )\, \mathcal{S}_3(\varphi ) & = 0, \qquad |\mathcal{C}_3(\varphi )| + |\mathcal{S}_3(\varphi )| \; \equiv \;  128. \label{eq:mono-ee-ortho-rectifier} \end{align}
+</div>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sect0018.html#thm:mono-heisenberg-maxwell-tsirelson-ee">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/Spec.lean#L330" class="lean_decl">heisenberg_divisibility_lock_unique_d3_up_to_8</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HolonomyMaxwell.lean#L83" class="lean_decl">d1_d0_zero</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HolonomyMaxwell.lean#L91" class="lean_decl">plaquette_flux_eq_512_mul_winding</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HolonomyMaxwell.lean#L140" class="lean_decl">discrete_gauss_cube_divergence_zero</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main" class="lean_decl">bell_chsh_tsirelson_bound_from_cuboctahedron_link_speed</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:mono-internal-barriers-vernam_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:mono-internal-barriers-vernam" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">3.2</span><span class="theorem_thmtitle">Четыре формальных барьера внутреннего вычислителя и информационно-теоретический режим блокнота Вернама на \(\mathbb {Z}_{512}\)</span></div>
+    <div class="thm_thmcontent"><p>    Для любого внутреннего вычислителя, погружённого в решётку носителя при \(d = 3\), выполняются следующие строгие ограничения: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Четыре физических барьера обращения причинного конуса:</b> </p>
+<div class="displaymath" id="eq:mono-barrier-dirichlet">
+  \begin{align}  B_2(3)\, V_{\mathrm{adv}} & = 72\, V_{\mathrm{adv}} \; {\lt}\;  72\, V_{O_2}(3, T) \qquad (\text{I. барьер ёмкости Дирихле}), \label{eq:mono-barrier-dirichlet} \\ K_P(3)\cdot |\mathcal{E}_{\mathrm{Heis}}(3)| & = 64 \times 81 \; =\;  5\, 184 \; =\;  72^2 \qquad (\text{II. проекционная слепота } T\text{-слоя}), \label{eq:mono-barrier-blindness} \\ R_{\mathrm{cone}}(T + \Delta t) & = T + \Delta t \; \ge \;  2T \; {\gt}\;  T \qquad (\text{III. горизонт скорости связи } c_0), \label{eq:mono-barrier-horizon} \\ \delta (d_1 r)_f & = 512\, \delta w_f \; \ne \;  0 \qquad (\text{IV. обратное действие при записи}). \label{eq:mono-barrier-backaction} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Встроенный одноразовый блокнот Вернама Шеннона:</b> поскольку внешнее наблюдение в пороговом \(T\)-канале извлекает лишь \(1\)&#160;бит знака из \(B_2(3) = 72\) бит ячейки Верле, тогда как остальные \(71\)&#160;бит внутренней фазы на \(M\)-носителе \(\mathbb {Z}_{512}\) остаются алгебраически ортогональными \(T\)-проекции и топологически защищёнными вихревым потоком Черна, фазово-когерентный канал на \(M\)-носителе реализует одноразовый блокнот Вернама: </p>
+<div class="equation" id="eq:mono-vernam-entropy">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-vernam-entropy} \Phi _f \; =\;  (d_1 r)_f \; =\;  512\, w_f, \qquad H(M \mid T) \; =\;  H(M), \end{equation}
+  </div>
+  <span class="equation_label">3.11</span>
+</p>
+</div>
+<p> информационно-теоретическая стойкость которого по теореме Шеннона не зависит от предположений о сложности на внешних лентах Тьюринга. </p>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sect0015.html#thm:mono-internal-barriers-vernam">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/RotatorQuadratureCarrier.lean#L370" class="lean_decl">internal_observer_no_outside_lattice_and_sat_semantic_isomorphism_operator</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HardwarePhotovoltaics.lean#L146" class="lean_decl">laplace_demon_impossibility_and_geometric_maxwell_demon_operator</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:mono-mechanics-elasticity-four-regimes_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:mono-mechanics-elasticity-four-regimes" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">4.3</span><span class="theorem_thmtitle">Четыре режима упругости пружины, предел неограниченной выносливости \(\Delta \varphi _{\mathrm{disc}}(3)=41\), дислокационный скачок Бюргерса на противофазном потолке \(\Phi _{\mathrm{Pauli}}(3)=256\) и связанный упругий маятник на произвольных углах,</span></div>
+    <div class="thm_thmcontent"><p>    При \(d = 3\) для любой межатомной связи или упругого подвеса с фазовой деформацией \(\Delta \varphi \in \mathbb {Z}\), возвращающей силой \(F_{\mathrm{spring}}(k, \Delta \varphi ) = k\, \mathcal{S}_3(\Delta \varphi )\), потенциальной энергией деформации \(U_{\mathrm{spring}}(k, \Delta \varphi ) = k\bigl(Q_\square (3) - \mathcal{C}_3(\Delta \varphi )\bigr)\) и оператором внутреннего решёточного трения \(\Phi _{\mathrm{fric}}(\Delta \varphi ) = \operatorname {heisenbergDeadbandOp}(3, \Delta \varphi )\) выполняются следующие четыре режима: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Режим&#160;I — Идеально упругий коридор Гука и предел неограниченной усталостной выносливости (\(0 \le \Delta \varphi \le \Delta \varphi _{\mathrm{disc}}(3) - 1 = 40\)):</b> внутри мёртвой зоны затвора возвращающая сила и потенциальная энергия строго линейны без приближения Тейлора, а внутреннее трение (возбуждение решётки) и перенос ветви тождественно равны нулю: </p>
+<div class="displaymath" id="eq:mono-hooke-lossless">
+  \begin{align}  F_{\mathrm{spring}}(1, \Delta \varphi ) & = \Delta \varphi , \qquad U_{\mathrm{spring}}(1, \Delta \varphi ) \; =\;  \Delta \varphi , \qquad \Phi _{\mathrm{fric}}(\Delta \varphi ) \; \equiv \;  0, \label{eq:mono-hooke-lossless} \\ D_{\mathrm{fatigue}}(N_{\mathrm{cycles}}, 40) & := N_{\mathrm{cycles}}\cdot |\Phi _{\mathrm{fric}}(40)| \; \equiv \;  0 \qquad (\forall \, N_{\mathrm{cycles}} \in \mathbb {N}), \label{eq:mono-infinite-fatigue-endurance} \end{align}
+</div>
+<p> что определяет строгий модельный порог неограниченной усталостной выносливости (\(\sigma _{-1} \leftrightarrow \Delta \varphi _{\mathrm{disc}} = 41\)), ниже которого усталостное повреждение не накапливается при сколь угодно большом числе циклов нагружения. </p>
+</li>
+  <li><p><b class="bfseries">Режим&#160;II — Неупругое внутреннее трение и абсолютный предел прочности на четверти оборота (\(41 \le \Delta \varphi \le Q_\square (3) = 128\)):</b> при \(\Delta \varphi \ge 41\) открывается пороговый вентиль \(\Phi _{\mathrm{fric}}(\Delta \varphi ) = \Delta \varphi \ne 0\) (\(\hat{n}_E(\Delta \varphi ) = \lfloor \Delta \varphi /41\rfloor \ge 1\)), переводящий часть энергии каждого цикла качания во внутреннее дрожание атомов кристаллической решётки (внутреннее трение и акустическую эмиссию в металле даже в полном вакууме), а в седловой точке \(\Delta \varphi = Q_\square (3) = 128\) возвращающая сила достигает глобального максимума по всему кольцу (предела упругой прочности связи): </p>
+<div class="equation" id="eq:mono-uts-peak-128">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-uts-peak-128} F_{\mathrm{spring}}(1, 128) \; =\;  Q_\square (3) \; =\;  128 \; \ge \;  F_{\mathrm{spring}}(1, \varphi ) \quad (\forall \, \varphi \in \mathbb {Z}_{512}), \qquad \mathcal{C}_3(128) \; =\;  0. \end{equation}
+  </div>
+  <span class="equation_label">4.16</span>
+</p>
+</div>
+</li>
+  <li><p><b class="bfseries">Режим&#160;III — Зона разупрочнения и образования шейки (\(128 {\lt} \Delta \varphi {\lt} \Phi _{\mathrm{Pauli}}(3) = 256\)):</b> за перевалом четверти оборота \(\mathcal{C}_3(\Delta \varphi ) {\lt} 0\) (антисвязывающая ветвь), а наклон возвращающей силы меняет знак на отрицательный (\(\Delta \mathcal{S}_3 = -1 {\lt} 0\)), так что при дальнейшем росте удлинения сила сопротивления падает от \(F_{\mathrm{spring}}(1, 129) = 127\) до \(F_{\mathrm{spring}}(1, 255) = 1\). </p>
+</li>
+  <li><p><b class="bfseries">Режим&#160;IV — Полупериодный потолок разрыва связи (\(\Delta \varphi = 256\)) и рождение квантованной дислокации Бюргерса (\(\Delta \varphi = 257\)):</b> на антиподальном противофазном потолке \(\Delta \varphi = 256\) возвращающая сила обращается в нуль (\(F_{\mathrm{spring}}(1, 256) = 0,\  U_{\mathrm{spring}}(1, 256) = 256\)), а переход через границу ветви \(\Delta \varphi = 257\) вызывает скачок частного переноса \(q_e : 0 \to +1\) и рождение в плакете решётки топологического вихря (дислокации с целочисленным вектором Бюргерса): </p>
+<div class="equation" id="eq:mono-burgers-dislocation-jump">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-burgers-dislocation-jump} q_e(256) \; =\;  0 \; \longrightarrow \;  q_e(257) \; =\;  +1, \qquad w_f(0, 128, 256, 257) \; =\;  +1, \qquad \mathcal{B}_f \; =\;  512. \end{equation}
+  </div>
+  <span class="equation_label">4.17</span>
+</p>
+</div>
+</li>
+  <li><p><b class="bfseries">Связанный упругий маятник на произвольных углах от \(0^\circ \) до \(360^\circ \) и масштабирование предельных напряжений и скоростей удара через фазовый объём \(\mathcal{K}_{\mathrm{ell}}(1,1) = 65\, 536\):</b> продольное натяжение упругого подвеса \(T_{\mathrm{long}}(g, \varphi ) = g\, \mathcal{C}_3(\varphi )\) и поперечная возвращающая сила \(F_{\mathrm{trans}}(g, \varphi ) = g\, \mathcal{S}_3(\varphi )\) при любом угле отклонения \(\varphi \in \mathbb {Z}_{512}\) удовлетворяют закону сохранения \(L^1\)-нормы \(|T_{\mathrm{long}}(1, \varphi )| + |F_{\mathrm{trans}}(1, \varphi )| \equiv 128\) с полным двумерным фазовым объёмом ячейки \(\mathcal{K}_{\mathrm{ell}}(1, 1) = 512 \times 128 = 65\, 536 = 8\, \varepsilon (3)\), что определяет безразмерные пороги деформации \(\varepsilon (\Delta \varphi ) = \Delta \varphi / 65\, 536\), напряжения \(\sigma (\Delta \varphi ) = E\, \varepsilon (\Delta \varphi )\) и критической скорости волнового удара \(v(\Delta \varphi ) = c_s\, \varepsilon (\Delta \varphi )\) через модуль Юнга \(E\) и продольную скорость звука \(c_s = \sqrt{E/\rho }\): </p>
+<div class="equation" id="eq:mono-metal-velocity-scaling">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-metal-velocity-scaling} \sigma _{-1} = \frac{5\, E}{8\, 192}, \qquad v_{-1} = \frac{5\, c_s}{8\, 192}, \qquad \sigma _{\mathrm{B}} = \frac{E}{512}, \qquad v_{128} = \frac{c_s}{512}, \qquad v_{\mathrm{Karman}} = \frac{c_s}{256}. \end{equation}
+  </div>
+  <span class="equation_label">4.18</span>
+</p>
+</div>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sec-mono-mechanics-elasticity-fatigue.html#thm:mono-mechanics-elasticity-four-regimes">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/MechanicsElasticity.lean">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:mono-no-external-memory_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:mono-no-external-memory" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">1.1</span><span class="theorem_thmtitle">Отсутствие внешней памяти у физической природы и конечность регистра неделимой элементарной ячейки</span></div>
+    <div class="thm_thmcontent"><p>   Пусть \(\mathfrak {U}\) — совокупная физическая природа (множество всех физически взаимодействующих подсистем), и пусть элементарный объём ячейки физически неделим (частица занимает весь элементарный объём ячейки целиком и не может занимать его частично). Тогда: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Отсутствие внешней памяти у природы:</b> не существует никакого внешнего по отношению к \(\mathfrak {U}\) запоминающего устройства \(E_{\mathrm{ext}} \notin \mathfrak {U}\), способного записывать, хранить или передавать информацию о состоянии любой физической ячейки \(S \in \mathfrak {U}\). Всякая степень свободы из гипотетического внешнего ядра \(\ker \pi \) за пределами носителя тождественно аннигилирует во всех физических потоках и наблюдаемых: </p>
+<div class="displaymath" id="eq:mono-no-ext-memory-kernel">
+  \begin{align}  d_1\bigl(r + d_0(\delta \chi )\bigr) & \equiv d_1(r), \label{eq:mono-no-ext-memory-kernel} \\ d_2\bigl(n + d_1(\delta q)\bigr) & \equiv d_2(n). \label{eq:mono-no-ext-memory-kernel-d2} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Невозможность континуальной записи \(\mathbb {R}\) и конечность локального регистра ячейки:</b> поскольку внутри неделимого элементарного объёма нет бесконечной последовательности независимых подъячеек, а внешней памяти вне среды не существует, состояние одного оборота каждой элементарной ячейки \(\mathbf{x} \in \mathbb {Z}^d\) на такте \(t \in \mathbb {Z}\) не может кодироваться вещественным числом бесконечной разрядности (\(\aleph _0\) бит), а обязано кодироваться конечным двоичным словом фиксированной разрядности \(\mathrm{mod\_ bits}(d)\) на замкнутом циклическом кольце вычетов \(\mathbb {Z}_{N_{\mathrm{ring}}(d)}\): </p>
+<div class="equation" id="eq:mono-nring-power-two">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-nring-power-two} N_{\mathrm{ring}}(d) \; =\;  2^{\mathrm{mod\_ bits}(d)}. \end{equation}
+  </div>
+  <span class="equation_label">1.3</span>
+</p>
+</div>
+</li>
+  <li><p><b class="bfseries">Двусортное представление \(\langle \mathcal{M}, \mathcal{T};\, \pi _{M\to T},\, \iota _{T\to M} \rangle \) по А. И.&#160;Мальцеву:</b> связь дискретной динамики клеток с макроскопическими непрерывными полями описывается двусортной алгебраической системой \(\langle \mathcal{M}, \mathcal{T};\, \pi _{M\to T},\, \iota _{T\to M} \rangle \) с <b class="bfseries">дискретным носителем&#160;\(M\)</b> (\(\mathcal{M}\) — счётное индуктивное семейство целочисленных фазовых колец \(\mathbb {Z}_{4Q}\) на \(\mathbb {Z}^d\) с однооборотным регистром ячейки \(\mathbb {Z}_{512}\) при \(K=1\)) и <b class="bfseries">непрерывным носителем&#160;\(T\)</b> (\(\mathcal{T}\) — континуальный сорт наблюдаемых траекторий и интегралов Римана, связанный с&#160;\(\mathcal{M}\) двусторонним проективно-ретракционным соответствием Вейерштрасса \(\pi _{M\to T} \leftrightarrow \iota _{T\to M}\)). </p>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sect0005.html#thm:mono-no-external-memory">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/RotatorQuadratureCarrier.lean#L370" class="lean_decl">internal_observer_no_outside_lattice_and_sat_semantic_isomorphism_operator</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/ModelTheoreticLimit.lean#L86" class="lean_decl">thm17_model_theoretic_termination_kernel_annihilation_and_godel_tarski_oracle_necessity</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:mono-periodic-planetogenesis-bezout_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:mono-periodic-planetogenesis-bezout" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">6.1</span><span class="theorem_thmtitle">Периодическая система до 8-го периода, двухсферный перенос урана на остров стабильности \(N=184\), закон планетогенеза по 6 зонам диска и четыре тождества Безу на \(\mathbb {Z}_{512}\)</span></div>
+    <div class="thm_thmcontent"><p>    Заполнение координационных сфер кубооктаэдра \(S_k(3) = 10k^2 + 2\) (\(12, 42, 92, 162\)), подоболочек \((s, p, d, f) = (2, 6, 10, 14)\) и периодов Маделунга \(L_p = 2\lfloor (p+2)/2\rfloor ^2\) подчиняется следующим законам: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Замкнутые оболочки до 8-го периода, четыре физических предела таблицы Менделеева и двухсферный перенос урана на остров стабильности \(N_{\mathrm{island}} = 184\):</b> кумулятивные суммы периодов Маделунга порождают благородные газы \(Z \in \{ 2, 10, 18, 36, 54, 86 = 6\cdot 13 + 8, 118\} \), \(19 = 2 + 14 + 3 = N_\varphi + |\square |\) элементов 8-го периода до предела Фейнмана и строгую цепь физических пределов: </p>
+<div class="displaymath" id="a0000000072">
+  \begin{align}  Z(\mathrm{Pb}) = 82 & {\lt} Z(\mathrm{U}) = 92 {\lt} Z(\mathrm{Fl}) = 114 {\lt} Z(\mathrm{Og}) = 118 {\lt} Z(\mathrm{Ubn}) = 120 \nonumber \\ & {\lt} Z_{\mathrm{Dirac}}^{(0)} = 123 {\lt} Z_{\mathrm{fiss}} = 126 {\lt} Z_{\mathrm{Feyn}} = 137 {\lt} Z_{\mathrm{QED}} = 172 {\lt} N_{\mathrm{island}} = 184. \label{eq:mono-periodic-limits-chain} \end{align}
+</div>
+<p> Горячий синтез \(Z = 119\) (\(\mathrm{Uue}\)) и \(Z = 120\) (\(\mathrm{Ubn}\)) и двухсферный перенос при столкновении двух ядер урана \(^{238}_{92}\mathrm{U}_{146} + {}^{238}_{92}\mathrm{U}_{146}\) (\(Z(\mathrm{U}) = 92 = S_3(3)\), \(N(\mathrm{U}) = 146 = S_1 + S_2 + S_3\)) удовлетворяют точным оболочечным балансам: </p>
+<div class="displaymath" id="eq:mono-hot-fusion-119">
+  \begin{align}  Z(\mathrm{Ti}_{22}) + Z(\mathrm{Bk}_{97}) & = Z(\mathrm{V}_{23}) + Z(\mathrm{Cm}_{96}) \; =\;  119, \label{eq:mono-hot-fusion-119} \\ Z(\mathrm{Ti}_{22}) + Z(\mathrm{Cf}_{98}) & = Z(\mathrm{Cr}_{24}) + Z(\mathrm{Cm}_{96}) \; =\;  Z(\mathrm{Fe}_{26}) + Z(\mathrm{Pu}_{94}) \; =\;  120, \label{eq:mono-hot-fusion-120} \\ 2\, N\bigl(^{238}_{92}\mathrm{U}_{146}\bigr) - 2\, \bigl(S_1(3) + S_2(3)\bigr) & = 292 - 108 \; =\;  184 \; =\;  2\, S_3(3) \; =\;  N_{\mathrm{island}}(3). \label{eq:mono-uranium-transfer-184} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Полный закон планетогенеза по всем 6 зонам конденсации протопланетного диска:</b> все шесть радиальных зон конденсации планетных ядер и мантий классифицируются замкнутыми оболочками кубооктаэдра (Таблица&#160;<a href="sect0022.html#tab:mono-planetogenesis-zones">6.1</a>): (I)&#160;газовые гиганты и коричневые карлики: \(Z(\mathrm{H+He}) = 1 + 2 = 3 = d\) и \(Z(\mathrm{Li+B}) = 3 + 5 = 8 = Z(\mathrm{O})\); (II)&#160;суперионные ледяные гиганты и криогенные льды: \(Z(\mathrm{CH_4}) = Z(\mathrm{NH_3}) = Z(\mathrm{H_2O}) = 10 = Z(\mathrm{Ne})\) и \(Z(\mathrm{N_2}) = Z(\mathrm{CO}) = 14 = Z(\mathrm{Si})\); (III)&#160;карбидные экзопланеты при \(n(\mathrm{C}) {\gt} n(\mathrm{O})\): \(Z(\mathrm{SiC}) = 14 + 6 = 20 = Z(\mathrm{Ca})\); (IV)&#160;сидерофильные железо-никелевые ядра и дифференциация силикатной мантии: \(Z(\mathrm{Fe}) = 26 = 2 N_\varphi (3) = Z(\mathrm{Mg}) + Z(\mathrm{Si}) = 2 Z(\mathrm{Al})\) и \(Z(\mathrm{Ni}) = 28 = 2 Z(\mathrm{Si}) = Z(\mathrm{Mg}) + Z(\mathrm{S})\); (V)&#160;эвтектические сульфидно-силицидные ядра и карбонаты глубокой мантии на второй сфере \(S_2(3) = 42\): \(Z(\mathrm{FeS}) = Z(\mathrm{NiSi}) = Z(\mathrm{MgCO_3}) = 42 = Z(\mathrm{Mo}) = S_2(3)\); (VI)&#160;тугоплавкие корундовые ядра, перовскитовая мантия, хондритовый оливин и геодинамо \(\mathrm{U}\to \mathrm{Pb}\): \(Z(\mathrm{MgSiO_3}) = Z(\mathrm{Al_2O_3}) = 50\) (магическая оболочка \(50\)), \(Z(\mathrm{Mg_2SiO_4}) = 50 + 20 = 70 = K_P(3) + 6\) и радиогенный тепловой двигатель \(^{238}_{92}\mathrm{U}_{146} \to {}^{208}_{82}\mathrm{Pb}_{126}\) (\(Z(\mathrm{Pb}) = 2\times 41 = 82\), \(N(\mathrm{Pb}) = 2\times 63 = 126\), \(A(\mathrm{Pb}) = 2\times 8\times 13 = 208\)). </p>
+</li>
+  <li><p><b class="bfseries">Четыре канонических мультипликативных замка Безу на кольце \(\mathbb {Z}_{512}\):</b> фундаментальная единица носителя \(\mu _{\mathrm{vac}}(3) = 1\) связывает инварианты \(\Delta \varphi _{\mathrm{disc}} = 41\), \(N_\varphi = 13\), \(\widehat{M} = 97\) и \(\mathrm{IV} = 263\) с ядерными оболочками золота \(^{197}_{79}\mathrm{Au}\) и плутония \(\mathrm{Pu}_{94}\): </p>
+<div class="displaymath" id="eq:mono-four-bezout">
+  \begin{align}  25 \times 41 - 2 \times 512 & = 1025 - 1024 = 1, \label{eq:mono-four-bezout} \\ 197 \times 13 - 5 \times 512 & = 2561 - 2560 = 1, \label{eq:mono-bezout-au197} \\ 417 \times 97 - 79 \times 512 & = 40\, 449 - 40\, 448 = 1, \label{eq:mono-bezout-au79} \\ 183 \times 263 - 94 \times 512 & = 48\, 129 - 48\, 128 = 1. \label{eq:mono-bezout-pu94} \end{align}
+</div>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sect0022.html#thm:mono-periodic-planetogenesis-bezout">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/MendeleevPeriodicTable.lean#L593" class="lean_decl">generative_periodic_table_feynman_core_limits_and_end_to_end_dna_genesis</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/NuclearShells.lean#L137" class="lean_decl">superheavy_synthesis_recipes_and_uranium_shell_transfer_to_island_184</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/PlanetogenesisAllometry.lean#L171" class="lean_decl">planetogenesis_all_planetary_cores_and_mantle_invariants_operator</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:mono-post-3sat_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:mono-post-3sat" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">3.1</span><span class="theorem_thmtitle">Функциональная полнота Поста, редукция 3-SAT, склейка остатка \(7 \to 1\) и аннигиляция линейного градиента на циклах чётности</span></div>
+    <div class="thm_thmcontent"><p>    При \(d = 3\) на полюсах \(\{ 0, 256\} ^3 \subset \mathbb {Z}_{512}^3\) выполняются следующие точные соотношения: </p>
+<ol class="enumerate">
+  <li><p>Во всех \(2^3 = 8\) состояниях \(\{ 0, 256\} ^3\) частное \(q_{\mathrm{AND}}\) равно&#160;\(1\) исключительно на \((0,0,0)\) и&#160;\(0\) на остальных \(7\)&#160;октантах, а частное дефекта \(q_{\mathrm{OR}}\) равно&#160;\(0\) на всех \(7\)&#160;выполняющих октантах дизъюнкта \((l_1 \lor l_2 \lor l_3)\) и равно&#160;\(1\) (\(\Delta _{\mathrm{3SAT}} = 512\)) исключительно на запрещённом октанте \((256, 256, 256)\). По теореме Поста совокупность Канала&#160;1 и Канала&#160;2 функционально полна (выходит из всех пяти предполных классов \(T_0, T_1, S, M, L\)), а выполнимость любой формулы 3-SAT из \(M\)&#160;дизъюнктов эквивалентна равенству: </p>
+<div class="equation" id="eq:mono-3sat-sum-zero">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-3sat-sum-zero} \sum _{m=1}^M q_{\mathrm{OR}}(\psi _{m,1}, \psi _{m,2}, \psi _{m,3}) \; =\;  0. \end{equation}
+  </div>
+  <span class="equation_label">3.5</span>
+</p>
+</div>
+</li>
+  <li><p>Прямое вычисление \(q_{\mathrm{OR}} = \mathrm{tdiv}(\Delta _{\mathrm{3SAT}}, 512)\) отбрасывает трёхзначный остаток и склеивает \(2^3 - 1 = 7\) различных выполняющих октантов в один выход \(q_{\mathrm{OR}} = 0\), порождая на обратном конусе глубины \(T\) шагов ветвление неразличимых прообразов вдоль каждого луча: </p>
+<div class="equation" id="eq:mono-3sat-7t-branching">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-3sat-7t-branching} r(\Delta _{\mathrm{3SAT}}) \in \{ -256,\  0,\  +256\} , \qquad N_{\mathrm{branch}}(T) \; =\;  (2^3 - 1)^T \; =\;  7^T \quad \bigl(7^3 = 343 \text{ при } T = 3\bigr). \end{equation}
+  </div>
+  <span class="equation_label">3.6</span>
+</p>
+</div>
+</li>
+  <li><p>Для четвёрки дизъюнктов 3-SAT, кодирующей одно линейное уравнение чётности Канала&#160;1 (\(x_1 \oplus x_2 \oplus x_3 = 0\)), сумма линейных проекций \(\mathcal{C}_3\) по всем четырём дизъюнктам тождественно равна нулю во всех \(8\)&#160;октантах (\(\mathrm{xor4LinearGradientSum} \equiv 0\)), образуя замкнутые ядра чётности с нулевым линейным откликом. </p>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sect0014.html#thm:mono-post-3sat">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/LogicCohomology.lean#L175">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:mono-projective-fields-c-infinity-simpson_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:mono-projective-fields-c-infinity-simpson" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">2.3</span><span class="theorem_thmtitle">Однородная проективная арифметика в \(\mathbb {Q}(i)\), \(\mathbb {Q}(\sqrt{d-1})\) и \(\mathbb {Q}(i,\sqrt{2}) = \mathbb {Q}(\zeta _8)\), башня разностных производных всех порядков и многомерная кубатура Симпсона на \(O_2(d)\)</span></div>
+    <div class="thm_thmcontent"><p>    В модуле установлены следующие алгебраические и аналитические законы: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Отсутствие делителей нуля на \(L^1\)-алмазе и проективная обратимость в полях \(\mathbb {Q}(i)\), \(\mathbb {Q}(\sqrt{m})\) (\(m = d - 1\)) и \(\mathbb {Q}(i,\sqrt{2}) = \mathbb {Q}(\zeta _8)\):</b> на \(L^1\)-алмазе \(|C| + |S| = Q \ge 1\) знаменатель Вейерштрасса \(R_T = C^2 + S^2\) строго положителен, а однородные обратные в \(\mathbb {Q}(i)\) и \(\mathbb {Q}(\sqrt{m})\) задаются целочисленными тройками без деления: </p>
+<div class="displaymath" id="eq:mono-diamond-no-zero-div">
+  \begin{align}  2(C^2 + S^2) & = (C + S)^2 + (C - S)^2 \; \ge \;  Q^2 \; \ge \;  1, \label{eq:mono-diamond-no-zero-div} \\ \operatorname {gaussFieldInv}(X, Y, R) & = (R X,\;  -R Y,\;  X^2 + Y^2), \label{eq:mono-gauss-inv} \\ \operatorname {quadFieldInv}_m(a, b, D) & = (D a,\;  -D b,\;  a^2 - m b^2). \label{eq:mono-quad-inv} \end{align}
+</div>
+<p> При \(d = 3\) (\(m = 2\)) первообразный корень \(8\)-й степени из единицы \(\zeta _8 = (\sqrt{2} + i\sqrt{2})/2 \leftrightarrow (0, 1, 0, 1, 2) \in \mathbb {Q}(i, \sqrt{2})\) совпадает с биссектрисой стационарной фазы Френеля \(\psi = K_P(3) = 64\) и удовлетворяет \(\zeta _8^2 \sim i\), \(\zeta _8^4 \sim -1\), \(\zeta _8^8 \sim +1\), \(\zeta _8\bar{\zeta }_8 \sim +1\). </p>
+</li>
+  <li><p><b class="bfseries">Замкнутая башня производных отношения \(D^n(f/g) = N_n(x)/G_n(x)\) во всех порядках \(n \in \mathbb {N}\), безусловная обратимость знаменателя Вейерштрасса и вариационная производная Эйлера–Лагранжа:</b> для оператора \((Df)(x) = f(x+1) - f(x)\) и отношения \(f / g\) индуктивный числитель \(N_n(x)\) и знаменатель \(G_n(x)\) задаются рекуррентными формулами, причём для однородного знаменателя Вейерштрасса \(g(t) = R_3(t) = \mathcal{C}_3(t)^2 + \mathcal{S}_3(t)^2\) безусловно (при всех \(n \in \mathbb {N}\) и всех \(x \in \mathbb {Z}\)) выполняется \(G_n(x) \ge 1\): </p>
+<div class="displaymath" id="eq:mono-quotient-numer-rec">
+  \begin{align}  N_0(x) & = f(x), \qquad N_{n+1}(x) \; =\;  N_n(x+1)\, g(x) - N_n(x)\, g(x+n+1), \label{eq:mono-quotient-numer-rec} \\ G_n(x) & = \prod _{j=0}^n g(x+j) \; \ge \;  1, \label{eq:mono-quotient-denom-prod} \\ \bigl(N_n(x+1)\, G_n(x) & - N_n(x)\, G_n(x+1)\bigr)\, g(x) \; =\;  N_{n+1}(x)\, G_n(x). \label{eq:mono-quotient-deriv-step} \end{align}
+</div>
+<p> На составной траектории \((L_1, w, L_2)\) функционал действия \(\mathcal{S}(D_w) = Q_2(Q_w D_1 + P_1 D_w) + P_1 P_w D_2\) имеет первую вариацию </p>
+<div class="equation" id="eq:mono-action-variation">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-action-variation} \delta \mathcal{S} \; =\;  P_1\, (D_w' - D_w)\, Q_2 \qquad \bigl(\delta \mathcal{S} = 0 \iff D_w' = D_w \text{ при } P_1, Q_2 \ge 1\bigr). \end{equation}
+  </div>
+  <span class="equation_label">2.20</span>
+</p>
+</div>
+</li>
+  <li><p><b class="bfseries">Многомерное разбиение на пояса и кубатура Симпсона на \(O_2(d)\) при произвольной размерности \(d \ge 2\):</b> на оболочке \(O_2(d) = \{ e \in \{ -1,0,+1\} ^d \mid \sum _{i=1}^d e_i^2 = 2\} \) из \(|V_{O_2}(d)| = 2d(d-1)\) вершин сечение вдоль любой оси образует три пояса, которые в сумме с центральным весом \(w_0(d) = 2(d-1)(6-d)\) дают параболические веса Симпсона: </p>
+<div class="displaymath" id="eq:mono-belt-partition-d">
+  \begin{align}  \bigl(|Z_{-1}(d)|,\  |Z_0(d)|,\  |Z_{+1}(d)|\bigr) & = \bigl(2(d-1),\  2(d-1)(d-2),\  2(d-1)\bigr), \label{eq:mono-belt-partition-d} \\ \bigl(|Z_{-1}(d)|,\  |Z_0(d)| + w_0(d),\  |Z_{+1}(d)|\bigr) & = 2(d-1) \times (1,\  4,\  1), \label{eq:mono-simpson-weights-d} \end{align}
+</div>
+<p> становясь равновеликими \((4, 4, 4)\) с \(w_0(3) = 12 = |V_{O_2}(3)|\) при \(d = 3\) и воспроизводя точный трёхмерный интеграл Римана \(3\iiint _{[-1,1]^3} P\, \mathrm{d}V = 24c_0 + 8(c_x+c_y+c_z)\) на любом кубическом многочлене \(P\). </p>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sect0012.html#thm:mono-projective-fields-c-infinity-simpson">LaTeX</a>
+    
+    
+  <a class="lean_link lean_decl" href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/RotatorQuadrature.lean">Lean</a>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:mono-riemann-emergence_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:mono-riemann-emergence" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">2.2</span><span class="theorem_thmtitle">Рождение непрерывного интеграла Римана из слоёв кубооктаэдра \(S_k(3) = 10k^2 + 2\)</span></div>
+    <div class="thm_thmcontent"><p>    Пусть \(V_{O_2}(3, N) = 1 + \sum _{k=1}^{N} (10k^2 + 2)\) — полное число узлов в \(N\)-слойном причинном шаре кубооктаэдра. Тогда: </p>
+<ol class="enumerate">
+  <li><p>Точный целочисленный объём шара удовлетворяет полиномиальному тождеству третьей степени без остатка: </p>
+<div class="displaymath" id="eq:mono-ball-polynomial">
+  \begin{align}  3\, V_{O_2}(3, N) & = 10\, N^3 + 15\, N^2 + 11\, N + 3, \label{eq:mono-ball-polynomial} \\ \bigl(V_{O_2}(3,1),\  V_{O_2}(3,2),\  V_{O_2}(3,3)\bigr) & = (13,\  55,\  147). \label{eq:mono-ball-123} \end{align}
+</div>
+</li>
+  <li><p>При макроскопическом масштабировании шага решётки \(h = R / N \to 0\) нормированная сумма по сферическим слоям кубооктаэдра сходится к непрерывному радиальному интегралу Римана \(\int _0^R r^2\, \mathrm{d}r = R^3 / 3\) с точным главным коэффициентом \(|N(3)| - (c_0/c)^2 = 12 - 2 = 10\): </p>
+<div class="equation" id="eq:mono-archimedes-limit">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-archimedes-limit} \lim _{N \to \infty } \frac{1}{10\, N^3} \sum _{k=1}^{N} S_k(3) \; =\;  \lim _{N \to \infty } \frac{V_{O_2}(3, N) - 1}{10\, N^3} \; =\;  \frac{1}{3} \; =\;  \int _0^1 x^2\, \mathrm{d}x. \end{equation}
+  </div>
+  <span class="equation_label">2.11</span>
+</p>
+</div>
+</li>
+  <li><p>Для любой дискретной первообразной \(F(\Phi ) = \sum _{\varphi =0}^{\Phi -1} f(\varphi )\) на кольце \(\mathbb {Z}_{512}\) выполняется точная формула Ньютона–Лейбница без ошибки округления: </p>
+<div class="displaymath" id="eq:mono-newton-leibniz">
+  \begin{align}  \sum _{\varphi =a}^{b-1} \Delta F(\varphi ) & = F(b) - F(a), \label{eq:mono-newton-leibniz} \\ \oint _{\mathbb {Z}_{512}} \Delta F(\varphi ) & = 0. \label{eq:mono-newton-leibniz-loop} \end{align}
+</div>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sect0011.html#thm:mono-riemann-emergence">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/RotatorQuadrature.lean#L301" class="lean_decl">thm3_continuum_integration_from_cuboctahedron_archimedes_layers</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/LogicCohomology.lean#L212" class="lean_decl">thm5_constructive_de_rham_cohomology_nilpotent_algebra_and_banach_tarski_free_measure</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/RotatorQuadrature.lean" class="lean_decl">RotatorQuadrature.lean</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/LogicCohomology.lean" class="lean_decl">LogicCohomology.lean</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:mono-scale-hausdorff-log-pow_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:mono-scale-hausdorff-log-pow" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">2.4</span><span class="theorem_thmtitle">Сокращение масштаба \(A = K\cdot dh\), размерность Хаусдорфа–Морана \(D_H = 3\) ячейки Вороного и проективные операторы логарифма \(\log _a(b)\) и рациональной степени \(a^{p/q}\) на \(\mathbb {Z}_{4Q}\)</span></div>
+    <div class="thm_thmcontent"><p>    При переходе от элементарного шага решётки \(dh = 1\) к любому когерентному макроэтажу с целочисленным шагом ребра \(A = K\cdot dh\) (\(K \in \mathbb {N}\), \(K \ge 1\)) установлены следующие законы: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Тождественное сокращение множителя \(K^2\) в операторе ворот и инвариантность кванта действия:</b> при перемасштабировании \((\mu , \Sigma _\mu ) \mapsto (K\mu , K\Sigma _\mu )\) и \((\mathcal{Z}_{\mathrm{real}}, \mathcal{Z}_{\mathrm{imag}}) \mapsto (K^2\mathcal{Z}_{\mathrm{real}}, K^2\mathcal{Z}_{\mathrm{imag}})\) числитель момента и знаменатель инерции однородны степени&#160;\(2\) по&#160;\(K\), а сопряжённый шаг импульса \(\Delta p(K) = p_0 / K\) сохраняет квант действия этажа: </p>
+<div class="displaymath" id="eq:mono-scale-gate-cancel">
+  \begin{align}  z_{\mathrm{drive}}^{(K)}\, D^{(1)} & \equiv z_{\mathrm{drive}}^{(1)}\, D^{(K)}, \label{eq:mono-scale-gate-cancel} \\ s_{\mathrm{floor}}(K) & = \Delta p(K)\cdot (K\, dh) \; =\;  p_0\, dh \; =\;  s_0. \label{eq:mono-scale-action-inv} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Сплошное самоподобие ячеек Вороного вакуума (\(D_H = 3\)) и подкубические фрактальные каскады (\(D_H = \ln N_{\mathrm{sub}} / \ln K {\lt} 3\)):</b> макро-ячейка Вигнера–Зейтца (ромбический додекаэдр с ребром \(A = K\cdot dh\)) содержит \(N_{\mathrm{pack}}(d, K) = K^d\) элементарных ячеек, удовлетворяя закону мультипликативного самоподобия \(N_{\mathrm{pack}}(d, K_1 K_2) = N_{\mathrm{pack}}(d, K_1) N_{\mathrm{pack}}(d, K_2)\) с целой размерностью Хаусдорфа–Морана \(D_H^{(\mathrm{bulk})} = \ln (K^3)/\ln K = 3\). Если же правила отбора автомата оставляют на шаге масштаба&#160;\(K\) активное подмножество \(1 {\lt} N_{\mathrm{sub}} {\lt} K^3\), то \(m\)-кратная итерация порождает дискретный фрактал с размерностью Хаусдорфа–Морана \(D_H = \ln N_{\mathrm{sub}} / \ln K {\lt} 3\): октантную губку Канала&#160;2 (\(K=2, N_{\mathrm{sub}}=7, D_H = \ln 7/\ln 2 \approx 2{,}807\)), кубооктаэдрическую губку \(\mathcal{C}_{13}\) в кубе Мура (\(K=3, N_{\mathrm{sub}}=13, D_H = \ln 13/\ln 3 \approx 2{,}335\)) и сосудистые деревья с ветвлением по квадратной грани \(k = d_{\mathrm{in}}(\square ) = 4\) и показателем аллометрии Клейбера \((k-1)/k = 3/4\). </p>
+</li>
+  <li><p><b class="bfseries">Проективные операторы логарифма \(\log _a(b)\) и рациональной степени \(a^{p/q}\) на кольце \(\mathbb {Z}_{4Q}\):</b> для любого четверть-периода \(Q \ge 1\) разложение \(x = 2^k + m\) на характеристику \(k = \lfloor \log _2 x\rfloor \) и фазу мантиссы первого квадранта \(\mu = \lfloor m Q / 2^k\rfloor \in [0, Q]\) (\(\mathcal{C}_Q(\mu ) = Q - \mu ,\  \mathcal{S}_Q(\mu ) = \mu \)) определяет однородные кубические по&#160;\(Q\) операторы двоичного логарифма и мантиссы экспоненты: </p>
+<div class="displaymath" id="a0000000056">
+  \begin{align}  \operatorname {Log2}_{d,Q}(k,\mu ) & := d_{\mathrm{in}}(\square ) |{\triangle }(d)|\, Q^2\bigl(k Q + \mathcal{S}_Q(\mu )\bigr) \nonumber \\ & \quad + \mathcal{C}_Q(\mu )\mathcal{S}_Q(\mu )\Bigl(\bigl(|O_2(d)| - \mu _{\mathrm{vac}}(d)\bigr)Q + d\bigl(\mathcal{C}_Q(\mu ) - \mathcal{S}_Q(\mu )\bigr)\Bigr), \label{eq:mono-rotator-log2-homog} \\ \operatorname {Exp2Mant}_{d,Q}(r) & := d_{\mathrm{in}}(\square ) |{\triangle }(d)|\, Q^2\, \mathcal{S}_Q(r) \nonumber \\ & \quad - \mathcal{C}_Q(r)\mathcal{S}_Q(r)\Bigl(\bigl(|O_2(d)| - \mu _{\mathrm{vac}}(d)\bigr)Q - d\bigl(\mathcal{C}_Q(r) - \mathcal{S}_Q(r)\bigr)\Bigr). \label{eq:mono-rotator-exp2-homog} \end{align}
+</div>
+<p> Операторы&#160;<a href="sect0013.html#eq:mono-rotator-log2-homog" class="eqref">2.25</a>–<a href="sect0013.html#eq:mono-rotator-exp2-homog" class="eqref">2.26</a> удовлетворяют кубической однородности \(\operatorname {Log2}_{d,KQ}(k, K\mu ) \equiv K^3\operatorname {Log2}_{d,Q}(k,\mu )\), сокращающей \(Q^3\) в отношении \(\log _a(b) = \operatorname {Log2}_{d,Q}(b)/\operatorname {Log2}_{d,Q}(a)\), и при \(d = 3, Q = 128\) дают \(\log _2(3) = 203/128\), \(\log _2(7) = 359/128\), \(\log _3(13) = 474/203\), \(\sqrt{2} = 181/128\), \(\sqrt{3} = 111/64\), \(16^{3/4} = 8\) и точное обращение размерностей Хаусдорфа–Морана \(2^{203/128} = 3\), \(\operatorname {round}(2^{359/128}) = 7\), \(3^{474/203} = 13\). </p>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sect0013.html#thm:mono-scale-hausdorff-log-pow">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/NuclearShells.lean" class="lean_decl">NuclearShells.lean</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/MendeleevPeriodicTable.lean#L175" class="lean_decl">scale_invariance_of_holonomy_and_gate_operators</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/MendeleevPeriodicTable.lean#L353" class="lean_decl">scale_cancellation_voronoi_hausdorff_and_fractal_subcascades</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/MendeleevPeriodicTable.lean#L243" class="lean_decl">rotatorLog2HomogQOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/MendeleevPeriodicTable.lean#L295" class="lean_decl">rotatorLogBaseRatQOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/MendeleevPeriodicTable.lean#L317" class="lean_decl">rotatorPowRatQOp</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:mono-silicon-photocascade-128_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:mono-silicon-photocascade-128" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">8.1</span><span class="theorem_thmtitle">Резонансный замок седла \(120 + 8 = 128 = Q_\square (3)\), барьер оболочечной пассивации \(45^2 {\lt} 2\, 048 {\lt} 46^2\), окно Френеля \(288/289\) и безветвевая кремниевая архитектура в беспотерьном коридоре</span></div>
+    <div class="thm_thmcontent"><p>    В естественных безразмерных координатах носителя на четырёхслойной гетероструктуре «Кварц (\(\mathrm{SiO_2}\)) – Тетрацен (\(\mathrm{C_{18}H_{12}}\)) – Пассивирующий мост (\(\mathrm{SiO_x}/\mathrm{Al_2O_3}\)) – Кремний (\(\mathrm{IBC\text{-}Si}\), \(Z(\mathrm{Si})=14\))» выполняются следующие точные квантово-инженерные законы: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Резонансный замок седла четверти оборота \(120 + 8 = 128 = Q_\square (3)\), барьер пассивации тетраэдра Паули \(45^2 {\lt} 2\, 048 {\lt} 46^2\) и антиотражающее окно Френеля \(288/289\):</b> молекула тетрацена \(\mathrm{C_{18}H_{12}}\) содержит \(Z(\mathrm{C_{18}H_{12}}) = 18\times 6 + 12\times 1 = 120 = Q_\square (3) - |{\triangle }(3)|\) электронов и в сопряжении с координатным кислородным мостом \(Z(\mathrm{O}) = |{\triangle }(3)| = 8\) попадает точно в седло четверти оборота: </p>
+<div class="displaymath" id="eq:mono-tetracene-128-lock">
+  \begin{align}  Z(\mathrm{C_{18}H_{12}}) + Z(\mathrm{O}) & = 120 + 8 \; =\;  128 \; =\;  Q_\square (3), \label{eq:mono-tetracene-128-lock} \\ \bigl(\mathcal{C}_3(128),\  \mathcal{S}_3(128)\bigr) & = (0,\  +128). \label{eq:mono-tetracene-128-cs} \end{align}
+</div>
+<p> При равномерном расщеплении максимального полупериодного противофазного импульса \(\Phi _{\mathrm{Pauli}}(3) = 256\) по \(|O_2(3)| = 12\) лучам звезды кубооктаэдра фазовый шаг на один луч равен \(\Delta \varphi _{\mathrm{ray}}(3) = \lfloor 256 / 12 \rfloor = 21 = \Delta \varphi _{\mathrm{seam}}(3) {\lt} 41 = \Delta \varphi _{\mathrm{disc}}(3)\), поэтому число излучаемых тепловых квантов на каждом луче тождественно равно нулю: \(\hat{n}_E(21) = \lfloor 21 / 41 \rfloor = 0\). На интерфейсе оксидной пассивации непассивированный алюмосиликатный тетраэдр \(Z(\mathrm{AlO_4}) = N_\varphi (3) + d_{\mathrm{in}}(\square )Z(\mathrm{O}) = 13 + 32 = 45\) лежит строго ниже полупорога плотности состояний Паули \(P_{\mathrm{Pauli}}(3) := K_P(3)^2 / (c_0/c)^2 = 64^2 / 2 = 2\, 048\), тогда как тетраэдр кремнезёма \(Z(\mathrm{SiO_4}) = 14 + 32 = 46 = S_3(3)/2\) и водородно-пассивированный тетраэдр \(Z(\mathrm{AlO_4H}) = 45 + 1 = 46\) запирают противофазный барьер при безразмерном коэффициенте прохождения согласованного окна Френеля \(T_{\mathrm{Fresnel}}(3) = 288/289\): </p>
+<div class="equation" id="eq:mono-882-masons-stothers">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-882-masons-stothers} Z(\mathrm{AlO_4})^2 = 2\, 025 \; {\lt}\;  P_{\mathrm{Pauli}}(3) = 2\, 048 \; {\lt}\;  2\, 116 = Z(\mathrm{SiO_4})^2, \qquad T_{\mathrm{Fresnel}}(3) = \frac{|{\triangle }(3)|\, d_{\mathrm{in}}(\square )\, \mathrm{mod\_ bits}(3)}{\bigl(\mathrm{mod\_ bits}(3) + |{\triangle }(3)|\bigr)^2} = \frac{288}{289}. \end{equation}
+  </div>
+  <span class="equation_label">8.3</span>
+</p>
+</div>
+</li>
+  <li><p><b class="bfseries">A/B-критерий противофазного порога (\(Z = 45\) против \(Z = 46\)) и безветвевой кремниевый вычислительный стек:</b> в каталитическом и твердотельном A/B-тесте родий \(Z(\mathrm{Rh}) = 45 = \mathrm{mod\_ bits}(3)\, d_{\mathrm{out}}(E) {\lt} 46 = S_3(3)/2\) лежит строго ниже полуоболочки третьей сферы кубооктаэдра и сохраняет открытый канал переноса, тогда как палладий \(Z(\mathrm{Pd}) = 46 = S_3(3)/2\) замыкает полуоболочку Паули. Аппаратный стек на регистрах \(\mathbb {Z}_{512}\) (\(9\text{ бит}\)), 36-битной шины полушага (\(B_1(3) = 36\text{ бит}\)) и 72-битной ячейки Верле (\(B_2(3) = 72\text{ бита}\)) выполняет биективный шаг Верле&#160;<a href="sect0007.html#eq:mono-verlet-law" class="eqref">1.17</a> без условных ветвлений и при работе в коридоре \(|\Delta \varphi | \le 40 {\lt} 41\) выделяет \(\hat{n}_E = 0\) квантов тепла Ландауэра. </p>
+</li>
+  <li><p><b class="bfseries">Трёхступенчатая градиентная и активная синфазная радиационная защита (\(833 : 1\)) без вторичного тормозного излучения:</b> прямое торможение высокоэнергетических заряженных частиц и быстрых нейтронов тяжёлым ядром высокого заряда (\(Z \ge 74\)) на несогласованном скачке импеданса порождает вторичный каскад тормозного рентгеновского и гамма-излучения (\(\hat{n}_E(256) = \lfloor 256 / 41 \rfloor = 6\) ионизирующих квантов на удар). Согласованный радиационный экран на решётке кубооктаэдра \(O_2(3)\) гасит ионизирующий поток без вторичного ливня по двум контурам: </p>
+<ol class="enumerate">
+  <li><p><em>Пассивный трёхслойный градиентный каскад согласования оболочечного импеданса:</em> <b class="bfseries">Слой&#160;I (Внешнее окно Френеля и захват нейтронов, \(Z \in \{ 1, 5, 46\} \)):</b> водородно-пассивированный боросиликатный/алюмосиликатный тетраэдр Паули \(Z(\mathrm{AlO_4H}) = 45 + 1 = 46\) (\(45^2 {\lt} 2\, 048 {\lt} 46^2\)) с окном прохождения Френеля \(T_{\mathrm{Fresnel}}(3) = 288/289\) впускает быстрые частицы без поверхностного отражения, упруго замедляет быстрые нейтроны на протонах водорода (\(Z = 1\)) и захватывает их на ядрах бора \(Z(\mathrm{B}) = 5 = d_{\mathrm{out}}(E)\) с безнейтронным распадом в замкнутые \(\alpha \)-тетраэдры гелия (\(p + {}^{11}_5\mathrm{B} \to 3\, {}^4_2\mathrm{He}\), \(\Delta N_{\mathrm{free}} = 0\)); <b class="bfseries">Слой&#160;II (12-лучевой ГЦК-делитель фазового удара ниже порога ионизации, \(Z \in \{ 13, 29\} \)):</b> гранецентрированная кубическая решётка алюминия (\(Z(\mathrm{Al}) = 13 = N_\varphi (3)\)) и меди (\(Z(\mathrm{Cu}) = 29\)), где первая координационная сфера каждого узла совпадает с \(12\)-вершинным кубооктаэдром \(O_2(3)\), изотропно делит надпороговый полупериодный противофазный разворот \(\Phi _{\mathrm{Pauli}}(3) = 256\) на \(|O_2(3)| = 12\) лучей с пошаговым сдвигом \(\Delta \varphi _{\mathrm{ray}}(3) = \lfloor 256 / 12 \rfloor = 21 {\lt} 41 = \Delta \varphi _{\mathrm{disc}}(3)\), переводя ионизирующий удар в подпороговую мёртвую зону затвора с нулевым выходом вторичных тормозных квантов (\(\hat{n}_E(21) = \lfloor 21 / 41 \rfloor = 0\)); <b class="bfseries">Слой&#160;III (Внутренний запорный экран высокой плотности, \(Z \in \{ 74, 79, 82, 83\} \)):</b> замкнутые тяжёлые оболочки (\(\mathrm{W}, \mathrm{Au}, \mathrm{Pb}, \mathrm{Bi}\)) поглощают остаточный подпороговый хвост. </p>
+</li>
+  <li><p><em>Активный 12-лучевой синфазный экран противофазного стазиса (\(833 : 1\)):</em> при синфазном запирании всех \(|O_2(3)| = 12\) поперечных портов оболочки (\(\Delta \varphi _{\mathrm{shield}} = 0,\  \mathcal{C}_3(0) = +128\) при мантиссе \(\mu = K_P(3) = 64\)) фазовый импеданс ворот возрастает в \(833\) раза относительно вакуумного пола \(\varepsilon (3) = 8\, 192\): </p>
+<div class="equation" id="eq:mono-radiation-shield-833">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-radiation-shield-833} D_{\mathrm{shield,\max }}(3) \; =\;  833\, \varepsilon (3) \; =\;  6\, 823\, 936, \qquad \left\lfloor \frac{K_P(3)\, z_{\mathrm{rad}}}{D_{\mathrm{shield,\max }}(3)}\right\rfloor \; {\lt}\;  41 \; \; \Longrightarrow \; \;  \Phi _{\mathrm{scatter}}(z_{\mathrm{rad}}) \; =\;  0, \quad \hat{n}_E\bigl(\Phi _{\mathrm{scatter}}(z_{\mathrm{rad}})\bigr) \; =\;  0, \end{equation}
+  </div>
+  <span class="equation_label">8.4</span>
+</p>
+</div>
+<p> обеспечивая полное рефракционное экранирование защищаемого объёма при всех радиационных импульсах \(|z_{\mathrm{rad}}| {\lt} \frac{41 \times 6\, 823\, 936}{64} = 4\, 371\, 584\). </p>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sect0025.html#thm:mono-silicon-photocascade-128">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main" class="lean_decl">complete_silicon_hetero_engineering_operator</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main" class="lean_decl">singlet_fission_tetracene_silicon_saddle_128_resonance</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L299" class="lean_decl">reversible_computing_zero_landauer_heat_and_paradox_resolutions_operator</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ParticleSpectrum.lean#L287" class="lean_decl">waveguideShieldMaxDenomOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ParticleSpectrum.lean#L293" class="lean_decl">waveguideNoiseScatterGateOp</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L169" class="lean_decl">stasisToWriteImpedanceContrastOp</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:mono-verlet-uniqueness_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:mono-verlet-uniqueness" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">1.3</span><span class="theorem_thmtitle">Единственность симплектического закона Верле</span></div>
+    <div class="thm_thmcontent"><p>    Среди всех линейных двухшаговых рекурсий \(\varphi (t+1) \equiv \alpha \, \varphi (t) + \beta \, \varphi (t-1) + \Phi _{\mathrm{gate}} \pmod{N_{\mathrm{ring}}(d)}\) физические следствия обратимости без внешней памяти (единичный симплектический якобиан \(\det J = -\beta = 1\) и обратимость во времени) и отсутствия внешней точки отсчёта на кольце (коммутация со сдвигом \(\varphi \mapsto \varphi + c\), требующая \(\alpha + \beta = 1\)) однозначно фиксируют коэффициенты </p>
+<div class="displaymath" id="eq:mono-verlet-alpha">
+  \begin{align}  \alpha & = 2 = \left(\frac{c_0}{c}\right)^2, \label{eq:mono-verlet-alpha} \\ \beta & = -1, \label{eq:mono-verlet-beta} \\ \varphi (t+1) & \equiv \bigl(2\varphi (t) - \varphi (t-1) + \Phi _{\mathrm{gate}}\bigr) \bmod 512. \label{eq:mono-verlet-law} \end{align}
+</div>
+<p> Отображение&#160;<a href="sect0007.html#eq:mono-verlet-law" class="eqref">1.17</a> является биекцией на 72-битном двухтактовом фазовом пространстве ячейки \(B_2(3) = 2 \times 36 = 72\text{ бит}\) и обращается без потери истории тем же самым оператором при перестановке текущего и прошлого регистров: </p>
+<div class="equation" id="eq:mono-verlet-reverse">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-verlet-reverse} \varphi (t-1) \; \equiv \;  \bigl(2\varphi (t) - \varphi (t+1) + \Phi _{\mathrm{gate}}\bigr) \bmod 512. \end{equation}
+  </div>
+  <span class="equation_label">1.18</span>
+</p>
+</div>
+</div>
+
+    <a class="latex_link" href="sect0007.html#thm:mono-verlet-uniqueness">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/PolarVerletParabola.lean#L128" class="lean_decl">verlet_coefficients_uniqueness_from_a13</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/PolarVerletParabola.lean#L161" class="lean_decl">a13_verlet_from_clock_shift_and_unit_symplectic_det</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/PolarVerletParabola.lean#L226" class="lean_decl">polar_step_reverse_exact</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/WorldTrajectory.lean" class="lean_decl">WorldTrajectory.lean</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:mono-world-lagrangian-hamiltonian_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:mono-world-lagrangian-hamiltonian" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">1.6</span><span class="theorem_thmtitle">Полевой Лагранжиан \(\mathcal{L}_{\mathrm{world}}\), Гамильтониан \(\mathcal{H}_{\mathrm{world}}\), 13-узловая звезда \(\mathcal{C}_{13} = \{ \mathbf{0}\} \cup O_2(3)\), баланс потенциала и знаменателя вдоль мировой линии и тетраэдральное действие Верле</span></div>
+    <div class="thm_thmcontent"><p>    Для трёхмерного поля \(\Psi ^{(t)} = \mathcal{G}_3^{[t]}(\mathrm{IV}(3))\) на решётке \(\mathbb {Z}^3 \times \mathbb {N}\) выполняются следующие точные законы: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Геометрическое разложение знаменателя \(D_{\mathrm{raw},c}(\mathbf{x})\) по 13-узловой причинной звезде \(\mathcal{C}_{13} = \{ \mathbf{0}\} \cup O_2(3)\):</b> включение центрального узла \(\mathbf{e} = \mathbf{0}\) (\(\Delta \varphi _{\mathbf{0}} = 0\), \(\mathcal{S}_3(0) = 0\), \(\mathcal{C}_3(0) = 128\)) в сумму голономии не меняет нечётный числитель и порождает слагаемое \(128\, M(\mathbf{x})^2\) в чётном знаменателе: </p>
+<div class="displaymath" id="eq:mono-c13-odd">
+  \begin{align}  \mathcal{Z}_{\mathrm{imag},c}^{\mathcal{C}_{13}}(\mathbf{x}) & := M(\mathbf{x})^2\, \mathcal{S}_3(0) + \mathcal{Z}_{\mathrm{imag},c}^{O_2}(\mathbf{x}) \; \equiv \;  \mathcal{Z}_{\mathrm{imag},c}^{O_2}(\mathbf{x}), \label{eq:mono-c13-odd} \\ \mathcal{Z}_{\mathrm{real},c}^{\mathcal{C}_{13}}(\mathbf{x}) & := M(\mathbf{x})^2\, \mathcal{C}_3(0) + \mathcal{Z}_{\mathrm{real},c}^{O_2}(\mathbf{x}) \; \equiv \;  128\, M(\mathbf{x})^2 + \mathcal{Z}_{\mathrm{real},c}^{O_2}(\mathbf{x}), \label{eq:mono-c13-even} \\ D_{\mathrm{raw},c}(\mathbf{x}) & \equiv \mathcal{Z}_{\mathrm{real},c}^{\mathcal{C}_{13}}(\mathbf{x}) + \varepsilon (3) \; =\;  \mathcal{Z}_{\mathrm{real},c}^{\mathcal{C}_{13}}(\mathbf{x}) + 8\, 192. \label{eq:mono-c13-denom} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Инвариантный баланс градиентного потенциала и знаменателя ворот вдоль мировой линии каждого узла \(\mathbf{x} \in \mathbb {Z}^3\):</b> сумма потенциальной плотности фазового градиента \(\mathcal{U}_{\mathrm{grad},c}(\Psi ^{(t)})(\mathbf{x})\) и сырого знаменателя ворот \(D_{\mathrm{raw},c}(\Psi ^{(t)})(\mathbf{x})\) не зависит от времени \(t \in \mathbb {N}\): </p>
+<div class="equation" id="eq:mono-worldline-denom-balance">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-worldline-denom-balance} \mathcal{U}_{\mathrm{grad},c}\bigl(\Psi ^{(t)}\bigr)(\mathbf{x}) + D_{\mathrm{raw},c}\bigl(\Psi ^{(t)}\bigr)(\mathbf{x}) \; \equiv \;  128\, M(\mathbf{x})\bigl(\Sigma _\mu (\mathbf{x}) + M(\mathbf{x})\bigr) + 8\, 192 \; =\;  \mathrm{const}(t). \end{equation}
+  </div>
+  <span class="equation_label">1.57</span>
+</p>
+</div>
+</li>
+  <li><p><b class="bfseries">Плотности полевого Лагранжиана \(\mathcal{L}_{\mathrm{world},c} = \mathcal{T}_{\mathrm{time},c} - \mathcal{U}_{\mathrm{grad},c}\) и Гамильтониана \(\mathcal{H}_{\mathrm{world},c} = \mathcal{T}_{\mathrm{time},c} + \mathcal{U}_{\mathrm{grad},c}\):</b> в начальном состоянии покоя \(t = 0\) (\(\Psi ^{(0)} = \mathrm{IV}(3)\), \(\mathcal{T}_{\mathrm{time},c}^{(0)} \equiv 0\)) во всех узлах решётки \(\mathcal{H}_{\mathrm{world},c}^{(0)}(\mathbf{x}) = -\mathcal{L}_{\mathrm{world},c}^{(0)}(\mathbf{x}) = \mathcal{U}_{\mathrm{grad},c}^{(0)}(\mathbf{x})\) (в частности, в узле \((2,2,2)\) имеем \(\mathcal{H}_{\mathrm{world},0}^{(0)} = \mathcal{H}_{\mathrm{world},0}^{(1)} = +55\, 432\), \(\mathcal{L}_{\mathrm{world},0}^{(0)} = -55\, 432\)), тогда как на доменной стенке \((0,2,2) \leftrightarrow (-1,2,2)\) на такте \(t = 1\) градиентный потенциал переходит в положительную кинетическую плотность (\(\mathcal{T}_{\mathrm{time},1}^{(1)} {\gt} 0\)). </p>
+</li>
+  <li><p><b class="bfseries">Сохранение взвешенного Гамильтониана параболы, тетраэдральное действие и башня производных по времени (\(D_t^1, D_t^2, D_t^3\)):</b> на замкнутой параболе \(\varphi (t) = \varphi (0) + \frac{t(t+1)}{2}\Phi _0\) с весом \(M_{\mathrm{eff}}\) симметричная по времени кинетическая энергия \(T(t) = \frac{1}{2}M_{\mathrm{eff}}\, v_{-}(t)v_{+}(t)\) и потенциал \(U(t) = -M_{\mathrm{eff}}\Phi _0(\varphi (t)-\varphi (0))\) дают тождественное сохранение Гамильтониана \(T(t) + U(t) \equiv 0\) на каждом такте \(t \in \mathbb {N}\), а сумма Лагранжиана \(\mathcal{L}(t) = T(t) - U(t) = M_{\mathrm{eff}}\Phi _0^2 t(t+1)\) за \(N\) тактов равна тетраэдральному числу с точным делением на размерность пространства \(d = 3\): </p>
+<div class="equation" id="eq:mono-tetrahedral-action">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-tetrahedral-action} 3 \sum _{t=1}^{N} \mathcal{L}(t) \; \equiv \;  M_{\mathrm{eff}}\, \Phi _0^2\, N(N+1)(N+2), \end{equation}
+  </div>
+  <span class="equation_label">1.58</span>
+</p>
+</div>
+<p> при этом вдоль траектории Верле \(\varphi ^{(t+1)} = 2\varphi ^{(t)} - \varphi ^{(t-1)} + F^{(t)}\) вторая разность по времени равна силе (\(D_t^2\varphi ^{(t)} = D_t^1\varphi ^{(t)} - D_t^1\varphi ^{(t-1)} = F^{(t)}\)), а третья разность (рывок) равна приращению силы (\(D_t^3\varphi ^{(t)} = D_t^2\varphi ^{(t+1)} - D_t^2\varphi ^{(t)} = F^{(t+1)} - F^{(t)}\)). </p>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sec-mono-world-lagrangian-hamiltonian.html#thm:mono-world-lagrangian-hamiltonian">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/LagrangianHamiltonian.lean#L176" class="lean_decl">tetrahedral_action_sum_exact</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/LagrangianHamiltonian.lean#L191" class="lean_decl">world_field_lagrangian_hamiltonian_and_worldline_denom_balance_operator</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+
+
+    
+    <div class="dep-modal-container" id="thm:mono-wronskian-integrals_modal">
+      <div class="dep-modal-content">
+          <button class="dep-closebtn">
+<svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        
+  <div class="thm" id="thm:mono-wronskian-integrals" style="display: none">
+    <div class="thm_thmheading">
+      <span class="theorem_thmcaption">
+      Теорема
+      </span>
+      <span class="theorem_thmlabel">2.1</span><span class="theorem_thmtitle">Дискретные условия Коши–Римана, постоянный разностный вронскиан и замкнутые дискретные интегралы</span></div>
+    <div class="thm_thmcontent"><p>    На всех \(512\) состояниях кольца \(\varphi \in \mathbb {Z}_{512}\) операторы&#160;<a href="sect0010.html#eq:mono-rotator-def" class="eqref">2.1</a> удовлетворяют следующим точным тождествам: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">\(L^1\)-норма грани кубооктаэдра, поворот на \(i\) (четверть кольца \(+Q_\square = +128\)) и дискретные соотношения Коши–Римана:</b> </p>
+<div class="displaymath" id="eq:mono-l1-norm">
+  \begin{align}  |\mathcal{C}_3(\varphi )| + |\mathcal{S}_3(\varphi )| & \equiv Q_\square (3) \; =\;  128, \label{eq:mono-l1-norm} \\ \mathcal{C}_3(\varphi + 128) & = -\mathcal{S}_3(\varphi ), \label{eq:mono-rotator-shift-c} \\ \mathcal{S}_3(\varphi + 128) & = +\mathcal{C}_3(\varphi ), \label{eq:mono-rotator-shift-s} \end{align}
+</div>
+<p> причём внутри каждого квадранта прямые разности вдоль кольца и по нормали к нему удовлетворяют сопряжённым дискретным условиям Коши–Римана \(\Delta \mathcal{C}_3(\varphi ) = -\mathrm{sgn}\bigl(\mathcal{S}_3(\varphi + 1/2)\bigr)\) и \(\Delta \mathcal{S}_3(\varphi ) = +\mathrm{sgn}\bigl(\mathcal{C}_3(\varphi + 1/2)\bigr)\) (\(\Delta \mathcal{C}_3(\varphi + 128) = -\Delta \mathcal{S}_3(\varphi )\), \(\Delta \mathcal{S}_3(\varphi + 128) = +\Delta \mathcal{C}_3(\varphi )\)). </p>
+</li>
+  <li><p><b class="bfseries">Тождественное постоянство разностного вронскиана (дискретная унитарность и отсутствие точек ветвления на всём кольце):</b> для прямых разностей \(\Delta \mathcal{C}_3(\varphi ) = \mathcal{C}_3(\varphi +1) - \mathcal{C}_3(\varphi )\) и \(\Delta \mathcal{S}_3(\varphi ) = \mathcal{S}_3(\varphi +1) - \mathcal{S}_3(\varphi )\) дискретный вронскиан тождественно равен четверти кольца: </p>
+<div class="equation" id="eq:mono-wronskian">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-wronskian} \mathcal{W}_3(\varphi ) \; :=\;  \mathcal{C}_3(\varphi )\, \Delta \mathcal{S}_3(\varphi ) - \mathcal{S}_3(\varphi )\, \Delta \mathcal{C}_3(\varphi ) \; \equiv \;  128 \; =\;  Q_\square (3) \qquad \forall \, \varphi \in \mathbb {Z}_{512}. \end{equation}
+  </div>
+  <span class="equation_label">2.5</span>
+</p>
+</div>
+</li>
+  <li><p><b class="bfseries">Замкнутая интегрируемость дискретных кольцевых сумм типа Френеля, Якоби, Дирихле, Парсеваля и Бесселя в&#160;\(\mathbb {Z}\):</b> на стационарной параболе Верле \(\varphi (t) = t^2 \bmod 512\) (имеющей первый стационарный возврат на такте \(T_{\mathrm{ret}} - 1 = 1023 = 2^{10}-1\) и полный двухвитковый спинорный период \(2N_{\mathrm{ring}} = 1024\)) дискретные кольцевые суммы типа Френеля, эллиптические суммы типа Якоби на лемнискатном модуле \(k^2 = 1/(c_0/c)^2 = 1/2\), сумма типа Дирихле, сумма энергии Парсеваля и сумма типа Бесселя нулевого порядка вычисляются точно в целых числах: </p>
+<div class="displaymath" id="eq:mono-closed-integrals">
+  \begin{align}  \mathcal{I}_{\mathrm{Fresnel},C}(512) & = \sum _{\varphi =0}^{511} \mathcal{C}_3(\varphi ^2) \; =\;  \sum _{\varphi =0}^{511} \mathcal{S}_3(\varphi ^2) \; =\;  2\, 048, \label{eq:mono-closed-integrals} \\ 6\sum _{\varphi =0}^{511} \mathcal{C}_3(\varphi )^2 & = 6\sum _{\varphi =0}^{511} \mathcal{S}_3(\varphi )^2 \; =\;  512\, (2\cdot 128^2 + 1) \; =\;  16\, 777\, 728, \label{eq:mono-parseval-sum} \\ \bigl(\mathcal{J}_0(0),\  \mathcal{J}_0(1),\  \mathcal{J}_0(4)\bigr) & = (65\, 536,\  32\, 768,\  0). \label{eq:mono-bessel-sum} \end{align}
+</div>
+</li>
+</ol>
+</div>
+
+    <a class="latex_link" href="sect0010.html#thm:mono-wronskian-integrals">LaTeX</a>
+    
+    
+  <div class="tooltip">
+      <span class="lean_link">Lean</span>
+      <ul class="tooltip_list">
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/RotatorQuadrature.lean#L173" class="lean_decl">thm1_constant_wronskian_weierstrass_lift_and_newton_leibniz</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/RotatorQuadrature.lean#L243" class="lean_decl">thm2_closed_form_fresnel_jacobi_dirichlet_parseval_bessel_integrals</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/RotatorQuadrature.lean" class="lean_decl">RotatorQuadrature.lean</a></li>
+        
+           <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/LogicCohomology.lean" class="lean_decl">LogicCohomology.lean</a></li>
+        
+      </ul>
+  </div>
+    
+    
+  
+    
+  </div>
+    
+      </div>
+    </div>
+</div>
+</div> <!-- content -->
+</div> <!-- wrapper -->
+<script src="js/jquery.min.js" type="text/javascript"></script>
+
+<script src="js/d3.min.js"></script>
+<script src="js/hpcc.min.js"></script>
+<script src="js/d3-graphviz.js"></script>
+
+<script type="text/javascript">
+const graphContainer = d3.select("#graph");
+const width = graphContainer.node().clientWidth;
+const height = graphContainer.node().clientHeight;
+
+
+graphContainer.graphviz({useWorker: true})
+    .width(width)
+    .height(height)
+    .fit(true)
+    .renderDot(`strict digraph "" {	graph [bgcolor=transparent];	node [label="\N",		penwidth=1.8	];	edge [arrowhead=vee];	"thm:mono-post-3sat"	[color=green,		fillcolor="#1CAC78",		label="mono-post-3sat",		shape=ellipse,		style=filled];	"thm:mono-internal-barriers-vernam"	[color=green,		fillcolor="#1CAC78",		label="mono-internal-barriers-vernam",		shape=ellipse,		style=filled];	"thm:mono-post-3sat" -> "thm:mono-internal-barriers-vernam"	[style=dashed];	"thm:mono-de-rham-measure"	[color=green,		fillcolor="#1CAC78",		label="mono-de-rham-measure",		shape=ellipse,		style=filled];	"thm:mono-internal-barriers-vernam" -> "thm:mono-de-rham-measure"	[style=dashed];	"thm:mono-born-rule"	[color=green,		fillcolor="#1CAC78",		label="mono-born-rule",		shape=ellipse,		style=filled];	"thm:mono-de-rham-measure" -> "thm:mono-born-rule"	[style=dashed];	"thm:mono-heisenberg-maxwell-tsirelson-ee"	[color=green,		fillcolor="#1CAC78",		label="mono-heisenberg-maxwell-tsirelson-ee",		shape=ellipse,		style=filled];	"thm:mono-mechanics-elasticity-four-regimes"	[color=green,		fillcolor="#1CAC78",		label="mono-mechanics-elasticity-four-regimes",		shape=ellipse,		style=filled];	"thm:mono-heisenberg-maxwell-tsirelson-ee" -> "thm:mono-mechanics-elasticity-four-regimes"	[style=dashed];	"thm:mono-c13-lie-alpha-fs"	[color=green,		fillcolor="#1CAC78",		label="mono-c13-lie-alpha-fs",		shape=ellipse,		style=filled];	"thm:mono-mechanics-elasticity-four-regimes" -> "thm:mono-c13-lie-alpha-fs"	[style=dashed];	"thm:mono-electron-rotor-quantization"	[color=green,		fillcolor="#1CAC78",		label="mono-electron-rotor-quantization",		shape=ellipse,		style=filled];	"thm:mono-c13-lie-alpha-fs" -> "thm:mono-electron-rotor-quantization"	[style=dashed];	"thm:mono-complete-sm-particle-atlas"	[color=green,		fillcolor="#1CAC78",		label="mono-complete-sm-particle-atlas",		shape=ellipse,		style=filled];	"thm:mono-electron-rotor-quantization" -> "thm:mono-complete-sm-particle-atlas"	[style=dashed];	"thm:mono-scale-hausdorff-log-pow"	[color=green,		fillcolor="#1CAC78",		label="mono-scale-hausdorff-log-pow",		shape=ellipse,		style=filled];	"thm:mono-scale-hausdorff-log-pow" -> "thm:mono-post-3sat"	[style=dashed];	"thm:mono-chem-cooper-587"	[color=green,		fillcolor="#1CAC78",		label="mono-chem-cooper-587",		shape=ellipse,		style=filled];	"thm:mono-bio-windows-folding"	[color=green,		fillcolor="#1CAC78",		label="mono-bio-windows-folding",		shape=ellipse,		style=filled];	"thm:mono-chem-cooper-587" -> "thm:mono-bio-windows-folding"	[style=dashed];	"thm:mono-silicon-photocascade-128"	[color=green,		fillcolor="#1CAC78",		label="mono-silicon-photocascade-128",		shape=ellipse,		style=filled];	"thm:mono-bio-windows-folding" -> "thm:mono-silicon-photocascade-128"	[style=dashed];	"thm:mono-godel-tarski"	[color=green,		fillcolor="#1CAC78",		label="mono-godel-tarski",		shape=ellipse,		style=filled];	"thm:mono-silicon-photocascade-128" -> "thm:mono-godel-tarski"	[style=dashed];	"thm:mono-d3-uniqueness"	[color=green,		fillcolor="#1CAC78",		label="mono-d3-uniqueness",		shape=ellipse,		style=filled];	"thm:mono-verlet-uniqueness"	[color=green,		fillcolor="#1CAC78",		label="mono-verlet-uniqueness",		shape=ellipse,		style=filled];	"thm:mono-d3-uniqueness" -> "thm:mono-verlet-uniqueness"	[style=dashed];	"thm:mono-cuboct-uniqueness"	[color=green,		fillcolor="#1CAC78",		label="mono-cuboct-uniqueness",		shape=ellipse,		style=filled];	"thm:mono-verlet-uniqueness" -> "thm:mono-cuboct-uniqueness"	[style=dashed];	"thm:mono-first-vortex-birth-iv263"	[color=green,		fillcolor="#1CAC78",		label="mono-first-vortex-birth-iv263",		shape=ellipse,		style=filled];	"thm:mono-cuboct-uniqueness" -> "thm:mono-first-vortex-birth-iv263"	[style=dashed];	"thm:mono-world-lagrangian-hamiltonian"	[color=green,		fillcolor="#1CAC78",		label="mono-world-lagrangian-hamiltonian",		shape=ellipse,		style=filled];	"thm:mono-first-vortex-birth-iv263" -> "thm:mono-world-lagrangian-hamiltonian"	[style=dashed];	"thm:mono-wronskian-integrals"	[color=green,		fillcolor="#1CAC78",		label="mono-wronskian-integrals",		shape=ellipse,		style=filled];	"thm:mono-world-lagrangian-hamiltonian" -> "thm:mono-wronskian-integrals"	[style=dashed];	"thm:mono-born-rule" -> "thm:mono-heisenberg-maxwell-tsirelson-ee"	[style=dashed];	"thm:mono-gravity-pasta-halo"	[color=green,		fillcolor="#1CAC78",		label="mono-gravity-pasta-halo",		shape=ellipse,		style=filled];	"thm:mono-periodic-planetogenesis-bezout"	[color=green,		fillcolor="#1CAC78",		label="mono-periodic-planetogenesis-bezout",		shape=ellipse,		style=filled];	"thm:mono-gravity-pasta-halo" -> "thm:mono-periodic-planetogenesis-bezout"	[style=dashed];	"thm:mono-periodic-planetogenesis-bezout" -> "thm:mono-chem-cooper-587"	[style=dashed];	"thm:mono-no-external-memory"	[color=green,		fillcolor="#1CAC78",		label="mono-no-external-memory",		shape=ellipse,		style=filled];	"thm:mono-no-external-memory" -> "thm:mono-d3-uniqueness"	[style=dashed];	"thm:mono-riemann-emergence"	[color=green,		fillcolor="#1CAC78",		label="mono-riemann-emergence",		shape=ellipse,		style=filled];	"thm:mono-wronskian-integrals" -> "thm:mono-riemann-emergence"	[style=dashed];	"thm:mono-projective-fields-c-infinity-simpson"	[color=green,		fillcolor="#1CAC78",		label="mono-projective-fields-c-infinity-simpson",		shape=ellipse,		style=filled];	"thm:mono-riemann-emergence" -> "thm:mono-projective-fields-c-infinity-simpson"	[style=dashed];	"thm:mono-projective-fields-c-infinity-simpson" -> "thm:mono-scale-hausdorff-log-pow"	[style=dashed];	"thm:mono-complete-sm-particle-atlas" -> "thm:mono-gravity-pasta-halo"	[style=dashed];}`)
+    .on("end", interactive);
+
+latexLabelEscaper = function(label) {
+  return label.replace(/\./g, '\\.').replace(/:/g, '\\:')
+}
+
+clickNode = function() {
+  $("#statements div").hide()
+  var node_id = $('text', this).text();
+  $('.thm').hide();
+  $('#'+latexLabelEscaper(node_id)).show().children().show();
+}
+function interactive() {
+    $("span#legend_title").on("click", function () {
+           $(this).siblings('dl').toggle();
+        })
+
+    d3.selectAll('.node')
+        .attr('pointer-events', 'fill')
+        .on('click', function () {
+           var title = d3.select(this).selectAll('title').text().trim();
+           $('#statements > div').hide()
+           $('.thm').hide();
+           $('#'+latexLabelEscaper(title)+'_modal').show().children().show().children().show();
+           $('#statements').show()
+        });
+
+    d3.selectAll('.dep-closebtn').on('click', function() {
+        var modal =
+            d3.select(this).node().parentNode.parentNode.parentNode ;
+        d3.select(modal).style('display', 'none');
+    });
+}
+
+</script>
+
+</body>
+</html>

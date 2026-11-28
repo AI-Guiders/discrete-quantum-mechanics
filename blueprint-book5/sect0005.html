@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Конструктивный переход от квадратичных сумм на кольце \(\mathbb {Z}_{4Q}\) к интегралам Френеля на \(\mathbb {R}\) (\(\mathbb {C}\)) без рядов Тейлора и без таблиц</title>
+<link rel="next" href="ch-math-pade-sl2-towers.html" title="Изотропный дискриминантный конус в SL2(Z), моноид башни аппроксимантов Паде и бескорневое кубическое сжатие" />
+<link rel="prev" href="sect0004.html" title="Биекция полярных и декартовых координат (M,ϕ)↔(X,Y) без корней, точное обращение atanL1, acotL1 и гиперболическое исчисление Гудермана–Минковского" />
+<link rel="up" href="ch-math-rotator-calculus.html" title="Дискретный ротатор Z4Q, однородные проективные поля Q(i,d-1) и анализ без делений" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга V. Математика проективного многообразия (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Предисловие. Отделение чистой проективной математики от физики носителя</span></a>
+ </li>
+<li class=" active">
+  <a href="ch-math-rotator-calculus.html"><span class="toc_ref">1</span> <span class="toc_entry">Дискретный ротатор \(\mathbb {Z}_{4Q}\), однородные проективные поля \(\mathbb {Q}(i,\sqrt{d-1})\) и анализ без делений</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Характер Эйлера на \(L^1\)-алмазе, тождество постоянного вронскиана и подъём Брахмагупты–Вейерштрасса</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Замкнутая башня производных частного всех порядков \(D^n(f/g)\), многомерная кубатура Симпсона и когомологии де&#160;Рама</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Биекция полярных и декартовых координат \((M,\varphi )\leftrightarrow (X,Y)\) без корней, точное обращение \(\operatorname {atan}_{L^1},\, \operatorname {acot}_{L^1}\) и гиперболическое исчисление Гудермана–Минковского</span></a>
+ </li>
+<li class=" active current">
+  <a href="sect0005.html"><span class="toc_ref">1.4</span> <span class="toc_entry">Конструктивный переход от квадратичных сумм на кольце \(\mathbb {Z}_{4Q}\) к интегралам Френеля на \(\mathbb {R}\) (\(\mathbb {C}\)) без рядов Тейлора и без таблиц</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-math-pade-sl2-towers.html"><span class="toc_ref">2</span> <span class="toc_entry">Изотропный дискриминантный конус в \(\mathrm{SL}_2(\mathbb {Z})\), моноид башни аппроксимантов Паде и бескорневое кубическое сжатие</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0006.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Матричное представление ступеней, изотропный конус и параболические жордановы матрицы в \(\mathrm{SL}_2(\mathbb {Z})\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-math-planetary-differentials.html"><span class="toc_ref">3</span> <span class="toc_entry">Трёхшахтные планетарные дифференциалы \(\mathcal{A} + \mathcal{B} = \mathcal{C}\), вронскиан Мейсона–Стотерса и проекторы Лагранжа–Вандермонда</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0007.html"><span class="toc_ref">3.1</span> <span class="toc_entry">Ортогональный репер трёхшахтного дифференциала \(\mathcal{F}_3\), матрица моментов Ганкеля и целочисленный вронскиан Мейсона–Стотерса</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-math-multiscrew-and-holonomy.html"><span class="toc_ref">4</span> <span class="toc_entry">Алгебра многовинтовых планетарных каскадов и встречно-волновая суперпозиция на сфере Римана \(\mathbb {P}^1\)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0008.html"><span class="toc_ref">4.1</span> <span class="toc_entry">Моноид многовинтовых планетарных каскадов, экстремальная перестановочная вилка и вариационная монотонность</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html"><span class="toc_ref">4.2</span> <span class="toc_entry">Векторная суперпозиция встречных волн, тройная дихотомия \(M\)-этажного каскада и модельно-теоретическая независимость</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html"><span class="toc_ref">4.3</span> <span class="toc_entry">Конструктивное построение \(\mathbb {R}\) и \(\mathbb {C}\), биективный изоморфизм \(L^1(\mathbb {Z}_{4Q}) \leftrightarrow S^1(\mathbb {C})\) и бритва Оккама–Мальцева</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000006">1.4 Конструктивный переход от квадратичных сумм на кольце \(\mathbb {Z}_{4Q}\) к интегралам Френеля на \(\mathbb {R}\) (\(\mathbb {C}\)) без рядов Тейлора и без таблиц</h1>
+<p>Классическое значение интегралов Френеля \(\int _0^\infty \cos (x^2)\, dx = \int _0^\infty \sin (x^2)\, dx = \frac{1}{2}\sqrt{\frac{\pi }{2}}\) выводится из дискретной квадратичной суммы на кольце \(\mathbb {Z}_{512}\) чисто геометрически — через \(2\)-адическое разложение кольца на пять оболочек, тождество Гаусса–Планшереля и спрямление многоугольника Вейерштрасса, без использования бесконечных степенных рядов Тейлора и таблиц: </p>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:math-fresnel-cornu-continuum-bridge">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Теорема
+    </span>
+    <span class="theorem_thmlabel">1.4</span>
+    <span class="theorem_thmtitle">Общий символьный закон стационарной фазы Френеля для произвольного масштаба \(b \in \mathbb {Z}\), тождество нормы Гаусса–Планшереля и безтейлоровский переход к \(\int _0^\infty \cos (x^2)\, dx = \int _0^\infty \sin (x^2)\, dx = \frac{1}{2}\sqrt{\frac{\pi }{2}}\)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0005.html#thm:math-fresnel-cornu-continuum-bridge">#</a>
+    
+    <a class="icon proof" href="sect0005.html#a0000000016"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0002.html#thm:math-wronskian-weierstrass-quadratures">Теорема 1.1</a></li>
+          
+          <li><a href="sect0003.html#thm:math-c-infinity-simpson-derham">Теорема 1.2</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/ProjectiveFieldCalculus.lean#L524" class="lean_decl">thm40_table_free_continuum_fresnel_cornu_brackets_and_gauss_sum_bridge</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>    Для произвольного целочисленного масштаба \(b \in \mathbb {Z}\) и фазового кольца размера \(N_{\mathrm{ring}}(b) = 8b^2\) с четверть-периодом \(Q(b) = 2b^2\), полупериодом \(\Phi _{\mathrm{half}}(b) = 4b^2\) и точкой биссектрисы первого квадранта \(K_P(b) = Q(b)/2 = b^2\) (при \(b = 8\): \(Q = 128,\  \Phi _{\mathrm{half}} = 256,\  N_{\mathrm{ring}} = 512,\  K_P = 64\)) выполняются следующие безусловные символьные тождества: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Общий закон попадания выживающей \(2\)-адической оболочки \(\varphi (b, k) = b(2k+1)\) в биссектрису \(45^\circ \) (\(K_P(b) = b^2\)) для всех \(b, k, m \in \mathbb {Z}\):</b> на всех небиссекторных \(2\)-адических оболочках кольца квадратичные образы \(\varphi ^2 \bmod N_{\mathrm{ring}}(b)\) инвариантны относительно полупериодного сдвига \(+\Phi _{\mathrm{half}}(b)\) и взаимно аннулируются по тождеству \(\mathcal{E}(\psi + \Phi _{\mathrm{half}}(b)) = -\mathcal{E}(\psi )\), тогда как для любого элемента выживающей оболочки \(\varphi (b, k) = b(2k+1)\) (\(k \in \mathbb {Z}\)) выполняется: </p>
+<div class="equation" id="eq:math-fresnel-four-shells-zero">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-fresnel-four-shells-zero} \varphi (b, k)^2 - K_P(b) \; \equiv \;  \Phi _{\mathrm{half}}(b)\, k(k+1), \end{equation}
+  </div>
+  <span class="equation_label">1.17</span>
+</p>
+</div>
+<p> откуда при всех чётных \(k = 2m\) и нечётных \(k = 2m+1\) квадрат тождественно попадает в точку биссектрисы \(K_P(b) = b^2 \leftrightarrow \pi /4\) по модулю полного периода кольца \(N_{\mathrm{ring}}(b) = 8b^2\) (где \(\mathcal{C}_{Q(b)}(K_P(b)) = Q(b) - K_P(b) = K_P(b) = b^2 = \mathcal{S}_{Q(b)}(K_P(b))\)): </p>
+<div class="displaymath" id="eq:math-discrete-fresnel-even">
+  \begin{align}  \varphi (b, 2m)^2 & \equiv K_P(b) + N_{\mathrm{ring}}(b)\, m(2m+1), \label{eq:math-discrete-fresnel-even} \\ \varphi (b, 2m+1)^2 & \equiv K_P(b) + N_{\mathrm{ring}}(b)\, (m+1)(2m+1), \label{eq:math-discrete-fresnel-odd} \\ \mathcal{C}_{\mathrm{Fresnel}}(b) & = \mathcal{S}_{\mathrm{Fresnel}}(b) \; :=\;  (4b)\, K_P(b) \; =\;  4\, b^3 \qquad \bigl(\text{при } b = 8:\;  32 \times 64 = 2\, 048\bigr). \label{eq:math-discrete-fresnel-symmetry} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Общее символьное тождество нормы Гаусса–Планшереля для произвольного масштаба \(b \in \mathbb {Z}\):</b> для любого \(b \in \mathbb {Z}\) квадраты дискретных интегралов Френеля связаны с полупериодом \(\Phi _{\mathrm{half}}(b) = 4b^2\), полным периодом кольца \(N_{\mathrm{ring}}(b) = 8b^2\) и квадратом амплитуды \(Q(b)^2 = 4b^4\) точными полиномиальными тождествами: </p>
+<div class="displaymath" id="eq:math-fresnel-halfperiod-norm">
+  \begin{align}  \mathcal{C}_{\mathrm{Fresnel}}(b)^2 \; =\;  \mathcal{S}_{\mathrm{Fresnel}}(b)^2 & \equiv \Phi _{\mathrm{half}}(b)\, Q(b)^2 \; =\;  \frac{N_{\mathrm{ring}}(b)}{2}\, Q(b)^2 \; =\;  16\, b^6, \label{eq:math-fresnel-halfperiod-norm} \\ \mathcal{C}_{\mathrm{Fresnel}}(b)^2 + \mathcal{S}_{\mathrm{Fresnel}}(b)^2 & \equiv N_{\mathrm{ring}}(b)\, Q(b)^2 \; =\;  32\, b^6. \label{eq:math-fresnel-plancherel-norm} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Прямой переход к \(\int _0^\infty \cos (x^2)\, dx = \int _0^\infty \sin (x^2)\, dx = \sqrt{\pi /8}\) через спрямление многоугольника Вейерштрасса без рядов Тейлора:</b> при нормировке на амплитуду \(Q(b)\) и \(d_{\mathrm{in}}(\square ) = 4\) квадранта кольца квадрат однолучевого интеграла Френеля равен \(\bigl(\frac{\mathcal{C}_{\mathrm{Fresnel}}(b)}{4\, Q(b)}\bigr)^2 = \frac{N_{\mathrm{ring}}(b)}{2\cdot 4^2} = \frac{N_{\mathrm{ring}}(b)}{16}\). При спрямлении многоугольника Вейерштрасса с шагом \((\Delta t)^2 = 2\pi / N_{\mathrm{ring}}(b)\) множитель \(N_{\mathrm{ring}}(b)\) сокращается тождественно при любом масштабе \(b\): </p>
+<div class="equation" id="eq:math-fresnel-pi-over-8">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-fresnel-pi-over-8} \left(\frac{\mathcal{C}_{\mathrm{Fresnel}}(b)}{4\, Q(b)}\, \Delta t\right)^2 \; =\;  \frac{N_{\mathrm{ring}}(b)}{16}\cdot \frac{2\pi }{N_{\mathrm{ring}}(b)} \; \equiv \;  \frac{\pi }{8} \quad \Longrightarrow \quad \int _0^\infty \cos (x^2)\, dx \; =\;  \int _0^\infty \sin (x^2)\, dx \; =\;  \sqrt{\frac{\pi }{8}} \; =\;  \frac{1}{2}\sqrt{\frac{\pi }{2}}, \end{equation}
+  </div>
+  <span class="equation_label">1.23</span>
+</p>
+</div>
+<p> где \(\pi \in [\pi _{\mathrm{in}}(n),\  \pi _{\mathrm{out}}(n)]\) зажимается рациональными суммами вписанного и описанного \(n\)-угольников Вейерштрасса&#160;<a href="sect0002.html#eq:math-weierstrass-circle" class="eqref">1.4</a>, а квадратный корень извлекается рациональной башней Паде–\(\mathrm{SL}_2(\mathbb {Z})\) Главы&#160;<a href="ch-math-pade-sl2-towers.html">2</a> без рядов Тейлора и таблиц. </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000016">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Раскрытие скобок даёт \((b(2k+1))^2 - b^2 = 4b^2 k(k+1) = \Phi _{\mathrm{half}}(b)k(k+1)\), а при \(k = 2m\) и \(k = 2m+1\) имеем \(4b^2(2m)(2m+1) = 8b^2 m(2m+1)\) и \(4b^2(2m+1)(2m+2) = 8b^2(m+1)(2m+1)\). Тождества&#160;<a href="sect0005.html#eq:math-fresnel-halfperiod-norm" class="eqref">1.21</a>–<a href="sect0005.html#eq:math-fresnel-plancherel-norm" class="eqref">1.22</a> следуют из \((4b^3)^2 = 16b^6 = (4b^2)(2b^2)^2\). </p>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sect0004.html" title="Биекция полярных и декартовых координат \((M,\varphi )\leftrightarrow (X,Y)\) без корней, точное обращение \(\operatorname {atan}_{L^1},\, \operatorname {acot}_{L^1}\) и гиперболическое исчисление Гудермана–Минковского"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-math-rotator-calculus.html" title="Дискретный ротатор \(\mathbb {Z}_{4Q}\), однородные проективные поля \(\mathbb {Q}(i,\sqrt{d-1})\) и анализ без делений"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="ch-math-pade-sl2-towers.html" title="Изотропный дискриминантный конус в \(\mathrm{SL}_2(\mathbb {Z})\), моноид башни аппроксимантов Паде и бескорневое кубическое сжатие"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

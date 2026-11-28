@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Периодическая система до 8-го периода, четыре физических предела, двухсферный перенос урана на остров стабильности \(N=184\), планетогенез и четыре тождества Безу</title>
+<link rel="next" href="sect0023.html" title="Седло химической связи, закон Гесса, правила симметрии, спаривание Купера и коллапс барьера" />
+<link rel="prev" href="ch-mono-chemistry-nuclear.html" title="Атомные и ядерные оболочки кубооктаэдра, планетогенез по 6 зонам диска, тождества Безу на Z512, сверхпроводимость и когерентный 587-кратный коллапс барьера" />
+<link rel="up" href="ch-mono-chemistry-nuclear.html" title="Атомные и ядерные оболочки кубооктаэдра, планетогенез по 6 зонам диска, тождества Безу на Z512, сверхпроводимость и когерентный 587-кратный коллапс барьера" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга I. Формальные основания ДКМ (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Предисловие. Предмет монографии и дедуктивное строение теории снизу вверх</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref"></span> <span class="toc_entry">§ 0.1. Метод построения: восхождение снизу вверх без постулатов</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref"></span> <span class="toc_entry">§ 0.2. Четыре методологических опоры монографии</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref"></span> <span class="toc_entry">§ 0.3. Двусортное проективно-ретракционное соответствие оснований естественных наук: Трёхзаконная целочисленная механика Ньютона</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-axioms.html"><span class="toc_ref">1</span> <span class="toc_entry">Вывод дискретной квантовой механики (ДКМ) из неделимости элементарного объёма, отсутствия внешней памяти у природы и уравнения Каталана</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0005.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Доказательство отсутствия внешней памяти у физической природы и невозможности континуального регистра внутри неделимой ячейки</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Последовательный вывод размерности \(d=3\), кольца \(\mathbb {Z}_{512}\), кубооктаэдра \(O_2(3)\) и шага Верле</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Теоремы единственности: размерность \(d=3\), кубооктаэдр \(O_2(3)\) и шаг Верле</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">1.4</span> <span class="toc_entry">Переход к естественным полярным координатам \((\mu , \varphi _{\mathrm{disc}})\), затравочное состояние Каталана \(\mathrm{IV}(3) = 263\) и уравнения оператора эволюции \(\mathcal{G}_3\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html"><span class="toc_ref">1.5</span> <span class="toc_entry">Симплициальное разложение Пуанкаре–Хегора и структурные пороги носителя при \(d = 3\)</span></a>
+ </li>
+<li class="">
+  <a href="sec-mono-world-lagrangian-hamiltonian.html"><span class="toc_ref">1.6</span> <span class="toc_entry">Полевой Лагранжиан \(\mathcal{L}_{\mathrm{world}}\), Гамильтониан \(\mathcal{H}_{\mathrm{world}}\), 13-узловое разложение знаменателя \(\mathcal{C}_{13}\) и тетраэдральное действие Верле</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-rotator-calculus.html"><span class="toc_ref">2</span> <span class="toc_entry">Дискретная экспонента Эйлера на \(\mathbb {Z}_{512}\), однородная проективная арифметика над \(\mathbb {Q}(i,\sqrt{2})\) и выход в непрерывный анализ</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0010.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Дискретная экспонента Эйлера, код Грея, соотношения Коши–Римана и тождество постоянного вронскиана</span></a>
+ </li>
+<li class="">
+  <a href="sect0011.html"><span class="toc_ref">2.2</span> <span class="toc_entry">Вывод классического интеграла Римана и формулы Ньютона–Лейбница в макропределе \(N \to \infty \)</span></a>
+ </li>
+<li class="">
+  <a href="sect0012.html"><span class="toc_ref">2.3</span> <span class="toc_entry">Однородная проективная арифметика полей, башня производных отношения и многомерная кубатура Симпсона</span></a>
+ </li>
+<li class="">
+  <a href="sect0013.html"><span class="toc_ref">2.4</span> <span class="toc_entry">Теорема о сокращении масштаба \(A = K\cdot dh\), размерность Хаусдорфа–Морана и проективные операторы логарифма и рациональной степени на \(\mathbb {Z}_{4Q}\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-logic-cohomology-barriers.html"><span class="toc_ref">3</span> <span class="toc_entry">Булева полнота Поста, редукция 3-SAT, конструктивные когомологии де&#160;Рама и барьеры внутренних вычислителей</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0014.html"><span class="toc_ref">3.1</span> <span class="toc_entry">Функционально полный базис Поста на двух каналах \(\mathbb {Z}_{512}\) и полиномиальная редукция 3-SAT</span></a>
+ </li>
+<li class="">
+  <a href="sect0015.html"><span class="toc_ref">3.2</span> <span class="toc_entry">Четыре барьера внутреннего вычислителя и встроенный блокнот Вернама Шеннона на \(\mathbb {Z}_{512}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0016.html"><span class="toc_ref">3.3</span> <span class="toc_entry">Конструктивные когомологии де&#160;Рама–Стокса–Гаусса–Черна и мера без аксиомы выбора</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-qm-maxwell.html"><span class="toc_ref">4</span> <span class="toc_entry">Дискретная и непрерывная квантовая механика (ДКМ и НКМ), электродинамика Максвелла и граница применимости континуума</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0017.html"><span class="toc_ref">4.1</span> <span class="toc_entry">Алгебраическое происхождение корпускулярно-волнового дуализма и правила Борна</span></a>
+ </li>
+<li class="">
+  <a href="sect0018.html"><span class="toc_ref">4.2</span> <span class="toc_entry">Порог дискретности \(\Delta \varphi _{\mathrm{disc}} = 41\), уравнения Максвелла и граница применимости континуальной теории</span></a>
+ </li>
+<li class="">
+  <a href="sec-mono-mechanics-elasticity-fatigue.html"><span class="toc_ref">4.3</span> <span class="toc_entry">Нелинейная механика маятника на произвольных углах, четырёхрежимная теория упругости за пределами закона Гука и предел усталостной выносливости металла</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-sm-gravity.html"><span class="toc_ref">5</span> <span class="toc_entry">Калибровочная группа Стандартной модели, гравитационное преломление и космология</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0019.html"><span class="toc_ref">5.1</span> <span class="toc_entry">Симплициальный комплекс \(\mathcal{C}_{13}\), матричные коммутаторы алгебры Ли \(\mathfrak {u}(1)\oplus \mathfrak {su}(2)\oplus \mathfrak {su}(3)\) и четырёхпетлевой вывод постоянной тонкой структуры</span></a>
+ </li>
+<li class="">
+  <a href="sect0020.html"><span class="toc_ref">5.2</span> <span class="toc_entry">Структура 13-узлового ротора электрона, полное квантование восьми наблюдаемых и единый вихревой атлас Стандартной модели на кликах \(\mathcal{C}_{13}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0021.html"><span class="toc_ref">5.3</span> <span class="toc_entry">Гравитация как преломление на импедансе ворот без сингулярности \(1/0\), ряд сжатия Гаусса–Грина, кавитированные гиперъядра и фазы нейтронной пасты</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active">
+  <a href="ch-mono-chemistry-nuclear.html"><span class="toc_ref">6</span> <span class="toc_entry">Атомные и ядерные оболочки кубооктаэдра, планетогенез по 6 зонам диска, тождества Безу на \(\mathbb {Z}_{512}\), сверхпроводимость и когерентный \(587\)-кратный коллапс барьера</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class=" active current">
+  <a href="sect0022.html"><span class="toc_ref">6.1</span> <span class="toc_entry">Периодическая система до 8-го периода, четыре физических предела, двухсферный перенос урана на остров стабильности \(N=184\), планетогенез и четыре тождества Безу</span></a>
+ </li>
+<li class="">
+  <a href="sect0023.html"><span class="toc_ref">6.2</span> <span class="toc_entry">Седло химической связи, закон Гесса, правила симметрии, спаривание Купера и коллапс барьера</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-biology.html"><span class="toc_ref">7</span> <span class="toc_entry">Молекулярная биофизика, планетарные фотонные окна, генетический код ДНК, фолдинг белков и морфогенез</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0024.html"><span class="toc_ref">7.1</span> <span class="toc_entry">Делитель водородной связи \(N_{\mathrm{HB}} = 63\) и три планетарных фотонных окна (\(441 : 126 : 63 = 7 : 2 : 1\))</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sec-mono-epistemological-closure.html"><span class="toc_ref">8</span> <span class="toc_entry">Бесфононный кремниевый гетеропереход \(120 + 8 = 128\), общая конструкция предела по счётным моноидам стадий и гёделевская неизбежность лабораторного арбитража</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0025.html"><span class="toc_ref">8.1</span> <span class="toc_entry">Бесфононный кремниевый гетеропереход \(120 + 8 = 128\), барьер оболочечной пассивации \(45^2 {\lt} 2\, 048 {\lt} 46^2\) и вычисления без тепла Ландауэра</span></a>
+ </li>
+<li class="">
+  <a href="sect0026.html"><span class="toc_ref">8.2</span> <span class="toc_entry">Общий оператор предела по счётным моноидам стадий, проективные башни Мальцева и двусторонняя эквивалентность носителей \(\mathcal{M} \leftrightarrow \mathcal{T}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0027.html"><span class="toc_ref">8.3</span> <span class="toc_entry">Конструктивная непротиворечивость и теорема Ловера–Гёделя–Тарского</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000023">6.1 Периодическая система до 8-го периода, четыре физических предела, двухсферный перенос урана на остров стабильности \(N=184\), планетогенез и четыре тождества Безу</h1>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:mono-periodic-planetogenesis-bezout">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Теорема
+    </span>
+    <span class="theorem_thmlabel">6.1</span>
+    <span class="theorem_thmtitle">Периодическая система до 8-го периода, двухсферный перенос урана на остров стабильности \(N=184\), закон планетогенеза по 6 зонам диска и четыре тождества Безу на \(\mathbb {Z}_{512}\)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0022.html#thm:mono-periodic-planetogenesis-bezout">#</a>
+    
+    <a class="icon proof" href="sect0022.html#a0000000071"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0021.html#thm:mono-gravity-pasta-halo">Теорема 5.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/MendeleevPeriodicTable.lean#L593" class="lean_decl">generative_periodic_table_feynman_core_limits_and_end_to_end_dna_genesis</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/NuclearShells.lean#L137" class="lean_decl">superheavy_synthesis_recipes_and_uranium_shell_transfer_to_island_184</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/PlanetogenesisAllometry.lean#L171" class="lean_decl">planetogenesis_all_planetary_cores_and_mantle_invariants_operator</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>    Заполнение координационных сфер кубооктаэдра \(S_k(3) = 10k^2 + 2\) (\(12, 42, 92, 162\)), подоболочек \((s, p, d, f) = (2, 6, 10, 14)\) и периодов Маделунга \(L_p = 2\lfloor (p+2)/2\rfloor ^2\) подчиняется следующим законам: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Замкнутые оболочки до 8-го периода, четыре физических предела таблицы Менделеева и двухсферный перенос урана на остров стабильности \(N_{\mathrm{island}} = 184\):</b> кумулятивные суммы периодов Маделунга порождают благородные газы \(Z \in \{ 2, 10, 18, 36, 54, 86 = 6\cdot 13 + 8, 118\} \), \(19 = 2 + 14 + 3 = N_\varphi + |\square |\) элементов 8-го периода до предела Фейнмана и строгую цепь физических пределов: </p>
+<div class="displaymath" id="a0000000072">
+  \begin{align}  Z(\mathrm{Pb}) = 82 & {\lt} Z(\mathrm{U}) = 92 {\lt} Z(\mathrm{Fl}) = 114 {\lt} Z(\mathrm{Og}) = 118 {\lt} Z(\mathrm{Ubn}) = 120 \nonumber \\ & {\lt} Z_{\mathrm{Dirac}}^{(0)} = 123 {\lt} Z_{\mathrm{fiss}} = 126 {\lt} Z_{\mathrm{Feyn}} = 137 {\lt} Z_{\mathrm{QED}} = 172 {\lt} N_{\mathrm{island}} = 184. \label{eq:mono-periodic-limits-chain} \end{align}
+</div>
+<p> Горячий синтез \(Z = 119\) (\(\mathrm{Uue}\)) и \(Z = 120\) (\(\mathrm{Ubn}\)) и двухсферный перенос при столкновении двух ядер урана \(^{238}_{92}\mathrm{U}_{146} + {}^{238}_{92}\mathrm{U}_{146}\) (\(Z(\mathrm{U}) = 92 = S_3(3)\), \(N(\mathrm{U}) = 146 = S_1 + S_2 + S_3\)) удовлетворяют точным оболочечным балансам: </p>
+<div class="displaymath" id="eq:mono-hot-fusion-119">
+  \begin{align}  Z(\mathrm{Ti}_{22}) + Z(\mathrm{Bk}_{97}) & = Z(\mathrm{V}_{23}) + Z(\mathrm{Cm}_{96}) \; =\;  119, \label{eq:mono-hot-fusion-119} \\ Z(\mathrm{Ti}_{22}) + Z(\mathrm{Cf}_{98}) & = Z(\mathrm{Cr}_{24}) + Z(\mathrm{Cm}_{96}) \; =\;  Z(\mathrm{Fe}_{26}) + Z(\mathrm{Pu}_{94}) \; =\;  120, \label{eq:mono-hot-fusion-120} \\ 2\, N\bigl(^{238}_{92}\mathrm{U}_{146}\bigr) - 2\, \bigl(S_1(3) + S_2(3)\bigr) & = 292 - 108 \; =\;  184 \; =\;  2\, S_3(3) \; =\;  N_{\mathrm{island}}(3). \label{eq:mono-uranium-transfer-184} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Полный закон планетогенеза по всем 6 зонам конденсации протопланетного диска:</b> все шесть радиальных зон конденсации планетных ядер и мантий классифицируются замкнутыми оболочками кубооктаэдра (Таблица&#160;<a href="sect0022.html#tab:mono-planetogenesis-zones">6.1</a>): (I)&#160;газовые гиганты и коричневые карлики: \(Z(\mathrm{H+He}) = 1 + 2 = 3 = d\) и \(Z(\mathrm{Li+B}) = 3 + 5 = 8 = Z(\mathrm{O})\); (II)&#160;суперионные ледяные гиганты и криогенные льды: \(Z(\mathrm{CH_4}) = Z(\mathrm{NH_3}) = Z(\mathrm{H_2O}) = 10 = Z(\mathrm{Ne})\) и \(Z(\mathrm{N_2}) = Z(\mathrm{CO}) = 14 = Z(\mathrm{Si})\); (III)&#160;карбидные экзопланеты при \(n(\mathrm{C}) {\gt} n(\mathrm{O})\): \(Z(\mathrm{SiC}) = 14 + 6 = 20 = Z(\mathrm{Ca})\); (IV)&#160;сидерофильные железо-никелевые ядра и дифференциация силикатной мантии: \(Z(\mathrm{Fe}) = 26 = 2 N_\varphi (3) = Z(\mathrm{Mg}) + Z(\mathrm{Si}) = 2 Z(\mathrm{Al})\) и \(Z(\mathrm{Ni}) = 28 = 2 Z(\mathrm{Si}) = Z(\mathrm{Mg}) + Z(\mathrm{S})\); (V)&#160;эвтектические сульфидно-силицидные ядра и карбонаты глубокой мантии на второй сфере \(S_2(3) = 42\): \(Z(\mathrm{FeS}) = Z(\mathrm{NiSi}) = Z(\mathrm{MgCO_3}) = 42 = Z(\mathrm{Mo}) = S_2(3)\); (VI)&#160;тугоплавкие корундовые ядра, перовскитовая мантия, хондритовый оливин и геодинамо \(\mathrm{U}\to \mathrm{Pb}\): \(Z(\mathrm{MgSiO_3}) = Z(\mathrm{Al_2O_3}) = 50\) (магическая оболочка \(50\)), \(Z(\mathrm{Mg_2SiO_4}) = 50 + 20 = 70 = K_P(3) + 6\) и радиогенный тепловой двигатель \(^{238}_{92}\mathrm{U}_{146} \to {}^{208}_{82}\mathrm{Pb}_{126}\) (\(Z(\mathrm{Pb}) = 2\times 41 = 82\), \(N(\mathrm{Pb}) = 2\times 63 = 126\), \(A(\mathrm{Pb}) = 2\times 8\times 13 = 208\)). </p>
+</li>
+  <li><p><b class="bfseries">Четыре канонических мультипликативных замка Безу на кольце \(\mathbb {Z}_{512}\):</b> фундаментальная единица носителя \(\mu _{\mathrm{vac}}(3) = 1\) связывает инварианты \(\Delta \varphi _{\mathrm{disc}} = 41\), \(N_\varphi = 13\), \(\widehat{M} = 97\) и \(\mathrm{IV} = 263\) с ядерными оболочками золота \(^{197}_{79}\mathrm{Au}\) и плутония \(\mathrm{Pu}_{94}\): </p>
+<div class="displaymath" id="eq:mono-four-bezout">
+  \begin{align}  25 \times 41 - 2 \times 512 & = 1025 - 1024 = 1, \label{eq:mono-four-bezout} \\ 197 \times 13 - 5 \times 512 & = 2561 - 2560 = 1, \label{eq:mono-bezout-au197} \\ 417 \times 97 - 79 \times 512 & = 40\, 449 - 40\, 448 = 1, \label{eq:mono-bezout-au79} \\ 183 \times 263 - 94 \times 512 & = 48\, 129 - 48\, 128 = 1. \label{eq:mono-bezout-pu94} \end{align}
+</div>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000071">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>В пункте&#160;(1) для ядра \(^{238}_{92}\mathrm{U}_{146}\) сумма первых трёх сфер равна \(S_1 + S_2 + S_3 = 12 + 42 + 92 = 146 = N(\mathrm{U})\), откуда при двухъядерном столкновении сброс двух внутренних сфер \(2(S_1 + S_2) = 2(12 + 42) = 108 = 2 Z(\mathrm{Xe})\) оставляет \(292 - 108 = 184 = 2 S_3(3) = N_{\mathrm{island}}\). В пункте&#160;(2) покоординатное суммирование атомных номеров проверяет замыкания всех шести зон (\(1+2=3\), \(6+4=7+3=8+2=10\), \(14+6=20\), \(12+14=2\times 13=26\), \(26+16=28+14=12+6+24=42\), \(12+14+24=2\times 13+24=50\), \(2\times 12+14+32=70\)). В пункте&#160;(3) прямая арифметическая проверка доказывает&#160;<a href="sect0022.html#eq:mono-four-bezout" class="eqref">6.5</a>–<a href="sect0022.html#eq:mono-bezout-pu94" class="eqref">6.8</a>. </p>
+
+  </div>
+</div>
+<div class="table"  id="tab:mono-planetogenesis-zones">
+   <div class="centered"><figcaption>
+  <span class="caption_title">Table</span> 
+  <span class="caption_ref">6.1</span> 
+  <span class="caption_text">Закон планетогенеза ДКМ: классификация 6 зон конденсации планетных ядер и мантий по замкнутым оболочкам кубооктаэдра \(O_2(3)\).</span> 
+</figcaption>
+
+<table class="tabular">
+  <tr>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">Зона диска</b> </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">Планетный класс</b> </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">Ядро / мантия / летучие фазы</b> </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> <b class="bfseries">Оболочечный инвариант ДКМ</b> </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p>Зона I </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> Газовые гиганты и кор. карлики </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(\mathrm{H+He}\), синтез \(\mathrm{Li+B}\) </p>
+
+    </td>
+    <td  style="border-top-style:solid; border-top-color:black; border-top-width:1px; text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(Z=1+2=3=d\);&#8195;\(3+5=8=Z(\mathrm{O})\) </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p>Зона II </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> Ледяные гиганты и крио-льды </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(\mathrm{CH_4},\  \mathrm{NH_3},\  \mathrm{H_2O}\) и \(\mathrm{N_2},\  \mathrm{CO}\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(Z=10=Z(\mathrm{Ne})\);&#8195;\(Z=14=Z(\mathrm{Si})\) </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p>Зона III </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> Карбидные планеты (\(n(\mathrm{C}){\gt}n(\mathrm{O})\)) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> Карбид кремния \(\mathrm{SiC}\) и графит </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(Z(\mathrm{SiC})=14+6=20=Z(\mathrm{Ca})\) </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p>Зона IV </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> Земные планеты (\(\mathrm{Fe}\)–\(\mathrm{Ni}\) ядро) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(\mathrm{Fe}_{26},\  \mathrm{Ni}_{28} \leftrightarrow \mathrm{Mg+Si},\  \mathrm{Mg+S}\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(Z(\mathrm{Fe})=26=2 N_\varphi \); \(Z(\mathrm{Ni})=28\) </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p>Зона V </p>
+
+    </td>
+    <td  style="None" 
+        rowspan=""
+        colspan="">
+      <p> Сульфидно-силицидные ядра </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(\mathrm{FeS},\  \mathrm{NiSi}\) и карбонат \(\mathrm{MgCO_3}\) </p>
+
+    </td>
+    <td  style="text-align:left" 
+        rowspan=""
+        colspan="">
+      <p> \(Z=26+16=28+14=42=S_2(3)\) </p>
+
+    </td>
+  </tr>
+  <tr>
+    <td  style="border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p>Зона VI </p>
+
+    </td>
+    <td  style="border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> Сверхземли, перовскит, геодинамо </p>
+
+    </td>
+    <td  style="text-align:left; border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> \(\mathrm{Al_2O_3},\  \mathrm{MgSiO_3}\) (\(50\)); \(\mathrm{Mg_2SiO_4}\) (\(70\)) </p>
+
+    </td>
+    <td  style="text-align:left; border-bottom-style:solid; border-bottom-color:black; border-bottom-width:1px" 
+        rowspan=""
+        colspan="">
+      <p> Магич. \(50\); \(70=K_P+6\); \(\mathrm{U}_{92}\to \mathrm{Pb}_{82}\) </p>
+
+    </td>
+  </tr>
+</table>
+</div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="ch-mono-chemistry-nuclear.html" title="Атомные и ядерные оболочки кубооктаэдра, планетогенез по 6 зонам диска, тождества Безу на \(\mathbb {Z}_{512}\), сверхпроводимость и когерентный \(587\)-кратный коллапс барьера"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-mono-chemistry-nuclear.html" title="Атомные и ядерные оболочки кубооктаэдра, планетогенез по 6 зонам диска, тождества Безу на \(\mathbb {Z}_{512}\), сверхпроводимость и когерентный \(587\)-кратный коллапс барьера"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0023.html" title="Седло химической связи, закон Гесса, правила симметрии, спаривание Купера и коллапс барьера"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

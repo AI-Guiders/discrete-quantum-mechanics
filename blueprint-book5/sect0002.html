@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Характер Эйлера на \(L^1\)-алмазе, тождество постоянного вронскиана и подъём Брахмагупты–Вейерштрасса</title>
+<link rel="next" href="sect0003.html" title="Замкнутая башня производных частного всех порядков Dn(f/g), многомерная кубатура Симпсона и когомологии деРама" />
+<link rel="prev" href="ch-math-rotator-calculus.html" title="Дискретный ротатор Z4Q, однородные проективные поля Q(i,d-1) и анализ без делений" />
+<link rel="up" href="ch-math-rotator-calculus.html" title="Дискретный ротатор Z4Q, однородные проективные поля Q(i,d-1) и анализ без делений" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга V. Математика проективного многообразия (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Предисловие. Отделение чистой проективной математики от физики носителя</span></a>
+ </li>
+<li class=" active">
+  <a href="ch-math-rotator-calculus.html"><span class="toc_ref">1</span> <span class="toc_entry">Дискретный ротатор \(\mathbb {Z}_{4Q}\), однородные проективные поля \(\mathbb {Q}(i,\sqrt{d-1})\) и анализ без делений</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class=" active current">
+  <a href="sect0002.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Характер Эйлера на \(L^1\)-алмазе, тождество постоянного вронскиана и подъём Брахмагупты–Вейерштрасса</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Замкнутая башня производных частного всех порядков \(D^n(f/g)\), многомерная кубатура Симпсона и когомологии де&#160;Рама</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Биекция полярных и декартовых координат \((M,\varphi )\leftrightarrow (X,Y)\) без корней, точное обращение \(\operatorname {atan}_{L^1},\, \operatorname {acot}_{L^1}\) и гиперболическое исчисление Гудермана–Минковского</span></a>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">1.4</span> <span class="toc_entry">Конструктивный переход от квадратичных сумм на кольце \(\mathbb {Z}_{4Q}\) к интегралам Френеля на \(\mathbb {R}\) (\(\mathbb {C}\)) без рядов Тейлора и без таблиц</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-math-pade-sl2-towers.html"><span class="toc_ref">2</span> <span class="toc_entry">Изотропный дискриминантный конус в \(\mathrm{SL}_2(\mathbb {Z})\), моноид башни аппроксимантов Паде и бескорневое кубическое сжатие</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0006.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Матричное представление ступеней, изотропный конус и параболические жордановы матрицы в \(\mathrm{SL}_2(\mathbb {Z})\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-math-planetary-differentials.html"><span class="toc_ref">3</span> <span class="toc_entry">Трёхшахтные планетарные дифференциалы \(\mathcal{A} + \mathcal{B} = \mathcal{C}\), вронскиан Мейсона–Стотерса и проекторы Лагранжа–Вандермонда</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0007.html"><span class="toc_ref">3.1</span> <span class="toc_entry">Ортогональный репер трёхшахтного дифференциала \(\mathcal{F}_3\), матрица моментов Ганкеля и целочисленный вронскиан Мейсона–Стотерса</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-math-multiscrew-and-holonomy.html"><span class="toc_ref">4</span> <span class="toc_entry">Алгебра многовинтовых планетарных каскадов и встречно-волновая суперпозиция на сфере Римана \(\mathbb {P}^1\)</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0008.html"><span class="toc_ref">4.1</span> <span class="toc_entry">Моноид многовинтовых планетарных каскадов, экстремальная перестановочная вилка и вариационная монотонность</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html"><span class="toc_ref">4.2</span> <span class="toc_entry">Векторная суперпозиция встречных волн, тройная дихотомия \(M\)-этажного каскада и модельно-теоретическая независимость</span></a>
+ </li>
+<li class="">
+  <a href="sect0010.html"><span class="toc_ref">4.3</span> <span class="toc_entry">Конструктивное построение \(\mathbb {R}\) и \(\mathbb {C}\), биективный изоморфизм \(L^1(\mathbb {Z}_{4Q}) \leftrightarrow S^1(\mathbb {C})\) и бритва Оккама–Мальцева</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000003">1.1 Характер Эйлера на \(L^1\)-алмазе, тождество постоянного вронскиана и подъём Брахмагупты–Вейерштрасса</h1>
+<p>Пусть \(Q \in \mathbb {N}^+\) (\(Q \ge 1\)) — произвольный целочисленный четверть-период. На циклическом кольце \(\mathbb {Z}_{4Q}\) из \(4Q\) фазовых состояний чётная (косинусная) и нечётная (синусная) проекции \((\mathcal{C}_Q(\varphi ), \mathcal{S}_Q(\varphi )) \in [-Q, +Q]^2\) определяются кусочно-линейным обходом четырёх квадрантов \(L^1\)-алмаза \(|\mathcal{C}_Q(\varphi )| + |\mathcal{S}_Q(\varphi )| \equiv Q\): в первом квадранте \(0 \le m \le Q\) имеем \((\mathcal{C}_Q(m), \mathcal{S}_Q(m)) = (Q - m, m)\) с продолжением на остальные квадранты поворотом на четверть периода \(+Q\): </p>
+<div class="equation" id="eq:math-rotator-quarter-shift">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:math-rotator-quarter-shift} \mathcal{C}_Q(\varphi + Q) \; =\;  -\mathcal{S}_Q(\varphi ), \qquad \mathcal{S}_Q(\varphi + Q) \; =\;  +\mathcal{C}_Q(\varphi ). \end{equation}
+  </div>
+  <span class="equation_label">1.1</span>
+</p>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:math-wronskian-weierstrass-quadratures">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Теорема
+    </span>
+    <span class="theorem_thmlabel">1.1</span>
+    <span class="theorem_thmtitle">Тождество постоянного разностного вронскиана, подъём Брахмагупты–Вейерштрасса, отсутствие делителей нуля и замкнутые дискретные квадратуры</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0002.html#thm:math-wronskian-weierstrass-quadratures">#</a>
+    
+    <a class="icon proof" href="sect0002.html#a0000000013"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/RotatorQuadrature.lean#L173" class="lean_decl">thm1_constant_wronskian_weierstrass_lift_and_newton_leibniz</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/RotatorQuadrature.lean#L243" class="lean_decl">thm2_closed_form_fresnel_jacobi_dirichlet_parseval_bessel_integrals</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/Constructive/RotatorQuadrature.lean#L415" class="lean_decl">thm34_rotator_projective_field_invertibility_zero_divisor_freedom_and_q_i_sqrt2_fields</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   Для любого четверть-периода \(Q \ge 1\) на кольце \(\mathbb {Z}_{4Q}\) выполняются следующие безусловные конструктивные тождества: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Тождественное постоянство разностного вронскиана и формула Ньютона–Лейбница:</b> для первых разностей \(\Delta \mathcal{C}_Q(\varphi ) = \mathcal{C}_Q(\varphi +1) - \mathcal{C}_Q(\varphi )\) и \(\Delta \mathcal{S}_Q(\varphi ) = \mathcal{S}_Q(\varphi +1) - \mathcal{S}_Q(\varphi )\) дискретный вронскиан тождественно равен четверть-периоду \(Q\) в каждой точке кольца (включая угловые вершины смены наклона), а конечный интеграл первой разности любой функции \(F : \mathbb {Z} \to \mathbb {Z}\) телескопически точен: </p>
+<div class="displaymath" id="eq:math-const-wronskian">
+  \begin{align}  \mathcal{W}_Q(\varphi ) & := \mathcal{C}_Q(\varphi )\, \Delta \mathcal{S}_Q(\varphi ) - \mathcal{S}_Q(\varphi )\, \Delta \mathcal{C}_Q(\varphi ) \; \equiv \;  Q, \label{eq:math-const-wronskian} \\ \sum _{k=0}^{N-1} \bigl(F(a + k + 1) - F(a + k)\bigr) & \equiv F(a + N) - F(a). \label{eq:math-newton-leibniz} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Подъём Брахмагупты–Вейерштрасса на рациональную окружность \(S^1(\mathbb {Q})\) и отсутствие делителей нуля на \(L^1\)-алмазе:</b> однородная тройка Вейерштрасса \((X_T, Y_T, R_T) = \bigl(\mathcal{C}_Q^2 - \mathcal{S}_Q^2,\  2\mathcal{C}_Q\mathcal{S}_Q,\  \mathcal{C}_Q^2 + \mathcal{S}_Q^2\bigr)\) тождественно лежит на евклидовой окружности, а знаменатель \(R_T = \mathcal{C}_Q^2 + \mathcal{S}_Q^2\) строго положителен во всех точках \(L^1\)-алмаза \(|\mathcal{C}_Q| + |\mathcal{S}_Q| = Q \ge 1\): </p>
+<div class="displaymath" id="eq:math-weierstrass-circle">
+  \begin{align}  X_T^2 + Y_T^2 & = (\mathcal{C}_Q^2 - \mathcal{S}_Q^2)^2 + (2\mathcal{C}_Q\mathcal{S}_Q)^2 \; \equiv \;  (\mathcal{C}_Q^2 + \mathcal{S}_Q^2)^2 \; =\;  R_T^2, \label{eq:math-weierstrass-circle} \\ 2\, R_T & = 2\bigl(\mathcal{C}_Q^2 + \mathcal{S}_Q^2\bigr) \; \equiv \;  (\mathcal{C}_Q + \mathcal{S}_Q)^2 + (\mathcal{C}_Q - \mathcal{S}_Q)^2 \; \ge \;  Q^2 \; \ge \;  1. \label{eq:math-no-zero-divisors} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Однородная проективная обратимость в полях \(\mathbb {Q}(i)\), \(\mathbb {Q}(\sqrt{m})\) и круговом поле \(\mathbb {Q}(i,\sqrt{2}) = \mathbb {Q}(\zeta _8)\):</b> в однородных проективных координатах без деления мультипликативные обратные в гауссовом поле \(\mathbb {Q}(i)\) и квадратичном поле \(\mathbb {Q}(\sqrt{m})\) (\(m = d - 1\)) задаются полиномиальными операторами </p>
+<div class="displaymath" id="eq:math-gauss-inv">
+  \begin{align}  \operatorname {gaussFieldInv}(X, Y, R) & := \bigl(R X,\;  -R Y,\;  X^2 + Y^2\bigr), \label{eq:math-gauss-inv} \\ \operatorname {quadFieldInv}_m(a, b, D) & := \bigl(D a,\;  -D b,\;  a^2 - m b^2\bigr), \label{eq:math-quad-inv} \end{align}
+</div>
+<p> удовлетворяющими \((X, Y, R)\otimes _{\mathbb {Q}(i)}\operatorname {gaussFieldInv}(X, Y, R) = \bigl(R(X^2+Y^2),\,  0,\,  R(X^2+Y^2)\bigr) \sim (1, 0, 1)\), а при \(m = 2\) первообразный корень \(8\)-й степени из единицы \(\zeta _8 = (0, 1, 0, 1, 2) \in \mathbb {Q}(i,\sqrt{2})\) удовлетворяет точным проективным соотношениям \(\zeta _8^2 \sim i\), \(\zeta _8^4 \sim -1\), \(\zeta _8^8 \sim +1\), \(\zeta _8\bar{\zeta }_8 \sim +1\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000013">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>В пункте&#160;(1) внутри первого квадранта \((Q - m)(m + 1) - m(Q - m - 1) = Q m + Q - m^2 - m - Q m + m^2 + m = Q\), а в вершине \(m = Q\) имеем \(0\cdot (Q-1) - Q\cdot (-1) = Q\). В пункте&#160;(2) раскрытие \((\mathcal{C}_Q^2 - \mathcal{S}_Q^2)^2 + 4\mathcal{C}_Q^2\mathcal{S}_Q^2 = \mathcal{C}_Q^4 + 2\mathcal{C}_Q^2\mathcal{S}_Q^2 + \mathcal{S}_Q^4 = (\mathcal{C}_Q^2 + \mathcal{S}_Q^2)^2\) и \((\mathcal{C}_Q + \mathcal{S}_Q)^2 + (\mathcal{C}_Q - \mathcal{S}_Q)^2 = 2(\mathcal{C}_Q^2 + \mathcal{S}_Q^2)\) при \(|\mathcal{C}_Q| + |\mathcal{S}_Q| = Q\) даёт \(2 R_T \ge Q^2 \ge 1\). В пункте&#160;(3) перемножение однородных пятёрок в \(\mathbb {Q}(i,\sqrt{2})\) проверяется прямым раскрытием скобок. </p>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="ch-math-rotator-calculus.html" title="Дискретный ротатор \(\mathbb {Z}_{4Q}\), однородные проективные поля \(\mathbb {Q}(i,\sqrt{d-1})\) и анализ без делений"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-math-rotator-calculus.html" title="Дискретный ротатор \(\mathbb {Z}_{4Q}\), однородные проективные поля \(\mathbb {Q}(i,\sqrt{d-1})\) и анализ без делений"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0003.html" title="Замкнутая башня производных частного всех порядков \(D^n(f/g)\), многомерная кубатура Симпсона и когомологии де Рама"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

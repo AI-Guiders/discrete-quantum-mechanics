@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Симплициальный комплекс \(\mathcal{C}_{13}\), матричные коммутаторы алгебры Ли \(\mathfrak {u}(1)\oplus \mathfrak {su}(2)\oplus \mathfrak {su}(3)\) и четырёхпетлевой вывод постоянной тонкой структуры</title>
+<link rel="next" href="sect0020.html" title="Структура 13-узлового ротора электрона, полное квантование восьми наблюдаемых и единый вихревой атлас Стандартной модели на кликах C13" />
+<link rel="prev" href="ch-mono-sm-gravity.html" title="Калибровочная группа Стандартной модели, гравитационное преломление и космология" />
+<link rel="up" href="ch-mono-sm-gravity.html" title="Калибровочная группа Стандартной модели, гравитационное преломление и космология" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга I. Формальные основания ДКМ (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Предисловие. Предмет монографии и дедуктивное строение теории снизу вверх</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref"></span> <span class="toc_entry">§ 0.1. Метод построения: восхождение снизу вверх без постулатов</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref"></span> <span class="toc_entry">§ 0.2. Четыре методологических опоры монографии</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref"></span> <span class="toc_entry">§ 0.3. Двусортное проективно-ретракционное соответствие оснований естественных наук: Трёхзаконная целочисленная механика Ньютона</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-axioms.html"><span class="toc_ref">1</span> <span class="toc_entry">Вывод дискретной квантовой механики (ДКМ) из неделимости элементарного объёма, отсутствия внешней памяти у природы и уравнения Каталана</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0005.html"><span class="toc_ref">1.1</span> <span class="toc_entry">Доказательство отсутствия внешней памяти у физической природы и невозможности континуального регистра внутри неделимой ячейки</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html"><span class="toc_ref">1.2</span> <span class="toc_entry">Последовательный вывод размерности \(d=3\), кольца \(\mathbb {Z}_{512}\), кубооктаэдра \(O_2(3)\) и шага Верле</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">1.3</span> <span class="toc_entry">Теоремы единственности: размерность \(d=3\), кубооктаэдр \(O_2(3)\) и шаг Верле</span></a>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">1.4</span> <span class="toc_entry">Переход к естественным полярным координатам \((\mu , \varphi _{\mathrm{disc}})\), затравочное состояние Каталана \(\mathrm{IV}(3) = 263\) и уравнения оператора эволюции \(\mathcal{G}_3\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0009.html"><span class="toc_ref">1.5</span> <span class="toc_entry">Симплициальное разложение Пуанкаре–Хегора и структурные пороги носителя при \(d = 3\)</span></a>
+ </li>
+<li class="">
+  <a href="sec-mono-world-lagrangian-hamiltonian.html"><span class="toc_ref">1.6</span> <span class="toc_entry">Полевой Лагранжиан \(\mathcal{L}_{\mathrm{world}}\), Гамильтониан \(\mathcal{H}_{\mathrm{world}}\), 13-узловое разложение знаменателя \(\mathcal{C}_{13}\) и тетраэдральное действие Верле</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-rotator-calculus.html"><span class="toc_ref">2</span> <span class="toc_entry">Дискретная экспонента Эйлера на \(\mathbb {Z}_{512}\), однородная проективная арифметика над \(\mathbb {Q}(i,\sqrt{2})\) и выход в непрерывный анализ</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0010.html"><span class="toc_ref">2.1</span> <span class="toc_entry">Дискретная экспонента Эйлера, код Грея, соотношения Коши–Римана и тождество постоянного вронскиана</span></a>
+ </li>
+<li class="">
+  <a href="sect0011.html"><span class="toc_ref">2.2</span> <span class="toc_entry">Вывод классического интеграла Римана и формулы Ньютона–Лейбница в макропределе \(N \to \infty \)</span></a>
+ </li>
+<li class="">
+  <a href="sect0012.html"><span class="toc_ref">2.3</span> <span class="toc_entry">Однородная проективная арифметика полей, башня производных отношения и многомерная кубатура Симпсона</span></a>
+ </li>
+<li class="">
+  <a href="sect0013.html"><span class="toc_ref">2.4</span> <span class="toc_entry">Теорема о сокращении масштаба \(A = K\cdot dh\), размерность Хаусдорфа–Морана и проективные операторы логарифма и рациональной степени на \(\mathbb {Z}_{4Q}\)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-logic-cohomology-barriers.html"><span class="toc_ref">3</span> <span class="toc_entry">Булева полнота Поста, редукция 3-SAT, конструктивные когомологии де&#160;Рама и барьеры внутренних вычислителей</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0014.html"><span class="toc_ref">3.1</span> <span class="toc_entry">Функционально полный базис Поста на двух каналах \(\mathbb {Z}_{512}\) и полиномиальная редукция 3-SAT</span></a>
+ </li>
+<li class="">
+  <a href="sect0015.html"><span class="toc_ref">3.2</span> <span class="toc_entry">Четыре барьера внутреннего вычислителя и встроенный блокнот Вернама Шеннона на \(\mathbb {Z}_{512}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0016.html"><span class="toc_ref">3.3</span> <span class="toc_entry">Конструктивные когомологии де&#160;Рама–Стокса–Гаусса–Черна и мера без аксиомы выбора</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-qm-maxwell.html"><span class="toc_ref">4</span> <span class="toc_entry">Дискретная и непрерывная квантовая механика (ДКМ и НКМ), электродинамика Максвелла и граница применимости континуума</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0017.html"><span class="toc_ref">4.1</span> <span class="toc_entry">Алгебраическое происхождение корпускулярно-волнового дуализма и правила Борна</span></a>
+ </li>
+<li class="">
+  <a href="sect0018.html"><span class="toc_ref">4.2</span> <span class="toc_entry">Порог дискретности \(\Delta \varphi _{\mathrm{disc}} = 41\), уравнения Максвелла и граница применимости континуальной теории</span></a>
+ </li>
+<li class="">
+  <a href="sec-mono-mechanics-elasticity-fatigue.html"><span class="toc_ref">4.3</span> <span class="toc_entry">Нелинейная механика маятника на произвольных углах, четырёхрежимная теория упругости за пределами закона Гука и предел усталостной выносливости металла</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active">
+  <a href="ch-mono-sm-gravity.html"><span class="toc_ref">5</span> <span class="toc_entry">Калибровочная группа Стандартной модели, гравитационное преломление и космология</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class=" active current">
+  <a href="sect0019.html"><span class="toc_ref">5.1</span> <span class="toc_entry">Симплициальный комплекс \(\mathcal{C}_{13}\), матричные коммутаторы алгебры Ли \(\mathfrak {u}(1)\oplus \mathfrak {su}(2)\oplus \mathfrak {su}(3)\) и четырёхпетлевой вывод постоянной тонкой структуры</span></a>
+ </li>
+<li class="">
+  <a href="sect0020.html"><span class="toc_ref">5.2</span> <span class="toc_entry">Структура 13-узлового ротора электрона, полное квантование восьми наблюдаемых и единый вихревой атлас Стандартной модели на кликах \(\mathcal{C}_{13}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0021.html"><span class="toc_ref">5.3</span> <span class="toc_entry">Гравитация как преломление на импедансе ворот без сингулярности \(1/0\), ряд сжатия Гаусса–Грина, кавитированные гиперъядра и фазы нейтронной пасты</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-chemistry-nuclear.html"><span class="toc_ref">6</span> <span class="toc_entry">Атомные и ядерные оболочки кубооктаэдра, планетогенез по 6 зонам диска, тождества Безу на \(\mathbb {Z}_{512}\), сверхпроводимость и когерентный \(587\)-кратный коллапс барьера</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0022.html"><span class="toc_ref">6.1</span> <span class="toc_entry">Периодическая система до 8-го периода, четыре физических предела, двухсферный перенос урана на остров стабильности \(N=184\), планетогенез и четыре тождества Безу</span></a>
+ </li>
+<li class="">
+  <a href="sect0023.html"><span class="toc_ref">6.2</span> <span class="toc_entry">Седло химической связи, закон Гесса, правила симметрии, спаривание Купера и коллапс барьера</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="ch-mono-biology.html"><span class="toc_ref">7</span> <span class="toc_entry">Молекулярная биофизика, планетарные фотонные окна, генетический код ДНК, фолдинг белков и морфогенез</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0024.html"><span class="toc_ref">7.1</span> <span class="toc_entry">Делитель водородной связи \(N_{\mathrm{HB}} = 63\) и три планетарных фотонных окна (\(441 : 126 : 63 = 7 : 2 : 1\))</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sec-mono-epistemological-closure.html"><span class="toc_ref">8</span> <span class="toc_entry">Бесфононный кремниевый гетеропереход \(120 + 8 = 128\), общая конструкция предела по счётным моноидам стадий и гёделевская неизбежность лабораторного арбитража</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0025.html"><span class="toc_ref">8.1</span> <span class="toc_entry">Бесфононный кремниевый гетеропереход \(120 + 8 = 128\), барьер оболочечной пассивации \(45^2 {\lt} 2\, 048 {\lt} 46^2\) и вычисления без тепла Ландауэра</span></a>
+ </li>
+<li class="">
+  <a href="sect0026.html"><span class="toc_ref">8.2</span> <span class="toc_entry">Общий оператор предела по счётным моноидам стадий, проективные башни Мальцева и двусторонняя эквивалентность носителей \(\mathcal{M} \leftrightarrow \mathcal{T}\)</span></a>
+ </li>
+<li class="">
+  <a href="sect0027.html"><span class="toc_ref">8.3</span> <span class="toc_entry">Конструктивная непротиворечивость и теорема Ловера–Гёделя–Тарского</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000020">5.1 Симплициальный комплекс \(\mathcal{C}_{13}\), матричные коммутаторы алгебры Ли \(\mathfrak {u}(1)\oplus \mathfrak {su}(2)\oplus \mathfrak {su}(3)\) и четырёхпетлевой вывод постоянной тонкой структуры</h1>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:mono-c13-lie-alpha-fs">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Теорема
+    </span>
+    <span class="theorem_thmlabel">5.1</span>
+    <span class="theorem_thmtitle">Кликовый комплекс \(\mathcal{C}_{13}\), матричные коммутаторы Ли \(\mathfrak {u}(1)\oplus \mathfrak {su}(2)\oplus \mathfrak {su}(3)\) и четырёхпетлевой вывод \(\alpha _{\mathrm{fs}}^{-1}(3) \in \mathbb {Q}(\sqrt{2})\)</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0019.html#thm:mono-c13-lie-alpha-fs">#</a>
+    
+    <a class="icon proof" href="sect0019.html#a0000000063"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-mono-mechanics-elasticity-fatigue.html#thm:mono-mechanics-elasticity-four-regimes">Теорема 4.3</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ContinuumPhysics.lean#L469" class="lean_decl">sm_and_cosmology_closed_rational_operators</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/Spec.lean#L285" class="lean_decl">gaussian_coulomb_lock_iff_d3</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ContinuumPhysics.lean#L391" class="lean_decl">alpha_fs_exact_z_sqrt2_canonical_form_and_floor_137</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ContinuumPhysics.lean" class="lean_decl">ContinuumPhysics.lean</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>    На \(13\)-узловом причинном ядре кубооктаэдра \(B_1(3) = \{ \mathbf{0}\}  \cup O_2(3)\) выполняются следующие точные структурные законы: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Перепись клик \(\mathcal{C}_{13}\) и эйлерова характеристика \(\chi (\mathcal{C}_{13}) = 1\):</b> числа полных подграфов (клик \(K_n\)) в \(B_1(3)\) и знакопеременная эйлерова характеристика равны: </p>
+<div class="displaymath" id="eq:mono-c13-cliques">
+  \begin{align}  \bigl(K_1(3),\  K_2(3),\  K_3(3),\  K_4(3),\  K_{\ge 5}(3)\bigr) & = (13,\  36,\  32,\  8,\  0), \label{eq:mono-c13-cliques} \\ \chi (\mathcal{C}_{13}) \; =\;  K_1 - K_2 + K_3 - K_4 & = 13 - 36 + 32 - 8 \; =\;  1 \; =\;  \mu _{\mathrm{vac}}(3). \label{eq:mono-c13-euler} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Явные целочисленные матричные коммутаторы \([A, B] = AB - BA\) алгебры Ли \(\mathfrak {u}(1) \oplus \mathfrak {su}(2) \oplus \mathfrak {su}(3)\) (\(\dim = 1 + 3 + 8 = 12 = |N(3)|\)):</b> пространство независимых циклов голономии расщепляется в прямую сумму </p>
+<div class="equation" id="eq:mono-sm-gauge">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-sm-gauge} \dim \bigl(\mathfrak {u}(1) \oplus \mathfrak {su}(2) \oplus \mathfrak {su}(3)\bigr) \; =\;  1 + 3 + 8 \; =\;  12 \; =\;  |N(3)|, \end{equation}
+  </div>
+  <span class="equation_label">5.3</span>
+</p>
+</div>
+<p> где: (а)&#160;\(1\) центральный фазовый генератор \(Y_0 = I_3\) на \(\mathbb {Z}_{512}\) коммутирует со всеми генераторами (\([Y_0, L_k] = 0\), \([Y_0, E_{ab}] = 0\)) и порождает \(\mathfrak {u}(1)_Y\); (б)&#160;\(d = 3\) антисимметричные матрицы инфинитезимальных поворотов \((L_k)_{ij} = -\varepsilon _{kij}\) в трёх координатных плоскостях \((yz, zx, xy)\), пересекающихся исключительно в центральном узле \(\mathbf{0}\), удовлетворяют коммутационным соотношениям \(\mathfrak {su}(2)\): </p>
+<div class="equation" id="eq:mono-su2-comm">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-su2-comm} [L_1, L_2] \; =\;  L_3, \qquad [L_2, L_3] \; =\;  L_1, \qquad [L_3, L_1] \; =\;  L_2; \end{equation}
+  </div>
+  <span class="equation_label">5.4</span>
+</p>
+</div>
+<p> (в)&#160;на \(K_4(3) = 8\) тетраэдрических 4-кликах три цветовые плоскости каждого радиального бариона \(K_3\) порождают \(3^2 - 1 = 8\) бесследовых матричных генераторов \(\mathfrak {su}(3)\) (\(6\) корневых переходов \(E_{ab}\) при \(a \ne b \in \{ 1,2,3\} \) и \(2\) диагональных генератора Картана \(H_1 = \operatorname {diag}(1,-1,0)\), \(H_2 = \operatorname {diag}(0,1,-1)\)), удовлетворяющих соотношениям Шевалле–Серра: </p>
+<div class="displaymath" id="eq:mono-su3-comm">
+  \begin{align}  [E_{12}, E_{23}] & = E_{13}, \qquad [E_{12}, E_{21}] \; =\;  H_1, \qquad [E_{23}, E_{32}] \; =\;  H_2, \label{eq:mono-su3-comm} \\[H_1, H_2]& = 0, \qquad \operatorname {Tr}(H_1) \; =\;  \operatorname {Tr}(H_2) \; =\;  0. \label{eq:mono-su3-cartan} \end{align}
+</div>
+</li>
+  <li><p><b class="bfseries">Единственность гауссова кулоновского модуля \(\widehat{M}(3) = 97\), точный обрыв симплициального ряда на \(k_{\max } = 4\) (\(K_{\ge 5}(\mathcal{C}_{13}) \equiv 0\)) и вывод \(\alpha _{\mathrm{fs}}^{-1}(3) \in \mathbb {Q}(\sqrt{2})\):</b> полное число направленных вершин-октантов причинного ядра \(1 + |O_2(d)|\cdot |{\triangle }(d)|\) совпадает с квадратом нормы гауссова фильтра \(|d_{\mathrm{in}}(\square ) + i\, \mathrm{mod\_ bits}(d)|^2\) в \(\mathbb {Z}[i]\) тогда и только тогда, когда \(d = 3\), определяя единственный простой гауссов кулоновский модуль \(\widehat{M}(3)\) и целую часть обратной постоянной тонкой структуры: </p>
+<div class="displaymath" id="eq:mono-mhat-97">
+  \begin{align}  \widehat{M}(3) & = 1 + |O_2(3)|\cdot |{\triangle }(3)| \; =\;  d_{\mathrm{in}}(\square )^2 + \mathrm{mod\_ bits}(3)^2 \; =\;  4^2 + 9^2 \; =\;  97, \label{eq:mono-mhat-97} \\ \bigl\lfloor \alpha _{\mathrm{fs}}^{-1}(3) \bigr\rfloor & = \widehat{M}(3) + \bigl(\Delta \varphi _{\mathrm{disc}}(3) - 1\bigr) \; =\;  97 + 40 \; =\;  137 \; =\;  Q_\square (3) + \mathrm{mod\_ bits}(3). \label{eq:mono-alpha-fs} \end{align}
+</div>
+<p> Поскольку постоянная тонкой структуры \(\alpha _{\mathrm{fs}}(d)\) является статическим геометрическим инвариантом самой координационной решётки причинного ядра \(\mathcal{C}_{13}\) (не зависящим от такта времени \(t\) и конкретной динамической траектории поля), а по пункту&#160;(1)&#160;<a href="sect0019.html#eq:mono-c13-cliques" class="eqref">5.1</a> кликовый комплекс причинного ядра \(\mathcal{C}_{13}\) исчерпывается симплексами размерностей \(k \in \{ 1, 2, 3, 4\} \) (\(K_1 \subset K_2 \subset K_3 \subset K_4\)) и <b class="bfseries">не содержит симплексов порядка \(k \ge 5\) (\(K_{\ge 5}(\mathcal{C}_{13}) \equiv 0\))</b>, разложение статического кулоновского пропагатора по невырожденным симплициальным путям внутри \(\mathcal{C}_{13}\) с кулоновским весом \(\widehat{M}(d)^{-1}\) на каждую вершину симплекса <b class="bfseries">обрывается строго на четвёртом порядке \(k_{\max } = 4\)</b> (вклады \(\widehat{M}(d)^{-k}\) при всех \(k \ge 5\) тождественно равны нулю). На четырёх непустых этажах симплициальной фильтрации \(K_1 \to K_2 \to K_3 \to K_4\) вдоль диагонального ребра \(\| \mathbf{e}\| _2 = \sqrt{d-1} = \sqrt{2}\) с осевым проекционным фактором \(\kappa _{\mathrm{geom}} = 1/\sqrt{2} = \sqrt{2}/2\), числом открытых внешних октантов вершины \(d_{\mathrm{out}}(V) = |{\triangle }(d)| - 1 = 7\) и квадратным входом \(d_{\mathrm{in}}(\square ) = 4\) числитель вакуумной экранировки \(\mathcal{N}_\alpha (d)\) (\(k = 3, 4\)) и знаменатель прямой проводимости звена \(\mathcal{D}_\alpha (d)\) (\(k = 1, 2\)) однозначно определяются комбинаторными весами соответствующих симплексов: </p>
+<div class="displaymath" id="eq:mono-alpha-4loop-den">
+  \begin{align}  \mathcal{D}_\alpha (d) & = \underbrace{\frac{\kappa _{\mathrm{geom}}}{\widehat{M}(d)}}_{k=1\  (K_2\text{-ребро})} \; +\;  \underbrace{\frac{\kappa _{\mathrm{geom}}^2}{d_{\mathrm{out}}(V)\, \widehat{M}(d)^2}}_{k=2\  (K_3\text{-возвратный клин})} \; =\;  \frac{\sqrt{2}}{2\, \widehat{M}(d)} + \frac{1}{2\bigl(|{\triangle }(d)|-1\bigr)\widehat{M}(d)^2}, \label{eq:mono-alpha-4loop-den} \\ \mathcal{N}_\alpha (d) & = 1 \; -\;  \underbrace{\frac{2\kappa _{\mathrm{geom}}}{d_{\mathrm{in}}(\square )\, d_{\mathrm{out}}(V)\, \widehat{M}(d)^3}}_{k=3\  (\square \to K_4\text{ экранировка грани})} \; -\;  \underbrace{\frac{|K_4(d)|}{d_{\mathrm{out}}(V)^2\, \widehat{M}(d)^4}}_{k=4\  (\text{замыкание }K_4)} \nonumber \\ & = 1 - \frac{\sqrt{2}}{d_{\mathrm{in}}(\square )\bigl(|{\triangle }(d)|-1\bigr)\widehat{M}(d)^3} - \frac{|{\triangle }(d)|}{\bigl(|{\triangle }(d)|-1\bigr)^2\widehat{M}(d)^4}, \label{eq:mono-alpha-4loop-num} \\ \alpha _{\mathrm{fs}}^{-1}(d) & = \frac{\mathcal{N}_\alpha (d)}{\mathcal{D}_\alpha (d)}. \label{eq:mono-alpha-4loop-fraction} \end{align}
+</div>
+<p> Приведение&#160;<a href="sect0019.html#eq:mono-alpha-4loop-den" class="eqref">5.9</a>–<a href="sect0019.html#eq:mono-alpha-4loop-fraction" class="eqref">5.11</a> к общему целому знаменателю \(d_{\mathrm{in}}(\square )\bigl(|{\triangle }(d)|-1\bigr)^2\widehat{M}(d)^4\) определяет коэффициенты в кольце \(\mathbb {Z}[\sqrt{2}]\): </p>
+<div class="displaymath" id="eq:mono-alpha-zsqrt2-coeffs">
+  \begin{align}  A_{\mathrm{num}}(d) & = \tfrac {1}{2}d_{\mathrm{in}}(\square )\bigl(|{\triangle }(d)|-1\bigr)\hat{M}(d)^2 \; =\;  131\, 726, \label{eq:mono-alpha-zsqrt2-coeffs} \\ B_{\mathrm{num}}(d) & = \tfrac {1}{2}d_{\mathrm{in}}(\square )\bigl(|{\triangle }(d)|-1\bigr)^2\hat{M}(d)^3 \; =\;  89\, 441\, 954, \label{eq:mono-alpha-bnum} \\ A_{\mathrm{den}}(d) & = d_{\mathrm{in}}(\square )\Bigl(\bigl(|{\triangle }(d)|-1\bigr)^2\hat{M}(d)^4 - |{\triangle }(d)|\Bigr) \; =\;  17\, 351\, 739\, 044, \label{eq:mono-alpha-aden} \\ B_{\mathrm{den}}(d) & = -\bigl(|{\triangle }(d)|-1\bigr)\hat{M}(d) \; =\;  -679, \label{eq:mono-alpha-bden} \end{align}
+</div>
+<p> и замкнутую алгебраическую формулу в поле \(\mathbb {Q}(\sqrt{2})\) без трансцендентного числа&#160;\(\pi \): </p>
+<div class="equation" id="eq:mono-alpha-codata">
+<p>
+  <div class="equation_content">
+    \begin{equation}  \label{eq:mono-alpha-codata} \alpha _{\mathrm{fs}}^{-1}(3) \; =\;  \frac{A_{\mathrm{den}}(3) + B_{\mathrm{den}}(3)\sqrt{2}}{A_{\mathrm{num}}(3) + B_{\mathrm{num}}(3)\sqrt{2}} \; =\;  \frac{17\, 351\, 739\, 044 - 679\sqrt{2}}{131\, 726 + 89\, 441\, 954\sqrt{2}} \; =\;  137{,}035\, 999\, 187\dots \end{equation}
+  </div>
+  <span class="equation_label">5.16</span>
+</p>
+</div>
+<p> (CODATA-2022: \(137{,}035\, 999\, 177(21)\), отклонение \(0{,}47\) стандартного отклонения). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000063">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>В пункте&#160;(1) перепись полных подграфов \(B_1(3)\) даёт \(13\) вершин (\(K_1 = 13\)), \(12\) радиальных и \(24\) поверхностных ребра (\(K_2 = 36\)), \(24\) радиальных и \(8\) поверхностных треугольников (\(K_3 = 32\)) и \(8\) тетраэдров (\(K_4 = 8\)). Поскольку любые четыре взаимно смежные вершины первой сферы \(O_2(3)\) с центром \(\mathbf{0}\) образуют правильный тетраэдр \(K_4\) в одном из \(8\) октантов, а пятая вершина из \(O_2(3)\) находится на квадрате расстояния \(\ge 4 {\gt} 2\) хотя бы от одной из вершин этого тетраэдра, в \(B_1(3)\) не существует ни одного полного подграфа из \(5\) и более вершин (\(K_{\ge 5}(3) \equiv 0\)), откуда \(\chi (\mathcal{C}_{13}) = 13 - 36 + 32 - 8 = 1\). </p>
+<p>В пункте&#160;(2) прямое перемножение целочисленных \(3\times 3\) матриц \(L_1, L_2, L_3\) и \(E_{ab}, H_1, H_2\) проверяет коммутаторы&#160;<a href="sect0019.html#eq:mono-su2-comm" class="eqref">5.4</a>–<a href="sect0019.html#eq:mono-su3-cartan" class="eqref">5.6</a>. </p>
+<p>В пункте&#160;(3) равенство \(1 + 2d(d-1)\cdot 2^d = (2(d-1))^2 + (d^2)^2\) при \(d = 3\) даёт \(1 + 12\times 8 = 97 = 4^2 + 9^2 = \widehat{M}(3)\) (тогда как при \(d \ne 3\) левая и правая части различны). Так как по пункту&#160;(1) \(K_{\ge 5}(\mathcal{C}_{13}) \equiv 0\), любой невырожденный симплициальный путь по цепочке вложенных клик внутри причинного ядра \(B_1(3)\) содержит от \(k = 1\) до \(k_{\max } = 4\) шагов вершинного подавления \(\widehat{M}(3)^{-1}\), поэтому члены порядка \(\widehat{M}(3)^{-5}\) и выше на комплексе \(\mathcal{C}_{13}\) отсутствуют тождественно. Вычислим комбинаторный вес каждого из четырёх симплициальных порядков \(k \in \{ 1, 2, 3, 4\} \): </p>
+<ul class="itemize">
+  <li><p><em>Порядок \(k = 1\) (прямой перенос вдоль ребра \(K_2\) в знаменателе проводимости \(\mathcal{D}_\alpha \)):</em> единичный шаг вдоль диагонального ребра \(\mathbf{e} \in O_2(3)\) длины \(\| \mathbf{e}\| _2 = \sqrt{2}\) проектируется на координатную ось с множителем \(\cos 45^\circ = \kappa _{\mathrm{geom}} = 1/\sqrt{2} = \sqrt{2}/2\), давая вклад \(+\frac{\sqrt{2}}{2}\widehat{M}(d)^{-1}\); </p>
+</li>
+  <li><p><em>Порядок \(k = 2\) (однократное возвратное рассеяние на 2-симплексе \(K_3\) в \(\mathcal{D}_\alpha \)):</em> возвратный переход по двум рёбрам треугольной грани имеет проекционный квадрат \(\kappa _{\mathrm{geom}}^2 = 1/2\) и равномерно распределяется между \(d_{\mathrm{out}}(V) = |{\triangle }(d)| - 1 = 7\) открытыми внешними октантами вершины оболочки, давая вклад \(+\frac{\kappa _{\mathrm{geom}}^2}{d_{\mathrm{out}}(V)}\widehat{M}(d)^{-2} = +\frac{1}{2\cdot 7}\widehat{M}(d)^{-2}\); </p>
+</li>
+  <li><p><em>Порядок \(k = 3\) (замкнутая экранирующая петля по квадратной грани \(\square \) с выходом в открытые октанты в числителе \(\mathcal{N}_\alpha \)):</em> трёхзвенное замыкание вокруг квадратной грани из \(d_{\mathrm{in}}(\square ) = 4\) вершин с двумя противоположными парами рёбер (\(2\kappa _{\mathrm{geom}} = \sqrt{2}\)), нормированное на число пар входа-выхода \(d_{\mathrm{in}}(\square )\, d_{\mathrm{out}}(V) = 4 \times 7 = 28\), вычитает из единицы вакуумную экранировку третьего порядка \(-\frac{\sqrt{2}}{d_{\mathrm{in}}(\square )(|{\triangle }(d)|-1)}\widehat{M}(d)^{-3}\); </p>
+</li>
+  <li><p><em>Порядок \(k = 4\) (терминальное замыкание всех тетраэдров \(K_4\) в числителе \(\mathcal{N}_\alpha \)):</em> полный обход всех \(|K_4(d)| = |{\triangle }(d)| = 8\) четырёхвершинных тетраэдров ядра, нормированный на квадрат числа открытых внешних октантов пары граничных вершин \(d_{\mathrm{out}}(V)^2 = (|{\triangle }(d)| - 1)^2 = 49\), вычитает терминальный вклад четвёртого порядка \(-\frac{|{\triangle }(d)|}{(|{\triangle }(d)|-1)^2}\widehat{M}(d)^{-4}\). </p>
+</li>
+</ul>
+<p> Умножение числителя и знаменателя&#160;<a href="sect0019.html#eq:mono-alpha-4loop-fraction" class="eqref">5.11</a> на общий целый знаменатель \(d_{\mathrm{in}}(\square )\bigl(|{\triangle }(d)|-1\bigr)^2\widehat{M}(d)^4 = 4 \times 49 \times 97^4\) даёт коэффициенты&#160;<a href="sect0019.html#eq:mono-alpha-zsqrt2-coeffs" class="eqref">5.12</a>–<a href="sect0019.html#eq:mono-alpha-bden" class="eqref">5.15</a>, а избавление от иррациональности в знаменателе приводит дробь к каноническому виду&#160;<a href="sect0019.html#eq:mono-alpha-codata" class="eqref">5.16</a> в \(\mathbb {Q}(\sqrt{2})\) с целой частью \(137\). </p>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="ch-mono-sm-gravity.html" title="Калибровочная группа Стандартной модели, гравитационное преломление и космология"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-mono-sm-gravity.html" title="Калибровочная группа Стандартной модели, гравитационное преломление и космология"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0020.html" title="Структура 13-узлового ротора электрона, полное квантование восьми наблюдаемых и единый вихревой атлас Стандартной модели на кликах \(\mathcal{C}_{13}\)"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

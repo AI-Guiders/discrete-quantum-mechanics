@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Адиабатический двухтактовый регистр Верле и сводная теорема разрешения семи классических парадоксов</title>
+<link rel="next" href="ch-computational-laboratory.html" title="Вычислительная лаборатория серии" />
+<link rel="prev" href="ch-applied-reversible-computing-and-paradoxes.html" title="Обратимая вычислительная техника без теплового предела Ландауэра (A13) и разрешение фундаментальных парадоксов" />
+<link rel="up" href="ch-applied-reversible-computing-and-paradoxes.html" title="Обратимая вычислительная техника без теплового предела Ландауэра (A13) и разрешение фундаментальных парадоксов" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Книга III. Инженерный справочник (Lean 4 Blueprint)</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">Введение. Инженерная ветвь единого Естествознания: Трёхзаконная целочисленная механика Ньютона и пять порогов кольца \(\mathbb {Z}_{512}\)</span></a>
+ </li>
+<li class="">
+  <a href="ch-eng-electrical-engineering.html"><span class="toc_ref">1</span> <span class="toc_entry">Теоретическая электротехника фазовой эстафеты на ГЦК-кубооктаэдрах (\(V=\mathcal{C}_3,\  I=\mathcal{S}_3\))</span></a>
+ </li>
+<li class="">
+  <a href="ch-eng-silicon-architecture.html"><span class="toc_ref">2</span> <span class="toc_entry">Физическая реализация вычислений без тепла Ландауэра и кремниевая архитектура</span></a>
+ </li>
+<li class=" active">
+  <a href="sect0002.html"><span class="toc_ref">1</span> <span class="toc_entry">Прикладная механика кубооктаэдра, фазовое согласование импеданса и голономные технологии</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="ch-applied-scale-invariance-and-bounds.html"><span class="toc_ref">3</span> <span class="toc_entry">Масштабная инвариантность кубооктаэдра \(O_2\): что физически разрешено и что запрещено законами сохранения</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-coherent-barrier-collapse.html"><span class="toc_ref">4</span> <span class="toc_entry">Когерентное схлопывание импеданса барьера в 12-лучевом кубооктаэдре: решёточный синтез против теплового нагрева</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-phase-ratchet-and-vortex-battery.html"><span class="toc_ref">5</span> <span class="toc_entry">Квантовый фазовый храповик на доменной стенке и топологический аккумулятор \(B_f = 512\, n_f\)</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-tomography-and-planetary-cores.html"><span class="toc_ref">6</span> <span class="toc_entry">Четырёхканальная голономная томография сред и фазовое геодинамо ядер планет</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-chemical-reactions-catalysis.html"><span class="toc_ref">7</span> <span class="toc_entry">Аналитические операторы химических реакций, седловая точка переходного состояния \(|A^\ddagger |=128\), селективность Вудворда–Хоффмана и гетерогенный катализ на кубооктаэдре \(O_2\)</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-c0-lossless-transmission.html"><span class="toc_ref">8</span> <span class="toc_entry">Практическое применение тактовой скорости звена \(c_0 = \kappa (d)^{-1}c\), баллистическая передача энергии и информации без потерь и инкапсулированный автомат</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-materials-cad-superconductivity.html"><span class="toc_ref">9</span> <span class="toc_entry">Генеративное материаловедение, куперовский возврат \(2e\) на полупериоде противофазы и конструирование функциональных сплавов и сверхпроводников</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-bio-cad-therapy.html"><span class="toc_ref">10</span> <span class="toc_entry">Прикладная биоинженерия (<em>Bio-CAD</em>), сквозной компилятор ДНК и терапевтическое управление клеточной средой</span></a>
+ </li>
+<li class=" active">
+  <a href="ch-applied-reversible-computing-and-paradoxes.html"><span class="toc_ref">11</span> <span class="toc_entry">Обратимая вычислительная техника без теплового предела Ландауэра (\(A_{13}\)) и разрешение фундаментальных парадоксов</span></a>
+ </li>
+<li class="">
+  <a href="ch-computational-laboratory.html"><span class="toc_ref">12</span> <span class="toc_entry">Вычислительная лаборатория серии</span></a>
+ </li>
+<li class="">
+  <a href="ch-measurement-processing.html"><span class="toc_ref">13</span> <span class="toc_entry">Обработка результатов измерений</span></a>
+ </li>
+<li class="">
+  <a href="ch-applied-critical-experiments.html"><span class="toc_ref">14</span> <span class="toc_entry">Критические эксперименты и инженерные гейты верификации (серия CE-RD)</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="sec:applied-landauer-and-paradoxes">11.1 Адиабатический двухтактовый регистр Верле и сводная теорема разрешения семи классических парадоксов</h1>
+
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:applied-landauer-and-seven-paradoxes">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Теорема
+    </span>
+    <span class="theorem_thmlabel">11.1</span>
+    <span class="theorem_thmtitle">Оператор обратимых вычислений с нулевым тепловыделением Ландауэра и формальное разрешение семи классических парадоксов</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sec-applied-landauer-and-paradoxes.html#thm:applied-landauer-and-seven-paradoxes">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sec-applied-therapeutic-redifferentiation.html#thm:applied-bio-cad-and-therapy">Теорема 10.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L299" class="lean_decl">reversible_computing_zero_landauer_heat_and_paradox_resolutions_operator</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/UnifiedOperators.lean" class="lean_decl">UnifiedOperators.lean</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L48" class="lean_decl">diracBraKetOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L62" class="lean_decl">bornClickCountOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L65" class="lean_decl">checkBornRuleAllAmplitudesBool</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L75" class="lean_decl">clause3SatDefectOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L78" class="lean_decl">clause3SatVortexQuantumOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L83" class="lean_decl">clause3AndQuantumOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L89" class="lean_decl">xor4ClausesLinearGradientSumOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L97" class="lean_decl">count3SatZeroQuotientOctantsOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L275" class="lean_decl">check3SatOctantTruthTableBool</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L109" class="lean_decl">cuboctCausalConeVolumeOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L113" class="lean_decl">cuboctCausalConeCubicPolyOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L120" class="lean_decl">localInversionPreimageBranchingOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L127" class="lean_decl">carrierSecondRingExponentOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L130" class="lean_decl">carrierSecondRationalFactorOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L133" class="lean_decl">cosmoClockPrefactorRatOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L144" class="lean_decl">zPlatinumOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L145" class="lean_decl">zGoldOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L146" class="lean_decl">nGold197NeutronsOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L147" class="lean_decl">aGold197MassOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L148" class="lean_decl">zMercuryOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L149" class="lean_decl">zThalliumOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L157" class="lean_decl">pauliSingletPartnerOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L160" class="lean_decl">teleportBellSyndromeOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L163" class="lean_decl">teleportReconstructPhaseOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L166" class="lean_decl">teleportTwoChamberNormSqOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L169" class="lean_decl">stasisToWriteImpedanceContrastOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/PlanetogenesisAllometry.lean#L45" class="lean_decl">zBoronOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L177" class="lean_decl">nBoron11NeutronsOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L178" class="lean_decl">aBoron11MassOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L179" class="lean_decl">zHeliumAlphaOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L180" class="lean_decl">aHeliumAlphaMassOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L185" class="lean_decl">gravImpedanceDipoleDiffOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L198" class="lean_decl">zWaterOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L199" class="lean_decl">zAmmoniaOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L200" class="lean_decl">zMethaneOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L202" class="lean_decl">zSodiumChlorideOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L203" class="lean_decl">zUreaOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L204" class="lean_decl">zGlycineOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L206" class="lean_decl">zAlanineOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L208" class="lean_decl">zVitaminCOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L210" class="lean_decl">zGlucoseOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L212" class="lean_decl">glucoseAtomCountOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L214" class="lean_decl">zPalmiticLipidOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/ReversibleComputing.lean#L216" class="lean_decl">zAtpBioEnergyOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HardwarePhotovoltaics.lean#L13" class="lean_decl">demonMemoryBitCapacityOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HardwarePhotovoltaics.lean#L17" class="lean_decl">universeCausalConeBitBudgetOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HardwarePhotovoltaics.lean#L22" class="lean_decl">tLayerHiddenMicrostatesPerCellOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HardwarePhotovoltaics.lean#L26" class="lean_decl">maxwellDemonRayPhaseOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HardwarePhotovoltaics.lean#L30" class="lean_decl">maxwellDemonTotalExtractedCurrentOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HardwarePhotovoltaics.lean#L146" class="lean_decl">laplace_demon_impossibility_and_geometric_maxwell_demon_operator</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HardwarePhotovoltaics.lean#L34" class="lean_decl">grayButterflyRotatorPairOp</a></li>
+          
+          <li><a href="https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/HardwarePhotovoltaics.lean#L46" class="lean_decl">checkGrayButterflyRotatorAll512Bool</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>    Для любого \(d\in \mathbb {N}\) операторный закон Каталана \(\mathrm{CatalanLaw}(P,d)\) эквивалентен системе следующих операторных разрешений: </p>
+<ol class="enumerate">
+  <li><p><b class="bfseries">Тепловой предел Ландауэра в вычислительной технике (\(A_{13}\)):</b> поскольку двухтактовый шаг чехарды \(\mathrm{polarStepCell}(d,\cdot )\) обладает точным обратным оператором без стека истории \(\mathrm{polarReverseCell}(d,\cdot )\) (отсутствие стирания бит \(2\to 1\)), в баллистическом канале с \(\Phi _{\mathrm{scatter}}=0\) число рассеянных тепловых квантов на логический такт строго равно нулю (\(\mathrm{energyQuantumOperator}(d,0) = 0\)). </p>
+</li>
+  <li><p><b class="bfseries">Парадокс стрелы Зенона и квантовый эффект Зенона:</b> полное динамическое фазовое пространство ячейки имеет удвоенную битовую ёмкость \(\mathrm{twoTickPhaseSpaceBitBudgetOp}(d) = \mathrm{c0OverCSqOp}(d)\cdot \mathrm{singleTickSpinorBitBudgetOp}(d)\), хранящую скорость \(\varphi (t)-\varphi (t-1)\) внутри двухтактовой пары, тогда как частые подпороговые измерения \(|\Phi _{\mathrm{probe}}| {\lt} \Delta \varphi _{\mathrm{disc}}(d)\) обнуляются оператором \(\mathrm{heisenbergDeadbandOp}\), замораживая квантовый переход. </p>
+</li>
+  <li><p><b class="bfseries">Парадокс обратимости Лошмидта (стрела времени при биективном микрозаконе&#160;\(g\)):</b> при старте из состояния покоя \(P(0)=Q(0)\) на диагонали размерности \(\mathrm{singleTickSpinorBitBudgetOp}(d)\) макропроектор прибора \(\mathcal{B}_N\) склеивает \(K_P(d)\) субквантовых состояний мантиссы (Уровень&#160;I) и \(\mathrm{heisenbergEquivClassSizeOp}(d) = \mathrm{c0OverCSqOp}(d)\cdot \Delta \varphi _{\mathrm{disc}}(d)-\mu _{\mathrm{vac}}(d) = d^{d_{\mathrm{in}}(\square )} = (\mathrm{modBits}(d))^2\) подпороговых фазовых состояний каждой ячейки (Уровень&#160;II, причём \(\mathrm{cuboctShellSizeOp}(d,d_{\mathrm{in}}(\square )) = \mathrm{c0OverCSqOp}(d)\cdot \mathrm{heisenbergEquivClassSizeOp}(d)\)) в один макрокласс нулевого рассеяния. </p>
+</li>
+  <li><p><b class="bfseries">Ультрафиолетовая катастрофа (Рэлея–Джинса и петлевых расходимостей КТП):</b> фазовый импульс ограничен противофазным потолком \(|\Phi |\le \Phi _{\mathrm{Pauli}}(d)\), число квантов энергии за такт ограничено числом квадратных граней \(\mathrm{energyQuantumOperator}(d,\Phi _{\mathrm{Pauli}}(d)) = |\square (d)|\), а скачок функции Грина в центре решётки конечен и равен \(\mathrm{centralGreenPotentialJumpOp}(d) = d\). </p>
+</li>
+  <li><p><b class="bfseries">Парадокс нелокальности ЭПР / Белла и проблема космологического горизонта:</b> квадрат отношения тактовой скорости звена \(c_0\) к скорости света \(c\) равен \(\mathrm{c0OverCSqOp}(d)\), порождая геометрическую прогрессию границ Белла–Цирельсона \(\mathrm{tsirelsonQmSqOp}(d) = \mathrm{c0OverCSqOp}(d)\cdot \mathrm{bellLhvSqOp}(d)\) при строгом равенстве нулю нечётного тока переноса энергии на синглетном замке (\(\mathcal{S}_d(\Phi _{\mathrm{Pauli}}(d)) = 0\)). </p>
+</li>
+  <li><p><b class="bfseries">Парадокс гравитационной сингулярности, информационный парадокс Хокинга и проблема тёмной материи:</b> на противофазном потолке \(\mu =K_P(d),\  \Delta \varphi =\Phi _{\mathrm{Pauli}}(d)\) знаменатель импеданса строго положителен (\(\mathrm{shellGateDenomOp}(d,K_P(d),\Phi _{\mathrm{Pauli}}(d)) = \varepsilon (d) {\gt} 0\)), тёмный остаток тождественно равен нулю (\(D_{\mathrm{dark}}\equiv 0\)), а биективность \(\mathrm{polarReverseCell}\) сохраняет информацию побитово. </p>
+</li>
+  <li><p><b class="bfseries">Парадокс фолдинга Левинталя и космобиологический парадокс Ферми:</b> ко-трансляционная укладка на \(d\) пазах тетраэдра&#160;\(K_4\) и обратный компилятор ДНК работают за линейное время \(O(L)\in \mathrm{P}\), а фотонные резонансы трёх планетарных окон жизни \(m_{\mathrm{env}}\in \{ -\mu _{\mathrm{vac}}(d),0,+\mu _{\mathrm{vac}}(d)\} \) квантованы в точном отношении \(\mathrm{universalPhotonStepOp}(d,m_{\mathrm{env}}) = \{ \mathrm{zNitrogenOp}(d),\, \mathrm{c0OverCSqOp}(d),\, \mu _{\mathrm{vac}}(d)\} \cdot \mathrm{hBondDivisorOp}(d)\). </p>
+</li>
+  <li><p><b class="bfseries">Корпускулярно-волновой дуализм, аппарат Дирака–Гейзенберга–Фейнмана и детерминированный вывод правила Борна \(P(\mu )=\mu ^2/N_{\mathrm{ring}}(d)\):</b> в евклидовом делении разности фаз с остатком на кольце \(\mathbb {Z}_{N_{\mathrm{ring}}(d)}\), </p>
+<div class="displaymath" id="a0000000015">
+  \[  (d_0\varphi )_{xy} \; =\;  N_{\mathrm{ring}}(d)\, k_{xy} + A_{xy},\qquad k_{xy}\in \{ -1,0,+1\} ,\quad A_{xy}\in \bigl(-\Phi _{\mathrm{Pauli}}(d),\, \Phi _{\mathrm{Pauli}}(d)\bigr],  \]
+</div>
+<p> <b class="bfseries">волна</b> есть остаток \(A_{xy} = \mathrm{edgeConnection}(d,\Delta \varphi )\), который при \(|\Delta \varphi |\le \Phi _{\mathrm{Pauli}}(d)\) (\(k_{xy}=0\)) свободно распределяется и интерферирует по \(12\)&#160;поворотным рёбрам кубооктаэдра со сферическим фронтом второго порядка \(\sum _{j=1}^{12}(\mathbf{k}\cdot e_j)^2 = 8\, |\mathbf{k}|^2\), тогда как <b class="bfseries">корпускула</b> есть неполное частное \(k_{xy} = \mathrm{branchQuotient}(d,\Delta \varphi )\in \mathbb {Z}\) (и целочисленная намотка плакеты \(n_f = -\sum _{e\in \partial f} k_e\in \mathbb {Z}\)), которое по правилам целочисленной арифметики не может разделиться на дробные части и срабатывает исключительно как неделимый целый квант \(\pm \mu _{\mathrm{vac}}(d) = \pm 1\). При этом весь операторный аппарат квантовой механики реализуется в точных целых числах: </p>
+<ul class="itemize">
+  <li><p><em>Бра-кет скалярное произведение Дирака</em>: \(\langle \psi _1|\psi _2\rangle _d = \mu _1\mu _2\bigl(\mathcal{C}_d(\varphi _2-\varphi _1),\, \mathcal{S}_d(\varphi _2-\varphi _1)\bigr)\in \mathbb {Z}^2\), где чётная компонента \(\mathcal{C}_d(\Delta \varphi )\) задаёт амплитуду интерференции (\(+Q_\square (d)\) в фазе \(\Delta \varphi =0\), \(0\) при ортогональном четверть-обороте \(\Delta \varphi =Q_\square (d)\), \(-Q_\square (d)\) при противофазном гашении \(\Delta \varphi =\Phi _{\mathrm{Pauli}}(d)\) по тождеству Эйлера \(e^{i\pi }+1=0\)), а нечётная компонента \(\mathcal{S}_d(\Delta \varphi )\) — ток вероятности; </p>
+</li>
+  <li><p><em>Канонический коммутатор Гейзенберга</em> \([\hat{\varphi },\hat{p}_\varphi ]=i\hbar \): тождественное постоянство разностного вронскиана \(\langle i\mathcal{E}_d(\varphi ),\Delta \mathcal{E}_d(\varphi )\rangle = \mathcal{W}_d(\varphi )\equiv Q_\square (d)=128\) во всех \(512\)&#160;точках кольца; </p>
+</li>
+  <li><p><em>Интеграл по траекториям Фейнмана</em> \(\sum _\gamma \mathcal{E}_d(\Phi [\gamma ])\): конечная сумма по путям из \(12\)&#160;рёбер кубооктаэдра, в которой \(480\) осциллирующих вычетов взаимно аннигилируют за счёт полупериода \(+\Phi _{\mathrm{Pauli}}(d)\), а \(32\) траектории стационарной фазы (\(\varphi ^2\equiv K_P(d)=64\pmod{512}\)) дают точный конечный интеграл Френеля \(2048\); </p>
+</li>
+  <li><p><em>Детерминированный вывод правила Борна \(P(\mu ) = |\psi |^2/N_{\mathrm{ring}}(d)\) без вероятностного постулата коллапса</em>: при приходе волны амплитуды \(\mu \in [0,2|{\triangle }(d)|]\) с квадратичным фазовым импульсом \(\Phi _{\mathrm{wave}}=\mu ^2\le \Phi _{\mathrm{Pauli}}(d)\) на узел детектора с неизвестной макронаблюдателю внутренней фазой фона \(\varphi _{\mathrm{bg}}\in \mathbb {Z}_{N_{\mathrm{ring}}(d)}\) число фаз фона из \(N_{\mathrm{ring}}(d)=512\), при которых детерминированное деление с остатком перебрасывает единицу в целое частное (\(\mathrm{branchQuotient}(d,\mathrm{wrap}_d(\varphi _{\mathrm{bg}})+\mu ^2)=1\), щелчок детектора), <b class="bfseries">тождественно равно квадрату амплитуды \(\mu ^2 = |\psi |^2\)</b>: </p>
+<div class="displaymath" id="a0000000016">
+  \[  \mathrm{bornClickCountOp}(d,\mu ) \; :=\;  \# \bigl\{ \varphi _{\mathrm{bg}}\in \mathbb {Z}_{N_{\mathrm{ring}}(d)} \; \big|\;  \mathrm{branchQuotient}\bigl(d,\, \mathrm{wrap}_d(\varphi _{\mathrm{bg}})+\mu ^2\bigr)=1\bigr\}  \; \equiv \;  \mu ^2 \qquad \bigl(0\le \mu \le 16\bigr);  \]
+</div>
+</li>
+  <li><p><em>Тьюринг-полнота клеточного автомата (\(\text{МТ}\simeq \text{КА}\)), функционально полный базис Поста {<b class="bfseries">NOT</b>, <b class="bfseries">XOR</b>, <b class="bfseries">OR</b>, <b class="bfseries">AND</b>} на двух каналах кольца \(\mathbb {Z}_{N_{\mathrm{ring}}(d)}\) и алгебраический барьер \(\mathbf{P}\ne \mathbf{NP}\)</em>: в силу полиномиальной эквивалентности машины Тьюринга и клеточного автомата (\(\mathbf{P}_{\mathrm{TM}}\equiv \mathbf{P}_{\mathrm{CA}}\), фон Нейман, Лэнгтон, Кук–Левин) всякое полиномиальное вычисление разлагается по функционально полному булеву базису {<b class="bfseries">NOT</b>, <b class="bfseries">XOR</b>, <b class="bfseries">OR</b>, <b class="bfseries">AND</b>}, который на полюсах \(\psi _k\in \{ 0,\Phi _{\mathrm{Pauli}}(d)\} \) исчерпывается двумя каналами треугольных граней кубооктаэдра: (1)&#160;<em>Канал&#160;1:</em> \(\mathcal{C}_d(\psi +\Phi _{\mathrm{Pauli}}(d))=-\mathcal{C}_d(\psi )\) и \(\mathcal{C}_d(\psi _1+\psi _2+\psi _3)\, Q_\square (d)^2 \equiv \mathcal{C}_d(\psi _1)\mathcal{C}_d(\psi _2)\mathcal{C}_d(\psi _3)\), где \(\Phi _{\mathrm{Pauli}}(d)+\Phi _{\mathrm{Pauli}}(d)\equiv 0\pmod{N_{\mathrm{ring}}(d)}\) телескопически сокращает общие вершины циклов; (2)&#160;<em>Канал&#160;2 (нелинейный пороговый перенос — <b class="bfseries">OR</b> и <b class="bfseries">AND</b>, сложение проекций после ротатора с делением на \(N_{\mathrm{ring}}(d)=512\)):</em> \(q_{\mathrm{OR}} = \mathrm{tdiv}(Q_\square (d)-(\mathcal{C}_d(\psi _1)+\mathcal{C}_d(\psi _2)+\mathcal{C}_d(\psi _3)),N_{\mathrm{ring}}(d))\) и \(q_{\mathrm{AND}} = \mathrm{tdiv}(Q_\square (d)+(\mathcal{C}_d(\psi _1)+\mathcal{C}_d(\psi _2)+\mathcal{C}_d(\psi _3)),N_{\mathrm{ring}}(d))\). Разделение прямой проверки (\(\mathbf{NP}\)) и обращения (\(\mathbf{P}\)) определяется тремя формально верифицированными замками между Каналом&#160;1 и Каналом&#160;2: </p>
+<ol class="enumerate">
+  <li><p><em>Неинъективная склейка остатка \(7\to 1\) в Канале&#160;2:</em> в прямом ходе деление \(\mathrm{tdiv}(\Delta _{\mathrm{3SAT}},N_{\mathrm{ring}}(d))\) стирает волновой остаток \(r\in \{ -\Phi _{\mathrm{Pauli}},0,+\Phi _{\mathrm{Pauli}}\} \) и склеивает \(\mathrm{count3SatZeroQuotientOctantsOp}(d) = 2^d-1 = 7\) выполняющих октантов в один выход \(q_{\mathrm{OR}}=0\) (ветвление обратного прообраза \(1\to 7\) на каждой грани); </p>
+</li>
+  <li><p><em>Зануление градиента Канала&#160;2 на циклах чётности Канала&#160;1:</em> на \(4\)&#160;скобках уравнения чётности <b class="bfseries">XOR</b> сумма линейных проекций \(\mathrm{xor4ClausesLinearGradientSumOp}(d,\psi _1,\psi _2,\psi _3)\equiv 0\) тождественно обращается в нуль во всех \(8\)&#160;октантах, уравнивая удерживающий импеданс вершин \(D(v_1)=D(v_2)=D(v_3)\) и обнуляя одноузловой снос Ляпунова (\(p=1/2\), тогда как на асимметричных 3D-комплексах природы \(D(v_{\mathrm{correct}}){\gt}D(v^*)\) обеспечивает \(p{\gt}1/2\) и линейную сходимость фолдинга \(O(L)\in \mathbf{P}\)); </p>
+</li>
+  <li><p><em>Некоммутативность Канала&#160;1 и Канала&#160;2 на каскадах переноса:</em> ротатор и деление на \(N_{\mathrm{ring}}(d)\) недистрибутивны относительно сложения фаз (\(\mathcal{C}_d(\psi _1+\psi _2)\ne \mathcal{C}_d(\psi _1)+\mathcal{C}_d(\psi _2)\)), вследствие чего телескопическое сокращение фаз Канала&#160;1 не коммутирует с пороговым частным \(q_{\mathrm{AND}}\) Канала&#160;2 и удваивает алгебраическую степень над \(\mathbb {F}_2\) на каждом каскаде переноса; </p>
+</li>
+  <li><p><em>Изоморфизм неразрешимости локального обращения времени («машины времени» на \(T\) тактов назад) и одноточечной обратной задачи подземного рассеяния на глубину \(T\) слоёв</em>: в силу зазора Каталана \(\mathrm{catalanDefect}(d) = d^2-2^d = 1 = \mu _{\mathrm{vac}}(d)\) тактовый регистр \(\tau \mapsto \tau +1\) перезаписывает состояние узла однонаправленно (исключая замкнутые времениподобные кривые), а задача локального обращения состояния одного узла \(\mathbf{x}_0\) на \(T\) шагов назад (\(\tau _0\mapsto \tau _0-T\)) математически тождественна одноточечной обратной задаче геофизического рассеяния под узлом \(\mathbf{x}_0\) на глубину \(T\) слоёв: (1)&#160;обратный конус кубооктаэдра на расстоянии \(T\) имеет поверхностную сферу \(\mathrm{cuboctShellSizeOp}(d,T) = 10T^2+2\) и объём \(\mathcal{V}_{O_2}(d,T) = \mathrm{cuboctCausalConeVolumeOp}(d,T)\), удовлетворяющий замкнутому кубическому закону \(3\, \mathcal{V}_{O_2}(3,T) = 10T^3+15T^2+11T+3\) (\(\mathcal{V}_{O_2}(3,3)=147=\mathrm{cuboctBallOp}(3)\)), что создаёт квадратичный дефицит граничных данных \((10T^2+2)\to 1\) на каждом слое; (2)&#160;склейка остатка \(7\to 1\) в Канале&#160;2 порождает экспоненциальное ветвление прообраза \(\mathrm{localInversionPreimageBranchingOp}(d,T) = (2^d-1)^T = 7^T\) вдоль каждого луча глубины/времени (\(7^3=343\) при \(T=3\)); (3)&#160;четвёрки чётности Канала&#160;1 с \(\mathrm{xor4ClausesLinearGradientSumOp}(d,\psi _1,\psi _2,\psi _3)\equiv 0\) образуют безотражательные (невидимые из узла \(\mathbf{x}_0\)) фазовые контуры с тождественно нулевым линейным откликом; </p>
+</li>
+  <li><p><em>Независимое от эталона Цезия определение секунды \(\mathcal{N}_{\mathrm{sec}}(d)\), вселенские часы по календарной дате и когерентная низкобарьерная трансмутация благородных металлов в золото \(^{197}_{79}\mathrm{Au}_{118}\) («философский камень» на 12-лучевом кубооктаэдре)</em>: в то время как обращение локального состояния назад во времени невозможно, <b class="bfseries">текущий глобальный номер такта Вселенной \(N(\text{дата})\)</b> и <b class="bfseries">когерентная ядерная трансмутация элементов</b> открыты и вычислимы в замкнутом виде: (1)&#160;число тактов в секунде СИ без участия&#160;\(^{133}\mathrm{Cs}\) и&#160;\(G\) задаётся каскадом \(16 = d_{\mathrm{in}}(\square )^2 = 2|{\triangle }(d)|\) оборотов кольца \(\mathbb {Z}_{512}\) (\(512^{16} = 2^{144} = 2^{|N(d)|^2}\)) с рациональным множителем \(\frac{d_{\mathrm{in}}(\square )\, d_{\mathrm{out}}(E)}{|N(d)|+d_{\mathrm{out}}(E)} = \frac{20}{17}\) (\(\mathcal{N}_{\mathrm{sec}}(3) = \frac{20}{17}\cdot 512^{16} \approx 2{,}6236\times 10^{43}\text{ тактов/с}\), точность \(0{,}017\% \)), а алгебраический такт эпохи \(N_{\mathrm{today}}^{\mathrm{alg}} = \frac{11}{40}(E_0/\Theta _{\mathrm{CMB}})^2\sqrt{\alpha _{\mathrm{fs}}/8} \approx 1{,}1398\times 10^{61}\) (\(13{,}769\text{ млрд лет}\), \(0{,}91\sigma \) Planck 2018) переводит любую календарную дату в такт \(N(\text{дата}) = N_{\mathrm{today}}^{\mathrm{alg}} + \Delta t_{\mathrm{UTC}}\, \mathcal{N}_{\mathrm{sec}}(3)\); (2)&#160;единственный стабильный изотоп золота \(^{197}_{79}\mathrm{Au}_{118}\) зажат на целочисленной лестнице оболочек кубооктаэдра между платиной \(Z(\mathrm{Pt}) = |\square (d)|\, N_\varphi (d) = 6\times 13 = 78\) и триадой ртуть–таллий–свинец (\(Z(\mathrm{Hg}) = (c_0/c)^2|{\triangle }|d_{\mathrm{out}}(E) = 80\), \(Z(\mathrm{Tl}) = \mathrm{mod\_ bits}(d)^2 = 81\), \(Z(\mathrm{Pb}) = (c_0/c)^2\Delta \varphi _{\mathrm{disc}}(d) = 82\)), имея заряд \(Z(\mathrm{Au}) = |\square (d)|\, N_\varphi (d) + \mu _{\mathrm{vac}}(d) = 79 = Z(\mathrm{Pb}) - d\), число нейтронов \(N(^{197}\mathrm{Au}) = Q_\square (d) - Z(\mathrm{Ne})(d) = 128 - 10 = 118\) и массовое число \(A(^{197}\mathrm{Au}) = 197 = (c_0/c)^2\hat{M}(d) + d = \mathrm{cuboctBallOp}(d) + (c_0/c)^2 d_{\mathrm{out}}(E)(d)^2 = 147 + 50\); (3)&#160;при противофазном возбуждении всех \(12\)&#160;лучей кубооктаэдра (\(\Delta \varphi _{xy} = \Phi _{\mathrm{Pauli}}(d) = 256\), \(\mathcal{C}_d(256) = -Q_\square (d)\)) кулоновский знаменатель импеданса ворот \(D(x)\) схлопывается с \(4\, 809\, 728\) ровно до вакуумного пола \(\varepsilon = 8\, 192\) (в \(587\times \) раз), снимая энергетический запрет на когерентные каналы синтеза золота \(\mathrm{Pt}_{78} + \mathrm{H}_1 \to \mathrm{Au}_{79}\), \(\mathrm{Hg}_{80} \to \mathrm{Au}_{79} + \mathrm{H}_1\) и \(\mathrm{Pb}_{82} \to \mathrm{Au}_{79} + \mathrm{Li}_3\); </p>
+</li>
+  <li><p><em>Четырёхфазная архитектура побитово-точной 72-битной телепортации состояния через противофазный синглет \(+\Phi _{\mathrm{Pauli}}(d)\) и фазовый стазис в мёртвой зоне затвора</em>: поскольку состояние каждой ячейки исчерпывается конечным \(72\)-битным регистром \(\mathrm{twoTickPhaseSpaceBitBudgetOp}(3)=72\), перенос \(1\to 1\) из Камеры&#160;\(A\) в Камеру&#160;\(B\) (с разрядкой \(\mu _A\mapsto \mu _{\mathrm{vac}}=1\) при точном сохранении двухкамерной нормы \(\mu _{\mathrm{src}}^2+\mu _{\mathrm{vac}}^2 = \mu _{\mathrm{vac}}^2+\mu _{\mathrm{src}}^2\), исключающем клонирование \(1\to 2\)) реализуется четырёхтактным инженерным трактом, объединяющим опыты CE-RD-01, CE-RD-03 и волновод Раздела&#160;27: (1)&#160;<em>Фаза&#160;1 (Фазовый стазис \(D_{\mathrm{stasis}} = 833\, \varepsilon = 6\, 823\, 936\) в Камерах&#160;\(A\) и&#160;\(B\)):</em> синфазное включение \(12\)&#160;лучей кубооктаэдра (\(\Delta \varphi _{\mathrm{shield}}=0\), \(\mathcal{C}_3(0)=+128\)) переводит все межузловые импульсы ворот \(|\Phi |{\lt}41\) внутрь мёртвой зоны затвора (\(\Phi \equiv 0\)), полностью выключая нелинейный Канал&#160;2 и замораживая внутреннюю декогеренцию объекта на время послойного сканирования; (2)&#160;<em>Фаза&#160;2 (Голономное считывание 4-канальным томографом \(\mathcal{M}_{\mathrm{chan}} = I_4 + N_{\mathrm{nil}}\) и генерация синдрома в Камере&#160;\(A\)):</em> по поясам Архимеда \(10k^2+2\) считывается фаза \(\psi _{\mathrm{src}}\in \mathbb {Z}_{512}\), вычисляется синдром \(\sigma _A = (\psi _{\mathrm{src}} - a - 256)\bmod 512\) относительно первой половины противофазного синглета&#160;\(a\), а узел в Камере&#160;\(A\) когерентно разряжается в вакуум (\(\mu _A\mapsto 1\)); (3)&#160;<em>Фаза&#160;3 (Баллистический перенос синдрома \(A\to B\) со скоростью \(c_0=\sqrt{2}\, c\) без потерь):</em> в экранированном волноводе (\(D_{\mathrm{shield}}=6\, 823\, 936\)) тепловой шум гасится в точный ноль (\(\mathrm{waveguideNoiseScatterGateOp}=0\), \(\hat n_{E,\mathrm{loss}}=0\)); (4)&#160;<em>Фаза&#160;4 (Селективная запись в фокусное окно \(D_{\mathrm{write}}=\varepsilon =8\, 192\) в Камере&#160;\(B\) при контрасте \(833:1\)):</em> в текущей фокусной точке Камеры&#160;\(B\) \(12\)&#160;лучей кубооктаэдра переключаются в противофазу (\(\Delta \varphi =256\)), роняя импеданс в \(\mathrm{stasisToWriteImpedanceContrastOp}(3) = 833\) раза до \(D_{\mathrm{write}}=8\, 192\), куда записывается \(\psi _B = (b+\sigma _A)\bmod 512 \equiv \psi _{\mathrm{src}}\) (\(\mathcal{C}_3(\psi _B)=\mathcal{C}_3(\psi _{\mathrm{src}})\), \(\mathcal{S}_3(\psi _B)=\mathcal{S}_3(\psi _{\mathrm{src}})\) во всех \(512\) состояниях), после чего узел возвращается под замок стазиса \(833\, \varepsilon \) до завершения сборки всех оболочек и одновременного снятия экрана; </p>
+</li>
+  <li><p><em>Безнейтронный протон-борный синтез \(p + {}^{11}_{5}\mathrm{B} \to 3\, {}^{4}_{2}\mathrm{He}\) по трём плоскостям Эйлера, гравитационно-импедансный диполь \(833:1\) без перегрузок и бесконтактный нейроинтерфейс кортикальной колонки \(42/147/41\)</em>: (1)&#160;ядро бора-11 имеет заряд \(Z(\mathrm{B}) = d_{\mathrm{out}}(E)(d) = 5\), число нейтронов \(N(^{11}\mathrm{B}) = |\square (d)| = 6\) и массовое число \(A(^{11}\mathrm{B}) = |N(d)| - \mu _{\mathrm{vac}}(d) = 11\); при захвате протона (\(Z=1, A=1\)) в 12-лучевом седле кубооктаэдра (\(D\to \varepsilon =8\, 192\), схлопывание барьера в \(587\times \)) составное ядро \(^{12}_{6}\mathrm{C}^*\) (\(Z=|\square |=6, A=|N(d)|=12\)) распадается ровно на \(\mathrm{eulerPlaneCountOp}(d) = d = 3\) альфа-частицы \(^{4}_{2}\mathrm{He}\) (\(Z=(c_0/c)^2=2, A=d_{\mathrm{in}}(\square )=4\)) вдоль трёх ортогональных плоскостей Эйлера \((XY,XZ,YZ)\) при тождественно нулевом выходе свободных нейтронов (\(\Delta N_{\mathrm{free}} = (1+6) - 3\times (4-2) - 1 = 0\)); (2)&#160;асимметричное фазирование верхней (\(\Delta \varphi =256 \implies D_{\mathrm{top}}=\varepsilon =8\, 192\)) и нижней (\(\Delta \varphi =0 \implies D_{\mathrm{bottom}}=833\, \varepsilon =6\, 823\, 936\)) полусфер кубооктаэдра создаёт гравитационно-импедансный диполь \(\mathrm{gravImpedanceDipoleDiffOp}(d) = N_\varphi (d)\, K_P(d)\, \varepsilon (d) = 832\, \varepsilon = 6\, 815\, 744\), ускоряющий весь внутренний объём без внутренних перегрузок; (3)&#160;шестислойная кортикальная колонка коры мозга (\(V = S_2 = 42\), \(E = B_3 = 147\), порог \(\chi _{2\mathrm{D}} = V - \mu _{\mathrm{vac}} = 41 = \Delta \varphi _{\mathrm{disc}}\)) изоморфна координационным оболочкам кубооктаэдра, что обеспечивает бесконтактное фазовое сопряжение через 4-канальный голономный томограф \(\mathcal{M}_{\mathrm{chan}} = I_4 + N_{\mathrm{nil}}\); </p>
+</li>
+  <li><p><em>Автономный синтез пищи, кислорода, чистой воды и замкнутый рециклинг из воздуха и воды на замкнутых оболочках кубооктаэдра</em>: все базовые молекулы жизнеобеспечения состоят из элементов воздуха и воды (\(\mathrm{H,C,N,O,P}\)) и замыкают точные структурные оболочки кубооктаэдра: (1)&#160;<em>Первичные гидриды и опреснение воды:</em> \(\mathrm{H_2O}\), \(\mathrm{NH_3}\) и \(\mathrm{CH_4}\) имеют единый заряд \(Z = 10 = Z(\mathrm{Ne})(d)\), тогда как морская соль \(\mathrm{NaCl}\) (\(Z(\mathrm{Na})=11, Z(\mathrm{Cl})=17\)) замыкает магическую оболочку \(Z(\mathrm{NaCl}) = 28 = d_{\mathrm{in}}(\square )(2^d-1)\), что позволяет разделять рассол и пресную воду в квадратурном поле Эйлера без кипячения и мембран, а мочевина \(\mathrm{CO(NH_2)_2}\) имеет заряд \(Z = 32 = K_P(d)/2\); (2)&#160;<em>Углеводы и кислород для дыхания (симметрия фотосинтеза \(96:96\)):</em> молекула глюкозы \(\mathrm{C_6H_{12}O_6}\) содержит \(\mathrm{glucoseAtomCountOp}(3) = 6+12+6 = 24 = 2|N(d)|\) атомов (по числу поверхностных рёбер кубооктаэдра) и несёт заряд \(Z(\mathrm{C_6H_{12}O_6}) = 96 = |N(d)|\, |{\triangle }(d)| = \hat{M}(d) - \mu _{\mathrm{vac}}(d)\), вследствие чего реакция фотосинтеза \(6\, \mathrm{CO_2} + 6\, \mathrm{H_2O} \to \mathrm{C_6H_{12}O_6} + 6\, \mathrm{O_2}\) делит входной заряд \(132 + 60 = 192\) строго пополам между пищей \(Z(\mathrm{C_6H_{12}O_6}) = 96\) и дыхательным кислородом \(Z(6\, \mathrm{O_2}) = 96\); (3)&#160;<em>Белки, витамины, липиды и АТФ:</em> базовая аминокислота глицин \(\mathrm{C_2H_5NO_2}\) имеет заряд \(Z = 40 = d_{\mathrm{out}}(E)|{\triangle }| = \Delta \varphi _{\mathrm{disc}}(d) - \mu _{\mathrm{vac}}(d)\), аланин \(\mathrm{C_3H_7NO_2}\) — заряд \(Z = 48 = d_{\mathrm{in}}(\square )|N(d)|\), витамин&#160;C (аскорбиновая кислота \(\mathrm{C_6H_8O_6}\)) — заряд \(Z = 92 = S_3(d) = \mathrm{cuboctShellSizeOp}(d,d)\), пальмитиновая жирная кислота \(\mathrm{C_{16}H_{32}O_2}\) — заряд \(Z = 144 = |N(d)|^2\), а универсальный энергоноситель клетки АТФ \(\mathrm{C_{10}H_{16}N_5O_{13}P_3}\) — заряд \(Z = 260 = d_{\mathrm{in}}(\square )\, d_{\mathrm{out}}(E)\, N_\varphi (d)\); </p>
+</li>
+  <li><p><em>Парная теорема о невозможности Демона Лапласа внутри решётки и конструктивной реализуемости безпамятьевого 12-лучевого Геометрического Демона Максвелла</em>: поскольку любой наблюдатель, прибор или вычислитель сам состоит из узлов кубооктаэдрической решётки (Раздел&#160;35, «нет наблюдателя вне решётки»), классические демоны Лапласа и Максвелла получают строгое операторное разрешение без отказа от микроскопического детерминизма&#160;\(g\): (1)&#160;<em>Невозможность Демона Лапласа при 100% детерминированном обратимом М-законе:</em> всеведущий предсказатель будущего внутри решётки исключён одновременно тремя барьерами: (а)&#160;принципом Дирихле самовложенности регистра \(\mathrm{demonMemoryBitCapacityOp}(d,V_{\mathrm{demon}}) = B_2(d)\, V_{\mathrm{demon}} {\lt} B_2(d)\, \mathcal{V}_{O_2}(d,T) = \mathrm{universeCausalConeBitBudgetOp}(d,T)\) для любой собственной подсистемы \(V_{\mathrm{demon}} {\lt} \mathcal{V}_{O_2}(d,T)\) (\(72 {\lt} 936\) при \(T=1\) и \(936 {\lt} 10\, 584\) при \(T=3\)); (б)&#160;точным квадратичным законом слепоты Т-прибора: произведение числа скрытых состояний мантиссы Вейля–Швингера \(K_P(d)=64\) (Уровень&#160;I) на число субпороговых состояний мёртвой зоны затвора \(|\mathcal{E}_{\mathrm{Heis}}|(d) = 2\Delta \varphi _{\mathrm{disc}}(d)-1 = 81 = 3^4\) (Уровень&#160;II, \(\hat n_E = 0\)) в точности равно квадрату двухтактового битового бюджета ячейки \(\mathrm{tLayerHiddenMicrostatesPerCellOp}(d) = K_P(d)\, |\mathcal{E}_{\mathrm{Heis}}|(d) = (B_2(d))^2 = 72^2 = 5\, 184\) неразличимых пассивным Т-детектором микросостояний на узел, тогда как активный надпороговый зонд \(|\Phi _{\mathrm{probe}}|\ge \Delta \varphi _{\mathrm{disc}}(d)\) (\(\hat n_E\ge 1\)) возмущает шаг Верле самой измеряемой ячейки; (в)&#160;горизонтом причинного конуса кубооктаэдра \(\mathcal{V}_{O_2}(3,T) = (10T^3+15T^2+11T+3)/3\) со скоростью звена \(c_0\) (данные со сферы \(S_T\) приходят в центр ровно в момент самого события \(T\)) и ветвлением прообраза \((2^d-1)^T = 7^T\) при сбросе остатков Канала&#160;2; (2)&#160;<em>Конструктивная реализуемость безпамятьевого 12-лучевого Геометрического Демона Максвелла без нарушения предела Ландауэра:</em> в отличие от демона Сциларда–Бриллюэна, записывающего и стирающего биты памяти, 12-лучевая воронка кубооктаэдра расщепляет даже максимальный \(|\square (d)|=6\)-квантовый тепловой удар \(\Phi _{\mathrm{Pauli}}(d)=256\) по \(|N(d)|=12\) лучам на \(\mathrm{maxwellDemonRayPhaseOp}(d,\Phi _{\mathrm{Pauli}}(d)) = \lfloor 256/12\rfloor = 21 = d\, (|{\triangle }(d)|-1) {\lt} 41 = \Delta \varphi _{\mathrm{disc}}(d)\) тик на луч, где излучение тепловых фононов тождественно обращается в нуль (\(\mathrm{energyQuantumOperator}(d,21) = 0\)), а суммарный выпрямленный нечётный ток по \(12\)&#160;лучам строго положителен и равен \(\mathrm{maxwellDemonTotalExtractedCurrentOp}(d,\Phi _{\mathrm{Pauli}}(d)) = |N(d)|\cdot 21 = 252 {\gt} 0\); (3)&#160;<em>Естественная квадрантно-мантиссовая система счисления кода Грея (\(\mathbb {Z}_{N_{\mathrm{ring}}(d)}\cong \mathbb {Z}_4^{\mathrm{Gray}}\ltimes \mathbb {Z}_{Q_\square (d)}\)), восьмеричная триада \(\mathbb {Z}_{512}\cong \mathbb {Z}_8^3\) (\(\mathrm{IV}=263_{10}=407_8\)) и пять внутренних представлений самой единицы&#160;\(1\) в терминах носителя</em>: любой фазовый угол \(u = \varphi \bmodN _{\mathrm{ring}}(d)\in [0,512)\) раскладывается в 3-разрядное восьмеричное слово по основанию \(|{\triangle }(3)|=8\) (\(512=8^3\), в котором начальное слово имеет каноническую запись \(\mathrm{IV}(3) = 263_{10} = 4\cdot 8^2 + 0\cdot 8^1 + 7\cdot 8^0 = \mathbf{407_8}\)) и в квадрантно-мантиссовую тройку \((q_1,q_0,m_7)\) (\(q_1=\lfloor u/256\rfloor \in \{ 0,1\} \), \(q_0=\lfloor u/128\rfloor \bmod 2\in \{ 0,1\} \), \(m_7 = u\bmod 128\in [0,127]\)), где <b class="bfseries">оба</b> проектора ротатора \(\mathcal{C}_d(\varphi )\) и \(\mathcal{S}_d(\varphi )\) порождаются одним-единственным 7-битным дополнением \(\overline{m}_7 = Q_\square (d)-m_7\), перекрёстным X-переключателем по биту&#160;\(q_0\) и 2-битным рефлексивным кодом Грея знаков \((c_{\mathrm{neg}},s_{\mathrm{neg}}) = ((q_1+q_0)\bmod 2,\, q_1)\). При этом сама математическая единица&#160;\(1\) выражается внутри носителя пятью тождественными способами без внешнего постулата: </p>
+<div class="displaymath" id="a0000000017">
+  \[  \mathbf{1} \; =\;  \underbrace{d^2 - 2^d}_{\text{зазор Каталана}} \; =\;  \underbrace{\frac{\overline{m}_7 + m_7}{Q_\square (d)} = \frac{\mathcal{W}_d(\varphi )}{Q_\square (d)}}_{L^1\text{-бабочка и вронскиан}} \; =\;  \underbrace{\frac{P_{x,d}(\varphi )^2 + P_{y,d}(\varphi )^2}{P_{r,d}(\varphi )^2}}_{a^2+b^2=1\text{ на окружности}} \; =\;  \underbrace{\chi (\mathcal{C}_{13}) = 13-36+32-8}_{\text{инвариант Эйлера }\mathcal{C}_{13}}  \]
+</div>
+<p> и четырьмя арифметическими тождествами Безу для мультипликативных обратных к \(\Delta \varphi _{\mathrm{disc}}=41\), \(N_\varphi =13\), \(\hat{M}=97\) и \(\mathrm{IV}=263\) на кольце \(\mathbb {Z}_{512}\): </p>
+<div class="displaymath" id="a0000000018">
+  \[  \mathbf{1} \; =\;  \underbrace{25}_{(d_{\mathrm{out}}(E))^2}\! \cdot 41 - \underbrace{2}_{(c_0/c)^2}\! \cdot 512 \; =\;  \underbrace{197}_{A(^{197}\mathrm{Au})}\! \cdot 13 - \underbrace{5}_{d_{\mathrm{out}}(E)}\! \cdot 512 \; =\;  \underbrace{417}_{N_{\mathrm{ring}}-\hat{M}+2}\! \cdot 97 - \underbrace{79}_{Z(^{197}\mathrm{Au})}\! \cdot 512 \; =\;  \underbrace{183}_{N_{\mathrm{island}}-1}\! \cdot 263 - \underbrace{94}_{Z(\mathrm{Pu})}\! \cdot 512.  \]
+</div>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="ch-applied-reversible-computing-and-paradoxes.html" title="Обратимая вычислительная техника без теплового предела Ландауэра (\(A_{13}\)) и разрешение фундаментальных парадоксов"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="ch-applied-reversible-computing-and-paradoxes.html" title="Обратимая вычислительная техника без теплового предела Ландауэра (\(A_{13}\)) и разрешение фундаментальных парадоксов"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="ch-computational-laboratory.html" title="Вычислительная лаборатория серии"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>
