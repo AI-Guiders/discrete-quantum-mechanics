@@ -28,7 +28,7 @@
 Оператор окна прибора $W_N(z) = 12^{-2N}\#\{\gamma\in O_2^{2N}\}$ безразмерен и нормирован на единицу ($\sum_z W_N(z) = 1$), поэтому все сглаженные наблюдаемые $\mathcal{B}_N[F]$ сохраняют точную физическую размерность исходных решёточных полей~$F$.
 
 \subsubsection*{Ход эксперимента}
-{\sloppy Воспроизведение: \texttt{lake build} в \texttt{lean/} (\texttt{UnifiedOperators.lean}, \texttt{HolonomyMaxwell.lean}, \texttt{TrajectoryIV263.lean}) и \texttt{python verify\_principles.py --suite m\_axioms}.\par}
+{\sloppy Воспроизведение: \texttt{lake build} в \texttt{lean/} (\texttt{UnifiedOperators.lean}, \texttt{HolonomyMaxwell.lean}, \texttt{WorldTrajectory.lean}) и \texttt{python verify\_principles.py --suite m\_axioms}.\par}
 
 \begin{enumerate}[label=\textbf{Шаг \arabic*:},leftmargin=*,itemsep=0.35em]
 \item Проверить тождества $128 - C(r) = |r|$ и $S(r) + S((512-r)\bmod 512) = 0$ по всем $512$ остаткам кольца $\mathbb{Z}_{512}$.

@@ -27,7 +27,7 @@
 В естественных единицах ядра~$\Mlayer$ амплитуда $\mu\in\{1,\dots,64\}$ измеряется в квантах, проекция грани $C(A)\in[-128,128]$ --- в долях $Q_\square=128$, а все слагаемые знаменателя~$D$ ($\zeta_{\mathrm{real}}$, $128\mu^2$ и $\varepsilon = 64\times 128 = 8\,192$) имеют единую размерность $\mathrm{кванты}^2\cdot Q_\square$, поэтому отношение $K = D_{\mathrm{thermal}}/D_{\mathrm{coherent}}$ строго безразмерно ($[K] = 1$).
 
 \subsubsection*{Ход эксперимента}
-{\sloppy Воспроизведение: \texttt{lake build} в \texttt{lean/} (\texttt{UnifiedOperators.lean}, \texttt{TrajectoryIV263.lean}) и \texttt{python verify\_principles.py --suite m\_axioms}.\par}
+{\sloppy Воспроизведение: \texttt{lake build} в \texttt{lean/} (\texttt{UnifiedOperators.lean}, \texttt{WorldTrajectory.lean}) и \texttt{python verify\_principles.py --suite m\_axioms}.\par}
 
 \begin{enumerate}[label=\textbf{Шаг \arabic*:},leftmargin=*,itemsep=0.35em]
 \item Вычислить в целочисленной арифметике $D_{\mathrm{thermal}}(\mu)$ при $|A_{xy}|=41$ и $D_{\mathrm{coherent}}(\mu)$ при $|A_{xy}|=139$ для $\mu\in\{13, 64\}$.

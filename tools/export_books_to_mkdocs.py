@@ -68,17 +68,33 @@ BOOKS = [
 ]
 
 CONSTRUCTIVE_MODULES = {
-    "AxiomGuard.lean",
-    "BipyramidGeometry.lean",
-    "RotatorQuadrature.lean",
-    "LogicCohomology.lean",
-    "PillaiDiophantine.lean",
-    "AbcPlanetaryWronskian.lean",
-    "ModelTheoreticLimit.lean",
-    "CollatzPlanetarySplice.lean",
-    "RiemannHolonomy.lean",
-    "RotatorCalculusPaper.lean",
+    p.name for p in (REPO_ROOT / "lean" / "Constructive").glob("*.lean")
 }
+
+
+def build_lean_decl_index() -> dict[str, tuple[str, int]]:
+    """Map declaration name -> (rel_path_in_dqm_lean, line_no)."""
+    index: dict[str, tuple[str, int]] = {}
+    lean_root = REPO_ROOT / "lean"
+    decl_pat = re.compile(
+        r"^\s*(?:private\s+|protected\s+|noncomputable\s+)*(?:theorem|def|abbrev|structure|inductive|class)\s+([A-Za-z0-9_']+)"
+    )
+    for sub in ("Constructive", "MtCarrier"):
+        subdir = lean_root / sub
+        if not subdir.exists():
+            continue
+        for lf in sorted(subdir.glob("*.lean")):
+            rel = f"{sub}/{lf.name}"
+            for idx, line in enumerate(lf.read_text(encoding="utf-8").splitlines(), 1):
+                m = decl_pat.match(line)
+                if m:
+                    dname = m.group(1)
+                    if dname not in index:
+                        index[dname] = (rel, idx)
+    return index
+
+
+LEAN_DECL_INDEX = build_lean_decl_index()
 
 
 def expand_inputs(rel_path: str) -> str:
@@ -149,9 +165,13 @@ def extract_companion_code(raw_tex: str) -> tuple[list[str], list[str]]:
             if tok not in modules:
                 modules.append(tok)
         elif ("_" in tok or any(c.isupper() for c in tok[1:])) and re.match(r"^[a-zA-Z0-9_. ]+$", tok):
-            base_id = tok.split()[0]
+            base_id = tok.split()[0].split(".")[-1]
             if len(base_id) >= 4 and base_id not in ignore_tokens and base_id not in theorems:
                 theorems.append(base_id)
+                if base_id in LEAN_DECL_INDEX:
+                    mod_file = LEAN_DECL_INDEX[base_id][0]
+                    if mod_file not in modules:
+                        modules.append(mod_file)
 
     return modules, theorems
 
@@ -166,6 +186,14 @@ def format_module_link(mod: str) -> str:
         url = f"https://github.com/AI-Guiders/dqm-lean/blob/main/MtCarrier/{basename}"
         return f"[`MtCarrier/{basename}`]({url})"
     return f"`{clean}`"
+
+
+def format_theorem_link(thm: str) -> str:
+    if thm in LEAN_DECL_INDEX:
+        rel, line_no = LEAN_DECL_INDEX[thm]
+        url = f"https://github.com/AI-Guiders/dqm-lean/blob/main/{rel}#L{line_no}"
+        return f"[`{thm}`]({url})"
+    return f"`{thm}`"
 
 
 def build_companion_code_footer(
@@ -188,7 +216,7 @@ def build_companion_code_footer(
         if mod_links:
             lines.append("    - **Файлы и модули верификации:** " + ", ".join(mod_links))
         if theorems:
-            thm_list = ", ".join(f"`{t}`" for t in theorems)
+            thm_list = ", ".join(format_theorem_link(t) for t in theorems)
             lines.append("    - **Верифицированные теоремы и операторы:** " + thm_list)
         return "\n".join(lines) + "\n"
     else:
@@ -200,7 +228,7 @@ def build_companion_code_footer(
         if mod_links:
             lines.append("    - **Verification Modules & Files:** " + ", ".join(mod_links))
         if theorems:
-            thm_list = ", ".join(f"`{t}`" for t in theorems)
+            thm_list = ", ".join(format_theorem_link(t) for t in theorems)
             lines.append("    - **Verified Theorems & Operators:** " + thm_list)
         return "\n".join(lines) + "\n"
 

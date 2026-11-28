@@ -81,7 +81,7 @@
 \chapter{Когерентное схлопывание импеданса барьера в 12-лучевом кубооктаэдре: решёточный синтез против теплового нагрева}
 \label{ch:applied-coherent-barrier-collapse}
 
-Рассмотрим фундаментальное уравнение фазовых ворот~\latGCKshort\ (\texttt{evalGateFromHolonomy} в \texttt{TrajectoryIV263.lean}):
+Рассмотрим фундаментальное уравнение фазовых ворот~\latGCKshort\ (\texttt{evalGateFromHolonomy} в \texttt{WorldTrajectory.lean}):
 \begin{equation}
 \label{eq:applied-gate-law}
   \Phi(x,t) \;=\; \mathrm{wrap}_{512}\!\left(\left\lfloor \frac{64\,\bigl(\zeta_{\mathrm{imag}}(x) + \operatorname{sgn}(\zeta_{\mathrm{imag}}(x))\,\delta\zeta_{\mathrm{real}}(x)\bigr)}{D(x)} \right\rfloor\right),
@@ -145,7 +145,7 @@
 \end{theorem}
 
 \begin{proof}
-Все равенства~\eqref{eq:applied-d-thermal}--\eqref{eq:applied-barrier-ratio} следуют из прямой целочисленной подстановки $C(41) = 128 - 41 = 87$, $C(0) = 128$ и $C(139) = 128 - 139 = -11$ в~\eqref{eq:applied-denominator-impedance}; машинное доказательство без аксиом содержится в теореме \texttt{coherent\_\allowbreak cuboctahedron\_\allowbreak barrier\_\allowbreak collapse\_\allowbreak 587x} (\texttt{UnifiedOperators.lean}), а необходимость самого защитного пола $D\le 0\mapsto\varepsilon=8\,192$ для рождения вихревой пары на такте $t=1\to 2$ доказана теоремой-абляцией \texttt{ablation\_\allowbreak no\_\allowbreak denom\_\allowbreak guard\_\allowbreak corrupts\_\allowbreak t2\_\allowbreak vortex\_\allowbreak pair} (\texttt{TrajectoryIV263.lean}).
+Все равенства~\eqref{eq:applied-d-thermal}--\eqref{eq:applied-barrier-ratio} следуют из прямой целочисленной подстановки $C(41) = 128 - 41 = 87$, $C(0) = 128$ и $C(139) = 128 - 139 = -11$ в~\eqref{eq:applied-denominator-impedance}; машинное доказательство без аксиом содержится в теореме \texttt{coherent\_\allowbreak cuboctahedron\_\allowbreak barrier\_\allowbreak collapse\_\allowbreak 587x} (\texttt{UnifiedOperators.lean}), а необходимость самого защитного пола $D\le 0\mapsto\varepsilon=8\,192$ для рождения вихревой пары на такте $t=1\to 2$ доказана теоремой-абляцией \texttt{ablation\_\allowbreak no\_\allowbreak denom\_\allowbreak guard\_\allowbreak corrupts\_\allowbreak t2\_\allowbreak vortex\_\allowbreak pair} (\texttt{WorldTrajectory.lean}).
 \end{proof}
 
 \section{Технический протокол 12-лучевого кубооктаэдрального фазового концентратора}
@@ -176,7 +176,7 @@
 \section{Киральный выпрямитель (храповик $-1$ тик) на целочисленном делении вниз \texttt{Int.fdiv}}
 \label{sec:applied-chiral-ratchet}
 
-В теореме \texttt{iv263\_flat\_domain\_wall\_asymmetry\_t0} и теореме-абляции \texttt{ablation\_\allowbreak tdiv\_\allowbreak destroys\_\allowbreak domain\_\allowbreak wall\_\allowbreak chiral\_\allowbreak asymmetry} (\texttt{TrajectoryIV263.lean}) доказано фундаментальное свойство целочисленного деления с остатком вниз $\lfloor u / D\rfloor$:
+В теореме \texttt{iv263\_flat\_domain\_wall\_asymmetry\_t0} и теореме-абляции \texttt{ablation\_\allowbreak tdiv\_\allowbreak destroys\_\allowbreak domain\_\allowbreak wall\_\allowbreak chiral\_\allowbreak asymmetry} (\texttt{WorldTrajectory.lean}) доказано фундаментальное свойство целочисленного деления с остатком вниз $\lfloor u / D\rfloor$:
 для любого положительного числителя $u > 0$, не кратного знаменателю $D > 0$ ($u \bmod D \ne 0$), выполняется точное тождество
 \begin{equation}
 \label{eq:applied-floor-ratchet}
@@ -230,7 +230,7 @@
 \section{Строение ядер планет и механизм фазового геодинамо на противофазном пороге \texorpdfstring{$A_{16}$}{A16}}
 \label{sec:applied-planetary-cores}
 
-Применим замкнутые операторы плотностного потолка~\Axref{ax:A7} ($\rho_q = \mu_0^2+\mu_1^2 \le 4096$), оптического преломления~\eqref{eq:applied-refraction-tomography} и спинорного исключения Паули~\Axref{ax:A16} (\texttt{pauliPredicate} в \texttt{TrajectoryIV263.lean}) к гравитационному сжатию вещества в центральном ядре планеты:
+Применим замкнутые операторы плотностного потолка~\Axref{ax:A7} ($\rho_q = \mu_0^2+\mu_1^2 \le 4096$), оптического преломления~\eqref{eq:applied-refraction-tomography} и спинорного исключения Паули~\Axref{ax:A16} (\texttt{pauliPredicate} в \texttt{WorldTrajectory.lean}) к гравитационному сжатию вещества в центральном ядре планеты:
 \begin{enumerate}[leftmargin=*]
 \item \textbf{Формирование ГЦК-ядра и гравитационная фокусировка:}
   под действием реберного преломления $\Delta_t A_\perp = (d_0\Phi)_\perp < 0$ в сторону роста знаменателя~$D(x)$ тяжёлые элементы ($\mathrm{Fe},\ \mathrm{Ni}$) концентрируются к центру масс, где при высоком давлении кристаллизуются в плотнейшую гранецентрированную кубическую фазу ($\gamma\text{-}\mathrm{Fe}/\mathrm{Ni}$ с координационным кубооктаэдром~$O_2$, $|N_{12}|=12$).

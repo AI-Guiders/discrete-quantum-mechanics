@@ -836,20 +836,28 @@ def check_lean4_carrier_bridge(device: str = "cpu") -> dict:
     repo_root = Path(__file__).resolve().parents[1]
     lean_dir = repo_root / "lean"
     dump_path = lean_dir / "mt_carrier_lean_dump.json"
-    audit_path = lean_dir / "MtCarrier" / "AxiomAudit.lean"
+    guard_path = lean_dir / "Constructive" / "AxiomGuard.lean"
 
-    # 1. Verify zero `sorry` across all Lean files (stripping block and line comments) and `#print axioms` audit presence
-    lean_files = sorted((lean_dir / "MtCarrier").glob("*.lean"))
+    # 1. Verify zero `sorry` across all Lean files (Constructive + MtCarrier) and AxiomGuard compile-time linter
+    lean_files = sorted((lean_dir / "MtCarrier").glob("*.lean")) + sorted(
+        (lean_dir / "Constructive").glob("*.lean")
+    )
     sorry_hits: list[str] = []
+    n_audited_theorems = 0
     for lf in lean_files:
         text = lf.read_text(encoding="utf-8")
         no_block = re.sub(r"/-.*?-/", "", text, flags=re.DOTALL)
+        n_audited_theorems += len(
+            re.findall(r"^\s*(?:private\s+)?theorem\s+", no_block, flags=re.MULTILINE)
+        )
+        if lf.name == "AxiomGuard.lean":
+            continue
         for line_no, line in enumerate(no_block.splitlines(), 1):
             code_part = line.split("--")[0]
             if re.search(r"\bsorry\b|\bsorryAx\b", code_part):
                 sorry_hits.append(f"{lf.name}:{line_no}")
-    audit_text = audit_path.read_text(encoding="utf-8") if audit_path.exists() else ""
-    n_audited_theorems = len(re.findall(r"^#print\s+axioms\s+", audit_text, flags=re.MULTILINE))
+    guard_text = guard_path.read_text(encoding="utf-8") if guard_path.exists() else ""
+    guard_active = "AxiomGuard.constructiveKernelLinter" in guard_text
 
     # 2. Load Lean-generated JSON dump and diff bit-for-bit against Python `carrier_core.py`
     lean_data = json.loads(dump_path.read_text(encoding="utf-8"))
@@ -920,6 +928,7 @@ def check_lean4_carrier_bridge(device: str = "cpu") -> dict:
 
     ok = (
         len(sorry_hits) == 0
+        and guard_active
         and n_audited_theorems >= 30
         and len(spec_diffs) == 0
         and c_lut_match

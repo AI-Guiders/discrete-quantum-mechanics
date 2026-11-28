@@ -1,7 +1,7 @@
 // ============================================================================
 // cuboctahedron_carrier_asic.v
 // Branchless Gate-Level / RTL Hardware Implementation of the M/T Cuboctahedral
-// Carrier Core (`mt_ca/carrier_core.py` & `lean/MtCarrier/TrajectoryIV263.lean`)
+// Carrier Core (`mt_ca/carrier_core.py` & `lean/MtCarrier/WorldTrajectory.lean`)
 // in Verilog (IEEE 1364-2005).
 //
 // Core Rules Enforced in Hardware:
@@ -242,7 +242,7 @@ endmodule
 // Module 3B: 100% Branchless 12-Neighbor Holonomy & Saturating Gate Core
 // Exact hardware realization of `polar_neighbor_holonomy_core` and
 // `polar_component_phi_core` from `mt_ca/carrier_core.py` and
-// `evalGateFromHolonomy` from `lean/MtCarrier/TrajectoryIV263.lean`.
+// `evalGateFromHolonomy` from `lean/MtCarrier/WorldTrajectory.lean`.
 // Instantiates 12 parallel `rotator_512_unit` instances across the 12 edges
 // of the cuboctahedron O_2(D), sums `sum_mu`, `zr`, `zi`, computes Bohm deficit,
 // guarded impedance `denom_d`, exact floor quotient `fdiv`, and branchless
@@ -2429,7 +2429,7 @@ module tb_cuboctahedron_carrier_asic;
     );
 
     // Helper functions in testbench to feed the true 3D `IV(D)=263` initial field
-    // (`iv263MuAt`, `iv263Phi0At`, `iv263Phi1At` from `TrajectoryIV263.lean`)
+    // (`iv263MuAt`, `iv263Phi0At`, `iv263Phi1At` from `WorldTrajectory.lean`)
     // into `u_true_ca_cell` across the 12 cuboctahedron neighbors O_2:
     integer o2_dz [0:11];
     integer o2_dy [0:11];

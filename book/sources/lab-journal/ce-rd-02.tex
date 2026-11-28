@@ -27,7 +27,7 @@
 Фазовые импульсы $\Phi_\pm$, реберная связность $A_e \in (-256,256]$ и плакетный поток $B_f = 512\,n_f$ измеряются в безразмерных тиках кольца $\mathbb{Z}_{512}$ ($[\Phi] = [B_f] = 1\ \text{тик}$), которым на макроуровне~$\Tlayer$ отвечает квант действия $s_0 = h / 512$.
 
 \subsubsection*{Ход эксперимента}
-{\sloppy Воспроизведение: \texttt{lake build} в \texttt{lean/} (\texttt{TrajectoryIV263.lean}, \texttt{HolonomyMaxwell.lean}) и \texttt{python verify\_principles.py --suite m\_axioms}.\par}
+{\sloppy Воспроизведение: \texttt{lake build} в \texttt{lean/} (\texttt{WorldTrajectory.lean}, \texttt{HolonomyMaxwell.lean}) и \texttt{python verify\_principles.py --suite m\_axioms}.\par}
 
 \begin{enumerate}[label=\textbf{Шаг \arabic*:},leftmargin=*,itemsep=0.35em]
 \item Вычислить голономии $(\zeta_{\mathrm{real}},\zeta_{\mathrm{imag}}) = (134\,862,\ \pm 70\,980)$ на противоположных сторонах плоской стенки октантов $\mathrm{IV}(3)=263$.
@@ -55,7 +55,7 @@
 \end{table}
 
 \subsubsection*{Анализ, расчёт погрешности и выводы}
-Арифметика целочисленного деления с остатком точна ($\Delta = 0$, тип~B); обе теоремы в \texttt{TrajectoryIV263.lean} не зависят ни от одной аксиомы Lean~4.
+Арифметика целочисленного деления с остатком точна ($\Delta = 0$, тип~B); обе теоремы в \texttt{WorldTrajectory.lean} не зависят ни от одной аксиомы Lean~4.
 
 \textbf{Вывод.}
 Сдвиг округления вниз $\lfloor u/D\rfloor$ на доменной стенке формирует точный однонаправленный фазовый храповик в $-1$ тик за такт, а переброс ребра через разрез Паули $\pm 256$ квантует запас и сброс вихревого потока порциями ровно по $512$ тиков.
