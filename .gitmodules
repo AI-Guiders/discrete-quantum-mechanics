@@ -4,9 +4,15 @@
 [submodule "lean"]
 	path = lean
 	url = https://github.com/AI-Guiders/dqm-lean.git
-[submodule "mathematics"]
-	path = mathematics
-	url = https://github.com/AI-Guiders/guiders-mathematics.git
-[submodule "physics"]
-	path = physics
-	url = https://github.com/AI-Guiders/guiders-physics.git
+[submodule "python-mathematics"]
+	path = python-mathematics
+	url = https://github.com/AI-Guiders/python-mathematics.git
+[submodule "dotnet-physics"]
+	path = dotnet-physics
+	url = https://github.com/AI-Guiders/dotnet-physics.git
+[submodule "dotnet-mathematics"]
+	path = dotnet-mathematics
+	url = https://github.com/AI-Guiders/dotnet-mathematics.git
+[submodule "wolfram-mathematics"]
+	path = wolfram-mathematics
+	url = https://github.com/AI-Guiders/wolfram-mathematics.git
